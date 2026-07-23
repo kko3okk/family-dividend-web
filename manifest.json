@@ -3,8 +3,8 @@
   "short_name": "旅程",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#EEF1F6",
-  "theme_color": "#EEF1F6",
+  "background_color": "#EDEBF5",
+  "theme_color": "#54447B",
   "icons": [
     {
       "src": "icon-192.png",
