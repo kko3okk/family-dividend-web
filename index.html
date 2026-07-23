@@ -364,7 +364,7 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-1741";
+const APP_VERSION="2026.07.23-1745";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊島",amt:150000},{name:"房貸海灣",amt:610000},{name:"寶藏所在",amt:1000000}];
@@ -406,7 +406,7 @@ function holdings(){const h={};DATA.transactions.forEach(t=>{const k=t.owner+"|"
 function ownerDiv(h,o){let d=0;for(const[k,sh]of Object.entries(h)){const[ow,s]=k.split("|");if(ow===o)d+=sh*((DATA.stocks[s]||{}).div||0);}return d;}
 
 /* ═══════ 藏寶圖（Freepik 背景 + 資料圖層）═══════ */
-const TRAIL_D="M250,650 C 296,612 318,566 300,524 C 282,482 232,470 248,428 C 264,386 352,404 382,374 C 412,344 322,318 338,280 C 354,242 442,268 472,246 C 502,224 498,190 524,168";
+const TRAIL_D="M336.0,700.0 C336.0,679.3 328.0,605.3 336.0,576.0 C344.0,546.7 378.7,558.0 384.0,524.0 C389.3,490.0 367.3,400.7 368.0,372.0 C368.7,343.3 384.7,355.3 388.0,352.0";
 const TR={
   s:["art/t-s1.png","art/t-s2.png","art/t-s3.png"],
   m:["art/t-m1.png","art/t-m2.png","art/t-m3.png"],
@@ -416,7 +416,7 @@ function stationIdx(div){let i=0;MILES.forEach((m,k)=>{if(div>=m.amt)i=k+1});ret
 function treasureList(div){
   const out=[];
   const nS=Math.floor(div/1000),nM=Math.floor(div/20000),nL=Math.floor(div/100000);
-  for(let i=0;i<Math.min(nS,22);i++)out.push({t:"s",i});
+  for(let i=0;i<Math.min(nS,16);i++)out.push({t:"s",i});
   for(let i=0;i<Math.min(nM,10);i++)out.push({t:"m",i});
   for(let i=0;i<Math.min(nL,6);i++)out.push({t:"l",i});
   return out;
@@ -464,15 +464,16 @@ function layoutScene(prog,divNow){
   const P=[pt(0),pt(1/3),pt(2/3),pt(1)];
   const hit=i=>divNow>=MILES[i-1].amt;
 
-  let mk=tag(P[0].x,P[0].y+16,74,"啟航","計畫起點");
+  let mk=tag(P[0].x+62,P[0].y-8,84,"啟航","計畫起點");
   [1,2].forEach(i=>{
     const p=P[i],on=hit(i),m=MILES[i-1];
-    mk+=xMark(p.x,p.y,on?1.6:1.25,on?"#5E8B33":"#C94A3F")
-      +tag(p.x,p.y+16,116,m.name,`${Math.min(divNow/m.amt*100,100).toFixed(1)}% · ${m.amt/10000}萬`);
+    mk+=xMark(p.x,p.y,on?1.3:1.05,on?"#5E8B33":"#C94A3F")
+      +tag(p.x+82,p.y-6,124,m.name,`${Math.min(divNow/m.amt*100,100).toFixed(1)}% · ${m.amt/10000}萬`);
   });
   const p3=P[3],m3=MILES[2];
-  mk+=chestIcon(p3.x,p3.y-16,1.1,hit(3))
-    +tag(p3.x,p3.y+14,124,m3.name,`${Math.min(divNow/m3.amt*100,100).toFixed(2)}% · 100萬`);
+  mk+=`<circle cx="${p3.x}" cy="${p3.y-26}" r="30" fill="#F7E9A8" opacity="${hit(3)?0.5:0.16}">
+      <animate attributeName="r" values="22;34;22" dur="3s" repeatCount="indefinite"/></circle>`
+    +tag(p3.x+96,p3.y-40,132,m3.name,`${Math.min(divNow/m3.amt*100,100).toFixed(2)}% · 100萬`);
   svg.querySelector("#marks").innerHTML=mk;
 
   const items=treasureList(divNow);
@@ -481,7 +482,7 @@ function layoutScene(prog,divNow){
     const f=Math.min((k+0.6)/(items.length+1)*prog,prog-0.008);
     if(f<=0)return;
     const p=pt(f),set=TR[it.t],img=set[k%set.length];
-    const sz={s:18,m:22,l:27}[it.t], side=((k%2)?1:-1)*16;
+    const sz={s:15,m:19,l:23}[it.t], side=((k%2)?1:-1)*14;
     lo+=`<image href="${img}" x="${p.x+side-sz/2}" y="${p.y-sz/2}" width="${sz}" height="${sz}"/>`;
   });
   MILES.forEach((m,i)=>{ if(divNow>=m.amt){const p=pt((i+1)/3);
