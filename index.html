@@ -28,6 +28,19 @@
   .v.red{color:var(--red)}.v.gold{color:var(--gold)}
   .cols{display:grid;grid-template-columns:1fr 1fr;gap:20px}
   @media(max-width:720px){.cols{grid-template-columns:1fr}}
+  .mtabs{display:none}
+  @media(max-width:720px){
+    .mtabs{display:flex;position:sticky;top:8px;z-index:10;background:var(--panel);
+      border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:16px;
+      box-shadow:0 4px 18px rgba(0,0,0,.45)}
+    .mtabs div{flex:1;text-align:center;padding:12px 4px;font-size:13px;font-weight:800;
+      letter-spacing:.12em;color:var(--mut2);cursor:pointer}
+    .mtabs div.on[data-t="chang"]{background:var(--red);color:#fff}
+    .mtabs div.on[data-t="wife"]{background:var(--gold);color:#141414}
+    .mtabs div.on[data-t="tx"]{background:var(--panel2);color:var(--ink)}
+    body.m .col,body.m .txwrap{display:none}
+    body.m .col.show,body.m .txwrap.show{display:block}
+  }
   .col{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 18px 10px}
   .col.chang{border-top:3px solid var(--red)}
   .col.wife{border-top:3px solid var(--gold)}
@@ -144,6 +157,12 @@
   <div class="blk"><div class="k">🔴 CHANG 年股息</div><div class="v red" id="cDiv">–</div></div>
   <div class="blk"><div class="k">🟡 老婆 年股息</div><div class="v gold" id="wDiv">–</div></div>
   <div class="blk"><div class="k">報價狀態</div><div class="v" style="font-size:13px;padding-top:4px" id="pxMeta">–</div></div>
+</div>
+
+<div class="mtabs" id="mtabs">
+  <div data-t="chang" class="on">CHANG</div>
+  <div data-t="wife">老婆</div>
+  <div data-t="tx">交易紀錄</div>
 </div>
 
 <div class="cols">
@@ -406,6 +425,22 @@ document.getElementById("tokenSave").onclick=async()=>{
   document.getElementById("setDlg").close();
   try{await load();await ensurePrices();render();}catch(e){document.getElementById("meta").textContent=e.message;}
 };
+
+function applyTab(t){
+  document.body.classList.add("m");
+  document.querySelectorAll("#mtabs div").forEach(x=>x.classList.toggle("on",x.dataset.t===t));
+  document.querySelector(".col.chang").classList.toggle("show",t==="chang");
+  document.querySelector(".col.wife").classList.toggle("show",t==="wife");
+  document.querySelector(".txwrap").classList.toggle("show",t==="tx");
+  localStorage.setItem("tab",t);
+}
+function syncTabs(){
+  if(window.innerWidth<=720){applyTab(localStorage.getItem("tab")||"chang");}
+  else{document.body.classList.remove("m");}
+}
+document.querySelectorAll("#mtabs div").forEach(d=>d.onclick=()=>applyTab(d.dataset.t));
+window.addEventListener("resize",syncTabs);
+syncTabs();
 
 ["txDlg","setDlg"].forEach(id=>{
   const dlg=document.getElementById(id);
