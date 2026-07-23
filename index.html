@@ -6,18 +6,19 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
-<meta name="theme-color" content="#EEF1F6">
+<meta name="theme-color" content="#54447B">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="家的旅程">
 <title>家的旅程</title>
 <style>
   :root{
-    --paper:#EEF1F6; --card:#F8FAFC; --card2:#E9EEF5; --line:#CFD9E6;
-    --ink:#3A4356; --mut:#77839A; --mut2:#A3AEC2;
-    --chang:#5B7FA6; --chang-soft:#DCE6F1;
-    --wife:#A98BC0; --wife-soft:#EBE1F3;
-    --green:#7FA894; --green-soft:#DCEAE3;
+    --paper:#EDEBF5; --card:#FFFFFF; --card2:#F2F0FA; --line:#DAD5EC;
+    --ink:#3B3357; --mut:#7A7295; --mut2:#A9A2C2;
+    --chang:#4A90D9; --chang-soft:#DBEAF9;
+    --wife:#A55EC4; --wife-soft:#F0E1F7;
+    --green:#5FBF6E; --green-soft:#DFF3E2;
+    --sky:#54447B;
     --mono:ui-monospace,"SF Mono",Menlo,monospace;
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -25,7 +26,7 @@
     font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
     max-width:820px;margin:0 auto;padding:18px 16px 70px;-webkit-font-smoothing:antialiased}
   .eyebrow{font-size:11px;letter-spacing:.35em;color:var(--mut2)}
-  h1{font-family:"Noto Serif TC",serif;font-size:24px;margin:4px 0 2px;letter-spacing:.08em}
+  h1{font-size:23px;font-weight:900;margin:4px 0 2px;letter-spacing:.08em}
   .meta{font-size:11px;color:var(--mut);margin-bottom:14px}
   .topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
   .gear{background:var(--card);border:1.5px solid var(--line);color:var(--mut);border-radius:12px;
@@ -33,15 +34,15 @@
 
   /* 旅人切換 */
   .traveler{display:flex;background:var(--card);border:1.5px solid var(--line);border-radius:16px;
-    overflow:hidden;margin-bottom:14px;box-shadow:0 2px 10px rgba(58,67,86,.07)}
+    overflow:hidden;margin-bottom:14px;box-shadow:0 3px 0 var(--line)}
   .traveler div{flex:1;text-align:center;padding:13px 4px;font-size:14px;font-weight:800;
     letter-spacing:.15em;color:var(--mut);cursor:pointer;transition:background .2s}
   .traveler div.on[data-p="chang"]{background:var(--chang);color:#FFF8EF}
   .traveler div.on[data-p="wife"]{background:var(--wife);color:#4A3E32}
 
   /* 山景里程碑 */
-  .scene{background:var(--card);border:1.5px solid var(--line);border-radius:20px;
-    overflow:hidden;margin-bottom:14px;box-shadow:0 3px 14px rgba(58,67,86,.09)}
+  .scene{background:var(--sky);border:1.5px solid var(--line);border-radius:20px;
+    overflow:hidden;margin-bottom:14px;box-shadow:0 4px 0 var(--line)}
   .scene svg{display:block;width:100%;height:auto}
   .scene .strip{display:flex;flex-wrap:wrap;border-top:1.5px dashed var(--line)}
   .strip .blk{flex:1;min-width:140px;padding:13px 15px;border-right:1.5px dashed var(--line)}
@@ -52,8 +53,8 @@
 
   /* 卡片 */
   .card{background:var(--card);border:1.5px solid var(--line);border-radius:18px;
-    padding:18px 16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(58,67,86,.07)}
-  .card h3{font-family:"Noto Serif TC",serif;font-size:14px;letter-spacing:.2em;color:var(--mut);
+    padding:18px 16px;margin-bottom:14px;box-shadow:0 3px 0 var(--line)}
+  .card h3{font-size:14px;letter-spacing:.2em;color:var(--mut);
     font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
   .card h3::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--pcol,var(--chang))}
 
@@ -83,7 +84,7 @@
   .btn-row{display:flex;gap:10px;margin:4px 0 14px}
   .btn{flex:1;text-align:center;padding:14px;border-radius:16px;font-size:14px;font-weight:800;
     letter-spacing:.2em;cursor:pointer;border:none;background:var(--pcol,var(--chang));
-    color:#FFF8EF;box-shadow:0 2px 8px rgba(58,67,86,.18)}
+    color:#FFF8EF;box-shadow:0 4px 0 rgba(59,51,87,.22)}
 
   dialog{margin:auto;position:fixed;inset:0;height:fit-content;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
     background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:20px;
@@ -92,7 +93,7 @@
   .dlg-x{position:absolute;top:12px;right:14px;width:32px;height:32px;border:1.5px solid var(--line);
     border-radius:10px;background:var(--card2);color:var(--mut);font-size:15px;line-height:29px;
     text-align:center;cursor:pointer}
-  dialog h2{font-family:"Noto Serif TC",serif;font-size:16px;font-weight:800;letter-spacing:.1em;margin-bottom:2px}
+  dialog h2{font-size:16px;font-weight:800;letter-spacing:.1em;margin-bottom:2px}
   dialog .sub{font-size:11px;color:var(--mut);margin-bottom:14px}
   label{display:block;font-size:10px;color:var(--mut);letter-spacing:.1em;margin:12px 0 5px}
   .seg{display:flex;background:var(--card2);border:1.5px solid var(--line);border-radius:12px;overflow:hidden}
@@ -116,7 +117,7 @@
   .preview b{color:var(--chang);font-family:var(--mono)}
   dialog button.go{width:100%;margin-top:14px;margin-bottom:4px;padding:13px;border:none;border-radius:14px;
     background:var(--green);color:#FFF8EF;font-size:15px;font-weight:800;letter-spacing:.25em;cursor:pointer;
-    box-shadow:0 2px 8px rgba(58,67,86,.18)}
+    box-shadow:0 4px 0 rgba(59,51,87,.22)}
   dialog button.go:disabled{opacity:.5;cursor:wait}
   .msg{font-size:12px;text-align:center;margin-top:8px;min-height:16px;color:var(--green)}
   .msg.err{color:var(--chang)}
@@ -181,8 +182,8 @@
 
 <div class="topbar">
   <div>
-    <div class="eyebrow">JOURNEY OF DIVIDENDS</div>
-    <h1>家的旅程 ✦</h1>
+    <div class="eyebrow">DIVIDEND QUEST</div>
+    <h1>家的旅程</h1>
     <div class="meta" id="meta">載入中…</div>
   </div>
   <button class="gear" id="gearBtn">⚙ 設定</button>
@@ -219,7 +220,7 @@
 
 <div class="card note" id="ruleNote"></div>
 <div class="note" style="text-align:center;padding:0 4px 8px">
-  旅人角色素材：Kenney（kenney.nl）· CC0 公眾領域授權 · 已改色
+  美術素材：Kenney（kenney.nl）· CC0 公眾領域授權
 </div>
 
 <dialog id="txDlg">
@@ -256,7 +257,7 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-0913";
+const APP_VERSION="2026.07.23-0917";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -305,71 +306,44 @@ function stationIdx(div){let i=0;MILES.forEach((m,k)=>{if(div>=m.amt)i=k+1});ret
 
 function hut(x,y){return `
  <g transform="translate(${x},${y})">
-  <rect x="-15" y="-16" width="30" height="16" rx="2" fill="#D9E2EC" stroke="#7B8CA6" stroke-width="1.5"/>
-  <path d="M-19,-16 L0,-31 L19,-16 Z" fill="#6E7FA0" stroke="#55658A" stroke-width="1.5"/>
-  <path d="M-19,-16 L0,-31 L19,-16 Z" fill="#EEF3F8" opacity=".35"/>
-  <rect x="-4" y="-9" width="8" height="9" fill="#5A6B8C"/>
-  <rect x="6" y="-28" width="5" height="9" fill="#7B8CA6"/>
-  <circle cx="8.5" cy="-33" r="3" fill="#E5EDF5" opacity=".75"><animate attributeName="cy" values="-33;-45" dur="3.4s" repeatCount="indefinite"/><animate attributeName="opacity" values=".75;0" dur="3.4s" repeatCount="indefinite"/></circle>
-  <circle cx="10" cy="-37" r="2.3" fill="#E5EDF5" opacity=".5"><animate attributeName="cy" values="-37;-49" dur="4s" repeatCount="indefinite"/><animate attributeName="opacity" values=".5;0" dur="4s" repeatCount="indefinite"/></circle>
-  <text x="0" y="16" text-anchor="middle" font-size="11.5" font-weight="800" fill="#3A4356">起點</text>
+  <image href="sp-start.png" x="-9" y="-46" width="18" height="46"/>
+  <text x="0" y="16" text-anchor="middle" font-size="11.5" font-weight="800" fill="#FFFFFF">起點</text>
  </g>`;}
 
-/* 旅遊站:魔法路標燈 */
-function balloon(x,y,hit){return `
- <g transform="translate(${x},${y})" ${hit?"":'filter="url(#mist)" opacity=".5"'}>
-  <line x1="0" y1="0" x2="0" y2="-26" stroke="#7B8CA6" stroke-width="2.6" stroke-linecap="round"/>
-  <path d="M-9,-26 h18 l-3,-5 h-12 Z" fill="#8C9CB5"/>
-  <g class="bob">
-   <circle cx="0" cy="-36" r="7" fill="${hit?"#9FD8C6":"#C3CEDC"}" stroke="#7B8CA6" stroke-width="1.4"/>
-   ${hit?'<circle cx="0" cy="-36" r="13" fill="#9FD8C6" opacity=".3"><animate attributeName="r" values="10;17;10" dur="3s" repeatCount="indefinite"/><animate attributeName="opacity" values=".35;.05;.35" dur="3s" repeatCount="indefinite"/></circle>':""}
-  </g>
-  <path d="M-11,-14 h22" stroke="#7B8CA6" stroke-width="2" stroke-linecap="round"/>
+/* 站 1、2：旗幟（未達=倒旗，抵達=升旗） */
+function balloon(x,y,hit){return flagMark(x,y,hit);}
+function houseM(x,y,hit){return flagMark(x,y,hit);}
+function flagMark(x,y,hit){return `
+ <g transform="translate(${x},${y})">
+  <image href="${hit?"sp-flag-on.png":"sp-flag-off.png"}" x="${hit?-6:-5}" y="-46" width="${hit?38:11}" height="46"
+    ${hit?"":'opacity=".55" filter="url(#mist)"'}/>
+  ${hit?`<circle cx="6" cy="-34" r="14" fill="#F7E9A8" opacity=".18">
+     <animate attributeName="r" values="10;18;10" dur="3s" repeatCount="indefinite"/></circle>`:""}
  </g>`;}
 
-/* 房貸站:石造小屋 */
-function houseM(x,y,hit){return `
- <g transform="translate(${x},${y})" ${hit?"":'filter="url(#mist)" opacity=".5"'}>
-  <rect x="-16" y="-17" width="32" height="17" rx="2" fill="#E3EAF2" stroke="#7B8CA6" stroke-width="1.5"/>
-  <path d="M-20,-17 L0,-33 L20,-17 Z" fill="#6E7FA0" stroke="#55658A" stroke-width="1.5"/>
-  <rect x="-11" y="-12" width="8" height="8" fill="${hit?"#F6E1A8":"#B9C6D6"}" stroke="#7B8CA6" stroke-width="1"/>
-  <rect x="4" y="-12" width="8" height="12" fill="#5A6B8C"/>
-  <rect x="9" y="-30" width="5" height="9" fill="#7B8CA6"/>
-  <g transform="translate(-26,-4)"><path d="M0,-14 L7,0 H-7 Z" fill="#4F6B5D"/><path d="M0,-7 L9,7 H-9 Z" fill="#4F6B5D"/><rect x="-1.5" y="5" width="3" height="7" fill="#3E5245"/></g>
- </g>`;}
-
-/* 退休站:魔法之塔 */
+/* 終點：門（未達=上鎖，抵達=開啟） */
 function castle(x,y,hit){return `
- <g transform="translate(${x},${y})" ${hit?"":'filter="url(#mist)" opacity=".45"'}>
-  <ellipse cx="-18" cy="4" rx="20" ry="6" fill="#DDE6F0" opacity=".8"/>
-  <ellipse cx="20" cy="6" rx="22" ry="6" fill="#DDE6F0" opacity=".75"/>
-  <path d="M-13,-2 L-10,-30 h20 l3,28 Z" fill="#E6ECF4" stroke="#7B8CA6" stroke-width="1.5"/>
-  <path d="M-12,-30 L0,-45 L12,-30 Z" fill="#5D7A9E" stroke="#48607F" stroke-width="1.4"/>
-  <rect x="-16" y="-18" width="7" height="16" fill="#D7E0EA" stroke="#7B8CA6" stroke-width="1.2"/>
-  <rect x="9" y="-18" width="7" height="16" fill="#D7E0EA" stroke="#7B8CA6" stroke-width="1.2"/>
-  <path d="M-16,-18 L-12.5,-25 L-9,-18 Z" fill="#5D7A9E"/><path d="M9,-18 L12.5,-25 L16,-18 Z" fill="#5D7A9E"/>
-  <path d="M-4,-24 h8 v10 a4,5 0 0 1 -8,0 Z" fill="${hit?"#F6E1A8":"#AFBED0"}"/>
-  ${hit?`<circle cx="0" cy="-51" r="4" fill="#CDE9DE"/>
-   <circle cx="0" cy="-51" r="12" fill="#9FD8C6" opacity=".35"><animate attributeName="r" values="8;18;8" dur="3.4s" repeatCount="indefinite"/><animate attributeName="opacity" values=".4;.05;.4" dur="3.4s" repeatCount="indefinite"/></circle>
-   <circle cx="0" cy="-30" r="20" fill="#CDE9DE" opacity=".14"><animate attributeName="r" values="16;24;16" dur="4s" repeatCount="indefinite"/></circle>`:""}
+ <g transform="translate(${x},${y})">
+  <image href="${hit?"sp-door-on.png":"sp-door-off.png"}" x="-21" y="-44" width="42" height="42"
+    ${hit?"":'opacity=".55" filter="url(#mist)"'}/>
+  ${hit?`<circle cx="0" cy="-23" r="22" fill="#F7E9A8" opacity=".2">
+     <animate attributeName="r" values="16;27;16" dur="3.4s" repeatCount="indefinite"/></circle>`:""}
  </g>`;}
 
 function stLabel(p,m,i,divNow){
   const pct=Math.min(divNow/m.amt*100,100);
   return `<g font-family="PingFang TC,Noto Sans TC,sans-serif" text-anchor="middle">
-   <text x="${p.x}" y="${p.y+21}" font-size="12" font-weight="800" fill="#3A4356">${m.name}</text>
-   <text x="${p.x}" y="${p.y+35}" font-size="9.5" fill="#77839A" font-family="ui-monospace,Menlo,monospace">${m.amt/10000}萬 · ${pct.toFixed(1)}% · ${ETA[person][i]}</text>
+   <text x="${p.x}" y="${p.y+21}" font-size="12" font-weight="800" fill="#FFFFFF">${m.name}</text>
+   <text x="${p.x}" y="${p.y+35}" font-size="9.5" fill="#C9BEE8" font-family="ui-monospace,Menlo,monospace">${m.amt/10000}萬 · ${pct.toFixed(1)}% · ${ETA[person][i]}</text>
   </g>`;}
 
+const GEMS=["sp-gem1.png","sp-gem2.png","sp-gem3.png","sp-gem4.png"];
 function flowerSvg(x,y,c,i){
-  const s=.8+ (i*13%5)/10;
-  const petals=[0,72,144,216,288].map(a=>`<ellipse cx="0" cy="-3.2" rx="1.7" ry="3" fill="${c}" transform="rotate(${a})"/>`).join("");
-  return `<g transform="translate(${x},${y}) scale(${s})" class="sway ${i%2?"s2":""}">
-    <line x1="0" y1="0" x2="0" y2="5" stroke="#5E7A6B" stroke-width="1.2"/>
-    <g>${petals}<circle r="1.5" fill="#F4F0E2"/><circle r="3.4" fill="${c}" opacity=".22"/></g></g>`;}
-
+  const g=GEMS[i%GEMS.length],sz=9+(i*7%4);
+  return `<g class="sway ${i%2?"s2":""}" transform="translate(${x},${y})">
+    <image href="${g}" x="${-sz/2}" y="${-sz}" width="${sz}" height="${sz}"/></g>`;}
 function sprout(x,y,i){return `<g transform="translate(${x},${y})" class="sway ${i%2?"s2":""}">
-  <path d="M0,4 Q-3,-1 -5,-3 M0,4 Q3,-1 5,-3 M0,4 V-2" stroke="#7FA894" stroke-width="1.4" fill="none" stroke-linecap="round"/></g>`;}
+  <rect x="-2" y="-2" width="4" height="4" rx="2" fill="#F7E9A8" opacity=".5"/></g>`;}
 
 function scene(divNow){
   const col=PCOL[person];
@@ -378,78 +352,56 @@ function scene(divNow){
   const prog=(seg+(seg>=3?0:Math.min((divNow-amts[seg])/Math.max(amts[Math.min(seg+1,3)]-amts[seg],1),1)))/3;
   document.getElementById("sceneSvg").innerHTML=`
   <svg viewBox="0 0 800 315" xmlns="http://www.w3.org/2000/svg" id="hillSvg">
-   <defs>
-    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-     <stop offset="0" stop-color="#2E3F5C"/><stop offset=".38" stop-color="#5D7A9E"/>
-     <stop offset=".68" stop-color="#A8BCD2"/><stop offset="1" stop-color="#DCE6EF"/></linearGradient>
-    <linearGradient id="aur" x1="0" y1="0" x2="0" y2="1">
-     <stop offset="0" stop-color="#8FD9C4" stop-opacity=".55"/>
-     <stop offset=".6" stop-color="#A9A6E0" stop-opacity=".28"/>
-     <stop offset="1" stop-color="#A9A6E0" stop-opacity="0"/></linearGradient>
-    <linearGradient id="river" x1="0" y1="0" x2="0" y2="1">
-     <stop offset="0" stop-color="#C6D8E8"/><stop offset="1" stop-color="#8FAECB"/></linearGradient>
-    <radialGradient id="sunGlow"><stop offset="0" stop-color="#F2ECD9" stop-opacity=".9"/>
-     <stop offset="1" stop-color="#F2ECD9" stop-opacity="0"/></radialGradient>
-    <filter id="mist"><feColorMatrix type="saturate" values="0.2"/></filter>
-    <filter id="soft"><feGaussianBlur stdDeviation="6"/></filter>
-   </defs>
-   <rect width="800" height="315" fill="url(#sky)"/>
-   <!-- 極光 -->
-   <g filter="url(#soft)" opacity=".85">
-     <path d="M60,26 C 180,4 300,58 430,26 C 560,-4 680,44 790,20 L790,96 C 660,120 540,74 420,102 C 300,128 180,80 60,104 Z" fill="url(#aur)">
-       <animate attributeName="opacity" values=".55;.9;.55" dur="11s" repeatCount="indefinite"/></path>
-     <path d="M0,54 C 140,32 260,86 400,58 C 540,30 660,72 800,50 L800,104 C 660,126 540,86 400,110 C 260,134 140,94 0,116 Z" fill="url(#aur)" opacity=".55">
-       <animate attributeName="opacity" values=".3;.6;.3" dur="15s" repeatCount="indefinite"/></path>
-   </g>
-   <!-- 星星 -->
+   <defs><filter id="mist"><feColorMatrix type="saturate" values="0.15"/></filter></defs>
+   <rect width="800" height="315" fill="#54447B"/>
+   <!-- 星 -->
    <g fill="#FFFFFF">
-    <circle cx="90" cy="30" r="1.3" opacity=".9"><animate attributeName="opacity" values=".2;.95;.2" dur="4s" repeatCount="indefinite"/></circle>
-    <circle cx="250" cy="18" r="1" opacity=".7"><animate attributeName="opacity" values=".15;.8;.15" dur="5.5s" repeatCount="indefinite"/></circle>
-    <circle cx="470" cy="24" r="1.2" opacity=".8"><animate attributeName="opacity" values=".2;.9;.2" dur="6.5s" repeatCount="indefinite"/></circle>
-    <circle cx="640" cy="14" r="1" opacity=".6"><animate attributeName="opacity" values=".1;.7;.1" dur="4.8s" repeatCount="indefinite"/></circle>
-    <circle cx="360" cy="44" r=".9" opacity=".6"><animate attributeName="opacity" values=".1;.7;.1" dur="7s" repeatCount="indefinite"/></circle>
+    <rect x="86" y="30" width="4" height="4" rx="1" opacity=".85"><animate attributeName="opacity" values=".25;.95;.25" dur="3.6s" repeatCount="indefinite"/></rect>
+    <rect x="248" y="18" width="3" height="3" rx="1" opacity=".7"><animate attributeName="opacity" values=".2;.8;.2" dur="5s" repeatCount="indefinite"/></rect>
+    <rect x="470" y="26" width="4" height="4" rx="1" opacity=".8"><animate attributeName="opacity" values=".2;.9;.2" dur="6s" repeatCount="indefinite"/></rect>
+    <rect x="638" y="14" width="3" height="3" rx="1" opacity=".6"><animate attributeName="opacity" values=".15;.75;.15" dur="4.4s" repeatCount="indefinite"/></rect>
+    <rect x="352" y="46" width="3" height="3" rx="1" opacity=".6"><animate attributeName="opacity" values=".15;.7;.15" dur="7s" repeatCount="indefinite"/></rect>
+    <rect x="150" y="62" width="3" height="3" rx="1" opacity=".5"><animate attributeName="opacity" values=".1;.6;.1" dur="5.6s" repeatCount="indefinite"/></rect>
    </g>
    <!-- 月 -->
-   <circle cx="700" cy="52" r="60" fill="url(#sunGlow)"/>
-   <circle cx="700" cy="52" r="18" fill="#F4F0E2"/>
-   <!-- 雪山 -->
-   <path d="M0,148 L88,84 L146,132 L214,72 L300,146 L392,88 L470,150 L560,96 L640,152 L720,104 L800,150 V315 H0 Z" fill="#6E7FA0" opacity=".55"/>
-   <path d="M0,170 L110,104 L188,158 L286,96 L380,166 L484,110 L580,168 L688,118 L800,164 V315 H0 Z" fill="#5A6B8C" opacity=".65"/>
-   <g fill="#EEF3F8" opacity=".9">
-     <path d="M110,104 l16,11 l-8,3 l-9,-5 l-7,6 l-8,-4 Z"/>
-     <path d="M286,96 l17,12 l-9,3 l-9,-5 l-8,6 l-8,-4 Z"/>
-     <path d="M484,110 l16,11 l-9,3 l-8,-5 l-8,6 l-8,-4 Z"/>
-     <path d="M688,118 l15,11 l-8,3 l-8,-5 l-8,6 l-7,-4 Z"/>
+   <circle cx="702" cy="52" r="40" fill="#6E5C9B" opacity=".5"/>
+   <circle cx="702" cy="52" r="24" fill="#F7E9A8"/>
+   <!-- 扁平雲 -->
+   <g class="cloudA" fill="#6E5C9B" opacity=".55">
+     <rect x="-48" y="72" width="96" height="20" rx="10"/><rect x="-16" y="60" width="52" height="20" rx="10"/></g>
+   <g class="cloudC" fill="#7C6AA8" opacity=".45">
+     <rect x="-60" y="112" width="120" height="22" rx="11"/><rect x="-20" y="100" width="64" height="22" rx="11"/></g>
+   <g class="birds" fill="#8E7FBC" opacity=".8">
+     <rect x="0" y="0" width="9" height="3" rx="1.5"/><rect x="13" y="4" width="9" height="3" rx="1.5"/><rect x="6" y="9" width="9" height="3" rx="1.5"/></g>
+   <!-- 遠山：扁平三角 -->
+   <g fill="#453873">
+     <path d="M40,190 L120,104 L200,190 Z"/><path d="M170,190 L250,120 L330,190 Z"/>
+     <path d="M420,180 L510,96 L600,180 Z"/><path d="M600,186 L680,128 L760,186 Z"/>
    </g>
-   <g class="cloudA" fill="#C9D6E6" opacity=".45"><ellipse cx="0" cy="112" rx="60" ry="10"/><ellipse cx="44" cy="106" rx="34" ry="8"/></g>
-   <g class="cloudC" fill="#DDE6F0" opacity=".4"><ellipse cx="0" cy="142" rx="70" ry="11"/><ellipse cx="54" cy="136" rx="38" ry="9"/></g>
-   <g class="birds" stroke="#5A6B8C" stroke-width="1.5" fill="none" stroke-linecap="round" opacity=".8">
-     <path d="M0,0 q4,-4 8,0 M12,3 q4,-4 8,0 M6,9 q4,-4 8,0"/></g>
-   <!-- 大地三層(冷綠) -->
-   <path d="M0,196 Q 200,132 420,176 T 800,128 V315 H0 Z" fill="#8FA79A"/>
-   <path d="M0,230 Q 250,168 520,212 T 800,172 V315 H0 Z" fill="#74907F"/>
-   <!-- 針葉林 -->
-   <g fill="#4F6B5D">
-    <g transform="translate(112,214)"><path d="M0,-26 L11,0 H-11 Z"/><path d="M0,-16 L14,10 H-14 Z"/><rect x="-2" y="8" width="4" height="8" fill="#3E5245"/></g>
-    <g transform="translate(146,222)"><path d="M0,-20 L9,0 H-9 Z"/><path d="M0,-12 L11,8 H-11 Z"/><rect x="-1.6" y="6" width="3.2" height="7" fill="#3E5245"/></g>
-    <g transform="translate(624,178)"><path d="M0,-22 L10,0 H-10 Z"/><path d="M0,-13 L12,8 H-12 Z"/><rect x="-1.8" y="6" width="3.6" height="7" fill="#3E5245"/></g>
-    <g transform="translate(596,186)"><path d="M0,-16 L8,0 H-8 Z"/><path d="M0,-9 L9,6 H-9 Z"/><rect x="-1.4" y="5" width="2.8" height="6" fill="#3E5245"/></g>
+   <g fill="#5A4C8F">
+     <path d="M120,104 l22,24 h-44 Z"/><path d="M510,96 l24,26 h-48 Z"/>
    </g>
-   <!-- 河 -->
-   <path d="M368,208 C 400,226 350,250 392,270 C 424,285 388,302 420,315 L470,315 C 436,300 470,286 440,268 C 412,251 452,230 414,210 Z" fill="url(#river)" opacity=".85"/>
-   <path d="M0,268 Q 300,220 620,254 T 800,230 V315 H0 Z" fill="#5E7A6B"/>
-   <!-- 魔法微光 -->
-   <g fill="#CDE9DE">
-    <circle cx="180" cy="122" r="2" opacity=".8"><animate attributeName="cy" values="122;100;122" dur="8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;.1;.8" dur="8s" repeatCount="indefinite"/></circle>
-    <circle cx="520" cy="96" r="1.7" opacity=".7"><animate attributeName="cy" values="96;74;96" dur="10s" repeatCount="indefinite"/><animate attributeName="opacity" values=".7;.1;.7" dur="10s" repeatCount="indefinite"/></circle>
-    <circle cx="648" cy="156" r="1.9" opacity=".75"><animate attributeName="cy" values="156;134;156" dur="9s" repeatCount="indefinite"/><animate attributeName="opacity" values=".75;.1;.75" dur="9s" repeatCount="indefinite"/></circle>
-    <circle cx="300" cy="204" r="1.5" opacity=".6"><animate attributeName="cy" values="204;186;204" dur="7s" repeatCount="indefinite"/><animate attributeName="opacity" values=".6;.1;.6" dur="7s" repeatCount="indefinite"/></circle>
+   <!-- 圓潤地形三層 -->
+   <path d="M0,200 Q 200,140 420,182 T 800,136 V315 H0 Z" fill="#3F8F63"/>
+   <path d="M0,236 Q 250,176 520,218 T 800,180 V315 H0 Z" fill="#4FA872"/>
+   <!-- 圓潤樹 -->
+   <g>
+    <rect x="120" y="212" width="8" height="18" rx="4" fill="#2F6B4B"/><circle cx="124" cy="206" r="16" fill="#57B87E"/>
+    <rect x="152" y="220" width="6" height="14" rx="3" fill="#2F6B4B"/><circle cx="155" cy="216" r="12" fill="#57B87E"/>
+    <rect x="620" y="182" width="7" height="16" rx="3.5" fill="#2F6B4B"/><circle cx="623.5" cy="176" r="14" fill="#57B87E"/>
    </g>
-   <path id="trailBase" d="${TRAIL_D}" fill="none" stroke="#E7EDF4" stroke-width="8" stroke-linecap="round"/>
-   <path d="${TRAIL_D}" fill="none" stroke="#AFC0D2" stroke-width="2" stroke-dasharray="1 9" stroke-linecap="round" opacity=".7"/>
+   <path d="M0,272 Q 300,224 620,256 T 800,232 V315 H0 Z" fill="#5FBF6E"/>
+   <!-- 浮動光點 -->
+   <g fill="#F7E9A8">
+    <rect x="180" y="120" width="5" height="5" rx="2.5" opacity=".8"><animate attributeName="y" values="120;100;120" dur="7s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;.15;.8" dur="7s" repeatCount="indefinite"/></rect>
+    <rect x="520" y="94" width="4" height="4" rx="2" opacity=".7"><animate attributeName="y" values="94;76;94" dur="9s" repeatCount="indefinite"/><animate attributeName="opacity" values=".7;.1;.7" dur="9s" repeatCount="indefinite"/></rect>
+    <rect x="648" y="152" width="5" height="5" rx="2.5" opacity=".75"><animate attributeName="y" values="152;132;152" dur="8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".75;.1;.75" dur="8s" repeatCount="indefinite"/></rect>
+   </g>
+   <path id="trailBase" d="${TRAIL_D}" fill="none" stroke="#EFEAD8" stroke-width="9" stroke-linecap="round"/>
+   <path d="${TRAIL_D}" fill="none" stroke="#D8CFB0" stroke-width="3" stroke-dasharray="2 12" stroke-linecap="round" opacity=".9"/>
    <path id="trailWalk" d="${TRAIL_D}" fill="none" stroke="${col}" stroke-width="4.5" stroke-linecap="round" opacity=".9"/>
    <g id="flora"></g><g id="marks"></g><g id="walker"></g>
-   <g fill="#47624F">
+   <g fill="#2F6B4B">
     <path class="sway" d="M20,315 q2,-16 6,-20 q0,12 4,20 Z"/>
     <path class="sway s2" d="M36,315 q3,-13 7,-16 q-1,10 3,16 Z"/>
     <path class="sway" d="M770,315 q2,-15 6,-19 q0,11 4,19 Z"/>
@@ -507,10 +459,10 @@ function layoutScene(prog,divNow,col){
      </g>
    </g>
    <g transform="translate(${Math.min(Math.max(wp.x,64),736)},${wp.y-56})">
-     <line x1="0" y1="14" x2="0" y2="28" stroke="#7B8CA6" stroke-width="3"/>
-     <rect x="-62" y="-18" width="124" height="33" rx="9" fill="#42536F" stroke="#8FA3BC" stroke-width="1.6" opacity=".95"/>
-     <text x="0" y="-3.5" text-anchor="middle" font-size="12" font-weight="800" fill="#EAF2F8" font-family="ui-monospace,Menlo,monospace">${fmt(divNow)} 元／年</text>
-     <text x="0" y="9.5" text-anchor="middle" font-size="9.5" fill="#AFC8DC">${gap}</text>
+     <rect x="-2.5" y="14" width="5" height="16" rx="2.5" fill="#8B6F4E"/>
+     <rect x="-64" y="-19" width="128" height="35" rx="10" fill="#C99B63" stroke="#8B6F4E" stroke-width="3"/>
+     <text x="0" y="-3.5" text-anchor="middle" font-size="12" font-weight="800" fill="#4A3418" font-family="ui-monospace,Menlo,monospace">${fmt(divNow)} 元／年</text>
+     <text x="0" y="9.5" text-anchor="middle" font-size="9.5" fill="#6B4F2A">${gap}</text>
    </g>`;
 }
 
@@ -522,7 +474,7 @@ function celebrate(divNow){
   if(idx>prev)petalRain();
 }
 function petalRain(){
-  const cols=["#9FD8C6","#A9C4E8","#C3B0DE","#F4F0E2","#8FD9C4"];
+  const cols=["#4A90D9","#5FBF6E","#F7E9A8","#A55EC4","#F2A65A"];
   for(let i=0;i<26;i++){
     const d=document.createElement("div");
     d.className="petal";
