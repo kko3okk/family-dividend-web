@@ -302,7 +302,7 @@
 
 <div class="card note" id="ruleNote"></div>
 <div class="note" style="text-align:center;padding:0 4px 8px">
-  背景音樂：上傳 bgm.mp3 至網站 repo 根目錄即自動啟用（音效可另放 sfx-coin/gem/fanfare/tap.mp3）；無檔案時使用程式生成的環境音<br>所有紀錄（交易、股息入帳、檢核、里程碑達成）皆存於私有 GitHub，換手機不會遺失<br>美術素材：Kenney（kenney.nl）· CC0 公眾領域授權
+  背景音樂：上傳 bgm.m4a（或 .mp3／.aac／.ogg）至網站 repo 根目錄即自動啟用；音效可另放 sfx-coin/gem/fanfare/tap.m4a；無檔案時使用程式生成的環境音<br>所有紀錄（交易、股息入帳、檢核、里程碑達成）皆存於私有 GitHub，換手機不會遺失<br>美術素材：Kenney（kenney.nl）· CC0 公眾領域授權
 </div>
 
 <dialog id="txDlg">
@@ -358,7 +358,7 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-1451";
+const APP_VERSION="2026.07.23-1455";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -1052,17 +1052,23 @@ const Snd={
      放一個 bgm.mp3 到本 repo 根目錄即可自動播放並循環；
      沒有檔案時自動回退到下方程式生成的環境音。
      音效檔也可選擇性覆蓋：sfx-coin.mp3 / sfx-gem.mp3 / sfx-fanfare.mp3 / sfx-tap.mp3 */
-  bgm:null, bgmReady:false,
+  bgm:null, bgmReady:false, bgmTry:0,
+  BGM_FILES:["bgm.m4a","bgm.mp3","bgm.aac","bgm.ogg"],
   initBgm(){
     if(this.bgm)return;
-    const a=new Audio("bgm.mp3");
+    this.loadBgm(0);
+  },
+  loadBgm(i){
+    if(i>=this.BGM_FILES.length){ this.bgm=null; return; }
+    const a=new Audio(this.BGM_FILES[i]);
     a.loop=true; a.volume=0.45; a.preload="auto";
     a.addEventListener("canplaythrough",()=>{ this.bgmReady=true; },{once:true});
-    a.addEventListener("error",()=>{ this.bgmReady=false; this.bgm=null; });
+    a.addEventListener("error",()=>{ this.bgm=null; this.loadBgm(i+1); },{once:true});
     this.bgm=a;
   },
   sfxFile(kind){
-    const map={coin:"sfx-coin.mp3",gem:"sfx-gem.mp3",fanfare:"sfx-fanfare.mp3",tap:"sfx-tap.mp3"};
+    const ext=this.sfxExt||"m4a";
+    const map={coin:"sfx-coin."+ext,gem:"sfx-gem."+ext,fanfare:"sfx-fanfare."+ext,tap:"sfx-tap."+ext};
     if(this._miss&&this._miss[kind])return false;
     const a=new Audio(map[kind]); a.volume=this.on?0.6:0.4;
     a.addEventListener("error",()=>{ (this._miss=this._miss||{})[kind]=true; },{once:true});
