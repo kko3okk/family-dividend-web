@@ -302,7 +302,7 @@
 
 <div class="card note" id="ruleNote"></div>
 <div class="note" style="text-align:center;padding:0 4px 8px">
-  所有紀錄（交易、股息入帳、檢核、里程碑達成）皆存於私有 GitHub，換手機不會遺失<br>美術素材：Kenney（kenney.nl）· CC0 公眾領域授權
+  背景音樂：上傳 bgm.mp3 至網站 repo 根目錄即自動啟用（音效可另放 sfx-coin/gem/fanfare/tap.mp3）；無檔案時使用程式生成的環境音<br>所有紀錄（交易、股息入帳、檢核、里程碑達成）皆存於私有 GitHub，換手機不會遺失<br>美術素材：Kenney（kenney.nl）· CC0 公眾領域授權
 </div>
 
 <dialog id="txDlg">
@@ -358,7 +358,7 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-0947";
+const APP_VERSION="2026.07.23-1451";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -1048,7 +1048,29 @@ const Snd={
     o.connect(lp); lp.connect(g); g.connect(this.master);
     o.start(t0); o.stop(t0+dur+0.05);
   },
-  /* 環境音：五聲音階緩慢流動的和弦襯底 */
+  /* ── 背景音樂檔（優先）──
+     放一個 bgm.mp3 到本 repo 根目錄即可自動播放並循環；
+     沒有檔案時自動回退到下方程式生成的環境音。
+     音效檔也可選擇性覆蓋：sfx-coin.mp3 / sfx-gem.mp3 / sfx-fanfare.mp3 / sfx-tap.mp3 */
+  bgm:null, bgmReady:false,
+  initBgm(){
+    if(this.bgm)return;
+    const a=new Audio("bgm.mp3");
+    a.loop=true; a.volume=0.45; a.preload="auto";
+    a.addEventListener("canplaythrough",()=>{ this.bgmReady=true; },{once:true});
+    a.addEventListener("error",()=>{ this.bgmReady=false; this.bgm=null; });
+    this.bgm=a;
+  },
+  sfxFile(kind){
+    const map={coin:"sfx-coin.mp3",gem:"sfx-gem.mp3",fanfare:"sfx-fanfare.mp3",tap:"sfx-tap.mp3"};
+    if(this._miss&&this._miss[kind])return false;
+    const a=new Audio(map[kind]); a.volume=this.on?0.6:0.4;
+    a.addEventListener("error",()=>{ (this._miss=this._miss||{})[kind]=true; },{once:true});
+    const p=a.play();
+    if(p&&p.catch)p.catch(()=>{ (this._miss=this._miss||{})[kind]=true; });
+    return true;
+  },
+  /* 環境音：五聲音階緩慢流動的和弦襯底（無音樂檔時的回退方案）*/
   ambient(){
     if(!this.on)return;
     const c=this.ctx,t=c.currentTime;
@@ -1066,12 +1088,17 @@ const Snd={
   toggle(){
     this.init(); if(!this.ctx)return false;
     this.on=!this.on;
+    this.initBgm();
     if(this.on){
       this.ctx.resume();
-      this.master.gain.cancelScheduledValues(this.ctx.currentTime);
-      this.master.gain.setTargetAtTime(0.5,this.ctx.currentTime,0.6);
-      this.ambient();
+      let usedFile=false;
+      if(this.bgm){
+        const p=this.bgm.play();
+        if(p&&p.then){ p.then(()=>{usedFile=true;}).catch(()=>{ this.startGenerated(); }); usedFile=true; }
+      }
+      if(!usedFile)this.startGenerated();
     }else{
+      if(this.bgm){ try{this.bgm.pause();}catch(e){} }
       this.master.gain.setTargetAtTime(0,this.ctx.currentTime,0.4);
       clearTimeout(this.timer);
     }
@@ -1079,8 +1106,14 @@ const Snd={
     document.getElementById("sndBtn").textContent=this.on?"🔊":"🔇";
     return this.on;
   },
-  /* 音效：即使環境音關閉也會響（音量較低）*/
+  startGenerated(){
+    this.master.gain.cancelScheduledValues(this.ctx.currentTime);
+    this.master.gain.setTargetAtTime(0.5,this.ctx.currentTime,0.6);
+    this.ambient();
+  },
+  /* 音效：優先用音檔，沒有就用程式生成（環境音關閉也會響）*/
   fx(kind){
+    if(this.sfxFile(kind)!==false&&!(this._miss||{})[kind])return;   // 有音檔就用音檔
     this.init(); if(!this.ctx)return;
     if(this.ctx.state==="suspended")return;      // 尚未經使用者互動啟用
     const t=this.ctx.currentTime, v=this.on?0.16:0.10;
