@@ -233,7 +233,10 @@
     <h1>家的旅程</h1>
     <div class="meta" id="meta">載入中…</div>
   </div>
-  <button class="gear" id="gearBtn">⚙ 設定</button>
+  <div style="display:flex;gap:8px">
+    <button class="gear" id="sndBtn">🔇</button>
+    <button class="gear" id="gearBtn">⚙ 設定</button>
+  </div>
 </div>
 
 <div class="traveler" id="traveler">
@@ -355,7 +358,7 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-0944";
+const APP_VERSION="2026.07.23-0947";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -588,7 +591,7 @@ async function celebrate(divNow){
   const ach=DATA.achievements=DATA.achievements||[];
   const has=ach.some(a=>a.owner===person&&a.milestone===idx);
   if(has)return;
-  petalRain();
+  petalRain(); Snd.fx("fanfare");
   if(!token())return;                       // 沒 Token 就只慶祝、不寫入
   try{
     await load();
@@ -841,7 +844,7 @@ function render(){
 }
 
 document.getElementById("traveler").querySelectorAll("div").forEach(d=>d.onclick=()=>{
-  person=d.dataset.p;
+  Snd.fx("tap"); person=d.dataset.p;
   document.getElementById("traveler").querySelectorAll("div").forEach(x=>x.classList.toggle("on",x===d));
   localStorage.setItem("person",person);
   if(DATA)render();
@@ -896,7 +899,7 @@ document.getElementById("goBtn").onclick=async()=>{
       headers:{"Authorization":"Bearer "+token(),"Accept":"application/vnd.github+json"},
       body:JSON.stringify({message:`add tx ${dt}`,content:b64e(JSON.stringify(DATA,null,2)),sha:SHA})});
     if(!r.ok)throw new Error("HTTP "+r.status);
-    msg.textContent="✓ 已寫入，旅人前進了 🌿";
+    msg.textContent="✓ 已寫入，旅人前進了 🌿"; Snd.fx("coin");
     ["fShares","fPrice","fMemo"].forEach(id=>document.getElementById(id).value="");
     await load();render();
     setTimeout(()=>document.getElementById("txDlg").close(),900);
@@ -938,7 +941,7 @@ document.getElementById("payGoBtn").onclick=async()=>{
       headers:{"Authorization":"Bearer "+token(),"Accept":"application/vnd.github+json"},
       body:JSON.stringify({message:`payout ${dt}`,content:b64e(JSON.stringify(DATA,null,2)),sha:SHA})});
     if(!r.ok)throw new Error("HTTP "+r.status);
-    msg.textContent="✓ 已記錄入帳 🪙";
+    msg.textContent="✓ 已記錄入帳 🪙"; Snd.fx("gem");
     document.getElementById("pAmt").value="";
     await load();render();
     setTimeout(()=>document.getElementById("payDlg").close(),900);
@@ -1019,8 +1022,90 @@ document.addEventListener("visibilitychange",()=>{
   }
 });
 
+/* ══ 音訊：程式生成的原創環境音與音效（無外部音檔）══ */
+const Snd={
+  ctx:null, master:null, on:false, timer:null,
+  init(){
+    if(this.ctx)return;
+    const AC=window.AudioContext||window.webkitAudioContext; if(!AC)return;
+    this.ctx=new AC();
+    this.master=this.ctx.createGain(); this.master.gain.value=0.0;
+    // 簡易空間感：短延遲回授
+    const dly=this.ctx.createDelay(); dly.delayTime.value=0.28;
+    const fb=this.ctx.createGain(); fb.gain.value=0.28;
+    const wet=this.ctx.createGain(); wet.gain.value=0.35;
+    this.master.connect(dly); dly.connect(fb); fb.connect(dly); dly.connect(wet);
+    this.master.connect(this.ctx.destination); wet.connect(this.ctx.destination);
+  },
+  /* 單音：柔和三角波，緩起緩落 */
+  note(f,t0,dur,vol,type){
+    const c=this.ctx,o=c.createOscillator(),g=c.createGain(),lp=c.createBiquadFilter();
+    o.type=type||"triangle"; o.frequency.value=f;
+    lp.type="lowpass"; lp.frequency.value=1800;
+    g.gain.setValueAtTime(0,t0);
+    g.gain.linearRampToValueAtTime(vol,t0+dur*0.25);
+    g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+    o.connect(lp); lp.connect(g); g.connect(this.master);
+    o.start(t0); o.stop(t0+dur+0.05);
+  },
+  /* 環境音：五聲音階緩慢流動的和弦襯底 */
+  ambient(){
+    if(!this.on)return;
+    const c=this.ctx,t=c.currentTime;
+    const scale=[261.63,293.66,329.63,392.00,440.00,523.25,587.33,659.25]; // C 大調五聲
+    const roots=[130.81,146.83,164.81,196.00];
+    const r=roots[Math.floor(Math.random()*roots.length)];
+    this.note(r,t,7.5,0.05,"sine");
+    this.note(r*1.5,t+0.4,6.5,0.035,"sine");
+    for(let i=0;i<3;i++){
+      const f=scale[Math.floor(Math.random()*scale.length)];
+      this.note(f,t+1.2+i*1.7+Math.random()*0.6,2.6,0.045);
+    }
+    this.timer=setTimeout(()=>this.ambient(),7000);
+  },
+  toggle(){
+    this.init(); if(!this.ctx)return false;
+    this.on=!this.on;
+    if(this.on){
+      this.ctx.resume();
+      this.master.gain.cancelScheduledValues(this.ctx.currentTime);
+      this.master.gain.setTargetAtTime(0.5,this.ctx.currentTime,0.6);
+      this.ambient();
+    }else{
+      this.master.gain.setTargetAtTime(0,this.ctx.currentTime,0.4);
+      clearTimeout(this.timer);
+    }
+    localStorage.setItem("snd",this.on?"1":"0");
+    document.getElementById("sndBtn").textContent=this.on?"🔊":"🔇";
+    return this.on;
+  },
+  /* 音效：即使環境音關閉也會響（音量較低）*/
+  fx(kind){
+    this.init(); if(!this.ctx)return;
+    if(this.ctx.state==="suspended")return;      // 尚未經使用者互動啟用
+    const t=this.ctx.currentTime, v=this.on?0.16:0.10;
+    if(kind==="coin"){                            // 記帳成功：清脆雙音
+      this.note(880,t,0.18,v); this.note(1318.5,t+0.09,0.3,v*0.9);
+    }else if(kind==="gem"){                       // 股息入帳：三連音上行
+      [659.25,830.61,987.77].forEach((f,i)=>this.note(f,t+i*0.07,0.3,v*0.85));
+    }else if(kind==="fanfare"){                   // 抵達里程碑：小號角
+      [523.25,659.25,783.99,1046.5].forEach((f,i)=>this.note(f,t+i*0.13,0.9,v*1.1));
+      this.note(392,t,1.6,v*0.5,"sine");
+    }else if(kind==="tap"){
+      this.note(523.25,t,0.09,v*0.5);
+    }
+  }
+};
+document.getElementById("sndBtn").onclick=()=>Snd.toggle();
+addEventListener("click",()=>{ if(Snd.ctx&&Snd.ctx.state==="suspended")Snd.ctx.resume(); },{once:true});
+
 (async function(){
   person=localStorage.getItem("person")||"chang";
+  if(localStorage.getItem("snd")==="1"){
+    const b=document.getElementById("sndBtn"); b.textContent="🔈";
+    b.title="點一下恢復音樂";
+    addEventListener("pointerdown",function once(){ if(localStorage.getItem("snd")==="1"&&!Snd.on)Snd.toggle(); removeEventListener("pointerdown",once); },{once:true});
+  }
   document.getElementById("traveler").querySelectorAll("div").forEach(x=>x.classList.toggle("on",x.dataset.p===person));
   try{await load();await ensurePrices();render();}
   catch(e){document.getElementById("meta").textContent=e.message;}
