@@ -9,16 +9,15 @@
 <meta name="theme-color" content="#54447B">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="家的旅程">
-<title>家的旅程</title>
+<meta name="apple-mobile-web-app-title" content="家的藏寶圖">
+<title>家的藏寶圖</title>
 <style>
   :root{
-    --paper:#EDEBF5; --card:#FFFFFF; --card2:#F2F0FA; --line:#DAD5EC;
-    --ink:#3B3357; --mut:#7A7295; --mut2:#A9A2C2;
-    --chang:#4A90D9; --chang-soft:#DBEAF9;
-    --wife:#A55EC4; --wife-soft:#F0E1F7;
-    --green:#5FBF6E; --green-soft:#DFF3E2;
-    --sky:#54447B;
+    --paper:#E8DFC2; --card:#FBF5E2; --card2:#F1E9CE; --line:#D6C79C;
+    --ink:#4A3B22; --mut:#8B7A55; --mut2:#B3A47C;
+    --chang:#C94A3F; --chang-soft:#F5DED9;
+    --wife:#2E8B9E; --wife-soft:#D8EDF1;
+    --green:#7A9E42; --green-soft:#E3EDCE;
     --mono:ui-monospace,"SF Mono",Menlo,monospace;
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -41,7 +40,7 @@
   .traveler div.on[data-p="wife"]{background:var(--wife);color:#4A3E32}
 
   /* 山景里程碑 */
-  .scene{background:var(--sky);border:1.5px solid var(--line);border-radius:20px;
+  .scene{background:#5C3823;border:1.5px solid var(--line);border-radius:20px;
     overflow:hidden;margin-bottom:14px;box-shadow:0 4px 0 var(--line)}
   .scene svg{display:block;width:100%;height:auto}
   .scene .strip{display:flex;flex-wrap:wrap;background:var(--card);border-top:3px solid var(--line)}
@@ -235,8 +234,8 @@
 
 <div class="topbar">
   <div>
-    <div class="eyebrow">DIVIDEND QUEST</div>
-    <h1>家的旅程</h1>
+    <div class="eyebrow">TREASURE MAP</div>
+    <h1>家的藏寶圖</h1>
     <div class="meta" id="meta">載入中…</div>
   </div>
   <div style="display:flex;gap:8px">
@@ -254,24 +253,24 @@
   <div id="sceneSvg"></div>
   <div class="strip">
     <div class="blk"><div class="k">年股息</div><div class="v accent" id="pDiv">–</div></div>
-    <div class="blk"><div class="k" id="nextK">距下一站</div><div class="v" id="nextV">–</div></div>
+    <div class="blk"><div class="k" id="nextK">距下一個標記</div><div class="v" id="nextV">–</div></div>
     <div class="blk"><div class="k">家庭合計</div><div class="v" id="famDiv">–</div></div>
-    <div class="blk"><div class="k">路上寶物</div><div class="v" id="trCount">–</div></div>
+    <div class="blk"><div class="k">已拾獲財寶</div><div class="v" id="trCount">–</div></div>
     <div class="blk"><div class="k">報價</div><div class="v" style="font-size:12px;padding-top:5px" id="pxMeta">–</div></div>
   </div>
 </div>
 
 <div class="btn-row"><button class="btn" id="addBtn">＋ 記一筆買進</button></div>
 
-<div class="card"><h3>買入指引</h3><div id="advBox"></div></div>
+<div class="card"><h3>航行指引（買點）</h3><div id="advBox"></div></div>
 
-<div class="card"><h3>持股</h3>
+<div class="card"><h3>船上貨物（持股）</h3>
   <table><thead><tr><th>標的</th><th class="num">股數</th><th class="num">年股息</th><th class="num">成本殖利率</th></tr></thead>
   <tbody id="holdBody"></tbody></table>
 </div>
 
 <div class="card yrcard" id="yrCard" style="display:none">
-  <h3>年度回顧</h3>
+  <h3>年度航程</h3>
   <div class="yrhead">
     <div><div class="note" style="margin:0" id="yrLabel">–</div>
       <div class="big" id="yrDiv">–</div>
@@ -286,13 +285,13 @@
   <div id="yrCheck"></div>
 </div>
 
-<div class="card"><h3>除權息倒數</h3><div id="exBox"></div>
+<div class="card"><h3>補給日（除權息）</h3><div id="exBox"></div>
   <div class="note" style="margin-top:8px">
   「預估」＝依去年同期推算，實際日期以公司公告為準；腳本每日自動抓取證交所／櫃買公告，抓到後轉為「已公告」。<br>
   買點規則：崑鼎、台產除息後買（最便宜窗口）· 聯華食除權後買 · 南寶照觸發價</div>
 </div>
 
-<div class="card"><h3>股息入帳紀錄</h3>
+<div class="card"><h3>入袋金幣</h3>
   <div class="paysum">
     <div><div class="k">今年已入帳</div><div class="v" id="payYear">–</div></div>
     <div><div class="k">累計已入帳</div><div class="v" id="payAll">–</div></div>
@@ -302,7 +301,7 @@
   <div class="note" style="margin-top:8px">發放日一到，腳本會自動產生「待確認」項目（已估算補充保費與匯費），核對存摺後按確認即可。</div>
 </div>
 
-<div class="card"><h3>最近交易（全家）</h3>
+<div class="card"><h3>航海日誌</h3>
   <table><thead><tr><th>日期</th><th>誰</th><th>標的</th><th class="num">股數</th><th class="num">價格</th></tr></thead>
   <tbody id="txBody"></tbody></table>
 </div>
@@ -315,7 +314,7 @@
 <dialog id="txDlg">
   <div class="dlg-x" onclick="txDlg.close()">✕</div>
   <h2>＋ 記一筆買進</h2>
-  <div class="sub">寫入後全家即時同步，小徑上的旅人會往前走</div>
+  <div class="sub">寫入後全家即時同步，探險者會往寶藏前進</div>
   <label>誰買的</label>
   <div class="seg" id="ownerSeg">
     <div class="chang on" data-o="chang">CHANG</div>
@@ -365,10 +364,10 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-1731";
+const APP_VERSION="2026.07.23-1737";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
-const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
+const MILES=[{name:"旅遊島",amt:150000},{name:"房貸海灣",amt:610000},{name:"寶藏所在",amt:1000000}];
 const ETA={chang:["第 3~4 年","第 9~10 年","第 12~14 年"],wife:["第 4~5 年","第 12~13 年","第 16~18 年"]};
 const OWNER_STOCKS={chang:["4766","6803","0050"],wife:["0050","1231","4506","2832","00878","00687B"]};
 const PCOL={chang:"#D96C4F",wife:"#DFA53B"};
@@ -406,242 +405,196 @@ async function ensurePrices(){
 function holdings(){const h={};DATA.transactions.forEach(t=>{const k=t.owner+"|"+t.stock;h[k]=(h[k]||0)+t.shares;});return h;}
 function ownerDiv(h,o){let d=0;for(const[k,sh]of Object.entries(h)){const[ow,s]=k.split("|");if(ow===o)d+=sh*((DATA.stocks[s]||{}).div||0);}return d;}
 
-/* ===== 山景 v2:會開花的小徑 ===== */
-const FLOWER_COLS=["#9FD8C6","#A9C4E8","#C3B0DE","#E4E9F0","#8FD9C4"];
-const TRAIL_D="M110,362 C 230,382 340,360 400,320 C 458,282 402,254 296,238 C 200,224 150,204 200,180 C 252,156 420,164 530,152 C 620,142 664,132 690,116";
-
-function stationIdx(div){let i=0;MILES.forEach((m,k)=>{if(div>=m.amt)i=k+1});return i;}
-
-function platform(w,c1,c2){return `
-  <ellipse cx="0" cy="4" rx="${w*0.62}" ry="${w*0.2}" fill="#000" opacity=".18"/>
-  <rect x="${-w/2}" y="-2" width="${w}" height="11" rx="5.5" fill="${c2}"/>
-  <rect x="${-w/2}" y="-7" width="${w}" height="10" rx="5" fill="${c1}"/>`;}
-
-function hut(x,y){return `
- <g transform="translate(${x},${y})">
-  ${platform(46,"#7C6AA8","#5A4C8F")}
-  <image href="sp-start.png" x="-11" y="-58" width="22" height="52"/>
-  <rect x="-26" y="12" width="52" height="20" rx="8" fill="#3B3357" opacity=".72"/><text x="0" y="26" text-anchor="middle" font-size="11.5" font-weight="800" fill="#FFFFFF">起點</text>
- </g>`;}
-
-/* 站 1、2：旗幟（未達=倒旗，抵達=升旗） */
-function balloon(x,y,hit){return flagMark(x,y,hit);}
-function houseM(x,y,hit){return flagMark(x,y,hit);}
-function flagMark(x,y,hit){return `
- <g transform="translate(${x},${y})">
-  ${platform(52,hit?"#5FBF6E":"#7C6AA8",hit?"#3F8F63":"#5A4C8F")}
-  <image href="sp-flag-on.png" x="-8" y="-62" width="46" height="56" ${hit?"":'opacity=".4" filter="url(#mist)"'}/>
-  ${hit?`<circle cx="6" cy="-34" r="14" fill="#F7E9A8" opacity=".18">
-     <animate attributeName="r" values="10;18;10" dur="3s" repeatCount="indefinite"/></circle>`:""}
- </g>`;}
-
-/* 終點：門（未達=上鎖，抵達=開啟） */
-function castle(x,y,hit){return `
- <g transform="translate(${x},${y})">
-  ${platform(62,hit?"#F2C14E":"#7C6AA8",hit?"#C79A33":"#5A4C8F")}
-  <image href="${hit?"sp-door-on.png":"sp-door-off.png"}" x="-26" y="-58" width="52" height="52"
-    ${hit?"":'opacity=".55" filter="url(#mist)"'}/>
-  ${hit?`<circle cx="0" cy="-23" r="22" fill="#F7E9A8" opacity=".2">
-     <animate attributeName="r" values="16;27;16" dur="3.4s" repeatCount="indefinite"/></circle>`:""}
- </g>`;}
-
-function stLabel(p,m,i,divNow){
-  const pct=Math.min(divNow/m.amt*100,100);
-  const ac=((DATA.achievements)||[]).find(a=>a.owner===person&&a.milestone===i+1);
-  const x=Math.min(Math.max(p.x,86),714);
-  return `<g font-family="PingFang TC,Noto Sans TC,sans-serif" text-anchor="middle">
-   <rect x="${x-78}" y="${p.y+14}" width="156" height="34" rx="10" fill="#3B3357" opacity=".72"/>
-   <text x="${x}" y="${p.y+29}" font-size="12.5" font-weight="800" fill="#FFFFFF">${m.name} <tspan font-size="10.5" fill="#F7E9A8">${m.amt/10000}萬</tspan></text>
-   <text x="${x}" y="${p.y+42}" font-size="9.5" fill="#C9BEE8" font-family="ui-monospace,Menlo,monospace">${pct.toFixed(1)}% · ${ETA[person][i]}</text>
-  </g>`;}
-
+/* ═══════ 藏寶圖 ═══════ */
+const TRAIL_D="M636,470 L520,470 L520,404 L408,404 L408,338 L306,338 L306,268 L404,268 L404,196 L536,196 L536,138 L604,138";
 const TR={
-  s:["art/t-s1.png","art/t-s2.png","art/t-s3.png"],   // 每 1,000 元：銅／銀／金幣
-  m:["art/t-m1.png","art/t-m2.png","art/t-m3.png"],   // 每 20,000 元：綠／藍／紅寶石
-  l:["art/t-l1.png"],                                  // 每 100,000 元：黃寶石
-  k:["art/t-key.png"]                                  // 里程碑鑰匙
+  s:["art/t-s1.png","art/t-s2.png","art/t-s3.png"],
+  m:["art/t-m1.png","art/t-m2.png","art/t-m3.png"],
+  l:["art/t-l1.png"], k:["art/t-key.png"]
 };
-/* 依年股息換算應長出的寶物清單（由小到大，越後段越貴重）*/
+function stationIdx(div){let i=0;MILES.forEach((m,k)=>{if(div>=m.amt)i=k+1});return i;}
 function treasureList(div){
   const out=[];
-  const nS=Math.floor(div/1000), nM=Math.floor(div/20000), nL=Math.floor(div/100000);
-  for(let i=0;i<Math.min(nS,40);i++)out.push({t:"s",i});
-  for(let i=0;i<Math.min(nM,20);i++)out.push({t:"m",i});
-  for(let i=0;i<Math.min(nL,10);i++)out.push({t:"l",i});
+  const nS=Math.floor(div/1000),nM=Math.floor(div/20000),nL=Math.floor(div/100000);
+  for(let i=0;i<Math.min(nS,26);i++)out.push({t:"s",i});
+  for(let i=0;i<Math.min(nM,12);i++)out.push({t:"m",i});
+  for(let i=0;i<Math.min(nL,8);i++)out.push({t:"l",i});
   return out;
 }
-function trSvg(x,y,item,idx,depth){
-  const set=TR[item.t], img=set[idx%set.length];
-  const base={s:13,m:17,l:22,k:18}[item.t];
-  const sz=base*(0.78+0.42*depth);
-  const dly=(idx*0.37)%2.4;
-  return `<g class="sway ${idx%2?"s2":""}" transform="translate(${x},${y})">
-    <ellipse cx="0" cy="1" rx="${sz*0.42}" ry="${sz*0.16}" fill="#000" opacity=".2"/>
-    <image href="${img}" x="${-sz/2}" y="${-sz}" width="${sz}" height="${sz}"/>
-    <circle cx="${sz*0.3}" cy="${-sz*0.8}" r="${sz*0.1}" fill="#FFF9D6" opacity="0">
-      <animate attributeName="opacity" values="0;.95;0" dur="2.2s" begin="${dly}s" repeatCount="indefinite"/>
-      <animate attributeName="r" values="${sz*0.06};${sz*0.16};${sz*0.06}" dur="2.2s" begin="${dly}s" repeatCount="indefinite"/>
-    </circle></g>`;
+/* 方塊狀陸地：以格點堆疊出手繪地圖感 */
+function landmass(cells,fill){
+  return cells.map(([x,y,w,h])=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="14" fill="${fill}"/>`).join("");
 }
-function sprout(x,y,i){return `<g transform="translate(${x},${y})" class="sway ${i%2?"s2":""}">
-  <rect x="-2" y="-2" width="4" height="4" rx="2" fill="#F7E9A8" opacity=".5"/></g>`;}
+function palm(x,y,s){
+  return `<g transform="translate(${x},${y}) scale(${s})">
+    <rect x="-3" y="-4" width="6" height="34" rx="3" fill="#6B4A2A"/>
+    <path d="M0,-6 q-26,-4 -30,10 q16,-10 30,-2 Z" fill="#5E9B3E"/>
+    <path d="M0,-6 q26,-4 30,10 q-16,-10 -30,-2 Z" fill="#6FB04A"/>
+    <path d="M0,-6 q-14,-22 -4,-30 q10,10 8,28 Z" fill="#6FB04A"/>
+    <path d="M0,-6 q16,-20 26,-16 q-14,4 -22,18 Z" fill="#5E9B3E"/>
+    <circle cy="-6" r="4" fill="#4E7F33"/></g>`;
+}
+function bushIcon(x,y,s){
+  return `<g transform="translate(${x},${y}) scale(${s})">
+    <rect x="-22" y="-6" width="44" height="14" rx="7" fill="#6FB04A"/>
+    <rect x="-14" y="-16" width="28" height="16" rx="8" fill="#7FBE58"/>
+    <rect x="2" y="-13" width="18" height="13" rx="6" fill="#6FB04A"/></g>`;
+}
+function compass(x,y,s){
+  return `<g transform="translate(${x},${y}) scale(${s})" opacity=".55">
+    <path d="M0,-40 L8,-8 L40,0 L8,8 L0,40 L-8,8 L-40,0 L-8,-8 Z" fill="#B99B5E"/>
+    <path d="M0,-40 L8,-8 L0,0 Z" fill="#8B7A55"/><path d="M0,40 L-8,8 L0,0 Z" fill="#8B7A55"/>
+    <circle r="5" fill="#8B7A55"/>
+    <text y="-50" text-anchor="middle" font-size="15" fill="#8B7A55" font-weight="700">N</text>
+    <text x="50" y="6" text-anchor="middle" font-size="15" fill="#8B7A55" font-weight="700">E</text>
+    <text y="60" text-anchor="middle" font-size="15" fill="#8B7A55" font-weight="700">S</text>
+    <text x="-50" y="6" text-anchor="middle" font-size="15" fill="#8B7A55" font-weight="700">W</text></g>`;
+}
+function ship(x,y,s){
+  return `<g transform="translate(${x},${y}) scale(${s})">
+    <rect x="-38" y="24" width="76" height="16" rx="6" fill="#7A4A2E"/>
+    <path d="M-42,4 h84 l-12,22 h-60 Z" fill="#8B5A34"/>
+    <rect x="-42" y="0" width="84" height="7" rx="3" fill="#A9703F"/>
+    <rect x="-2" y="-52" width="4" height="54" fill="#5C3823"/>
+    <rect x="-26" y="-56" width="4" height="58" fill="#5C3823"/>
+    <path d="M2,-46 q26,10 24,32 h-24 Z" fill="#FBF5E2"/>
+    <path d="M-22,-50 q-22,12 -20,34 h20 Z" fill="#FBF5E2"/>
+    <path d="M2,-52 h18 l-6,7 l6,7 h-18 Z" fill="#4A3B22"/>
+    <circle cx="-16" cy="14" r="3" fill="#5C3823"/><circle cy="14" r="3" fill="#5C3823"/>
+    <circle cx="16" cy="14" r="3" fill="#5C3823"/></g>`;
+}
+function chestIcon(x,y,s,open){
+  return `<g transform="translate(${x},${y}) scale(${s})">
+    <rect x="-26" y="-4" width="52" height="26" rx="4" fill="#D9A441" stroke="#8B5A34" stroke-width="3"/>
+    <path d="M-26,-4 a26,18 0 0 1 52,0 Z" fill="${open?"#F0C86A":"#E0B255"}" stroke="#8B5A34" stroke-width="3"/>
+    <rect x="-26" y="-6" width="52" height="6" fill="#8B5A34"/>
+    <rect x="-5" y="0" width="10" height="12" rx="2" fill="#8B5A34"/>
+    <circle cy="6" r="2.5" fill="#FBF5E2"/>
+    ${open?'<circle cx="0" cy="-24" r="14" fill="#F7E9A8" opacity=".35"><animate attributeName="r" values="10;18;10" dur="2.6s" repeatCount="indefinite"/></circle>':""}</g>`;
+}
+function xMark(x,y,s,col){
+  return `<g transform="translate(${x},${y}) scale(${s})" stroke="${col||"#C94A3F"}" stroke-width="5" stroke-linecap="round">
+    <line x1="-9" y1="-9" x2="9" y2="9"/><line x1="9" y1="-9" x2="-9" y2="9"/></g>`;
+}
 
 function scene(divNow){
-  const col=PCOL[person];
   const amts=[0,...MILES.map(m=>m.amt)];
   let seg=0;while(seg<3&&divNow>=amts[seg+1])seg++;
   const prog=(seg+(seg>=3?0:Math.min((divNow-amts[seg])/Math.max(amts[Math.min(seg+1,3)]-amts[seg],1),1)))/3;
+
   document.getElementById("sceneSvg").innerHTML=`
-  <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" id="hillSvg">
-   <defs><filter id="mist"><feColorMatrix type="saturate" values="0.15"/></filter></defs>
-   <rect width="800" height="400" fill="#54447B"/>
-   <!-- 星 -->
-   <g fill="#FFFFFF">
-    <rect x="86" y="30" width="4" height="4" rx="1" opacity=".85"><animate attributeName="opacity" values=".25;.95;.25" dur="3.6s" repeatCount="indefinite"/></rect>
-    <rect x="248" y="18" width="3" height="3" rx="1" opacity=".7"><animate attributeName="opacity" values=".2;.8;.2" dur="5s" repeatCount="indefinite"/></rect>
-    <rect x="470" y="26" width="4" height="4" rx="1" opacity=".8"><animate attributeName="opacity" values=".2;.9;.2" dur="6s" repeatCount="indefinite"/></rect>
-    <rect x="638" y="14" width="3" height="3" rx="1" opacity=".6"><animate attributeName="opacity" values=".15;.75;.15" dur="4.4s" repeatCount="indefinite"/></rect>
-    <rect x="352" y="46" width="3" height="3" rx="1" opacity=".6"><animate attributeName="opacity" values=".15;.7;.15" dur="7s" repeatCount="indefinite"/></rect>
-    <rect x="150" y="62" width="3" height="3" rx="1" opacity=".5"><animate attributeName="opacity" values=".1;.6;.1" dur="5.6s" repeatCount="indefinite"/></rect>
+  <svg viewBox="0 0 800 560" xmlns="http://www.w3.org/2000/svg">
+   <!-- 木框 -->
+   <rect width="800" height="560" fill="#6B3F2A"/>
+   <g fill="#5C3823">
+     <rect y="118" width="800" height="6"/><rect y="292" width="800" height="6"/><rect y="452" width="800" height="6"/>
    </g>
-   <!-- 月 -->
-   <circle cx="702" cy="52" r="40" fill="#6E5C9B" opacity=".5"/>
-   <circle cx="702" cy="52" r="24" fill="#F7E9A8"/>
-   <!-- 扁平雲 -->
-   <g class="cloudA" opacity=".8"><image href="art/cloud1.png" x="-64" y="46" width="128" height="71"/></g>
-   <g class="cloudC" opacity=".7"><image href="art/cloud2.png" x="-60" y="96" width="120" height="66"/></g>
-   <g class="cloudB" opacity=".6"><image href="art/cloud3.png" x="-52" y="70" width="104" height="58"/></g>
-   <image href="art/star.png" x="128" y="36" width="22" height="22" opacity=".85"/>
-   <image href="art/star.png" x="452" y="24" width="18" height="18" opacity=".7"/>
-   <image href="art/star.png" x="612" y="52" width="16" height="16" opacity=".6"/>
-   <g class="birds" fill="#8E7FBC" opacity=".8">
-     <rect x="0" y="0" width="9" height="3" rx="1.5"/><rect x="13" y="4" width="9" height="3" rx="1.5"/><rect x="6" y="9" width="9" height="3" rx="1.5"/></g>
-   <!-- 遠山：扁平三角 -->
-   <g fill="#453873">
-     <path d="M40,190 L120,104 L200,190 Z"/><path d="M170,190 L250,120 L330,190 Z"/>
-     <path d="M420,180 L510,96 L600,180 Z"/><path d="M600,186 L680,128 L760,186 Z"/>
+   <g fill="#7A4A2E">
+     <rect x="0" y="60" width="26" height="34" rx="10"/><rect x="774" y="150" width="26" height="34" rx="10"/>
+     <rect x="0" y="330" width="26" height="34" rx="10"/><rect x="774" y="400" width="26" height="34" rx="10"/>
    </g>
-   <g fill="#5A4C8F">
-     <path d="M120,104 l22,24 h-44 Z"/><path d="M510,96 l24,26 h-48 Z"/>
-   </g>
-   <!-- 圓潤地形三層 -->
-   <path d="M0,200 Q 200,140 420,182 T 800,136 V400 H0 Z" fill="#357A54"/>
-   <path d="M0,208 Q 200,148 420,190 T 800,144 V400 H0 Z" fill="#3F8F63"/>
-   <path d="M0,244 Q 250,184 520,226 T 800,188 V400 H0 Z" fill="#439463"/>
-   <path d="M0,252 Q 250,192 520,234 T 800,196 V400 H0 Z" fill="#4FA872"/>
-   <!-- 圓潤樹 -->
-   <g>
-    <!-- 前景左側樹叢與圍籬 -->
-    <image href="art/tree1.png" x="14" y="228" width="66" height="66"/>
-    <image href="art/bush.png" x="72" y="256" width="44" height="44"/>
-    <image href="art/plant.png" x="118" y="272" width="30" height="30"/>
-    <image href="art/fence.png" x="146" y="278" width="34" height="34"/>
-    <image href="art/fence.png" x="178" y="278" width="34" height="34"/>
-    <image href="art/rock.png" x="222" y="286" width="30" height="30"/>
-    <!-- 右側山丘裝飾 -->
-    <image href="art/tree2.png" x="700" y="150" width="58" height="58"/>
-    <image href="art/mushroom.png" x="678" y="182" width="34" height="34"/>
-    <image href="art/plant2.png" x="756" y="188" width="28" height="28"/>
-    <image href="art/tree3.png" x="588" y="140" width="56" height="56"/>
-    <image href="art/bush.png" x="642" y="166" width="40" height="40"/>
-   </g>
-   <path d="M0,296 Q 300,248 620,280 T 800,256 V400 H0 Z" fill="#4FA85F"/>
-   <path d="M0,304 Q 300,256 620,288 T 800,264 V400 H0 Z" fill="#5FBF6E"/>
-   <!-- 浮動光點 -->
-   <g fill="#F7E9A8">
-    <rect x="180" y="120" width="5" height="5" rx="2.5" opacity=".8"><animate attributeName="y" values="120;100;120" dur="7s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;.15;.8" dur="7s" repeatCount="indefinite"/></rect>
-    <rect x="520" y="94" width="4" height="4" rx="2" opacity=".7"><animate attributeName="y" values="94;76;94" dur="9s" repeatCount="indefinite"/><animate attributeName="opacity" values=".7;.1;.7" dur="9s" repeatCount="indefinite"/></rect>
-    <rect x="648" y="152" width="5" height="5" rx="2.5" opacity=".75"><animate attributeName="y" values="152;132;152" dur="8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".75;.1;.75" dur="8s" repeatCount="indefinite"/></rect>
-   </g>
-   <g transform="translate(0,7)"><path d="${TRAIL_D}" fill="none" stroke="#000000" stroke-width="15" stroke-linecap="round" opacity=".18"/></g>
-   <path d="${TRAIL_D}" fill="none" stroke="#A08A5E" stroke-width="15" stroke-linecap="round" transform="translate(0,4)"/>
-   <path id="trailBase" d="${TRAIL_D}" fill="none" stroke="#EFEAD8" stroke-width="14" stroke-linecap="round"/>
-   <path d="${TRAIL_D}" fill="none" stroke="#D8CFB0" stroke-width="3.5" stroke-dasharray="2 14" stroke-linecap="round" opacity=".85"/>
-   <path id="trailWalkSide" d="${TRAIL_D}" fill="none" stroke="#000000" stroke-width="11" stroke-linecap="round" opacity=".22" transform="translate(0,3)"/>
-   <path id="trailWalk" d="${TRAIL_D}" fill="none" stroke="${col}" stroke-width="11" stroke-linecap="round"/>
-   <g id="flora"></g><g id="marks"></g><g id="walker"></g>
-   <g fill="#2F6B4B">
-    <path class="sway" d="M20,315 q2,-16 6,-20 q0,12 4,20 Z"/>
-    <path class="sway s2" d="M36,315 q3,-13 7,-16 q-1,10 3,16 Z"/>
-    <path class="sway" d="M770,315 q2,-15 6,-19 q0,11 4,19 Z"/>
-    <path class="sway s2" d="M752,315 q3,-12 6,-15 q0,9 4,15 Z"/>
-    <path class="sway s2" d="M560,315 q2,-11 5,-14 q0,9 4,14 Z"/>
-   </g>
+   <!-- 羊皮紙 -->
+   <rect x="34" y="26" width="732" height="508" rx="18" fill="#E7DDB2"/>
+   <!-- 陸塊（淺色堆疊）-->
+   ${landmass([[120,60,240,60],[92,110,300,58],[150,160,330,64],[110,214,300,60],
+               [96,266,360,58],[150,318,320,62],[186,372,300,58],[240,424,220,60],
+               [430,86,290,58],[470,138,250,54],[520,300,180,54],[560,352,170,50]],"#DCD1A0")}
+   ${landmass([[168,74,150,34],[210,180,180,36],[150,290,180,32],[300,440,120,30],
+               [520,100,150,32],[580,318,110,28]],"#D2C58E")}
+   <!-- 綠地 -->
+   ${landmass([[150,86,120,36],[440,96,180,42],[620,120,90,34],[196,196,110,32],
+               [206,404,120,34],[540,312,120,32]],"#7FBE58")}
+   ${landmass([[172,92,70,24],[470,104,110,28],[214,410,74,22]],"#8FCF66")}
+   <!-- 水域 -->
+   ${landmass([[214,236,120,30],[300,248,150,28],[600,466,150,40],[286,470,110,30]],"#A5D3E8")}
+   <!-- 灰岩區 -->
+   ${landmass([[150,336,230,58],[196,392,150,34]],"#B9B4A6")}
+   <g transform="translate(250,368)"><circle r="18" fill="#FBF5E2"/>
+     <circle cx="-6" cy="-4" r="3.5" fill="#4A3B22"/><circle cx="6" cy="-4" r="3.5" fill="#4A3B22"/>
+     <rect x="-3" y="4" width="6" height="6" rx="2" fill="#4A3B22"/>
+     <rect x="-20" y="18" width="40" height="7" rx="3.5" fill="#FBF5E2" transform="rotate(18)"/>
+     <rect x="-20" y="18" width="40" height="7" rx="3.5" fill="#FBF5E2" transform="rotate(-18)"/></g>
+   <!-- 棕櫚與灌木 -->
+   ${palm(176,132,1.05)}${palm(636,150,1.0)}${palm(496,180,0.95)}${palm(268,470,1.0)}${palm(596,430,0.9)}
+   ${bushIcon(232,102,0.9)}${bushIcon(492,110,0.85)}${bushIcon(206,300,0.8)}${bushIcon(404,462,0.85)}
+   <!-- 指北針與船 -->
+   ${compass(668,336,1)}
+   ${ship(690,466,0.92)}
+   <!-- 航線 -->
+   <path id="trailBase" d="${TRAIL_D}" fill="none" stroke="#C94A3F" stroke-width="4"
+     stroke-dasharray="11 11" stroke-linecap="round" opacity=".45"/>
+   <path id="trailWalk" d="${TRAIL_D}" fill="none" stroke="#C94A3F" stroke-width="5.5" stroke-linecap="round"/>
+   <g id="marks"></g><g id="loot"></g><g id="walker"></g>
+   <!-- 標題 -->
+   <text x="726" y="76" text-anchor="end" font-size="30" font-weight="800" fill="#FBF5E2"
+     font-family="Georgia,serif" letter-spacing="2">TREASURE MAP</text>
+   <text x="726" y="98" text-anchor="end" font-size="12" fill="#8B7A55" letter-spacing="4">家的藏寶圖</text>
   </svg>`;
-  layoutScene(prog,divNow,col);
+  layoutScene(prog,divNow);
   celebrate(divNow);
 }
 
-function layoutScene(prog,divNow,col){
-  const svg=document.getElementById("hillSvg");
-  const base=svg.querySelector("#trailBase");
-  const L=base.getTotalLength();
-  ["#trailWalk","#trailWalkSide"].forEach(id=>svg.querySelector(id).setAttribute("stroke-dasharray",`${L*prog} ${L}`));
+function layoutScene(prog,divNow){
+  const svg=document.getElementById("hillSvg")||document.querySelector("#sceneSvg svg");
+  const base=svg.querySelector("#trailBase"), L=base.getTotalLength();
+  svg.querySelector("#trailWalk").setAttribute("stroke-dasharray",`${L*prog} ${L}`);
   const pt=f=>base.getPointAtLength(L*Math.min(Math.max(f,0),1));
   const P=[pt(0),pt(1/3),pt(2/3),pt(1)];
   const hit=i=>divNow>=MILES[i-1].amt;
-  const zs=p=>(0.78+0.34*(p.y/400)).toFixed(3);
-  const wrap=(p,inner)=>`<g transform="translate(${p.x},${p.y}) scale(${zs(p)})"><g transform="translate(${-p.x},${-p.y})">${inner}</g></g>`;
-  svg.querySelector("#marks").innerHTML=
-    wrap(P[0],hut(P[0].x,P[0].y-2))
-    +wrap(P[1],balloon(P[1].x,P[1].y-2,hit(1)))+stLabel(P[1],MILES[0],0,divNow)
-    +wrap(P[2],houseM(P[2].x,P[2].y-2,hit(2)))+stLabel(P[2],MILES[1],1,divNow)
-    +wrap(P[3],castle(P[3].x,P[3].y-2,hit(3)))+stLabel(P[3],MILES[2],2,divNow);
-  /* 走過的路長出金銀財寶：5千→寶石、2.5萬→珠寶、10萬→水晶 */
+
+  /* 站點：X 記號＋標籤；終點寶箱 */
+  let mk="";
+  [1,2].forEach(i=>{
+    const p=P[i],on=hit(i);
+    mk+=`<g>${xMark(p.x,p.y,on?1.5:1.2,on?"#7A9E42":"#C94A3F")}
+      <rect x="${p.x-52}" y="${p.y+14}" width="104" height="30" rx="6" fill="#FBF5E2" stroke="#C7B78C" stroke-width="2"/>
+      <text x="${p.x}" y="${p.y+28}" text-anchor="middle" font-size="11" font-weight="800" fill="#4A3B22">${MILES[i-1].name}</text>
+      <text x="${p.x}" y="${p.y+39}" text-anchor="middle" font-size="9" fill="#8B7A55"
+        font-family="ui-monospace,Menlo,monospace">${(Math.min(divNow/MILES[i-1].amt*100,100)).toFixed(1)}% · ${MILES[i-1].amt/10000}萬</text></g>`;
+  });
+  const p3=P[3];
+  mk+=chestIcon(p3.x,p3.y-14,1.15,hit(3))+
+    `<rect x="${p3.x-56}" y="${p3.y+16}" width="112" height="32" rx="6" fill="#FBF5E2" stroke="#C7B78C" stroke-width="2"/>
+     <text x="${p3.x}" y="${p3.y+31}" text-anchor="middle" font-size="11.5" font-weight="800" fill="#4A3B22">${MILES[2].name}</text>
+     <text x="${p3.x}" y="${p3.y+42}" text-anchor="middle" font-size="9" fill="#8B7A55"
+       font-family="ui-monospace,Menlo,monospace">${(Math.min(divNow/MILES[2].amt*100,100)).toFixed(2)}% · 100萬</text>`;
+  const p0=P[0];
+  mk+=`<rect x="${p0.x-34}" y="${p0.y+14}" width="68" height="24" rx="6" fill="#FBF5E2" stroke="#C7B78C" stroke-width="2"/>
+       <text x="${p0.x}" y="${p0.y+30}" text-anchor="middle" font-size="11" font-weight="800" fill="#4A3B22">啟航</text>`;
+  svg.querySelector("#marks").innerHTML=mk;
+
+  /* 沿途拾獲的財寶 */
   const items=treasureList(divNow);
-  let fh="";
+  let lo="";
   items.forEach((it,k)=>{
-    const f=Math.min((k+0.6)/(items.length+1)*prog, prog-0.004);
+    const f=Math.min((k+0.6)/(items.length+1)*prog,prog-0.006);
     if(f<=0)return;
-    const p=pt(f),p2=pt(Math.min(f+0.004,1));
-    let nx=-(p2.y-p.y),ny=(p2.x-p.x);const nl=Math.hypot(nx,ny)||1;nx/=nl;ny/=nl;
-    const side=((k%2)?1:-1)*(11+(k*7)%9);
-    fh+=trSvg(p.x+nx*side,p.y+ny*side,it,k,p.y/400);
+    const p=pt(f),set=TR[it.t],img=set[k%set.length];
+    const sz={s:17,m:21,l:26}[it.t];
+    const side=((k%2)?1:-1)*15;
+    lo+=`<image href="${img}" x="${p.x+side-sz/2}" y="${p.y-sz/2}" width="${sz}" height="${sz}"/>`;
   });
-  /* 已抵達的里程碑各掉落一把鑰匙 */
-  MILES.forEach((m,i)=>{
-    if(divNow<m.amt)return;
-    const p=pt((i+1)/3);
-    fh+=trSvg(p.x-22,p.y+8,{t:"k"},i,p.y/400);
-  });
-  for(let i=0;i<5;i++){ /* 前方預告的微光 */
-    const f=prog+0.014+(i*0.011);
-    if(f>1)break;const p=pt(f);
-    fh+=`<rect x="${p.x+((i%2)?9:-11)}" y="${p.y-2}" width="4" height="4" rx="2" fill="#F7E9A8" opacity=".45"/>`;
-  }
-  svg.querySelector("#flora").innerHTML=fh;
-  /* 旅人 + 木牌 */
+  MILES.forEach((m,i)=>{ if(divNow>=m.amt){const p=pt((i+1)/3);
+    lo+=`<image href="art/t-key.png" x="${p.x-26}" y="${p.y-30}" width="20" height="20"/>`;} });
+  svg.querySelector("#loot").innerHTML=lo;
+
+  /* 探險者位置 */
   const wp=pt(prog);
-  const next=MILES.find(m=>divNow<m.amt);
-  const gap=next?`還差 ${((next.amt-divNow)/10000).toFixed(1)} 萬到${next.name}`:"抵達終點 🎉";
-  const W=34, H=39, sc=(0.78+0.34*(wp.y/400)).toFixed(3);   // 依高度透視縮放
   svg.querySelector("#walker").innerHTML=`
-   <g transform="translate(${wp.x},${wp.y}) scale(${sc})">
-     <ellipse cx="0" cy="5" rx="11" ry="3.2" fill="#000" opacity=".22"/>
-     <g class="bob">
-       <image class="wframe" href="art/w-${person}-0.png" x="${-W/2}" y="${-H+3}" width="${W}" height="${H}"/>
-       <image class="wframe f2" href="art/w-${person}-1.png" x="${-W/2}" y="${-H+3}" width="${W}" height="${H}"/>
-       <circle cx="${W/2+1}" cy="${-H+10}" r="2.6" fill="#CDE9DE"/>
-       <circle cx="${W/2+1}" cy="${-H+10}" r="6" fill="#9FD8C6" opacity=".3">
-         <animate attributeName="r" values="4.5;8.5;4.5" dur="2.8s" repeatCount="indefinite"/></circle>
-     </g>
-   </g>
-   <g transform="translate(${Math.min(Math.max(wp.x,80),720)},${wp.y-74*sc})">
-     <rect x="-2.5" y="14" width="5" height="16" rx="2.5" fill="#8B6F4E"/>
-     <rect x="-68" y="-20" width="136" height="37" rx="11" fill="#C99B63" stroke="#8B6F4E" stroke-width="3"/>
-     <text x="0" y="-3.5" text-anchor="middle" font-size="12" font-weight="800" fill="#4A3418" font-family="ui-monospace,Menlo,monospace">${fmt(divNow)} 元／年</text>
-     <text x="0" y="9.5" text-anchor="middle" font-size="9.5" fill="#6B4F2A">${gap}</text>
-   </g>`;
+    <circle cx="${wp.x}" cy="${wp.y}" r="17" fill="#C94A3F" opacity=".16">
+      <animate attributeName="r" values="13;21;13" dur="2.6s" repeatCount="indefinite"/></circle>
+    <g class="bob">
+      <image class="wframe" href="art/w-${person}-0.png" x="${wp.x-15}" y="${wp.y-38}" width="30" height="42"/>
+      <image class="wframe f2" href="art/w-${person}-1.png" x="${wp.x-15}" y="${wp.y-38}" width="30" height="42"/>
+    </g>`;
 }
 
-/* 過站慶祝：達成紀錄寫入雲端，永久保存達成日期 */
 async function celebrate(divNow){
   const idx=stationIdx(divNow); if(idx<1)return;
   const ach=DATA.achievements=DATA.achievements||[];
-  const has=ach.some(a=>a.owner===person&&a.milestone===idx);
-  if(has)return;
+  if(ach.some(a=>a.owner===person&&a.milestone===idx))return;
   petalRain(); Snd.fx("fanfare");
-  if(!token())return;                       // 沒 Token 就只慶祝、不寫入
+  if(!token())return;
   try{
     await load();
     DATA.achievements=DATA.achievements||[];
@@ -651,11 +604,12 @@ async function celebrate(divNow){
     DATA.updated=new Date().toISOString().slice(0,10);
     await fetch(API,{method:"PUT",
       headers:{"Authorization":"Bearer "+token(),"Accept":"application/vnd.github+json"},
-      body:JSON.stringify({message:`achievement: ${person} ${MILES[idx-1].name}`,
+      body:JSON.stringify({message:`treasure: ${person} ${MILES[idx-1].name}`,
         content:b64e(JSON.stringify(DATA,null,2)),sha:SHA})});
     await load();
   }catch(e){}
 }
+
 function petalRain(){
   const cols=["#4A90D9","#5FBF6E","#F7E9A8","#A55EC4","#F2A65A"];
   for(let i=0;i<26;i++){
@@ -875,7 +829,7 @@ function render(){
   scene(pD);
   document.getElementById("pDiv").textContent=fmt(pD)+" 元";
   const next=MILES.find(m=>pD<m.amt);
-  document.getElementById("nextK").textContent=next?("距"+next.name):"已到終點";
+  document.getElementById("nextK").textContent=next?("距 "+next.name):"寶藏已尋獲";
   document.getElementById("nextV").textContent=next?((next.amt-pD)/10000).toFixed(1)+" 萬":"🎉";
   document.getElementById("famDiv").textContent=fmt(pD+oD)+" 元";
   const _tr=treasureList(pD).length+MILES.filter(m=>pD>=m.amt).length;
