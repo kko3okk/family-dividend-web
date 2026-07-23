@@ -257,7 +257,7 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-0917";
+const APP_VERSION="2026.07.23-0920";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -300,14 +300,20 @@ function ownerDiv(h,o){let d=0;for(const[k,sh]of Object.entries(h)){const[ow,s]=
 
 /* ===== 山景 v2:會開花的小徑 ===== */
 const FLOWER_COLS=["#9FD8C6","#A9C4E8","#C3B0DE","#E4E9F0","#8FD9C4"];
-const TRAIL_D="M70,244 C 150,232 210,216 280,206 S 420,178 500,160 S 640,118 706,98";
+const TRAIL_D="M64,352 C 190,372 322,352 392,312 C 456,275 404,246 286,230 C 176,215 118,196 172,170 C 226,145 408,152 528,140 C 640,129 706,116 742,92";
 
 function stationIdx(div){let i=0;MILES.forEach((m,k)=>{if(div>=m.amt)i=k+1});return i;}
 
+function platform(w,c1,c2){return `
+  <ellipse cx="0" cy="4" rx="${w*0.62}" ry="${w*0.2}" fill="#000" opacity=".18"/>
+  <rect x="${-w/2}" y="-2" width="${w}" height="11" rx="5.5" fill="${c2}"/>
+  <rect x="${-w/2}" y="-7" width="${w}" height="10" rx="5" fill="${c1}"/>`;}
+
 function hut(x,y){return `
  <g transform="translate(${x},${y})">
-  <image href="sp-start.png" x="-9" y="-46" width="18" height="46"/>
-  <text x="0" y="16" text-anchor="middle" font-size="11.5" font-weight="800" fill="#FFFFFF">起點</text>
+  ${platform(40,"#7C6AA8","#5A4C8F")}
+  <image href="sp-start.png" x="-9" y="-52" width="18" height="46"/>
+  <text x="0" y="26" text-anchor="middle" font-size="11.5" font-weight="800" fill="#FFFFFF">起點</text>
  </g>`;}
 
 /* 站 1、2：旗幟（未達=倒旗，抵達=升旗） */
@@ -315,7 +321,8 @@ function balloon(x,y,hit){return flagMark(x,y,hit);}
 function houseM(x,y,hit){return flagMark(x,y,hit);}
 function flagMark(x,y,hit){return `
  <g transform="translate(${x},${y})">
-  <image href="${hit?"sp-flag-on.png":"sp-flag-off.png"}" x="${hit?-6:-5}" y="-46" width="${hit?38:11}" height="46"
+  ${platform(44,hit?"#5FBF6E":"#7C6AA8",hit?"#3F8F63":"#5A4C8F")}
+  <image href="${hit?"sp-flag-on.png":"sp-flag-off.png"}" x="${hit?-6:-5}" y="-52" width="${hit?38:11}" height="46"
     ${hit?"":'opacity=".55" filter="url(#mist)"'}/>
   ${hit?`<circle cx="6" cy="-34" r="14" fill="#F7E9A8" opacity=".18">
      <animate attributeName="r" values="10;18;10" dur="3s" repeatCount="indefinite"/></circle>`:""}
@@ -324,7 +331,8 @@ function flagMark(x,y,hit){return `
 /* 終點：門（未達=上鎖，抵達=開啟） */
 function castle(x,y,hit){return `
  <g transform="translate(${x},${y})">
-  <image href="${hit?"sp-door-on.png":"sp-door-off.png"}" x="-21" y="-44" width="42" height="42"
+  ${platform(56,hit?"#F2C14E":"#7C6AA8",hit?"#C79A33":"#5A4C8F")}
+  <image href="${hit?"sp-door-on.png":"sp-door-off.png"}" x="-21" y="-50" width="42" height="42"
     ${hit?"":'opacity=".55" filter="url(#mist)"'}/>
   ${hit?`<circle cx="0" cy="-23" r="22" fill="#F7E9A8" opacity=".2">
      <animate attributeName="r" values="16;27;16" dur="3.4s" repeatCount="indefinite"/></circle>`:""}
@@ -333,8 +341,8 @@ function castle(x,y,hit){return `
 function stLabel(p,m,i,divNow){
   const pct=Math.min(divNow/m.amt*100,100);
   return `<g font-family="PingFang TC,Noto Sans TC,sans-serif" text-anchor="middle">
-   <text x="${p.x}" y="${p.y+21}" font-size="12" font-weight="800" fill="#FFFFFF">${m.name}</text>
-   <text x="${p.x}" y="${p.y+35}" font-size="9.5" fill="#C9BEE8" font-family="ui-monospace,Menlo,monospace">${m.amt/10000}萬 · ${pct.toFixed(1)}% · ${ETA[person][i]}</text>
+   <text x="${p.x}" y="${p.y+30}" font-size="12" font-weight="800" fill="#FFFFFF">${m.name}</text>
+   <text x="${p.x}" y="${p.y+44}" font-size="9.5" fill="#C9BEE8" font-family="ui-monospace,Menlo,monospace">${m.amt/10000}萬 · ${pct.toFixed(1)}% · ${ETA[person][i]}</text>
   </g>`;}
 
 const GEMS=["sp-gem1.png","sp-gem2.png","sp-gem3.png","sp-gem4.png"];
@@ -351,9 +359,9 @@ function scene(divNow){
   let seg=0;while(seg<3&&divNow>=amts[seg+1])seg++;
   const prog=(seg+(seg>=3?0:Math.min((divNow-amts[seg])/Math.max(amts[Math.min(seg+1,3)]-amts[seg],1),1)))/3;
   document.getElementById("sceneSvg").innerHTML=`
-  <svg viewBox="0 0 800 315" xmlns="http://www.w3.org/2000/svg" id="hillSvg">
+  <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" id="hillSvg">
    <defs><filter id="mist"><feColorMatrix type="saturate" values="0.15"/></filter></defs>
-   <rect width="800" height="315" fill="#54447B"/>
+   <rect width="800" height="400" fill="#54447B"/>
    <!-- 星 -->
    <g fill="#FFFFFF">
     <rect x="86" y="30" width="4" height="4" rx="1" opacity=".85"><animate attributeName="opacity" values=".25;.95;.25" dur="3.6s" repeatCount="indefinite"/></rect>
@@ -382,24 +390,30 @@ function scene(divNow){
      <path d="M120,104 l22,24 h-44 Z"/><path d="M510,96 l24,26 h-48 Z"/>
    </g>
    <!-- 圓潤地形三層 -->
-   <path d="M0,200 Q 200,140 420,182 T 800,136 V315 H0 Z" fill="#3F8F63"/>
-   <path d="M0,236 Q 250,176 520,218 T 800,180 V315 H0 Z" fill="#4FA872"/>
+   <path d="M0,200 Q 200,140 420,182 T 800,136 V400 H0 Z" fill="#357A54"/>
+   <path d="M0,208 Q 200,148 420,190 T 800,144 V400 H0 Z" fill="#3F8F63"/>
+   <path d="M0,244 Q 250,184 520,226 T 800,188 V400 H0 Z" fill="#439463"/>
+   <path d="M0,252 Q 250,192 520,234 T 800,196 V400 H0 Z" fill="#4FA872"/>
    <!-- 圓潤樹 -->
    <g>
-    <rect x="120" y="212" width="8" height="18" rx="4" fill="#2F6B4B"/><circle cx="124" cy="206" r="16" fill="#57B87E"/>
-    <rect x="152" y="220" width="6" height="14" rx="3" fill="#2F6B4B"/><circle cx="155" cy="216" r="12" fill="#57B87E"/>
-    <rect x="620" y="182" width="7" height="16" rx="3.5" fill="#2F6B4B"/><circle cx="623.5" cy="176" r="14" fill="#57B87E"/>
+    <rect x="60" y="250" width="9" height="20" rx="4.5" fill="#2F6B4B"/><circle cx="64.5" cy="242" r="18" fill="#57B87E"/>
+    <rect x="700" y="200" width="7" height="16" rx="3.5" fill="#2F6B4B"/><circle cx="703.5" cy="194" r="14" fill="#57B87E"/>
+    <rect x="628" y="180" width="7" height="16" rx="3.5" fill="#2F6B4B"/><circle cx="631.5" cy="174" r="14" fill="#57B87E"/>
    </g>
-   <path d="M0,272 Q 300,224 620,256 T 800,232 V315 H0 Z" fill="#5FBF6E"/>
+   <path d="M0,296 Q 300,248 620,280 T 800,256 V400 H0 Z" fill="#4FA85F"/>
+   <path d="M0,304 Q 300,256 620,288 T 800,264 V400 H0 Z" fill="#5FBF6E"/>
    <!-- 浮動光點 -->
    <g fill="#F7E9A8">
     <rect x="180" y="120" width="5" height="5" rx="2.5" opacity=".8"><animate attributeName="y" values="120;100;120" dur="7s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;.15;.8" dur="7s" repeatCount="indefinite"/></rect>
     <rect x="520" y="94" width="4" height="4" rx="2" opacity=".7"><animate attributeName="y" values="94;76;94" dur="9s" repeatCount="indefinite"/><animate attributeName="opacity" values=".7;.1;.7" dur="9s" repeatCount="indefinite"/></rect>
     <rect x="648" y="152" width="5" height="5" rx="2.5" opacity=".75"><animate attributeName="y" values="152;132;152" dur="8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".75;.1;.75" dur="8s" repeatCount="indefinite"/></rect>
    </g>
-   <path id="trailBase" d="${TRAIL_D}" fill="none" stroke="#EFEAD8" stroke-width="9" stroke-linecap="round"/>
-   <path d="${TRAIL_D}" fill="none" stroke="#D8CFB0" stroke-width="3" stroke-dasharray="2 12" stroke-linecap="round" opacity=".9"/>
-   <path id="trailWalk" d="${TRAIL_D}" fill="none" stroke="${col}" stroke-width="4.5" stroke-linecap="round" opacity=".9"/>
+   <g transform="translate(0,7)"><path d="${TRAIL_D}" fill="none" stroke="#000000" stroke-width="15" stroke-linecap="round" opacity=".18"/></g>
+   <path d="${TRAIL_D}" fill="none" stroke="#A08A5E" stroke-width="15" stroke-linecap="round" transform="translate(0,4)"/>
+   <path id="trailBase" d="${TRAIL_D}" fill="none" stroke="#EFEAD8" stroke-width="14" stroke-linecap="round"/>
+   <path d="${TRAIL_D}" fill="none" stroke="#D8CFB0" stroke-width="3.5" stroke-dasharray="2 14" stroke-linecap="round" opacity=".85"/>
+   <path id="trailWalkSide" d="${TRAIL_D}" fill="none" stroke="#000000" stroke-width="11" stroke-linecap="round" opacity=".22" transform="translate(0,3)"/>
+   <path id="trailWalk" d="${TRAIL_D}" fill="none" stroke="${col}" stroke-width="11" stroke-linecap="round"/>
    <g id="flora"></g><g id="marks"></g><g id="walker"></g>
    <g fill="#2F6B4B">
     <path class="sway" d="M20,315 q2,-16 6,-20 q0,12 4,20 Z"/>
@@ -417,15 +431,17 @@ function layoutScene(prog,divNow,col){
   const svg=document.getElementById("hillSvg");
   const base=svg.querySelector("#trailBase");
   const L=base.getTotalLength();
-  svg.querySelector("#trailWalk").setAttribute("stroke-dasharray",`${L*prog} ${L}`);
+  ["#trailWalk","#trailWalkSide"].forEach(id=>svg.querySelector(id).setAttribute("stroke-dasharray",`${L*prog} ${L}`));
   const pt=f=>base.getPointAtLength(L*Math.min(Math.max(f,0),1));
   const P=[pt(0),pt(1/3),pt(2/3),pt(1)];
   const hit=i=>divNow>=MILES[i-1].amt;
+  const zs=p=>(0.78+0.34*(p.y/400)).toFixed(3);
+  const wrap=(p,inner)=>`<g transform="translate(${p.x},${p.y}) scale(${zs(p)})"><g transform="translate(${-p.x},${-p.y})">${inner}</g></g>`;
   svg.querySelector("#marks").innerHTML=
-    hut(P[0].x,P[0].y-4)
-    +balloon(P[1].x,P[1].y-6,hit(1))+stLabel(P[1],MILES[0],0,divNow)
-    +houseM(P[2].x,P[2].y-6,hit(2))+stLabel(P[2],MILES[1],1,divNow)
-    +castle(P[3].x,P[3].y-8,hit(3))+stLabel(P[3],MILES[2],2,divNow);
+    wrap(P[0],hut(P[0].x,P[0].y-2))
+    +wrap(P[1],balloon(P[1].x,P[1].y-2,hit(1)))+stLabel(P[1],MILES[0],0,divNow)
+    +wrap(P[2],houseM(P[2].x,P[2].y-2,hit(2)))+stLabel(P[2],MILES[1],1,divNow)
+    +wrap(P[3],castle(P[3].x,P[3].y-2,hit(3)))+stLabel(P[3],MILES[2],2,divNow);
   /* 走過的路開花:每 5,000 元一朵,前段先發芽 */
   const n=Math.min(Math.floor(divNow/5000),42);
   let fh="";
@@ -446,10 +462,10 @@ function layoutScene(prog,divNow,col){
   const wp=pt(prog);
   const next=MILES.find(m=>divNow<m.amt);
   const gap=next?`還差 ${((next.amt-divNow)/10000).toFixed(1)} 萬到${next.name}`:"抵達終點 🎉";
-  const W=26, H=30;   // 旅人顯示尺寸
+  const W=26, H=30, sc=(0.72+0.42*(wp.y/400)).toFixed(3);   // 依高度透視縮放
   svg.querySelector("#walker").innerHTML=`
-   <g transform="translate(${wp.x},${wp.y})">
-     <ellipse cx="0" cy="5" rx="10" ry="2.8" fill="#3A4356" opacity=".16"/>
+   <g transform="translate(${wp.x},${wp.y}) scale(${sc})">
+     <ellipse cx="0" cy="5" rx="11" ry="3.2" fill="#000" opacity=".22"/>
      <g class="bob">
        <image class="wframe" href="walker-${person}-0.png" x="${-W/2}" y="${-H+4}" width="${W}" height="${H}"/>
        <image class="wframe f2" href="walker-${person}-1.png" x="${-W/2}" y="${-H+4}" width="${W}" height="${H}"/>
@@ -458,7 +474,7 @@ function layoutScene(prog,divNow,col){
          <animate attributeName="r" values="4.5;8.5;4.5" dur="2.8s" repeatCount="indefinite"/></circle>
      </g>
    </g>
-   <g transform="translate(${Math.min(Math.max(wp.x,64),736)},${wp.y-56})">
+   <g transform="translate(${Math.min(Math.max(wp.x,64),736)},${wp.y-58*sc})">
      <rect x="-2.5" y="14" width="5" height="16" rx="2.5" fill="#8B6F4E"/>
      <rect x="-64" y="-19" width="128" height="35" rx="10" fill="#C99B63" stroke="#8B6F4E" stroke-width="3"/>
      <text x="0" y="-3.5" text-anchor="middle" font-size="12" font-weight="800" fill="#4A3418" font-family="ui-monospace,Menlo,monospace">${fmt(divNow)} 元／年</text>
