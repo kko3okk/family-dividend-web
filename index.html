@@ -378,7 +378,7 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-1700";
+const APP_VERSION="2026.07.23-1705";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊道館",amt:150000},{name:"房貸道館",amt:610000},{name:"魔王城",amt:1000000}];
@@ -425,9 +425,9 @@ function ownerDiv(h,o){let d=0;for(const[k,sh]of Object.entries(h)){const[ow,s]=
    每筆買進 = 一次攻擊（傷害 = 股數 × 每股股利）
    ═════════════════════════════════ */
 const BOSSES=[
- {n:"旅行之獸",spr:"px/px-slime.png",sz:76},
- {n:"房貸巨蝠",spr:"px/px-bat.png",sz:84},
- {n:"魔王",spr:"px/px-demon.png",sz:92}];
+ {n:"旅行之獸",spr:"px/px-slime.png",sz:120,ar:0.8},
+ {n:"房貸巨蝠",spr:"px/px-bat.png",sz:140,ar:0.5},
+ {n:"魔王",spr:"px/px-demon.png",sz:150,ar:0.875}];
 
 function stationIdx(div){let i=0;MILES.forEach((m,k)=>{if(div>=m.amt)i=k+1});return i;}
 function lv(div){return Math.floor(div/10000)+1;}
@@ -483,25 +483,36 @@ function scene(divNow){
   document.getElementById("sceneSvg").innerHTML=`
   <svg viewBox="0 0 800 460" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
    <!-- 背景：天空與地面 -->
-   <rect width="800" height="460" fill="#8FD0E8"/>
-   <rect y="0" width="800" height="120" fill="#7FC4E4"/>
+   <defs>
+     <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
+       <stop offset="0" stop-color="#63B8DE"/><stop offset=".55" stop-color="#9BDCEF"/>
+       <stop offset="1" stop-color="#C8EEF2"/></linearGradient>
+     <linearGradient id="grsG" x1="0" y1="0" x2="0" y2="1">
+       <stop offset="0" stop-color="#9EDC7A"/><stop offset="1" stop-color="#6FB855"/></linearGradient>
+   </defs>
+   <rect width="800" height="460" fill="url(#skyG)"/>
+   <g fill="#FFFFFF" opacity=".18">${Array.from({length:14},(_,i)=>`<rect y="${i*9}" width="800" height="3"/>`).join("")}</g>
    <g fill="#FFFFFF" opacity=".75">
      <rect x="80" y="34" width="90" height="14"/><rect x="110" y="22" width="52" height="14"/>
      <rect x="520" y="26" width="110" height="14"/><rect x="560" y="14" width="60" height="14"/>
    </g>
-   <rect y="120" width="800" height="200" fill="#A8E080"/>
+   <rect y="120" width="800" height="200" fill="url(#grsG)"/>
    <g fill="#93D06C">${Array.from({length:26},(_,i)=>`<rect x="${(i*67)%790}" y="${130+((i*53)%180)}" width="14" height="7"/>`).join("")}</g>
    <rect y="320" width="800" height="140" fill="#3A3352"/>
 
    <!-- 對手平台與精靈 -->
-   <ellipse cx="580" cy="196" rx="118" ry="26" fill="#7FB85C"/>
-   <ellipse cx="580" cy="192" rx="112" ry="22" fill="#8FCC68"/>
-   <g class="bob">${px(boss.spr,580-boss.sz/2,192-boss.sz-6,boss.sz,boss.sz,cleared?'opacity=".35"':"")}</g>
+   <ellipse cx="580" cy="200" rx="122" ry="28" fill="#4E8A44"/>
+   <ellipse cx="580" cy="196" rx="118" ry="26" fill="#6FB855"/>
+   <ellipse cx="580" cy="192" rx="110" ry="21" fill="#9EDC7A"/>
+   <ellipse cx="580" cy="189" rx="82" ry="12" fill="#B8E895" opacity=".7"/>
+   <g class="bob">${px(boss.spr,580-boss.sz/2,192-boss.sz*boss.ar-8,boss.sz,boss.sz*boss.ar,cleared?'opacity=".35"':"")}</g>
 
    <!-- 我方平台與背影 -->
-   <ellipse cx="215" cy="308" rx="140" ry="30" fill="#7FB85C"/>
-   <ellipse cx="215" cy="304" rx="132" ry="26" fill="#8FCC68"/>
-   ${px(back,215-56,304-112,112,112)}
+   <ellipse cx="215" cy="312" rx="146" ry="32" fill="#4E8A44"/>
+   <ellipse cx="215" cy="308" rx="140" ry="29" fill="#6FB855"/>
+   <ellipse cx="215" cy="303" rx="130" ry="24" fill="#9EDC7A"/>
+   <ellipse cx="215" cy="299" rx="96" ry="13" fill="#B8E895" opacity=".7"/>
+   ${px(back,215-62,304-166,124,166)}
 
    <!-- 對手資訊框（左上）-->
    ${infoBox(34,30,300,58,`
