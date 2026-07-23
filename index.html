@@ -364,12 +364,12 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-1501";
+const APP_VERSION="2026.07.23-1504";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
 const ETA={chang:["第 3~4 年","第 9~10 年","第 12~14 年"],wife:["第 4~5 年","第 12~13 年","第 16~18 年"]};
-const OWNER_STOCKS={chang:["4766","6803","0050"],wife:["0050","1231","4506","2832"]};
+const OWNER_STOCKS={chang:["4766","6803","0050"],wife:["0050","1231","4506","2832","00878","00687B"]};
 const PCOL={chang:"#D96C4F",wife:"#DFA53B"};
 const TIERS=[[.055,1],[.06,2],[.065,3]];
 const fmt=n=>Math.round(n).toLocaleString("zh-Hant");
@@ -652,7 +652,9 @@ function advWife(){
   <div class="adv">${badge("b-open","窗口開啟")}<div><div class="t">台產<span class="px">獎金 30%</span></div><div class="d">除息後三個月＝年度最便宜窗口（填息100%）</div></div></div>
   <div class="adv">${lhOpen?badge("b-open","窗口開啟"):badge("b-wait","等除權")}<div><div class="t">聯華食<span class="px">獎金 40%</span></div><div class="d">${lhOpen?"除權後窗口 · 分批買入":"8 月除權後再買 · 股價自動下修約一成"}</div></div></div>
   <div class="adv">${badge("b-open","隨時可買")}<div><div class="t">崇友<span class="px">獎金 30%</span></div><div class="d">除息已過 · 分 2~3 個月零股買入</div></div></div>
-  <div class="adv">${badge("b-open","照扣")}<div><div class="t">0050</div><div class="d">每月 2 萬定期定額 · 不停扣</div></div></div>`;
+  <div class="adv">${badge("b-open","照扣")}<div><div class="t">0050</div><div class="d">每月 2 萬定期定額 · 不停扣</div></div></div>
+  <div class="adv">${badge("b-open","季配")}<div><div class="t">00878<span class="px">高股息 ETF</span></div><div class="d">2/5/8/11 月除息 · 分批買，不追高</div></div></div>
+  <div class="adv">${badge("b-wait","看利率")}<div><div class="t">國泰20年美債<span class="px">00687B</span></div><div class="d">季配 · 長天期債對利率敏感，降息循環才是順風</div></div></div>`;
 }
 
 function costBasis(o,sid){
