@@ -364,7 +364,7 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-1504";
+const APP_VERSION="2026.07.23-1620";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -1044,6 +1044,9 @@ const Snd={
     const wet=this.ctx.createGain(); wet.gain.value=0.35;
     this.master.connect(dly); dly.connect(fb); fb.connect(dly); dly.connect(wet);
     this.master.connect(this.ctx.destination); wet.connect(this.ctx.destination);
+    // 音樂檔專用的乾淨通道（不經殘響）
+    this.dry=this.ctx.createGain(); this.dry.gain.value=0.0;
+    this.dry.connect(this.ctx.destination);
   },
   /* 單音：柔和三角波，緩起緩落 */
   note(f,t0,dur,vol,type){
@@ -1094,9 +1097,10 @@ const Snd={
     try{ this.bgmSrc&&this.bgmSrc.stop(); }catch(e){}
     const src=this.ctx.createBufferSource();
     src.buffer=buf; src.loop=true;
-    src.connect(this.master);
-    this.master.gain.cancelScheduledValues(this.ctx.currentTime);
-    this.master.gain.setTargetAtTime(0.6,this.ctx.currentTime,0.5);
+    src.connect(this.dry);                       // 乾淨通道：無殘響
+    this.master.gain.setTargetAtTime(0,this.ctx.currentTime,0.3);   // 關掉生成音的通道
+    this.dry.gain.cancelScheduledValues(this.ctx.currentTime);
+    this.dry.gain.setTargetAtTime(0.55,this.ctx.currentTime,0.6);
     src.start(0); this.bgmSrc=src;
     this.say("♪ 播放中："+this.bgmFile+"（iPhone 請關閉側邊靜音鍵）",4200);
     return true;
@@ -1141,6 +1145,7 @@ const Snd={
       clearTimeout(this.timer);
     }else{
       this.stopBgm();
+      if(this.dry)this.dry.gain.setTargetAtTime(0,this.ctx.currentTime,0.4);
       this.master.gain.setTargetAtTime(0,this.ctx.currentTime,0.4);
       clearTimeout(this.timer);
       this.say("已靜音",1500);
@@ -1150,6 +1155,7 @@ const Snd={
     return this.on;
   },
   startGenerated(){
+    if(this.dry)this.dry.gain.setTargetAtTime(0,this.ctx.currentTime,0.3);
     this.master.gain.cancelScheduledValues(this.ctx.currentTime);
     this.master.gain.setTargetAtTime(0.5,this.ctx.currentTime,0.6);
     this.ambient();
