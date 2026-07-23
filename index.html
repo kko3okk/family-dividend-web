@@ -364,7 +364,7 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-1458";
+const APP_VERSION="2026.07.23-1501";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -850,7 +850,7 @@ function render(){
 }
 
 document.getElementById("traveler").querySelectorAll("div").forEach(d=>d.onclick=()=>{
-  Snd.fx("tap"); person=d.dataset.p;
+  try{Snd.fx("tap");}catch(e){} person=d.dataset.p;
   document.getElementById("traveler").querySelectorAll("div").forEach(x=>x.classList.toggle("on",x===d));
   localStorage.setItem("person",person);
   if(DATA)render();
@@ -1099,6 +1099,19 @@ const Snd={
     this.say("♪ 播放中："+this.bgmFile+"（iPhone 請關閉側邊靜音鍵）",4200);
     return true;
   },
+  sfxFile(kind){
+    const ext=this.sfxExt||"m4a";
+    const map={coin:"sfx-coin."+ext,gem:"sfx-gem."+ext,fanfare:"sfx-fanfare."+ext,tap:"sfx-tap."+ext};
+    this._miss=this._miss||{};
+    if(this._miss[kind])return false;
+    try{
+      const a=new Audio(map[kind]); a.volume=this.on?0.6:0.4;
+      a.addEventListener("error",()=>{ this._miss[kind]=true; },{once:true});
+      const p=a.play();
+      if(p&&p.catch)p.catch(()=>{ this._miss[kind]=true; });
+      return true;
+    }catch(e){ this._miss[kind]=true; return false; }
+  },
   stopBgm(){ try{ this.bgmSrc&&this.bgmSrc.stop(); }catch(e){} this.bgmSrc=null; },
   /* 環境音：五聲音階緩慢流動的和弦襯底（無音樂檔時的回退方案）*/
   ambient(){
@@ -1141,8 +1154,11 @@ const Snd={
   },
   /* 音效：優先用音檔，沒有就用程式生成（環境音關閉也會響）*/
   fx(kind){
-    if(this.sfxFile(kind)!==false&&!(this._miss||{})[kind])return;   // 有音檔就用音檔
-    this.init(); if(!this.ctx)return;
+    try{
+      if(typeof this.sfxFile==="function"&&this.sfxFile(kind)!==false&&!(this._miss||{})[kind])return;
+    }catch(e){}
+    try{ this.init(); }catch(e){ return; }
+    if(!this.ctx)return;
     if(this.ctx.state==="suspended")return;      // 尚未經使用者互動啟用
     const t=this.ctx.currentTime, v=this.on?0.16:0.10;
     if(kind==="coin"){                            // 記帳成功：清脆雙音
