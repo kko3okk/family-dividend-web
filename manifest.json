@@ -1,12 +1,22 @@
 {
-  "name": "家的股息小徑",
-  "short_name": "股息小徑",
+  "name": "家的旅程",
+  "short_name": "旅程",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#F6EEDD",
-  "theme_color": "#F6EEDD",
+  "background_color": "#EEF1F6",
+  "theme_color": "#EEF1F6",
   "icons": [
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
   ]
 }
