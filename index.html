@@ -174,6 +174,26 @@
   .wframe.f2{animation-delay:.31s}
   @keyframes wstep{0%,49%{opacity:1}50%,100%{opacity:0}}
   @media (prefers-reduced-motion:reduce){.wframe{animation:none}.wframe.f2{opacity:0}}
+
+  .yoc{font-family:var(--mono);font-size:11px;color:var(--green);font-weight:700}
+  .exrow{display:flex;align-items:center;gap:10px;padding:9px 2px;border-bottom:1.5px dashed var(--line)}
+  .exrow:last-child{border-bottom:none}
+  .exrow .nm{font-size:13px;font-weight:700;flex:1}
+  .exrow .nm span{font-size:10.5px;color:var(--mut2);font-family:var(--mono);margin-left:5px}
+  .exrow .cd{font-family:var(--mono);font-size:12px;text-align:right;min-width:96px}
+  .cd b{font-size:15px}
+  .cd.soon b{color:var(--chang)}
+  .cd.today b{color:var(--green)}
+  .cd.past{color:var(--mut2)}
+  .payrow{display:flex;justify-content:space-between;font-size:12.5px;padding:7px 2px;border-bottom:1.5px dashed var(--line)}
+  .payrow:last-child{border-bottom:none}
+  .payrow .amt{font-family:var(--mono);font-weight:700;color:var(--green)}
+  .paysum{display:flex;gap:14px;margin-bottom:10px;flex-wrap:wrap}
+  .paysum div{flex:1;min-width:120px;background:var(--green-soft);border-radius:12px;padding:10px 12px}
+  .paysum .k{font-size:10px;color:var(--mut);letter-spacing:.1em}
+  .paysum .v{font-family:var(--mono);font-size:18px;font-weight:800;color:#2E7D42}
+  .mini{background:none;border:1.5px solid var(--line);color:var(--mut);border-radius:10px;
+    padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer}
 </style>
 </head>
 <body>
@@ -209,8 +229,21 @@
 <div class="card"><h3>買入指引</h3><div id="advBox"></div></div>
 
 <div class="card"><h3>持股</h3>
-  <table><thead><tr><th>標的</th><th class="num">股數</th><th class="num">年股息</th><th class="num">市值</th></tr></thead>
+  <table><thead><tr><th>標的</th><th class="num">股數</th><th class="num">年股息</th><th class="num">成本殖利率</th></tr></thead>
   <tbody id="holdBody"></tbody></table>
+</div>
+
+<div class="card"><h3>除權息倒數</h3><div id="exBox"></div>
+  <div class="note" style="margin-top:8px">崑鼎、台產：除息後買（最便宜窗口）· 聯華食：除權後買 · 南寶：照觸發價</div>
+</div>
+
+<div class="card"><h3>股息入帳紀錄</h3>
+  <div class="paysum">
+    <div><div class="k">今年已入帳</div><div class="v" id="payYear">–</div></div>
+    <div><div class="k">累計已入帳</div><div class="v" id="payAll">–</div></div>
+  </div>
+  <div id="payBox"></div>
+  <button class="mini" id="addPayBtn" style="width:100%;margin-top:10px">＋ 記一筆股息入帳</button>
 </div>
 
 <div class="card"><h3>最近交易（全家）</h3>
@@ -247,6 +280,25 @@
   <div class="msg" id="txMsg"></div>
 </dialog>
 
+<dialog id="payDlg">
+  <div class="dlg-x" onclick="payDlg.close()">✕</div>
+  <h2>＋ 股息入帳</h2>
+  <div class="sub">記錄實際領到的現金，累積真實現金流曲線</div>
+  <label>誰的</label>
+  <div class="seg" id="payOwnerSeg">
+    <div class="chang on" data-o="chang">CHANG</div>
+    <div class="wife" data-o="wife">老婆</div>
+  </div>
+  <label>標的</label>
+  <div class="chips" id="payChips"></div>
+  <label>入帳金額（元）</label>
+  <input id="pAmt" inputmode="numeric" type="number" min="1">
+  <label>入帳日期</label>
+  <div class="datewrap"><input id="pDate" type="date"></div>
+  <button class="go" id="payGoBtn">寫入</button>
+  <div class="msg" id="payMsg"></div>
+</dialog>
+
 <dialog id="setDlg">
   <div class="dlg-x" onclick="setDlg.close()">✕</div>
   <h2>裝置設定</h2>
@@ -257,7 +309,7 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-0923";
+const APP_VERSION="2026.07.23-0929";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -532,16 +584,50 @@ function advWife(){
   <div class="adv">${badge("b-open","照扣")}<div><div class="t">0050</div><div class="d">每月 2 萬定期定額 · 不停扣</div></div></div>`;
 }
 
+function costBasis(o,sid){
+  let sh=0,amt=0;
+  DATA.transactions.forEach(t=>{ if(t.owner===o&&t.stock===sid){sh+=t.shares;amt+=t.shares*t.price;} });
+  return sh?amt/sh:0;
+}
 function holdRows(h,o){
   const S=DATA.stocks,P=DATA.prices||{};
   return OWNER_STOCKS[o].map(sid=>{
-    const sh=h[o+"|"+sid]||0,st=S[sid]||{name:sid,div:0},px=P[sid];
+    const sh=h[o+"|"+sid]||0,st=S[sid]||{name:sid,div:0};
+    const cb=costBasis(o,sid), yoc=cb?(st.div/cb*100):0;
     return `<tr><td>${st.name} <span class="tick">${sid}</span></td>
       <td class="num">${sh?fmt(sh):"—"}</td><td class="num">${sh?fmt(sh*st.div):"—"}</td>
-      <td class="num">${sh&&px?fmt(sh*px):"—"}</td></tr>`;
+      <td class="num">${sh&&cb?`<span class="yoc">${yoc.toFixed(2)}%</span><br><span class="tick">成本 ${cb.toFixed(1)}</span>`:"—"}</td></tr>`;
   }).join("");
 }
 
+function exRows(o){
+  const S=DATA.stocks,today=new Date();today.setHours(0,0,0,0);
+  const list=OWNER_STOCKS[o].map(sid=>{
+    const st=S[sid]||{};if(!st.ex_date)return null;
+    let d=new Date(st.ex_date+"T00:00:00");
+    if(d<today){const nd=new Date(d);nd.setFullYear(d.getFullYear()+1);d=nd;}
+    return {sid,name:st.name,div:st.div,date:d,days:Math.round((d-today)/86400000),pay:st.pay_date};
+  }).filter(Boolean).sort((a,b)=>a.days-b.days);
+  if(!list.length)return '<div class="note">尚未設定除權息日</div>';
+  return list.map(x=>{
+    const cls=x.days===0?"today":(x.days<=21?"soon":"");
+    const txt=x.days===0?"今天除息":`還有 <b>${x.days}</b> 天`;
+    return `<div class="exrow"><div class="nm">${x.name}<span>${x.sid}</span></div>
+      <div class="cd ${cls}">${txt}<br><span class="tick">${x.date.toISOString().slice(5,10)} 除息 · 配 ${x.div} 元</span></div></div>`;
+  }).join("");
+}
+function payRows(o){
+  const ps=(DATA.payouts||[]).filter(p=>p.owner===o).sort((a,b)=>b.date.localeCompare(a.date));
+  const yr=new Date().getFullYear();
+  const sumY=ps.filter(p=>p.date.startsWith(String(yr))).reduce((a,p)=>a+p.amount,0);
+  const sumA=ps.reduce((a,p)=>a+p.amount,0);
+  document.getElementById("payYear").textContent=fmt(sumY)+" 元";
+  document.getElementById("payAll").textContent=fmt(sumA)+" 元";
+  if(!ps.length)return '<div class="note">還沒有入帳紀錄。領到股息後記一筆，這裡會累積成真實的現金流。</div>';
+  return ps.slice(0,12).map(p=>`<div class="payrow">
+    <span>${p.date.slice(5)} · ${(DATA.stocks[p.stock]||{}).name||p.stock}</span>
+    <span class="amt">+${fmt(p.amount)}</span></div>`).join("");
+}
 function render(){
   document.body.style.setProperty("--pcol",PCOL[person]);
   const h=holdings(),pD=ownerDiv(h,person),oD=ownerDiv(h,person==="chang"?"wife":"chang");
@@ -553,6 +639,8 @@ function render(){
   document.getElementById("famDiv").textContent=fmt(pD+oD)+" 元";
   document.getElementById("advBox").innerHTML=person==="chang"?advChang():advWife();
   document.getElementById("holdBody").innerHTML=holdRows(h,person);
+  document.getElementById("exBox").innerHTML=exRows(person);
+  document.getElementById("payBox").innerHTML=payRows(person);
   document.getElementById("txBody").innerHTML=[...DATA.transactions]
     .sort((a,b)=>b.date.localeCompare(a.date)).slice(0,20).map(t=>`<tr>
       <td>${t.date.slice(5)}</td><td><span class="otag ${t.owner}">${t.owner==="chang"?"C":"W"}</span></td>
@@ -627,6 +715,49 @@ document.getElementById("goBtn").onclick=async()=>{
   }catch(e){msg.className="msg err";msg.textContent="寫入失敗："+e.message;}
   finally{btn.disabled=false;}
 };
+let pOwner="chang",pStock="4766";
+function payChips(){
+  const box=document.getElementById("payChips");
+  const order=OWNER_STOCKS[pOwner];
+  if(!order.includes(pStock))pStock=order[0];
+  box.innerHTML=order.map(sid=>`<div class="chip ${sid===pStock?"on":""}" data-s="${sid}">
+    <div class="n">${DATA.stocks[sid].name}</div><div class="c">${sid}</div></div>`).join("");
+  box.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{pStock=c.dataset.s;payChips();});
+}
+document.getElementById("payOwnerSeg").querySelectorAll("div").forEach(d=>d.onclick=()=>{
+  pOwner=d.dataset.o;
+  document.getElementById("payOwnerSeg").querySelectorAll("div").forEach(x=>x.classList.toggle("on",x===d));
+  pStock=OWNER_STOCKS[pOwner][0];payChips();
+});
+document.getElementById("addPayBtn").onclick=()=>{
+  if(!DATA)return;
+  pOwner=person;
+  document.getElementById("payOwnerSeg").querySelectorAll("div").forEach(x=>x.classList.toggle("on",x.dataset.o===person));
+  document.getElementById("pDate").valueAsDate=new Date();
+  payChips();document.getElementById("payDlg").showModal();
+};
+document.getElementById("payGoBtn").onclick=async()=>{
+  const msg=document.getElementById("payMsg"),btn=document.getElementById("payGoBtn");
+  if(!token()){msg.className="msg err";msg.textContent="請先按 ⚙ 設定 Token";return;}
+  const amt=parseFloat(document.getElementById("pAmt").value),dt=document.getElementById("pDate").value;
+  if(!amt||!dt){msg.className="msg err";msg.textContent="金額與日期必填";return;}
+  btn.disabled=true;msg.className="msg";msg.textContent="寫入中…";
+  try{
+    await load();
+    (DATA.payouts=DATA.payouts||[]).push({date:dt,owner:pOwner,stock:pStock,amount:amt});
+    DATA.updated=new Date().toISOString().slice(0,10);
+    const r=await fetch(API,{method:"PUT",
+      headers:{"Authorization":"Bearer "+token(),"Accept":"application/vnd.github+json"},
+      body:JSON.stringify({message:`payout ${dt}`,content:b64e(JSON.stringify(DATA,null,2)),sha:SHA})});
+    if(!r.ok)throw new Error("HTTP "+r.status);
+    msg.textContent="✓ 已記錄入帳 🪙";
+    document.getElementById("pAmt").value="";
+    await load();render();
+    setTimeout(()=>document.getElementById("payDlg").close(),900);
+  }catch(e){msg.className="msg err";msg.textContent="寫入失敗："+e.message;}
+  finally{btn.disabled=false;}
+};
+
 document.getElementById("gearBtn").onclick=()=>{
   document.getElementById("tokenInput").value=token();
   document.getElementById("setDlg").showModal();
@@ -636,7 +767,7 @@ document.getElementById("tokenSave").onclick=async()=>{
   document.getElementById("setDlg").close();
   try{await load();await ensurePrices();render();}catch(e){document.getElementById("meta").textContent=e.message;}
 };
-["txDlg","setDlg"].forEach(id=>{
+["txDlg","setDlg","payDlg"].forEach(id=>{
   const dlg=document.getElementById(id);
   dlg.addEventListener("click",e=>{
     const r=dlg.getBoundingClientRect();
