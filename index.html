@@ -163,6 +163,8 @@
     font-size:17px;color:var(--mut);transition:transform .18s ease,opacity .18s;opacity:0}
   #ptr.spin{animation:ptrspin .9s linear infinite}
   @keyframes ptrspin{to{transform:rotate(360deg)}}
+
+  dialog.kb{margin:0;top:6px;left:50%;transform:translateX(-50%);inset:auto}
 </style>
 </head>
 <body>
@@ -642,6 +644,28 @@ document.getElementById("tokenSave").onclick=async()=>{
     if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dlg.close();
   });
 });
+
+
+/* ── iOS 鍵盤:用 visualViewport 實際量可視高度 ── */
+(function(){
+  const vv=window.visualViewport; if(!vv)return;
+  function fit(){
+    const dlg=document.querySelector("dialog[open]"); if(!dlg)return;
+    const kb=window.innerHeight-vv.height;      // 鍵盤高度
+    if(kb>90){
+      dlg.classList.add("kb");
+      dlg.style.maxHeight=(vv.height-12)+"px";
+      const el=document.activeElement;
+      if(el&&dlg.contains(el))setTimeout(()=>el.scrollIntoView({block:"center",behavior:"smooth"}),60);
+    }else{
+      dlg.classList.remove("kb"); dlg.style.maxHeight="";
+    }
+  }
+  vv.addEventListener("resize",fit);
+  vv.addEventListener("scroll",fit);
+  document.addEventListener("focusin",e=>{ if(e.target.closest("dialog"))setTimeout(fit,180); });
+  document.addEventListener("focusout",()=>setTimeout(fit,180));
+})();
 
 /* ── 下拉重整（PWA 全螢幕模式沒有瀏覽器的下拉刷新）── */
 async function refreshData(){
