@@ -255,7 +255,7 @@
     <div class="blk"><div class="k">年股息</div><div class="v accent" id="pDiv">–</div></div>
     <div class="blk"><div class="k" id="nextK">距下一個標記</div><div class="v" id="nextV">–</div></div>
     <div class="blk"><div class="k">家庭合計</div><div class="v" id="famDiv">–</div></div>
-    <div class="blk"><div class="k">已拾獲財寶</div><div class="v" id="trCount">–</div></div>
+    <div class="blk"><div class="k">航程進度</div><div class="v" id="trCount">–</div></div>
     <div class="blk"><div class="k">報價</div><div class="v" style="font-size:12px;padding-top:5px" id="pxMeta">–</div></div>
   </div>
 </div>
@@ -476,17 +476,9 @@ function layoutScene(prog,divNow){
     +tag(p3.x+96,p3.y-40,132,m3.name,`${Math.min(divNow/m3.amt*100,100).toFixed(2)}% · 100萬`);
   svg.querySelector("#marks").innerHTML=mk;
 
-  const items=treasureList(divNow);
   let lo="";
-  items.forEach((it,k)=>{
-    const f=Math.min((k+0.6)/(items.length+1)*prog,prog-0.008);
-    if(f<=0)return;
-    const p=pt(f),set=TR[it.t],img=set[k%set.length];
-    const sz={s:15,m:19,l:23}[it.t], side=((k%2)?1:-1)*14;
-    lo+=`<image href="${img}" x="${p.x+side-sz/2}" y="${p.y-sz/2}" width="${sz}" height="${sz}"/>`;
-  });
   MILES.forEach((m,i)=>{ if(divNow>=m.amt){const p=pt((i+1)/3);
-    lo+=`<image href="art/t-key.png" x="${p.x-28}" y="${p.y-32}" width="21" height="21"/>`;} });
+    lo+=`<image href="art/t-key.png" x="${p.x-26}" y="${p.y-30}" width="20" height="20"/>`;} });
   svg.querySelector("#loot").innerHTML=lo;
 
   const wp=pt(prog);
@@ -742,8 +734,8 @@ function render(){
   document.getElementById("nextK").textContent=next?("距 "+next.name):"寶藏已尋獲";
   document.getElementById("nextV").textContent=next?((next.amt-pD)/10000).toFixed(1)+" 萬":"🎉";
   document.getElementById("famDiv").textContent=fmt(pD+oD)+" 元";
-  const _tr=treasureList(pD).length+MILES.filter(m=>pD>=m.amt).length;
-  document.getElementById("trCount").textContent=_tr+" 件";
+  const _next=MILES.find(m=>pD<m.amt)||MILES[MILES.length-1];
+  document.getElementById("trCount").textContent=(pD/1000000*100).toFixed(2)+"%";
   document.getElementById("advBox").innerHTML=person==="chang"?advChang():advWife();
   document.getElementById("holdBody").innerHTML=holdRows(h,person);
   document.getElementById("exBox").innerHTML=exRows(person);
