@@ -6,18 +6,18 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
-<meta name="theme-color" content="#F6EEDD">
+<meta name="theme-color" content="#EEF1F6">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="股息小徑">
-<title>家的股息小徑</title>
+<meta name="apple-mobile-web-app-title" content="家的旅程">
+<title>家的旅程</title>
 <style>
   :root{
-    --paper:#F6EEDD; --card:#FDF7EA; --card2:#F3E9D2; --line:#E3D4B8;
-    --ink:#4A3E32; --mut:#8C7B66; --mut2:#B3A48C;
-    --chang:#D96C4F; --chang-soft:#F6DCD1;
-    --wife:#DFA53B; --wife-soft:#F8E9C8;
-    --green:#7FA65A; --green-soft:#DCE8C8;
+    --paper:#EEF1F6; --card:#F8FAFC; --card2:#E9EEF5; --line:#CFD9E6;
+    --ink:#3A4356; --mut:#77839A; --mut2:#A3AEC2;
+    --chang:#5B7FA6; --chang-soft:#DCE6F1;
+    --wife:#A98BC0; --wife-soft:#EBE1F3;
+    --green:#7FA894; --green-soft:#DCEAE3;
     --mono:ui-monospace,"SF Mono",Menlo,monospace;
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -33,7 +33,7 @@
 
   /* 旅人切換 */
   .traveler{display:flex;background:var(--card);border:1.5px solid var(--line);border-radius:16px;
-    overflow:hidden;margin-bottom:14px;box-shadow:0 3px 0 var(--line)}
+    overflow:hidden;margin-bottom:14px;box-shadow:0 2px 10px rgba(58,67,86,.07)}
   .traveler div{flex:1;text-align:center;padding:13px 4px;font-size:14px;font-weight:800;
     letter-spacing:.15em;color:var(--mut);cursor:pointer;transition:background .2s}
   .traveler div.on[data-p="chang"]{background:var(--chang);color:#FFF8EF}
@@ -41,7 +41,7 @@
 
   /* 山景里程碑 */
   .scene{background:var(--card);border:1.5px solid var(--line);border-radius:20px;
-    overflow:hidden;margin-bottom:14px;box-shadow:0 4px 0 var(--line)}
+    overflow:hidden;margin-bottom:14px;box-shadow:0 3px 14px rgba(58,67,86,.09)}
   .scene svg{display:block;width:100%;height:auto}
   .scene .strip{display:flex;flex-wrap:wrap;border-top:1.5px dashed var(--line)}
   .strip .blk{flex:1;min-width:140px;padding:13px 15px;border-right:1.5px dashed var(--line)}
@@ -52,7 +52,7 @@
 
   /* 卡片 */
   .card{background:var(--card);border:1.5px solid var(--line);border-radius:18px;
-    padding:18px 16px;margin-bottom:14px;box-shadow:0 3px 0 var(--line)}
+    padding:18px 16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(58,67,86,.07)}
   .card h3{font-family:"Noto Serif TC",serif;font-size:14px;letter-spacing:.2em;color:var(--mut);
     font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
   .card h3::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--pcol,var(--chang))}
@@ -83,7 +83,7 @@
   .btn-row{display:flex;gap:10px;margin:4px 0 14px}
   .btn{flex:1;text-align:center;padding:14px;border-radius:16px;font-size:14px;font-weight:800;
     letter-spacing:.2em;cursor:pointer;border:none;background:var(--pcol,var(--chang));
-    color:#FFF8EF;box-shadow:0 3px 0 rgba(74,62,50,.25)}
+    color:#FFF8EF;box-shadow:0 2px 8px rgba(58,67,86,.18)}
 
   dialog{margin:auto;position:fixed;inset:0;height:fit-content;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
     background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:20px;
@@ -116,7 +116,7 @@
   .preview b{color:var(--chang);font-family:var(--mono)}
   dialog button.go{width:100%;margin-top:14px;margin-bottom:4px;padding:13px;border:none;border-radius:14px;
     background:var(--green);color:#FFF8EF;font-size:15px;font-weight:800;letter-spacing:.25em;cursor:pointer;
-    box-shadow:0 3px 0 rgba(74,62,50,.25)}
+    box-shadow:0 2px 8px rgba(58,67,86,.18)}
   dialog button.go:disabled{opacity:.5;cursor:wait}
   .msg{font-size:12px;text-align:center;margin-top:8px;min-height:16px;color:var(--green)}
   .msg.err{color:var(--chang)}
@@ -176,8 +176,8 @@
 
 <div class="topbar">
   <div>
-    <div class="eyebrow">FAMILY DIVIDEND TRAIL</div>
-    <h1>家的股息小徑 🌱</h1>
+    <div class="eyebrow">JOURNEY OF DIVIDENDS</div>
+    <h1>家的旅程 ✦</h1>
     <div class="meta" id="meta">載入中…</div>
   </div>
   <button class="gear" id="gearBtn">⚙ 設定</button>
@@ -248,7 +248,7 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-0856";
+const APP_VERSION="2026.07.23-0907";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -290,75 +290,78 @@ function holdings(){const h={};DATA.transactions.forEach(t=>{const k=t.owner+"|"
 function ownerDiv(h,o){let d=0;for(const[k,sh]of Object.entries(h)){const[ow,s]=k.split("|");if(ow===o)d+=sh*((DATA.stocks[s]||{}).div||0);}return d;}
 
 /* ===== 山景 v2:會開花的小徑 ===== */
-const FLOWER_COLS=["#E8756B","#F2A65A","#F6C453","#B48EC7","#E39BB4"];
+const FLOWER_COLS=["#9FD8C6","#A9C4E8","#C3B0DE","#E4E9F0","#8FD9C4"];
 const TRAIL_D="M70,244 C 150,232 210,216 280,206 S 420,178 500,160 S 640,118 706,98";
 
 function stationIdx(div){let i=0;MILES.forEach((m,k)=>{if(div>=m.amt)i=k+1});return i;}
 
 function hut(x,y){return `
  <g transform="translate(${x},${y})">
-  <rect x="-14" y="-16" width="28" height="16" rx="2" fill="#C79A6B" stroke="#8A6238" stroke-width="1.5"/>
-  <path d="M-18,-16 L0,-30 L18,-16 Z" fill="#A55B44" stroke="#7C4232" stroke-width="1.5"/>
-  <rect x="-4" y="-9" width="8" height="9" fill="#6E4B33"/>
-  <rect x="6" y="-27" width="5" height="9" fill="#8A6238"/>
-  <circle cx="8.5" cy="-32" r="3" fill="#EDE3D0" opacity=".8"><animate attributeName="cy" values="-32;-44" dur="3.2s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;0" dur="3.2s" repeatCount="indefinite"/></circle>
-  <circle cx="10" cy="-36" r="2.4" fill="#EDE3D0" opacity=".6"><animate attributeName="cy" values="-36;-48" dur="3.8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".6;0" dur="3.8s" repeatCount="indefinite"/></circle>
-  <text x="0" y="16" text-anchor="middle" font-size="11.5" font-weight="800" fill="#4A3E32">起點</text>
+  <rect x="-15" y="-16" width="30" height="16" rx="2" fill="#D9E2EC" stroke="#7B8CA6" stroke-width="1.5"/>
+  <path d="M-19,-16 L0,-31 L19,-16 Z" fill="#6E7FA0" stroke="#55658A" stroke-width="1.5"/>
+  <path d="M-19,-16 L0,-31 L19,-16 Z" fill="#EEF3F8" opacity=".35"/>
+  <rect x="-4" y="-9" width="8" height="9" fill="#5A6B8C"/>
+  <rect x="6" y="-28" width="5" height="9" fill="#7B8CA6"/>
+  <circle cx="8.5" cy="-33" r="3" fill="#E5EDF5" opacity=".75"><animate attributeName="cy" values="-33;-45" dur="3.4s" repeatCount="indefinite"/><animate attributeName="opacity" values=".75;0" dur="3.4s" repeatCount="indefinite"/></circle>
+  <circle cx="10" cy="-37" r="2.3" fill="#E5EDF5" opacity=".5"><animate attributeName="cy" values="-37;-49" dur="4s" repeatCount="indefinite"/><animate attributeName="opacity" values=".5;0" dur="4s" repeatCount="indefinite"/></circle>
+  <text x="0" y="16" text-anchor="middle" font-size="11.5" font-weight="800" fill="#3A4356">起點</text>
  </g>`;}
 
+/* 旅遊站:魔法路標燈 */
 function balloon(x,y,hit){return `
- <g transform="translate(${x},${y})" ${hit?"":'filter="url(#mist)" opacity=".55"'}>
-  <g class="bob">
-   <path d="M0,-46 a13,15 0 1,1 -0.1,0" fill="${hit?"#D96C4F":"#C9A08E"}" stroke="#8A4634" stroke-width="1.5"/>
-   <path d="M0,-46 a13,15 0 1,1 -0.1,0" fill="none" stroke="#F2C9A0" stroke-width="3" stroke-dasharray="3 7"/>
-   <line x1="-6" y1="-19" x2="-4" y2="-9" stroke="#8A6238" stroke-width="1.4"/>
-   <line x1="6" y1="-19" x2="4" y2="-9" stroke="#8A6238" stroke-width="1.4"/>
-   <rect x="-6" y="-9" width="12" height="8" rx="2" fill="#B98A5A" stroke="#8A6238" stroke-width="1.4"/>
-  </g>
-  ${hit?'<circle cx="0" cy="2" r="10" fill="#D96C4F" opacity=".15"><animate attributeName="r" values="8;15;8" dur="2.8s" repeatCount="indefinite"/></circle>':""}
- </g>`;}
-
-function houseM(x,y,hit){return `
- <g transform="translate(${x},${y})" ${hit?"":'filter="url(#mist)" opacity=".55"'}>
-  <rect x="-15" y="-17" width="30" height="17" rx="2" fill="#EAD9B8" stroke="#8A6238" stroke-width="1.5"/>
-  <path d="M-19,-17 L0,-33 L19,-17 Z" fill="#C1553F" stroke="#7C4232" stroke-width="1.5"/>
-  <rect x="-10" y="-11" width="7" height="7" fill="#9AB8CF" stroke="#6E8AA0" stroke-width="1"/>
-  <rect x="4" y="-11" width="7" height="11" fill="#6E4B33"/>
-  <rect x="8" y="-30" width="5" height="9" fill="#8A6238"/>
-  <ellipse cx="-24" cy="-6" rx="7" ry="10" fill="#7FA65A"/><rect x="-25.5" y="-1" width="3" height="8" fill="#8A6238"/>
- </g>`;}
-
-function castle(x,y,hit){return `
  <g transform="translate(${x},${y})" ${hit?"":'filter="url(#mist)" opacity=".5"'}>
-  <ellipse cx="-20" cy="4" rx="20" ry="7" fill="#fff" opacity=".85"/>
-  <ellipse cx="20" cy="6" rx="22" ry="7" fill="#fff" opacity=".8"/>
-  <rect x="-12" y="-26" width="24" height="24" rx="2" fill="#D8CDB6" stroke="#8C7B66" stroke-width="1.5"/>
-  <rect x="-18" y="-16" width="8" height="14" fill="#C9BCA2" stroke="#8C7B66" stroke-width="1.2"/>
-  <rect x="10" y="-16" width="8" height="14" fill="#C9BCA2" stroke="#8C7B66" stroke-width="1.2"/>
-  <path d="M-12,-26 L0,-40 L12,-26 Z" fill="#7E9AAF" stroke="#5E7688" stroke-width="1.4"/>
-  <path d="M-18,-16 L-14,-22 L-10,-16 Z" fill="#7E9AAF"/><path d="M10,-16 L14,-22 L18,-16 Z" fill="#7E9AAF"/>
-  <rect x="-3" y="-12" width="6" height="10" fill="#6E5B45"/>
-  ${hit?`<line x1="0" y1="-40" x2="0" y2="-52" stroke="#8A6238" stroke-width="1.6"/>
-   <path d="M0,-52 L12,-48 L0,-44 Z" fill="#D96C4F"/>
-   <circle cx="0" cy="-20" r="16" fill="#F6C453" opacity=".18"><animate attributeName="r" values="13;20;13" dur="3s" repeatCount="indefinite"/></circle>`:""}
+  <line x1="0" y1="0" x2="0" y2="-26" stroke="#7B8CA6" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M-9,-26 h18 l-3,-5 h-12 Z" fill="#8C9CB5"/>
+  <g class="bob">
+   <circle cx="0" cy="-36" r="7" fill="${hit?"#9FD8C6":"#C3CEDC"}" stroke="#7B8CA6" stroke-width="1.4"/>
+   ${hit?'<circle cx="0" cy="-36" r="13" fill="#9FD8C6" opacity=".3"><animate attributeName="r" values="10;17;10" dur="3s" repeatCount="indefinite"/><animate attributeName="opacity" values=".35;.05;.35" dur="3s" repeatCount="indefinite"/></circle>':""}
+  </g>
+  <path d="M-11,-14 h22" stroke="#7B8CA6" stroke-width="2" stroke-linecap="round"/>
+ </g>`;}
+
+/* 房貸站:石造小屋 */
+function houseM(x,y,hit){return `
+ <g transform="translate(${x},${y})" ${hit?"":'filter="url(#mist)" opacity=".5"'}>
+  <rect x="-16" y="-17" width="32" height="17" rx="2" fill="#E3EAF2" stroke="#7B8CA6" stroke-width="1.5"/>
+  <path d="M-20,-17 L0,-33 L20,-17 Z" fill="#6E7FA0" stroke="#55658A" stroke-width="1.5"/>
+  <rect x="-11" y="-12" width="8" height="8" fill="${hit?"#F6E1A8":"#B9C6D6"}" stroke="#7B8CA6" stroke-width="1"/>
+  <rect x="4" y="-12" width="8" height="12" fill="#5A6B8C"/>
+  <rect x="9" y="-30" width="5" height="9" fill="#7B8CA6"/>
+  <g transform="translate(-26,-4)"><path d="M0,-14 L7,0 H-7 Z" fill="#4F6B5D"/><path d="M0,-7 L9,7 H-9 Z" fill="#4F6B5D"/><rect x="-1.5" y="5" width="3" height="7" fill="#3E5245"/></g>
+ </g>`;}
+
+/* 退休站:魔法之塔 */
+function castle(x,y,hit){return `
+ <g transform="translate(${x},${y})" ${hit?"":'filter="url(#mist)" opacity=".45"'}>
+  <ellipse cx="-18" cy="4" rx="20" ry="6" fill="#DDE6F0" opacity=".8"/>
+  <ellipse cx="20" cy="6" rx="22" ry="6" fill="#DDE6F0" opacity=".75"/>
+  <path d="M-13,-2 L-10,-30 h20 l3,28 Z" fill="#E6ECF4" stroke="#7B8CA6" stroke-width="1.5"/>
+  <path d="M-12,-30 L0,-45 L12,-30 Z" fill="#5D7A9E" stroke="#48607F" stroke-width="1.4"/>
+  <rect x="-16" y="-18" width="7" height="16" fill="#D7E0EA" stroke="#7B8CA6" stroke-width="1.2"/>
+  <rect x="9" y="-18" width="7" height="16" fill="#D7E0EA" stroke="#7B8CA6" stroke-width="1.2"/>
+  <path d="M-16,-18 L-12.5,-25 L-9,-18 Z" fill="#5D7A9E"/><path d="M9,-18 L12.5,-25 L16,-18 Z" fill="#5D7A9E"/>
+  <path d="M-4,-24 h8 v10 a4,5 0 0 1 -8,0 Z" fill="${hit?"#F6E1A8":"#AFBED0"}"/>
+  ${hit?`<circle cx="0" cy="-51" r="4" fill="#CDE9DE"/>
+   <circle cx="0" cy="-51" r="12" fill="#9FD8C6" opacity=".35"><animate attributeName="r" values="8;18;8" dur="3.4s" repeatCount="indefinite"/><animate attributeName="opacity" values=".4;.05;.4" dur="3.4s" repeatCount="indefinite"/></circle>
+   <circle cx="0" cy="-30" r="20" fill="#CDE9DE" opacity=".14"><animate attributeName="r" values="16;24;16" dur="4s" repeatCount="indefinite"/></circle>`:""}
  </g>`;}
 
 function stLabel(p,m,i,divNow){
   const pct=Math.min(divNow/m.amt*100,100);
   return `<g font-family="PingFang TC,Noto Sans TC,sans-serif" text-anchor="middle">
-   <text x="${p.x}" y="${p.y+21}" font-size="12" font-weight="800" fill="#4A3E32">${m.name}</text>
-   <text x="${p.x}" y="${p.y+35}" font-size="9.5" fill="#8C7B66" font-family="ui-monospace,Menlo,monospace">${m.amt/10000}萬 · ${pct.toFixed(1)}% · ${ETA[person][i]}</text>
+   <text x="${p.x}" y="${p.y+21}" font-size="12" font-weight="800" fill="#3A4356">${m.name}</text>
+   <text x="${p.x}" y="${p.y+35}" font-size="9.5" fill="#77839A" font-family="ui-monospace,Menlo,monospace">${m.amt/10000}萬 · ${pct.toFixed(1)}% · ${ETA[person][i]}</text>
   </g>`;}
 
 function flowerSvg(x,y,c,i){
   const s=.8+ (i*13%5)/10;
   const petals=[0,72,144,216,288].map(a=>`<ellipse cx="0" cy="-3.2" rx="1.7" ry="3" fill="${c}" transform="rotate(${a})"/>`).join("");
   return `<g transform="translate(${x},${y}) scale(${s})" class="sway ${i%2?"s2":""}">
-    <line x1="0" y1="0" x2="0" y2="5" stroke="#6E9455" stroke-width="1.2"/>
-    <g>${petals}<circle r="1.6" fill="#F6C453"/></g></g>`;}
+    <line x1="0" y1="0" x2="0" y2="5" stroke="#5E7A6B" stroke-width="1.2"/>
+    <g>${petals}<circle r="1.5" fill="#F4F0E2"/><circle r="3.4" fill="${c}" opacity=".22"/></g></g>`;}
 
 function sprout(x,y,i){return `<g transform="translate(${x},${y})" class="sway ${i%2?"s2":""}">
-  <path d="M0,4 Q-3,-1 -5,-3 M0,4 Q3,-1 5,-3 M0,4 V-2" stroke="#7FA65A" stroke-width="1.4" fill="none" stroke-linecap="round"/></g>`;}
+  <path d="M0,4 Q-3,-1 -5,-3 M0,4 Q3,-1 5,-3 M0,4 V-2" stroke="#7FA894" stroke-width="1.4" fill="none" stroke-linecap="round"/></g>`;}
 
 function scene(divNow){
   const col=PCOL[person];
@@ -369,64 +372,76 @@ function scene(divNow){
   <svg viewBox="0 0 800 315" xmlns="http://www.w3.org/2000/svg" id="hillSvg">
    <defs>
     <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-     <stop offset="0" stop-color="#A9CBE3"/><stop offset=".45" stop-color="#D9E6E3"/>
-     <stop offset=".75" stop-color="#F6E4C2"/><stop offset="1" stop-color="#F9D9B0"/></linearGradient>
+     <stop offset="0" stop-color="#2E3F5C"/><stop offset=".38" stop-color="#5D7A9E"/>
+     <stop offset=".68" stop-color="#A8BCD2"/><stop offset="1" stop-color="#DCE6EF"/></linearGradient>
+    <linearGradient id="aur" x1="0" y1="0" x2="0" y2="1">
+     <stop offset="0" stop-color="#8FD9C4" stop-opacity=".55"/>
+     <stop offset=".6" stop-color="#A9A6E0" stop-opacity=".28"/>
+     <stop offset="1" stop-color="#A9A6E0" stop-opacity="0"/></linearGradient>
     <linearGradient id="river" x1="0" y1="0" x2="0" y2="1">
-     <stop offset="0" stop-color="#BFDDE8"/><stop offset="1" stop-color="#8FBFD4"/></linearGradient>
-    <radialGradient id="sunGlow"><stop offset="0" stop-color="#FFE9A8" stop-opacity=".95"/>
-     <stop offset="1" stop-color="#FFE9A8" stop-opacity="0"/></radialGradient>
+     <stop offset="0" stop-color="#C6D8E8"/><stop offset="1" stop-color="#8FAECB"/></linearGradient>
+    <radialGradient id="sunGlow"><stop offset="0" stop-color="#F2ECD9" stop-opacity=".9"/>
+     <stop offset="1" stop-color="#F2ECD9" stop-opacity="0"/></radialGradient>
     <filter id="mist"><feColorMatrix type="saturate" values="0.2"/></filter>
+    <filter id="soft"><feGaussianBlur stdDeviation="6"/></filter>
    </defs>
    <rect width="800" height="315" fill="url(#sky)"/>
-   <circle cx="700" cy="54" r="70" fill="url(#sunGlow)"/>
-   <circle cx="700" cy="54" r="21" fill="#FFDD7A"/><circle cx="700" cy="54" r="30" fill="#F6C453" opacity=".3"/>
-   <!-- 遠山:空氣透視 -->
-   <path d="M0,150 L90,96 L170,140 L260,86 L360,146 L470,100 L560,150 L800,110 V315 H0 Z" fill="#9DA8C9" opacity=".5"/>
-   <path d="M0,172 L120,120 L230,168 L340,118 L470,172 L610,128 L800,166 V315 H0 Z" fill="#8898B8" opacity=".55"/>
-   <g class="cloudA" fill="#fff" opacity=".92"><ellipse cx="0" cy="56" rx="46" ry="14"/><ellipse cx="36" cy="48" rx="28" ry="11"/><ellipse cx="-30" cy="50" rx="22" ry="9"/></g>
-   <g class="cloudB" fill="#fff" opacity=".72"><ellipse cx="0" cy="28" rx="52" ry="13"/><ellipse cx="42" cy="36" rx="27" ry="10"/></g>
-   <g class="cloudC" fill="#FFF4E0" opacity=".85"><ellipse cx="0" cy="96" rx="60" ry="16"/><ellipse cx="48" cy="88" rx="34" ry="12"/><ellipse cx="-40" cy="90" rx="26" ry="10"/></g>
-   <g class="birds" stroke="#6B5B45" stroke-width="1.6" fill="none" stroke-linecap="round">
+   <!-- 極光 -->
+   <g filter="url(#soft)" opacity=".85">
+     <path d="M60,26 C 180,4 300,58 430,26 C 560,-4 680,44 790,20 L790,96 C 660,120 540,74 420,102 C 300,128 180,80 60,104 Z" fill="url(#aur)">
+       <animate attributeName="opacity" values=".55;.9;.55" dur="11s" repeatCount="indefinite"/></path>
+     <path d="M0,54 C 140,32 260,86 400,58 C 540,30 660,72 800,50 L800,104 C 660,126 540,86 400,110 C 260,134 140,94 0,116 Z" fill="url(#aur)" opacity=".55">
+       <animate attributeName="opacity" values=".3;.6;.3" dur="15s" repeatCount="indefinite"/></path>
+   </g>
+   <!-- 星星 -->
+   <g fill="#FFFFFF">
+    <circle cx="90" cy="30" r="1.3" opacity=".9"><animate attributeName="opacity" values=".2;.95;.2" dur="4s" repeatCount="indefinite"/></circle>
+    <circle cx="250" cy="18" r="1" opacity=".7"><animate attributeName="opacity" values=".15;.8;.15" dur="5.5s" repeatCount="indefinite"/></circle>
+    <circle cx="470" cy="24" r="1.2" opacity=".8"><animate attributeName="opacity" values=".2;.9;.2" dur="6.5s" repeatCount="indefinite"/></circle>
+    <circle cx="640" cy="14" r="1" opacity=".6"><animate attributeName="opacity" values=".1;.7;.1" dur="4.8s" repeatCount="indefinite"/></circle>
+    <circle cx="360" cy="44" r=".9" opacity=".6"><animate attributeName="opacity" values=".1;.7;.1" dur="7s" repeatCount="indefinite"/></circle>
+   </g>
+   <!-- 月 -->
+   <circle cx="700" cy="52" r="60" fill="url(#sunGlow)"/>
+   <circle cx="700" cy="52" r="18" fill="#F4F0E2"/>
+   <!-- 雪山 -->
+   <path d="M0,148 L88,84 L146,132 L214,72 L300,146 L392,88 L470,150 L560,96 L640,152 L720,104 L800,150 V315 H0 Z" fill="#6E7FA0" opacity=".55"/>
+   <path d="M0,170 L110,104 L188,158 L286,96 L380,166 L484,110 L580,168 L688,118 L800,164 V315 H0 Z" fill="#5A6B8C" opacity=".65"/>
+   <g fill="#EEF3F8" opacity=".9">
+     <path d="M110,104 l16,11 l-8,3 l-9,-5 l-7,6 l-8,-4 Z"/>
+     <path d="M286,96 l17,12 l-9,3 l-9,-5 l-8,6 l-8,-4 Z"/>
+     <path d="M484,110 l16,11 l-9,3 l-8,-5 l-8,6 l-8,-4 Z"/>
+     <path d="M688,118 l15,11 l-8,3 l-8,-5 l-8,6 l-7,-4 Z"/>
+   </g>
+   <g class="cloudA" fill="#C9D6E6" opacity=".45"><ellipse cx="0" cy="112" rx="60" ry="10"/><ellipse cx="44" cy="106" rx="34" ry="8"/></g>
+   <g class="cloudC" fill="#DDE6F0" opacity=".4"><ellipse cx="0" cy="142" rx="70" ry="11"/><ellipse cx="54" cy="136" rx="38" ry="9"/></g>
+   <g class="birds" stroke="#5A6B8C" stroke-width="1.5" fill="none" stroke-linecap="round" opacity=".8">
      <path d="M0,0 q4,-4 8,0 M12,3 q4,-4 8,0 M6,9 q4,-4 8,0"/></g>
-   <!-- 山丘三層 -->
-   <path d="M0,192 Q 200,124 420,170 T 800,122 V315 H0 Z" fill="#AFC98E"/>
-   <!-- 遠丘上的梯田與小屋 -->
-   <g opacity=".7">
-    <path d="M40,178 q30,-9 62,-3 l-4,10 q-28,-5 -56,2 Z" fill="#C4D8A0"/>
-    <path d="M48,190 q30,-9 60,-3 l-4,10 q-26,-5 -54,2 Z" fill="#B9D194"/>
-    <path d="M620,150 q30,-8 58,-3 l-4,10 q-26,-4 -52,2 Z" fill="#C4D8A0"/>
-    <rect x="150" y="152" width="7" height="6" fill="#F3E7CF"/><path d="M148,152 l5.5,-5 5.5,5 Z" fill="#C1553F"/>
-    <rect x="560" y="142" width="6" height="5" fill="#F3E7CF"/>
+   <!-- 大地三層(冷綠) -->
+   <path d="M0,196 Q 200,132 420,176 T 800,128 V315 H0 Z" fill="#8FA79A"/>
+   <path d="M0,230 Q 250,168 520,212 T 800,172 V315 H0 Z" fill="#74907F"/>
+   <!-- 針葉林 -->
+   <g fill="#4F6B5D">
+    <g transform="translate(112,214)"><path d="M0,-26 L11,0 H-11 Z"/><path d="M0,-16 L14,10 H-14 Z"/><rect x="-2" y="8" width="4" height="8" fill="#3E5245"/></g>
+    <g transform="translate(146,222)"><path d="M0,-20 L9,0 H-9 Z"/><path d="M0,-12 L11,8 H-11 Z"/><rect x="-1.6" y="6" width="3.2" height="7" fill="#3E5245"/></g>
+    <g transform="translate(624,178)"><path d="M0,-22 L10,0 H-10 Z"/><path d="M0,-13 L12,8 H-12 Z"/><rect x="-1.8" y="6" width="3.6" height="7" fill="#3E5245"/></g>
+    <g transform="translate(596,186)"><path d="M0,-16 L8,0 H-8 Z"/><path d="M0,-9 L9,6 H-9 Z"/><rect x="-1.4" y="5" width="2.8" height="6" fill="#3E5245"/></g>
    </g>
-   <!-- 遠樹林 -->
-   <g fill="#8FB271">
-    <circle cx="332" cy="156" r="9"/><circle cx="344" cy="152" r="11"/><circle cx="356" cy="157" r="8"/>
-    <circle cx="708" cy="128" r="8"/><circle cx="719" cy="124" r="10"/>
+   <!-- 河 -->
+   <path d="M368,208 C 400,226 350,250 392,270 C 424,285 388,302 420,315 L470,315 C 436,300 470,286 440,268 C 412,251 452,230 414,210 Z" fill="url(#river)" opacity=".85"/>
+   <path d="M0,268 Q 300,220 620,254 T 800,230 V315 H0 Z" fill="#5E7A6B"/>
+   <!-- 魔法微光 -->
+   <g fill="#CDE9DE">
+    <circle cx="180" cy="122" r="2" opacity=".8"><animate attributeName="cy" values="122;100;122" dur="8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;.1;.8" dur="8s" repeatCount="indefinite"/></circle>
+    <circle cx="520" cy="96" r="1.7" opacity=".7"><animate attributeName="cy" values="96;74;96" dur="10s" repeatCount="indefinite"/><animate attributeName="opacity" values=".7;.1;.7" dur="10s" repeatCount="indefinite"/></circle>
+    <circle cx="648" cy="156" r="1.9" opacity=".75"><animate attributeName="cy" values="156;134;156" dur="9s" repeatCount="indefinite"/><animate attributeName="opacity" values=".75;.1;.75" dur="9s" repeatCount="indefinite"/></circle>
+    <circle cx="300" cy="204" r="1.5" opacity=".6"><animate attributeName="cy" values="204;186;204" dur="7s" repeatCount="indefinite"/><animate attributeName="opacity" values=".6;.1;.6" dur="7s" repeatCount="indefinite"/></circle>
    </g>
-   <path d="M0,228 Q 250,162 520,208 T 800,168 V315 H0 Z" fill="#8FB271"/>
-   <!-- 河流:從山谷蜿蜒到前景 -->
-   <path d="M368,206 C 400,224 350,248 392,268 C 424,283 388,300 420,315 L470,315 C 436,298 470,284 440,266 C 412,249 452,228 414,208 Z" fill="url(#river)" opacity=".9"/>
-   <path d="M394,236 q10,8 4,20 M416,270 q8,8 4,16" stroke="#E8F4F8" stroke-width="2" fill="none" stroke-linecap="round" opacity=".8"/>
-   <!-- 中景樹叢 -->
-   <g>
-    <circle cx="118" cy="216" r="13" fill="#7FA65A"/><circle cx="132" cy="210" r="15" fill="#6E9455"/><circle cx="146" cy="217" r="11" fill="#7FA65A"/>
-    <rect x="128" y="222" width="5" height="10" fill="#8A6238"/>
-    <circle cx="612" cy="176" r="11" fill="#7FA65A"/><circle cx="624" cy="171" r="13" fill="#6E9455"/>
-    <rect x="616" y="182" width="4" height="8" fill="#8A6238"/>
-   </g>
-   <path d="M0,266 Q 300,218 620,252 T 800,228 V315 H0 Z" fill="#6E9455"/>
-   <!-- 陽光光塵 -->
-   <g fill="#FFE9A8">
-    <circle cx="180" cy="120" r="2.2" opacity=".7"><animate attributeName="cy" values="120;104;120" dur="7s" repeatCount="indefinite"/><animate attributeName="opacity" values=".7;.15;.7" dur="7s" repeatCount="indefinite"/></circle>
-    <circle cx="520" cy="90" r="1.8" opacity=".6"><animate attributeName="cy" values="90;74;90" dur="9s" repeatCount="indefinite"/><animate attributeName="opacity" values=".6;.1;.6" dur="9s" repeatCount="indefinite"/></circle>
-    <circle cx="640" cy="150" r="2" opacity=".65"><animate attributeName="cy" values="150;136;150" dur="8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".65;.15;.65" dur="8s" repeatCount="indefinite"/></circle>
-    <circle cx="300" cy="200" r="1.6" opacity=".55"><animate attributeName="cy" values="200;188;200" dur="6.5s" repeatCount="indefinite"/><animate attributeName="opacity" values=".55;.1;.55" dur="6.5s" repeatCount="indefinite"/></circle>
-   </g>
-   <path id="trailBase" d="${TRAIL_D}" fill="none" stroke="#EFE6CF" stroke-width="8" stroke-linecap="round"/>
-   <path d="${TRAIL_D}" fill="none" stroke="#C6B28E" stroke-width="2" stroke-dasharray="1 9" stroke-linecap="round" opacity=".7"/>
+   <path id="trailBase" d="${TRAIL_D}" fill="none" stroke="#E7EDF4" stroke-width="8" stroke-linecap="round"/>
+   <path d="${TRAIL_D}" fill="none" stroke="#AFC0D2" stroke-width="2" stroke-dasharray="1 9" stroke-linecap="round" opacity=".7"/>
    <path id="trailWalk" d="${TRAIL_D}" fill="none" stroke="${col}" stroke-width="4.5" stroke-linecap="round" opacity=".9"/>
    <g id="flora"></g><g id="marks"></g><g id="walker"></g>
-   <g fill="#5E824A">
+   <g fill="#47624F">
     <path class="sway" d="M20,315 q2,-16 6,-20 q0,12 4,20 Z"/>
     <path class="sway s2" d="M36,315 q3,-13 7,-16 q-1,10 3,16 Z"/>
     <path class="sway" d="M770,315 q2,-15 6,-19 q0,11 4,19 Z"/>
@@ -471,20 +486,24 @@ function layoutScene(prog,divNow,col){
   const wp=pt(prog);
   const next=MILES.find(m=>divNow<m.amt);
   const gap=next?`還差 ${((next.amt-divNow)/10000).toFixed(1)} 萬到${next.name}`:"抵達終點 🎉";
-  const hair=person==="wife"?'<path d="M-6.5,-20.5 q6.5,-7 13,0 v3 q-6.5,-4 -13,0 Z" fill="#8A5B3B"/>':'<path d="M-6,-22.5 h12" stroke="#5B4632" stroke-width="3.4" stroke-linecap="round"/>';
+  const hair=person==="wife"
+    ?'<path d="M-7,-21 q7,-8 14,0 v10 q-7,-5 -14,0 Z" fill="#D8D2E6"/>'
+    :'<path d="M-6.5,-22.5 q6.5,-7 13,0 v4 q-6.5,-4 -13,0 Z" fill="#C6D2E2"/>';
   svg.querySelector("#walker").innerHTML=`
    <g transform="translate(${wp.x},${wp.y})"><g class="bob">
-     <ellipse cx="0" cy="6" rx="8" ry="2.6" fill="#4A3E32" opacity=".18"/>
-     <line x1="-2.5" y1="5" x2="-3.5" y2="-1" stroke="#4A3E32" stroke-width="2" stroke-linecap="round"/>
-     <line x1="2.5" y1="5" x2="3.5" y2="-1" stroke="#4A3E32" stroke-width="2" stroke-linecap="round"/>
-     <rect x="-6" y="-15" width="12" height="15" rx="6" fill="${col}"/>
-     <circle cx="0" cy="-19.5" r="6.5" fill="#F6DFC8" stroke="#4A3E32" stroke-width="1"/>${hair}
-   </g></g>
+     <ellipse cx="0" cy="6" rx="9" ry="2.6" fill="#3A4356" opacity=".16"/>
+     <line x1="9" y1="7" x2="7" y2="-24" stroke="#8C7B66" stroke-width="1.8" stroke-linecap="round"/>
+     <circle cx="6.6" cy="-26" r="3" fill="#CDE9DE"/>
+     <circle cx="6.6" cy="-26" r="6.5" fill="#9FD8C6" opacity=".35"><animate attributeName="r" values="5;9;5" dur="2.8s" repeatCount="indefinite"/></circle>
+     <path d="M-8,2 q0,-16 8,-16 q8,0 8,16 Z" fill="${col}"/>
+     <path d="M-8,2 q0,-16 8,-16 q8,0 8,16 Z" fill="#FFFFFF" opacity=".12"/>
+     <circle cx="0" cy="-19" r="6.2" fill="#F2E7DA" stroke="#3A4356" stroke-width=".9"/>${hair}
+   </g></g></g>
    <g transform="translate(${Math.min(Math.max(wp.x,64),736)},${wp.y-56})">
-     <line x1="0" y1="14" x2="0" y2="28" stroke="#8A6238" stroke-width="4"/>
-     <rect x="-60" y="-17" width="120" height="31" rx="7" fill="#B98A5A" stroke="#8A6238" stroke-width="2"/>
-     <text x="0" y="-3.5" text-anchor="middle" font-size="12" font-weight="800" fill="#FFF6E3" font-family="ui-monospace,Menlo,monospace">${fmt(divNow)} 元／年</text>
-     <text x="0" y="9.5" text-anchor="middle" font-size="9.5" fill="#FFEDC9">${gap}</text>
+     <line x1="0" y1="14" x2="0" y2="28" stroke="#7B8CA6" stroke-width="3"/>
+     <rect x="-62" y="-18" width="124" height="33" rx="9" fill="#42536F" stroke="#8FA3BC" stroke-width="1.6" opacity=".95"/>
+     <text x="0" y="-3.5" text-anchor="middle" font-size="12" font-weight="800" fill="#EAF2F8" font-family="ui-monospace,Menlo,monospace">${fmt(divNow)} 元／年</text>
+     <text x="0" y="9.5" text-anchor="middle" font-size="9.5" fill="#AFC8DC">${gap}</text>
    </g>`;
 }
 
@@ -496,7 +515,7 @@ function celebrate(divNow){
   if(idx>prev)petalRain();
 }
 function petalRain(){
-  const cols=["#E8756B","#F2A65A","#F6C453","#E39BB4","#B48EC7"];
+  const cols=["#9FD8C6","#A9C4E8","#C3B0DE","#F4F0E2","#8FD9C4"];
   for(let i=0;i<26;i++){
     const d=document.createElement("div");
     d.className="petal";
