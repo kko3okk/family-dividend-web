@@ -311,7 +311,7 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-0932";
+const APP_VERSION="2026.07.23-0935";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -606,9 +606,11 @@ function exRows(o){
   const S=DATA.stocks,today=new Date();today.setHours(0,0,0,0);
   const list=OWNER_STOCKS[o].map(sid=>{
     const st=S[sid]||{};if(!st.ex_date)return null;
+    const freq=st.freq||1, stepM=Math.round(12/freq);
     let d=new Date(st.ex_date+"T00:00:00");
-    if(d<today){const nd=new Date(d);nd.setFullYear(d.getFullYear()+1);d=nd;}
-    return {sid,name:st.name,div:st.div,date:d,days:Math.round((d-today)/86400000),pay:st.pay_date,confirmed:!!st.ex_confirmed};
+    let guard=0;
+    while(d<today&&guard++<40){const nd=new Date(d);nd.setMonth(d.getMonth()+stepM);d=nd;}
+    return {sid,name:st.name,div:st.div,date:d,days:Math.round((d-today)/86400000),pay:st.pay_date,confirmed:!!st.ex_confirmed,freq:freq};
   }).filter(Boolean).sort((a,b)=>a.days-b.days);
   if(!list.length)return '<div class="note">尚未設定除權息日</div>';
   return list.map(x=>{
@@ -617,7 +619,7 @@ function exRows(o){
     const txt=est?`約 <b>${x.days}</b> 天後`:(x.days===0?"今天除息":`還有 <b>${x.days}</b> 天`);
     return `<div class="exrow" ${est?'style="opacity:.72"':""}><div class="nm">${x.name}<span>${x.sid}</span>
       ${est?'<span style="color:var(--mut2)">· 預估</span>':'<span style="color:var(--green)">· 已公告</span>'}</div>
-      <div class="cd ${est?"":cls}">${txt}<br><span class="tick">${x.date.toISOString().slice(5,10)} 除息 · 配 ${x.div} 元</span></div></div>`;
+      <div class="cd ${est?"":cls}">${txt}<br><span class="tick">${x.date.toISOString().slice(5,10)} 除息 · 全年配 ${x.div} 元${x.freq>1?" · 半年配":""}</span></div></div>`;
   }).join("");
 }
 function payRows(o){
