@@ -308,7 +308,7 @@
 
 <div class="card note" id="ruleNote"></div>
 <div class="note" style="text-align:center;padding:0 4px 8px">
-  背景音樂：上傳 bgm.m4a（或 .mp3／.aac／.ogg）至網站 repo 根目錄即自動啟用；音效可另放 sfx-coin/gem/fanfare/tap.m4a；無檔案時使用程式生成的環境音<br>所有紀錄（交易、股息入帳、檢核、里程碑達成）皆存於私有 GitHub，換手機不會遺失<br>美術素材：Kenney Platformer Art Deluxe（kenney.nl）· CC0 公眾領域授權
+  背景音樂：上傳 bgm.m4a（或 .mp3／.aac／.ogg）至網站 repo 根目錄即自動啟用；音效可另放 sfx-coin/gem/fanfare/tap.m4a；無檔案時使用程式生成的環境音<br>所有紀錄（交易、股息入帳、檢核、里程碑達成）皆存於私有 GitHub，換手機不會遺失<br>地圖背景：<a href="http://www.freepik.com" style="color:var(--mut)">Designed by Freepik</a>　·　角色與物件：Kenney（kenney.nl）CC0
 </div>
 
 <dialog id="txDlg">
@@ -364,7 +364,7 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-1737";
+const APP_VERSION="2026.07.23-1741";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊島",amt:150000},{name:"房貸海灣",amt:610000},{name:"寶藏所在",amt:1000000}];
@@ -405,8 +405,8 @@ async function ensurePrices(){
 function holdings(){const h={};DATA.transactions.forEach(t=>{const k=t.owner+"|"+t.stock;h[k]=(h[k]||0)+t.shares;});return h;}
 function ownerDiv(h,o){let d=0;for(const[k,sh]of Object.entries(h)){const[ow,s]=k.split("|");if(ow===o)d+=sh*((DATA.stocks[s]||{}).div||0);}return d;}
 
-/* ═══════ 藏寶圖 ═══════ */
-const TRAIL_D="M636,470 L520,470 L520,404 L408,404 L408,338 L306,338 L306,268 L404,268 L404,196 L536,196 L536,138 L604,138";
+/* ═══════ 藏寶圖（Freepik 背景 + 資料圖層）═══════ */
+const TRAIL_D="M250,650 C 296,612 318,566 300,524 C 282,482 232,470 248,428 C 264,386 352,404 382,374 C 412,344 322,318 338,280 C 354,242 442,268 472,246 C 502,224 498,190 524,168";
 const TR={
   s:["art/t-s1.png","art/t-s2.png","art/t-s3.png"],
   m:["art/t-m1.png","art/t-m2.png","art/t-m3.png"],
@@ -416,176 +416,85 @@ function stationIdx(div){let i=0;MILES.forEach((m,k)=>{if(div>=m.amt)i=k+1});ret
 function treasureList(div){
   const out=[];
   const nS=Math.floor(div/1000),nM=Math.floor(div/20000),nL=Math.floor(div/100000);
-  for(let i=0;i<Math.min(nS,26);i++)out.push({t:"s",i});
-  for(let i=0;i<Math.min(nM,12);i++)out.push({t:"m",i});
-  for(let i=0;i<Math.min(nL,8);i++)out.push({t:"l",i});
+  for(let i=0;i<Math.min(nS,22);i++)out.push({t:"s",i});
+  for(let i=0;i<Math.min(nM,10);i++)out.push({t:"m",i});
+  for(let i=0;i<Math.min(nL,6);i++)out.push({t:"l",i});
   return out;
-}
-/* 方塊狀陸地：以格點堆疊出手繪地圖感 */
-function landmass(cells,fill){
-  return cells.map(([x,y,w,h])=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="14" fill="${fill}"/>`).join("");
-}
-function palm(x,y,s){
-  return `<g transform="translate(${x},${y}) scale(${s})">
-    <rect x="-3" y="-4" width="6" height="34" rx="3" fill="#6B4A2A"/>
-    <path d="M0,-6 q-26,-4 -30,10 q16,-10 30,-2 Z" fill="#5E9B3E"/>
-    <path d="M0,-6 q26,-4 30,10 q-16,-10 -30,-2 Z" fill="#6FB04A"/>
-    <path d="M0,-6 q-14,-22 -4,-30 q10,10 8,28 Z" fill="#6FB04A"/>
-    <path d="M0,-6 q16,-20 26,-16 q-14,4 -22,18 Z" fill="#5E9B3E"/>
-    <circle cy="-6" r="4" fill="#4E7F33"/></g>`;
-}
-function bushIcon(x,y,s){
-  return `<g transform="translate(${x},${y}) scale(${s})">
-    <rect x="-22" y="-6" width="44" height="14" rx="7" fill="#6FB04A"/>
-    <rect x="-14" y="-16" width="28" height="16" rx="8" fill="#7FBE58"/>
-    <rect x="2" y="-13" width="18" height="13" rx="6" fill="#6FB04A"/></g>`;
-}
-function compass(x,y,s){
-  return `<g transform="translate(${x},${y}) scale(${s})" opacity=".55">
-    <path d="M0,-40 L8,-8 L40,0 L8,8 L0,40 L-8,8 L-40,0 L-8,-8 Z" fill="#B99B5E"/>
-    <path d="M0,-40 L8,-8 L0,0 Z" fill="#8B7A55"/><path d="M0,40 L-8,8 L0,0 Z" fill="#8B7A55"/>
-    <circle r="5" fill="#8B7A55"/>
-    <text y="-50" text-anchor="middle" font-size="15" fill="#8B7A55" font-weight="700">N</text>
-    <text x="50" y="6" text-anchor="middle" font-size="15" fill="#8B7A55" font-weight="700">E</text>
-    <text y="60" text-anchor="middle" font-size="15" fill="#8B7A55" font-weight="700">S</text>
-    <text x="-50" y="6" text-anchor="middle" font-size="15" fill="#8B7A55" font-weight="700">W</text></g>`;
-}
-function ship(x,y,s){
-  return `<g transform="translate(${x},${y}) scale(${s})">
-    <rect x="-38" y="24" width="76" height="16" rx="6" fill="#7A4A2E"/>
-    <path d="M-42,4 h84 l-12,22 h-60 Z" fill="#8B5A34"/>
-    <rect x="-42" y="0" width="84" height="7" rx="3" fill="#A9703F"/>
-    <rect x="-2" y="-52" width="4" height="54" fill="#5C3823"/>
-    <rect x="-26" y="-56" width="4" height="58" fill="#5C3823"/>
-    <path d="M2,-46 q26,10 24,32 h-24 Z" fill="#FBF5E2"/>
-    <path d="M-22,-50 q-22,12 -20,34 h20 Z" fill="#FBF5E2"/>
-    <path d="M2,-52 h18 l-6,7 l6,7 h-18 Z" fill="#4A3B22"/>
-    <circle cx="-16" cy="14" r="3" fill="#5C3823"/><circle cy="14" r="3" fill="#5C3823"/>
-    <circle cx="16" cy="14" r="3" fill="#5C3823"/></g>`;
-}
-function chestIcon(x,y,s,open){
-  return `<g transform="translate(${x},${y}) scale(${s})">
-    <rect x="-26" y="-4" width="52" height="26" rx="4" fill="#D9A441" stroke="#8B5A34" stroke-width="3"/>
-    <path d="M-26,-4 a26,18 0 0 1 52,0 Z" fill="${open?"#F0C86A":"#E0B255"}" stroke="#8B5A34" stroke-width="3"/>
-    <rect x="-26" y="-6" width="52" height="6" fill="#8B5A34"/>
-    <rect x="-5" y="0" width="10" height="12" rx="2" fill="#8B5A34"/>
-    <circle cy="6" r="2.5" fill="#FBF5E2"/>
-    ${open?'<circle cx="0" cy="-24" r="14" fill="#F7E9A8" opacity=".35"><animate attributeName="r" values="10;18;10" dur="2.6s" repeatCount="indefinite"/></circle>':""}</g>`;
 }
 function xMark(x,y,s,col){
   return `<g transform="translate(${x},${y}) scale(${s})" stroke="${col||"#C94A3F"}" stroke-width="5" stroke-linecap="round">
     <line x1="-9" y1="-9" x2="9" y2="9"/><line x1="9" y1="-9" x2="-9" y2="9"/></g>`;
+}
+function chestIcon(x,y,s,open){
+  return `<g transform="translate(${x},${y}) scale(${s})">
+    <rect x="-24" y="-4" width="48" height="24" rx="4" fill="#D9A441" stroke="#7A4A2E" stroke-width="3"/>
+    <path d="M-24,-4 a24,17 0 0 1 48,0 Z" fill="${open?"#F0C86A":"#E0B255"}" stroke="#7A4A2E" stroke-width="3"/>
+    <rect x="-24" y="-6" width="48" height="6" fill="#7A4A2E"/>
+    <rect x="-5" y="0" width="10" height="11" rx="2" fill="#7A4A2E"/>
+    ${open?'<circle cy="-22" r="14" fill="#F7E9A8" opacity=".4"><animate attributeName="r" values="10;20;10" dur="2.6s" repeatCount="indefinite"/></circle>':""}</g>`;
+}
+function tag(x,y,w,t1,t2){
+  return `<g><rect x="${x-w/2}" y="${y}" width="${w}" height="30" rx="6" fill="#FBF5E2" stroke="#B99B5E" stroke-width="2" opacity=".95"/>
+    <text x="${x}" y="${y+14}" text-anchor="middle" font-size="11.5" font-weight="800" fill="#4A3B22">${t1}</text>
+    <text x="${x}" y="${y+25}" text-anchor="middle" font-size="9.5" fill="#8B7A55"
+      font-family="ui-monospace,Menlo,monospace">${t2}</text></g>`;
 }
 
 function scene(divNow){
   const amts=[0,...MILES.map(m=>m.amt)];
   let seg=0;while(seg<3&&divNow>=amts[seg+1])seg++;
   const prog=(seg+(seg>=3?0:Math.min((divNow-amts[seg])/Math.max(amts[Math.min(seg+1,3)]-amts[seg],1),1)))/3;
-
   document.getElementById("sceneSvg").innerHTML=`
-  <svg viewBox="0 0 800 560" xmlns="http://www.w3.org/2000/svg">
-   <!-- 木框 -->
-   <rect width="800" height="560" fill="#6B3F2A"/>
-   <g fill="#5C3823">
-     <rect y="118" width="800" height="6"/><rect y="292" width="800" height="6"/><rect y="452" width="800" height="6"/>
-   </g>
-   <g fill="#7A4A2E">
-     <rect x="0" y="60" width="26" height="34" rx="10"/><rect x="774" y="150" width="26" height="34" rx="10"/>
-     <rect x="0" y="330" width="26" height="34" rx="10"/><rect x="774" y="400" width="26" height="34" rx="10"/>
-   </g>
-   <!-- 羊皮紙 -->
-   <rect x="34" y="26" width="732" height="508" rx="18" fill="#E7DDB2"/>
-   <!-- 陸塊（淺色堆疊）-->
-   ${landmass([[120,60,240,60],[92,110,300,58],[150,160,330,64],[110,214,300,60],
-               [96,266,360,58],[150,318,320,62],[186,372,300,58],[240,424,220,60],
-               [430,86,290,58],[470,138,250,54],[520,300,180,54],[560,352,170,50]],"#DCD1A0")}
-   ${landmass([[168,74,150,34],[210,180,180,36],[150,290,180,32],[300,440,120,30],
-               [520,100,150,32],[580,318,110,28]],"#D2C58E")}
-   <!-- 綠地 -->
-   ${landmass([[150,86,120,36],[440,96,180,42],[620,120,90,34],[196,196,110,32],
-               [206,404,120,34],[540,312,120,32]],"#7FBE58")}
-   ${landmass([[172,92,70,24],[470,104,110,28],[214,410,74,22]],"#8FCF66")}
-   <!-- 水域 -->
-   ${landmass([[214,236,120,30],[300,248,150,28],[600,466,150,40],[286,470,110,30]],"#A5D3E8")}
-   <!-- 灰岩區 -->
-   ${landmass([[150,336,230,58],[196,392,150,34]],"#B9B4A6")}
-   <g transform="translate(250,368)"><circle r="18" fill="#FBF5E2"/>
-     <circle cx="-6" cy="-4" r="3.5" fill="#4A3B22"/><circle cx="6" cy="-4" r="3.5" fill="#4A3B22"/>
-     <rect x="-3" y="4" width="6" height="6" rx="2" fill="#4A3B22"/>
-     <rect x="-20" y="18" width="40" height="7" rx="3.5" fill="#FBF5E2" transform="rotate(18)"/>
-     <rect x="-20" y="18" width="40" height="7" rx="3.5" fill="#FBF5E2" transform="rotate(-18)"/></g>
-   <!-- 棕櫚與灌木 -->
-   ${palm(176,132,1.05)}${palm(636,150,1.0)}${palm(496,180,0.95)}${palm(268,470,1.0)}${palm(596,430,0.9)}
-   ${bushIcon(232,102,0.9)}${bushIcon(492,110,0.85)}${bushIcon(206,300,0.8)}${bushIcon(404,462,0.85)}
-   <!-- 指北針與船 -->
-   ${compass(668,336,1)}
-   ${ship(690,466,0.92)}
-   <!-- 航線 -->
-   <path id="trailBase" d="${TRAIL_D}" fill="none" stroke="#C94A3F" stroke-width="4"
-     stroke-dasharray="11 11" stroke-linecap="round" opacity=".45"/>
-   <path id="trailWalk" d="${TRAIL_D}" fill="none" stroke="#C94A3F" stroke-width="5.5" stroke-linecap="round"/>
+  <svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+   <image href="art/map-bg.jpg" x="0" y="0" width="800" height="800"/>
+   <path id="trailBase" d="${TRAIL_D}" fill="none" stroke="#C94A3F" stroke-width="4.5"
+     stroke-dasharray="10 12" stroke-linecap="round" opacity=".5"/>
+   <path id="trailWalk" d="${TRAIL_D}" fill="none" stroke="#C94A3F" stroke-width="6" stroke-linecap="round"/>
    <g id="marks"></g><g id="loot"></g><g id="walker"></g>
-   <!-- 標題 -->
-   <text x="726" y="76" text-anchor="end" font-size="30" font-weight="800" fill="#FBF5E2"
-     font-family="Georgia,serif" letter-spacing="2">TREASURE MAP</text>
-   <text x="726" y="98" text-anchor="end" font-size="12" fill="#8B7A55" letter-spacing="4">家的藏寶圖</text>
   </svg>`;
   layoutScene(prog,divNow);
   celebrate(divNow);
 }
 
 function layoutScene(prog,divNow){
-  const svg=document.getElementById("hillSvg")||document.querySelector("#sceneSvg svg");
+  const svg=document.querySelector("#sceneSvg svg");
   const base=svg.querySelector("#trailBase"), L=base.getTotalLength();
   svg.querySelector("#trailWalk").setAttribute("stroke-dasharray",`${L*prog} ${L}`);
   const pt=f=>base.getPointAtLength(L*Math.min(Math.max(f,0),1));
   const P=[pt(0),pt(1/3),pt(2/3),pt(1)];
   const hit=i=>divNow>=MILES[i-1].amt;
 
-  /* 站點：X 記號＋標籤；終點寶箱 */
-  let mk="";
+  let mk=tag(P[0].x,P[0].y+16,74,"啟航","計畫起點");
   [1,2].forEach(i=>{
-    const p=P[i],on=hit(i);
-    mk+=`<g>${xMark(p.x,p.y,on?1.5:1.2,on?"#7A9E42":"#C94A3F")}
-      <rect x="${p.x-52}" y="${p.y+14}" width="104" height="30" rx="6" fill="#FBF5E2" stroke="#C7B78C" stroke-width="2"/>
-      <text x="${p.x}" y="${p.y+28}" text-anchor="middle" font-size="11" font-weight="800" fill="#4A3B22">${MILES[i-1].name}</text>
-      <text x="${p.x}" y="${p.y+39}" text-anchor="middle" font-size="9" fill="#8B7A55"
-        font-family="ui-monospace,Menlo,monospace">${(Math.min(divNow/MILES[i-1].amt*100,100)).toFixed(1)}% · ${MILES[i-1].amt/10000}萬</text></g>`;
+    const p=P[i],on=hit(i),m=MILES[i-1];
+    mk+=xMark(p.x,p.y,on?1.6:1.25,on?"#5E8B33":"#C94A3F")
+      +tag(p.x,p.y+16,116,m.name,`${Math.min(divNow/m.amt*100,100).toFixed(1)}% · ${m.amt/10000}萬`);
   });
-  const p3=P[3];
-  mk+=chestIcon(p3.x,p3.y-14,1.15,hit(3))+
-    `<rect x="${p3.x-56}" y="${p3.y+16}" width="112" height="32" rx="6" fill="#FBF5E2" stroke="#C7B78C" stroke-width="2"/>
-     <text x="${p3.x}" y="${p3.y+31}" text-anchor="middle" font-size="11.5" font-weight="800" fill="#4A3B22">${MILES[2].name}</text>
-     <text x="${p3.x}" y="${p3.y+42}" text-anchor="middle" font-size="9" fill="#8B7A55"
-       font-family="ui-monospace,Menlo,monospace">${(Math.min(divNow/MILES[2].amt*100,100)).toFixed(2)}% · 100萬</text>`;
-  const p0=P[0];
-  mk+=`<rect x="${p0.x-34}" y="${p0.y+14}" width="68" height="24" rx="6" fill="#FBF5E2" stroke="#C7B78C" stroke-width="2"/>
-       <text x="${p0.x}" y="${p0.y+30}" text-anchor="middle" font-size="11" font-weight="800" fill="#4A3B22">啟航</text>`;
+  const p3=P[3],m3=MILES[2];
+  mk+=chestIcon(p3.x,p3.y-16,1.1,hit(3))
+    +tag(p3.x,p3.y+14,124,m3.name,`${Math.min(divNow/m3.amt*100,100).toFixed(2)}% · 100萬`);
   svg.querySelector("#marks").innerHTML=mk;
 
-  /* 沿途拾獲的財寶 */
   const items=treasureList(divNow);
   let lo="";
   items.forEach((it,k)=>{
-    const f=Math.min((k+0.6)/(items.length+1)*prog,prog-0.006);
+    const f=Math.min((k+0.6)/(items.length+1)*prog,prog-0.008);
     if(f<=0)return;
     const p=pt(f),set=TR[it.t],img=set[k%set.length];
-    const sz={s:17,m:21,l:26}[it.t];
-    const side=((k%2)?1:-1)*15;
+    const sz={s:18,m:22,l:27}[it.t], side=((k%2)?1:-1)*16;
     lo+=`<image href="${img}" x="${p.x+side-sz/2}" y="${p.y-sz/2}" width="${sz}" height="${sz}"/>`;
   });
   MILES.forEach((m,i)=>{ if(divNow>=m.amt){const p=pt((i+1)/3);
-    lo+=`<image href="art/t-key.png" x="${p.x-26}" y="${p.y-30}" width="20" height="20"/>`;} });
+    lo+=`<image href="art/t-key.png" x="${p.x-28}" y="${p.y-32}" width="21" height="21"/>`;} });
   svg.querySelector("#loot").innerHTML=lo;
 
-  /* 探險者位置 */
   const wp=pt(prog);
   svg.querySelector("#walker").innerHTML=`
-    <circle cx="${wp.x}" cy="${wp.y}" r="17" fill="#C94A3F" opacity=".16">
-      <animate attributeName="r" values="13;21;13" dur="2.6s" repeatCount="indefinite"/></circle>
+    <circle cx="${wp.x}" cy="${wp.y}" r="18" fill="#C94A3F" opacity=".18">
+      <animate attributeName="r" values="14;23;14" dur="2.6s" repeatCount="indefinite"/></circle>
     <g class="bob">
-      <image class="wframe" href="art/w-${person}-0.png" x="${wp.x-15}" y="${wp.y-38}" width="30" height="42"/>
-      <image class="wframe f2" href="art/w-${person}-1.png" x="${wp.x-15}" y="${wp.y-38}" width="30" height="42"/>
+      <image class="wframe" href="art/w-${person}-0.png" x="${wp.x-16}" y="${wp.y-40}" width="32" height="45"/>
+      <image class="wframe f2" href="art/w-${person}-1.png" x="${wp.x-16}" y="${wp.y-40}" width="32" height="45"/>
     </g>`;
 }
 
