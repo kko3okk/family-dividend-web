@@ -309,7 +309,7 @@
 
 <div class="card note" id="ruleNote"></div>
 <div class="note" style="text-align:center;padding:0 4px 8px">
-  背景音樂：上傳 bgm.m4a（或 .mp3／.aac／.ogg）至網站 repo 根目錄即自動啟用；音效可另放 sfx-coin/gem/fanfare/tap.m4a；無檔案時使用程式生成的環境音<br>所有紀錄（交易、股息入帳、檢核、里程碑達成）皆存於私有 GitHub，換手機不會遺失<br>美術素材：Kenney（kenney.nl）· CC0 公眾領域授權
+  背景音樂：上傳 bgm.m4a（或 .mp3／.aac／.ogg）至網站 repo 根目錄即自動啟用；音效可另放 sfx-coin/gem/fanfare/tap.m4a；無檔案時使用程式生成的環境音<br>所有紀錄（交易、股息入帳、檢核、里程碑達成）皆存於私有 GitHub，換手機不會遺失<br>美術素材：Kenney Platformer Art Deluxe（kenney.nl）· CC0 公眾領域授權
 </div>
 
 <dialog id="txDlg">
@@ -365,7 +365,7 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-1647";
+const APP_VERSION="2026.07.23-1727";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -456,10 +456,10 @@ function stLabel(p,m,i,divNow){
   </g>`;}
 
 const TR={
-  s:["tr-s1.png","tr-s2.png","tr-s3.png","tr-s4.png"],      // 每 1,000 元
-  m:["tr-m1.png","tr-m2.png","tr-m3.png","tr-m4.png"],      // 每 20,000 元
-  l:["tr-l1.png","tr-l2.png","tr-l3.png","tr-l4.png"],      // 每 100,000 元
-  k:["tr-key.png","tr-key2.png"]                             // 里程碑鑰匙
+  s:["art/t-s1.png","art/t-s2.png","art/t-s3.png"],   // 每 1,000 元：銅／銀／金幣
+  m:["art/t-m1.png","art/t-m2.png","art/t-m3.png"],   // 每 20,000 元：綠／藍／紅寶石
+  l:["art/t-l1.png"],                                  // 每 100,000 元：黃寶石
+  k:["art/t-key.png"]                                  // 里程碑鑰匙
 };
 /* 依年股息換算應長出的寶物清單（由小到大，越後段越貴重）*/
 function treasureList(div){
@@ -472,7 +472,7 @@ function treasureList(div){
 }
 function trSvg(x,y,item,idx,depth){
   const set=TR[item.t], img=set[idx%set.length];
-  const base={s:10,m:14,l:19,k:16}[item.t];
+  const base={s:13,m:17,l:22,k:18}[item.t];
   const sz=base*(0.78+0.42*depth);
   const dly=(idx*0.37)%2.4;
   return `<g class="sway ${idx%2?"s2":""}" transform="translate(${x},${y})">
@@ -508,10 +508,8 @@ function scene(divNow){
    <circle cx="702" cy="52" r="40" fill="#6E5C9B" opacity=".5"/>
    <circle cx="702" cy="52" r="24" fill="#F7E9A8"/>
    <!-- 扁平雲 -->
-   <g class="cloudA" fill="#6E5C9B" opacity=".55">
-     <rect x="-48" y="72" width="96" height="20" rx="10"/><rect x="-16" y="60" width="52" height="20" rx="10"/></g>
-   <g class="cloudC" fill="#7C6AA8" opacity=".45">
-     <rect x="-60" y="112" width="120" height="22" rx="11"/><rect x="-20" y="100" width="64" height="22" rx="11"/></g>
+   <g class="cloudA" opacity=".8"><image href="art/cloud1.png" x="-64" y="46" width="128" height="71"/></g>
+   <g class="cloudC" opacity=".7"><image href="art/cloud2.png" x="-60" y="96" width="120" height="66"/></g>
    <g class="birds" fill="#8E7FBC" opacity=".8">
      <rect x="0" y="0" width="9" height="3" rx="1.5"/><rect x="13" y="4" width="9" height="3" rx="1.5"/><rect x="6" y="9" width="9" height="3" rx="1.5"/></g>
    <!-- 遠山：扁平三角 -->
@@ -529,9 +527,9 @@ function scene(divNow){
    <path d="M0,252 Q 250,192 520,234 T 800,196 V400 H0 Z" fill="#4FA872"/>
    <!-- 圓潤樹 -->
    <g>
-    <rect x="60" y="250" width="9" height="20" rx="4.5" fill="#2F6B4B"/><circle cx="64.5" cy="242" r="18" fill="#57B87E"/>
-    <rect x="700" y="200" width="7" height="16" rx="3.5" fill="#2F6B4B"/><circle cx="703.5" cy="194" r="14" fill="#57B87E"/>
-    <rect x="628" y="180" width="7" height="16" rx="3.5" fill="#2F6B4B"/><circle cx="631.5" cy="174" r="14" fill="#57B87E"/>
+    <image href="art/bush.png" x="34" y="238" width="56" height="56"/>
+    <image href="art/mushroom.png" x="686" y="176" width="38" height="38"/>
+    <image href="art/bush.png" x="602" y="158" width="48" height="48"/>
    </g>
    <path d="M0,296 Q 300,248 620,280 T 800,256 V400 H0 Z" fill="#4FA85F"/>
    <path d="M0,304 Q 300,256 620,288 T 800,264 V400 H0 Z" fill="#5FBF6E"/>
@@ -607,8 +605,8 @@ function layoutScene(prog,divNow,col){
    <g transform="translate(${wp.x},${wp.y}) scale(${sc})">
      <ellipse cx="0" cy="5" rx="11" ry="3.2" fill="#000" opacity=".22"/>
      <g class="bob">
-       <image class="wframe" href="walker-${person}-0.png" x="${-W/2}" y="${-H+4}" width="${W}" height="${H}"/>
-       <image class="wframe f2" href="walker-${person}-1.png" x="${-W/2}" y="${-H+4}" width="${W}" height="${H}"/>
+       <image class="wframe" href="art/w-${person}-0.png" x="${-W/2}" y="${-H+3}" width="${W}" height="${H}"/>
+       <image class="wframe f2" href="art/w-${person}-1.png" x="${-W/2}" y="${-H+3}" width="${W}" height="${H}"/>
        <circle cx="${W/2+1}" cy="${-H+10}" r="2.6" fill="#CDE9DE"/>
        <circle cx="${W/2+1}" cy="${-H+10}" r="6" fill="#9FD8C6" opacity=".3">
          <animate attributeName="r" values="4.5;8.5;4.5" dur="2.8s" repeatCount="indefinite"/></circle>
