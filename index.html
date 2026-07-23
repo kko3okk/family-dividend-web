@@ -3,209 +3,163 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>家庭股息進度板</title>
+<title>家的股息小徑</title>
 <style>
-  :root{--bg:#0C0F14;--panel:#141922;--panel2:#1A212C;--line:#28313F;
-    --red:#E5473C;--red-dim:#6E2722;--gold:#E3B34C;--gold-dim:#6E5626;
-    --ink:#F0F3F7;--mut:#8A95A6;--mut2:#576272;
-    --mono:ui-monospace,"SF Mono",Menlo,monospace}
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--ink);
-    font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
-    max-width:960px;margin:0 auto;padding:22px 18px 60px;-webkit-font-smoothing:antialiased}
-  .eyebrow{font-size:11px;letter-spacing:.4em;color:var(--mut2)}
-  h1{font-size:22px;margin:6px 0 4px;letter-spacing:.06em}
-  .meta{font-size:11px;color:var(--mut2);margin-bottom:14px}
-  .topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-  .gear{background:none;border:1px solid var(--line);color:var(--mut);border-radius:8px;
-    padding:8px 12px;font-size:12px;cursor:pointer;white-space:nowrap}
-  .famstrip{display:flex;background:var(--panel);border:1px solid var(--line);
-    border-radius:14px;overflow:hidden;margin-bottom:24px;flex-wrap:wrap}
-  .famstrip .blk{flex:1;min-width:150px;padding:15px 16px;border-right:1px solid var(--line)}
-  .famstrip .blk:last-child{border-right:none}
-  .famstrip .k{font-size:11px;color:var(--mut2);letter-spacing:.12em;margin-bottom:4px}
-  .famstrip .v{font-family:var(--mono);font-size:21px;font-weight:700;font-variant-numeric:tabular-nums}
-  .v.red{color:var(--red)}.v.gold{color:var(--gold)}
-  .cols{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-  @media(max-width:720px){.cols{grid-template-columns:1fr}}
-  .mtabs{display:none}
-  @media(max-width:720px){
-    .mtabs{display:flex;position:sticky;top:8px;z-index:10;background:var(--panel);
-      border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:16px;
-      box-shadow:0 4px 18px rgba(0,0,0,.45)}
-    .mtabs div{flex:1;text-align:center;padding:12px 4px;font-size:13px;font-weight:800;
-      letter-spacing:.12em;color:var(--mut2);cursor:pointer}
-    .mtabs div.on[data-t="chang"]{background:var(--red);color:#fff}
-    .mtabs div.on[data-t="wife"]{background:var(--gold);color:#141414}
-    .mtabs div.on[data-t="tx"]{background:var(--panel2);color:var(--ink)}
-    body.m .col,body.m .txwrap{display:none}
-    body.m .col.show,body.m .txwrap.show{display:block}
+  :root{
+    --paper:#F6EEDD; --card:#FDF7EA; --card2:#F3E9D2; --line:#E3D4B8;
+    --ink:#4A3E32; --mut:#8C7B66; --mut2:#B3A48C;
+    --chang:#D96C4F; --chang-soft:#F6DCD1;
+    --wife:#DFA53B; --wife-soft:#F8E9C8;
+    --green:#7FA65A; --green-soft:#DCE8C8;
+    --mono:ui-monospace,"SF Mono",Menlo,monospace;
   }
-  .col{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 18px 10px}
-  .col.chang{border-top:3px solid var(--red)}
-  .col.wife{border-top:3px solid var(--gold)}
-  .who{display:flex;align-items:baseline;justify-content:space-between}
-  .who .name{font-size:16px;font-weight:800;letter-spacing:.1em}
-  .chang .name{color:var(--red)}.wife .name{color:var(--gold)}
-  .who .ln{font-size:10px;color:var(--mut2);letter-spacing:.25em}
-  .metric{margin:14px 0 6px}
-  .metric .num{font-family:var(--mono);font-size:32px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
-  .chang .metric .num{color:var(--red)}.wife .metric .num{color:var(--gold)}
-  .metric .num small{font-size:14px;color:var(--mut);font-weight:400}
-  .metric .cap{font-size:11px;color:var(--mut2);margin-top:3px}
-  .holds{margin:12px 0 16px}
-  .holds table{width:100%;border-collapse:collapse;font-size:12.5px}
-  .holds th{font-size:10px;color:var(--mut2);font-weight:500;text-align:left;
-    padding:4px 2px;border-bottom:1px solid var(--line);letter-spacing:.08em}
-  .holds th.num,.holds td.num{text-align:right}
-  .holds td{padding:7px 2px;border-bottom:1px dashed #1E2632;font-variant-numeric:tabular-nums}
-  .holds td.num{font-family:var(--mono)}
-  .holds .tick{color:var(--mut2);font-size:10.5px}
-  .advice{margin:4px 0 16px}
-  .advice h3,.railwrap h3{font-size:11px;color:var(--mut2);letter-spacing:.25em;font-weight:600;margin-bottom:10px}
-  .adv{display:flex;align-items:center;gap:10px;background:var(--panel2);
-    border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px}
-  .stb{font-size:10px;font-weight:800;letter-spacing:.1em;border-radius:4px;padding:3px 7px;white-space:nowrap}
-  .b-act{background:var(--red);color:#fff}
-  .b-near{background:var(--gold);color:#141414}
-  .b-wait{background:#232C38;color:var(--mut)}
-  .b-open{background:#1E3A2A;color:#5BD58C}
-  .adv .body{flex:1;min-width:0}
-  .adv .t{font-size:13px;font-weight:700}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);
+    font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+    max-width:820px;margin:0 auto;padding:18px 16px 70px;-webkit-font-smoothing:antialiased}
+  .eyebrow{font-size:11px;letter-spacing:.35em;color:var(--mut2)}
+  h1{font-family:"Noto Serif TC",serif;font-size:24px;margin:4px 0 2px;letter-spacing:.08em}
+  .meta{font-size:11px;color:var(--mut);margin-bottom:14px}
+  .topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .gear{background:var(--card);border:1.5px solid var(--line);color:var(--mut);border-radius:12px;
+    padding:8px 13px;font-size:12px;cursor:pointer;white-space:nowrap}
+
+  /* 旅人切換 */
+  .traveler{display:flex;background:var(--card);border:1.5px solid var(--line);border-radius:16px;
+    overflow:hidden;margin-bottom:14px;box-shadow:0 3px 0 var(--line)}
+  .traveler div{flex:1;text-align:center;padding:13px 4px;font-size:14px;font-weight:800;
+    letter-spacing:.15em;color:var(--mut);cursor:pointer;transition:background .2s}
+  .traveler div.on[data-p="chang"]{background:var(--chang);color:#FFF8EF}
+  .traveler div.on[data-p="wife"]{background:var(--wife);color:#4A3E32}
+
+  /* 山景里程碑 */
+  .scene{background:var(--card);border:1.5px solid var(--line);border-radius:20px;
+    overflow:hidden;margin-bottom:14px;box-shadow:0 4px 0 var(--line)}
+  .scene svg{display:block;width:100%;height:auto}
+  .scene .strip{display:flex;flex-wrap:wrap;border-top:1.5px dashed var(--line)}
+  .strip .blk{flex:1;min-width:140px;padding:13px 15px;border-right:1.5px dashed var(--line)}
+  .strip .blk:last-child{border-right:none}
+  .strip .k{font-size:10.5px;color:var(--mut);letter-spacing:.12em;margin-bottom:3px}
+  .strip .v{font-family:var(--mono);font-size:19px;font-weight:700;font-variant-numeric:tabular-nums}
+  .strip .v.accent{color:var(--pcol,var(--chang))}
+
+  /* 卡片 */
+  .card{background:var(--card);border:1.5px solid var(--line);border-radius:18px;
+    padding:18px 16px;margin-bottom:14px;box-shadow:0 3px 0 var(--line)}
+  .card h3{font-family:"Noto Serif TC",serif;font-size:14px;letter-spacing:.2em;color:var(--mut);
+    font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .card h3::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--pcol,var(--chang))}
+
+  .adv{display:flex;align-items:center;gap:11px;background:var(--card2);
+    border:1.5px solid var(--line);border-radius:14px;padding:11px 13px;margin-bottom:9px}
+  .stb{font-size:10px;font-weight:800;letter-spacing:.08em;border-radius:20px;padding:4px 10px;white-space:nowrap}
+  .b-act{background:var(--chang);color:#FFF8EF}
+  .b-near{background:var(--wife);color:#4A3E32}
+  .b-wait{background:#E7DCC6;color:var(--mut)}
+  .b-open{background:var(--green);color:#FFF8EF}
+  .adv .t{font-size:13.5px;font-weight:700}
   .adv .t .px{font-family:var(--mono);font-size:11px;color:var(--mut);font-weight:400;margin-left:6px}
-  .adv .d{font-family:var(--mono);font-size:11px;color:var(--mut2);margin-top:2px}
-  .adv .d b{color:var(--gold);font-weight:600}
-  .railwrap{margin:6px 0 12px}
-  .rail{position:relative;margin-left:10px;padding-left:24px}
-  .rail::before{content:"";position:absolute;left:0;top:6px;bottom:18px;width:4px;border-radius:2px}
-  .chang .rail::before{background:var(--red-dim)}
-  .wife .rail::before{background:var(--gold-dim)}
-  .st{position:relative;padding-bottom:20px}
-  .st .dot{position:absolute;left:-30px;top:1px;width:12px;height:12px;border-radius:50%;
-    background:var(--bg);border:3px solid}
-  .chang .st .dot{border-color:var(--red-dim)}.wife .st .dot{border-color:var(--gold-dim)}
-  .chang .st.hit .dot{border-color:var(--red);background:var(--red)}
-  .wife .st.hit .dot{border-color:var(--gold);background:var(--gold)}
-  .st .nm{font-size:13.5px;font-weight:700}
-  .st .nm .amt{font-family:var(--mono);font-size:11px;color:var(--mut);font-weight:400;margin-left:6px}
-  .st .eta{font-family:var(--mono);font-size:11px;color:var(--mut2);margin-top:3px}
-  .st .pbar{height:4px;background:var(--panel2);border-radius:2px;margin-top:6px;max-width:180px;overflow:hidden}
-  .st .pbar i{display:block;height:100%;border-radius:2px}
-  .chang .pbar i{background:var(--red)}.wife .pbar i{background:var(--gold)}
-  .st .pv{font-family:var(--mono);font-size:10.5px;color:var(--mut);margin-top:3px}
-  .note{font-size:10.5px;color:var(--mut2);line-height:1.7;border-top:1px solid var(--line);padding:10px 0 8px}
-  .btn-row{display:flex;gap:10px;margin-top:20px}
-  .btn{flex:1;text-align:center;padding:12px;border-radius:10px;font-size:14px;font-weight:800;
-    letter-spacing:.2em;border:1px solid var(--line);color:var(--mut);cursor:pointer;background:var(--panel2)}
-  .btn.primary{background:var(--red);border-color:var(--red);color:#fff}
-  dialog{margin:auto;position:fixed;inset:0;height:fit-content;max-height:90vh;overflow-y:auto;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:14px;
+  .adv .d{font-family:var(--mono);font-size:11px;color:var(--mut);margin-top:2px}
+  .adv .d b{color:var(--chang);font-weight:700}
+
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{font-size:10px;color:var(--mut2);font-weight:600;text-align:left;padding:5px 3px;
+    border-bottom:1.5px solid var(--line);letter-spacing:.08em}
+  th.num,td.num{text-align:right;font-family:var(--mono)}
+  td{padding:8px 3px;border-bottom:1.5px dashed var(--line);font-variant-numeric:tabular-nums}
+  tr:last-child td{border-bottom:none}
+  .tick{color:var(--mut2);font-size:10.5px}
+  .otag{font-size:10px;border-radius:20px;padding:2px 8px;font-weight:700}
+  .otag.chang{background:var(--chang-soft);color:var(--chang)}
+  .otag.wife{background:var(--wife-soft);color:#A87A1E}
+
+  .btn-row{display:flex;gap:10px;margin:4px 0 14px}
+  .btn{flex:1;text-align:center;padding:14px;border-radius:16px;font-size:14px;font-weight:800;
+    letter-spacing:.2em;cursor:pointer;border:none;background:var(--pcol,var(--chang));
+    color:#FFF8EF;box-shadow:0 3px 0 rgba(74,62,50,.25)}
+
+  dialog{margin:auto;position:fixed;inset:0;height:fit-content;max-height:88vh;overflow-y:auto;
+    background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:20px;
     padding:20px 18px;max-width:420px;width:92%}
-  dialog::backdrop{background:rgba(0,0,0,.65)}
-  .dlg-x{position:absolute;top:12px;right:14px;width:32px;height:32px;
-    border:1px solid var(--line);border-radius:8px;background:var(--panel2);color:var(--mut);
-    font-size:16px;line-height:30px;text-align:center;cursor:pointer}
-  dialog{position:fixed}
-  dialog h2{font-size:15px;font-weight:800;letter-spacing:.1em;margin-bottom:2px}
-  dialog .sub{font-size:11px;color:var(--mut2);margin-bottom:14px}
-  label{display:block;font-size:10px;color:var(--mut2);letter-spacing:.1em;margin:12px 0 5px}
-  .seg{display:flex;background:var(--panel2);border:1px solid var(--line);border-radius:10px;overflow:hidden}
-  .seg div{flex:1;text-align:center;padding:11px;font-size:14px;font-weight:700;letter-spacing:.15em;color:var(--mut2);cursor:pointer}
-  .seg .on.chang{background:var(--red);color:#fff}
-  .seg .on.wife{background:var(--gold);color:#141414}
+  dialog::backdrop{background:rgba(74,62,50,.45)}
+  .dlg-x{position:absolute;top:12px;right:14px;width:32px;height:32px;border:1.5px solid var(--line);
+    border-radius:10px;background:var(--card2);color:var(--mut);font-size:15px;line-height:29px;
+    text-align:center;cursor:pointer}
+  dialog h2{font-family:"Noto Serif TC",serif;font-size:16px;font-weight:800;letter-spacing:.1em;margin-bottom:2px}
+  dialog .sub{font-size:11px;color:var(--mut);margin-bottom:14px}
+  label{display:block;font-size:10px;color:var(--mut);letter-spacing:.1em;margin:12px 0 5px}
+  .seg{display:flex;background:var(--card2);border:1.5px solid var(--line);border-radius:12px;overflow:hidden}
+  .seg div{flex:1;text-align:center;padding:11px;font-size:14px;font-weight:800;letter-spacing:.15em;color:var(--mut);cursor:pointer}
+  .seg .on.chang{background:var(--chang);color:#FFF8EF}
+  .seg .on.wife{background:var(--wife);color:#4A3E32}
   .chips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-  .chip{border:1px solid var(--line);background:var(--panel2);border-radius:8px;padding:10px 4px;text-align:center;cursor:pointer}
-  .chip .n{font-size:13px;font-weight:700}
+  .chip{border:1.5px solid var(--line);background:var(--card2);border-radius:12px;padding:10px 4px;text-align:center;cursor:pointer}
+  .chip .n{font-size:13px;font-weight:800}
   .chip .c{font-family:var(--mono);font-size:10px;color:var(--mut2);margin-top:2px}
-  .chip.on{border-color:var(--gold);background:#2A2617}
-  .chip.on .n{color:var(--gold)}
-  dialog input{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:8px;
+  .chip.on{border-color:var(--wife);background:var(--wife-soft)}
+  .chip.on .n{color:#A87A1E}
+  dialog input{width:100%;background:#FFFDF6;border:1.5px solid var(--line);border-radius:10px;
     color:var(--ink);font-family:var(--mono);font-size:16px;padding:12px 10px;font-variant-numeric:tabular-nums}
-  dialog input:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:transparent}
+  dialog input:focus{outline:2.5px solid var(--wife);outline-offset:1px;border-color:transparent}
   .row2{display:flex;gap:10px}.row2>div{flex:1}
-  .preview{margin-top:14px;background:var(--panel2);border:1px dashed var(--line);border-radius:10px;
-    padding:11px 13px;font-size:12px;color:var(--mut);line-height:1.8;min-height:44px}
-  .preview b{color:var(--gold);font-family:var(--mono)}
-  dialog button.go{width:100%;margin-top:14px;padding:13px;border:none;border-radius:10px;
-    background:var(--gold);color:#141414;font-size:15px;font-weight:800;letter-spacing:.25em;cursor:pointer}
+  .preview{margin-top:14px;background:var(--green-soft);border:1.5px dashed var(--green);border-radius:12px;
+    padding:11px 13px;font-size:12px;color:var(--ink);line-height:1.8;min-height:44px}
+  .preview b{color:var(--chang);font-family:var(--mono)}
+  dialog button.go{width:100%;margin-top:14px;padding:13px;border:none;border-radius:14px;
+    background:var(--green);color:#FFF8EF;font-size:15px;font-weight:800;letter-spacing:.25em;cursor:pointer;
+    box-shadow:0 3px 0 rgba(74,62,50,.25)}
   dialog button.go:disabled{opacity:.5;cursor:wait}
-  .msg{font-size:12px;text-align:center;margin-top:8px;min-height:16px;color:var(--gold)}
-  .msg.err{color:var(--red)}
-  .txwrap{margin-top:22px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px}
-  .txwrap h3{font-size:11px;color:var(--mut2);letter-spacing:.25em;font-weight:600;margin-bottom:10px}
-  .txwrap table{width:100%;border-collapse:collapse;font-size:12px}
-  .txwrap th{font-size:10px;color:var(--mut2);font-weight:500;text-align:left;padding:5px 3px;border-bottom:1px solid var(--line)}
-  .txwrap td{padding:7px 3px;border-bottom:1px dashed #1E2632;font-variant-numeric:tabular-nums}
-  .txwrap td.num,.txwrap th.num{font-family:var(--mono);text-align:right}
-  .otag{font-size:10px;border-radius:3px;padding:1px 6px;border:1px solid var(--line)}
-  .otag.chang{border-color:var(--red);color:var(--red)}
-  .otag.wife{border-color:var(--gold);color:var(--gold)}
+  .msg{font-size:12px;text-align:center;margin-top:8px;min-height:16px;color:var(--green)}
+  .msg.err{color:var(--chang)}
+  .note{font-size:10.5px;color:var(--mut);line-height:1.8}
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <div>
-    <div class="eyebrow">FAMILY DIVIDEND LINE</div>
-    <h1>家庭股息進度板</h1>
+    <div class="eyebrow">FAMILY DIVIDEND TRAIL</div>
+    <h1>家的股息小徑 🌱</h1>
     <div class="meta" id="meta">載入中…</div>
   </div>
   <button class="gear" id="gearBtn">⚙ 設定</button>
 </div>
 
-<div class="famstrip">
-  <div class="blk"><div class="k">家庭合計年股息</div><div class="v" id="famDiv">–</div></div>
-  <div class="blk"><div class="k">🔴 CHANG 年股息</div><div class="v red" id="cDiv">–</div></div>
-  <div class="blk"><div class="k">🟡 老婆 年股息</div><div class="v gold" id="wDiv">–</div></div>
-  <div class="blk"><div class="k">報價狀態</div><div class="v" style="font-size:13px;padding-top:4px" id="pxMeta">–</div></div>
+<div class="traveler" id="traveler">
+  <div data-p="chang" class="on">CHANG</div>
+  <div data-p="wife">老婆</div>
 </div>
 
-<div class="mtabs" id="mtabs">
-  <div data-t="chang" class="on">CHANG</div>
-  <div data-t="wife">老婆</div>
-  <div data-t="tx">交易紀錄</div>
-</div>
-
-<div class="cols">
-  <div class="col chang">
-    <div class="who"><span class="name">CHANG</span><span class="ln">紅線 · 股息現金流</span></div>
-    <div class="metric"><div class="num"><span id="cDivBig">–</span><small> 元／年</small></div>
-      <div class="cap">年股息（南寶＋崑鼎＋0050 皆計入）</div></div>
-    <div class="holds"><table>
-      <thead><tr><th>標的</th><th class="num">股數</th><th class="num">年股息</th><th class="num">市值</th></tr></thead>
-      <tbody id="cHold"></tbody></table></div>
-    <div class="advice"><h3>買入建議 · 條件單狀態</h3><div id="cAdvice"></div></div>
-    <div class="railwrap"><h3>股息里程碑（年股息）</h3><div class="rail" id="cRail"></div></div>
-    <div class="note">觸發價每年 3 月隨新股利自動重算（股利 ÷ 5.5%／6%／6.5%）<br>
-      熔斷：南寶配息&lt;15、崑鼎配息停止成長、EPS 連兩年衰退 → 停買</div>
-  </div>
-
-  <div class="col wife">
-    <div class="who"><span class="name">老婆</span><span class="ln">金線 · 股息現金流</span></div>
-    <div class="metric"><div class="num"><span id="wDivBig">–</span><small> 元／年</small></div>
-      <div class="cap">組合年股息（0050＋三檔皆計入）</div></div>
-    <div class="holds"><table>
-      <thead><tr><th>標的</th><th class="num">股數</th><th class="num">年股息</th><th class="num">市值</th></tr></thead>
-      <tbody id="wHold"></tbody></table></div>
-    <div class="advice"><h3>買入建議 · 獎金 4:3:3</h3><div id="wAdvice"></div></div>
-    <div class="railwrap"><h3>股息里程碑（年股息）</h3><div class="rail" id="wRail"></div></div>
-    <div class="note">獎金購入 4:3:3 分批（2~3 個月投入）· 年檢核：除權息季後確認配息軌跡</div>
+<div class="scene">
+  <div id="sceneSvg"></div>
+  <div class="strip">
+    <div class="blk"><div class="k">年股息</div><div class="v accent" id="pDiv">–</div></div>
+    <div class="blk"><div class="k" id="nextK">距下一站</div><div class="v" id="nextV">–</div></div>
+    <div class="blk"><div class="k">家庭合計</div><div class="v" id="famDiv">–</div></div>
+    <div class="blk"><div class="k">報價</div><div class="v" style="font-size:12px;padding-top:5px" id="pxMeta">–</div></div>
   </div>
 </div>
 
-<div class="btn-row">
-  <div class="btn primary" id="addBtn">＋ 新增買進紀錄</div>
+<div class="btn-row"><button class="btn" id="addBtn">＋ 記一筆買進</button></div>
+
+<div class="card"><h3>買入指引</h3><div id="advBox"></div></div>
+
+<div class="card"><h3>持股</h3>
+  <table><thead><tr><th>標的</th><th class="num">股數</th><th class="num">年股息</th><th class="num">市值</th></tr></thead>
+  <tbody id="holdBody"></tbody></table>
 </div>
 
-<div class="txwrap">
-  <h3>最近交易</h3>
-  <table><thead><tr><th>日期</th><th>誰</th><th>標的</th><th class="num">股數</th><th class="num">價格</th><th>備註</th></tr></thead>
+<div class="card"><h3>最近交易（全家）</h3>
+  <table><thead><tr><th>日期</th><th>誰</th><th>標的</th><th class="num">股數</th><th class="num">價格</th></tr></thead>
   <tbody id="txBody"></tbody></table>
 </div>
 
+<div class="card note" id="ruleNote"></div>
+
 <dialog id="txDlg">
   <div class="dlg-x" onclick="txDlg.close()">✕</div>
-  <h2>＋ 新增買進紀錄</h2>
-  <div class="sub">寫入後全家即時同步，持股與進度自動重算</div>
+  <h2>＋ 記一筆買進</h2>
+  <div class="sub">寫入後全家即時同步，小徑上的旅人會往前走</div>
   <label>誰買的</label>
   <div class="seg" id="ownerSeg">
     <div class="chang on" data-o="chang">CHANG</div>
@@ -221,15 +175,15 @@
     <div><label>日期</label><input id="fDate" type="date"></div>
     <div><label>備註（選填）</label><input id="fMemo" placeholder="例：第二層觸發"></div>
   </div>
-  <div class="preview" id="fPreview">填入股數後即顯示這筆對進度的影響</div>
-  <button class="go" id="goBtn">寫入 GITHUB</button>
+  <div class="preview" id="fPreview">填入股數後即顯示這筆會讓旅人前進多少</div>
+  <button class="go" id="goBtn">寫入</button>
   <div class="msg" id="txMsg"></div>
 </dialog>
 
 <dialog id="setDlg">
   <div class="dlg-x" onclick="setDlg.close()">✕</div>
   <h2>裝置設定</h2>
-  <div class="sub">貼上 GitHub Fine-grained Token（只需 data repo 的 Contents 讀寫）。僅存於此裝置。</div>
+  <div class="sub">貼上 GitHub Token（只需 data repo 的 Contents 讀寫）。僅存於此裝置。</div>
   <label>GitHub Token</label>
   <input type="password" id="tokenInput" placeholder="github_pat_…">
   <button class="go" id="tokenSave">儲存</button>
@@ -238,15 +192,13 @@
 <script>
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
-const MILES=[{name:"旅遊站",amt:150000},{name:"房貸站",amt:610000},{name:"退休站",amt:1000000}];
-const ETA={
-  chang:["","預估 第 3~4 年 · 約 39~40 歲","預估 第 9~10 年 · 房貸由股息繳","預估 第 12~14 年 · 約 48~50 歲"],
-  wife:["","預估 第 4~5 年（獎金年投 60 萬計）","預估 第 12~13 年","預估 第 16~18 年 · 終點轉換可提前"]
-};
+const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
+const ETA={chang:["第 3~4 年","第 9~10 年","第 12~14 年"],wife:["第 4~5 年","第 12~13 年","第 16~18 年"]};
 const OWNER_STOCKS={chang:["4766","6803","0050"],wife:["0050","1231","4506","2832"]};
+const PCOL={chang:"#D96C4F",wife:"#DFA53B"};
 const TIERS=[[.055,1],[.06,2],[.065,3]];
 const fmt=n=>Math.round(n).toLocaleString("zh-Hant");
-let DATA=null,SHA=null,fOwner="chang",fStock="4766";
+let DATA=null,SHA=null,person="chang",fOwner="chang",fStock="4766";
 
 const token=()=>localStorage.getItem("gh_token")||"";
 const b64e=s=>btoa(String.fromCharCode(...new TextEncoder().encode(s)));
@@ -259,12 +211,11 @@ async function load(){
   if(!r.ok)throw new Error("讀取失敗 HTTP "+r.status+"（請按 ⚙ 設定 Token）");
   const j=await r.json();SHA=j.sha;DATA=JSON.parse(b64d(j.content.replace(/\n/g,"")));
 }
-
 async function ensurePrices(){
   DATA.prices=DATA.prices||{};
   const ts=DATA.prices_updated?new Date(DATA.prices_updated):null;
   const fresh=ts&&(Date.now()-ts.getTime())<36*3600*1000;
-  if(fresh){document.getElementById("pxMeta").textContent="腳本回寫 "+DATA.prices_updated.slice(5,16).replace("T"," ");return;}
+  if(fresh){document.getElementById("pxMeta").textContent="回寫 "+DATA.prices_updated.slice(5,16).replace("T"," ");return;}
   try{
     const twse=await (await fetch("https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL")).json();
     let tpex=[];try{tpex=await (await fetch("https://www.tpex.org.tw/openapi/v1/tpex_mainboard_quotes")).json();}catch(e){}
@@ -273,93 +224,138 @@ async function ensurePrices(){
     (tpex||[]).forEach(x=>{const c=x.SecuritiesCompanyCode||x.Code;
       const p=parseFloat(x.Close||x.ClosingPrice||x.LatestPrice);
       if(want.includes(c)&&p)DATA.prices[c]=p;});
-    document.getElementById("pxMeta").textContent="證交所收盤價（備援）";
-  }catch(e){
-    document.getElementById("pxMeta").textContent=ts?("舊報價 "+DATA.prices_updated.slice(5,10)):"無報價";
-  }
+    document.getElementById("pxMeta").textContent="收盤價（備援）";
+  }catch(e){document.getElementById("pxMeta").textContent=ts?"舊報價":"無報價";}
 }
-
 function holdings(){const h={};DATA.transactions.forEach(t=>{const k=t.owner+"|"+t.stock;h[k]=(h[k]||0)+t.shares;});return h;}
 function ownerDiv(h,o){let d=0;for(const[k,sh]of Object.entries(h)){const[ow,s]=k.split("|");if(ow===o)d+=sh*((DATA.stocks[s]||{}).div||0);}return d;}
+
+/* ===== 宮崎駿山景 ===== */
+function scene(divNow){
+  const col=PCOL[person];
+  // 小徑節點: 起點與三站
+  const P=[[70,238],[280,205],[500,158],[706,96]];
+  const amts=[0,...MILES.map(m=>m.amt)];
+  // 旅人位置: 依年股息在區段內插
+  let seg=0;while(seg<3&&divNow>=amts[seg+1])seg++;
+  const a=amts[seg],b=amts[Math.min(seg+1,3)];
+  const f=seg>=3?1:Math.min((divNow-a)/Math.max(b-a,1),1);
+  const tx=P[seg][0]+(P[Math.min(seg+1,3)][0]-P[seg][0])*f;
+  const ty=P[seg][1]+(P[Math.min(seg+1,3)][1]-P[seg][1])*f;
+  const path=`M${P[0][0]},${P[0][1]} C 150,230 210,214 ${P[1][0]},${P[1][1]} S 420,175 ${P[2][0]},${P[2][1]} S 640,115 ${P[3][0]},${P[3][1]}`;
+  const stations=MILES.map((m,i)=>{
+    const[x,y]=P[i+1],hit=divNow>=m.amt;
+    const pct=Math.min(divNow/m.amt*100,100);
+    return `
+    <g font-family="PingFang TC,Noto Sans TC,sans-serif">
+      <circle cx="${x}" cy="${y}" r="8.5" fill="${hit?col:"#FDF7EA"}" stroke="${hit?col:"#B3A48C"}" stroke-width="2.5"/>
+      <text x="${x}" y="${y-26}" text-anchor="middle" font-size="20">${m.icon}</text>
+      <text x="${x}" y="${y+26}" text-anchor="middle" font-size="12.5" font-weight="800" fill="#4A3E32">${m.name}</text>
+      <text x="${x}" y="${y+41}" text-anchor="middle" font-size="10" fill="#8C7B66" font-family="${'ui-monospace,Menlo,monospace'}">${m.amt/10000}萬 · ${pct.toFixed(1)}%</text>
+      <text x="${x}" y="${y+55}" text-anchor="middle" font-size="9.5" fill="#B3A48C">${ETA[person][i]}</text>
+    </g>`;
+  }).join("");
+  document.getElementById("sceneSvg").innerHTML=`
+  <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#CFE6EF"/><stop offset="1" stop-color="#F3EAD3"/>
+      </linearGradient>
+    </defs>
+    <rect width="800" height="300" fill="url(#sky)"/>
+    <circle cx="712" cy="52" r="26" fill="#F6C453" opacity=".9"/>
+    <circle cx="712" cy="52" r="34" fill="#F6C453" opacity=".25"/>
+    <g fill="#FFFFFF" opacity=".85">
+      <ellipse cx="150" cy="60" rx="46" ry="15"/><ellipse cx="185" cy="52" rx="30" ry="12"/>
+      <ellipse cx="430" cy="42" rx="52" ry="14"/><ellipse cx="470" cy="50" rx="30" ry="11"/>
+    </g>
+    <path d="M0,190 Q 200,120 420,168 T 800,120 V300 H0 Z" fill="#A9C489" opacity=".8"/>
+    <path d="M0,225 Q 250,160 520,205 T 800,165 V300 H0 Z" fill="#8FB271"/>
+    <path d="M0,262 Q 300,215 620,248 T 800,225 V300 H0 Z" fill="#6E9455"/>
+    <path d="${path}" fill="none" stroke="#FFF6E3" stroke-width="7" stroke-linecap="round" opacity=".9"/>
+    <path d="${path}" fill="none" stroke="#B99F78" stroke-width="2.5" stroke-dasharray="1 9" stroke-linecap="round"/>
+    <g>
+      <text x="${P[0][0]}" y="${P[0][1]-20}" text-anchor="middle" font-size="18">🏠</text>
+      <circle cx="${P[0][0]}" cy="${P[0][1]}" r="7" fill="${col}"/>
+      <text x="${P[0][0]}" y="${P[0][1]+24}" text-anchor="middle" font-size="11.5" font-weight="800" fill="#4A3E32">起點</text>
+    </g>
+    ${stations}
+    <g>
+      <circle cx="${tx}" cy="${ty-2}" r="10" fill="${col}" stroke="#FFF8EF" stroke-width="3"/>
+      <circle cx="${tx}" cy="${ty-2}" r="16" fill="${col}" opacity=".18">
+        <animate attributeName="r" values="12;19;12" dur="2.6s" repeatCount="indefinite"/>
+      </circle>
+      <text x="${tx}" y="${ty-18}" text-anchor="middle" font-size="15">${person==="chang"?"🚶":"🚶‍♀️"}</text>
+    </g>
+  </svg>`;
+}
+
+const badge=(c,t)=>`<span class="stb ${c}">${t}</span>`;
+function advChang(){
+  const P=DATA.prices||{},S=DATA.stocks,out=[];
+  [["4766","南寶",""],["6803","崑鼎","除息後窗口 · "]].forEach(([sid,nm,pre])=>{
+    const px=P[sid],div=S[sid].div;
+    const t1=Math.round(div/.055),t2=Math.round(div/.06),t3=Math.round(div/.065);
+    let b=badge("b-wait","等待"),d=pre+`<b>${t1}</b> 買1份 · ${t2} 買2份 · ${t3} 買3份`;
+    if(px){
+      if(px<=t3)b=badge("b-act","第三層 · 買3份");
+      else if(px<=t2)b=badge("b-act","第二層 · 買2份");
+      else if(px<=t1)b=badge("b-act","觸發 · 買1份");
+      else if(px<=t1*1.02)b=badge("b-near","接近");
+      if(px>t1)d+=`（差 ${(px-t1).toFixed(1)} 元）`;
+    }
+    out.push(`<div class="adv">${b}<div><div class="t">${nm}<span class="px">${px?"現價 "+px:"無報價"}</span></div><div class="d">${d}</div></div></div>`);
+  });
+  out.push(`<div class="adv">${badge("b-open","照扣")}<div><div class="t">0050</div><div class="d">每月 1.5 萬定期定額 · 不擇時</div></div></div>`);
+  return out.join("");
+}
+function advWife(){
+  const m=new Date().getMonth()+1,lhOpen=(m>=9||m<=1);
+  return `
+  <div class="adv">${badge("b-open","窗口開啟")}<div><div class="t">台產<span class="px">獎金 30%</span></div><div class="d">除息後三個月＝年度最便宜窗口（填息100%）</div></div></div>
+  <div class="adv">${lhOpen?badge("b-open","窗口開啟"):badge("b-wait","等除權")}<div><div class="t">聯華食<span class="px">獎金 40%</span></div><div class="d">${lhOpen?"除權後窗口 · 分批買入":"8 月除權後再買 · 股價自動下修約一成"}</div></div></div>
+  <div class="adv">${badge("b-open","隨時可買")}<div><div class="t">崇友<span class="px">獎金 30%</span></div><div class="d">除息已過 · 分 2~3 個月零股買入</div></div></div>
+  <div class="adv">${badge("b-open","照扣")}<div><div class="t">0050</div><div class="d">每月 2 萬定期定額 · 不停扣</div></div></div>`;
+}
 
 function holdRows(h,o){
   const S=DATA.stocks,P=DATA.prices||{};
   return OWNER_STOCKS[o].map(sid=>{
     const sh=h[o+"|"+sid]||0,st=S[sid]||{name:sid,div:0},px=P[sid];
     return `<tr><td>${st.name} <span class="tick">${sid}</span></td>
-      <td class="num">${sh?fmt(sh):"—"}</td>
-      <td class="num">${sh?fmt(sh*st.div):"—"}</td>
+      <td class="num">${sh?fmt(sh):"—"}</td><td class="num">${sh?fmt(sh*st.div):"—"}</td>
       <td class="num">${sh&&px?fmt(sh*px):"—"}</td></tr>`;
   }).join("");
 }
 
-const badge=(cls,txt)=>`<span class="stb ${cls}">${txt}</span>`;
-
-function changAdvice(){
-  const P=DATA.prices||{},S=DATA.stocks,out=[];
-  [["4766","南寶",""],["6803","崑鼎","除息後窗口 · "]].forEach(([sid,nm,pre])=>{
-    const px=P[sid],div=S[sid].div;
-    const t1=Math.round(div/TIERS[0][0]),t2=Math.round(div/TIERS[1][0]),t3=Math.round(div/TIERS[2][0]);
-    let b=badge("b-wait","等待"),d=pre+`<b>${t1}</b> 買1份 · ${t2} 買2份 · ${t3} 買3份`;
-    if(px){
-      if(px<=t3)b=badge("b-act","第三層觸發·買3份");
-      else if(px<=t2)b=badge("b-act","第二層觸發·買2份");
-      else if(px<=t1)b=badge("b-act","觸發·買1份");
-      else if(px<=t1*1.02)b=badge("b-near","接近");
-      if(px>t1)d+=`（差 ${(px-t1).toFixed(1)} 元）`;
-    }
-    out.push(`<div class="adv">${b}<div class="body"><div class="t">${nm}<span class="px">${px?"現價 "+px:"無報價"}</span></div><div class="d">${d}</div></div></div>`);
-  });
-  out.push(`<div class="adv">${badge("b-open","照扣")}<div class="body"><div class="t">0050</div><div class="d">每月 1.5 萬定期定額 · 不擇時</div></div></div>`);
-  return out.join("");
-}
-
-function wifeAdvice(){
-  const m=new Date().getMonth()+1;
-  const lhOpen=(m>=9||m<=1);
-  return `
-  <div class="adv">${badge("b-open","窗口開啟")}<div class="body"><div class="t">台產<span class="px">獎金 30%</span></div><div class="d">除息後三個月＝年度最便宜窗口（填息100% 均89天）</div></div></div>
-  <div class="adv">${lhOpen?badge("b-open","窗口開啟"):badge("b-wait","等除權")}<div class="body"><div class="t">聯華食<span class="px">獎金 40%</span></div><div class="d">${lhOpen?"除權後窗口 · 分批買入":"8 月除權後再買 · 股價自動下修約一成"}</div></div></div>
-  <div class="adv">${badge("b-open","隨時可買")}<div class="body"><div class="t">崇友<span class="px">獎金 30%</span></div><div class="d">除息已過 · 分 2~3 個月零股買入</div></div></div>
-  <div class="adv">${badge("b-open","照扣")}<div class="body"><div class="t">0050</div><div class="d">每月 2 萬定期定額 · 不停扣</div></div></div>`;
-}
-
-function rail(o,divNow){
-  const stations=[{name:"起點",amt:0,eta:o==="chang"?"2026 · 計畫進行中":"2026 · 0050 月扣進行中"}]
-    .concat(MILES.map((m,i)=>({name:m.name,amt:m.amt,eta:ETA[o][i+1]})));
-  return stations.map(s=>{
-    const hit=s.amt===0||divNow>=s.amt;
-    const pct=s.amt?Math.min(divNow/s.amt*100,100):100;
-    return `<div class="st ${hit?"hit":""}"><div class="dot"></div>
-      <div class="nm">${s.name}${s.amt?`<span class="amt">${s.amt/10000} 萬／年</span>`:""}</div>
-      <div class="eta">${s.eta}</div>
-      ${s.amt?`<div class="pbar"><i style="width:${Math.max(pct,.5)}%"></i></div><div class="pv">${pct.toFixed(2)}%</div>`:""}
-    </div>`;
-  }).join("");
-}
-
 function render(){
-  const h=holdings();
-  const cD=ownerDiv(h,"chang"),wD=ownerDiv(h,"wife");
-  document.getElementById("cDiv").textContent=fmt(cD);
-  document.getElementById("wDiv").textContent=fmt(wD);
-  document.getElementById("famDiv").textContent=fmt(cD+wD);
-  document.getElementById("cDivBig").textContent=fmt(cD);
-  document.getElementById("wDivBig").textContent=fmt(wD);
-  document.getElementById("cHold").innerHTML=holdRows(h,"chang");
-  document.getElementById("wHold").innerHTML=holdRows(h,"wife");
-  document.getElementById("cAdvice").innerHTML=changAdvice();
-  document.getElementById("wAdvice").innerHTML=wifeAdvice();
-  document.getElementById("cRail").innerHTML=rail("chang",cD);
-  document.getElementById("wRail").innerHTML=rail("wife",wD);
+  document.body.style.setProperty("--pcol",PCOL[person]);
+  const h=holdings(),pD=ownerDiv(h,person),oD=ownerDiv(h,person==="chang"?"wife":"chang");
+  scene(pD);
+  document.getElementById("pDiv").textContent=fmt(pD)+" 元";
+  const next=MILES.find(m=>pD<m.amt);
+  document.getElementById("nextK").textContent=next?("距"+next.name):"已到終點";
+  document.getElementById("nextV").textContent=next?((next.amt-pD)/10000).toFixed(1)+" 萬":"🎉";
+  document.getElementById("famDiv").textContent=fmt(pD+oD)+" 元";
+  document.getElementById("advBox").innerHTML=person==="chang"?advChang():advWife();
+  document.getElementById("holdBody").innerHTML=holdRows(h,person);
   document.getElementById("txBody").innerHTML=[...DATA.transactions]
-    .sort((a,b)=>b.date.localeCompare(a.date)).slice(0,25).map(t=>`<tr>
+    .sort((a,b)=>b.date.localeCompare(a.date)).slice(0,20).map(t=>`<tr>
       <td>${t.date.slice(5)}</td><td><span class="otag ${t.owner}">${t.owner==="chang"?"C":"W"}</span></td>
       <td>${(DATA.stocks[t.stock]||{}).name||t.stock}</td>
-      <td class="num">${fmt(t.shares)}</td><td class="num">${t.price}</td>
-      <td style="color:var(--mut2);font-size:11px">${t.memo||""}</td></tr>`).join("");
+      <td class="num">${fmt(t.shares)}</td><td class="num">${t.price}</td></tr>`).join("");
+  document.getElementById("ruleNote").innerHTML=person==="chang"
+    ?"觸發價每年 3 月隨新股利重算（股利 ÷ 5.5%／6%／6.5%）。熔斷：南寶配息＜15、崑鼎配息停止成長、EPS 連兩年衰退 → 停買。"
+    :"獎金購入 4:3:3、分 2~3 個月投入。年檢核：除權息季後確認三檔配息軌跡（崇友看維保營收占比）。";
   document.getElementById("meta").textContent=`資料 ${DATA.updated} · ${DATA.transactions.length} 筆紀錄`;
 }
+
+document.getElementById("traveler").querySelectorAll("div").forEach(d=>d.onclick=()=>{
+  person=d.dataset.p;
+  document.getElementById("traveler").querySelectorAll("div").forEach(x=>x.classList.toggle("on",x===d));
+  localStorage.setItem("person",person);
+  if(DATA)render();
+});
 
 function chips(){
   const box=document.getElementById("stockChips");
@@ -372,12 +368,12 @@ function chips(){
 function preview(){
   const sh=parseFloat(document.getElementById("fShares").value)||0;
   const el=document.getElementById("fPreview");
-  if(!sh){el.innerHTML="填入股數後即顯示這筆對進度的影響";return;}
+  if(!sh){el.innerHTML="填入股數後即顯示這筆會讓旅人前進多少";return;}
   const div=(DATA.stocks[fStock]||{}).div||0,h=holdings(),cur=ownerDiv(h,fOwner);
   const add=sh*div,next=MILES.find(m=>cur<m.amt)||MILES[MILES.length-1];
-  el.innerHTML=`寫入預覽：${fOwner==="chang"?"Chang":"老婆"} · ${DATA.stocks[fStock].name} · <b>+${fmt(sh)} 股</b><br>
-    → 年股息 ${fmt(cur)} → <b>${fmt(cur+add)} 元</b>（+${fmt(add)}）<br>
-    → 距${next.name}進度 ${(cur/next.amt*100).toFixed(2)}% → <b>${((cur+add)/next.amt*100).toFixed(2)}%</b>`;
+  el.innerHTML=`${fOwner==="chang"?"Chang":"老婆"} · ${DATA.stocks[fStock].name} · <b>+${fmt(sh)} 股</b><br>
+    年股息 ${fmt(cur)} → <b>${fmt(cur+add)} 元</b>（+${fmt(add)}）<br>
+    距${next.name} ${(cur/next.amt*100).toFixed(2)}% → <b>${((cur+add)/next.amt*100).toFixed(2)}%</b> 🌿`;
 }
 document.getElementById("ownerSeg").querySelectorAll("div").forEach(d=>d.onclick=()=>{
   fOwner=d.dataset.o;
@@ -387,6 +383,8 @@ document.getElementById("ownerSeg").querySelectorAll("div").forEach(d=>d.onclick
 document.getElementById("fShares").addEventListener("input",preview);
 document.getElementById("addBtn").onclick=()=>{
   if(!DATA)return;
+  fOwner=person;
+  document.getElementById("ownerSeg").querySelectorAll("div").forEach(x=>x.classList.toggle("on",x.dataset.o===person));
   document.getElementById("fDate").valueAsDate=new Date();
   chips();preview();
   document.getElementById("txDlg").showModal();
@@ -408,14 +406,13 @@ document.getElementById("goBtn").onclick=async()=>{
       headers:{"Authorization":"Bearer "+token(),"Accept":"application/vnd.github+json"},
       body:JSON.stringify({message:`add tx ${dt}`,content:b64e(JSON.stringify(DATA,null,2)),sha:SHA})});
     if(!r.ok)throw new Error("HTTP "+r.status);
-    msg.textContent="✓ 已寫入，全家同步完成";
+    msg.textContent="✓ 已寫入，旅人前進了 🌿";
     ["fShares","fPrice","fMemo"].forEach(id=>document.getElementById(id).value="");
     await load();render();
     setTimeout(()=>document.getElementById("txDlg").close(),900);
   }catch(e){msg.className="msg err";msg.textContent="寫入失敗："+e.message;}
   finally{btn.disabled=false;}
 };
-
 document.getElementById("gearBtn").onclick=()=>{
   document.getElementById("tokenInput").value=token();
   document.getElementById("setDlg").showModal();
@@ -425,23 +422,6 @@ document.getElementById("tokenSave").onclick=async()=>{
   document.getElementById("setDlg").close();
   try{await load();await ensurePrices();render();}catch(e){document.getElementById("meta").textContent=e.message;}
 };
-
-function applyTab(t){
-  document.body.classList.add("m");
-  document.querySelectorAll("#mtabs div").forEach(x=>x.classList.toggle("on",x.dataset.t===t));
-  document.querySelector(".col.chang").classList.toggle("show",t==="chang");
-  document.querySelector(".col.wife").classList.toggle("show",t==="wife");
-  document.querySelector(".txwrap").classList.toggle("show",t==="tx");
-  localStorage.setItem("tab",t);
-}
-function syncTabs(){
-  if(window.innerWidth<=720){applyTab(localStorage.getItem("tab")||"chang");}
-  else{document.body.classList.remove("m");}
-}
-document.querySelectorAll("#mtabs div").forEach(d=>d.onclick=()=>applyTab(d.dataset.t));
-window.addEventListener("resize",syncTabs);
-syncTabs();
-
 ["txDlg","setDlg"].forEach(id=>{
   const dlg=document.getElementById(id);
   dlg.addEventListener("click",e=>{
@@ -449,8 +429,9 @@ syncTabs();
     if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dlg.close();
   });
 });
-
 (async function(){
+  person=localStorage.getItem("person")||"chang";
+  document.getElementById("traveler").querySelectorAll("div").forEach(x=>x.classList.toggle("on",x.dataset.p===person));
   try{await load();await ensurePrices();render();}
   catch(e){document.getElementById("meta").textContent=e.message;}
 })();
