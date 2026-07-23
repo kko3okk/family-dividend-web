@@ -234,7 +234,9 @@
 </div>
 
 <div class="card"><h3>除權息倒數</h3><div id="exBox"></div>
-  <div class="note" style="margin-top:8px">崑鼎、台產：除息後買（最便宜窗口）· 聯華食：除權後買 · 南寶：照觸發價</div>
+  <div class="note" style="margin-top:8px">
+  「預估」＝依去年同期推算，實際日期以公司公告為準；腳本每日自動抓取證交所／櫃買公告，抓到後轉為「已公告」。<br>
+  買點規則：崑鼎、台產除息後買（最便宜窗口）· 聯華食除權後買 · 南寶照觸發價</div>
 </div>
 
 <div class="card"><h3>股息入帳紀錄</h3>
@@ -309,7 +311,7 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-0929";
+const APP_VERSION="2026.07.23-0932";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -606,14 +608,16 @@ function exRows(o){
     const st=S[sid]||{};if(!st.ex_date)return null;
     let d=new Date(st.ex_date+"T00:00:00");
     if(d<today){const nd=new Date(d);nd.setFullYear(d.getFullYear()+1);d=nd;}
-    return {sid,name:st.name,div:st.div,date:d,days:Math.round((d-today)/86400000),pay:st.pay_date};
+    return {sid,name:st.name,div:st.div,date:d,days:Math.round((d-today)/86400000),pay:st.pay_date,confirmed:!!st.ex_confirmed};
   }).filter(Boolean).sort((a,b)=>a.days-b.days);
   if(!list.length)return '<div class="note">尚未設定除權息日</div>';
   return list.map(x=>{
     const cls=x.days===0?"today":(x.days<=21?"soon":"");
-    const txt=x.days===0?"今天除息":`還有 <b>${x.days}</b> 天`;
-    return `<div class="exrow"><div class="nm">${x.name}<span>${x.sid}</span></div>
-      <div class="cd ${cls}">${txt}<br><span class="tick">${x.date.toISOString().slice(5,10)} 除息 · 配 ${x.div} 元</span></div></div>`;
+    const est=!x.confirmed;
+    const txt=est?`約 <b>${x.days}</b> 天後`:(x.days===0?"今天除息":`還有 <b>${x.days}</b> 天`);
+    return `<div class="exrow" ${est?'style="opacity:.72"':""}><div class="nm">${x.name}<span>${x.sid}</span>
+      ${est?'<span style="color:var(--mut2)">· 預估</span>':'<span style="color:var(--green)">· 已公告</span>'}</div>
+      <div class="cd ${est?"":cls}">${txt}<br><span class="tick">${x.date.toISOString().slice(5,10)} 除息 · 配 ${x.div} 元</span></div></div>`;
   }).join("");
 }
 function payRows(o){
