@@ -88,6 +88,10 @@
   dialog{margin:auto;position:fixed;inset:0;height:fit-content;max-height:90vh;overflow-y:auto;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:14px;
     padding:20px 18px;max-width:420px;width:92%}
   dialog::backdrop{background:rgba(0,0,0,.65)}
+  .dlg-x{position:absolute;top:12px;right:14px;width:32px;height:32px;
+    border:1px solid var(--line);border-radius:8px;background:var(--panel2);color:var(--mut);
+    font-size:16px;line-height:30px;text-align:center;cursor:pointer}
+  dialog{position:fixed}
   dialog h2{font-size:15px;font-weight:800;letter-spacing:.1em;margin-bottom:2px}
   dialog .sub{font-size:11px;color:var(--mut2);margin-bottom:14px}
   label{display:block;font-size:10px;color:var(--mut2);letter-spacing:.1em;margin:12px 0 5px}
@@ -180,6 +184,7 @@
 </div>
 
 <dialog id="txDlg">
+  <div class="dlg-x" onclick="txDlg.close()">✕</div>
   <h2>＋ 新增買進紀錄</h2>
   <div class="sub">寫入後全家即時同步，持股與進度自動重算</div>
   <label>誰買的</label>
@@ -203,6 +208,7 @@
 </dialog>
 
 <dialog id="setDlg">
+  <div class="dlg-x" onclick="setDlg.close()">✕</div>
   <h2>裝置設定</h2>
   <div class="sub">貼上 GitHub Fine-grained Token（只需 data repo 的 Contents 讀寫）。僅存於此裝置。</div>
   <label>GitHub Token</label>
@@ -400,6 +406,14 @@ document.getElementById("tokenSave").onclick=async()=>{
   document.getElementById("setDlg").close();
   try{await load();await ensurePrices();render();}catch(e){document.getElementById("meta").textContent=e.message;}
 };
+
+["txDlg","setDlg"].forEach(id=>{
+  const dlg=document.getElementById(id);
+  dlg.addEventListener("click",e=>{
+    const r=dlg.getBoundingClientRect();
+    if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dlg.close();
+  });
+});
 
 (async function(){
   try{await load();await ensurePrices();render();}
