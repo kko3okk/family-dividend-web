@@ -205,6 +205,22 @@
     font-weight:800;cursor:pointer}
   .btn-ok{background:var(--green);color:#fff}
   .btn-edit{background:var(--card2);color:var(--ink);border:1.5px solid var(--line)!important}
+
+  .yrcard{border:2px solid var(--green)!important;background:linear-gradient(180deg,#F3FBF4,#FFFFFF)}
+  .yrhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+  .yrhead .big{font-family:var(--mono);font-size:30px;font-weight:800;color:#2E7D42}
+  .yrhead .yoy{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--green)}
+  .bars{display:flex;align-items:flex-end;gap:10px;height:110px;margin:14px 0 6px}
+  .bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%}
+  .bar i{display:block;width:100%;border-radius:8px 8px 0 0;background:var(--pcol,var(--chang));min-height:4px}
+  .bar i.rc{background:var(--green)}
+  .bar .lb{font-size:10px;color:var(--mut2);margin-top:5px;font-family:var(--mono)}
+  .bar .vl{font-size:10px;font-family:var(--mono);color:var(--ink);margin-bottom:3px;font-weight:700}
+  .legend{display:flex;gap:14px;font-size:10.5px;color:var(--mut);margin-bottom:10px}
+  .legend b{display:inline-block;width:10px;height:10px;border-radius:3px;vertical-align:-1px;margin-right:4px}
+  .ck{display:flex;gap:9px;align-items:flex-start;padding:8px 2px;border-bottom:1.5px dashed var(--line);font-size:12.5px}
+  .ck:last-child{border-bottom:none}
+  .ck input{width:19px;height:19px;accent-color:var(--green);flex:none;margin-top:1px}
 </style>
 </head>
 <body>
@@ -242,6 +258,22 @@
 <div class="card"><h3>持股</h3>
   <table><thead><tr><th>標的</th><th class="num">股數</th><th class="num">年股息</th><th class="num">成本殖利率</th></tr></thead>
   <tbody id="holdBody"></tbody></table>
+</div>
+
+<div class="card yrcard" id="yrCard" style="display:none">
+  <h3>年度回顧</h3>
+  <div class="yrhead">
+    <div><div class="note" style="margin:0" id="yrLabel">–</div>
+      <div class="big" id="yrDiv">–</div>
+      <div class="note" style="margin:0">年股息（估算）</div></div>
+    <div class="yoy" id="yrYoy"></div>
+  </div>
+  <div class="legend"><span><b style="background:var(--pcol,var(--chang))"></b>年股息估算</span>
+    <span><b style="background:var(--green)"></b>實際入帳</span></div>
+  <div class="bars" id="yrBars"></div>
+  <div id="yrStats" class="note" style="margin-top:6px"></div>
+  <h3 style="margin-top:16px">年度檢核</h3>
+  <div id="yrCheck"></div>
 </div>
 
 <div class="card"><h3>除權息倒數</h3><div id="exBox"></div>
@@ -323,7 +355,7 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-0939";
+const APP_VERSION="2026.07.23-0941";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -692,6 +724,59 @@ window.editPay=async function(i){
   await savePayouts();
 };
 
+const CHECKS={
+ chang:["南寶年度配息 ≥ 15 元（低於則停買）",
+        "崑鼎配息維持成長（未成長則停買）",
+        "兩檔 EPS 未連兩年衰退",
+        "單檔市值未超過總資產 15%",
+        "已結算去年主動獲利，準備三月搬運 40%",
+        "三月股利公告後重算觸發價（股利÷5.5%／6%／6.5%）"],
+ wife:["三檔配息軌跡維持（崇友看維保營收占比）",
+       "獎金 4:3:3 分批已執行",
+       "0050 月扣未中斷",
+       "除權息季買點窗口已把握"]};
+
+function renderYear(){
+  const card=document.getElementById("yrCard");
+  const snaps=(DATA.snapshots||[]).slice().sort((a,b)=>a.year-b.year);
+  const month=new Date().getMonth()+1;
+  const show=snaps.length>0||month===1;
+  card.style.display=show?"block":"none";
+  if(!show)return;
+  const last=snaps[snaps.length-1];
+  const prev=snaps[snaps.length-2];
+  const cur=last?(last.annual_div[person]||0):0;
+  document.getElementById("yrLabel").textContent=last?`${last.year} 年結算`:"尚無快照（每年 1/1 自動產生）";
+  document.getElementById("yrDiv").textContent=last?fmt(cur)+" 元":"–";
+  const yoyEl=document.getElementById("yrYoy");
+  if(prev){
+    const p=prev.annual_div[person]||0;
+    const g=p?((cur-p)/p*100):0;
+    yoyEl.textContent=(g>=0?"▲ ":"▼ ")+Math.abs(g).toFixed(1)+"% 年增";
+    yoyEl.style.color=g>=0?"var(--green)":"var(--chang)";
+  }else yoyEl.textContent="";
+  const max=Math.max(1,...snaps.map(s=>Math.max(s.annual_div[person]||0,s.received[person]||0)));
+  document.getElementById("yrBars").innerHTML=snaps.slice(-6).map(s=>{
+    const d=s.annual_div[person]||0,r=s.received[person]||0;
+    return `<div class="bar"><div class="vl">${fmt(d)}</div>
+      <i style="height:${Math.max(d/max*72,3)}%"></i>
+      <i class="rc" style="height:${Math.max(r/max*72,2)}%;margin-top:2px"></i>
+      <div class="lb">${s.year}</div></div>`;
+  }).join("");
+  if(last){
+    document.getElementById("yrStats").innerHTML=
+      `${last.year} 年投入 <b>${fmt(last.invested[person]||0)}</b> 元 · 買進 ${last.buys[person]||0} 筆 · 實際入帳 <b>${fmt(last.received[person]||0)}</b> 元`;
+  }
+  const key="ck_"+person+"_"+(last?last.year:"na");
+  const saved=JSON.parse(localStorage.getItem(key)||"[]");
+  document.getElementById("yrCheck").innerHTML=CHECKS[person].map((t,i)=>
+    `<label class="ck"><input type="checkbox" data-i="${i}" ${saved.includes(i)?"checked":""}><span>${t}</span></label>`).join("");
+  document.querySelectorAll("#yrCheck input").forEach(cb=>cb.onchange=()=>{
+    const on=[...document.querySelectorAll("#yrCheck input")].filter(x=>x.checked).map(x=>+x.dataset.i);
+    localStorage.setItem(key,JSON.stringify(on));
+  });
+}
+
 function render(){
   document.body.style.setProperty("--pcol",PCOL[person]);
   const h=holdings(),pD=ownerDiv(h,person),oD=ownerDiv(h,person==="chang"?"wife":"chang");
@@ -704,6 +789,7 @@ function render(){
   document.getElementById("advBox").innerHTML=person==="chang"?advChang():advWife();
   document.getElementById("holdBody").innerHTML=holdRows(h,person);
   document.getElementById("exBox").innerHTML=exRows(person);
+  renderYear();
   document.getElementById("payBox").innerHTML=payRows(person);
   document.getElementById("txBody").innerHTML=[...DATA.transactions]
     .sort((a,b)=>b.date.localeCompare(a.date)).slice(0,20).map(t=>`<tr>
