@@ -115,6 +115,7 @@
 
   .cloudA{animation:drift 75s linear infinite}
   .cloudB{animation:drift 105s linear infinite}
+  .cloudC{animation:drift 140s linear infinite}
   @keyframes drift{from{transform:translateX(-90px)}to{transform:translateX(890px)}}
   .birds{animation:fly 46s linear infinite}
   @keyframes fly{0%{transform:translate(-70px,112px);opacity:0}4%{opacity:.85}
@@ -329,22 +330,70 @@ function scene(divNow){
   <svg viewBox="0 0 800 315" xmlns="http://www.w3.org/2000/svg" id="hillSvg">
    <defs>
     <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-     <stop offset="0" stop-color="#CFE6EF"/><stop offset="1" stop-color="#F5ECD6"/></linearGradient>
+     <stop offset="0" stop-color="#A9CBE3"/><stop offset=".45" stop-color="#D9E6E3"/>
+     <stop offset=".75" stop-color="#F6E4C2"/><stop offset="1" stop-color="#F9D9B0"/></linearGradient>
+    <linearGradient id="river" x1="0" y1="0" x2="0" y2="1">
+     <stop offset="0" stop-color="#BFDDE8"/><stop offset="1" stop-color="#8FBFD4"/></linearGradient>
+    <radialGradient id="sunGlow"><stop offset="0" stop-color="#FFE9A8" stop-opacity=".95"/>
+     <stop offset="1" stop-color="#FFE9A8" stop-opacity="0"/></radialGradient>
     <filter id="mist"><feColorMatrix type="saturate" values="0.2"/></filter>
    </defs>
    <rect width="800" height="315" fill="url(#sky)"/>
-   <circle cx="716" cy="48" r="23" fill="#F6C453"/><circle cx="716" cy="48" r="33" fill="#F6C453" opacity=".22"/>
-   <g class="cloudA" fill="#fff" opacity=".9"><ellipse cx="0" cy="58" rx="44" ry="14"/><ellipse cx="34" cy="50" rx="27" ry="11"/></g>
-   <g class="cloudB" fill="#fff" opacity=".7"><ellipse cx="0" cy="30" rx="50" ry="13"/><ellipse cx="40" cy="38" rx="26" ry="10"/></g>
+   <circle cx="700" cy="54" r="70" fill="url(#sunGlow)"/>
+   <circle cx="700" cy="54" r="21" fill="#FFDD7A"/><circle cx="700" cy="54" r="30" fill="#F6C453" opacity=".3"/>
+   <!-- 遠山:空氣透視 -->
+   <path d="M0,150 L90,96 L170,140 L260,86 L360,146 L470,100 L560,150 L800,110 V315 H0 Z" fill="#9DA8C9" opacity=".5"/>
+   <path d="M0,172 L120,120 L230,168 L340,118 L470,172 L610,128 L800,166 V315 H0 Z" fill="#8898B8" opacity=".55"/>
+   <g class="cloudA" fill="#fff" opacity=".92"><ellipse cx="0" cy="56" rx="46" ry="14"/><ellipse cx="36" cy="48" rx="28" ry="11"/><ellipse cx="-30" cy="50" rx="22" ry="9"/></g>
+   <g class="cloudB" fill="#fff" opacity=".72"><ellipse cx="0" cy="28" rx="52" ry="13"/><ellipse cx="42" cy="36" rx="27" ry="10"/></g>
+   <g class="cloudC" fill="#FFF4E0" opacity=".85"><ellipse cx="0" cy="96" rx="60" ry="16"/><ellipse cx="48" cy="88" rx="34" ry="12"/><ellipse cx="-40" cy="90" rx="26" ry="10"/></g>
    <g class="birds" stroke="#6B5B45" stroke-width="1.6" fill="none" stroke-linecap="round">
      <path d="M0,0 q4,-4 8,0 M12,3 q4,-4 8,0 M6,9 q4,-4 8,0"/></g>
+   <!-- 山丘三層 -->
    <path d="M0,192 Q 200,124 420,170 T 800,122 V315 H0 Z" fill="#AFC98E"/>
+   <!-- 遠丘上的梯田與小屋 -->
+   <g opacity=".7">
+    <path d="M40,178 q30,-9 62,-3 l-4,10 q-28,-5 -56,2 Z" fill="#C4D8A0"/>
+    <path d="M48,190 q30,-9 60,-3 l-4,10 q-26,-5 -54,2 Z" fill="#B9D194"/>
+    <path d="M620,150 q30,-8 58,-3 l-4,10 q-26,-4 -52,2 Z" fill="#C4D8A0"/>
+    <rect x="150" y="152" width="7" height="6" fill="#F3E7CF"/><path d="M148,152 l5.5,-5 5.5,5 Z" fill="#C1553F"/>
+    <rect x="560" y="142" width="6" height="5" fill="#F3E7CF"/>
+   </g>
+   <!-- 遠樹林 -->
+   <g fill="#8FB271">
+    <circle cx="332" cy="156" r="9"/><circle cx="344" cy="152" r="11"/><circle cx="356" cy="157" r="8"/>
+    <circle cx="708" cy="128" r="8"/><circle cx="719" cy="124" r="10"/>
+   </g>
    <path d="M0,228 Q 250,162 520,208 T 800,168 V315 H0 Z" fill="#8FB271"/>
+   <!-- 河流:從山谷蜿蜒到前景 -->
+   <path d="M368,206 C 400,224 350,248 392,268 C 424,283 388,300 420,315 L470,315 C 436,298 470,284 440,266 C 412,249 452,228 414,208 Z" fill="url(#river)" opacity=".9"/>
+   <path d="M394,236 q10,8 4,20 M416,270 q8,8 4,16" stroke="#E8F4F8" stroke-width="2" fill="none" stroke-linecap="round" opacity=".8"/>
+   <!-- 中景樹叢 -->
+   <g>
+    <circle cx="118" cy="216" r="13" fill="#7FA65A"/><circle cx="132" cy="210" r="15" fill="#6E9455"/><circle cx="146" cy="217" r="11" fill="#7FA65A"/>
+    <rect x="128" y="222" width="5" height="10" fill="#8A6238"/>
+    <circle cx="612" cy="176" r="11" fill="#7FA65A"/><circle cx="624" cy="171" r="13" fill="#6E9455"/>
+    <rect x="616" y="182" width="4" height="8" fill="#8A6238"/>
+   </g>
    <path d="M0,266 Q 300,218 620,252 T 800,228 V315 H0 Z" fill="#6E9455"/>
+   <!-- 陽光光塵 -->
+   <g fill="#FFE9A8">
+    <circle cx="180" cy="120" r="2.2" opacity=".7"><animate attributeName="cy" values="120;104;120" dur="7s" repeatCount="indefinite"/><animate attributeName="opacity" values=".7;.15;.7" dur="7s" repeatCount="indefinite"/></circle>
+    <circle cx="520" cy="90" r="1.8" opacity=".6"><animate attributeName="cy" values="90;74;90" dur="9s" repeatCount="indefinite"/><animate attributeName="opacity" values=".6;.1;.6" dur="9s" repeatCount="indefinite"/></circle>
+    <circle cx="640" cy="150" r="2" opacity=".65"><animate attributeName="cy" values="150;136;150" dur="8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".65;.15;.65" dur="8s" repeatCount="indefinite"/></circle>
+    <circle cx="300" cy="200" r="1.6" opacity=".55"><animate attributeName="cy" values="200;188;200" dur="6.5s" repeatCount="indefinite"/><animate attributeName="opacity" values=".55;.1;.55" dur="6.5s" repeatCount="indefinite"/></circle>
+   </g>
    <path id="trailBase" d="${TRAIL_D}" fill="none" stroke="#EFE6CF" stroke-width="8" stroke-linecap="round"/>
    <path d="${TRAIL_D}" fill="none" stroke="#C6B28E" stroke-width="2" stroke-dasharray="1 9" stroke-linecap="round" opacity=".7"/>
    <path id="trailWalk" d="${TRAIL_D}" fill="none" stroke="${col}" stroke-width="4.5" stroke-linecap="round" opacity=".9"/>
    <g id="flora"></g><g id="marks"></g><g id="walker"></g>
+   <g fill="#5E824A">
+    <path class="sway" d="M20,315 q2,-16 6,-20 q0,12 4,20 Z"/>
+    <path class="sway s2" d="M36,315 q3,-13 7,-16 q-1,10 3,16 Z"/>
+    <path class="sway" d="M770,315 q2,-15 6,-19 q0,11 4,19 Z"/>
+    <path class="sway s2" d="M752,315 q3,-12 6,-15 q0,9 4,15 Z"/>
+    <path class="sway s2" d="M560,315 q2,-11 5,-14 q0,9 4,14 Z"/>
+   </g>
   </svg>`;
   layoutScene(prog,divNow,col);
   celebrate(divNow);
