@@ -299,7 +299,7 @@
 
 <div class="card note" id="ruleNote"></div>
 <div class="note" style="text-align:center;padding:0 4px 8px">
-  美術素材：Kenney（kenney.nl）· CC0 公眾領域授權
+  所有紀錄（交易、股息入帳、檢核、里程碑達成）皆存於私有 GitHub，換手機不會遺失<br>美術素材：Kenney（kenney.nl）· CC0 公眾領域授權
 </div>
 
 <dialog id="txDlg">
@@ -355,7 +355,7 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-0943";
+const APP_VERSION="2026.07.23-0944";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -437,6 +437,7 @@ function castle(x,y,hit){return `
 
 function stLabel(p,m,i,divNow){
   const pct=Math.min(divNow/m.amt*100,100);
+  const ac=((DATA.achievements)||[]).find(a=>a.owner===person&&a.milestone===i+1);
   const x=Math.min(Math.max(p.x,86),714);
   return `<g font-family="PingFang TC,Noto Sans TC,sans-serif" text-anchor="middle">
    <rect x="${x-78}" y="${p.y+14}" width="156" height="34" rx="10" fill="#3B3357" opacity=".72"/>
@@ -581,12 +582,27 @@ function layoutScene(prog,divNow,col){
    </g>`;
 }
 
-/* 過站慶祝:花瓣雨(每人每站只放一次) */
-function celebrate(divNow){
-  const key="mile_"+person,idx=stationIdx(divNow);
-  const prev=parseInt(localStorage.getItem(key)||"0");
-  localStorage.setItem(key,String(idx));
-  if(idx>prev)petalRain();
+/* 過站慶祝：達成紀錄寫入雲端，永久保存達成日期 */
+async function celebrate(divNow){
+  const idx=stationIdx(divNow); if(idx<1)return;
+  const ach=DATA.achievements=DATA.achievements||[];
+  const has=ach.some(a=>a.owner===person&&a.milestone===idx);
+  if(has)return;
+  petalRain();
+  if(!token())return;                       // 沒 Token 就只慶祝、不寫入
+  try{
+    await load();
+    DATA.achievements=DATA.achievements||[];
+    if(DATA.achievements.some(a=>a.owner===person&&a.milestone===idx))return;
+    DATA.achievements.push({owner:person,milestone:idx,name:MILES[idx-1].name,
+      date:new Date().toISOString().slice(0,10),annual_div:Math.round(divNow)});
+    DATA.updated=new Date().toISOString().slice(0,10);
+    await fetch(API,{method:"PUT",
+      headers:{"Authorization":"Bearer "+token(),"Accept":"application/vnd.github+json"},
+      body:JSON.stringify({message:`achievement: ${person} ${MILES[idx-1].name}`,
+        content:b64e(JSON.stringify(DATA,null,2)),sha:SHA})});
+    await load();
+  }catch(e){}
 }
 function petalRain(){
   const cols=["#4A90D9","#5FBF6E","#F7E9A8","#A55EC4","#F2A65A"];
