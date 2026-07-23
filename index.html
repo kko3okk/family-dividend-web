@@ -226,6 +226,17 @@
     background:#3B3357;color:#fff;font-size:12px;padding:9px 14px;border-radius:20px;
     max-width:88vw;text-align:center;opacity:0;transition:opacity .25s;pointer-events:none}
   #sndMsg.on{opacity:.95}
+
+  .badges{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .badge{background:var(--card2);border:2px solid var(--line);border-radius:12px;padding:11px 8px;text-align:center}
+  .badge.got{border-color:var(--green);background:var(--green-soft)}
+  .badge img{width:38px;height:38px;image-rendering:pixelated}
+  .badge .bn{font-size:11.5px;font-weight:800;margin-top:4px}
+  .badge .bp{font-size:10px;color:var(--mut);font-family:var(--mono);margin-top:2px}
+  .badge .bbar{height:5px;background:#D8D2E6;border-radius:3px;overflow:hidden;margin:6px 2px 3px}
+  .badge .bbar i{display:block;height:100%;background:var(--green)}
+  .badge .bpct{font-size:10px;font-family:var(--mono);color:var(--mut)}
+  .scene{background:#8FD0E8}
 </style>
 </head>
 <body>
@@ -260,6 +271,8 @@
     <div class="blk"><div class="k">報價</div><div class="v" style="font-size:12px;padding-top:5px" id="pxMeta">–</div></div>
   </div>
 </div>
+
+<div class="card"><h3>道館徽章</h3><div class="badges" id="badgeRow"></div></div>
 
 <div class="btn-row"><button class="btn" id="addBtn">⚔ 記一筆買進</button></div>
 
@@ -365,10 +378,10 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-1655";
+const APP_VERSION="2026.07.23-1700";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
-const MILES=[{name:"第一關 · 旅遊之地",amt:150000,icon:"🎈"},{name:"第二關 · 房貸關隘",amt:610000,icon:"🏡"},{name:"最終關 · 魔王城",amt:1000000,icon:"🏯"}];
+const MILES=[{name:"旅遊道館",amt:150000},{name:"房貸道館",amt:610000},{name:"魔王城",amt:1000000}];
 const ETA={chang:["第 3~4 年","第 9~10 年","第 12~14 年"],wife:["第 4~5 年","第 12~13 年","第 16~18 年"]};
 const OWNER_STOCKS={chang:["4766","6803","0050"],wife:["0050","1231","4506","2832","00878","00687B"]};
 const PCOL={chang:"#D96C4F",wife:"#DFA53B"};
@@ -406,149 +419,131 @@ async function ensurePrices(){
 function holdings(){const h={};DATA.transactions.forEach(t=>{const k=t.owner+"|"+t.stock;h[k]=(h[k]||0)+t.shares;});return h;}
 function ownerDiv(h,o){let d=0;for(const[k,sh]of Object.entries(h)){const[ow,s]=k.split("|");if(ow===o)d+=sh*((DATA.stocks[s]||{}).div||0);}return d;}
 
-/* ═══════ 像素冒險：勇者一行人 ═══════
-   攻擊力 ATK = 年股息（每年對關卡魔物造成的傷害）
-   關卡 BOSS HP = 里程碑金額；已造成傷害 = 目前年股息
-   每 5,000 元年股息 擊倒一隻雜魚；每筆買進 = 一次攻擊
-   ═════════════════════════════════════ */
-const TRAIL_D="M96,352 C 210,376 330,352 396,314 C 452,278 398,250 292,234 C 196,220 146,200 198,176 C 250,152 418,160 528,148 C 618,138 662,128 692,110";
-const BOSSES=[{n:"旅行之獸",spr:"px/px-slime.png",w:34},
-              {n:"房貸巨蝠",spr:"px/px-bat.png",w:36},
-              {n:"魔王",spr:"px/px-demon.png",w:40}];
+/* ═══════ 寶可夢式戰鬥畫面 ═══════
+   對手 HP = 該關卡里程碑金額；已造成傷害 = 年股息
+   我方 Lv = 每 10,000 元一級；EXP = 距下一級進度
+   每筆買進 = 一次攻擊（傷害 = 股數 × 每股股利）
+   ═════════════════════════════════ */
+const BOSSES=[
+ {n:"旅行之獸",spr:"px/px-slime.png",sz:76},
+ {n:"房貸巨蝠",spr:"px/px-bat.png",sz:84},
+ {n:"魔王",spr:"px/px-demon.png",sz:92}];
 
 function stationIdx(div){let i=0;MILES.forEach((m,k)=>{if(div>=m.amt)i=k+1});return i;}
 function lv(div){return Math.floor(div/10000)+1;}
 function mobsKilled(div){return Math.floor(div/5000);}
+const px=(src,x,y,w,h,extra)=>`<image href="${src}" x="${x}" y="${y}" width="${w}" height="${h}" style="image-rendering:pixelated" ${extra||""}/>`;
 
-function sprite(src,x,y,w,h,extra){return `<image href="${src}" x="${x}" y="${y}" width="${w}" height="${h}" style="image-rendering:pixelated" ${extra||""}/>`;}
-
-function hpBar(x,y,w,cur,max,label){
-  const p=Math.max(0,Math.min(cur/max,1));
+/* GBA 風格資訊框 */
+function infoBox(x,y,w,h,inner){
   return `<g transform="translate(${x},${y})">
-    <rect x="${-w/2-2}" y="-11" width="${w+4}" height="16" fill="#1B1430" opacity=".85" rx="2"/>
-    <rect x="${-w/2}" y="-9" width="${w}" height="6" fill="#4A1F2A"/>
-    <rect x="${-w/2}" y="-9" width="${w*p}" height="6" fill="${p>.5?"#5FBF6E":(p>.2?"#F2C14E":"#D95151")}"/>
-    <text x="0" y="3" text-anchor="middle" font-size="7.5" fill="#EDE6FF"
-      font-family="ui-monospace,Menlo,monospace">${label}</text></g>`;
+    <rect x="4" y="4" width="${w}" height="${h}" fill="#2A2438" opacity=".35"/>
+    <rect width="${w}" height="${h}" fill="#F8F0D8" stroke="#3A3352" stroke-width="3"/>
+    <rect x="3" y="3" width="${w-6}" height="${h-6}" fill="none" stroke="#B9AE8C" stroke-width="1.5"/>
+    ${inner}</g>`;
+}
+function hpBar(x,y,w,ratio){
+  const c=ratio>0.5?"#5FBF6E":(ratio>0.2?"#F2C14E":"#D95151");
+  return `<g transform="translate(${x},${y})">
+    <rect x="-2" y="-2" width="${w+4}" height="9" fill="#3A3352"/>
+    <rect width="${w}" height="5" fill="#6B6250"/>
+    <rect width="${Math.max(w*ratio,0)}" height="5" fill="${c}"/></g>`;
+}
+function label(x,y,t,size,col,anchor,weight){
+  return `<text x="${x}" y="${y}" font-size="${size||11}" fill="${col||"#3A3352"}"
+    text-anchor="${anchor||"start"}" font-weight="${weight||700}"
+    font-family="ui-monospace,Menlo,monospace">${t}</text>`;
+}
+
+function lastAttack(){
+  const tx=(DATA.transactions||[]).filter(t=>t.owner===person)
+    .sort((a,b)=>b.date.localeCompare(a.date))[0];
+  if(!tx)return null;
+  const st=DATA.stocks[tx.stock]||{};
+  return {name:st.name||tx.stock,dmg:Math.round(tx.shares*(st.div||0)),date:tx.date};
 }
 
 function scene(divNow){
-  const amts=[0,...MILES.map(m=>m.amt)];
-  let seg=0;while(seg<3&&divNow>=amts[seg+1])seg++;
-  const prog=(seg+(seg>=3?0:Math.min((divNow-amts[seg])/Math.max(amts[Math.min(seg+1,3)]-amts[seg],1),1)))/3;
+  const si=stationIdx(divNow);
+  const boss=BOSSES[Math.min(si,2)];
+  const mile=MILES[Math.min(si,2)];
+  const cleared=si>=3;
+  const remain=cleared?0:Math.max(mile.amt-divNow,0);
+  const ratio=cleared?0:remain/mile.amt;
+  const myLv=lv(divNow), expInto=divNow%10000, expRatio=expInto/10000;
+  const back=person==="chang"?"px/px-hero-back.png":"px/px-mage-back.png";
+  const myName=person==="chang"?"勇者 CHANG":"魔法使 WIFE";
+  const atk=lastAttack();
+  const msg=cleared
+    ? `魔王已被討伐！家的冒險完成 ✦`
+    : (atk? `${myName.split(" ")[0]}的 ${atk.name} 攻擊！造成 ${fmt(atk.dmg)} 點傷害`
+          : `${boss.n} 出現了！用每一筆投入攻擊牠`);
+  const msg2=cleared? "" : `${boss.n} 剩餘 HP ${fmt(remain)}／${fmt(mile.amt)}`;
+
   document.getElementById("sceneSvg").innerHTML=`
-  <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" id="hillSvg" shape-rendering="crispEdges">
-   <rect width="800" height="400" fill="#3E7A4E"/>
-   <!-- 像素草地紋理 -->
-   <g fill="#4A8C58">
-    ${Array.from({length:46},(_,i)=>{const x=(i*79)%780,y=120+((i*137)%260);
-      return `<rect x="${x}" y="${y}" width="10" height="6"/><rect x="${x+14}" y="${y+8}" width="6" height="6"/>`;}).join("")}
+  <svg viewBox="0 0 800 460" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+   <!-- 背景：天空與地面 -->
+   <rect width="800" height="460" fill="#8FD0E8"/>
+   <rect y="0" width="800" height="120" fill="#7FC4E4"/>
+   <g fill="#FFFFFF" opacity=".75">
+     <rect x="80" y="34" width="90" height="14"/><rect x="110" y="22" width="52" height="14"/>
+     <rect x="520" y="26" width="110" height="14"/><rect x="560" y="14" width="60" height="14"/>
    </g>
-   <!-- 天空帶 -->
-   <rect width="800" height="118" fill="#2B2450"/>
-   <g fill="#3A3068">${Array.from({length:20},(_,i)=>`<rect x="${(i*61)%790}" y="${20+((i*47)%80)}" width="26" height="8"/>`).join("")}</g>
-   <g fill="#FFFFFF">${[[70,28],[190,52],[330,22],[470,60],[610,30],[720,66]].map(([x,y])=>
-     `<rect x="${x}" y="${y}" width="4" height="4"><animate attributeName="opacity" values=".3;1;.3" dur="${3+(x%5)}s" repeatCount="indefinite"/></rect>`).join("")}</g>
-   <!-- 月 -->
-   <g><rect x="690" y="26" width="36" height="36" fill="#F7E9A8"/><rect x="700" y="34" width="8" height="8" fill="#E0CE86"/>
-      <rect x="712" y="48" width="6" height="6" fill="#E0CE86"/></g>
-   <!-- 遠山（像素階梯）-->
-   <g fill="#241E42">
-    ${[[40,118],[150,96],[260,112],[380,88],[500,110],[620,92],[720,116]].map(([x,top])=>{
-      let r="";for(let i=0;i<6;i++){r+=`<rect x="${x-i*10}" y="${top+i*8}" width="${20+i*20}" height="8"/>`;}return r;}).join("")}
-   </g>
-   <!-- 森林 -->
-   <g>${[[60,190],[110,206],[640,178],[700,196],[750,172]].map(([x,y])=>
-     `<g><rect x="${x-2}" y="${y}" width="6" height="12" fill="#3E2E22"/>
-       <rect x="${x-14}" y="${y-14}" width="30" height="16" fill="#2F6B44"/>
-       <rect x="${x-10}" y="${y-24}" width="22" height="12" fill="#3B7F52"/>
-       <rect x="${x-6}" y="${y-32}" width="14" height="10" fill="#2F6B44"/></g>`).join("")}</g>
-   <!-- 路：像素土道 -->
-   <path d="${TRAIL_D}" fill="none" stroke="#4A3A28" stroke-width="20" stroke-linecap="butt"/>
-   <path id="trailBase" d="${TRAIL_D}" fill="none" stroke="#C9A86B" stroke-width="16" stroke-linecap="butt"/>
-   <path d="${TRAIL_D}" fill="none" stroke="#B08F55" stroke-width="16" stroke-dasharray="3 13" stroke-linecap="butt" opacity=".55"/>
-   <path id="trailWalk" d="${TRAIL_D}" fill="none" stroke="#E8D7A6" stroke-width="16" stroke-linecap="butt"/>
-   <g id="mobs"></g><g id="marks"></g><g id="loot"></g><g id="party"></g><g id="hud"></g>
+   <rect y="120" width="800" height="200" fill="#A8E080"/>
+   <g fill="#93D06C">${Array.from({length:26},(_,i)=>`<rect x="${(i*67)%790}" y="${130+((i*53)%180)}" width="14" height="7"/>`).join("")}</g>
+   <rect y="320" width="800" height="140" fill="#3A3352"/>
+
+   <!-- 對手平台與精靈 -->
+   <ellipse cx="580" cy="196" rx="118" ry="26" fill="#7FB85C"/>
+   <ellipse cx="580" cy="192" rx="112" ry="22" fill="#8FCC68"/>
+   <g class="bob">${px(boss.spr,580-boss.sz/2,192-boss.sz-6,boss.sz,boss.sz,cleared?'opacity=".35"':"")}</g>
+
+   <!-- 我方平台與背影 -->
+   <ellipse cx="215" cy="308" rx="140" ry="30" fill="#7FB85C"/>
+   <ellipse cx="215" cy="304" rx="132" ry="26" fill="#8FCC68"/>
+   ${px(back,215-56,304-112,112,112)}
+
+   <!-- 對手資訊框（左上）-->
+   ${infoBox(34,30,300,58,`
+     ${label(16,25,boss.n,15)}
+     ${label(284,25,"Lv"+Math.max(1,Math.round(mile.amt/10000)),13,"#3A3352","end")}
+     ${label(16,45,"HP",11,"#C87A2A")}
+     ${hpBar(42,38,232,ratio)}`)}
+
+   <!-- 我方資訊框（右下）-->
+   ${infoBox(440,222,326,78,`
+     ${label(16,26,myName,15)}
+     ${label(310,26,"Lv"+myLv,13,"#3A3352","end")}
+     ${label(16,48,"HP",11,"#C87A2A")}
+     ${hpBar(42,41,214,1)}
+     ${label(310,50,fmt(divNow)+" ATK",12,"#3A3352","end")}
+     ${label(16,68,"EXP",10,"#4A6FA5")}
+     <rect x="46" y="61" width="264" height="6" fill="#6B6250"/>
+     <rect x="46" y="61" width="${264*expRatio}" height="6" fill="#5AA9E0"/>`)}
+
+   <!-- 訊息框 -->
+   ${infoBox(24,336,752,104,`
+     ${label(26,42,msg,17)}
+     ${label(26,74,msg2,14,"#6B6250")}`)}
   </svg>`;
-  layoutScene(prog,divNow);
   celebrate(divNow);
 }
 
-function layoutScene(prog,divNow){
-  const svg=document.getElementById("hillSvg");
-  const base=svg.querySelector("#trailBase"), L=base.getTotalLength();
-  svg.querySelector("#trailWalk").setAttribute("stroke-dasharray",`${L*prog} ${L}`);
-  const pt=f=>base.getPointAtLength(L*Math.min(Math.max(f,0),1));
-  const P=[pt(0),pt(1/3),pt(2/3),pt(1)];
-  const hit=i=>divNow>=MILES[i-1].amt;
-  const z=p=>0.82+0.4*(p.y/400);
-
-  /* 關卡標記：村莊、營地旗、魔王城 */
-  let mk=sprite("px/px-hut.png",P[0].x-22,P[0].y-44,44,44)
-    +`<text x="${P[0].x}" y="${P[0].y+16}" text-anchor="middle" font-size="10" font-weight="800" fill="#FFF">村莊</text>`;
-  [1,2].forEach(i=>{
-    const p=P[i],on=hit(i);
-    mk+=sprite(on?"px/px-flag-on.png":"px/px-flag-off.png",p.x-18,p.y-40,36,40,on?"":'opacity=".65"');
-  });
-  mk+=sprite("px/px-castle.png",P[3].x-44,P[3].y-56,88,55,hit(3)?"":'opacity=".8"');
-  mk+=`<text x="${P[3].x}" y="${P[3].y+16}" text-anchor="middle" font-size="10" font-weight="800" fill="#F7E9A8">魔王城</text>`;
-  svg.querySelector("#marks").innerHTML=mk;
-
-  /* 雜魚：走過的路上是倒下的怪，前方是活的 */
-  const killed=Math.min(mobsKilled(divNow),26);
-  let mob="";
-  for(let i=0;i<killed;i++){
-    const f=Math.min((i+0.6)/(killed+1)*prog,prog-0.006);
-    if(f<=0)continue;
-    const p=pt(f),sc=z(p),side=((i%2)?1:-1)*(15+(i*7)%8);
-    mob+=sprite("px/px-slime-dead.png",p.x+side-11*sc,p.y-8*sc,22*sc,22*sc);
-  }
-  for(let i=0;i<4;i++){   /* 前方待戰的雜魚 */
-    const f=prog+0.03+i*0.05; if(f>=1)break;
-    const p=pt(f),sc=z(p),side=((i%2)?1:-1)*(16+(i*5)%8);
-    mob+=`<g class="bob">${sprite("px/px-slime.png",p.x+side-13*sc,p.y-24*sc,26*sc,26*sc)}</g>`;
-  }
-  svg.querySelector("#mobs").innerHTML=mob;
-
-  /* 戰利品寶箱：每 20,000 元一個 */
-  const chests=Math.min(Math.floor(divNow/20000),14);
-  let lo="";
-  for(let i=0;i<chests;i++){
-    const f=Math.min((i+0.4)/(chests+1)*prog,prog-0.01);
-    if(f<=0)continue;
-    const p=pt(f),sc=z(p),side=((i%2)?-1:1)*(26+(i*6)%8);
-    lo+=sprite("px/px-chest.png",p.x+side-11*sc,p.y-16*sc,22*sc,22*sc);
-  }
-  svg.querySelector("#loot").innerHTML=lo;
-
-  /* 隊伍：勇者＋魔法使 */
-  const wp=pt(prog),sc=z(wp);
-  const lead=person==="chang"?["px/px-hero1.png","px/px-hero2.png"]:["px/px-mage1.png","px/px-mage2.png"];
-  const mate=person==="chang"?["px/px-mage1.png","px/px-mage2.png"]:["px/px-hero1.png","px/px-hero2.png"];
-  const bp=pt(Math.max(prog-0.022,0));
-  svg.querySelector("#party").innerHTML=`
-    <g class="bob">
-      ${sprite(mate[0],bp.x-13*sc-16*sc,bp.y-30*sc,26*sc,26*sc,'class="wframe"')}
-      ${sprite(mate[1],bp.x-13*sc-16*sc,bp.y-30*sc,26*sc,26*sc,'class="wframe f2"')}
-      ${sprite(lead[0],wp.x-14*sc,wp.y-32*sc,28*sc,28*sc,'class="wframe"')}
-      ${sprite(lead[1],wp.x-14*sc,wp.y-32*sc,28*sc,28*sc,'class="wframe f2"')}
-    </g>`;
-
-  /* HUD：目前關卡 BOSS 血條 */
-  const si=stationIdx(divNow);
-  let hud="";
-  if(si<3){
-    const b=BOSSES[si],m=MILES[si],p=P[si+1];
-    const remain=Math.max(m.amt-divNow,0);
-    hud+=sprite(b.spr,p.x-b.w/2,p.y-b.w-40,b.w,b.w);
-    hud+=hpBar(p.x,p.y-46,110,remain,m.amt,`${b.n}  ${fmt(remain)}`);
-  }else{
-    hud+=`<text x="${P[3].x}" y="${P[3].y-64}" text-anchor="middle" font-size="13" font-weight="800" fill="#F7E9A8">⚔ 魔王已討伐</text>`;
-  }
-  svg.querySelector("#hud").innerHTML=hud;
+/* 道館徽章列 */
+function badgeRow(divNow){
+  return MILES.map((m,i)=>{
+    const got=divNow>=m.amt, pct=Math.min(divNow/m.amt*100,100);
+    const ac=((DATA.achievements)||[]).find(a=>a.owner===person&&a.milestone===i+1);
+    return `<div class="badge ${got?"got":""}">
+      <img src="px/px-badge${i+1}.png" alt="" ${got?"":'style="filter:grayscale(1);opacity:.4"'}>
+      <div class="bn">${m.name}</div>
+      <div class="bp">${got?(ac?"✓ "+ac.date:"✓ 已取得"):fmt(m.amt-divNow)+" 差距"}</div>
+      <div class="bbar"><i style="width:${Math.max(pct,1)}%"></i></div>
+      <div class="bpct">${pct.toFixed(1)}%</div>
+    </div>`;
+  }).join("");
 }
 
-/* 討伐關卡：慶祝＋永久紀錄 */
 async function celebrate(divNow){
   const idx=stationIdx(divNow); if(idx<1)return;
   const ach=DATA.achievements=DATA.achievements||[];
@@ -564,7 +559,7 @@ async function celebrate(divNow){
     DATA.updated=new Date().toISOString().slice(0,10);
     await fetch(API,{method:"PUT",
       headers:{"Authorization":"Bearer "+token(),"Accept":"application/vnd.github+json"},
-      body:JSON.stringify({message:`defeat: ${person} ${MILES[idx-1].name}`,
+      body:JSON.stringify({message:`badge: ${person} ${MILES[idx-1].name}`,
         content:b64e(JSON.stringify(DATA,null,2)),sha:SHA})});
     await load();
   }catch(e){}
@@ -787,12 +782,13 @@ function render(){
   document.body.style.setProperty("--pcol",PCOL[person]);
   const h=holdings(),pD=ownerDiv(h,person),oD=ownerDiv(h,person==="chang"?"wife":"chang");
   scene(pD);
-  document.getElementById("pDiv").textContent=fmt(pD)+" 元";
+  document.getElementById("pDiv").textContent=fmt(pD);
   const next=MILES.find(m=>pD<m.amt);
-  document.getElementById("nextK").textContent=next?("距"+next.name):"已到終點";
-  document.getElementById("nextV").textContent=next?((next.amt-pD)/10000).toFixed(1)+" 萬":"🎉";
+  document.getElementById("nextK").textContent=next?(next.name+" 剩餘 HP"):"全部道館制霸";
+  document.getElementById("nextV").textContent=next?fmt(next.amt-pD):"✦";
   document.getElementById("famDiv").textContent=fmt(pD+oD)+" 元";
   document.getElementById("trCount").textContent="Lv."+lv(pD)+" / "+fmt(mobsKilled(pD));
+  document.getElementById("badgeRow").innerHTML=badgeRow(pD);
   document.getElementById("advBox").innerHTML=person==="chang"?advChang():advWife();
   document.getElementById("holdBody").innerHTML=holdRows(h,person);
   document.getElementById("exBox").innerHTML=exRows(person);
