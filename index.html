@@ -85,7 +85,7 @@
     letter-spacing:.2em;cursor:pointer;border:none;background:var(--pcol,var(--chang));
     color:#FFF8EF;box-shadow:0 3px 0 rgba(74,62,50,.25)}
 
-  dialog{margin:auto;position:fixed;inset:0;height:fit-content;max-height:88vh;max-height:88dvh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  dialog{margin:auto;position:fixed;inset:0;height:fit-content;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
     background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:20px;
     padding:20px 18px;max-width:420px;width:92%}
   dialog::backdrop{background:rgba(74,62,50,.45)}
@@ -109,7 +109,7 @@
     color:var(--ink);font-family:var(--mono);font-size:16px;padding:12px 10px;font-variant-numeric:tabular-nums}
   dialog input:focus{outline:2.5px solid var(--wife);outline-offset:1px;border-color:transparent}
   .row2{display:flex;gap:10px}.row2>div{flex:1;min-width:0}
-  dialog input[type=date]{font-size:14px;padding:11px 8px}
+  dialog input[type=date]{font-size:15px;text-align:left}
   .preview{margin-top:14px;background:var(--green-soft);border:1.5px dashed var(--green);border-radius:12px;
     padding:11px 13px;font-size:12px;color:var(--ink);line-height:1.8;min-height:44px}
   .preview b{color:var(--chang);font-family:var(--mono)}
@@ -142,7 +142,7 @@
 
 
   @media(max-width:480px){
-    dialog{padding:16px 14px;max-height:92dvh}
+    dialog{padding:16px 14px;max-height:90vh}
     dialog h2{font-size:15px}
     dialog .sub{margin-bottom:10px;font-size:10.5px}
     label{margin:9px 0 4px}
@@ -151,7 +151,7 @@
     .chip .n{font-size:12px}.chip .c{font-size:9px}
     .chips{gap:6px}
     dialog input{font-size:16px;padding:10px 9px}
-    dialog input[type=date]{font-size:13px}
+    dialog input[type=date]{font-size:14px}
     .preview{padding:9px 11px;font-size:11.5px;line-height:1.65;margin-top:10px}
     dialog button.go{padding:12px;margin-top:11px;font-size:14px}
     .dlg-x{top:9px;right:10px;width:30px;height:30px;line-height:27px}
@@ -224,10 +224,10 @@
     <div><label>股數</label><input id="fShares" inputmode="numeric" type="number" min="1"></div>
     <div><label>成交價</label><input id="fPrice" inputmode="decimal" type="number" step="0.01"></div>
   </div>
-  <div class="row2">
-    <div><label>日期</label><input id="fDate" type="date"></div>
-    <div><label>備註（選填）</label><input id="fMemo" placeholder="例：第二層觸發"></div>
-  </div>
+  <label>日期</label>
+  <input id="fDate" type="date">
+  <label>備註（選填）</label>
+  <input id="fMemo" placeholder="例：第二層觸發">
   <div class="preview" id="fPreview">填入股數後即顯示這筆會讓旅人前進多少</div>
   <button class="go" id="goBtn">寫入</button>
   <div class="msg" id="txMsg"></div>
