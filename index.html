@@ -243,6 +243,7 @@
 </dialog>
 
 <script>
+const APP_VERSION="2026.07.23-0847";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -644,12 +645,28 @@ document.getElementById("tokenSave").onclick=async()=>{
 });
 
 
+
+/* ── 自動更新：比對線上版本，發現新版即強制重載 ── */
+async function checkUpdate(){
+  try{
+    const r=await fetch("version.json?t="+Date.now(),{cache:"no-store"});
+    if(!r.ok)return;
+    const v=(await r.json()).version;
+    if(v&&v!==APP_VERSION){
+      if(window.caches){const ks=await caches.keys();await Promise.all(ks.map(k=>caches.delete(k)));}
+      location.replace(location.pathname+"?v="+encodeURIComponent(v));
+    }
+  }catch(e){}
+}
+checkUpdate();
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")checkUpdate();});
+
 /* ── 下拉重整（PWA 全螢幕模式沒有瀏覽器的下拉刷新）── */
 async function refreshData(){
   const el=document.getElementById("ptr");
   el.style.opacity="1";el.style.transform="translate(-50%,14px)";
   el.textContent="⟳";el.classList.add("spin");
-  try{await load();await ensurePrices();render();}catch(e){}
+  try{await checkUpdate();await load();await ensurePrices();render();}catch(e){}
   el.classList.remove("spin");el.textContent="✓";
   setTimeout(()=>{el.style.opacity="0";el.style.transform="translate(-50%,-46px)";el.textContent="↓";},650);
 }
