@@ -221,11 +221,17 @@
   .ck{display:flex;gap:9px;align-items:flex-start;padding:8px 2px;border-bottom:1.5px dashed var(--line);font-size:12.5px}
   .ck:last-child{border-bottom:none}
   .ck input{width:19px;height:19px;accent-color:var(--green);flex:none;margin-top:1px}
+
+  #sndMsg{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:200;
+    background:#3B3357;color:#fff;font-size:12px;padding:9px 14px;border-radius:20px;
+    max-width:88vw;text-align:center;opacity:0;transition:opacity .25s;pointer-events:none}
+  #sndMsg.on{opacity:.95}
 </style>
 </head>
 <body>
 
 <div id="ptr">↓</div>
+<div id="sndMsg"></div>
 
 <div class="topbar">
   <div>
@@ -358,7 +364,7 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-1455";
+const APP_VERSION="2026.07.23-1458";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -1052,30 +1058,48 @@ const Snd={
      放一個 bgm.mp3 到本 repo 根目錄即可自動播放並循環；
      沒有檔案時自動回退到下方程式生成的環境音。
      音效檔也可選擇性覆蓋：sfx-coin.mp3 / sfx-gem.mp3 / sfx-fanfare.mp3 / sfx-tap.mp3 */
-  bgm:null, bgmReady:false, bgmTry:0,
+  bgm:null, bgmSrc:null, bgmBuf:null, bgmLoading:false,
   BGM_FILES:["bgm.m4a","bgm.mp3","bgm.aac","bgm.ogg"],
-  initBgm(){
-    if(this.bgm)return;
-    this.loadBgm(0);
+  say(t,ms){
+    const el=document.getElementById("sndMsg"); if(!el)return;
+    el.textContent=t; el.classList.add("on");
+    clearTimeout(this._sayT); this._sayT=setTimeout(()=>el.classList.remove("on"),ms||3200);
   },
-  loadBgm(i){
-    if(i>=this.BGM_FILES.length){ this.bgm=null; return; }
-    const a=new Audio(this.BGM_FILES[i]);
-    a.loop=true; a.volume=0.45; a.preload="auto";
-    a.addEventListener("canplaythrough",()=>{ this.bgmReady=true; },{once:true});
-    a.addEventListener("error",()=>{ this.bgm=null; this.loadBgm(i+1); },{once:true});
-    this.bgm=a;
+  async loadBgmBuffer(){
+    if(this.bgmBuf||this.bgmLoading)return this.bgmBuf;
+    this.bgmLoading=true;
+    for(const f of this.BGM_FILES){
+      try{
+        const r=await fetch(f+"?v="+Date.now());
+        if(!r.ok) continue;
+        const ab=await r.arrayBuffer();
+        this.bgmBuf=await new Promise((res,rej)=>{
+          const p=this.ctx.decodeAudioData(ab,res,rej);
+          if(p&&p.then)p.then(res).catch(rej);
+        });
+        this.bgmFile=f; this.bgmLoading=false;
+        return this.bgmBuf;
+      }catch(e){ this._lastErr=f+": "+(e&&e.message||e); }
+    }
+    this.bgmLoading=false;
+    return null;
   },
-  sfxFile(kind){
-    const ext=this.sfxExt||"m4a";
-    const map={coin:"sfx-coin."+ext,gem:"sfx-gem."+ext,fanfare:"sfx-fanfare."+ext,tap:"sfx-tap."+ext};
-    if(this._miss&&this._miss[kind])return false;
-    const a=new Audio(map[kind]); a.volume=this.on?0.6:0.4;
-    a.addEventListener("error",()=>{ (this._miss=this._miss||{})[kind]=true; },{once:true});
-    const p=a.play();
-    if(p&&p.catch)p.catch(()=>{ (this._miss=this._miss||{})[kind]=true; });
+  async playBgm(){
+    this.say("載入音樂中…",2000);
+    const buf=await this.loadBgmBuffer();
+    if(!buf){ this.say("找不到可播放的音樂檔，改用環境音"+(this._lastErr?("（"+this._lastErr+"）"):""),5000);
+              this.startGenerated(); return false; }
+    try{ this.bgmSrc&&this.bgmSrc.stop(); }catch(e){}
+    const src=this.ctx.createBufferSource();
+    src.buffer=buf; src.loop=true;
+    src.connect(this.master);
+    this.master.gain.cancelScheduledValues(this.ctx.currentTime);
+    this.master.gain.setTargetAtTime(0.6,this.ctx.currentTime,0.5);
+    src.start(0); this.bgmSrc=src;
+    this.say("♪ 播放中："+this.bgmFile+"（iPhone 請關閉側邊靜音鍵）",4200);
     return true;
   },
+  stopBgm(){ try{ this.bgmSrc&&this.bgmSrc.stop(); }catch(e){} this.bgmSrc=null; },
   /* 環境音：五聲音階緩慢流動的和弦襯底（無音樂檔時的回退方案）*/
   ambient(){
     if(!this.on)return;
@@ -1094,19 +1118,17 @@ const Snd={
   toggle(){
     this.init(); if(!this.ctx)return false;
     this.on=!this.on;
-    this.initBgm();
     if(this.on){
-      this.ctx.resume();
-      let usedFile=false;
-      if(this.bgm){
-        const p=this.bgm.play();
-        if(p&&p.then){ p.then(()=>{usedFile=true;}).catch(()=>{ this.startGenerated(); }); usedFile=true; }
-      }
-      if(!usedFile)this.startGenerated();
+      this.ctx.resume().then(()=>{
+        if(this.ctx.state!=="running"){ this.say("瀏覽器擋住音訊，請再點一次按鈕",4000); return; }
+        this.playBgm();
+      });
+      clearTimeout(this.timer);
     }else{
-      if(this.bgm){ try{this.bgm.pause();}catch(e){} }
+      this.stopBgm();
       this.master.gain.setTargetAtTime(0,this.ctx.currentTime,0.4);
       clearTimeout(this.timer);
+      this.say("已靜音",1500);
     }
     localStorage.setItem("snd",this.on?"1":"0");
     document.getElementById("sndBtn").textContent=this.on?"🔊":"🔇";
