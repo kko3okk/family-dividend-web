@@ -256,6 +256,7 @@
     <div class="blk"><div class="k">年股息</div><div class="v accent" id="pDiv">–</div></div>
     <div class="blk"><div class="k" id="nextK">距下一站</div><div class="v" id="nextV">–</div></div>
     <div class="blk"><div class="k">家庭合計</div><div class="v" id="famDiv">–</div></div>
+    <div class="blk"><div class="k">路上寶物</div><div class="v" id="trCount">–</div></div>
     <div class="blk"><div class="k">報價</div><div class="v" style="font-size:12px;padding-top:5px" id="pxMeta">–</div></div>
   </div>
 </div>
@@ -364,7 +365,7 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-1620";
+const APP_VERSION="2026.07.23-1647";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -454,11 +455,34 @@ function stLabel(p,m,i,divNow){
    <text x="${x}" y="${p.y+42}" font-size="9.5" fill="#C9BEE8" font-family="ui-monospace,Menlo,monospace">${pct.toFixed(1)}% · ${ETA[person][i]}</text>
   </g>`;}
 
-const GEMS=["sp-gem1.png","sp-gem2.png","sp-gem3.png","sp-gem4.png"];
-function flowerSvg(x,y,c,i){
-  const g=GEMS[i%GEMS.length],sz=9+(i*7%4);
-  return `<g class="sway ${i%2?"s2":""}" transform="translate(${x},${y})">
-    <image href="${g}" x="${-sz/2}" y="${-sz}" width="${sz}" height="${sz}"/></g>`;}
+const TR={
+  s:["tr-s1.png","tr-s2.png","tr-s3.png","tr-s4.png"],      // 每 1,000 元
+  m:["tr-m1.png","tr-m2.png","tr-m3.png","tr-m4.png"],      // 每 20,000 元
+  l:["tr-l1.png","tr-l2.png","tr-l3.png","tr-l4.png"],      // 每 100,000 元
+  k:["tr-key.png","tr-key2.png"]                             // 里程碑鑰匙
+};
+/* 依年股息換算應長出的寶物清單（由小到大，越後段越貴重）*/
+function treasureList(div){
+  const out=[];
+  const nS=Math.floor(div/1000), nM=Math.floor(div/20000), nL=Math.floor(div/100000);
+  for(let i=0;i<Math.min(nS,40);i++)out.push({t:"s",i});
+  for(let i=0;i<Math.min(nM,20);i++)out.push({t:"m",i});
+  for(let i=0;i<Math.min(nL,10);i++)out.push({t:"l",i});
+  return out;
+}
+function trSvg(x,y,item,idx,depth){
+  const set=TR[item.t], img=set[idx%set.length];
+  const base={s:10,m:14,l:19,k:16}[item.t];
+  const sz=base*(0.78+0.42*depth);
+  const dly=(idx*0.37)%2.4;
+  return `<g class="sway ${idx%2?"s2":""}" transform="translate(${x},${y})">
+    <ellipse cx="0" cy="1" rx="${sz*0.42}" ry="${sz*0.16}" fill="#000" opacity=".2"/>
+    <image href="${img}" x="${-sz/2}" y="${-sz}" width="${sz}" height="${sz}"/>
+    <circle cx="${sz*0.3}" cy="${-sz*0.8}" r="${sz*0.1}" fill="#FFF9D6" opacity="0">
+      <animate attributeName="opacity" values="0;.95;0" dur="2.2s" begin="${dly}s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="${sz*0.06};${sz*0.16};${sz*0.06}" dur="2.2s" begin="${dly}s" repeatCount="indefinite"/>
+    </circle></g>`;
+}
 function sprout(x,y,i){return `<g transform="translate(${x},${y})" class="sway ${i%2?"s2":""}">
   <rect x="-2" y="-2" width="4" height="4" rx="2" fill="#F7E9A8" opacity=".5"/></g>`;}
 
@@ -551,20 +575,27 @@ function layoutScene(prog,divNow,col){
     +wrap(P[1],balloon(P[1].x,P[1].y-2,hit(1)))+stLabel(P[1],MILES[0],0,divNow)
     +wrap(P[2],houseM(P[2].x,P[2].y-2,hit(2)))+stLabel(P[2],MILES[1],1,divNow)
     +wrap(P[3],castle(P[3].x,P[3].y-2,hit(3)))+stLabel(P[3],MILES[2],2,divNow);
-  /* 走過的路開花:每 5,000 元一朵,前段先發芽 */
-  const n=Math.min(Math.floor(divNow/5000),42);
+  /* 走過的路長出金銀財寶：5千→寶石、2.5萬→珠寶、10萬→水晶 */
+  const items=treasureList(divNow);
   let fh="";
-  for(let i=0;i<n;i++){
-    const f=Math.min((i+0.7)/(n+1)*prog,prog-0.005);
-    const p=pt(f),p2=pt(f+0.004);
+  items.forEach((it,k)=>{
+    const f=Math.min((k+0.6)/(items.length+1)*prog, prog-0.004);
+    if(f<=0)return;
+    const p=pt(f),p2=pt(Math.min(f+0.004,1));
     let nx=-(p2.y-p.y),ny=(p2.x-p.x);const nl=Math.hypot(nx,ny)||1;nx/=nl;ny/=nl;
-    const side=((i%2)?1:-1)*(9+(i*7)%8);
-    fh+=flowerSvg(p.x+nx*side,p.y+ny*side,FLOWER_COLS[i%FLOWER_COLS.length],i);
-  }
-  for(let i=0;i<6;i++){ /* 前方發芽的嫩苗:暗示路還會長 */
-    const f=prog+0.015+(i*0.012);
+    const side=((k%2)?1:-1)*(11+(k*7)%9);
+    fh+=trSvg(p.x+nx*side,p.y+ny*side,it,k,p.y/400);
+  });
+  /* 已抵達的里程碑各掉落一把鑰匙 */
+  MILES.forEach((m,i)=>{
+    if(divNow<m.amt)return;
+    const p=pt((i+1)/3);
+    fh+=trSvg(p.x-22,p.y+8,{t:"k"},i,p.y/400);
+  });
+  for(let i=0;i<5;i++){ /* 前方預告的微光 */
+    const f=prog+0.014+(i*0.011);
     if(f>1)break;const p=pt(f);
-    fh+=sprout(p.x+((i%2)?9:-9),p.y+3,i);
+    fh+=`<rect x="${p.x+((i%2)?9:-11)}" y="${p.y-2}" width="4" height="4" rx="2" fill="#F7E9A8" opacity=".45"/>`;
   }
   svg.querySelector("#flora").innerHTML=fh;
   /* 旅人 + 木牌 */
@@ -835,6 +866,8 @@ function render(){
   document.getElementById("nextK").textContent=next?("距"+next.name):"已到終點";
   document.getElementById("nextV").textContent=next?((next.amt-pD)/10000).toFixed(1)+" 萬":"🎉";
   document.getElementById("famDiv").textContent=fmt(pD+oD)+" 元";
+  const _tr=treasureList(pD).length+MILES.filter(m=>pD>=m.amt).length;
+  document.getElementById("trCount").textContent=_tr+" 件";
   document.getElementById("advBox").innerHTML=person==="chang"?advChang():advWife();
   document.getElementById("holdBody").innerHTML=holdRows(h,person);
   document.getElementById("exBox").innerHTML=exRows(person);
