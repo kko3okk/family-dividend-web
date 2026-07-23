@@ -309,7 +309,7 @@
 
 <div class="card note" id="ruleNote"></div>
 <div class="note" style="text-align:center;padding:0 4px 8px">
-  背景音樂：上傳 bgm.m4a（或 .mp3／.aac／.ogg）至網站 repo 根目錄即自動啟用；音效可另放 sfx-coin/gem/fanfare/tap.m4a；無檔案時使用程式生成的環境音<br>所有紀錄（交易、股息入帳、檢核、里程碑達成）皆存於私有 GitHub，換手機不會遺失<br>美術素材：Kenney（kenney.nl）· CC0 公眾領域授權
+  背景音樂：上傳 bgm.m4a（或 .mp3／.aac／.ogg）至網站 repo 根目錄即自動啟用；音效可另放 sfx-coin/gem/fanfare/tap.m4a；無檔案時使用程式生成的環境音<br>所有紀錄（交易、股息入帳、檢核、里程碑達成）皆存於私有 GitHub，換手機不會遺失<br>美術素材：Kenney Platformer Art Deluxe（kenney.nl）· CC0 公眾領域授權
 </div>
 
 <dialog id="txDlg">
@@ -365,7 +365,7 @@
 </dialog>
 
 <script>
-const APP_VERSION="2026.07.23-1647";
+const APP_VERSION="2026.07.23-1749";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -607,8 +607,8 @@ function layoutScene(prog,divNow,col){
    <g transform="translate(${wp.x},${wp.y}) scale(${sc})">
      <ellipse cx="0" cy="5" rx="11" ry="3.2" fill="#000" opacity=".22"/>
      <g class="bob">
-       <image class="wframe" href="walker-${person}-0.png" x="${-W/2}" y="${-H+4}" width="${W}" height="${H}"/>
-       <image class="wframe f2" href="walker-${person}-1.png" x="${-W/2}" y="${-H+4}" width="${W}" height="${H}"/>
+       <image class="wframe" href="art/w-${person}-0.png" x="${-W/2}" y="${-H+4}" width="${W}" height="${H}"/>
+       <image class="wframe f2" href="art/w-${person}-1.png" x="${-W/2}" y="${-H+4}" width="${W}" height="${H}"/>
        <circle cx="${W/2+1}" cy="${-H+10}" r="2.6" fill="#CDE9DE"/>
        <circle cx="${W/2+1}" cy="${-H+10}" r="6" fill="#9FD8C6" opacity=".3">
          <animate attributeName="r" values="4.5;8.5;4.5" dur="2.8s" repeatCount="indefinite"/></circle>
