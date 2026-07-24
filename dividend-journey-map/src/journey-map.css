@@ -14,13 +14,32 @@
 .journey-map[data-layout="portrait"] .co-quote { font-size: 18px; }
 .journey-map[data-layout="portrait"] .st-node  { stroke-width: 4; }
 
-/* ── 星點 ─────────────────────────────────────── */
+/* ── 星點（白天自動隱沒，透明度由 --star-alpha 控制）──── */
 .star {
   fill: var(--star);
-  opacity: .55;
+  opacity: calc(var(--star-alpha, 1) * .6);
   animation: twinkle var(--twinkle, 4s) ease-in-out infinite;
+  transition: opacity 1.2s linear;
 }
-@keyframes twinkle { 0%,100% { opacity:.4 } 50% { opacity:.85 } }
+@keyframes twinkle {
+  0%,100% { opacity: calc(var(--star-alpha, 1) * .45) }
+  50%     { opacity: calc(var(--star-alpha, 1) * .9) }
+}
+
+/* ── 天體：太陽／月亮 ─────────────────────────── */
+.cel-glow { fill: var(--cel-glow, #FFE9A8); opacity: .18; }
+.cel-sun {
+  fill: #FFD764; stroke: #FFF0B8; stroke-width: 3;
+  filter: drop-shadow(0 0 12px rgba(255, 215, 100, .55));
+}
+.cel-moon { fill: #F0F2FF; }
+.cel-moon-crater { fill: #D6DAF0; opacity: .75; }
+.cel-moon-g { filter: drop-shadow(0 0 10px rgba(220, 230, 255, .4)); }
+.journey-map[data-phase="day"]   { --cel-glow: #FFE9A8; }
+.journey-map[data-phase="night"] { --cel-glow: #C8D4FF; }
+
+/* 白天：路徑光暈減弱，避免在亮背景上過曝 */
+.journey-map[data-phase="day"] #journey-path-done { filter: none; }
 
 /* ── 路徑 ─────────────────────────────────────── */
 #journey-path-done { transition: stroke-dashoffset var(--dur-progress) var(--ease-default); }
@@ -114,6 +133,7 @@
 /* ── 減少動態效果：全部停止 ───────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .star, .station[data-state="active"] .st-halo, .flag-cloth, .wk-frame { animation: none !important; }
+  .cel-glow { transition: none !important; }
   .wk-frame.f2 { opacity: 0; }
   .station[data-state="active"] .st-halo { opacity: .28; }
   #journey-path-done { transition: none !important; }
