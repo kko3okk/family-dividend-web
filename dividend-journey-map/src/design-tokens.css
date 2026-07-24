@@ -1,0 +1,82 @@
+/* ═══════════════════════════════════════════════════
+   design-tokens.css — 股息里程地圖設計代幣
+   規範：語意命名，禁止外觀命名（--purple-1 之類）
+   光源方向：右上；所有陰影朝左下
+   ═══════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Noto+Sans+TC:wght@400;700&display=swap');
+
+:root {
+  /* ── 場景色 ───────────────────────────────── */
+  --sky-top:          #171B33;   /* 夜空頂部 */
+  --sky-bottom:       #2A3050;   /* 夜空底部 */
+  --sky-far:          #2C3358;   /* 最遠山層 */
+  --sky-mid:          #39406A;   /* 中景山層 */
+  --sky-near:         #474E82;   /* 近景山層 */
+  --ground:           #1E2340;   /* 地面 */
+  --star:             #E8ECFF;   /* 星點 */
+
+  /* ── 路徑 ─────────────────────────────────── */
+  --path-base:        #4A5280;   /* 未走過 */
+  --path-done:        #F2B544;   /* 已走過（唯一光源色） */
+  --path-glow:        #FFD98A;   /* 路徑光暈 */
+
+  /* ── 站點三態 ─────────────────────────────── */
+  --station-cleared:  #5FBF8C;
+  --station-active:   #F2B544;
+  --station-locked:   #6E7599;
+  --station-ring:     #FFFFFF;   /* 節點內圈 */
+
+  /* ── 文字與卡片 ───────────────────────────── */
+  --text-primary:     #F4F6FF;
+  --text-muted:       #A9B0D4;
+  --text-on-light:    #1E2340;
+  --card-bg:          #232945;
+  --card-border:      #3E4670;
+  --card-bg-active:   #3A3320;
+  --card-border-active:#8A6B22;
+
+  /* ── 裝飾 ─────────────────────────────────── */
+  --tree-trunk:       #3A2F47;
+  --tree-crown:       #33507A;
+  --tree-crown-2:     #2B4468;
+  --flag-pole:        #8A93BC;
+  --flag-cloth:       #F2B544;
+
+  /* ── 字體 ─────────────────────────────────── */
+  --font-display:     "Fredoka", "Noto Sans TC", system-ui, sans-serif;
+  --font-body:        "Noto Sans TC", system-ui, sans-serif;   /* jf open 粉圓 到位後改此處 */
+  --font-data:        "Fredoka", ui-monospace, monospace;
+
+  /* ── 字級尺標（1.5 倍率遞進）───────────────── */
+  --fs-display:       46px;
+  --fs-station:       20px;
+  --fs-meta:          13px;
+  --fs-callout:       15px;
+
+  /* ── 動畫 ─────────────────────────────────── */
+  --dur-sky:          0.6s;
+  --dur-path:         1.2s;
+  --dur-progress:     0.8s;
+  --dur-station:      0.5s;
+  --dur-walk:         2.4s;
+  --dur-callout:      0.3s;
+  --dur-pulse:        1.8s;
+  --stagger-peak:     0.1s;
+  --stagger-station:  0.12s;
+  --ease-default:     cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-pop:         back.out(1.7);
+
+  /* ── 陰影（光源右上 → 陰影朝左下）─────────── */
+  --shadow-card:      -3px 4px 0 rgba(10, 12, 26, 0.45);
+  --shadow-node:      -2px 3px 6px rgba(10, 12, 26, 0.55);
+
+  /* ── 幾何 ─────────────────────────────────── */
+  --radius-card:      10px;
+  --node-r:           13px;
+  --path-w:           7px;
+}
+
+/* 灰階可辨識性：三態除顏色外，另以形狀與透明度區分
+   cleared → 實心 + 勾號    active → 實心 + 外環脈動 + 進度環
+   locked  → 空心 + 鎖頭 + opacity .7 + 虛線外框              */
