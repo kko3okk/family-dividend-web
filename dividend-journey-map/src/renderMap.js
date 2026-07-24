@@ -4,6 +4,46 @@
    冪等：同一份 data 重複呼叫結果完全一致
    ═══════════════════════════════════════════════════ */
 
+
+/* ═══════ 日夜循環：依真實時間決定天色與天體位置 ═══════
+   色階以「時刻 → 天空上下漸層 + 山巒三層 + 地面」定義，
+   相鄰時段之間線性內插，故一天之內連續變化而非跳段。      */
+const SKY_KEYS = [
+  { h: 0,  top:"#0E1226", bot:"#1E2340", far:"#232A4A", mid:"#2C3358", near:"#39406A", gnd:"#151931", star:1.0 },
+  { h: 5,  top:"#1B2145", bot:"#3E3560", far:"#3A3560", mid:"#4A4270", near:"#5A5080", gnd:"#241F3C", star:0.6 },
+  { h: 6.5,top:"#4A4A82", bot:"#E88A5E", far:"#6A5A8E", mid:"#8A6A8E", near:"#B07A80", gnd:"#4A3A52", star:0.15 },
+  { h: 7.2,top:"#5590AE", bot:"#D9B396", far:"#748AA6", mid:"#8C93AC", near:"#A6969E", gnd:"#546069", star:0.04 },
+  { h: 8,  top:"#5FA8D8", bot:"#BEDCEA", far:"#7E96BE", mid:"#8FA8C8", near:"#A0B6D0", gnd:"#5A6E78", star:0 },
+  { h: 12, top:"#3E96D8", bot:"#AFDCF0", far:"#6E8FC0", mid:"#7FA0CC", near:"#90B0D8", gnd:"#4E6E72", star:0 },
+  { h: 16, top:"#5A9AD0", bot:"#E4D2A8", far:"#7E90B4", mid:"#96A0B8", near:"#AEB0BC", gnd:"#5E6668", star:0 },
+  { h: 18, top:"#8A6AA8", bot:"#F0A45E", far:"#7A5E92", mid:"#9A6E88", near:"#BC8078", gnd:"#4E3A4A", star:0.1 },
+  { h: 18.8,top:"#5E4A80", bot:"#B87768", far:"#5C4A7A", mid:"#75567C", near:"#8F657B", gnd:"#3B2D44", star:0.32 },
+  { h: 19.5,top:"#2E2A58", bot:"#7A4A72", far:"#3E3462", mid:"#4E3E70", near:"#61497E", gnd:"#28203E", star:0.55 },
+  { h: 21, top:"#131735", bot:"#252A4A", far:"#262C4E", mid:"#30375C", near:"#3D446E", gnd:"#191D38", star:0.95 },
+  { h: 24, top:"#0E1226", bot:"#1E2340", far:"#232A4A", mid:"#2C3358", near:"#39406A", gnd:"#151931", star:1.0 }
+];
+const hx2 = h => [1,3,5].map(i => parseInt(h.slice(i, i + 2), 16));
+const mix = (a, b, t) => "#" + hx2(a).map((c, i) =>
+  Math.round(c + (hx2(b)[i] - c) * t).toString(16).padStart(2, "0")).join("");
+
+export function skyAt(date = new Date()) {
+  const h = date.getHours() + date.getMinutes() / 60;
+  let i = 0;
+  while (i < SKY_KEYS.length - 2 && h >= SKY_KEYS[i + 1].h) i++;
+  const a = SKY_KEYS[i], b = SKY_KEYS[i + 1];
+  const t = Math.max(0, Math.min((h - a.h) / (b.h - a.h), 1));
+  const out = {};
+  ["top","bot","far","mid","near","gnd"].forEach(k => out[k] = mix(a[k], b[k], t));
+  out.star = a.star + (b.star - a.star) * t;
+  out.hour = h;
+  // 天體：日出 6:00 於左地平、正午 12:00 最高、日落 18:00 於右地平
+  const dayT = (h - 6) / 12;                    // 0→1 為白天
+  out.isDay = dayT >= 0 && dayT <= 1;
+  const arcT = out.isDay ? dayT : ((h < 6 ? h + 6 : h - 18) / 12);   // 夜間月亮走同一條弧
+  out.arc = Math.max(0, Math.min(arcT, 1));
+  return out;
+}
+
 const SVG_NS = "http://www.w3.org/2000/svg";
 /* 素材路徑基準：相對於本模組所在位置，主站與示範頁皆可正確解析 */
 const ASSET_BASE = new URL("../assets/", import.meta.url).pathname;
@@ -202,6 +242,37 @@ export function renderMap(container, data) {
   svg.dataset.layout = portrait ? "portrait" : "wide";
   const maxTarget = Math.max(...stations.map(s => s.target)) || 1;
 
+  /* ── 日夜循環：套用當下天色，並畫出太陽／月亮 ── */
+  const sky = skyAt(data.meta?.now ? new Date(data.meta.now) : new Date());
+  const host = container;
+  host.style.setProperty("--sky-top",    sky.top);
+  host.style.setProperty("--sky-bottom", sky.bot);
+  host.style.setProperty("--sky-far",    sky.far);
+  host.style.setProperty("--sky-mid",    sky.mid);
+  host.style.setProperty("--sky-near",   sky.near);
+  host.style.setProperty("--ground",     sky.gnd);
+  host.style.setProperty("--star-alpha", sky.star.toFixed(2));
+  svg.dataset.phase = sky.isDay ? "day" : "night";
+
+  {
+    const gSky = svg.querySelector("#layer-sky");
+    const cx = VB.w * (0.12 + 0.76 * sky.arc);
+    const peakY = VB.h * (portrait ? 0.10 : 0.13);
+    const baseY = VB.h * (portrait ? 0.46 : 0.52);
+    const cy = baseY - Math.sin(sky.arc * Math.PI) * (baseY - peakY);
+    const R = portrait ? 34 : 30;
+    const g = el("g", { class: "celestial", "aria-hidden": "true" }, gSky);
+    el("circle", { class: "cel-glow", cx, cy, r: R * 2.6 }, g);
+    if (sky.isDay) {
+      el("circle", { class: "cel-sun", cx, cy, r: R }, g);
+    } else {
+      const m = el("g", { class: "cel-moon-g" }, g);
+      el("circle", { class: "cel-moon", cx, cy, r: R * 0.82 }, m);
+      el("circle", { class: "cel-moon-crater", cx: cx - R * 0.26, cy: cy - R * 0.2, r: R * 0.17 }, m);
+      el("circle", { class: "cel-moon-crater", cx: cx + R * 0.2,  cy: cy + R * 0.22, r: R * 0.12 }, m);
+    }
+  }
+
   /* 天空星點（決定性） */
   const rnd = seeded(1234);
   const gStars = svg.querySelector("#stars");
@@ -331,5 +402,65 @@ function svgTemplate(V) { return `
   <g id="layer-walker"></g>
   <g id="layer-callout"></g>
 </svg>`; }
+
+/* ── 天色即時更新：每分鐘輕量刷新，不重建 DOM ──
+   僅改 CSS 變數與天體座標，故無 layout thrashing，
+   亦不影響站點／路徑等資料驅動元素。                */
+let skyTimer = null;
+export function startSkyClock(container, intervalMs = 60000) {
+  stopSkyClock();
+  const tick = () => {
+    const svg = container.querySelector("svg");
+    if (!svg) return;
+    const sky = skyAt(new Date());
+    container.style.setProperty("--sky-top",    sky.top);
+    container.style.setProperty("--sky-bottom", sky.bot);
+    container.style.setProperty("--sky-far",    sky.far);
+    container.style.setProperty("--sky-mid",    sky.mid);
+    container.style.setProperty("--sky-near",   sky.near);
+    container.style.setProperty("--ground",     sky.gnd);
+    container.style.setProperty("--star-alpha", sky.star.toFixed(2));
+
+    const wasDay = svg.dataset.phase === "day";
+    svg.dataset.phase = sky.isDay ? "day" : "night";
+
+    const vb = (svg.getAttribute("viewBox") || "0 0 1200 520").split(/\s+/).map(Number);
+    const W = vb[2], H = vb[3], portrait = W < 800;
+    const cx = W * (0.12 + 0.76 * sky.arc);
+    const peakY = H * (portrait ? 0.10 : 0.13);
+    const baseY = H * (portrait ? 0.46 : 0.52);
+    const cy = baseY - Math.sin(sky.arc * Math.PI) * (baseY - peakY);
+    const R = portrait ? 34 : 30;
+
+    if (wasDay !== sky.isDay) {          // 日夜交替才重建天體
+      const old = svg.querySelector(".celestial");
+      if (old) old.remove();
+      const g = el("g", { class: "celestial", "aria-hidden": "true" }, svg.querySelector("#layer-sky"));
+      el("circle", { class: "cel-glow", cx, cy, r: R * 2.6 }, g);
+      if (sky.isDay) el("circle", { class: "cel-sun", cx, cy, r: R }, g);
+      else {
+        const m = el("g", { class: "cel-moon-g" }, g);
+        el("circle", { class: "cel-moon", cx, cy, r: R * 0.82 }, m);
+        el("circle", { class: "cel-moon-crater", cx: cx - R * 0.26, cy: cy - R * 0.2, r: R * 0.17 }, m);
+        el("circle", { class: "cel-moon-crater", cx: cx + R * 0.2, cy: cy + R * 0.22, r: R * 0.12 }, m);
+      }
+    } else {                              // 否則只挪位置
+      svg.querySelectorAll(".celestial circle, .celestial .cel-moon-g circle").forEach(c => {
+        const cls = c.getAttribute("class") || "";
+        if (cls.includes("crater")) return;
+        c.setAttribute("cx", cx); c.setAttribute("cy", cy);
+      });
+      const cr = svg.querySelectorAll(".cel-moon-crater");
+      if (cr[0]) { cr[0].setAttribute("cx", cx - R * 0.26); cr[0].setAttribute("cy", cy - R * 0.2); }
+      if (cr[1]) { cr[1].setAttribute("cx", cx + R * 0.2);  cr[1].setAttribute("cy", cy + R * 0.22); }
+    }
+  };
+  tick();
+  skyTimer = setInterval(tick, intervalMs);
+  return () => stopSkyClock();
+}
+export function stopSkyClock() {
+  if (skyTimer) { clearInterval(skyTimer); skyTimer = null; }
+}
 
 export default renderMap;
