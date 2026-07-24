@@ -47,11 +47,7 @@ export function skyAt(date = new Date()) {
 const SVG_NS = "http://www.w3.org/2000/svg";
 /* 素材路徑基準：相對於本模組所在位置，主站與示範頁皆可正確解析 */
 const ASSET_BASE = new URL("../assets/", import.meta.url).pathname;
-const LAYOUTS = {
-  wide:     { w: 1200, h: 520, pad: { l: 100, r: 110, t: 96,  b: 112 }, cardW: 150, cardH: 58, fsScale: 1 },
-  portrait: { w: 640,  h: 860, pad: { l: 96,  r: 100, t: 108, b: 120 }, cardW: 168, cardH: 62, fsScale: 1.55 }
-};
-let VB = LAYOUTS.wide;   // 由 renderMap 依容器寬度決定
+const VB = { w: 1200, h: 520, pad: { l: 100, r: 110, t: 96, b: 112 }, cardW: 150, cardH: 58 };
 
 /* ── 金額格式化（唯一入口，遵守資料契約 §3）───────── */
 export function formatAmount(n) {
@@ -68,7 +64,7 @@ const fmtPct = r => (r === null || r === undefined) ? "" : (r * 100).toFixed(1) 
 const fmtEta = e => (!e) ? "" : (e[0] === e[1] ? `約 ${e[0]} 年` : `約 ${e[0]}~${e[1]} 年`);
 
 /* ── 路徑生成：站點數決定轉折數，左下→右上 ───────── */
-function buildPathD(n, portrait) {
+function buildPathD(n) {
   const pad = VB.pad;
   const usableW = VB.w - pad.l - pad.r;
   const usableH = VB.h - pad.t - pad.b;
@@ -76,14 +72,8 @@ function buildPathD(n, portrait) {
   const pts = [];
   for (let i = 0; i < n; i++) {
     const t = i / segs;
-    if (portrait) {
-      // 直式：由下往上爬升，左右交錯蜿蜒
-      const wave = Math.sin(t * Math.PI * (segs > 3 ? 2.4 : 1.3)) * (usableW * 0.34);
-      pts.push([Math.round(pad.l + usableW * 0.5 + wave), Math.round(VB.h - pad.b - usableH * t)]);
-    } else {
-      const wave = Math.sin(t * Math.PI * (segs > 3 ? 2.2 : 1.4)) * (usableH * 0.12);
-      pts.push([Math.round(pad.l + usableW * t), Math.round(VB.h - pad.b - usableH * t + wave)]);
-    }
+    const wave = Math.sin(t * Math.PI * (segs > 3 ? 2.2 : 1.4)) * (usableH * 0.12);
+    pts.push([Math.round(pad.l + usableW * t), Math.round(VB.h - pad.b - usableH * t + wave)]);
   }
   let d = `M${pts[0][0]},${pts[0][1]}`;
   for (let i = 0; i < pts.length - 1; i++) {
@@ -163,8 +153,8 @@ function drawStation(g, st, pt, ratio) {
 }
 
 /* ── 標籤卡（防重疊：距離不足時上下錯開）─────────── */
-function drawLabels(g, stations, pts, portrait) {
-  const CARD_W = VB.cardW, CARD_H = VB.cardH, GAP = portrait ? 16 : 24, STEP = CARD_H + 8;
+function drawLabels(g, stations, pts) {
+  const CARD_W = VB.cardW, CARD_H = VB.cardH, GAP = 24, STEP = CARD_H + 8;
   const placed = [];
 
   const hits = (a, b) =>
@@ -176,26 +166,11 @@ function drawLabels(g, stations, pts, portrait) {
     const p = pts[i];
     const cands = [];
 
-    if (portrait) {
-      // 直式：優先放節點側邊（路徑左右蜿蜒，側邊空間充足）
-      const rightFirst = p.x < VB.w / 2;
-      for (let lvl = 0; lvl < 3; lvl++) {
-        const dy = -CARD_H / 2 + (lvl % 2 ? 1 : -1) * Math.ceil(lvl / 2) * STEP;
-        const right = { x: p.x + GAP + 8, y: p.y + dy };
-        const left  = { x: p.x - GAP - 8 - CARD_W, y: p.y + dy };
-        cands.push(...(rightFirst ? [right, left] : [left, right]));
-      }
-      // 側邊全滿才退回上下
-      cands.push({ x: p.x - CARD_W / 2, y: p.y + GAP + 10 },
-                 { x: p.x - CARD_W / 2, y: p.y - GAP - 10 - CARD_H });
-    } else {
-      const cx = Math.min(Math.max(p.x - CARD_W / 2, 8), VB.w - CARD_W - 8);
-      for (let lvl = 0; lvl < 4; lvl++) {
-        cands.push({ x: cx, y: p.y + GAP + lvl * STEP });
-        cands.push({ x: cx, y: p.y - GAP - CARD_H - lvl * STEP });
-      }
+    const cx0 = Math.min(Math.max(p.x - CARD_W / 2, 8), VB.w - CARD_W - 8);
+    for (let lvl = 0; lvl < 4; lvl++) {
+      cands.push({ x: cx0, y: p.y + GAP + lvl * STEP });
+      cands.push({ x: cx0, y: p.y - GAP - CARD_H - lvl * STEP });
     }
-
     let pos = cands.find(c => {
       const x = Math.min(Math.max(c.x, 4), VB.w - CARD_W - 4);
       return inBounds(x, c.y) && !placed.some(q => hits({ x, y: c.y, w: CARD_W, h: CARD_H }, q));
@@ -214,13 +189,13 @@ function drawLabels(g, stations, pts, portrait) {
       el("line", { x1: p.x, y1: p.y, x2: lx, y2: cy + CARD_H / 2, class: "lc-leader" }, card);
     }
     el("rect", { x: cx, y: cy, width: CARD_W, height: CARD_H, rx: 10, class: "lc-bg" }, card);
-    const t1 = el("text", { x: cx + CARD_W / 2, y: cy + (portrait ? 25 : 23), class: "lc-title" }, card);
+    const t1 = el("text", { x: cx + CARD_W / 2, y: cy + 23, class: "lc-title" }, card);
     t1.textContent = st.label.length > 8 ? st.label.slice(0, 8) + "…" : st.label;
-    const t2 = el("text", { x: cx + CARD_W / 2, y: cy + (portrait ? 44 : 41), class: "lc-meta" }, card);
+    const t2 = el("text", { x: cx + CARD_W / 2, y: cy + 41, class: "lc-meta" }, card);
     t2.textContent = [st.ratio !== null ? fmtPct(st.ratio) : null,
                       formatAmount(st.target)].filter(Boolean).join(" · ");
     if (st.etaYears) {
-      const t3 = el("text", { x: cx + CARD_W / 2, y: cy + (portrait ? 58 : 53), class: "lc-eta" }, card);
+      const t3 = el("text", { x: cx + CARD_W / 2, y: cy + 53, class: "lc-eta" }, card);
       t3.textContent = fmtEta(st.etaYears);
     }
   });
@@ -232,14 +207,13 @@ export function renderMap(container, data) {
   const stations = (data.stations || []).slice();
   if (!stations.length) throw new Error("renderMap: stations 不得為空");
 
-  // 版面模式：容器寬度 < 560 用直式，其餘用橫式
+  // 窄螢幕僅放大字級，不改構圖（直式構圖經實測品質較差，已移除）
   const cw = container.clientWidth || container.getBoundingClientRect().width || 1200;
-  const portrait = cw > 0 && cw < 560;
-  VB = portrait ? LAYOUTS.portrait : LAYOUTS.wide;
+  const compact = cw > 0 && cw < 560;
 
   container.innerHTML = svgTemplate(VB);                // 冪等：每次重建
   const svg = container.querySelector("svg");
-  svg.dataset.layout = portrait ? "portrait" : "wide";
+  svg.dataset.layout = compact ? "compact" : "wide";
   const maxTarget = Math.max(...stations.map(s => s.target)) || 1;
 
   /* ── 日夜循環：套用當下天色，並畫出太陽／月亮 ── */
@@ -257,10 +231,10 @@ export function renderMap(container, data) {
   {
     const gSky = svg.querySelector("#layer-sky");
     const cx = VB.w * (0.12 + 0.76 * sky.arc);
-    const peakY = VB.h * (portrait ? 0.10 : 0.13);
-    const baseY = VB.h * (portrait ? 0.46 : 0.52);
+    const peakY = VB.h * 0.13;
+    const baseY = VB.h * 0.52;
     const cy = baseY - Math.sin(sky.arc * Math.PI) * (baseY - peakY);
-    const R = portrait ? 34 : 30;
+    const R = 30;
     const g = el("g", { class: "celestial", "aria-hidden": "true" }, gSky);
     el("circle", { class: "cel-glow", cx, cy, r: R * 2.6 }, g);
     if (sky.isDay) {
@@ -276,7 +250,7 @@ export function renderMap(container, data) {
   /* 天空星點（決定性） */
   const rnd = seeded(1234);
   const gStars = svg.querySelector("#stars");
-  const starN = portrait ? 34 : 46;
+  const starN = compact ? 34 : 46;
   for (let i = 0; i < starN; i++) {
     el("circle", {
       class: "star",
@@ -290,9 +264,9 @@ export function renderMap(container, data) {
   /* 山巒三層 */
   const gM = svg.querySelector("#layer-mountains");
   const H = VB.h;
-  [[portrait ? 5 : 6,  H * 0.54, H * 0.215, 0, "var(--sky-far)"],
-   [portrait ? 6 : 8,  H * 0.66, H * 0.187, 3, "var(--sky-mid)"],
-   [portrait ? 8 : 11, H * 0.77, H * 0.158, 7, "var(--sky-near)"]].forEach(([n, by, amp, sd, fill], i) => {
+  [[6,  H * 0.54, H * 0.215, 0, "var(--sky-far)"],
+   [8,  H * 0.66, H * 0.187, 3, "var(--sky-mid)"],
+   [11, H * 0.77, H * 0.158, 7, "var(--sky-near)"]].forEach(([n, by, amp, sd, fill], i) => {
     el("path", { class: `peak peak-${i + 1}`, d: peaksPath(n, by, amp, sd), fill }, gM);
   });
 
@@ -302,7 +276,7 @@ export function renderMap(container, data) {
      .setAttribute("d", `M0,${gy} Q${gw*0.25},${gy-30} ${gw*0.5},${gy-9} T${gw},${gy-33} V${VB.h} H0 Z`);
 
   /* 路徑（只寫一次 d，兩層共用） */
-  const d = buildPathD(stations.length, portrait);
+  const d = buildPathD(stations.length);
   const pBase = svg.querySelector("#journey-path");
   const pDone = svg.querySelector("#journey-path-done");
   pBase.setAttribute("d", d);
@@ -315,11 +289,11 @@ export function renderMap(container, data) {
   /* 樹木裝飾（依站點位置避開路徑） */
   const gT = svg.querySelector("#trees");
   const rnd2 = seeded(777);
-  const treeN = portrait ? 6 : 9;
+  const treeN = compact ? 7 : 9;
   for (let i = 0; i < treeN; i++) {
     const x = 40 + i * (VB.w / treeN) + rnd2() * 30;
     const y = VB.h * 0.86 + rnd2() * (VB.h * 0.07);
-    const s = (portrait ? 0.75 : 0.55) + rnd2() * 0.35;
+    const s = 0.55 + rnd2() * 0.35;
     const t = el("g", { class: "tree", transform: `translate(${x.toFixed(0)},${y.toFixed(0)}) scale(${s.toFixed(2)})` }, gT);
     el("rect", { x: -3, y: 0, width: 6, height: 20, rx: 3, fill: "var(--tree-trunk)" }, t);
     el("path", { d: "M0,-32 L14,-6 H-14 Z", fill: "var(--tree-crown)" }, t);
@@ -338,14 +312,14 @@ export function renderMap(container, data) {
   const gS = svg.querySelector("#layer-stations");
   gS.setAttribute("role", "list");
   stations.forEach((st, i) => drawStation(gS, st, pts[i], st.ratio));
-  drawLabels(svg.querySelector("#layer-labels"), stations, pts, portrait);
+  drawLabels(svg.querySelector("#layer-labels"), stations, pts);
 
   /* 行進角色 */
   const wp = pBase.getPointAtLength(L * doneRatio);
   const gW = svg.querySelector("#layer-walker");
   const walker = el("g", { id: "walker", transform: `translate(${wp.x.toFixed(1)},${wp.y.toFixed(1)})`, "aria-hidden": "true" }, gW);
   const who = (data.meta?.character === "wife") ? "wife" : "chang";   // 選用性欄位，預設 chang
-  const CW = portrait ? 40 : 26, CH = portrait ? 54 : 36;
+  const CW = 26, CH = 36;
   el("ellipse", { cx: 0, cy: 3, rx: 11, ry: 3.5, class: "wk-shadow" }, walker);
   el("image", { class: "wk-frame", href: `${ASSET_BASE}w-${who}-0.png`,
     x: -CW / 2, y: -CH + 3, width: CW, height: CH }, walker);
@@ -355,13 +329,13 @@ export function renderMap(container, data) {
   /* 進度氣泡 */
   const gC = svg.querySelector("#layer-callout");
   const co = el("g", { id: "callout", "aria-hidden": "true" }, gC);
-  const coW = portrait ? VB.w - 56 : 300, coX = portrait ? 28 : 32, coY = portrait ? 26 : 30;
-  el("rect", { x: coX, y: coY, width: coW, height: portrait ? 96 : 82, rx: 13, class: "co-bg" }, co);
+  const coW = 300, coX = 32, coY = 30;
+  el("rect", { x: coX, y: coY, width: coW, height: 82, rx: 13, class: "co-bg" }, co);
   const big = el("text", { x: coX + 20, y: coY + 48, class: "co-amount" }, co);
   big.textContent = (data.meta?.annualDividend ?? 0).toLocaleString("zh-Hant");
-  const unit = el("text", { x: coX + 20 + big.textContent.length * (portrait ? 30 : 22), y: coY + 48, class: "co-unit" }, co);
+  const unit = el("text", { x: coX + 20 + big.textContent.length * 22, y: coY + 48, class: "co-unit" }, co);
   unit.textContent = " 元／年";
-  const sub = el("text", { x: coX + 20, y: coY + (portrait ? 76 : 69), class: "co-sub" }, co);
+  const sub = el("text", { x: coX + 20, y: coY + 69, class: "co-sub" }, co);
   const nextSt = stations.find(s => s.id === data.progress?.nextStationId);
   sub.textContent = nextSt
     ? `距 ${nextSt.label} 還差 ${formatAmount(data.progress.gapToNext)}`
@@ -425,12 +399,10 @@ export function startSkyClock(container, intervalMs = 60000) {
     svg.dataset.phase = sky.isDay ? "day" : "night";
 
     const vb = (svg.getAttribute("viewBox") || "0 0 1200 520").split(/\s+/).map(Number);
-    const W = vb[2], H = vb[3], portrait = W < 800;
+    const W = vb[2], H = vb[3];
     const cx = W * (0.12 + 0.76 * sky.arc);
-    const peakY = H * (portrait ? 0.10 : 0.13);
-    const baseY = H * (portrait ? 0.46 : 0.52);
-    const cy = baseY - Math.sin(sky.arc * Math.PI) * (baseY - peakY);
-    const R = portrait ? 34 : 30;
+    const cy = H * 0.52 - Math.sin(sky.arc * Math.PI) * (H * 0.52 - H * 0.13);
+    const R = 30;
 
     if (wasDay !== sky.isDay) {          // 日夜交替才重建天體
       const old = svg.querySelector(".celestial");
