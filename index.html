@@ -392,13 +392,14 @@
 <script type="module">
   import { renderMap } from "./dividend-journey-map/src/renderMap.js";
   import { animateMap, watchReducedMotion } from "./dividend-journey-map/src/animate.js";
-  window.JM = { renderMap, animateMap, watchReducedMotion };
+  const { startSkyClock, stopSkyClock, skyAt } = await import("./dividend-journey-map/src/renderMap.js");
+  window.JM = { renderMap, animateMap, watchReducedMotion, startSkyClock, stopSkyClock, skyAt };
   window.dispatchEvent(new Event("jm-ready"));
 </script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 <script>
-const APP_VERSION="2026.07.24-2334";
+const APP_VERSION="2026.07.24-2338";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -550,8 +551,10 @@ const ETA_YEARS = {
 
 function scene(divNow, otherDiv){
   const data = toJourneyContract(divNow, otherDiv || 0);
-  const svg = JM.renderMap(document.getElementById("sceneSvg"), data);
+  const host = document.getElementById("sceneSvg");
+  const svg = JM.renderMap(host, data);
   JM.animateMap(svg);
+  JM.startSkyClock(host);          // 天色每分鐘跟著真實時間走
   celebrate(divNow);
 }
 
