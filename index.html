@@ -250,6 +250,7 @@
     background:#171B33; overflow:hidden;
   }
   .scene .journey-map{max-height:none}
+  @media(min-width:561px){ .scene .journey-map{max-height:44vh} }
 </style>
 </head>
 <body>
@@ -397,7 +398,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 <script>
-const APP_VERSION="2026.07.24-2330";
+const APP_VERSION="2026.07.24-2334";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -1147,6 +1148,9 @@ const Snd={
 };
 document.getElementById("sndBtn").onclick=()=>Snd.toggle();
 addEventListener("click",()=>{ if(Snd.ctx&&Snd.ctx.state==="suspended")Snd.ctx.resume(); },{once:true});
+
+let _rz;
+addEventListener("resize",()=>{ clearTimeout(_rz); _rz=setTimeout(()=>{ if(DATA)render(); },220); });
 
 (async function(){
   if(!window.JM) await new Promise(r=>window.addEventListener("jm-ready",r,{once:true}));
