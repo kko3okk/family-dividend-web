@@ -8,7 +8,10 @@ proto.getTotalLength=function(){return 1000};
 // 版面感知的路徑取點替身：依所屬 svg 的 viewBox 推算，避免直式測試取到畫布外座標
 proto.getPointAtLength=function(l){
   const t=l/1000;
-  return { x: 100+990*t, y: 408-312*t };
+  const svg=this.ownerSVGElement||this.closest?.('svg');
+  const vb=(svg?.getAttribute('viewBox')||'0 0 1200 520').split(/\s+/).map(Number);
+  const W=vb[2],H=vb[3];
+  return { x: W*0.085+(W*0.83)*t, y: H*0.78-(H*0.60)*t };
 };
 window.matchMedia=q=>({matches:q.includes('reduce')&&global.__RM===true,addEventListener(){},media:q});
 const { renderMap, formatAmount }=await import('/home/claude/djm/src/renderMap.js');
@@ -70,15 +73,24 @@ console.log(`共 ${R.length} 項｜PASS ${R.length-f}｜FAIL ${f}`);
 Object.defineProperty(app,'clientWidth',{get(){return global.__W||1200},configurable:true});
 const R2=[];
 const t2=(id,name,fn)=>{try{R2.push([id,name,fn()?'PASS':'FAIL',''])}catch(e){R2.push([id,name,'FAIL',e.message])}};
-t2('T9a','窄螢幕標記 compact',()=>{global.__W=360;renderMap(app,base);
+t2('T9a','窄螢幕採 900x560',()=>{global.__W=360;renderMap(app,base);
   return app.querySelector('svg').dataset.layout==='compact'&&
-         app.querySelector('svg').getAttribute('viewBox')==='0 0 1200 520'});
+         app.querySelector('svg').getAttribute('viewBox')==='0 0 900 560'});
 t2('T9b','窄螢幕標籤不重疊',()=>{global.__W=360;renderMap(app,base);return overlaps(cards())===0});
 t2('T9c','窄螢幕8站不重疊',()=>{global.__W=360;
   const s8=Array.from({length:8},(_,i)=>({id:'s'+i,label:'站'+i,target:i*140000,ratio:i?0.2:null,etaYears:[i,i+1],state:i?'locked':'cleared'}));
   renderMap(app,{...base,stations:s8});return overlaps(cards())===0});
-t2('T9d','寬螢幕標記 wide',()=>{global.__W=1200;renderMap(app,base);
-  return app.querySelector('svg').dataset.layout==='wide'});
+t2('T9d','寬螢幕採 1200x520',()=>{global.__W=1200;renderMap(app,base);
+  return app.querySelector('svg').dataset.layout==='wide'&&
+         app.querySelector('svg').getAttribute('viewBox')==='0 0 1200 520'});
+t2('T9f','窄螢幕實際字級達可讀門檻',()=>{
+  // 縮放比 = 360/900 = 0.40；站名需 ≥13px、完成度 ≥10px、主數字 ≥26px
+  const sc=360/900;
+  return 34*sc>=13 && 25*sc>=10 && 72*sc>=26;});
+t2('T9g','卡片可容納最長文字',()=>{global.__W=360;
+  renderMap(app,{...base,stations:base.stations.map(s=>({...s,target:9999999}))});
+  const w=+app.querySelector('.lc-bg').getAttribute('width');
+  return w>=190;});
 t2('T9e','窄螢幕冪等',()=>{global.__W=375;renderMap(app,base);const a=app.innerHTML;renderMap(app,base);return a===app.innerHTML});
 console.log('\n── 窄螢幕補測 ──');
 R2.forEach(([id,n,r,e])=>console.log(`${id.padEnd(7)}${n.padEnd(26)}${r}${e?'  ← '+e:''}`));
