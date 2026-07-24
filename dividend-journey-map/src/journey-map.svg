@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 1200 700"
+     preserveAspectRatio="xMidYMid meet"
+     role="img"
+     aria-labelledby="jm-title jm-desc"
+     class="journey-map">
+  <title id="jm-title">股息里程地圖</title>
+  <desc id="jm-desc">以路徑呈現年股息累積進度，沿途標示各財務里程碑站點與預估抵達年數。</desc>
+
+  <defs>
+    <linearGradient id="grad-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="var(--sky-top)"/>
+      <stop offset="1" stop-color="var(--sky-bottom)"/>
+    </linearGradient>
+    <linearGradient id="grad-ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="var(--sky-near)"/>
+      <stop offset="1" stop-color="var(--ground)"/>
+    </linearGradient>
+    <filter id="glow-path" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="shadow-soft" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="-2" dy="3" stdDeviation="3" flood-color="#0A0C1A" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+
+  <!-- 1 天空：漸層 + 星點 -->
+  <g id="layer-sky">
+    <rect x="0" y="0" width="1200" height="700" fill="url(#grad-sky)"/>
+    <g id="stars"></g>
+  </g>
+
+  <!-- 2 山巒：遠→近三層 -->
+  <g id="layer-mountains"></g>
+
+  <!-- 3 地面 + 樹木 -->
+  <g id="layer-ground">
+    <path id="ground-shape" d="" fill="url(#grad-ground)"/>
+    <g id="trees"></g>
+  </g>
+
+  <!-- 4 未走過路徑（唯一路徑定義） -->
+  <g id="layer-path-base">
+    <path id="journey-path" d="" fill="none"
+          stroke="var(--path-base)" stroke-width="var(--path-w)"
+          stroke-linecap="round" stroke-dasharray="2 14"/>
+  </g>
+
+  <!-- 5 已走過路徑（同一 d，dasharray 控制進度） -->
+  <g id="layer-path-done">
+    <path id="journey-path-done" d="" fill="none"
+          stroke="var(--path-done)" stroke-width="var(--path-w)"
+          stroke-linecap="round" filter="url(#glow-path)"/>
+  </g>
+
+  <!-- 6 站點節點 -->
+  <g id="layer-stations"></g>
+
+  <!-- 7 站點標籤卡 -->
+  <g id="layer-labels"></g>
+
+  <!-- 8 行進角色 -->
+  <g id="layer-walker"></g>
+
+  <!-- 9 目前進度氣泡 -->
+  <g id="layer-callout"></g>
+</svg>
