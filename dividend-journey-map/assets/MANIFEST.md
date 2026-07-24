@@ -12,6 +12,8 @@
 | icon-check.svg | https://lucide.dev/icons/check | ISC | 否（保留版權聲明） | cleared 站點勾號 |
 | icon-flag.svg | https://lucide.dev/icons/flag | ISC | 否（保留版權聲明） | active 站點標記 |
 | icon-sparkles.svg | https://lucide.dev/icons/sparkles | ISC | 否（保留版權聲明） | 終點裝飾 |
+| w-chang-0/1.png | Kenney Platformer Art Deluxe | CC0 | 否 | 行進角色（Chang），走路兩幀 |
+| w-wife-0/1.png | Kenney Platformer Art Deluxe | CC0 | 否 | 行進角色（配偶），走路兩幀 |
 
 ## 字型
 
@@ -33,6 +35,12 @@ Lucide 圖示四件正式納入，各 SVG 檔頭已保留 `@license` 註解。
 - CraftPix 免費包 — 附帶條件，未納入
 - Freepik 免費版 — 需署名且禁止納入封存庫，未納入
 - Vecteezy — 未納入
+
+## 點陣圖採用理由（SOP §4-P1 DoD 要求說明）
+
+行進角色四件為 PNG。理由：沿用主專案既有角色圖，維持全站視覺一致；
+Kenney Deluxe 原始檔為點陣格式，轉向量會失真且無實益。
+四檔合計 15.7 KB，遠低於單檔 50 KB 與總計 300 KB 上限。
 
 ## 生成方式說明
 
