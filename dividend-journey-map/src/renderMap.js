@@ -5,6 +5,8 @@
    ═══════════════════════════════════════════════════ */
 
 const SVG_NS = "http://www.w3.org/2000/svg";
+/* 素材路徑基準：相對於本模組所在位置，主站與示範頁皆可正確解析 */
+const ASSET_BASE = new URL("../assets/", import.meta.url).pathname;
 const VB = { w: 1200, h: 520 };
 
 /* ── 金額格式化（唯一入口，遵守資料契約 §3）───────── */
@@ -239,9 +241,9 @@ export function renderMap(container, data) {
   const who = (data.meta?.character === "wife") ? "wife" : "chang";   // 選用性欄位，預設 chang
   const CW = 26, CH = 36;
   el("ellipse", { cx: 0, cy: 3, rx: 11, ry: 3.5, class: "wk-shadow" }, walker);
-  el("image", { class: "wk-frame", href: `assets/w-${who}-0.png`,
+  el("image", { class: "wk-frame", href: `${ASSET_BASE}w-${who}-0.png`,
     x: -CW / 2, y: -CH + 3, width: CW, height: CH }, walker);
-  el("image", { class: "wk-frame f2", href: `assets/w-${who}-1.png`,
+  el("image", { class: "wk-frame f2", href: `${ASSET_BASE}w-${who}-1.png`,
     x: -CW / 2, y: -CH + 3, width: CW, height: CH }, walker);
 
   /* 進度氣泡 */
