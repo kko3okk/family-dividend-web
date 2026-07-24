@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 56" role="presentation" aria-hidden="true">
+  <rect x="17" y="34" width="6" height="20" rx="3" fill="var(--tree-trunk)"/>
+  <path d="M20 2 L34 26 H6 Z" fill="var(--tree-crown)"/>
+  <path d="M20 14 L36 40 H4 Z" fill="var(--tree-crown-2)"/>
+</svg>
