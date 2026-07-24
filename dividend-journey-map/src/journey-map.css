@@ -3,16 +3,21 @@
    ═══════════════════════════════════════════════════ */
 
 .journey-map { width: 100%; height: auto; display: block; max-height: 46vh; }
-/* 窄螢幕：構圖不變，僅放大字級與線寬，確保手機可讀 */
-.journey-map[data-layout="compact"] .lc-title { font-size: 27px; }
-.journey-map[data-layout="compact"] .lc-meta  { font-size: 19px; }
-.journey-map[data-layout="compact"] .lc-eta   { font-size: 17px; }
-.journey-map[data-layout="compact"] .co-amount{ font-size: 54px; }
-.journey-map[data-layout="compact"] .co-unit,
-.journey-map[data-layout="compact"] .co-sub   { font-size: 21px; }
-.journey-map[data-layout="compact"] .co-quote { font-size: 18px; }
-.journey-map[data-layout="compact"] .st-node  { stroke-width: 4; }
+/* 窄螢幕（900×560，縮放比約 0.40）：字級反推自「實際顯示尺寸」
+   站名 34px × 0.40 ≈ 13.6px｜完成度 25px ≈ 10px｜主數字 72px ≈ 29px */
 .journey-map[data-layout="compact"] { max-height: none; }
+.journey-map[data-layout="compact"] .lc-title { font-size: 34px; }
+.journey-map[data-layout="compact"] .lc-meta  { font-size: 25px; }
+.journey-map[data-layout="compact"] .lc-eta   { font-size: 22px; }
+.journey-map[data-layout="compact"] .co-amount{ font-size: 72px; }
+.journey-map[data-layout="compact"] .co-unit,
+.journey-map[data-layout="compact"] .co-sub   { font-size: 27px; }
+.journey-map[data-layout="compact"] .co-quote { font-size: 22px; }
+.journey-map[data-layout="compact"] .lc-bg    { stroke-width: 3; }
+.journey-map[data-layout="compact"] .st-node  { stroke-width: 4.5; }
+/* 當前站點在小尺寸下需更醒目：加粗進度環、提高光暈 */
+.journey-map[data-layout="compact"] .st-ring  { stroke-width: 6; }
+.journey-map[data-layout="compact"] .station[data-state="active"] .st-halo { opacity: .38; }
 
 /* ── 星點（白天自動隱沒，透明度由 --star-alpha 控制）──── */
 .star {
