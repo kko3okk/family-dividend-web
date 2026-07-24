@@ -8,11 +8,7 @@ proto.getTotalLength=function(){return 1000};
 // 版面感知的路徑取點替身：依所屬 svg 的 viewBox 推算，避免直式測試取到畫布外座標
 proto.getPointAtLength=function(l){
   const t=l/1000;
-  const svg=this.ownerSVGElement||this.closest?.('svg');
-  const vb=(svg?.getAttribute('viewBox')||'0 0 1200 520').split(/\s+/).map(Number);
-  const W=vb[2],H=vb[3],portrait=W<800;
-  if(portrait) return { x: W*0.5+Math.sin(t*Math.PI*2.2)*(W*0.30), y: H-120-(H-228)*t };
-  return { x: 100+(W-210)*t, y: H-112-(H-208)*t };
+  return { x: 100+990*t, y: 408-312*t };
 };
 window.matchMedia=q=>({matches:q.includes('reduce')&&global.__RM===true,addEventListener(){},media:q});
 const { renderMap, formatAmount }=await import('/home/claude/djm/src/renderMap.js');
@@ -70,21 +66,21 @@ const f=R.filter(x=>x[2]==='FAIL').length;
 console.log('─'.repeat(56));
 console.log(`共 ${R.length} 項｜PASS ${R.length-f}｜FAIL ${f}`);
 
-// ── 直式版面補測 ──
+// ── 窄螢幕補測（構圖不變，僅字級放大）──
+Object.defineProperty(app,'clientWidth',{get(){return global.__W||1200},configurable:true});
 const R2=[];
 const t2=(id,name,fn)=>{try{R2.push([id,name,fn()?'PASS':'FAIL',''])}catch(e){R2.push([id,name,'FAIL',e.message])}};
-t2('T9a','窄容器切直式',()=>{global.__W=360;renderMap(app,base);
-  return app.querySelector('svg').dataset.layout==='portrait'&&
-         app.querySelector('svg').getAttribute('viewBox')==='0 0 640 860'});
-t2('T9b','直式標籤不重疊',()=>{global.__W=360;renderMap(app,base);return overlaps(cards())===0});
-t2('T9c','直式8站不重疊',()=>{global.__W=360;
+t2('T9a','窄螢幕標記 compact',()=>{global.__W=360;renderMap(app,base);
+  return app.querySelector('svg').dataset.layout==='compact'&&
+         app.querySelector('svg').getAttribute('viewBox')==='0 0 1200 520'});
+t2('T9b','窄螢幕標籤不重疊',()=>{global.__W=360;renderMap(app,base);return overlaps(cards())===0});
+t2('T9c','窄螢幕8站不重疊',()=>{global.__W=360;
   const s8=Array.from({length:8},(_,i)=>({id:'s'+i,label:'站'+i,target:i*140000,ratio:i?0.2:null,etaYears:[i,i+1],state:i?'locked':'cleared'}));
   renderMap(app,{...base,stations:s8});return overlaps(cards())===0});
-t2('T9d','寬容器切回橫式',()=>{global.__W=1200;renderMap(app,base);
-  return app.querySelector('svg').dataset.layout==='wide'&&
-         app.querySelector('svg').getAttribute('viewBox')==='0 0 1200 520'});
-t2('T9e','直式冪等',()=>{global.__W=375;renderMap(app,base);const a=app.innerHTML;renderMap(app,base);return a===app.innerHTML});
-console.log('\n── 直式版面補測 ──');
+t2('T9d','寬螢幕標記 wide',()=>{global.__W=1200;renderMap(app,base);
+  return app.querySelector('svg').dataset.layout==='wide'});
+t2('T9e','窄螢幕冪等',()=>{global.__W=375;renderMap(app,base);const a=app.innerHTML;renderMap(app,base);return a===app.innerHTML});
+console.log('\n── 窄螢幕補測 ──');
 R2.forEach(([id,n,r,e])=>console.log(`${id.padEnd(7)}${n.padEnd(26)}${r}${e?'  ← '+e:''}`));
 const f2=R2.filter(x=>x[2]==='FAIL').length;
 console.log(`共 ${R2.length} 項｜PASS ${R2.length-f2}｜FAIL ${f2}`);
