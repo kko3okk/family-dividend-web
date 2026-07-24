@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg"
-     viewBox="0 0 1200 700"
+     viewBox="0 0 1200 520"
      preserveAspectRatio="xMidYMid meet"
      role="img"
      aria-labelledby="jm-title jm-desc"
@@ -27,7 +27,7 @@
 
   <!-- 1 天空：漸層 + 星點 -->
   <g id="layer-sky">
-    <rect x="0" y="0" width="1200" height="700" fill="url(#grad-sky)"/>
+    <rect x="0" y="0" width="1200" height="520" fill="url(#grad-sky)"/>
     <g id="stars"></g>
   </g>
 
