@@ -390,16 +390,20 @@
 </dialog>
 
 <script type="module">
-  import { renderMap } from "./dividend-journey-map/src/renderMap.js";
-  import { animateMap, watchReducedMotion } from "./dividend-journey-map/src/animate.js";
-  const { startSkyClock, stopSkyClock, skyAt } = await import("./dividend-journey-map/src/renderMap.js");
-  window.JM = { renderMap, animateMap, watchReducedMotion, startSkyClock, stopSkyClock, skyAt };
+  const V = "2026.07.24-2340";   // 由 deploy.sh 注入，確保模組不吃到舊快取
+  const M  = await import(`./dividend-journey-map/src/renderMap.js?v=${V}`);
+  const AN = await import(`./dividend-journey-map/src/animate.js?v=${V}`);
+  window.JM = {
+    renderMap: M.renderMap, skyAt: M.skyAt,
+    startSkyClock: M.startSkyClock, stopSkyClock: M.stopSkyClock,
+    animateMap: AN.animateMap, watchReducedMotion: AN.watchReducedMotion
+  };
   window.dispatchEvent(new Event("jm-ready"));
 </script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 <script>
-const APP_VERSION="2026.07.24-2338";
+const APP_VERSION="2026.07.24-2340";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -553,8 +557,8 @@ function scene(divNow, otherDiv){
   const data = toJourneyContract(divNow, otherDiv || 0);
   const host = document.getElementById("sceneSvg");
   const svg = JM.renderMap(host, data);
-  JM.animateMap(svg);
-  JM.startSkyClock(host);          // 天色每分鐘跟著真實時間走
+  try { JM.animateMap?.(svg); } catch(e) { console.warn("animateMap:", e); }
+  try { JM.startSkyClock?.(host); } catch(e) { console.warn("skyClock:", e); }
   celebrate(divNow);
 }
 
@@ -1156,7 +1160,18 @@ let _rz;
 addEventListener("resize",()=>{ clearTimeout(_rz); _rz=setTimeout(()=>{ if(DATA)render(); },220); });
 
 (async function(){
-  if(!window.JM) await new Promise(r=>window.addEventListener("jm-ready",r,{once:true}));
+  if(!window.JM){
+    // 最多等 5 秒；逾時則以降級模式繼續（地圖不顯示，其餘功能正常）
+    await Promise.race([
+      new Promise(r=>window.addEventListener("jm-ready",r,{once:true})),
+      new Promise(r=>setTimeout(r,5000))
+    ]);
+  }
+  if(!window.JM){
+    window.JM={ renderMap(){ const h=document.getElementById("sceneSvg");
+      if(h) h.innerHTML='<div style="padding:26px;text-align:center;color:var(--mut);font-size:13px">地圖元件載入失敗，其餘功能不受影響</div>';
+      return null; } };
+  }
   person=localStorage.getItem("person")||"chang";
   if(localStorage.getItem("snd")==="1"){
     const b=document.getElementById("sndBtn"); b.textContent="🔈";
