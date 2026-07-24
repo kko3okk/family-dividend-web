@@ -1,0 +1,10 @@
+{
+  "meta": { "currency": "TWD", "annualDividend": 58193, "familyTotal": 62224, "treasureCount": 42, "quote": null },
+  "progress": { "currentAmount": 58193, "nextStationId": "travel", "gapToNext": 92000 },
+  "stations": [
+    { "id": "start",    "label": "起點",   "target": 0,       "ratio": null,  "etaYears": null,     "state": "cleared" },
+    { "id": "travel",   "label": "旅遊站", "target": 150000,  "ratio": 0.388, "etaYears": [4, 5],   "state": "active" },
+    { "id": "mortgage", "label": "房貸站", "target": 610000,  "ratio": 0.095, "etaYears": [12, 13], "state": "locked" },
+    { "id": "retire",   "label": "退休站", "target": 1000000, "ratio": 0.058, "etaYears": [16, 18], "state": "locked" }
+  ]
+}
