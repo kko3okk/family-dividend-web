@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" role="presentation" aria-hidden="true">
+  <path class="peak peak-1" d="M0,700 L0.0,347.4 L240.0,212.5 L480.0,307.8 L720.0,212.6 L960.0,303.0 L1200.0,256.6 L1200,700 Z" fill="var(--sky-far)"/>
+  <path class="peak peak-2" d="M0,700 L0.0,437.0 L171.4,298.4 L342.9,415.8 L514.3,292.3 L685.7,380.3 L857.1,337.9 L1028.6,370.9 L1200.0,363.1 L1200,700 Z" fill="var(--sky-mid)"/>
+  <path class="peak peak-3" d="M0,700 L0.0,440.8 L120.0,430.3 L240.0,439.2 L360.0,484.0 L480.0,407.9 L600.0,501.9 L720.0,407.5 L840.0,527.8 L960.0,419.1 L1080.0,483.8 L1200.0,422.4 L1200,700 Z" fill="var(--sky-near)"/>
+</svg>
