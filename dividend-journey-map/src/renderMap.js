@@ -5,7 +5,7 @@
    ═══════════════════════════════════════════════════ */
 
 const SVG_NS = "http://www.w3.org/2000/svg";
-const VB = { w: 1200, h: 700 };
+const VB = { w: 1200, h: 520 };
 
 /* ── 金額格式化（唯一入口，遵守資料契約 §3）───────── */
 export function formatAmount(n) {
@@ -23,7 +23,7 @@ const fmtEta = e => (!e) ? "" : (e[0] === e[1] ? `約 ${e[0]} 年` : `約 ${e[0]
 
 /* ── 路徑生成：站點數決定轉折數，左下→右上 ───────── */
 function buildPathD(n) {
-  const pad = { l: 110, r: 120, t: 130, b: 150 };
+  const pad = { l: 100, r: 110, t: 96, b: 112 };
   const usableW = VB.w - pad.l - pad.r;
   const usableH = VB.h - pad.t - pad.b;
   const segs = Math.max(n - 1, 1);
@@ -32,7 +32,7 @@ function buildPathD(n) {
     const t = i / segs;
     const x = pad.l + usableW * t;
     // 主體上升 + 交錯起伏，讓路徑有蜿蜒感
-    const wave = Math.sin(t * Math.PI * (segs > 3 ? 2.2 : 1.4)) * (usableH * 0.14);
+    const wave = Math.sin(t * Math.PI * (segs > 3 ? 2.2 : 1.4)) * (usableH * 0.12);
     const y = VB.h - pad.b - usableH * t + wave;
     pts.push([Math.round(x), Math.round(y)]);
   }
@@ -176,7 +176,7 @@ export function renderMap(container, data) {
     el("circle", {
       class: "star",
       cx: (rnd() * 1160 + 20).toFixed(1),
-      cy: (rnd() * 320 + 10).toFixed(1),
+      cy: (rnd() * 210 + 8).toFixed(1),
       r: (rnd() * 1.4 + 1.2).toFixed(1),
       style: `--twinkle:${(rnd() * 3 + 3).toFixed(1)}s`
     }, gStars);
@@ -184,15 +184,15 @@ export function renderMap(container, data) {
 
   /* 山巒三層 */
   const gM = svg.querySelector("#layer-mountains");
-  [[6, 380, 150, 0, "var(--sky-far)"],
-   [8, 460, 130, 3, "var(--sky-mid)"],
-   [11, 540, 110, 7, "var(--sky-near)"]].forEach(([n, by, amp, sd, fill], i) => {
+  [[6, 282, 112, 0, "var(--sky-far)"],
+   [8, 342, 97, 3, "var(--sky-mid)"],
+   [11, 402, 82, 7, "var(--sky-near)"]].forEach(([n, by, amp, sd, fill], i) => {
     el("path", { class: `peak peak-${i + 1}`, d: peaksPath(n, by, amp, sd), fill }, gM);
   });
 
   /* 地面 */
   svg.querySelector("#ground-shape")
-     .setAttribute("d", `M0,560 Q300,520 600,548 T1200,516 V700 H0 Z`);
+     .setAttribute("d", `M0,416 Q300,386 600,407 T1200,383 V520 H0 Z`);
 
   /* 路徑（只寫一次 d，兩層共用） */
   const d = buildPathD(stations.length);
@@ -210,8 +210,8 @@ export function renderMap(container, data) {
   const rnd2 = seeded(777);
   for (let i = 0; i < 9; i++) {
     const x = 60 + i * 128 + rnd2() * 40;
-    const y = 600 + rnd2() * 60;
-    const s = 0.7 + rnd2() * 0.5;
+    const y = 448 + rnd2() * 44;
+    const s = 0.55 + rnd2() * 0.35;
     const t = el("g", { class: "tree", transform: `translate(${x.toFixed(0)},${y.toFixed(0)}) scale(${s.toFixed(2)})` }, gT);
     el("rect", { x: -3, y: 0, width: 6, height: 20, rx: 3, fill: "var(--tree-trunk)" }, t);
     el("path", { d: "M0,-32 L14,-6 H-14 Z", fill: "var(--tree-crown)" }, t);
@@ -236,24 +236,28 @@ export function renderMap(container, data) {
   const wp = pBase.getPointAtLength(L * doneRatio);
   const gW = svg.querySelector("#layer-walker");
   const walker = el("g", { id: "walker", transform: `translate(${wp.x.toFixed(1)},${wp.y.toFixed(1)})`, "aria-hidden": "true" }, gW);
-  el("ellipse", { cx: 0, cy: 4, rx: 11, ry: 3.5, class: "wk-shadow" }, walker);
-  el("path", { d: "M-9,2 L0,-20 L9,2 Z", class: "wk-body" }, walker);
-  el("circle", { cx: 0, cy: -24, r: 7, class: "wk-head" }, walker);
+  const who = (data.meta?.character === "wife") ? "wife" : "chang";   // 選用性欄位，預設 chang
+  const CW = 26, CH = 36;
+  el("ellipse", { cx: 0, cy: 3, rx: 11, ry: 3.5, class: "wk-shadow" }, walker);
+  el("image", { class: "wk-frame", href: `assets/w-${who}-0.png`,
+    x: -CW / 2, y: -CH + 3, width: CW, height: CH }, walker);
+  el("image", { class: "wk-frame f2", href: `assets/w-${who}-1.png`,
+    x: -CW / 2, y: -CH + 3, width: CW, height: CH }, walker);
 
   /* 進度氣泡 */
   const gC = svg.querySelector("#layer-callout");
   const co = el("g", { id: "callout", "aria-hidden": "true" }, gC);
-  el("rect", { x: 40, y: 44, width: 330, height: 92, rx: 14, class: "co-bg" }, co);
-  const big = el("text", { x: 62, y: 96, class: "co-amount" }, co);
+  el("rect", { x: 32, y: 30, width: 300, height: 82, rx: 13, class: "co-bg" }, co);
+  const big = el("text", { x: 52, y: 76, class: "co-amount" }, co);
   big.textContent = (data.meta?.annualDividend ?? 0).toLocaleString("zh-Hant");
-  const unit = el("text", { x: 62 + big.textContent.length * 26, y: 96, class: "co-unit" }, co);
+  const unit = el("text", { x: 52 + big.textContent.length * 22, y: 76, class: "co-unit" }, co);
   unit.textContent = " 元／年";
-  const sub = el("text", { x: 62, y: 122, class: "co-sub" }, co);
+  const sub = el("text", { x: 52, y: 99, class: "co-sub" }, co);
   const nextSt = stations.find(s => s.id === data.progress?.nextStationId);
   sub.textContent = nextSt
     ? `距 ${nextSt.label} 還差 ${formatAmount(data.progress.gapToNext)}`
     : "已抵達最終站點";
-  const q = el("text", { x: 348, y: 68, class: "co-quote", "text-anchor": "end" }, co);
+  const q = el("text", { x: 312, y: 50, class: "co-quote", "text-anchor": "end" }, co);
   q.textContent = data.meta?.quote ?? "無報價";
 
   return svg;
@@ -261,7 +265,7 @@ export function renderMap(container, data) {
 
 /* SVG 範本（與 journey-map.svg 同步，內嵌以免額外請求） */
 const SVG_TEMPLATE = `
-<svg xmlns="${SVG_NS}" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid meet"
+<svg xmlns="${SVG_NS}" viewBox="0 0 1200 520" preserveAspectRatio="xMidYMid meet"
      role="img" aria-labelledby="jm-title jm-desc" class="journey-map">
   <title id="jm-title">股息里程地圖</title>
   <desc id="jm-desc">以路徑呈現年股息累積進度，沿途標示各財務里程碑站點與預估抵達年數。</desc>
@@ -277,7 +281,7 @@ const SVG_TEMPLATE = `
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
   </defs>
-  <g id="layer-sky"><rect x="0" y="0" width="1200" height="700" fill="url(#grad-sky)"/><g id="stars"></g></g>
+  <g id="layer-sky"><rect x="0" y="0" width="1200" height="520" fill="url(#grad-sky)"/><g id="stars"></g></g>
   <g id="layer-mountains"></g>
   <g id="layer-ground"><path id="ground-shape" d="" fill="url(#grad-ground)"/><g id="trees"></g></g>
   <g id="layer-path-base"><path id="journey-path" d="" fill="none" stroke="var(--path-base)"
