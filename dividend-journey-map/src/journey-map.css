@@ -1,0 +1,108 @@
+/* ═══════════════════════════════════════════════════
+   journey-map.css — 元件樣式（三態由 data-state 驅動）
+   ═══════════════════════════════════════════════════ */
+
+.journey-map { width: 100%; height: auto; display: block; }
+
+/* ── 星點 ─────────────────────────────────────── */
+.star {
+  fill: var(--star);
+  opacity: .55;
+  animation: twinkle var(--twinkle, 4s) ease-in-out infinite;
+}
+@keyframes twinkle { 0%,100% { opacity:.4 } 50% { opacity:.85 } }
+
+/* ── 路徑 ─────────────────────────────────────── */
+#journey-path-done { transition: stroke-dashoffset var(--dur-progress) var(--ease-default); }
+
+/* ── 站點三態 ─────────────────────────────────── */
+.station { cursor: default; }
+.station .st-halo   { fill: var(--station-active); opacity: 0; }
+.station .st-ring-bg{ fill: none; stroke: transparent; stroke-width: 4; }
+.station .st-ring   { fill: none; stroke: var(--station-active); stroke-width: 4; stroke-linecap: round; }
+.station .st-node   { stroke: var(--station-ring); stroke-width: 3; filter: url(#shadow-soft); }
+.station .st-icon   { pointer-events: none; }
+.ic-check       { fill: none; stroke: var(--text-on-light); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.ic-lock-body   { fill: var(--text-primary); opacity: .85; }
+.ic-lock-shackle{ fill: none; stroke: var(--text-primary); stroke-width: 1.8; opacity: .85; }
+.ic-dot         { fill: var(--text-on-light); }
+
+/* cleared：實心綠 + 勾號 */
+.station[data-state="cleared"] .st-node { fill: var(--station-cleared); }
+
+/* active：實心黃 + 進度環 + 脈動光暈 */
+.station[data-state="active"] .st-node { fill: var(--station-active); }
+.station[data-state="active"] .st-halo {
+  opacity: .28;
+  animation: pulse var(--dur-pulse) ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { r: 22; opacity: .3 }
+  50%     { r: 32; opacity: .08 }
+}
+
+/* locked：空心 + 虛線外框 + 鎖頭（灰階亦可辨識） */
+.station[data-state="locked"] { opacity: .7; }
+.station[data-state="locked"] .st-node {
+  fill: none;
+  stroke: var(--station-locked);
+  stroke-width: 3;
+  stroke-dasharray: 4 3;
+}
+.station[data-state="locked"] .ic-lock-body,
+.station[data-state="locked"] .ic-lock-shackle { stroke: var(--station-locked); fill: var(--station-locked); }
+.station[data-state="locked"] .ic-lock-shackle { fill: none; }
+
+/* 鍵盤聚焦 */
+.station:focus { outline: none; }
+.station:focus-visible .st-node,
+.station:focus .st-node {
+  stroke: var(--path-glow);
+  stroke-width: 4;
+}
+.station:focus::after { content: ""; }
+.station:focus-visible, .station:focus {
+  filter: drop-shadow(0 0 0 transparent);
+}
+.station:focus .st-halo, .station:focus-visible .st-halo {
+  opacity: .45; fill: var(--path-glow);
+}
+
+/* ── 標籤卡 ───────────────────────────────────── */
+.lc-leader { stroke: var(--card-border); stroke-width: 1.5; stroke-dasharray: 3 3; opacity: .7; }
+.lc-bg {
+  fill: var(--card-bg);
+  stroke: var(--card-border);
+  stroke-width: 2;
+  filter: url(#shadow-soft);
+}
+.label-card[data-state="active"] .lc-leader { stroke: var(--card-border); stroke-width: 1.5; stroke-dasharray: 3 3; opacity: .7; }
+.lc-bg { fill: var(--card-bg-active); stroke: var(--card-border-active); }
+.label-card[data-state="locked"] { opacity: .78; }
+.lc-title { fill: var(--text-primary); font-family: var(--font-body); font-size: var(--fs-station); font-weight: 700; text-anchor: middle; }
+.lc-meta  { fill: var(--text-muted);   font-family: var(--font-data); font-size: var(--fs-meta); text-anchor: middle; font-variant-numeric: tabular-nums; }
+.lc-eta   { fill: var(--text-muted);   font-family: var(--font-body); font-size: 11px; text-anchor: middle; opacity: .85; }
+
+/* ── 行進角色 ─────────────────────────────────── */
+.wk-body   { fill: var(--path-done); }
+.wk-head   { fill: var(--text-primary); }
+.wk-shadow { fill: #0A0C1A; opacity: .35; }
+
+/* ── 進度氣泡 ─────────────────────────────────── */
+.co-bg     { fill: var(--card-bg); stroke: var(--card-border); stroke-width: 2; opacity: .94; filter: url(#shadow-soft); }
+.co-amount { fill: var(--path-done); font-family: var(--font-display); font-size: var(--fs-display); font-weight: 600; font-variant-numeric: tabular-nums; }
+.co-unit   { fill: var(--text-muted); font-family: var(--font-body); font-size: var(--fs-callout); }
+.co-sub    { fill: var(--text-primary); font-family: var(--font-body); font-size: var(--fs-callout); }
+.co-quote  { fill: var(--text-muted); font-family: var(--font-body); font-size: var(--fs-meta); }
+
+/* ── 裝飾 ─────────────────────────────────────── */
+.tree { opacity: .9; }
+.flag-cloth { transform-origin: left center; animation: sway 3.4s ease-in-out infinite; }
+@keyframes sway { 0%,100% { transform: rotate(-3deg) } 50% { transform: rotate(3deg) } }
+
+/* ── 減少動態效果：全部停止 ───────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .star, .station[data-state="active"] .st-halo, .flag-cloth { animation: none !important; }
+  .station[data-state="active"] .st-halo { opacity: .28; }
+  #journey-path-done { transition: none !important; }
+}
