@@ -7,7 +7,11 @@
 const SVG_NS = "http://www.w3.org/2000/svg";
 /* 素材路徑基準：相對於本模組所在位置，主站與示範頁皆可正確解析 */
 const ASSET_BASE = new URL("../assets/", import.meta.url).pathname;
-const VB = { w: 1200, h: 520 };
+const LAYOUTS = {
+  wide:     { w: 1200, h: 520, pad: { l: 100, r: 110, t: 96,  b: 112 }, cardW: 150, cardH: 58, fsScale: 1 },
+  portrait: { w: 640,  h: 860, pad: { l: 96,  r: 100, t: 108, b: 120 }, cardW: 168, cardH: 62, fsScale: 1.55 }
+};
+let VB = LAYOUTS.wide;   // 由 renderMap 依容器寬度決定
 
 /* ── 金額格式化（唯一入口，遵守資料契約 §3）───────── */
 export function formatAmount(n) {
@@ -24,21 +28,23 @@ const fmtPct = r => (r === null || r === undefined) ? "" : (r * 100).toFixed(1) 
 const fmtEta = e => (!e) ? "" : (e[0] === e[1] ? `約 ${e[0]} 年` : `約 ${e[0]}~${e[1]} 年`);
 
 /* ── 路徑生成：站點數決定轉折數，左下→右上 ───────── */
-function buildPathD(n) {
-  const pad = { l: 100, r: 110, t: 96, b: 112 };
+function buildPathD(n, portrait) {
+  const pad = VB.pad;
   const usableW = VB.w - pad.l - pad.r;
   const usableH = VB.h - pad.t - pad.b;
   const segs = Math.max(n - 1, 1);
   const pts = [];
   for (let i = 0; i < n; i++) {
     const t = i / segs;
-    const x = pad.l + usableW * t;
-    // 主體上升 + 交錯起伏，讓路徑有蜿蜒感
-    const wave = Math.sin(t * Math.PI * (segs > 3 ? 2.2 : 1.4)) * (usableH * 0.12);
-    const y = VB.h - pad.b - usableH * t + wave;
-    pts.push([Math.round(x), Math.round(y)]);
+    if (portrait) {
+      // 直式：由下往上爬升，左右交錯蜿蜒
+      const wave = Math.sin(t * Math.PI * (segs > 3 ? 2.4 : 1.3)) * (usableW * 0.34);
+      pts.push([Math.round(pad.l + usableW * 0.5 + wave), Math.round(VB.h - pad.b - usableH * t)]);
+    } else {
+      const wave = Math.sin(t * Math.PI * (segs > 3 ? 2.2 : 1.4)) * (usableH * 0.12);
+      pts.push([Math.round(pad.l + usableW * t), Math.round(VB.h - pad.b - usableH * t + wave)]);
+    }
   }
-  // Catmull-Rom → 三次貝茲
   let d = `M${pts[0][0]},${pts[0][1]}`;
   for (let i = 0; i < pts.length - 1; i++) {
     const p0 = pts[Math.max(i - 1, 0)], p1 = pts[i];
@@ -117,45 +123,64 @@ function drawStation(g, st, pt, ratio) {
 }
 
 /* ── 標籤卡（防重疊：距離不足時上下錯開）─────────── */
-function drawLabels(g, stations, pts) {
-  const CARD_W = 150, CARD_H = 58, GAP = 24, STEP = CARD_H + 8;
-  const placed = [];   // 已放置矩形，用於碰撞偵測
+function drawLabels(g, stations, pts, portrait) {
+  const CARD_W = VB.cardW, CARD_H = VB.cardH, GAP = portrait ? 16 : 24, STEP = CARD_H + 8;
+  const placed = [];
 
   const hits = (a, b) =>
     a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+  const inBounds = (x, y) =>
+    x >= 4 && x + CARD_W <= VB.w - 4 && y >= 4 && y + CARD_H <= VB.h - 4;
 
   stations.forEach((st, i) => {
     const p = pts[i];
-    const cx = Math.min(Math.max(p.x - CARD_W / 2, 8), VB.w - CARD_W - 8);
-
-    // 候選位置：下方優先，其次上方，再依序往外推層級
     const cands = [];
-    for (let lvl = 0; lvl < 4; lvl++) {
-      cands.push(p.y + GAP + lvl * STEP);            // 往下第 lvl 層
-      cands.push(p.y - GAP - CARD_H - lvl * STEP);   // 往上第 lvl 層
-    }
-    let cy = cands.find(y => {
-      if (y < 6 || y + CARD_H > VB.h - 6) return false;             // 不出界
-      return !placed.some(q => hits({ x: cx, y, w: CARD_W, h: CARD_H }, q));
-    });
-    if (cy === undefined) cy = Math.min(Math.max(p.y + GAP, 6), VB.h - CARD_H - 6);
 
+    if (portrait) {
+      // 直式：優先放節點側邊（路徑左右蜿蜒，側邊空間充足）
+      const rightFirst = p.x < VB.w / 2;
+      for (let lvl = 0; lvl < 3; lvl++) {
+        const dy = -CARD_H / 2 + (lvl % 2 ? 1 : -1) * Math.ceil(lvl / 2) * STEP;
+        const right = { x: p.x + GAP + 8, y: p.y + dy };
+        const left  = { x: p.x - GAP - 8 - CARD_W, y: p.y + dy };
+        cands.push(...(rightFirst ? [right, left] : [left, right]));
+      }
+      // 側邊全滿才退回上下
+      cands.push({ x: p.x - CARD_W / 2, y: p.y + GAP + 10 },
+                 { x: p.x - CARD_W / 2, y: p.y - GAP - 10 - CARD_H });
+    } else {
+      const cx = Math.min(Math.max(p.x - CARD_W / 2, 8), VB.w - CARD_W - 8);
+      for (let lvl = 0; lvl < 4; lvl++) {
+        cands.push({ x: cx, y: p.y + GAP + lvl * STEP });
+        cands.push({ x: cx, y: p.y - GAP - CARD_H - lvl * STEP });
+      }
+    }
+
+    let pos = cands.find(c => {
+      const x = Math.min(Math.max(c.x, 4), VB.w - CARD_W - 4);
+      return inBounds(x, c.y) && !placed.some(q => hits({ x, y: c.y, w: CARD_W, h: CARD_H }, q));
+    });
+    if (!pos) pos = cands[0];
+    const cx = Math.min(Math.max(pos.x, 4), VB.w - CARD_W - 4);
+    const cy = Math.min(Math.max(pos.y, 4), VB.h - CARD_H - 4);
     placed.push({ x: cx, y: cy, w: CARD_W, h: CARD_H });
 
-    // 節點與卡片距離較遠時，補一條指示線
     const card = el("g", { class: "label-card", "data-state": st.state, "aria-hidden": "true" }, g);
-    const anchorY = cy > p.y ? cy : cy + CARD_H;
-    if (Math.abs(anchorY - p.y) > GAP + 4) {
-      el("line", { x1: p.x, y1: p.y, x2: cx + CARD_W / 2, y2: anchorY, class: "lc-leader" }, card);
+    // 卡片離節點較遠時補指示線
+    const ax = cx + CARD_W / 2, ay = cy > p.y ? cy : cy + CARD_H;
+    const near = Math.abs(ax - p.x) < CARD_W / 2 + 6 && Math.abs(ay - p.y) < GAP + 6;
+    if (!near) {
+      const lx = (cx > p.x) ? cx : cx + CARD_W;
+      el("line", { x1: p.x, y1: p.y, x2: lx, y2: cy + CARD_H / 2, class: "lc-leader" }, card);
     }
     el("rect", { x: cx, y: cy, width: CARD_W, height: CARD_H, rx: 10, class: "lc-bg" }, card);
-    const t1 = el("text", { x: cx + CARD_W / 2, y: cy + 23, class: "lc-title" }, card);
+    const t1 = el("text", { x: cx + CARD_W / 2, y: cy + (portrait ? 25 : 23), class: "lc-title" }, card);
     t1.textContent = st.label.length > 8 ? st.label.slice(0, 8) + "…" : st.label;
-    const t2 = el("text", { x: cx + CARD_W / 2, y: cy + 41, class: "lc-meta" }, card);
+    const t2 = el("text", { x: cx + CARD_W / 2, y: cy + (portrait ? 44 : 41), class: "lc-meta" }, card);
     t2.textContent = [st.ratio !== null ? fmtPct(st.ratio) : null,
                       formatAmount(st.target)].filter(Boolean).join(" · ");
     if (st.etaYears) {
-      const t3 = el("text", { x: cx + CARD_W / 2, y: cy + 53, class: "lc-eta" }, card);
+      const t3 = el("text", { x: cx + CARD_W / 2, y: cy + (portrait ? 58 : 53), class: "lc-eta" }, card);
       t3.textContent = fmtEta(st.etaYears);
     }
   });
@@ -167,18 +192,25 @@ export function renderMap(container, data) {
   const stations = (data.stations || []).slice();
   if (!stations.length) throw new Error("renderMap: stations 不得為空");
 
-  container.innerHTML = SVG_TEMPLATE;                    // 冪等：每次重建
+  // 版面模式：容器寬度 < 560 用直式，其餘用橫式
+  const cw = container.clientWidth || container.getBoundingClientRect().width || 1200;
+  const portrait = cw > 0 && cw < 560;
+  VB = portrait ? LAYOUTS.portrait : LAYOUTS.wide;
+
+  container.innerHTML = svgTemplate(VB);                // 冪等：每次重建
   const svg = container.querySelector("svg");
+  svg.dataset.layout = portrait ? "portrait" : "wide";
   const maxTarget = Math.max(...stations.map(s => s.target)) || 1;
 
   /* 天空星點（決定性） */
   const rnd = seeded(1234);
   const gStars = svg.querySelector("#stars");
-  for (let i = 0; i < 46; i++) {
+  const starN = portrait ? 34 : 46;
+  for (let i = 0; i < starN; i++) {
     el("circle", {
       class: "star",
-      cx: (rnd() * 1160 + 20).toFixed(1),
-      cy: (rnd() * 210 + 8).toFixed(1),
+      cx: (rnd() * (VB.w - 40) + 20).toFixed(1),
+      cy: (rnd() * VB.h * 0.42 + 8).toFixed(1),
       r: (rnd() * 1.4 + 1.2).toFixed(1),
       style: `--twinkle:${(rnd() * 3 + 3).toFixed(1)}s`
     }, gStars);
@@ -186,18 +218,20 @@ export function renderMap(container, data) {
 
   /* 山巒三層 */
   const gM = svg.querySelector("#layer-mountains");
-  [[6, 282, 112, 0, "var(--sky-far)"],
-   [8, 342, 97, 3, "var(--sky-mid)"],
-   [11, 402, 82, 7, "var(--sky-near)"]].forEach(([n, by, amp, sd, fill], i) => {
+  const H = VB.h;
+  [[portrait ? 5 : 6,  H * 0.54, H * 0.215, 0, "var(--sky-far)"],
+   [portrait ? 6 : 8,  H * 0.66, H * 0.187, 3, "var(--sky-mid)"],
+   [portrait ? 8 : 11, H * 0.77, H * 0.158, 7, "var(--sky-near)"]].forEach(([n, by, amp, sd, fill], i) => {
     el("path", { class: `peak peak-${i + 1}`, d: peaksPath(n, by, amp, sd), fill }, gM);
   });
 
   /* 地面 */
+  const gy = VB.h * 0.80, gw = VB.w;
   svg.querySelector("#ground-shape")
-     .setAttribute("d", `M0,416 Q300,386 600,407 T1200,383 V520 H0 Z`);
+     .setAttribute("d", `M0,${gy} Q${gw*0.25},${gy-30} ${gw*0.5},${gy-9} T${gw},${gy-33} V${VB.h} H0 Z`);
 
   /* 路徑（只寫一次 d，兩層共用） */
-  const d = buildPathD(stations.length);
+  const d = buildPathD(stations.length, portrait);
   const pBase = svg.querySelector("#journey-path");
   const pDone = svg.querySelector("#journey-path-done");
   pBase.setAttribute("d", d);
@@ -210,10 +244,11 @@ export function renderMap(container, data) {
   /* 樹木裝飾（依站點位置避開路徑） */
   const gT = svg.querySelector("#trees");
   const rnd2 = seeded(777);
-  for (let i = 0; i < 9; i++) {
-    const x = 60 + i * 128 + rnd2() * 40;
-    const y = 448 + rnd2() * 44;
-    const s = 0.55 + rnd2() * 0.35;
+  const treeN = portrait ? 6 : 9;
+  for (let i = 0; i < treeN; i++) {
+    const x = 40 + i * (VB.w / treeN) + rnd2() * 30;
+    const y = VB.h * 0.86 + rnd2() * (VB.h * 0.07);
+    const s = (portrait ? 0.75 : 0.55) + rnd2() * 0.35;
     const t = el("g", { class: "tree", transform: `translate(${x.toFixed(0)},${y.toFixed(0)}) scale(${s.toFixed(2)})` }, gT);
     el("rect", { x: -3, y: 0, width: 6, height: 20, rx: 3, fill: "var(--tree-trunk)" }, t);
     el("path", { d: "M0,-32 L14,-6 H-14 Z", fill: "var(--tree-crown)" }, t);
@@ -232,14 +267,14 @@ export function renderMap(container, data) {
   const gS = svg.querySelector("#layer-stations");
   gS.setAttribute("role", "list");
   stations.forEach((st, i) => drawStation(gS, st, pts[i], st.ratio));
-  drawLabels(svg.querySelector("#layer-labels"), stations, pts);
+  drawLabels(svg.querySelector("#layer-labels"), stations, pts, portrait);
 
   /* 行進角色 */
   const wp = pBase.getPointAtLength(L * doneRatio);
   const gW = svg.querySelector("#layer-walker");
   const walker = el("g", { id: "walker", transform: `translate(${wp.x.toFixed(1)},${wp.y.toFixed(1)})`, "aria-hidden": "true" }, gW);
   const who = (data.meta?.character === "wife") ? "wife" : "chang";   // 選用性欄位，預設 chang
-  const CW = 26, CH = 36;
+  const CW = portrait ? 40 : 26, CH = portrait ? 54 : 36;
   el("ellipse", { cx: 0, cy: 3, rx: 11, ry: 3.5, class: "wk-shadow" }, walker);
   el("image", { class: "wk-frame", href: `${ASSET_BASE}w-${who}-0.png`,
     x: -CW / 2, y: -CH + 3, width: CW, height: CH }, walker);
@@ -249,25 +284,26 @@ export function renderMap(container, data) {
   /* 進度氣泡 */
   const gC = svg.querySelector("#layer-callout");
   const co = el("g", { id: "callout", "aria-hidden": "true" }, gC);
-  el("rect", { x: 32, y: 30, width: 300, height: 82, rx: 13, class: "co-bg" }, co);
-  const big = el("text", { x: 52, y: 76, class: "co-amount" }, co);
+  const coW = portrait ? VB.w - 56 : 300, coX = portrait ? 28 : 32, coY = portrait ? 26 : 30;
+  el("rect", { x: coX, y: coY, width: coW, height: portrait ? 96 : 82, rx: 13, class: "co-bg" }, co);
+  const big = el("text", { x: coX + 20, y: coY + 48, class: "co-amount" }, co);
   big.textContent = (data.meta?.annualDividend ?? 0).toLocaleString("zh-Hant");
-  const unit = el("text", { x: 52 + big.textContent.length * 22, y: 76, class: "co-unit" }, co);
+  const unit = el("text", { x: coX + 20 + big.textContent.length * (portrait ? 30 : 22), y: coY + 48, class: "co-unit" }, co);
   unit.textContent = " 元／年";
-  const sub = el("text", { x: 52, y: 99, class: "co-sub" }, co);
+  const sub = el("text", { x: coX + 20, y: coY + (portrait ? 76 : 69), class: "co-sub" }, co);
   const nextSt = stations.find(s => s.id === data.progress?.nextStationId);
   sub.textContent = nextSt
     ? `距 ${nextSt.label} 還差 ${formatAmount(data.progress.gapToNext)}`
     : "已抵達最終站點";
-  const q = el("text", { x: 312, y: 50, class: "co-quote", "text-anchor": "end" }, co);
+  const q = el("text", { x: coX + coW - 18, y: coY + 22, class: "co-quote", "text-anchor": "end" }, co);
   q.textContent = data.meta?.quote ?? "無報價";
 
   return svg;
 }
 
 /* SVG 範本（與 journey-map.svg 同步，內嵌以免額外請求） */
-const SVG_TEMPLATE = `
-<svg xmlns="${SVG_NS}" viewBox="0 0 1200 520" preserveAspectRatio="xMidYMid meet"
+function svgTemplate(V) { return `
+<svg xmlns="${SVG_NS}" viewBox="0 0 ${V.w} ${V.h}" preserveAspectRatio="xMidYMid meet"
      role="img" aria-labelledby="jm-title jm-desc" class="journey-map">
   <title id="jm-title">股息里程地圖</title>
   <desc id="jm-desc">以路徑呈現年股息累積進度，沿途標示各財務里程碑站點與預估抵達年數。</desc>
@@ -283,7 +319,7 @@ const SVG_TEMPLATE = `
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
   </defs>
-  <g id="layer-sky"><rect x="0" y="0" width="1200" height="520" fill="url(#grad-sky)"/><g id="stars"></g></g>
+  <g id="layer-sky"><rect x="0" y="0" width="${V.w}" height="${V.h}" fill="url(#grad-sky)"/><g id="stars"></g></g>
   <g id="layer-mountains"></g>
   <g id="layer-ground"><path id="ground-shape" d="" fill="url(#grad-ground)"/><g id="trees"></g></g>
   <g id="layer-path-base"><path id="journey-path" d="" fill="none" stroke="var(--path-base)"
@@ -294,6 +330,6 @@ const SVG_TEMPLATE = `
   <g id="layer-labels"></g>
   <g id="layer-walker"></g>
   <g id="layer-callout"></g>
-</svg>`;
+</svg>`; }
 
 export default renderMap;
