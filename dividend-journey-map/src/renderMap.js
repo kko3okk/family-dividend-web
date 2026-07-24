@@ -47,7 +47,14 @@ export function skyAt(date = new Date()) {
 const SVG_NS = "http://www.w3.org/2000/svg";
 /* 素材路徑基準：相對於本模組所在位置，主站與示範頁皆可正確解析 */
 const ASSET_BASE = new URL("../assets/", import.meta.url).pathname;
-const VB = { w: 1200, h: 520, pad: { l: 100, r: 110, t: 96, b: 112 }, cardW: 150, cardH: 58 };
+/* 兩種畫布比例，構圖邏輯完全相同（左下→右上），僅長寬比不同：
+   wide    桌機 1200×520，縮放比約 1.0
+   compact 手機  900×560，縮放比約 0.40，字級與卡片同步放大以確保可讀 */
+const RATIOS = {
+  wide:    { w: 1200, h: 520, pad: { l: 100, r: 110, t: 96,  b: 118 }, cardW: 150, cardH: 58, gap: 24 },
+  compact: { w: 900,  h: 560, pad: { l: 78,  r: 84,  t: 104, b: 138 }, cardW: 208, cardH: 78, gap: 22 }
+};
+let VB = RATIOS.wide;
 
 /* ── 金額格式化（唯一入口，遵守資料契約 §3）───────── */
 export function formatAmount(n) {
@@ -127,34 +134,35 @@ function drawStation(g, st, pt, ratio) {
       ({ cleared: "已抵達", active: "進行中", locked: "尚未解鎖" }[st.state] || "")
   }, g);
 
-  el("circle", { class: "st-halo", r: 26 }, node);          // active 脈動光暈
-  el("circle", { class: "st-ring-bg", r: 19 }, node);        // 進度環底
+  const NR = VB.w < 1000 ? 1.5 : 1;   // compact 節點放大
+  el("circle", { class: "st-halo", r: 26 * NR }, node);          // active 脈動光暈
+  el("circle", { class: "st-ring-bg", r: 19 * NR }, node);        // 進度環底
   if (st.state === "active" && st.ratio !== null) {          // 進度環
-    const C = 2 * Math.PI * 19;
+    const C = 2 * Math.PI * 19 * NR;
     el("circle", {
-      class: "st-ring", r: 19,
+      class: "st-ring", r: 19 * NR,
       "stroke-dasharray": `${(C * Math.min(st.ratio, 1)).toFixed(1)} ${C.toFixed(1)}`,
       transform: "rotate(-90)"
     }, node);
   }
-  el("circle", { class: "st-node", r: 13 }, node);
+  el("circle", { class: "st-node", r: 13 * NR }, node);
 
   // 狀態圖示（形狀輔助，不單靠顏色）
   const ic = el("g", { class: "st-icon" }, node);
   if (st.state === "cleared") {
-    el("path", { d: "M-5,0 L-1.5,3.5 L5,-3.5", class: "ic-check" }, ic);
+    el("path", { d: "M-5,0 L-1.5,3.5 L5,-3.5", class: "ic-check", transform: `scale(${NR})` }, ic);
   } else if (st.state === "locked") {
-    el("rect", { x: -5, y: -1, width: 10, height: 7, rx: 1.5, class: "ic-lock-body" }, ic);
-    el("path", { d: "M-3,-1 V-3.5 a3,3 0 0 1 6,0 V-1", class: "ic-lock-shackle" }, ic);
+    el("rect", { x: -5 * NR, y: -1 * NR, width: 10 * NR, height: 7 * NR, rx: 1.5, class: "ic-lock-body" }, ic);
+    el("path", { d: "M-3,-1 V-3.5 a3,3 0 0 1 6,0 V-1", class: "ic-lock-shackle", transform: `scale(${NR})` }, ic);
   } else {
-    el("circle", { r: 4, class: "ic-dot" }, ic);
+    el("circle", { r: 4 * NR, class: "ic-dot" }, ic);
   }
   return node;
 }
 
 /* ── 標籤卡（防重疊：距離不足時上下錯開）─────────── */
 function drawLabels(g, stations, pts) {
-  const CARD_W = VB.cardW, CARD_H = VB.cardH, GAP = 24, STEP = CARD_H + 8;
+  const CARD_W = VB.cardW, CARD_H = VB.cardH, GAP = VB.gap, STEP = CARD_H + 8;
   const placed = [];
 
   const hits = (a, b) =>
@@ -167,9 +175,19 @@ function drawLabels(g, stations, pts) {
     const cands = [];
 
     const cx0 = Math.min(Math.max(p.x - CARD_W / 2, 8), VB.w - CARD_W - 8);
-    for (let lvl = 0; lvl < 4; lvl++) {
+    // 層數依畫布高度動態決定；站點密集時需要更多堆疊空間
+    const levels = Math.max(4, Math.floor(VB.h / STEP));
+    for (let lvl = 0; lvl < levels; lvl++) {
       cands.push({ x: cx0, y: p.y + GAP + lvl * STEP });
       cands.push({ x: cx0, y: p.y - GAP - CARD_H - lvl * STEP });
+    }
+    // 仍找不到時，允許水平微調後再試（避免最後一站被迫重疊）
+    for (const dx of [-CARD_W * 0.4, CARD_W * 0.4, -CARD_W * 0.8, CARD_W * 0.8]) {
+      const nx = Math.min(Math.max(cx0 + dx, 8), VB.w - CARD_W - 8);
+      for (let lvl = 0; lvl < levels; lvl++) {
+        cands.push({ x: nx, y: p.y + GAP + lvl * STEP });
+        cands.push({ x: nx, y: p.y - GAP - CARD_H - lvl * STEP });
+      }
     }
     let pos = cands.find(c => {
       const x = Math.min(Math.max(c.x, 4), VB.w - CARD_W - 4);
@@ -189,13 +207,13 @@ function drawLabels(g, stations, pts) {
       el("line", { x1: p.x, y1: p.y, x2: lx, y2: cy + CARD_H / 2, class: "lc-leader" }, card);
     }
     el("rect", { x: cx, y: cy, width: CARD_W, height: CARD_H, rx: 10, class: "lc-bg" }, card);
-    const t1 = el("text", { x: cx + CARD_W / 2, y: cy + 23, class: "lc-title" }, card);
+    const t1 = el("text", { x: cx + CARD_W / 2, y: cy + CARD_H * 0.38, class: "lc-title" }, card);
     t1.textContent = st.label.length > 8 ? st.label.slice(0, 8) + "…" : st.label;
-    const t2 = el("text", { x: cx + CARD_W / 2, y: cy + 41, class: "lc-meta" }, card);
+    const t2 = el("text", { x: cx + CARD_W / 2, y: cy + CARD_H * 0.68, class: "lc-meta" }, card);
     t2.textContent = [st.ratio !== null ? fmtPct(st.ratio) : null,
                       formatAmount(st.target)].filter(Boolean).join(" · ");
     if (st.etaYears) {
-      const t3 = el("text", { x: cx + CARD_W / 2, y: cy + 53, class: "lc-eta" }, card);
+      const t3 = el("text", { x: cx + CARD_W / 2, y: cy + CARD_H * 0.91, class: "lc-eta" }, card);
       t3.textContent = fmtEta(st.etaYears);
     }
   });
@@ -210,6 +228,8 @@ export function renderMap(container, data) {
   // 窄螢幕僅放大字級，不改構圖（直式構圖經實測品質較差，已移除）
   const cw = container.clientWidth || container.getBoundingClientRect().width || 1200;
   const compact = cw > 0 && cw < 560;
+
+  VB = compact ? RATIOS.compact : RATIOS.wide;
 
   container.innerHTML = svgTemplate(VB);                // 冪等：每次重建
   const svg = container.querySelector("svg");
@@ -250,7 +270,7 @@ export function renderMap(container, data) {
   /* 天空星點（決定性） */
   const rnd = seeded(1234);
   const gStars = svg.querySelector("#stars");
-  const starN = compact ? 34 : 46;
+  const starN = compact ? 30 : 46;
   for (let i = 0; i < starN; i++) {
     el("circle", {
       class: "star",
@@ -289,11 +309,11 @@ export function renderMap(container, data) {
   /* 樹木裝飾（依站點位置避開路徑） */
   const gT = svg.querySelector("#trees");
   const rnd2 = seeded(777);
-  const treeN = compact ? 7 : 9;
+  const treeN = compact ? 6 : 9;
   for (let i = 0; i < treeN; i++) {
-    const x = 40 + i * (VB.w / treeN) + rnd2() * 30;
+    const x = 30 + i * (VB.w / treeN) + rnd2() * 26;
     const y = VB.h * 0.86 + rnd2() * (VB.h * 0.07);
-    const s = 0.55 + rnd2() * 0.35;
+    const s = (compact ? 0.85 : 0.55) + rnd2() * 0.35;
     const t = el("g", { class: "tree", transform: `translate(${x.toFixed(0)},${y.toFixed(0)}) scale(${s.toFixed(2)})` }, gT);
     el("rect", { x: -3, y: 0, width: 6, height: 20, rx: 3, fill: "var(--tree-trunk)" }, t);
     el("path", { d: "M0,-32 L14,-6 H-14 Z", fill: "var(--tree-crown)" }, t);
@@ -319,8 +339,8 @@ export function renderMap(container, data) {
   const gW = svg.querySelector("#layer-walker");
   const walker = el("g", { id: "walker", transform: `translate(${wp.x.toFixed(1)},${wp.y.toFixed(1)})`, "aria-hidden": "true" }, gW);
   const who = (data.meta?.character === "wife") ? "wife" : "chang";   // 選用性欄位，預設 chang
-  const CW = 26, CH = 36;
-  el("ellipse", { cx: 0, cy: 3, rx: 11, ry: 3.5, class: "wk-shadow" }, walker);
+  const CW = compact ? 40 : 26, CH = compact ? 55 : 36;
+  el("ellipse", { cx: 0, cy: 3, rx: compact ? 16 : 11, ry: compact ? 5 : 3.5, class: "wk-shadow" }, walker);
   el("image", { class: "wk-frame", href: `${ASSET_BASE}w-${who}-0.png`,
     x: -CW / 2, y: -CH + 3, width: CW, height: CH }, walker);
   el("image", { class: "wk-frame f2", href: `${ASSET_BASE}w-${who}-1.png`,
@@ -329,18 +349,18 @@ export function renderMap(container, data) {
   /* 進度氣泡 */
   const gC = svg.querySelector("#layer-callout");
   const co = el("g", { id: "callout", "aria-hidden": "true" }, gC);
-  const coW = 300, coX = 32, coY = 30;
-  el("rect", { x: coX, y: coY, width: coW, height: 82, rx: 13, class: "co-bg" }, co);
-  const big = el("text", { x: coX + 20, y: coY + 48, class: "co-amount" }, co);
+  const coW = compact ? 420 : 300, coX = compact ? 26 : 32, coY = compact ? 24 : 30, coH = compact ? 116 : 82;
+  el("rect", { x: coX, y: coY, width: coW, height: coH, rx: 13, class: "co-bg" }, co);
+  const big = el("text", { x: coX + (compact ? 24 : 20), y: coY + (compact ? 66 : 48), class: "co-amount" }, co);
   big.textContent = (data.meta?.annualDividend ?? 0).toLocaleString("zh-Hant");
-  const unit = el("text", { x: coX + 20 + big.textContent.length * 22, y: coY + 48, class: "co-unit" }, co);
+  const unit = el("text", { x: coX + (compact ? 24 : 20) + big.textContent.length * (compact ? 33 : 22), y: coY + (compact ? 66 : 48), class: "co-unit" }, co);
   unit.textContent = " 元／年";
-  const sub = el("text", { x: coX + 20, y: coY + 69, class: "co-sub" }, co);
+  const sub = el("text", { x: coX + (compact ? 24 : 20), y: coY + (compact ? 98 : 69), class: "co-sub" }, co);
   const nextSt = stations.find(s => s.id === data.progress?.nextStationId);
   sub.textContent = nextSt
     ? `距 ${nextSt.label} 還差 ${formatAmount(data.progress.gapToNext)}`
     : "已抵達最終站點";
-  const q = el("text", { x: coX + coW - 18, y: coY + 22, class: "co-quote", "text-anchor": "end" }, co);
+  const q = el("text", { x: coX + coW - 18, y: coY + (compact ? 30 : 22), class: "co-quote", "text-anchor": "end" }, co);
   q.textContent = data.meta?.quote ?? "無報價";
 
   return svg;
