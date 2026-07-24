@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>股息里程地圖 · Dividend Journey Map</title>
+<link rel="stylesheet" href="src/design-tokens.css">
+<link rel="stylesheet" href="src/journey-map.css">
+<style>
+  body{margin:0;background:var(--sky-top);color:var(--text-primary);
+    font-family:var(--font-body);padding:16px}
+  .wrap{max-width:1240px;margin:0 auto}
+  h1{font-size:18px;font-weight:700;letter-spacing:.1em;margin:0 0 4px}
+  .sub{font-size:12px;color:var(--text-muted);margin-bottom:14px}
+  #app{background:var(--sky-top);border-radius:16px;overflow:hidden;
+    box-shadow:var(--shadow-card)}
+  .cases{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 10px}
+  .cases button{background:var(--card-bg);border:2px solid var(--card-border);
+    color:var(--text-primary);border-radius:9px;padding:8px 13px;font-size:12.5px;
+    font-family:var(--font-body);cursor:pointer}
+  .cases button:hover{border-color:var(--path-done)}
+  .cases button.on{background:var(--card-bg-active);border-color:var(--card-border-active);color:var(--path-done)}
+  textarea{width:100%;height:190px;background:var(--card-bg);color:var(--text-primary);
+    border:2px solid var(--card-border);border-radius:10px;padding:11px;
+    font-family:var(--font-data);font-size:12px;line-height:1.55}
+  .row{display:flex;gap:10px;align-items:center;margin-top:9px;flex-wrap:wrap}
+  .row button{background:var(--path-done);color:var(--text-on-light);border:none;
+    border-radius:9px;padding:10px 20px;font-weight:700;font-size:13px;cursor:pointer}
+  .msg{font-size:12px;color:var(--text-muted)}
+  .msg.err{color:#F28B82}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>股息里程地圖</h1>
+  <div class="sub">資料驅動 SVG 元件 · 改 JSON 即更新 · viewBox 1200×700</div>
+
+  <div id="app"></div>
+
+  <div class="cases" id="cases"></div>
+  <textarea id="json" spellcheck="false"></textarea>
+  <div class="row">
+    <button id="apply">套用並重新渲染</button>
+    <span class="msg" id="msg"></span>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
+<script type="module">
+import { renderMap } from "./src/renderMap.js";
+import { animateMap, watchReducedMotion } from "./src/animate.js";
+
+const base = await (await fetch("./data/journey.sample.json")).json();
+
+const CASES = {
+  "T1 正常 4 站": base,
+  "T2 只有 2 站": { ...base, stations: base.stations.slice(0, 2),
+    progress: { currentAmount: 58193, nextStationId: "travel", gapToNext: 92000 } },
+  "T3 八站": { ...base, stations: Array.from({ length: 8 }, (_, i) => ({
+      id: "s" + i, label: "里程碑站點" + i, target: i * 140000,
+      ratio: i ? Math.min(58193 / (i * 140000), 1) : null,
+      etaYears: [i, i + 2], state: i === 0 ? "cleared" : (i === 1 ? "active" : "locked") })) },
+  "T4 currentAmount = 0": { ...base,
+    progress: { currentAmount: 0, nextStationId: "travel", gapToNext: 150000 },
+    stations: base.stations.map(s => ({ ...s, ratio: s.target ? 0 : null,
+      state: s.id === "start" ? "cleared" : (s.id === "travel" ? "active" : "locked") })) },
+  "T5 超過最後一站": { ...base,
+    meta: { ...base.meta, annualDividend: 1200000 },
+    progress: { currentAmount: 1200000, nextStationId: null, gapToNext: 0 },
+    stations: base.stations.map(s => ({ ...s, ratio: 1, state: "cleared" })) },
+  "T6 quote 有值": { ...base, meta: { ...base.meta, quote: "2026-07-24 收盤" } },
+  "T7 極長站名": { ...base, stations: base.stations.map(s => ({ ...s, label: s.label + "超長名稱測試十二字" })) },
+  "T8 金額 999,999,999": { ...base,
+    meta: { ...base.meta, annualDividend: 999999999 },
+    progress: { currentAmount: 999999999, nextStationId: "retire", gapToNext: 999999999 },
+    stations: base.stations.map(s => ({ ...s, target: s.target ? 999999999 : 0 })) }
+};
+
+const app = document.getElementById("app");
+const ta = document.getElementById("json");
+const msg = document.getElementById("msg");
+
+function run(data, label) {
+  try {
+    const svg = renderMap(app, data);
+    animateMap(svg);
+    watchReducedMotion(svg);
+    ta.value = JSON.stringify(data, null, 2);
+    msg.textContent = (label ? label + "：" : "") + "渲染成功 · " +
+      data.stations.length + " 站";
+    msg.className = "msg";
+  } catch (e) {
+    msg.textContent = "錯誤：" + e.message;
+    msg.className = "msg err";
+  }
+}
+
+const box = document.getElementById("cases");
+Object.entries(CASES).forEach(([name, data], i) => {
+  const b = document.createElement("button");
+  b.textContent = name;
+  if (i === 0) b.classList.add("on");
+  b.onclick = () => {
+    box.querySelectorAll("button").forEach(x => x.classList.remove("on"));
+    b.classList.add("on");
+    run(data, name);
+  };
+  box.appendChild(b);
+});
+
+document.getElementById("apply").onclick = () => {
+  try { run(JSON.parse(ta.value), "自訂"); }
+  catch (e) { msg.textContent = "JSON 解析失敗：" + e.message; msg.className = "msg err"; }
+};
+
+run(base, "T1 正常 4 站");
+</script>
+</body>
+</html>
