@@ -3,16 +3,16 @@
    ═══════════════════════════════════════════════════ */
 
 .journey-map { width: 100%; height: auto; display: block; max-height: 46vh; }
-/* 直式版面（手機）：viewBox 較小，字級與線寬按比例放大 */
-.journey-map[data-layout="portrait"] { max-height: none; }
-.journey-map[data-layout="portrait"] .lc-title { font-size: 26px; }
-.journey-map[data-layout="portrait"] .lc-meta  { font-size: 19px; }
-.journey-map[data-layout="portrait"] .lc-eta   { font-size: 17px; }
-.journey-map[data-layout="portrait"] .co-amount{ font-size: 58px; }
-.journey-map[data-layout="portrait"] .co-unit,
-.journey-map[data-layout="portrait"] .co-sub   { font-size: 21px; }
-.journey-map[data-layout="portrait"] .co-quote { font-size: 18px; }
-.journey-map[data-layout="portrait"] .st-node  { stroke-width: 4; }
+/* 窄螢幕：構圖不變，僅放大字級與線寬，確保手機可讀 */
+.journey-map[data-layout="compact"] .lc-title { font-size: 27px; }
+.journey-map[data-layout="compact"] .lc-meta  { font-size: 19px; }
+.journey-map[data-layout="compact"] .lc-eta   { font-size: 17px; }
+.journey-map[data-layout="compact"] .co-amount{ font-size: 54px; }
+.journey-map[data-layout="compact"] .co-unit,
+.journey-map[data-layout="compact"] .co-sub   { font-size: 21px; }
+.journey-map[data-layout="compact"] .co-quote { font-size: 18px; }
+.journey-map[data-layout="compact"] .st-node  { stroke-width: 4; }
+.journey-map[data-layout="compact"] { max-height: none; }
 
 /* ── 星點（白天自動隱沒，透明度由 --star-alpha 控制）──── */
 .star {
