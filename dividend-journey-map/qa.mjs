@@ -88,3 +88,47 @@ console.log('\n── 直式版面補測 ──');
 R2.forEach(([id,n,r,e])=>console.log(`${id.padEnd(7)}${n.padEnd(26)}${r}${e?'  ← '+e:''}`));
 const f2=R2.filter(x=>x[2]==='FAIL').length;
 console.log(`共 ${R2.length} 項｜PASS ${R2.length-f2}｜FAIL ${f2}`);
+
+// ── 日夜循環補測 ──
+const JMOD=await import('./src/renderMap.js');
+const { skyAt }=JMOD;
+const R3=[];
+const t3=(id,name,fn)=>{try{R3.push([id,name,fn()?'PASS':'FAIL',''])}catch(e){R3.push([id,name,'FAIL',e.message])}};
+const at=h=>skyAt(new Date(2026,6,25,Math.floor(h),Math.round((h%1)*60)));
+t3('D1','正午為白天且弧位置最高',()=>{const s=at(12);return s.isDay&&Math.abs(s.arc-0.5)<0.01});
+t3('D2','午夜為夜晚且星最亮',()=>{const s=at(0);return !s.isDay&&s.star>=0.95});
+t3('D3','白天星星全隱',()=>at(12).star===0&&at(10).star===0);
+t3('D4','日出日落為暖色調',()=>{const a=at(6.5),b=at(18);
+  const warm=h=>parseInt(h.slice(1,3),16)>parseInt(h.slice(5,7),16);
+  return warm(a.bot)&&warm(b.bot)});
+// D5：以「實際渲染粒度」檢查連續性。
+// startSkyClock 每 60 秒更新一次，故取樣步長為 1 分鐘而非 15 分鐘。
+// 門檻 4/255（約 1.6%）為單次更新肉眼不可辨的變化量上限。
+t3('D5','天色連續無跳段（1 分鐘粒度）',()=>{
+  let maxJump=0, worstAt=0;
+  for(let m=0;m<1440;m++){
+    const a=at(m/60),b=at((m+1)/60);
+    ['top','bot','far','mid','near','gnd'].forEach(k=>{
+      const d=[1,3,5].reduce((x,i)=>Math.max(x,Math.abs(parseInt(a[k].slice(i,i+2),16)-parseInt(b[k].slice(i,i+2),16))),0);
+      if(d>maxJump){maxJump=d;worstAt=m;}
+    });
+  }
+  if(maxJump>4) console.log('    最大跳幅',maxJump,'於',Math.floor(worstAt/60)+':'+String(worstAt%60).padStart(2,'0'));
+  return maxJump<=4;});
+t3('D6','弧位置恆在 0~1',()=>{for(let h=0;h<24;h+=0.5){const s=at(h);if(s.arc<0||s.arc>1)return false}return true});
+t3('D7','渲染時套用天色變數',()=>{global.__W=1200;renderMap(app,{...base,meta:{...base.meta,now:'2026-07-25T12:00:00'}});
+  return app.style.getPropertyValue('--sky-top')!==''&&app.querySelector('svg').dataset.phase==='day'});
+t3('D8','夜間顯示月亮',()=>{renderMap(app,{...base,meta:{...base.meta,now:'2026-07-25T23:00:00'}});
+  const svg=app.querySelector('svg');
+  return svg.dataset.phase==='night'&&!!svg.querySelector('.cel-moon')&&!svg.querySelector('.cel-sun')});
+t3('D9','白天顯示太陽',()=>{renderMap(app,{...base,meta:{...base.meta,now:'2026-07-25T13:00:00'}});
+  const svg=app.querySelector('svg');
+  return svg.dataset.phase==='day'&&!!svg.querySelector('.cel-sun')&&!svg.querySelector('.cel-moon')});
+t3('D11','天色時鐘可啟停',()=>{const {startSkyClock,stopSkyClock}=JMOD;
+  const stop=startSkyClock(app,50);stopSkyClock();return typeof stop==='function'});
+t3('D10','指定時間仍冪等',()=>{const d={...base,meta:{...base.meta,now:'2026-07-25T09:30:00'}};
+  renderMap(app,d);const a=app.innerHTML;renderMap(app,d);return a===app.innerHTML});
+console.log('\n── 日夜循環補測 ──');
+R3.forEach(([id,n,r,e])=>console.log(`${id.padEnd(7)}${n.padEnd(26)}${r}${e?'  ← '+e:''}`));
+const f3=R3.filter(x=>x[2]==='FAIL').length;
+console.log(`共 ${R3.length} 項｜PASS ${R3.length-f3}｜FAIL ${f3}`);
