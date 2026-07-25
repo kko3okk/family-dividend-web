@@ -59,7 +59,7 @@ const asset = name => ASSET_BASE + name + ASSET_VER;
    compact 手機  900×560，縮放比約 0.40，字級與卡片同步放大以確保可讀 */
 const RATIOS = {
   wide:    { w: 1200, h: 520, pad: { l: 100, r: 110, t: 96,  b: 118 }, cardW: 150, cardH: 58, gap: 24 },
-  compact: { w: 900,  h: 560, pad: { l: 78,  r: 84,  t: 104, b: 138 }, cardW: 208, cardH: 78, gap: 22 }
+  compact: { w: 900,  h: 560, pad: { l: 86,  r: 96,  t: 112, b: 132 }, cardW: 226, cardH: 74, gap: 20 }
 };
 let VB = RATIOS.wide;
 
@@ -201,8 +201,9 @@ function drawLabels(g, stations, pts) {
       return inBounds(x, c.y) && !placed.some(q => hits({ x, y: c.y, w: CARD_W, h: CARD_H }, q));
     });
     if (!pos) pos = cands[0];
-    const cx = Math.min(Math.max(pos.x, 4), VB.w - CARD_W - 4);
-    const cy = Math.min(Math.max(pos.y, 4), VB.h - CARD_H - 4);
+    const M = 10;                                    // 邊界留白，確保文字不貼邊
+    const cx = Math.min(Math.max(pos.x, M), VB.w - CARD_W - M);
+    const cy = Math.min(Math.max(pos.y, M), VB.h - CARD_H - M);
     placed.push({ x: cx, y: cy, w: CARD_W, h: CARD_H });
 
     const card = el("g", { class: "label-card", "data-state": st.state, "aria-hidden": "true" }, g);
@@ -356,13 +357,21 @@ export function renderMap(container, data) {
   /* 進度氣泡 */
   const gC = svg.querySelector("#layer-callout");
   const co = el("g", { id: "callout", "aria-hidden": "true" }, gC);
-  const coW = compact ? 420 : 300, coX = compact ? 26 : 32, coY = compact ? 24 : 30, coH = compact ? 116 : 82;
+  const coW = compact ? 392 : 300, coX = compact ? 24 : 32, coY = compact ? 22 : 30, coH = compact ? 104 : 82;
   el("rect", { x: coX, y: coY, width: coW, height: coH, rx: 13, class: "co-bg" }, co);
-  const big = el("text", { x: coX + (compact ? 24 : 20), y: coY + (compact ? 66 : 48), class: "co-amount" }, co);
+  const big = el("text", { x: coX + (compact ? 24 : 20), y: coY + (compact ? 58 : 48), class: "co-amount" }, co);
   big.textContent = (data.meta?.annualDividend ?? 0).toLocaleString("zh-Hant");
-  const unit = el("text", { x: coX + (compact ? 24 : 20) + big.textContent.length * (compact ? 33 : 22), y: coY + (compact ? 66 : 48), class: "co-unit" }, co);
+  const unit = el("text", { x: 0, y: coY + (compact ? 58 : 48), class: "co-unit" }, co);
   unit.textContent = " 元／年";
-  const sub = el("text", { x: coX + (compact ? 24 : 20), y: coY + (compact ? 98 : 69), class: "co-sub" }, co);
+  // 以實際量測定位，避免以字元數估算造成重疊（不同字型字寬差異大）
+  {
+    let w = 0;
+    try { w = big.getBBox().width; } catch (e) { w = 0; }
+    if (!w) { try { w = big.getComputedTextLength(); } catch (e) { w = 0; } }
+    if (!w) w = big.textContent.length * (compact ? 38 : 25);   // 最終後備
+    unit.setAttribute("x", coX + (compact ? 24 : 20) + w + 8);
+  }
+  const sub = el("text", { x: coX + (compact ? 24 : 20), y: coY + (compact ? 88 : 69), class: "co-sub" }, co);
   const nextSt = stations.find(s => s.id === data.progress?.nextStationId);
   sub.textContent = nextSt
     ? `距 ${nextSt.label} 還差 ${formatAmount(data.progress.gapToNext)}`
