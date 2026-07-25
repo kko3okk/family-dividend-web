@@ -45,8 +45,15 @@ export function skyAt(date = new Date()) {
 }
 
 const SVG_NS = "http://www.w3.org/2000/svg";
-/* 素材路徑基準：相對於本模組所在位置，主站與示範頁皆可正確解析 */
+/* 素材路徑基準：相對於本模組位置解析；並繼承模組本身的 ?v= 版本參數，
+   避免 index.html 已更新、圖檔卻仍讀到瀏覽器舊快取。 */
 const ASSET_BASE = new URL("../assets/", import.meta.url).pathname;
+const ASSET_VER = (() => {
+  const q = import.meta.url.split("?")[1] || "";
+  const v = new URLSearchParams(q).get("v");
+  return v ? "?v=" + encodeURIComponent(v) : "";
+})();
+const asset = name => ASSET_BASE + name + ASSET_VER;
 /* 兩種畫布比例，構圖邏輯完全相同（左下→右上），僅長寬比不同：
    wide    桌機 1200×520，縮放比約 1.0
    compact 手機  900×560，縮放比約 0.40，字級與卡片同步放大以確保可讀 */
@@ -341,9 +348,9 @@ export function renderMap(container, data) {
   const who = (data.meta?.character === "wife") ? "wife" : "chang";   // 選用性欄位，預設 chang
   const CW = compact ? 42 : 28, CH = compact ? 48 : 32;   // 比例配合原始角色 76×88
   el("ellipse", { cx: 0, cy: 3, rx: compact ? 16 : 11, ry: compact ? 5 : 3.5, class: "wk-shadow" }, walker);
-  el("image", { class: "wk-frame", href: `${ASSET_BASE}w-${who}-0.png`,
+  el("image", { class: "wk-frame", href: asset(`w-${who}-0.png`),
     x: -CW / 2, y: -CH + 3, width: CW, height: CH }, walker);
-  el("image", { class: "wk-frame f2", href: `${ASSET_BASE}w-${who}-1.png`,
+  el("image", { class: "wk-frame f2", href: asset(`w-${who}-1.png`),
     x: -CW / 2, y: -CH + 3, width: CW, height: CH }, walker);
 
   /* 進度氣泡 */
