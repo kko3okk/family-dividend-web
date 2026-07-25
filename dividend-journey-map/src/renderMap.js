@@ -339,7 +339,7 @@ export function renderMap(container, data) {
   const gW = svg.querySelector("#layer-walker");
   const walker = el("g", { id: "walker", transform: `translate(${wp.x.toFixed(1)},${wp.y.toFixed(1)})`, "aria-hidden": "true" }, gW);
   const who = (data.meta?.character === "wife") ? "wife" : "chang";   // 選用性欄位，預設 chang
-  const CW = compact ? 40 : 26, CH = compact ? 55 : 36;
+  const CW = compact ? 42 : 28, CH = compact ? 48 : 32;   // 比例配合原始角色 76×88
   el("ellipse", { cx: 0, cy: 3, rx: compact ? 16 : 11, ry: compact ? 5 : 3.5, class: "wk-shadow" }, walker);
   el("image", { class: "wk-frame", href: `${ASSET_BASE}w-${who}-0.png`,
     x: -CW / 2, y: -CH + 3, width: CW, height: CH }, walker);
