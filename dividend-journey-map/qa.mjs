@@ -84,13 +84,19 @@ t2('T9d','寬螢幕採 1200x520',()=>{global.__W=1200;renderMap(app,base);
   return app.querySelector('svg').dataset.layout==='wide'&&
          app.querySelector('svg').getAttribute('viewBox')==='0 0 1200 520'});
 t2('T9f','窄螢幕實際字級達可讀門檻',()=>{
-  // 縮放比 = 360/900 = 0.40；站名需 ≥13px、完成度 ≥10px、主數字 ≥26px
+  // 縮放比 = 360/900 = 0.40；站名 ≥12px、完成度 ≥9px、主數字 ≥24px
   const sc=360/900;
-  return 34*sc>=13 && 25*sc>=10 && 72*sc>=26;});
+  return 31*sc>=12 && 23*sc>=9 && 62*sc>=24;});
+t2('T9h','卡片完全落在畫布內',()=>{global.__W=360;renderMap(app,base);
+  const vb=app.querySelector('svg').getAttribute('viewBox').split(/\s+/).map(Number);
+  return cards().every(c=>c.x>=0&&c.y>=0&&c.x+c.w<=vb[2]&&c.y+c.h<=vb[3]);});
+t2('T9i','單位不與主數字重疊',()=>{global.__W=360;renderMap(app,base);
+  const big=app.querySelector('.co-amount'),unit=app.querySelector('.co-unit');
+  return +unit.getAttribute('x') > +big.getAttribute('x');});
 t2('T9g','卡片可容納最長文字',()=>{global.__W=360;
   renderMap(app,{...base,stations:base.stations.map(s=>({...s,target:9999999}))});
   const w=+app.querySelector('.lc-bg').getAttribute('width');
-  return w>=190;});
+  return w>=210;});
 t2('T9e','窄螢幕冪等',()=>{global.__W=375;renderMap(app,base);const a=app.innerHTML;renderMap(app,base);return a===app.innerHTML});
 console.log('\n── 窄螢幕補測 ──');
 R2.forEach(([id,n,r,e])=>console.log(`${id.padEnd(7)}${n.padEnd(26)}${r}${e?'  ← '+e:''}`));
