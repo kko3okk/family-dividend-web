@@ -58,8 +58,8 @@ const asset = name => ASSET_BASE + name + ASSET_VER;
    wide    桌機 1200×520，縮放比約 1.0
    compact 手機  900×560，縮放比約 0.40，字級與卡片同步放大以確保可讀 */
 const RATIOS = {
-  wide:    { w: 1200, h: 520, pad: { l: 100, r: 110, t: 96,  b: 118 }, cardW: 150, cardH: 58, gap: 24 },
-  compact: { w: 900,  h: 560, pad: { l: 86,  r: 96,  t: 112, b: 132 }, cardW: 226, cardH: 74, gap: 20 }
+  wide:    { w: 1200, h: 520, pad: { l: 104, r: 116, t: 92,  b: 120 }, cardW: 168, cardH: 60, gap: 30 },
+  compact: { w: 900,  h: 560, pad: { l: 92,  r: 104, t: 116, b: 136 }, cardW: 244, cardH: 82, gap: 28 }
 };
 let VB = RATIOS.wide;
 
@@ -207,22 +207,40 @@ function drawLabels(g, stations, pts) {
     placed.push({ x: cx, y: cy, w: CARD_W, h: CARD_H });
 
     const card = el("g", { class: "label-card", "data-state": st.state, "aria-hidden": "true" }, g);
-    // 卡片離節點較遠時補指示線
+
+    // 指示線：卡片離節點較遠時才畫，連到卡片最近的一角
     const ax = cx + CARD_W / 2, ay = cy > p.y ? cy : cy + CARD_H;
-    const near = Math.abs(ax - p.x) < CARD_W / 2 + 6 && Math.abs(ay - p.y) < GAP + 6;
+    const near = Math.abs(ax - p.x) < CARD_W / 2 + 6 && Math.abs(ay - p.y) < GAP + 8;
     if (!near) {
-      const lx = (cx > p.x) ? cx : cx + CARD_W;
+      const lx = (cx > p.x) ? cx : (cx + CARD_W < p.x ? cx + CARD_W : ax);
       el("line", { x1: p.x, y1: p.y, x2: lx, y2: cy + CARD_H / 2, class: "lc-leader" }, card);
     }
-    el("rect", { x: cx, y: cy, width: CARD_W, height: CARD_H, rx: 10, class: "lc-bg" }, card);
-    const t1 = el("text", { x: cx + CARD_W / 2, y: cy + CARD_H * 0.38, class: "lc-title" }, card);
+
+    el("rect", { x: cx, y: cy, width: CARD_W, height: CARD_H, rx: CARD_H * 0.22, class: "lc-bg" }, card);
+    // 左緣狀態色條：不靠顏色也能從位置辨識層級
+    el("rect", { x: cx, y: cy + CARD_H * 0.16, width: 4, height: CARD_H * 0.68,
+                 rx: 2, class: "lc-accent" }, card);
+
+    const px0 = cx + CARD_W * 0.10;                       // 內文左緣，統一對齊
+    const t1 = el("text", { x: px0, y: cy + CARD_H * 0.40, class: "lc-title" }, card);
     t1.textContent = st.label.length > 8 ? st.label.slice(0, 8) + "…" : st.label;
-    const t2 = el("text", { x: cx + CARD_W / 2, y: cy + CARD_H * 0.68, class: "lc-meta" }, card);
-    t2.textContent = [st.ratio !== null ? fmtPct(st.ratio) : null,
-                      formatAmount(st.target)].filter(Boolean).join(" · ");
-    if (st.etaYears) {
-      const t3 = el("text", { x: cx + CARD_W / 2, y: cy + CARD_H * 0.91, class: "lc-eta" }, card);
-      t3.textContent = fmtEta(st.etaYears);
+
+    // 目標金額緊貼站名右側，同一行構成「站名 → 目標」的閱讀順序
+    const t0 = el("text", { x: cx + CARD_W * 0.92, y: cy + CARD_H * 0.40, class: "lc-target" }, card);
+    t0.textContent = formatAmount(st.target);
+
+    const t2 = el("text", { x: px0, y: cy + CARD_H * 0.74, class: "lc-meta" }, card);
+    const bits = [];
+    if (st.ratio !== null) bits.push(fmtPct(st.ratio));
+    if (st.etaYears) bits.push(fmtEta(st.etaYears));
+    t2.textContent = bits.join("　");
+
+    // 完成度細進度條：不佔空間，但一眼看得出比例
+    if (st.ratio !== null) {
+      const bw = CARD_W * 0.80, by = cy + CARD_H * 0.88;
+      el("rect", { x: px0, y: by, width: bw, height: 3, rx: 1.5, class: "lc-bar-bg" }, card);
+      el("rect", { x: px0, y: by, width: Math.max(bw * Math.min(st.ratio, 1), 2), height: 3,
+                   rx: 1.5, class: "lc-bar" }, card);
     }
   });
 }
@@ -358,7 +376,7 @@ export function renderMap(container, data) {
   const gC = svg.querySelector("#layer-callout");
   const co = el("g", { id: "callout", "aria-hidden": "true" }, gC);
   const coW = compact ? 392 : 300, coX = compact ? 24 : 32, coY = compact ? 22 : 30, coH = compact ? 104 : 82;
-  el("rect", { x: coX, y: coY, width: coW, height: coH, rx: 13, class: "co-bg" }, co);
+  el("rect", { x: coX, y: coY, width: coW, height: coH, rx: compact ? 18 : 14, class: "co-bg" }, co);
   const big = el("text", { x: coX + (compact ? 24 : 20), y: coY + (compact ? 58 : 48), class: "co-amount" }, co);
   big.textContent = (data.meta?.annualDividend ?? 0).toLocaleString("zh-Hant");
   const unit = el("text", { x: 0, y: coY + (compact ? 58 : 48), class: "co-unit" }, co);
