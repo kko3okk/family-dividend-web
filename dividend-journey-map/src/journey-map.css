@@ -4,14 +4,14 @@
 
 .journey-map { width: 100%; height: auto; display: block; max-height: 46vh; }
 /* 窄螢幕（900×560，縮放比約 0.40）：字級反推自「實際顯示尺寸」
-   站名 34px × 0.40 ≈ 13.6px｜完成度 25px ≈ 10px｜主數字 72px ≈ 29px */
+   站名 31px × 0.40 ≈ 12.4px｜完成度 23px ≈ 9.2px｜主數字 62px ≈ 25px */
 .journey-map[data-layout="compact"] { max-height: none; }
-.journey-map[data-layout="compact"] .lc-title { font-size: 34px; }
-.journey-map[data-layout="compact"] .lc-meta  { font-size: 25px; }
-.journey-map[data-layout="compact"] .lc-eta   { font-size: 22px; }
-.journey-map[data-layout="compact"] .co-amount{ font-size: 72px; }
+.journey-map[data-layout="compact"] .lc-title { font-size: 31px; }
+.journey-map[data-layout="compact"] .lc-meta  { font-size: 23px; }
+.journey-map[data-layout="compact"] .lc-eta   { font-size: 20px; }
+.journey-map[data-layout="compact"] .co-amount{ font-size: 62px; }
 .journey-map[data-layout="compact"] .co-unit,
-.journey-map[data-layout="compact"] .co-sub   { font-size: 27px; }
+.journey-map[data-layout="compact"] .co-sub   { font-size: 24px; }
 .journey-map[data-layout="compact"] .co-quote { font-size: 22px; }
 .journey-map[data-layout="compact"] .lc-bg    { stroke-width: 3; }
 .journey-map[data-layout="compact"] .st-node  { stroke-width: 4.5; }
