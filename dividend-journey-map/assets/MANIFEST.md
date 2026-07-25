@@ -12,8 +12,8 @@
 | icon-check.svg | https://lucide.dev/icons/check | ISC | 否（保留版權聲明） | cleared 站點勾號 |
 | icon-flag.svg | https://lucide.dev/icons/flag | ISC | 否（保留版權聲明） | active 站點標記 |
 | icon-sparkles.svg | https://lucide.dev/icons/sparkles | ISC | 否（保留版權聲明） | 終點裝飾 |
-| w-chang-0/1.png | Kenney Platformer Art Deluxe | CC0 | 否 | 行進角色（Chang），走路兩幀 |
-| w-wife-0/1.png | Kenney Platformer Art Deluxe | CC0 | 否 | 行進角色（配偶），走路兩幀 |
+| w-chang-0/1.png | Kenney Abstract Platformer | CC0 | 否 | 行進角色（Chang），走路兩幀，已改色 |
+| w-wife-0/1.png | Kenney Abstract Platformer | CC0 | 否 | 行進角色（配偶），走路兩幀，已改色 |
 
 ## 字型
 
