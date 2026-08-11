@@ -390,7 +390,7 @@
 </dialog>
 
 <script type="module">
-  const V = "2026.08.05-0449";   // 由 deploy.sh 注入，確保模組不吃到舊快取
+  const V = "2026.08.11-1335";   // 由 deploy.sh 注入，確保模組不吃到舊快取
   const M  = await import(`./dividend-journey-map/src/renderMap.js?v=${V}`);
   const AN = await import(`./dividend-journey-map/src/animate.js?v=${V}`);
   window.JM = {
@@ -403,12 +403,12 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 <script>
-const APP_VERSION="2026.08.05-0449";
+const APP_VERSION="2026.08.11-1335";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
 const ETA={chang:["第 3~4 年","第 9~10 年","第 12~14 年"],wife:["第 4~5 年","第 12~13 年","第 16~18 年"]};
-const OWNER_STOCKS={chang:["4766","6803","0050"],wife:["0050","1231","4506","1201","1218","00878","00687B"]};
+const OWNER_STOCKS={chang:["4766","6803","2832","0050"],wife:["0050","1231","4506","1201","1218","00878","00687B"]};
 const PCOL={chang:"#D96C4F",wife:"#DFA53B"};
 const TIERS=[[.055,1],[.06,2],[.065,3]];
 const fmt=n=>Math.round(n).toLocaleString("zh-Hant");
@@ -614,6 +614,19 @@ function advChang(){
     }
     out.push(`<div class="adv">${b}<div><div class="t">${nm}<span class="px">${px?"現價 "+px:"無報價"}</span></div><div class="d">${d}</div></div></div>`);
   });
+  {
+    const px=P["2832"],div=S["2832"]?S["2832"].div:3.5;
+    const t1=Math.round(div/0.060),t2=Math.round(div/0.065),t3=Math.round(div/0.070);
+    let b=badge("b-wait","等待"),dsc=`<b>${t1}</b>/${t2}/${t3}（6.0/6.5/7.0%）`;
+    if(px){
+      if(px<=t3)b=badge("b-act","第三層 · 買3份");
+      else if(px<=t2)b=badge("b-act","第二層 · 買2份");
+      else if(px<=t1)b=badge("b-act","觸發 · 買1份");
+      else if(px<=t1*1.02)b=badge("b-near","接近");
+      if(px>t1)dsc+=`（差 ${(px-t1).toFixed(1)} 元）`;
+    }
+    out.push(`<div class="adv">${b}<div><div class="t">台產<span class="px">${px?"現價 "+px:"2832"}</span></div><div class="d">${dsc}　已填息，次次配息在明年</div></div></div>`);
+  }
   out.push(`<div class="adv">${badge("b-open","照扣")}<div><div class="t">0050</div><div class="d">每月 1.5 萬定期定額 · 不擇時</div></div></div>`);
   return out.join("");
 }
