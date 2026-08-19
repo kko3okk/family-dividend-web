@@ -226,6 +226,10 @@
     background:#3B3357;color:#fff;font-size:12px;padding:9px 14px;border-radius:20px;
     max-width:88vw;text-align:center;opacity:0;transition:opacity .25s;pointer-events:none}
   #sndMsg.on{opacity:.95}
+
+  .delbtn{background:none;border:1px solid var(--line);color:var(--mut2);border-radius:6px;
+    width:26px;height:26px;font-size:12px;line-height:1;cursor:pointer;padding:0}
+  .delbtn:hover,.delbtn:active{border-color:var(--chang);color:var(--chang)}
 </style>
 <link rel="stylesheet" href="dividend-journey-map/src/journey-map.css">
 <style>
@@ -251,6 +255,10 @@
   }
   .scene .journey-map{max-height:none}
   @media(min-width:561px){ .scene .journey-map{max-height:44vh} }
+
+  .delbtn{background:none;border:1px solid var(--line);color:var(--mut2);border-radius:6px;
+    width:26px;height:26px;font-size:12px;line-height:1;cursor:pointer;padding:0}
+  .delbtn:hover,.delbtn:active{border-color:var(--chang);color:var(--chang)}
 </style>
 </head>
 <body>
@@ -328,7 +336,7 @@
 </div>
 
 <div class="card"><h3>最近交易（全家）</h3>
-  <table><thead><tr><th>日期</th><th>誰</th><th>標的</th><th class="num">股數</th><th class="num">價格</th></tr></thead>
+  <table><thead><tr><th>日期</th><th>誰</th><th>標的</th><th class="num">股數</th><th class="num">價格</th><th></th></tr></thead>
   <tbody id="txBody"></tbody></table>
 </div>
 
@@ -390,7 +398,7 @@
 </dialog>
 
 <script type="module">
-  const V = "2026.08.11-1335";   // 由 deploy.sh 注入，確保模組不吃到舊快取
+  const V = "2026.08.19-1139";   // 由 deploy.sh 注入，確保模組不吃到舊快取
   const M  = await import(`./dividend-journey-map/src/renderMap.js?v=${V}`);
   const AN = await import(`./dividend-journey-map/src/animate.js?v=${V}`);
   window.JM = {
@@ -403,7 +411,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 <script>
-const APP_VERSION="2026.08.11-1335";
+const APP_VERSION="2026.08.19-1139";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -826,11 +834,13 @@ function render(){
   document.getElementById("exBox").innerHTML=exRows(person);
   renderYear();
   document.getElementById("payBox").innerHTML=payRows(person);
-  document.getElementById("txBody").innerHTML=[...DATA.transactions]
+  document.getElementById("txBody").innerHTML=DATA.transactions
+    .map((t,i)=>({...t,_i:i}))
     .sort((a,b)=>b.date.localeCompare(a.date)).slice(0,20).map(t=>`<tr>
       <td>${t.date.slice(5)}</td><td><span class="otag ${t.owner}">${t.owner==="chang"?"C":"W"}</span></td>
       <td>${(DATA.stocks[t.stock]||{}).name||t.stock}</td>
-      <td class="num">${fmt(t.shares)}</td><td class="num">${t.price}</td></tr>`).join("");
+      <td class="num">${fmt(t.shares)}</td><td class="num">${t.price}</td>
+      <td class="num"><button class="delbtn" onclick="delTx(${t._i})" title="刪除這筆">✕</button></td></tr>`).join("");
   document.getElementById("ruleNote").innerHTML=person==="chang"
     ?"觸發價每年 3 月隨新股利重算（股利 ÷ 5.5%／6%／6.5%）。熔斷：南寶配息＜15、崑鼎配息停止成長、EPS 連兩年衰退 → 停買。"
     :"獎金購入 4:3:3、分 2~3 個月投入。年檢核：除權息季後確認三檔配息軌跡（崇友看維保營收占比）。";
@@ -941,6 +951,28 @@ document.getElementById("payGoBtn").onclick=async()=>{
     setTimeout(()=>document.getElementById("payDlg").close(),900);
   }catch(e){msg.className="msg err";msg.textContent="寫入失敗："+e.message;}
   finally{btn.disabled=false;}
+};
+
+window.delTx=async function(i){
+  if(!DATA||!DATA.transactions[i])return;
+  const t=DATA.transactions[i];
+  const nm=(DATA.stocks[t.stock]||{}).name||t.stock;
+  if(!confirm(`刪除這筆紀錄？\n\n${t.date}　${t.owner==="chang"?"Chang":"老婆"}\n${nm}　${fmt(t.shares)} 股 @ ${t.price}\n\n此動作無法復原。`))return;
+  if(!token()){alert("請先按 ⚙ 設定 Token");return;}
+  try{
+    await load();
+    const cur=DATA.transactions[i];
+    if(!cur||cur.date!==t.date||cur.stock!==t.stock||cur.shares!==t.shares){
+      alert("資料已被其他裝置變更，請重新整理後再試");return;
+    }
+    DATA.transactions.splice(i,1);
+    DATA.updated=new Date().toISOString().slice(0,10);
+    const r=await fetch(API,{method:"PUT",
+      headers:{"Authorization":"Bearer "+token(),"Accept":"application/vnd.github+json"},
+      body:JSON.stringify({message:`delete tx ${t.date} ${t.stock}`,content:b64e(JSON.stringify(DATA,null,2)),sha:SHA})});
+    if(!r.ok)throw new Error("HTTP "+r.status);
+    await load();render();
+  }catch(e){alert("刪除失敗："+e.message);}
 };
 
 document.getElementById("gearBtn").onclick=()=>{
