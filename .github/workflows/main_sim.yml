@@ -1,0 +1,16 @@
+name: main-sim
+on:
+  push:
+    paths: ["sim_main.py"]
+permissions: {contents: write}
+jobs:
+  s:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python3 sim_main.py
+      - run: |
+          git config user.name bot; git config user.email b@b.c
+          git add sim; git diff --cached --quiet || git commit -m "mainstream sim"; git push
