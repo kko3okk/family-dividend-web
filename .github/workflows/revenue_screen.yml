@@ -1,0 +1,29 @@
+# 放到 repo 的 .github/workflows/revenue_screen.yml
+# 每月 11 日台灣時間 10:00 跑一次（月營收 10 日前申報完畢），也可手動觸發
+name: monthly-revenue-screen
+
+on:
+  schedule:
+    - cron: "0 2 11 * *"     # UTC 02:00 = 台灣 10:00
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  screen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: run screen
+        run: python3 screen_revenue.py
+      - name: commit results
+        run: |
+          git config user.name "revenue-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/revenue screen
+          git diff --cached --quiet || git commit -m "revenue screen $(date +%Y-%m)"
+          git push
