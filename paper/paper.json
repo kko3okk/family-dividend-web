@@ -1,0 +1,17 @@
+{
+  "name": "J5 模擬帳戶",
+  "start_date": "2026-09-07",
+  "start_cash": 5000000,
+  "rules": "四關進場、單日收破60MA出清、論點失效出清、5檔x20%、每月11日營收後重篩補位、無減碼無回補無拋物線",
+  "entry_plan": [
+    {"code":"2465","name":"麗臺","amount":1000000,"exit_ma":60,"thesis":"AI工作站/GPU板卡需求；X=月營收YoY<30%或跌破60MA"},
+    {"code":"3443","name":"創意","amount":1000000,"exit_ma":60,"thesis":"ASIC設計服務晶圓收入增加；X=同上"},
+    {"code":"6531","name":"愛普","amount":1000000,"exit_ma":60,"thesis":"AI記憶體IP/利基DRAM，記憶體主軸；X=同上"},
+    {"code":"2467","name":"志聖","amount":1000000,"exit_ma":60,"thesis":"PCB曝光設備，設備材料擴散度上升；X=同上"},
+    {"code":"3167","name":"大量","amount":1000000,"exit_ma":60,"thesis":"PCB鑽孔設備，同上；X=同上"}
+  ],
+  "positions": [],
+  "cash": 5000000,
+  "trades": [],
+  "log": []
+}
