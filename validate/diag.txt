@@ -1,0 +1,11 @@
+FAIL https://mops.twse.com.tw/nas/t21/sii/t21sc03_115_7_0.html -> HTTPError: HTTP Error 404: 
+OK 200 len=453025 https://mopsov.twse.com.tw/nas/t21/sii/t21sc03_115_7_0.html
+    <html><script src='/nocopy.js'></script><head><style text='text/css'><!--	.tt	{color:#000099;font-weight:normal;font-size:10pt} --> </style><meta http-equiv='Content-Type' content='text/html;charset=b
+FAIL https://mopsfin.twse.com.tw/nas/t21/sii/t21sc03_115_7_0.html -> HTTPError: HTTP Error 404: 
+FAIL https://mops.twse.com.tw/nas/t21/otc/t21sc03_115_7_0.html -> HTTPError: HTTP Error 404: 
+OK 200 len=203366 https://mopsfin.twse.com.tw/opendata/t187ap05_L.csv
+    嚜踹箄”交,鞈撟湔,砍訾誨,砍詨蝔,Ｘ平,璆剜嗅-嗆,璆剜嗅-銝,璆剜嗅-餃僑嗆,璆剜嗅-銝瘥頛憓皜(%),璆剜嗅-餃僑憓皜(%),蝝航璆剜嗅-嗆蝝航,蝝航璆剜嗅-餃僑蝝航,蝝航璆剜嗅-瘥頛憓皜(%),閮 "1150817","11507","1101","唳野","瘞湔野撌交平","13744103","13382706","13535929","2.70047776585692","1.53
+OK 200 len=165768 https://mopsfin.twse.com.tw/opendata/t187ap05_O.csv
+    嚜踹箄”交,鞈撟湔,砍訾誨,砍詨蝔,Ｘ平,璆剜嗅-嗆,璆剜嗅-銝,璆剜嗅-餃僑嗆,璆剜嗅-銝瘥頛憓皜(%),璆剜嗅-餃僑憓皜(%),蝝航璆剜嗅-嗆蝝航,蝝航璆剜嗅-餃僑蝝航,蝝航璆剜嗅-瘥頛憓皜(%),閮 "1150817","11507","1240","颲脩","颲脫平蝘","242511","270176","214130","-10.239621580007107","13.254097
+OK 200 len=494726 https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap05_O
+    [ {"箄”交":"1150817","鞈撟湔":"11507","砍訾誨":"1240","砍詨蝔":"颲脩","Ｘ平":"颲脫平蝘","璆剜嗅-嗆":"242511","璆剜嗅-銝":"270176","璆剜嗅-餃僑嗆":"214130","璆剜嗅-銝瘥頛憓皜(%)":"-10.239621580007107","璆剜嗅-餃僑憓皜(%)":"13.254097977863914","蝝航璆剜嗅
