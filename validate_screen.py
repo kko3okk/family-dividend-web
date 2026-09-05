@@ -10,7 +10,7 @@
 import json, os, re, csv, time, sys, datetime, urllib.request, urllib.error
 
 RAW = "data/revenue"; OUT = "validate"
-MOPS_HOSTS = ["https://mops.twse.com.tw", "https://mopsov.twse.com.tw"]
+MOPS_HOSTS = ["https://mopsov.twse.com.tw"]
 HDR = {"User-Agent": "Mozilla/5.0"}
 HOLD_DAYS = 20          # 持有交易日數
 YOY_MIN = 30.0
