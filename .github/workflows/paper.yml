@@ -1,0 +1,54 @@
+name: paper-daily
+on:
+  schedule:
+    - cron: "30 7 * * 1-5"    # 台灣 15:30 收盤後
+  workflow_dispatch:
+  push:
+    paths: ["paper/paper.json","paper_update.py"]
+permissions: {contents: write}
+jobs:
+  s:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - name: refresh prices (今日)
+        run: |
+          python3 - << 'PY'
+          import json,re,os,datetime,urllib.request,time
+          HDR={"User-Agent":"Mozilla/5.0"}
+          def tof(x):
+              try: return float(str(x).replace(",",""))
+              except: return None
+          def fetch(d):
+              u=f"https://www.twse.com.tw/rwd/zh/afterTrading/MI_INDEX?date={d.strftime('%Y%m%d')}&type=ALL&response=json"
+              try: j=json.loads(urllib.request.urlopen(urllib.request.Request(u,headers=HDR),timeout=60).read().decode())
+              except Exception: return None
+              px={}; tx=None
+              for tb in j.get("tables",[]):
+                  f=tb.get("fields",[])
+                  if "證券代號" in f and "收盤價" in f:
+                      ci,pi=f.index("證券代號"),f.index("收盤價"); vi=f.index("成交股數") if "成交股數" in f else None
+                      for r in tb.get("data",[]):
+                          c=re.sub(r"[^0-9A-Za-z]","",r[ci]); v=tof(r[pi])
+                          if re.fullmatch(r"\d{4}",c) and v: px[c]=[v, tof(r[vi]) if vi is not None else 0]
+                  if f and "指數" in f[0]:
+                      for r in tb.get("data",[]):
+                          if "發行量加權股價指數" in r[0]: tx=tof(r[1])
+              return {"px":px,"taiex":tx} if px else None
+          today=datetime.date.today()
+          for back in range(0,7):
+              d=today-datetime.timedelta(days=back)
+              if d.weekday()>=5: continue
+              p=f"data/prices/{d.strftime('%Y%m')}.json"
+              m=json.load(open(p)) if os.path.exists(p) else {}
+              if d.isoformat() in m: continue
+              r=fetch(d); time.sleep(3)
+              if r:
+                  m[d.isoformat()]=r; json.dump(m,open(p,"w")); print("added",d)
+          PY
+      - run: python3 paper_update.py
+      - run: |
+          git config user.name bot; git config user.email b@b.c
+          git add data/prices paper; git diff --cached --quiet || git commit -m "paper $(date +%F)"; git push
