@@ -6,6 +6,10 @@ on:
   schedule:
     - cron: "0 2 11 * *"     # UTC 02:00 = 台灣 10:00
   workflow_dispatch:
+  push:
+    paths:
+      - "screen_revenue.py"
+      - ".github/workflows/revenue_screen.yml"
 
 permissions:
   contents: write
