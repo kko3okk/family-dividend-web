@@ -1,0 +1,18 @@
+name: diag
+on:
+  workflow_dispatch:
+  push:
+    paths: ["diag.py"]
+permissions:
+  contents: write
+jobs:
+  d:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python3 diag.py
+      - run: |
+          git config user.name bot; git config user.email b@b.c
+          git add validate; git diff --cached --quiet || git commit -m diag; git push
