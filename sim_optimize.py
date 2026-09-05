@@ -44,7 +44,7 @@ for k in range(1,len(seq)):
         p=rev[pym].get(c)
         if not p or p["yoy"] is None or p["yoy"]<YOY_MIN: continue
         if ONETIME.search(r["note"] or ""): continue
-        lst.append((r["yoy"],c,r["name"]))
+        lst.append((r["yoy"],c,r["name"],(r.get("cum") or 0)))
     lst.sort(reverse=True)
     for i,d in enumerate(dates):
         if d>=d0: active[i]=(ym,lst)
@@ -89,7 +89,12 @@ def run(opt):
         t60=ma(taiex,i,60)
         if a and t60 and taiex[i]>=t60:
             total=cash+sum((close[c][i] or pos[c]["last"])*pos[c]["shares"] for c in pos)
-            for yoy,c,name in a[1]:
+            cand=list(a[1])
+            rk=opt.get("rank","yoy")
+            if rk=="yoy_x_cum": cand.sort(key=lambda t:-(t[0]*max(t[3],0)))
+            elif rk=="cum": cand.sort(key=lambda t:-t[3])
+            elif rk=="min": cand.sort(key=lambda t:-min(t[0],t[3]))
+            for yoy,c,name,cum in cand:
                 if c in pos or c in bought or len(pos)>=opt.get("maxpos",12): continue
                 if c in cooldown and i-cooldown[c] < opt.get("cool",0): continue
                 s=close[c]; px=s[i]
@@ -127,25 +132,25 @@ def bench(code):
 
 os.makedirs(OUT,exist_ok=True)
 V=[
- ("D0","60MA或前低出清，12檔x10%",dict()),
- ("G","只看60MA，不看前低",dict(swing=False)),
- ("H","60MA連3日確認",dict(swing=False,confirm=3)),
- ("I","120MA出清",dict(swing=False,exit_ma=120)),
- ("J","G＋8檔x12.5%",dict(swing=False,maxpos=8,pospct=0.125)),
- ("K","G＋進場後20日不出場",dict(swing=False,minhold=20)),
- ("L","G＋出清後40日不再買同檔",dict(swing=False,cool=40)),
- ("M","G＋累計YoY≥15且乖離<10%",dict(swing=False,cum=15,bias=0.10)),
- ("N","H＋J＋L",dict(swing=False,confirm=3,maxpos=8,pospct=0.125,cool=40)),
- ("O","N＋120MA",dict(swing=False,confirm=3,maxpos=8,pospct=0.125,cool=40,exit_ma=120)),
- ("P","O＋累計YoY≥15",dict(swing=False,confirm=3,maxpos=8,pospct=0.125,cool=40,exit_ma=120,cum=15)),
+ ("J","8檔x12.5%（上輪最佳）",dict(swing=False,maxpos=8,pospct=0.125)),
+ ("J6","6檔x16.7%",dict(swing=False,maxpos=6,pospct=0.167)),
+ ("J5","5檔x20%",dict(swing=False,maxpos=5,pospct=0.20)),
+ ("J4","4檔x25%",dict(swing=False,maxpos=4,pospct=0.25)),
+ ("Q1","J＋排序 YoY×累計YoY",dict(swing=False,maxpos=8,pospct=0.125,rank="yoy_x_cum")),
+ ("Q2","J＋排序 累計YoY",dict(swing=False,maxpos=8,pospct=0.125,rank="cum")),
+ ("Q3","J＋排序 min(當月,累計)",dict(swing=False,maxpos=8,pospct=0.125,rank="min")),
+ ("Q4","6檔＋排序 min(當月,累計)",dict(swing=False,maxpos=6,pospct=0.167,rank="min")),
+ ("Q5","6檔＋YoY×累計",dict(swing=False,maxpos=6,pospct=0.167,rank="yoy_x_cum")),
+ ("Q6","J＋乖離<10%",dict(swing=False,maxpos=8,pospct=0.125,bias=0.10)),
+ ("Q7","6檔＋乖離<10%＋min排序",dict(swing=False,maxpos=6,pospct=0.167,bias=0.10,rank="min")),
 ]
 rows=[]
 for k,desc,opt in V:
     m,tr=run(opt)
     rows.append([k,desc,f"{m['ret']:+.2f}",f"{m['mdd']:.2f}",m["trades"],m["ent"],f"{m['win']:.0f}",m["hold"],f"{m['final']:,.0f}"])
-    with open(f"{OUT}/opt_{k}_trades.csv","w",newline="",encoding="utf-8-sig") as f:
+    with open(f"{OUT}/opt2_{k}_trades.csv","w",newline="",encoding="utf-8-sig") as f:
         w=csv.writer(f); w.writerow(["日期","代號","名稱","動作","股數","價格","實現損益"]); w.writerows(tr)
     print(rows[-1],flush=True)
 r0,m0=bench("0050"); rows.append(["0050","買進持有",f"{r0:+.2f}",f"{m0:.2f}","","","","",""])
-with open(f"{OUT}/optimize.csv","w",newline="",encoding="utf-8-sig") as f:
+with open(f"{OUT}/optimize2.csv","w",newline="",encoding="utf-8-sig") as f:
     w=csv.writer(f); w.writerow(["版本","說明","2026報酬%","最大回撤%","交易數","進場數","出清勝率%","期末持股","期末"]); w.writerows(rows)
