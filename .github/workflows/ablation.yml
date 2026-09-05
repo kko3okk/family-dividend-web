@@ -1,0 +1,17 @@
+name: ablation
+on:
+  push:
+    paths: ["sim_ablation.py"]
+permissions: {contents: write}
+jobs:
+  s:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python3 sim_ablation.py
+      - run: |
+          git config user.name bot; git config user.email b@b.c
+          git add sim; git diff --cached --quiet || git commit -m "ablation"; git push
