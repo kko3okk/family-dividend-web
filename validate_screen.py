@@ -20,7 +20,7 @@ def get(url, encoding=None, tries=3):
         try:
             with urllib.request.urlopen(urllib.request.Request(url, headers=HDR), timeout=60) as r:
                 b = r.read()
-            return b.decode(encoding) if encoding else b
+            return b.decode(encoding, "ignore") if encoding else b
         except Exception as e:
             if i == tries - 1:
                 raise
