@@ -238,3 +238,4 @@ for k,desc,opt in V:
 r0,m0=bench("0050"); rows.append(["0050","買進持有",f"{r0:+.2f}",f"{m0:.2f}","","","","",""])
 with open(f"{OUT}/r9_summary.csv","w",newline="",encoding="utf-8-sig") as f:
     w=csv.writer(f); w.writerow(["版本","說明","2026報酬%","最大回撤%","交易數","進場數","出清勝率%","期末持股","期末"]); w.writerows(rows)
+
