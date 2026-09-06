@@ -49,6 +49,7 @@ jobs:
                   m[d.isoformat()]=r; json.dump(m,open(p,"w")); print("added",d)
           PY
       - run: python3 paper_update.py
+      - run: python3 candidates.py
       - run: |
           git config user.name bot; git config user.email b@b.c
           git add data/prices paper; git diff --cached --quiet || git commit -m "paper $(date +%F)"; git push
