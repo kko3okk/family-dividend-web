@@ -1,7 +1,7 @@
 name: r9-sim
 on:
   push:
-    paths: ["sim_r9.py"]
+    paths: ["sim_rule9.py"]
 permissions: {contents: write}
 jobs:
   s:
@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
-      - run: python3 sim_r9.py
+      - run: python3 sim_rule9.py
       - run: |
           git config user.name bot; git config user.email b@b.c
           git pull --rebase || true
