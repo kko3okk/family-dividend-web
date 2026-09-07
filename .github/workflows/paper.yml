@@ -142,8 +142,11 @@ jobs:
                                   for k,i in hdr.items():
                                       if key in k and i<len(cells): return cells[i]
                                   return None
-                              if not shown: print("hdr",hdr); print("row",cells); shown=True
-                              put(target,cells[0],g("公司名稱"),mkt,ind,f(g("當月營收")),f(g("去年同月增減")),f(g("前期比較增減")),g("備註")); n+=1
+                              # 有一格 % 欄位常掉，改用原始金額自算 YoY / 累計
+                              cur,ly=f(cells[2]),f(cells[4]); ca,la=f(cells[-4]),f(cells[-3])
+                              yoy=(cur/ly-1)*100 if cur and ly else None
+                              cum=(ca/la-1)*100 if ca and la else None
+                              put(target,cells[0],cells[1],mkt,ind,cur,yoy,cum,cells[-1]); n+=1
                   print("mops",mkt,target,n,"rows")
           # --- 寫檔（只更新 >= 現有最新月份）---
           os.makedirs("data/revenue",exist_ok=True)
