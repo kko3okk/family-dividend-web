@@ -83,8 +83,41 @@ jobs:
               if r:
                   m[d.isoformat()]=r; json.dump(m,open(p,"w",encoding="utf-8")); print("added otc",d)
           PY
+      - name: refresh monthly revenue (證交所 + 櫃買 → data/revenue)
+        run: |
+          python3 - << 'PY'
+          import json,os,re,urllib.request
+          HDR={"User-Agent":"Mozilla/5.0","Accept":"application/json"}
+          def get(u):
+              try: return json.loads(urllib.request.urlopen(urllib.request.Request(u,headers=HDR),timeout=60).read().decode("utf-8","ignore"))
+              except Exception as e: print("fail",u,e); return []
+          def f(x):
+              try: return float(str(x).replace(",",""))
+              except: return None
+          src=[("上市","https://openapi.twse.com.tw/v1/opendata/t187ap05_L"),
+               ("上櫃","https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap05_O")]
+          bym={}
+          for mkt,u in src:
+              for r in get(u):
+                  ym=str(r.get("資料年月","")).strip(); c=str(r.get("公司代號","")).strip()
+                  if not re.fullmatch(r"\d{5}",ym) or not re.fullmatch(r"\d{4}",c): continue
+                  bym.setdefault(ym,{})[c]=dict(code=c,name=r.get("公司名稱","").strip(),market=mkt,
+                      industry=r.get("產業別","").strip(),ym=ym,revenue=f(r.get("營業收入-當月營收")),
+                      yoy=f(r.get("營業收入-去年同月增減(%)")),cum=f(r.get("累計營業收入-前期比較增減(%)")),
+                      note=(r.get("備註") or "-").strip() or "-")
+          os.makedirs("data/revenue",exist_ok=True)
+          have=sorted(x[:-5] for x in os.listdir("data/revenue") if x.endswith(".json"))
+          for ym,rows in bym.items():
+              if have and ym<have[-1]: continue
+              p=f"data/revenue/{ym}.json"
+              old={r["code"]:r for r in json.load(open(p,encoding="utf-8"))} if os.path.exists(p) else {}
+              old.update(rows)
+              out=sorted(old.values(),key=lambda r:r["code"])
+              json.dump(out,open(p,"w",encoding="utf-8"),ensure_ascii=False)
+              print("revenue",ym,len(out),"rows")
+          PY
       - run: python3 paper_update.py
       - run: python3 candidates.py
       - run: |
           git config user.name bot; git config user.email b@b.c
-          git add data/prices data/prices_otc2 paper; git diff --cached --quiet || git commit -m "paper $(date +%F)"; git push
+          git add data/prices data/prices_otc2 data/revenue paper; git diff --cached --quiet || git commit -m "paper $(date +%F)"; git push
