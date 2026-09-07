@@ -85,7 +85,8 @@ jobs:
           PY
       - name: refresh monthly revenue (OpenAPI；未翻頁時改抓 MOPS 月報彙總)
         run: |
-          python3 - << 'PY'
+          mkdir -p paper
+          python3 - << 'PY' 2>&1 | tee paper/revenue_log.txt
           import json,os,re,datetime,urllib.request,html
           HDR={"User-Agent":"Mozilla/5.0","Accept":"*/*"}
           def raw(u,enc=None):
@@ -118,6 +119,7 @@ jobs:
                   u=f"https://mops.twse.com.tw/nas/t21/{seg}/t21sc03_{pm.year-1911}_{pm.month}_0.html"
                   t=raw(u,"big5-hkscs")
                   if not t: continue
+                  print("mops page",mkt,len(t),"chars; tables:",t.count("<table"),"; sample:",re.sub(r"\s+"," ",re.sub(r"<[^>]+>"," ",t))[:300])
                   t=html.unescape(t); n=0
                   for tb in re.findall(r"<table[^>]*>(.*?)</table>",t,re.S):
                       ind=""
