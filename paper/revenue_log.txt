@@ -1,0 +1,3 @@
+fail https://mops.twse.com.tw/nas/t21/sii/t21sc03_115_8_0.html HTTP Error 404: 
+fail https://mops.twse.com.tw/nas/t21/otc/t21sc03_115_8_0.html HTTP Error 404: 
+revenue 11507 1975 rows
