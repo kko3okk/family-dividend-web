@@ -116,8 +116,13 @@ jobs:
           target=f"{pm.year-1911}{pm.month:02d}"
           if target not in bym:
               for mkt,seg in [("上市","sii"),("上櫃","otc")]:
-                  u=f"https://mops.twse.com.tw/nas/t21/{seg}/t21sc03_{pm.year-1911}_{pm.month}_0.html"
-                  t=raw(u,"big5-hkscs")
+                  t=None
+                  for host in ["https://mopsov.twse.com.tw","https://mops.twse.com.tw"]:
+                      for mm in [pm.month, pm.month-1]:   # 第二個只為診斷路徑是否存在
+                          u=f"{host}/nas/t21/{seg}/t21sc03_{pm.year-1911}_{mm}_0.html"
+                          t=raw(u,"big5-hkscs")
+                          if t: print("ok",u); break
+                      if t: break
                   if not t: continue
                   print("mops page",mkt,len(t),"chars; tables:",t.count("<table"),"; sample:",re.sub(r"\s+"," ",re.sub(r"<[^>]+>"," ",t))[:300])
                   t=html.unescape(t); n=0
