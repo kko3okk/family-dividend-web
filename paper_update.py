@@ -51,3 +51,4 @@ if last:
 else:
     lines.append("尚無交易日資料（等 9/7 收盤後更新價格快取）")
 open("paper/status.txt","w",encoding="utf-8").write("\n".join(lines)); print("\n".join(lines))
+# trigger 2026-09-07
