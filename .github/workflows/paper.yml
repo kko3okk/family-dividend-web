@@ -48,8 +48,43 @@ jobs:
               if r:
                   m[d.isoformat()]=r; json.dump(m,open(p,"w")); print("added",d)
           PY
+      - name: refresh OTC prices (今日, 櫃買 → data/prices_otc2)
+        run: |
+          python3 - << 'PY'
+          import json,re,os,datetime,urllib.request,time
+          HDR={"User-Agent":"Mozilla/5.0"}
+          def tof(x):
+              try: return float(str(x).replace(",","").replace("%",""))
+              except: return None
+          def fetch_otc(d):
+              u=f"https://www.tpex.org.tw/www/zh-tw/afterTrading/otc?date={d.strftime('%Y/%m/%d')}&type=EW&response=json"
+              try: j=json.loads(urllib.request.urlopen(urllib.request.Request(u,headers=HDR),timeout=60).read().decode("utf-8","ignore"))
+              except Exception: return None
+              px={}
+              for tb in j.get("tables",[]):
+                  f=[x.strip() for x in tb.get("fields",[])]
+                  if "代號" not in f: continue
+                  ci=f.index("代號")
+                  pi=[k for k,x in enumerate(f) if x.startswith("收盤")][0]
+                  vi=[k for k,x in enumerate(f) if x.startswith("成交股數")][0]
+                  for r in tb.get("data",[]):
+                      c=str(r[ci]).strip()
+                      if re.fullmatch(r"\d{4}",c) and tof(r[pi]): px[c]=[tof(r[pi]), tof(r[vi]) or 0]
+              return px or None
+          os.makedirs("data/prices_otc2",exist_ok=True)
+          today=datetime.date.today()
+          for back in range(0,7):
+              d=today-datetime.timedelta(days=back)
+              if d.weekday()>=5: continue
+              p=f"data/prices_otc2/{d.strftime('%Y%m')}.json"
+              m=json.load(open(p,encoding="utf-8")) if os.path.exists(p) else {}
+              if d.isoformat() in m: continue
+              r=fetch_otc(d); time.sleep(3)
+              if r:
+                  m[d.isoformat()]=r; json.dump(m,open(p,"w",encoding="utf-8")); print("added otc",d)
+          PY
       - run: python3 paper_update.py
       - run: python3 candidates.py
       - run: |
           git config user.name bot; git config user.email b@b.c
-          git add data/prices paper; git diff --cached --quiet || git commit -m "paper $(date +%F)"; git push
+          git add data/prices data/prices_otc2 paper; git diff --cached --quiet || git commit -m "paper $(date +%F)"; git push
