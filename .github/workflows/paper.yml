@@ -83,38 +83,60 @@ jobs:
               if r:
                   m[d.isoformat()]=r; json.dump(m,open(p,"w",encoding="utf-8")); print("added otc",d)
           PY
-      - name: refresh monthly revenue (證交所 + 櫃買 → data/revenue)
+      - name: refresh monthly revenue (OpenAPI；未翻頁時改抓 MOPS 月報彙總)
         run: |
           python3 - << 'PY'
-          import json,os,re,urllib.request
-          HDR={"User-Agent":"Mozilla/5.0","Accept":"application/json"}
-          def get(u):
-              try: return json.loads(urllib.request.urlopen(urllib.request.Request(u,headers=HDR),timeout=60).read().decode("utf-8","ignore"))
-              except Exception as e: print("fail",u,e); return []
+          import json,os,re,datetime,urllib.request,html
+          HDR={"User-Agent":"Mozilla/5.0","Accept":"*/*"}
+          def raw(u,enc=None):
+              try:
+                  b=urllib.request.urlopen(urllib.request.Request(u,headers=HDR),timeout=60).read()
+                  return b.decode(enc,"ignore") if enc else b
+              except Exception as e: print("fail",u,e); return None
           def f(x):
-              try: return float(str(x).replace(",",""))
+              try: return float(str(x).replace(",","").strip())
               except: return None
-          src=[("上市","https://openapi.twse.com.tw/v1/opendata/t187ap05_L"),
-               ("上櫃","https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap05_O")]
           bym={}
-          for mkt,u in src:
-              for r in get(u):
+          def put(ym,c,name,mkt,ind,rev,yoy,cum,note):
+              bym.setdefault(ym,{})[c]=dict(code=c,name=name,market=mkt,industry=ind,ym=ym,revenue=rev,yoy=yoy,cum=cum,note=(note or "-").strip() or "-")
+          # --- 1) OpenAPI ---
+          for mkt,u in [("上市","https://openapi.twse.com.tw/v1/opendata/t187ap05_L"),("上櫃","https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap05_O")]:
+              b=raw(u)
+              if not b: continue
+              try: rows=json.loads(b.decode("utf-8","ignore"))
+              except Exception: rows=[]
+              for r in rows:
                   ym=str(r.get("資料年月","")).strip(); c=str(r.get("公司代號","")).strip()
-                  if not re.fullmatch(r"\d{5}",ym) or not re.fullmatch(r"\d{4}",c): continue
-                  bym.setdefault(ym,{})[c]=dict(code=c,name=r.get("公司名稱","").strip(),market=mkt,
-                      industry=r.get("產業別","").strip(),ym=ym,revenue=f(r.get("營業收入-當月營收")),
-                      yoy=f(r.get("營業收入-去年同月增減(%)")),cum=f(r.get("累計營業收入-前期比較增減(%)")),
-                      note=(r.get("備註") or "-").strip() or "-")
+                  if re.fullmatch(r"\d{5}",ym) and re.fullmatch(r"\d{4}",c):
+                      put(ym,c,r.get("公司名稱","").strip(),mkt,r.get("產業別","").strip(),f(r.get("營業收入-當月營收")),
+                          f(r.get("營業收入-去年同月增減(%)")),f(r.get("累計營業收入-前期比較增減(%)")),r.get("備註"))
+          # --- 2) MOPS 月報彙總（上月），OpenAPI 尚未翻頁時使用 ---
+          today=datetime.date.today(); pm=today.replace(day=1)-datetime.timedelta(days=1)
+          target=f"{pm.year-1911}{pm.month:02d}"
+          if target not in bym:
+              for mkt,seg in [("上市","sii"),("上櫃","otc")]:
+                  u=f"https://mops.twse.com.tw/nas/t21/{seg}/t21sc03_{pm.year-1911}_{pm.month}_0.html"
+                  t=raw(u,"big5-hkscs")
+                  if not t: continue
+                  t=html.unescape(t); n=0
+                  for tb in re.findall(r"<table[^>]*>(.*?)</table>",t,re.S):
+                      ind=""
+                      m=re.search(r"產業別：([^<]+)",tb)
+                      if m: ind=m.group(1).strip()
+                      for tr in re.findall(r"<tr[^>]*>(.*?)</tr>",tb,re.S):
+                          td=[re.sub(r"<[^>]+>","",x).strip() for x in re.findall(r"<td[^>]*>(.*?)</td>",tr,re.S)]
+                          if len(td)>=10 and re.fullmatch(r"\d{4}",td[0]):
+                              put(target,td[0],td[1],mkt,ind,f(td[2]),f(td[6]),f(td[9]),td[10] if len(td)>10 else "-"); n+=1
+                  print("mops",mkt,target,n,"rows")
+          # --- 寫檔（只更新 >= 現有最新月份）---
           os.makedirs("data/revenue",exist_ok=True)
           have=sorted(x[:-5] for x in os.listdir("data/revenue") if x.endswith(".json"))
           for ym,rows in bym.items():
               if have and ym<have[-1]: continue
               p=f"data/revenue/{ym}.json"
               old={r["code"]:r for r in json.load(open(p,encoding="utf-8"))} if os.path.exists(p) else {}
-              old.update(rows)
-              out=sorted(old.values(),key=lambda r:r["code"])
-              json.dump(out,open(p,"w",encoding="utf-8"),ensure_ascii=False)
-              print("revenue",ym,len(out),"rows")
+              old.update(rows); out=sorted(old.values(),key=lambda r:r["code"])
+              json.dump(out,open(p,"w",encoding="utf-8"),ensure_ascii=False); print("revenue",ym,len(out),"rows")
           PY
       - run: python3 paper_update.py
       - run: python3 candidates.py
