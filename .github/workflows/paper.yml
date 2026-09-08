@@ -162,4 +162,8 @@ jobs:
       - run: python3 candidates.py
       - run: |
           git config user.name bot; git config user.email b@b.c
-          git add data/prices data/prices_otc2 data/revenue paper; git diff --cached --quiet || git commit -m "paper $(date +%F)"; git push
+          git add data/prices data/prices_otc2 data/revenue paper
+          git diff --cached --quiet && exit 0
+          git commit -m "paper $(date +%F)"
+          for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 5; done
+          exit 1
