@@ -13,6 +13,8 @@ def ma(s,k,n): w=[v for v in s[max(0,k-n+1):k+1] if v]; return sum(w)/len(w) if 
 rev={}
 for f in sorted(glob.glob("data/revenue/*.json")): rev[os.path.basename(f)[:-5]]={r["code"]:r for r in json.load(open(f,encoding="utf-8"))}
 seq=sorted(rev); ym,pym=seq[-1],seq[-2]
+# 對照表凍結至 2026-12-04。因回應提問而修改對照表所新增者，不列入規則帳戶（避免規則吸收主觀選股）
+EXCLUDE={"7788":"對照表 v3 (2026-09-09) 補入連接器線材而出現；係因提問而起，排除"}
 ONETIME=re.compile('交屋|過戶|完工|出售資產|認列|合併|納入|處分|試運轉|工程進度|專案進度|股利|投資收益|評價|金融資產|租金')
 fin=set(str(x) for x in range(2801,2900))|{"5820","5880","6005","2855","6024","2820"}
 def breadth(m,pm):
@@ -49,6 +51,8 @@ for c,r in rev[ym].items():
     if not tech: continue
     sb=code2sub[c]
     rows.append([c,r["name"],sb,stage(sb),f"{BR[ym][sb]:.0f}%",f"{r['yoy']:.0f}",f"{p['yoy']:.0f}",f"{r.get('cum') or 0:.0f}",px,f"{(px-m20)/m20*100:.1f}",f"{m60:.1f}",int(vol[c][i]/1000),(r["note"] or "")[:40]])
+excl=[r for r in rows if r[0] in EXCLUDE]
+rows=[r for r in rows if r[0] not in EXCLUDE]
 rows.sort(key=lambda x:-float(x[5]))
 os.makedirs("paper",exist_ok=True)
 out=f"paper/candidates_{ym}.csv"
@@ -57,5 +61,8 @@ with open(out,"w",newline="",encoding="utf-8-sig") as f:
     w.writerow([f"資料月 {ym}",f"價格日 {dates[i]}",f"加權 {taiex[i]:.0f}",f"季線 {t60:.0f}",f"閘門 {'開' if taiex[i]>=t60 else '關'}",f"自60日高 {(taiex[i]/hi60-1)*100:.1f}%"])
     w.writerow(["代號","名稱","子產業","階段","擴散度","當月YoY%","上月YoY%","累計YoY%","收盤","乖離20MA%","60MA(出清線)","量(張)","備註"])
     w.writerows(rows)
-print(out, len(rows), "檔")
+    if excl:
+        w.writerow([]); w.writerow(["— 以下排除，不列入規則帳戶 —"])
+        for r in excl: w.writerow(r+[EXCLUDE[r[0]]])
+print(out, len(rows), "檔（排除", len(excl), "檔）")
 for r in rows[:15]: print(" ", r[:10])
