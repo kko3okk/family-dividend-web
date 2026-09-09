@@ -32,8 +32,9 @@ def stage(sb):
     hist=[BR[x][sb] for x in last3]
     if len(hist)==3 and all(h>=60 for h in hist): return "成熟(第10條擋)"
     if hist[-1]>=20 and len(hist)>=2 and hist[-1]>hist[-2]: return "候選期"
-    if hist[-1]>=60: return "主軸"
-    return "無"
+    if hist[-1]>=60: return "主軸(未滿3月)"
+    if hist[-1]>=20: return "擴散中"
+    return "早期(低擴散)"
 t60=ma(taiex,i,60); hi60=max(taiex[max(0,i-60):i+1])
 rows=[]
 for c,r in rev[ym].items():
@@ -47,14 +48,14 @@ for c,r in rev[ym].items():
     tech = px>m20 and m20>m20p and px>m60 and (px-m20)/m20<0.15 and vol[c][i]>=500000
     if not tech: continue
     sb=code2sub[c]
-    rows.append([c,r["name"],sb,stage(sb),f"{r['yoy']:.0f}",f"{p['yoy']:.0f}",f"{r.get('cum') or 0:.0f}",px,f"{(px-m20)/m20*100:.1f}",f"{m60:.1f}",int(vol[c][i]/1000),(r["note"] or "")[:40]])
+    rows.append([c,r["name"],sb,stage(sb),f"{BR[ym][sb]:.0f}%",f"{r['yoy']:.0f}",f"{p['yoy']:.0f}",f"{r.get('cum') or 0:.0f}",px,f"{(px-m20)/m20*100:.1f}",f"{m60:.1f}",int(vol[c][i]/1000),(r["note"] or "")[:40]])
 rows.sort(key=lambda x:-float(x[4]))
 os.makedirs("paper",exist_ok=True)
 out=f"paper/candidates_{ym}.csv"
 with open(out,"w",newline="",encoding="utf-8-sig") as f:
     w=csv.writer(f)
     w.writerow([f"資料月 {ym}",f"價格日 {dates[i]}",f"加權 {taiex[i]:.0f}",f"季線 {t60:.0f}",f"閘門 {'開' if taiex[i]>=t60 else '關'}",f"自60日高 {(taiex[i]/hi60-1)*100:.1f}%"])
-    w.writerow(["代號","名稱","子產業","階段","當月YoY%","上月YoY%","累計YoY%","收盤","乖離20MA%","60MA(出清線)","量(張)","備註"])
+    w.writerow(["代號","名稱","子產業","階段","擴散度","當月YoY%","上月YoY%","累計YoY%","收盤","乖離20MA%","60MA(出清線)","量(張)","備註"])
     w.writerows(rows)
 print(out, len(rows), "檔")
 for r in rows[:15]: print(" ", r[:10])
