@@ -49,7 +49,7 @@ for c,r in rev[ym].items():
     if not tech: continue
     sb=code2sub[c]
     rows.append([c,r["name"],sb,stage(sb),f"{BR[ym][sb]:.0f}%",f"{r['yoy']:.0f}",f"{p['yoy']:.0f}",f"{r.get('cum') or 0:.0f}",px,f"{(px-m20)/m20*100:.1f}",f"{m60:.1f}",int(vol[c][i]/1000),(r["note"] or "")[:40]])
-rows.sort(key=lambda x:-float(x[4]))
+rows.sort(key=lambda x:-float(x[5]))
 os.makedirs("paper",exist_ok=True)
 out=f"paper/candidates_{ym}.csv"
 with open(out,"w",newline="",encoding="utf-8-sig") as f:
