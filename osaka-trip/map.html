@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#f5f4f0">
+<title>旅遊地圖｜大阪・USJ・神戶 2026</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+* { box-sizing: border-box; margin:0; padding:0; -webkit-tap-highlight-color: transparent; }
+body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:#f5f4f0; color:#1a1a1a; }
+header { padding:12px 16px 8px; }
+h1 { font-size:16px; font-weight:600; }
+.sub { font-size:12px; color:#999; margin-top:2px; }
+.bar { display:flex; gap:6px; overflow-x:auto; padding:10px 16px 12px; -webkit-overflow-scrolling:touch; }
+.bar::-webkit-scrollbar { display:none; }
+.chip { flex:0 0 auto; font-size:12px; font-weight:600; padding:6px 12px; border-radius:20px; cursor:pointer;
+        border:1.5px solid transparent; background:#fff; color:#666; white-space:nowrap; transition:.15s; }
+.chip.on { color:#fff; }
+.chip.all { border-color:#1a1a1a; }
+.chip.all.on { background:#1a1a1a; }
+#map { height: calc(100vh - 132px); width:100%; }
+.leaflet-popup-content-wrapper { border-radius:12px; }
+.leaflet-popup-content { margin:12px 14px; font-size:13px; line-height:1.6; min-width:190px; }
+.pop-day { display:inline-block; font-size:10px; font-weight:600; color:#fff; padding:2px 8px; border-radius:10px; margin-bottom:6px; }
+.pop-name { font-size:14px; font-weight:600; margin-bottom:4px; }
+.pop-meta { font-size:11px; color:#888; line-height:1.5; }
+.pop-note { font-size:11px; color:#555; margin-top:5px; }
+.pop-link { display:inline-block; margin-top:8px; font-size:11px; font-weight:600; color:#1a6fd4; text-decoration:none; }
+.pin { border-radius:50% 50% 50% 0; transform:rotate(-45deg); border:2px solid #fff;
+       box-shadow:0 1px 4px rgba(0,0,0,.4); width:22px; height:22px; }
+.pin span { transform:rotate(45deg); display:block; text-align:center; line-height:18px; font-size:10px; font-weight:700; color:#fff; }
+.pin.hotel { border-radius:6px; transform:none; width:26px; height:26px; }
+.pin.hotel span { transform:none; line-height:22px; font-size:13px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>旅遊地圖</h1>
+  <div class="sub">大阪・USJ・神戶｜10/17–10/24, 2026</div>
+</header>
+<div class="bar" id="bar"></div>
+<div id="map"></div>
+
+<script>
+const DAYS = {
+  D1:{c:'#7C3AED', t:'D1 抵達'},
+  D2:{c:'#DB2777', t:'D2 日本橋'},
+  D3:{c:'#059669', t:'D3 勝尾寺'},
+  D4:{c:'#EA580C', t:'D4 USJ'},
+  D5:{c:'#0284C7', t:'D5 神戶'},
+  D6:{c:'#CA8A04', t:'D6 難波'},
+  D7:{c:'#DC2626', t:'D7 心齋橋'}
+};
+
+const P = [
+ // ── D1
+ {d:'D1',n:'相鐵 FRESA INN 心齋橋',lat:34.6746564,lng:135.5040446,i:'🏨',hotel:1,
+  m:'東心齋橋1-12-23｜10/17–19、10/21–24',note:'心齋橋站徒步3–4分、長堀橋站5分｜2F有微波爐、洗衣機3台'},
+ {d:'D1',n:'よし治 炭烤牛舌 鰻谷店',lat:34.674379,lng:135.504488,i:'🐮',
+  m:'⭐4.6(567)｜18:00–翌2:00（六日17:00起）',note:'抵達夜首選，開很晚不用趕｜厚切牛舌、附麥飯牛尾湯'},
+ {d:'D1',n:'固力果看板・戎橋',lat:34.6689339,lng:135.5010679,i:'🌃',
+  m:'⭐4.5(19357)｜24小時',note:'道頓堀地標，晚上打燈最美｜飯店徒步約8分'},
+ {d:'D1',n:'AEON Food Style 東心齋橋',lat:34.6720548,lng:135.5059359,i:'🛒',
+  m:'⭐4.0(2554)｜24小時',note:'離飯店最近的超市，徒步5分｜晚上熟食麵包貼折扣'},
+
+ // ── D2
+ {d:'D2',n:'おにぎり ごりちゃん 南船場本店',lat:34.6758595,lng:135.5021961,i:'🍙',
+  m:'⭐4.9(11665)｜10:00–21:00 無休',note:'⚠️10點才開，不是8點｜手掌大飯糰，一半泡高湯變茶泡飯'},
+ {d:'D2',n:'難波八阪神社（獅子殿）',lat:34.6615592,lng:135.4967039,i:'⛩️',
+  m:'⭐4.5(16678)｜6:30–17:00',note:'12m獅子頭舞台｜御朱印¥300｜大國町站徒步5分'},
+ {d:'D2',n:'扭蛋之森 日本橋オタロード店',lat:34.6621738,lng:135.5056669,i:'🥚',
+  m:'⭐4.1(252)｜11:00–21:00',note:'B1+1F+2F 三層扭蛋機'},
+ {d:'D2',n:'TAITO STATION 日本橋',lat:34.660394,lng:135.506057,i:'🕹️',
+  m:'⭐4.0(1073)｜10:00–24:00',note:'整棟夾娃娃＋扭蛋，多數機台¥100'},
+ {d:'D2',n:'駿河屋 日本橋本館',lat:34.6602042,lng:135.5057106,i:'🎌',
+  m:'⭐3.7(643)｜10:00–21:00',note:'二手動漫、公仔、遊戲｜⚠️有評論說本館偏貴，分店較便宜'},
+ {d:'D2',n:'とんかつ ニューベイブ 難波店',lat:34.6629756,lng:135.4995578,i:'🐷',
+  m:'⭐4.7(1942)｜週日11:00–21:30（平日到19:30）',note:'林SPF品牌豬、8種醬料｜份量偏小可加點'},
+ {d:'D2',n:'喫茶 松竹（日本橋）',lat:34.6621925,lng:135.5055564,i:'☕',
+  m:'⭐4.2(327)｜8:00–20:00 無休',note:'昭和復古喫茶，彩繪玻璃+爵士樂｜兩層樓18席不太擠'},
+ {d:'D2',n:'すし処 利八',lat:34.6652448,lng:135.5053702,i:'🍣',
+  m:'⭐4.2(91)｜週日17:00–00:30｜⚠️週一公休',note:'炙燒鰻魚被大讚｜吧台席約8–10人｜現金結帳'},
+
+ // ── D3
+ {d:'D3',n:'勝尾寺',lat:34.8657752,lng:135.491087,i:'⛩️',
+  m:'⭐4.6(13412)｜平日8:00–17:00',note:'勝運之寺，滿山達摩｜箕面萱野站搭阪急巴士約22分｜⚠️回程班次少要先查'},
+ {d:'D3',n:'Hotel Universal Port',lat:34.6663662,lng:135.4380851,i:'🏨',hotel:1,
+  m:'⭐4.5(6151)｜10/19–21',note:'走路5分到USJ入口｜有大浴場｜⚠️退房11:00'},
+
+ // ── D4
+ {d:'D4',n:'環球影城 USJ',lat:34.6656768,lng:135.4323185,i:'🎢',
+  m:'⭐4.5｜10/20 入園',note:'09:20 任天堂世界入場確約｜大金剛礦車09:20–09:50｜08:30到門口排隊'},
+
+ // ── D5
+ {d:'D5',n:'神戶牛排 Sakura',lat:34.6942881,lng:135.1899289,i:'🥩',
+  m:'⭐4.8(1615)｜11:30–14:00 / 17:00–21:00',note:'下山手通2-17-10 2F｜套餐制、師傅現煎+刀工表演｜078-335-8885'},
+ {d:'D5',n:'北野異人館（風見雞之館）',lat:34.7013881,lng:135.1895175,i:'🏛️',
+  m:'⭐4.1(2058)｜9:00–17:00',note:'1909年德國商人宅邸，紅磚建築｜⚠️三宮走過來1.1km上坡'},
+ {d:'D5',n:'星巴克 神戶北野異人館店',lat:34.6998321,lng:135.1902342,i:'☕',
+  m:'⭐4.4(4186)｜8:00–22:00',note:'開在1907年「北野物語館」洋館裡｜兩層樓、殖民風內裝｜有神戶限定杯'},
+ {d:'D5',n:'布引香草園（纜車）',lat:34.7044275,lng:135.1938755,i:'🌿',
+  m:'⭐4.5(6940)｜平日9:30–16:45',note:'日本最大級，200種75000株｜往復¥2,500｜🚨14:30前要上山｜新神戶站徒步5分'},
+
+ // ── D6
+ {d:'D6',n:'和牛壽喜燒 奧和',lat:34.668036,lng:135.5033968,i:'🥩',
+  m:'⭐4.9(1851)｜10:30–14:00｜⚠️週三公休',note:'只做午餐｜山形A5沙朗、白飯免費續｜兩人不到¥10,000'},
+ {d:'D6',n:'道具屋筋商店街',lat:34.6640141,lng:135.5035063,i:'🍳',
+  m:'⭐4.2(6438)｜10:00–18:00',note:'廚具、日本刀具、食品模型｜街尾有包裝站可包易碎品'},
+ {d:'D6',n:'なんば LOFT（難波公園5F）',lat:34.6612146,lng:135.5023700,i:'✏️',
+  m:'⭐3.9(2169)｜11:00–21:00',note:'文具雜貨、角色商品｜7F集中辦理退稅'},
+ {d:'D6',n:'UROKO 拉麵 難波店',lat:34.6617327,lng:135.5036282,i:'🍜',
+  m:'⭐4.2(830)｜11:00–14:30 / 17:00–21:30｜⚠️週一二公休',note:'淡麗系鹽味，麵條粗有嚼勁｜食券機點餐｜桌上有醋可加'},
+ {d:'D6',n:'Datedachi 立飲串燒',lat:34.6663319,lng:135.5049399,i:'🍢',
+  m:'⭐4.2(515)｜15:00–23:00 無休',note:'站著吃、炭火現烤｜推薦雞肉keema咖哩、紫蘇雞頸｜要排隊、幾乎沒英文'},
+
+ // ── D7
+ {d:'D7',n:'大起水產 迴轉壽司 道頓堀店',lat:34.6685919,lng:135.5028927,i:'🍣',
+  m:'⭐4.0(4803)｜11:00–23:00',note:'台灣沒有！水產直營，鮪魚新鮮｜有鮪魚解體秀｜平板點餐'},
+ {d:'D7',n:'GU 心齋橋店',lat:34.6712548,lng:135.501611,i:'👕',
+  m:'⭐4.1(3050)｜11:00–21:00',note:'5F有退稅專用結帳線、有英文店員｜⚠️空間窄人多'},
+ {d:'D7',n:'LiLo Coffee Roasters',lat:34.6740723,lng:135.4980336,i:'☕',
+  m:'⭐4.8(2477)｜11:00–23:00',note:'西心齋橋｜可選豆手沖，店員會推薦｜店小座位少'},
+ {d:'D7',n:'寶可夢中心 DX（大丸心齋橋9F）',lat:34.6731719,lng:135.5007545,i:'🎮',
+  m:'⭐4.5(2378)｜10:00–20:00',note:'三隻傳說之鳥立像可拍照｜同層有海賊王店｜⚠️卡牌常售罄'},
+ {d:'D7',n:'唐吉訶德 道頓堀御堂筋店',lat:34.669254,lng:135.499904,i:'🛒',
+  m:'⭐3.8(4249)｜24小時',note:'比摩天輪那間好逛、人少｜退稅櫃台效率高｜帶護照'},
+ {d:'D7',n:'忍鬨 燒肉',lat:34.6726591,lng:135.505157,i:'🔥',
+  m:'⭐4.6(2401)｜16:00–24:00',note:'東心齋橋1-6-32｜厚切蔥鹽牛舌、橫膈膜｜⚠️店小務必訂位'}
+];
+
+const map = L.map('map',{zoomControl:true}).setView([34.668,135.502],13);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{
+  attribution:'&copy; OpenStreetMap &copy; CARTO', maxZoom:19
+}).addTo(map);
+
+const layers = {};
+Object.keys(DAYS).forEach(k=>layers[k]=L.layerGroup().addTo(map));
+
+P.forEach(p=>{
+  const col = DAYS[p.d].c;
+  const icon = L.divIcon({
+    className:'',
+    html:`<div class="pin ${p.hotel?'hotel':''}" style="background:${col}"><span>${p.i}</span></div>`,
+    iconSize:[22,22], iconAnchor:[11,22], popupAnchor:[0,-22]
+  });
+  const gmap = `https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lng}`;
+  const html = `<div><span class="pop-day" style="background:${col}">${DAYS[p.d].t}</span>
+    <div class="pop-name">${p.n}</div>
+    <div class="pop-meta">${p.m}</div>
+    ${p.note?`<div class="pop-note">${p.note}</div>`:''}
+    <a class="pop-link" href="${gmap}" target="_blank" rel="noopener">在 Google Maps 開啟 ↗</a></div>`;
+  L.marker([p.lat,p.lng],{icon}).bindPopup(html).addTo(layers[p.d]);
+});
+
+// 篩選列
+const bar = document.getElementById('bar');
+function mkChip(key,label,color,on){
+  const b=document.createElement('div');
+  b.className='chip'+(key==='ALL'?' all':'')+(on?' on':'');
+  b.textContent=label;
+  if(key!=='ALL'){ b.style.borderColor=color; if(on) b.style.background=color; }
+  b.onclick=()=>select(key);
+  bar.appendChild(b); return b;
+}
+const chips={};
+chips.ALL=mkChip('ALL','全部','#1a1a1a',true);
+Object.entries(DAYS).forEach(([k,v])=>chips[k]=mkChip(k,v.t,v.c,false));
+
+function select(key){
+  Object.entries(chips).forEach(([k,el])=>{
+    const on = (key==='ALL') ? (k==='ALL') : (k===key);
+    el.classList.toggle('on',on);
+    if(k!=='ALL') el.style.background = on ? DAYS[k].c : '#fff';
+  });
+  const pts=[];
+  Object.keys(DAYS).forEach(k=>{
+    const show = (key==='ALL'||key===k);
+    if(show){ layers[k].addTo(map); } else { map.removeLayer(layers[k]); }
+    if(show) P.filter(p=>p.d===k).forEach(p=>pts.push([p.lat,p.lng]));
+  });
+  if(pts.length) map.fitBounds(L.latLngBounds(pts),{padding:[45,45],maxZoom:16});
+}
+select('ALL');
+</script>
+</body>
+</html>
