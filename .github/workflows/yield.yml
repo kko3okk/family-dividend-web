@@ -16,12 +16,13 @@ jobs:
           def get(u):
               try: return json.loads(urllib.request.urlopen(urllib.request.Request(u,headers=HDR),timeout=90).read().decode("utf-8","ignore"))
               except Exception as e: print("fail",u,e); return None
-          for name,u in [("bwibbu","https://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_ALL"),
+          for name,u in [("bwibbu","https://www.twse.com.tw/rwd/zh/afterTrading/BWIBBU_d?date=&selectType=ALL&response=json"),
                          ("tpex_pe","https://www.tpex.org.tw/openapi/v1/tpex_mainboard_peratio_analysis")]:
               j=get(u)
               if j:
                   json.dump(j,open(f"data/yield/{name}.json","w"),ensure_ascii=False)
-                  print(name,"rows",len(j),"sample:",json.dumps(j[0],ensure_ascii=False)[:300])
+                  n=j if isinstance(j,list) else (j.get("data") or [])
+                  print(name,"rows",len(n),"fields",(j.get("fields") if isinstance(j,dict) else None),"sample:",json.dumps(n[0],ensure_ascii=False)[:300] if n else "")
           PY
       - run: |
           git config user.name bot; git config user.email b@b.c
