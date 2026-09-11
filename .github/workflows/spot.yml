@@ -1,0 +1,43 @@
+name: spot
+on: {workflow_dispatch: {}}
+permissions: {contents: write}
+jobs:
+  f:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: |
+          mkdir -p data/inst
+          python3 - << 'PY' 2>&1 | tee data/inst/spot_log.txt
+          import json,os,time,datetime,urllib.request
+          HDR={"User-Agent":"Mozilla/5.0"}
+          def f(x):
+              try: return float(str(x).replace(",",""))
+              except: return None
+          p="data/inst/twse_3insti_hist.json"
+          out=json.load(open(p)) if os.path.exists(p) else {}
+          d=datetime.date(2026,1,1); today=datetime.date.today(); n=0
+          while d<=today:
+              if d.weekday()<5 and d.isoformat() not in out:
+                  try:
+                      j=json.loads(urllib.request.urlopen(urllib.request.Request(
+                        f"https://www.twse.com.tw/rwd/zh/fund/BFI82U?dayDate={d.strftime('%Y%m%d')}&type=day&response=json",
+                        headers=HDR),timeout=60).read().decode())
+                      if j.get("stat")=="OK" and j.get("data"):
+                          out[d.isoformat()]={r[0].strip():f(r[3]) for r in j["data"]}
+                          n+=1
+                  except Exception as e: print("fail",d,e)
+                  time.sleep(1.5)
+              d+=datetime.timedelta(days=1)
+          json.dump(dict(sorted(out.items())),open(p,"w"),ensure_ascii=False)
+          print("days",len(out),"new",n)
+          PY
+      - run: |
+          git config user.name bot; git config user.email b@b.c
+          git add data/inst
+          git diff --cached --quiet && exit 0
+          git commit -m "spot institutional history"
+          for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 5; done
