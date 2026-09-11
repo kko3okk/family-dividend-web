@@ -1,0 +1,2 @@
+fail https://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_ALL Expecting value: line 1 column 1 (char 0)
+tpex_pe rows 885 sample: {"Date": "1150911", "SecuritiesCompanyCode": "1240", "CompanyName": "茂生農經", "PriceEarningRatio": "10.20", "DividendPerShare": "0.50000000", "YieldRatio": "0.91", "PriceBookRatio": "1.62"}
