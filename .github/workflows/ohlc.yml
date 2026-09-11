@@ -18,7 +18,8 @@ jobs:
         env:
           CODES: ${{ github.event.inputs.codes }}
         run: |
-          python3 - << 'PY'
+          mkdir -p data/ohlc
+          python3 - << 'PY' 2>&1 | tee data/ohlc/log.txt
           import json,os,re,time,urllib.request
           HDR={"User-Agent":"Mozilla/5.0"}
           def f(x):
@@ -27,13 +28,15 @@ jobs:
           os.makedirs("data/ohlc",exist_ok=True)
           for code in [c.strip() for c in os.environ["CODES"].split(",") if c.strip()]:
               out={}
-              for ym in ["202509","202508","202507","202506","202505","202504","202503","202502","202601","202512","202511","202510",
-                         "202601","202602","202603","202604","202605","202606","202607","202608","202609"]:
+              for ym in ["202601","202602","202603","202604","202605","202606","202607","202608","202609"]:
                   u=f"https://www.twse.com.tw/rwd/zh/afterTrading/STOCK_DAY?date={ym}01&stockNo={code}&response=json"
                   try:
                       j=json.loads(urllib.request.urlopen(urllib.request.Request(u,headers=HDR),timeout=60).read().decode())
                   except Exception as e:
-                      print("fail",ym,e); time.sleep(3); continue
+                      print("fail",ym,type(e).__name__,e); time.sleep(3); continue
+                  print("stat",ym,j.get("stat"),"keys",list(j.keys())[:6],"rows",len(j.get("data") or []))
+                  if not (j.get("data") or []):
+                      print("  raw head:",str(j)[:300])
                   for r in j.get("data") or []:
                       m=re.match(r"(\d+)/(\d+)/(\d+)",r[0])
                       if not m: continue
