@@ -1,0 +1,56 @@
+name: inst
+on:
+  workflow_dispatch:
+permissions: {contents: write}
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - name: fetch
+        run: |
+          mkdir -p data/inst
+          python3 - << 'PY' 2>&1 | tee data/inst/log.txt
+          import json,os,re,time,datetime,urllib.request
+          HDR={"User-Agent":"Mozilla/5.0"}
+          def get(u):
+              try: return json.loads(urllib.request.urlopen(urllib.request.Request(u,headers=HDR),timeout=60).read().decode("utf-8","ignore"))
+              except Exception as e: print("fail",u[:80],e); return None
+          def f(x):
+              try: return float(str(x).replace(",",""))
+              except: return None
+          # 三大法人買賣金額（TWSE BFI82U）近 12 個交易日
+          out={}
+          d=datetime.date.today()
+          got=0; back=0
+          while got<12 and back<25:
+              back+=1
+              if d.weekday()<5:
+                  j=get(f"https://www.twse.com.tw/rwd/zh/fund/BFI82U?dayDate={d.strftime('%Y%m%d')}&type=day&response=json")
+                  if j and j.get("stat")=="OK" and j.get("data"):
+                      rows={}
+                      for r in j["data"]:
+                          rows[r[0].strip()]=f(r[3])
+                      out[d.isoformat()]=rows; got+=1
+                      print(d, {k:round(v/1e8,1) for k,v in rows.items() if v is not None})
+                  time.sleep(2)
+              d-=datetime.timedelta(days=1)
+          json.dump(dict(sorted(out.items())),open("data/inst/twse_3insti.json","w"),ensure_ascii=False)
+          # TAIFEX 三大法人期貨未平倉
+          for name,url in [("fut_contracts","https://openapi.taifex.com.tw/v1/MarketDataOfMajorInstitutionalTradersDetailsOfFuturesContractsByDate"),
+                           ("oi_large","https://openapi.taifex.com.tw/v1/MarketDataOfLargeTradersFuturesByDate")]:
+              j=get(url)
+              if j:
+                  json.dump(j,open(f"data/inst/{name}.json","w"),ensure_ascii=False)
+                  print(name,"rows",len(j))
+                  if j: print("  sample:",json.dumps(j[0],ensure_ascii=False)[:400])
+          PY
+      - run: |
+          git config user.name bot; git config user.email b@b.c
+          git add data/inst
+          git diff --cached --quiet && exit 0
+          git commit -m "inst data"
+          for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 5; done
+          exit 1
