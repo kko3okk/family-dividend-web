@@ -1,0 +1,19 @@
+stat 202601 OK keys ['stat', 'date', 'title', 'fields', 'data', 'notes'] rows 21
+3006 202601 21
+stat 202602 OK keys ['stat', 'date', 'title', 'fields', 'data', 'notes'] rows 12
+3006 202602 12
+stat 202603 OK keys ['stat', 'date', 'title', 'fields', 'data', 'notes'] rows 22
+3006 202603 22
+stat 202604 OK keys ['stat', 'date', 'title', 'fields', 'data', 'notes'] rows 20
+3006 202604 20
+stat 202605 OK keys ['stat', 'date', 'title', 'fields', 'data', 'notes'] rows 20
+3006 202605 20
+stat 202606 OK keys ['stat', 'date', 'title', 'fields', 'data', 'notes'] rows 21
+3006 202606 21
+stat 202607 OK keys ['stat', 'date', 'title', 'fields', 'data', 'notes'] rows 22
+3006 202607 22
+stat 202608 OK keys ['stat', 'date', 'title', 'fields', 'data', 'notes'] rows 21
+3006 202608 21
+stat 202609 OK keys ['stat', 'date', 'title', 'fields', 'data', 'notes'] rows 8
+3006 202609 8
+wrote 3006 167 days
