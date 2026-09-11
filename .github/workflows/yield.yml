@@ -1,0 +1,31 @@
+name: yield
+on: {workflow_dispatch: {}}
+permissions: {contents: write}
+jobs:
+  f:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: |
+          mkdir -p data/yield
+          python3 - << 'PY' 2>&1 | tee data/yield/log.txt
+          import json,urllib.request
+          HDR={"User-Agent":"Mozilla/5.0"}
+          def get(u):
+              try: return json.loads(urllib.request.urlopen(urllib.request.Request(u,headers=HDR),timeout=90).read().decode("utf-8","ignore"))
+              except Exception as e: print("fail",u,e); return None
+          for name,u in [("bwibbu","https://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_ALL"),
+                         ("tpex_pe","https://www.tpex.org.tw/openapi/v1/tpex_mainboard_peratio_analysis")]:
+              j=get(u)
+              if j:
+                  json.dump(j,open(f"data/yield/{name}.json","w"),ensure_ascii=False)
+                  print(name,"rows",len(j),"sample:",json.dumps(j[0],ensure_ascii=False)[:300])
+          PY
+      - run: |
+          git config user.name bot; git config user.email b@b.c
+          git add data/yield
+          git diff --cached --quiet && exit 0
+          git commit -m "yield data"
+          for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 5; done
