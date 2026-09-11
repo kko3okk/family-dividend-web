@@ -1,0 +1,9 @@
+futContracts 2026-09-11 963
+    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+largeTrader 2026-09-11 77321
+    ,ӫ~(),ӫ~W(W),(gO),HO,ejHR,ejH,eQjHR,eQjH,RP
+    2026/09/11,BRF    ,Sof,202611  ,0,135,51,139,82,139
+    2026/09/11,BRF    ,Sof,202611  ,1,0,0,0,0,139
+    2026/09/11,BRF    ,Sof,999999  ,0,142,53,152,86,152
+    2026/09/11,BRF    ,Sof,999999  ,1,0,0,0,0,152
+    2026/09/11,BTF    ,OWͧ޴f,202609  ,0,3,3,3,3,3
