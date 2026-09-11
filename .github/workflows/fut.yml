@@ -1,0 +1,51 @@
+name: fut
+on: {workflow_dispatch: {}}
+permissions: {contents: write}
+jobs:
+  f:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: |
+          mkdir -p data/fut
+          python3 - << 'PY' 2>&1 | tee data/fut/log.txt
+          import json,urllib.request,urllib.parse,re,datetime
+          HDR={"User-Agent":"Mozilla/5.0","Content-Type":"application/x-www-form-urlencoded"}
+          def post(u,data):
+              try:
+                  r=urllib.request.Request(u,data=urllib.parse.urlencode(data).encode(),headers=HDR)
+                  return urllib.request.urlopen(r,timeout=60).read().decode("utf-8","ignore")
+              except Exception as e: print("fail",u,e); return None
+          def get(u):
+              try: return urllib.request.urlopen(urllib.request.Request(u,headers=HDR),timeout=60).read().decode("utf-8","ignore")
+              except Exception as e: print("fail",u,e); return None
+          d=datetime.date.today()
+          for back in range(0,5):
+              dd=d-datetime.timedelta(days=back)
+              if dd.weekday()>=5: continue
+              ds=dd.strftime("%Y/%m/%d")
+              # 三大法人期貨контract部位
+              t=post("https://www.taifex.com.tw/cht/3/futContractsDateDown",
+                     {"firstDate":ds,"lastDate":ds,"queryDate":ds,"commodityId":""})
+              if t and len(t)>200:
+                  open(f"data/fut/futContracts_{dd.isoformat()}.csv","w").write(t)
+                  print("futContracts",dd,len(t))
+                  for ln in t.split("\n")[:1]+[l for l in t.split("\n") if "臺股期貨" in l or "臺指選擇權" in l][:8]:
+                      print("   ",ln.strip()[:200])
+              # 大額交易人未沖銷部位
+              t2=post("https://www.taifex.com.tw/cht/3/largeTraderFutDown",
+                      {"queryStartDate":ds,"queryEndDate":ds,"contractId":"TX"})
+              if t2 and len(t2)>200:
+                  open(f"data/fut/largeTrader_{dd.isoformat()}.csv","w").write(t2)
+                  print("largeTrader",dd,len(t2))
+                  for ln in t2.split("\n")[:6]: print("   ",ln.strip()[:200])
+              break
+          PY
+      - run: |
+          git config user.name bot; git config user.email b@b.c
+          git add data/fut
+          git diff --cached --quiet && exit 0
+          git commit -m "fut data"
+          for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 5; done
