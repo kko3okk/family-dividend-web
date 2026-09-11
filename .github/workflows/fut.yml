@@ -16,7 +16,7 @@ jobs:
           def post(u,data):
               try:
                   r=urllib.request.Request(u,data=urllib.parse.urlencode(data).encode(),headers=HDR)
-                  return urllib.request.urlopen(r,timeout=60).read().decode("utf-8","ignore")
+                  return urllib.request.urlopen(r,timeout=60).read().decode("big5-hkscs","ignore")
               except Exception as e: print("fail",u,e); return None
           def get(u):
               try: return urllib.request.urlopen(urllib.request.Request(u,headers=HDR),timeout=60).read().decode("utf-8","ignore")
@@ -28,19 +28,21 @@ jobs:
               ds=dd.strftime("%Y/%m/%d")
               # 三大法人期貨контract部位
               t=post("https://www.taifex.com.tw/cht/3/futContractsDateDown",
-                     {"firstDate":ds,"lastDate":ds,"queryDate":ds,"commodityId":""})
+                     {"queryStartDate":ds,"queryEndDate":ds,"commodityId":"TXF"})
               if t and len(t)>200:
                   open(f"data/fut/futContracts_{dd.isoformat()}.csv","w").write(t)
                   print("futContracts",dd,len(t))
-                  for ln in t.split("\n")[:1]+[l for l in t.split("\n") if "臺股期貨" in l or "臺指選擇權" in l][:8]:
-                      print("   ",ln.strip()[:200])
+                  for ln in t.split("\n")[:10]: print("   ",ln.strip()[:220])
               # 大額交易人未沖銷部位
               t2=post("https://www.taifex.com.tw/cht/3/largeTraderFutDown",
                       {"queryStartDate":ds,"queryEndDate":ds,"contractId":"TX"})
               if t2 and len(t2)>200:
                   open(f"data/fut/largeTrader_{dd.isoformat()}.csv","w").write(t2)
                   print("largeTrader",dd,len(t2))
-                  for ln in t2.split("\n")[:6]: print("   ",ln.strip()[:200])
+                  hdr=t2.split("\n")[0]; print("    HDR",hdr[:220])
+                  for ln in t2.split("\n"):
+                      p=ln.split(",")
+                      if len(p)>3 and p[1].strip()=="TX": print("    TX",ln.strip()[:220])
               break
           PY
       - run: |
