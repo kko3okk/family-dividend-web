@@ -1,20 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-
-
-<head><meta http-equiv="X-UA-Compatible" content="IE=edge"></head>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hant-TW" >
-		<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    </head>
-    <body>
-   		<script>
-			alert("查無資料");
-		    		window.location.replace("futContractsDateView");
-		    		
-		    	</script>
-    <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"269d4d87c8e342719cc80046672eb4ce","spa":2}' crossorigin="anonymous"></script>
-</body>
-</html>
+日期,商品名稱,身份別,多方交易口數,多方交易契約金額(千元),空方交易口數,空方交易契約金額(千元),多空交易口數淨額,多空交易契約金額淨額(千元),多方未平倉口數,多方未平倉契約金額(千元),空方未平倉口數,空方未平倉契約金額(千元),多空未平倉口數淨額,多空未平倉契約金額淨額(千元)
+2026/09/11,臺股期貨,自營商,7854,72425131,6474,59768351,1380,12656780,6359,58854426,3557,32907993,2802,25946433
+2026/09/11,臺股期貨,投信,6092,56342416,5888,54274470,204,2067945,77818,719256868,3131,28922299,74687,690334569
+2026/09/11,臺股期貨,外資及陸資,56372,520388710,56740,523930805,-368,-3542096,8242,76271162,93309,862627166,-85067,-786356004
