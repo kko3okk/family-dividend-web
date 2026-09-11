@@ -11,39 +11,28 @@ jobs:
       - run: |
           mkdir -p data/fut
           python3 - << 'PY' 2>&1 | tee data/fut/log.txt
-          import json,urllib.request,urllib.parse,re,datetime
+          import json,urllib.request,urllib.parse,datetime
           HDR={"User-Agent":"Mozilla/5.0","Content-Type":"application/x-www-form-urlencoded"}
           def post(u,data):
               try:
                   r=urllib.request.Request(u,data=urllib.parse.urlencode(data).encode(),headers=HDR)
-                  return urllib.request.urlopen(r,timeout=60).read().decode("big5-hkscs","ignore")
-              except Exception as e: print("fail",u,e); return None
-          def get(u):
-              try: return urllib.request.urlopen(urllib.request.Request(u,headers=HDR),timeout=60).read().decode("utf-8","ignore")
-              except Exception as e: print("fail",u,e); return None
-          d=datetime.date.today()
-          for back in range(0,5):
-              dd=d-datetime.timedelta(days=back)
-              if dd.weekday()>=5: continue
-              ds=dd.strftime("%Y/%m/%d")
-              # 三大法人期貨контract部位
+                  return urllib.request.urlopen(r,timeout=90).read().decode("big5-hkscs","ignore")
+              except Exception as e: print("fail",e); return None
+          # 三大法人臺股期貨未平倉：2026/1/1 - 今日，分月抓
+          rows=[]
+          d0=datetime.date(2026,1,1); today=datetime.date.today()
+          m=d0
+          while m<=today:
+              nxt=(m.replace(day=28)+datetime.timedelta(days=6)).replace(day=1)
+              e=min(nxt-datetime.timedelta(days=1),today)
               t=post("https://www.taifex.com.tw/cht/3/futContractsDateDown",
-                     {"queryStartDate":ds,"queryEndDate":ds,"commodityId":"TXF"})
-              if t and len(t)>200:
-                  open(f"data/fut/futContracts_{dd.isoformat()}.csv","w").write(t)
-                  print("futContracts",dd,len(t))
-                  for ln in t.split("\n")[:10]: print("   ",ln.strip()[:220])
-              # 大額交易人未沖銷部位
-              t2=post("https://www.taifex.com.tw/cht/3/largeTraderFutDown",
-                      {"queryStartDate":ds,"queryEndDate":ds,"contractId":"TX"})
-              if t2 and len(t2)>200:
-                  open(f"data/fut/largeTrader_{dd.isoformat()}.csv","w").write(t2)
-                  print("largeTrader",dd,len(t2))
-                  hdr=t2.split("\n")[0]; print("    HDR",hdr[:220])
-                  for ln in t2.split("\n"):
-                      p=ln.split(",")
-                      if len(p)>3 and p[1].strip()=="TX": print("    TX",ln.strip()[:220])
-              break
+                     {"queryStartDate":m.strftime("%Y/%m/%d"),"queryEndDate":e.strftime("%Y/%m/%d"),"commodityId":"TXF"})
+              if t and "日期" in t:
+                  ls=[l for l in t.split("\n") if l.strip() and not l.startswith("日期")]
+                  rows+=ls; print(m,"->",e,len(ls),"rows")
+              m=nxt
+          open("data/fut/txf_history.csv","w").write("日期,商品名稱,身份別,多方交易口數,多方交易契約金額,空方交易口數,空方交易契約金額,多空交易口數淨額,多空交易契約金額淨額,多方未平倉口數,多方未平倉契約金額,空方未平倉口數,空方未平倉契約金額,多空未平倉口數淨額,多空未平倉契約金額淨額\n"+"\n".join(rows))
+          print("total",len(rows))
           PY
       - run: |
           git config user.name bot; git config user.email b@b.c
