@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#f5f4f0">
+<title>旅遊地圖｜台北中山 2026</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;background:#f5f4f0;color:#1a1a1a}
+header{padding:4px 16px 6px}
+h1{font-size:16px;font-weight:600}
+.sub{font-size:12px;color:#999;margin-top:2px}
+.bar{display:flex;gap:6px;overflow-x:auto;padding:10px 16px;-webkit-overflow-scrolling:touch}
+.bar::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;font-size:12px;font-weight:600;padding:6px 12px;border-radius:20px;cursor:pointer;
+      border:1.5px solid transparent;background:#fff;color:#666;white-space:nowrap;transition:.15s}
+.chip.on{color:#fff}
+
+nav.pages{display:flex;gap:8px;margin:14px 0 4px}
+nav.pages a{flex:1;text-align:center;font-size:13px;font-weight:600;padding:9px 0;border-radius:10px;
+      background:#fff;color:#666;text-decoration:none;border:0.5px solid rgba(0,0,0,.09)}
+nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.legend{padding:0 16px 8px;font-size:11px;color:#999}
+#map{height:calc(100vh - 152px);width:100%}
+.leaflet-popup-content-wrapper{border-radius:12px}
+.leaflet-popup-content{margin:11px 13px;font-size:13px;line-height:1.55;min-width:190px}
+.pp-seq{display:inline-block;font-size:10px;font-weight:700;color:#fff;padding:2px 8px;border-radius:10px;margin-bottom:5px}
+.pp-n{font-size:14px;font-weight:600;margin-bottom:3px}
+.pp-m{font-size:11px;color:#888;line-height:1.5}
+.pp-note{font-size:11px;color:#555;margin-top:5px}
+.pp-a{display:inline-block;margin-top:8px;font-size:11px;font-weight:600;color:#1a6fd4;text-decoration:none}
+.num{width:24px;height:24px;border-radius:50%;border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);
+     display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700}
+.num.bed{border-radius:6px;width:26px;height:26px;font-size:14px}
+.arrow{font-size:14px;line-height:1;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 3px #fff}
+</style>
+</head>
+<body>
+
+<nav class="pages" style="padding:0 16px"><a href="index.html">📋 行程</a><a href="map.html" class="on">🗺️ 地圖</a></nav>
+<header>
+  <h1>旅遊地圖</h1>
+  <div class="sub">台北中山｜9/25 中秋–9/26, 2026</div>
+</header>
+<div class="bar" id="bar"></div>
+<div class="legend">數字＝當天順序　➤＝移動方向　🏨＝住宿　🚄＝高鐵站</div>
+<div id="map"></div>
+
+<script>
+const HOTEL={n:'amba 台北中山',lat:25.0557209,lng:121.5230678,bed:1,
+  m:'中山北路二段57-1號｜⭐4.3(1502)｜9/25–9/26',
+  note:'Medium Queen City View 24m²、6–9F｜⚠️中房只有淋浴間無浴缸｜押金NT$1,000/晚｜捷運中山站徒步5分'};
+const TPE={n:'台北車站（高鐵）',lat:25.04882,lng:121.51375,rail:1,
+  m:'去程9/25 10:15抵達｜回程9/26 18:31發車',
+  note:'高鐵站在台北車站地下｜走中山地下街R區到中山站約12分，全程室內有冷氣'};
+
+const DAYS=[
+{id:'D1',t:'D1 9/25 五 中秋',c:'#E8613C',stops:[TPE,HOTEL,
+ {n:'黃記魯肉飯',lat:25.0636717,lng:121.5241426,m:'⭐4.2(6000+)｜11:30–20:00｜⚠️週一、週四公休',
+  note:'11:20到排開門第一輪＝零排隊（尖峰要等30分）｜門口抽號碼牌、點餐、付款才進場，全店自助｜必比登推薦，白菜滷評價最高，可加點雞絲飯｜⚠️中秋當天務必先電話確認有無營業'},
+ {n:'晴光商圈',lat:25.0625,lng:121.5245,m:'中山北路三段一帶',
+  note:'吃完沿中山北路往南散步回程順路'},
+ {n:'赤峰街・心中山線形公園',lat:25.0553262,lng:121.519628,m:'捷運中山站旁',
+  note:'老屋咖啡、選物店集中｜帶狀公園週末常有市集｜12:30–14:30慢慢晃，15:00回飯店check-in'},
+ HOTEL,
+ {n:'迪化街',lat:25.0565,lng:121.5100,m:'大稻埕老街｜多數店家18:00收',
+  note:'16:45從飯店沿民生西路往西走15分｜乾貨、伴手禮｜17:30前往碼頭移動'},
+ {n:'大稻埕碼頭貨櫃市集',lat:25.0565135,lng:121.507515,m:'週五16:00–22:00｜五號水門進',
+  note:'⭐日落17:50，中秋滿月同時從東邊升起｜太陽下山後別急著走，轉身等10分鐘拍剛升起的橘月｜紀念日拍照就在這裡'},
+ {n:'寧夏夜市',lat:25.0566808,lng:121.5153641,m:'⭐4.2(61158)｜17:00–23:30',
+  note:'碼頭沿民生西路往東走15分，月亮一路在正前方＝賞月動線｜19:00前到人少｜圓環邊蚵仔煎、劉芋仔芋餅、豬肝榮仔、方家雞肉飯｜中午吃過魯肉飯，這裡避開飯類｜⚠️中秋可能有攤商休息，看到想吃先買'},
+ {n:'蓮飲料吧（飲料）',lat:25.0569448,lng:121.5155948,m:'⭐4.4(236)｜17:30–03:30',
+  note:'楊桃甘蔗汁老店，酸甜帶鹹專解油，配鹽酥雞最搭｜想喝甜的改Nap Tea寧夏(⭐4.7,開到22:00,黑糖珍珠)'},
+ {n:'大眾鹽酥雞（雙連）',lat:25.0580614,lng:121.5202558,m:'⭐3.9(204)｜週五17:00–24:00｜⚠️週一、週日休',
+  note:'萬全街40巷19號｜招牌無骨鹽酥雞，每日換油｜贏在順路，寧夏往北5分、再走10分回飯店｜0987-087-564｜沒開改龍鹽酥雞中山店(⭐4.9,全年無休,02-2567-7770)但在飯店東邊反方向'},
+ HOTEL]},
+
+{id:'D2',t:'D2 9/26 六',c:'#7B62B8',stops:[HOTEL,
+ {n:'光點台北',lat:25.053279,lng:121.5221609,m:'中山北路二段18號｜飯店徒步3分',
+  note:'白色老洋房＋庭院咖啡｜10:00慢慢坐，散步消化早餐'},
+ HOTEL,
+ {n:"Will's Teppanyaki",lat:25.0547,lng:121.5504,m:'敦化北路165巷10號｜午餐12:00–14:30｜⚠️週一公休',
+  note:'⭐已訂位12:30｜中山站搭綠線往松山3站到台北小巨蛋站(7分)，出站走8分，整段25分｜11:55出發、12:20到，提早10分入座｜抓滿兩小時'},
+ {n:'微風南京・小巨蛋周邊',lat:25.0520,lng:121.5450,m:'南京復興／小巨蛋一帶',
+  note:'14:40吃完很撐，走一走再回中山｜不想逛就直接搭捷運回去'},
+ {n:'誠品生活南西',lat:25.0521315,lng:121.520677,m:'南京西路14號｜中山站2號出口上方',
+  note:'15:50回到中山｜5F書店、B1甜點，買伴手禮｜隔壁新光三越'},
+ HOTEL,
+ TPE]}
+];
+
+const map=L.map('map',{zoomControl:false}).setView([25.056,121.518],14);
+L.control.zoom({position:'bottomright'}).addTo(map);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+ {attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19}).addTo(map);
+const layer=L.layerGroup().addTo(map);
+
+function bearing(a,b){
+  const R=x=>x*Math.PI/180, D=x=>x*180/Math.PI;
+  const dL=R(b[1]-a[1]);
+  const y=Math.sin(dL)*Math.cos(R(b[0]));
+  const x=Math.cos(R(a[0]))*Math.sin(R(b[0]))-Math.sin(R(a[0]))*Math.cos(R(b[0]))*Math.cos(dL);
+  return (D(Math.atan2(y,x))+360)%360;
+}
+
+function draw(day){
+  layer.clearLayers();
+  const c=day.c;
+  const seq=[]; let last=null;
+  day.stops.forEach(s=>{ const k=s.lat+','+s.lng; if(k!==last){seq.push(s); last=k;} });
+  const pts=seq.map(s=>[s.lat,s.lng]);
+
+  if(pts.length>1){
+    L.polyline(pts,{color:c,weight:3,opacity:.5,dashArray:'7,7'}).addTo(layer);
+    for(let i=0;i<pts.length-1;i++){
+      const mid=[(pts[i][0]+pts[i+1][0])/2,(pts[i][1]+pts[i+1][1])/2];
+      const deg=bearing(pts[i],pts[i+1])-90;
+      L.marker(mid,{interactive:false,icon:L.divIcon({className:'',
+        html:'<div class="arrow" style="color:'+c+';transform:rotate('+deg+'deg)">\u27A4</div>',
+        iconSize:[14,14],iconAnchor:[7,7]})}).addTo(layer);
+    }
+  }
+
+  let n=0;
+  seq.forEach(s=>{
+    const special=s.bed||s.rail;
+    if(!special) n++;
+    const label=s.bed?'\uD83C\uDFE8':(s.rail?'\uD83D\uDE84':n);
+    const icon=L.divIcon({className:'',
+      html:'<div class="num'+(special?' bed':'')+'" style="background:'+c+'">'+label+'</div>',
+      iconSize:[24,24],iconAnchor:[12,12],popupAnchor:[0,-14]});
+    const g='https://www.google.com/maps/search/?api=1&query='+s.lat+','+s.lng;
+    const seqTxt=s.bed?'住宿':(s.rail?'高鐵':'第 '+n+' 站');
+    L.marker([s.lat,s.lng],{icon,zIndexOffset:special?1000:0}).bindPopup(
+      '<div><span class="pp-seq" style="background:'+c+'">'+day.t+' \u00B7 '+seqTxt+'</span>'+
+      '<div class="pp-n">'+s.n+'</div><div class="pp-m">'+(s.m||'')+'</div>'+
+      (s.note?'<div class="pp-note">'+s.note+'</div>':'')+
+      '<a class="pp-a" href="'+g+'" target="_blank" rel="noopener">在 Google Maps 開啟 \u2197</a></div>').addTo(layer);
+  });
+  map.fitBounds(L.latLngBounds(pts),{padding:[50,50],maxZoom:16});
+}
+
+const bar=document.getElementById('bar');
+DAYS.forEach((d,idx)=>{
+  const b=document.createElement('button');
+  b.className='chip'; b.textContent=d.t; b.style.borderColor=d.c;
+  b.onclick=()=>{
+    document.querySelectorAll('.chip').forEach(x=>{x.classList.remove('on');x.style.background='#fff';x.style.color='#666';});
+    b.classList.add('on'); b.style.background=d.c; b.style.color='#fff';
+    draw(d);
+  };
+  bar.appendChild(b);
+  if(idx===0) setTimeout(()=>b.click(),0);
+});
+</script>
+</body>
+</html>
