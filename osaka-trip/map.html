@@ -19,6 +19,11 @@ h1{font-size:16px;font-weight:600}
 .chip{flex:0 0 auto;font-size:12px;font-weight:600;padding:6px 12px;border-radius:20px;cursor:pointer;
       border:1.5px solid transparent;background:#fff;color:#666;white-space:nowrap;transition:.15s}
 .chip.on{color:#fff}
+
+nav.pages{display:flex;gap:8px;margin:0 0 18px}
+nav.pages a{flex:1;text-align:center;font-size:13px;font-weight:600;padding:9px 0;border-radius:10px;
+      background:#fff;color:#666;text-decoration:none;border:0.5px solid rgba(0,0,0,.09)}
+nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
 .legend{padding:0 16px 8px;font-size:11px;color:#999}
 #map{height:calc(100vh - 152px);width:100%}
 .leaflet-popup-content-wrapper{border-radius:12px}
@@ -40,6 +45,7 @@ h1{font-size:16px;font-weight:600}
   <h1>旅遊地圖</h1>
   <div class="sub">大阪・USJ・京都｜10/17–10/24, 2026</div>
 </header>
+<nav class="pages" style="padding:0 16px"><a href="index.html">📋 行程</a><a href="map.html" class="on">🗺️ 地圖</a><a href="food.html">🍜 美食</a></nav>
 <div class="bar" id="bar"></div>
 <div class="legend">數字＝當天順序　➤＝移動方向　🏨＝住宿　✈️＝機場</div>
 <div id="map"></div>
