@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>台北中山 2 天 1 夜｜9/25–9/26</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EEF0F6; --paper:#FFFFFF; --ink:#22263A; --muted:#6B7085;
+    --line:#D9DCE8; --sunset:#E8613C; --river:#2E7D8C; --river-soft:#E3F0F2;
+    --violet:#7B62B8; --done:#B9BED0; --meal:#1F7A5C; --meal-soft:#E4F2EC;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans TC",system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.55}
+  a{color:var(--river)}
+
+  header{background:linear-gradient(160deg,#22263A 0%,#3A3F6B 55%,#E8613C 140%);color:#fff;padding:28px 20px 20px}
+  header h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:26px;margin:0 0 4px;letter-spacing:.02em}
+  header p{margin:0;opacity:.85;font-size:14px}
+
+  nav{position:sticky;top:0;z-index:5;background:var(--bg);padding:12px 16px 8px;display:flex;gap:8px;border-bottom:1px solid var(--line)}
+  nav button{flex:1;border:1px solid var(--line);background:var(--paper);color:var(--muted);font:inherit;font-weight:500;padding:10px 6px;border-radius:10px;cursor:pointer}
+  nav button[aria-selected="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+  nav button:focus-visible{outline:2px solid var(--sunset);outline-offset:2px}
+
+  main{max-width:640px;margin:0 auto;padding:16px 16px 60px}
+
+  .map{background:var(--paper);border-radius:14px;padding:12px 12px 10px;margin-bottom:14px}
+  .map svg{width:100%;height:auto;display:block}
+  .map .legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12.5px;color:var(--muted);margin:8px 2px 0;align-items:center}
+  .legend i{display:inline-block;width:16px;height:3px;border-radius:2px;margin-right:5px;vertical-align:middle}
+  .maplink{display:block;margin-top:8px;font-size:13.5px;text-align:center;color:var(--river);text-decoration:none;border:1px solid var(--line);border-radius:9px;padding:8px}
+  .maplink:hover{background:var(--river-soft)}
+  .route{transition:opacity .25s}
+  .route.dim{opacity:.15}
+  .pin.dim{opacity:.28}
+
+  .day{display:none}
+  .day.active{display:block}
+  .day-head{display:flex;align-items:baseline;justify-content:space-between;margin:8px 4px 14px}
+  .day-head h2{font-family:"Noto Serif TC",serif;font-size:20px;margin:0}
+  .day-head small{color:var(--muted);font-size:13px}
+
+  .item{background:var(--paper);border-radius:14px;padding:14px 14px 12px;margin-bottom:10px;
+    display:grid;grid-template-columns:52px 1fr auto;gap:10px 12px;align-items:start;border-left:4px solid transparent}
+  .item.key{border-left-color:var(--sunset)}
+  .item.rest{border-left-color:#C9B6E8}
+  .item.meal{border-left-color:var(--meal)}
+  .item.done{opacity:.55}
+  .item.done .title{text-decoration:line-through;text-decoration-color:var(--done)}
+  .time{font-weight:700;font-size:15px;padding-top:2px}
+  .body{min-width:0}
+  .title{font-weight:700;font-size:16px;margin:0}
+  .badge{display:inline-block;background:var(--meal-soft);color:var(--meal);font-size:11.5px;font-weight:700;padding:2px 7px;border-radius:5px;margin-left:6px;vertical-align:2px}
+  .note{margin:4px 0 0;font-size:14px;color:var(--muted)}
+  .check{appearance:none;width:24px;height:24px;border:2px solid var(--line);border-radius:7px;background:#fff;cursor:pointer;margin-top:2px;position:relative}
+  .check:checked{background:var(--sunset);border-color:var(--sunset)}
+  .check:checked::after{content:"";position:absolute;left:7px;top:3px;width:6px;height:11px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg)}
+  .check:focus-visible{outline:2px solid var(--river);outline-offset:2px}
+
+  .acts{grid-column:2/4;display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start}
+  .transit summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;
+    background:var(--river-soft);color:var(--river);font-size:13px;font-weight:500;padding:5px 10px;border-radius:999px;user-select:none}
+  .transit summary::-webkit-details-marker{display:none}
+  .transit[open]{width:100%}
+  .transit[open] summary{border-radius:10px 10px 0 0}
+  .transit div{background:var(--river-soft);font-size:14px;padding:10px 12px;border-radius:0 10px 10px 10px;margin-top:-1px}
+  .transit div p{margin:0 0 6px}
+  .transit div p:last-child{margin:0}
+  .gmap{display:inline-flex;align-items:center;gap:5px;background:#F3EEFA;color:var(--violet);
+    font-size:13px;font-weight:500;padding:5px 10px;border-radius:999px;text-decoration:none}
+  .gmap:hover{background:#EAE1F6}
+
+  .tip{background:#FFF3EC;border-radius:12px;padding:12px 14px;font-size:14px;margin:18px 0 8px}
+  .tip strong{color:var(--sunset)}
+  .warn{background:#FDECEC;border-radius:12px;padding:12px 14px;font-size:14px;margin:10px 0 8px}
+  .warn strong{color:#C03A3A}
+
+  footer{max-width:640px;margin:0 auto;padding:0 16px 40px;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px}
+  footer button{border:1px solid var(--line);background:var(--paper);color:var(--muted);font:inherit;font-size:13px;padding:6px 12px;border-radius:8px;cursor:pointer}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>台北中山 2 天 1 夜</h1>
+  <p>9/25 五 <b>中秋節</b> 10:15 抵達 – 9/26 六 18:31 離開｜amba 中山 · Medium Queen City View</p>
+</header>
+
+<nav role="tablist" aria-label="選擇日期">
+  <button role="tab" aria-selected="true" data-day="d1">D1 五 9/25 中秋</button>
+  <button role="tab" aria-selected="false" data-day="d2">D2 六 9/26</button>
+</nav>
+
+<main>
+
+<div class="map">
+<svg viewBox="0 0 700 615" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="行程位置示意圖">
+  <rect x="0" y="0" width="700" height="615" fill="#F7F8FC" rx="10"/>
+
+  <!-- 淡水河 -->
+  <path d="M 14 0 L 74 0 L 56 200 L 70 380 L 40 615 L -10 615 Z" fill="#DCEAEE"/>
+  <text x="26" y="230" fill="#8FB3BB" font-size="13" transform="rotate(-80 26 230)">淡水河</text>
+
+  <!-- 道路示意 -->
+  <g stroke="#E3E6F0" stroke-width="9" stroke-linecap="round" fill="none">
+    <path d="M 578 30 L 552 340 L 520 470"/>
+    <path d="M 80 300 L 640 318"/>
+    <path d="M 60 530 L 660 548"/>
+  </g>
+  <text x="596" y="150" fill="#A9AEC2" font-size="11.5">中山北路</text>
+  <text x="120" y="293" fill="#A9AEC2" font-size="11.5">民生西路</text>
+
+  <!-- D1 路線 -->
+  <g class="route" id="route-d1" fill="none" stroke="#E8613C" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 541 330 L 566 200 L 573 78"/>
+    <path d="M 541 330 L 470 325 L 441 342"/>
+    <path d="M 541 330 C 400 300, 250 296, 160 305 L 88 305"/>
+    <path d="M 88 305 C 180 288, 260 288, 317 299"/>
+    <path d="M 317 299 C 420 304, 500 318, 541 330"/>
+  </g>
+
+  <!-- D2 路線 -->
+  <g class="route" id="route-d2" fill="none" stroke="#7B62B8" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="9 7">
+    <path d="M 541 330 L 515 408 L 472 445"/>
+    <path d="M 541 330 L 630 356 L 668 372"/>
+    <path d="M 472 445 L 271 552"/>
+  </g>
+
+  <g font-family="'Noto Sans TC',sans-serif" font-size="13.5" fill="#22263A">
+
+    <!-- 黃記 -->
+    <g class="pin" data-day="d1">
+      <circle cx="573" cy="78" r="11" fill="#1F7A5C"/>
+      <circle cx="573" cy="78" r="4.5" fill="#fff"/>
+      <text x="573" y="57" text-anchor="middle" font-weight="700">黃記魯肉飯</text>
+      <text x="573" y="105" text-anchor="middle" font-size="11.5" fill="#6B7085">走 13 分 · 排隊 30 分</text>
+    </g>
+
+    <!-- amba -->
+    <g class="pin" data-day="both">
+      <circle cx="541" cy="330" r="11" fill="#22263A"/>
+      <circle cx="541" cy="330" r="4.5" fill="#fff"/>
+      <text x="541" y="311" text-anchor="middle" font-weight="700">amba 中山</text>
+    </g>
+
+    <g class="pin" data-day="d1">
+      <circle cx="470" cy="325" r="6" fill="#E8613C" opacity=".75"/>
+      <circle cx="441" cy="342" r="6" fill="#E8613C" opacity=".75"/>
+      <text x="436" y="365" text-anchor="middle" font-size="12.5" fill="#6B7085">赤峰街 · 心中山</text>
+    </g>
+
+    <g class="pin" data-day="d1">
+      <circle cx="160" cy="305" r="7" fill="#E8613C"/>
+      <text x="168" y="288" text-anchor="middle">迪化街</text>
+    </g>
+    <g class="pin" data-day="d1">
+      <circle cx="88" cy="305" r="11" fill="#E8613C"/>
+      <circle cx="88" cy="305" r="4.5" fill="#fff"/>
+      <text x="90" y="338" text-anchor="middle" font-weight="700">大稻埕碼頭</text>
+      <text x="90" y="355" text-anchor="middle" font-size="11.5" fill="#6B7085">日落 17:50</text>
+    </g>
+    <g class="pin" data-day="d1">
+      <circle cx="317" cy="299" r="12" fill="#E8613C"/>
+      <circle cx="317" cy="299" r="5" fill="#fff"/>
+      <text x="317" y="277" text-anchor="middle" font-weight="700">寧夏夜市</text>
+    </g>
+
+    <!-- D2 -->
+    <g class="pin" data-day="d2">
+      <circle cx="515" cy="408" r="7" fill="#7B62B8"/>
+      <text x="530" y="413" font-size="13">光點台北</text>
+    </g>
+    <g class="pin" data-day="d2">
+      <circle cx="472" cy="445" r="7" fill="#7B62B8"/>
+      <text x="460" y="468" text-anchor="middle">誠品南西</text>
+    </g>
+    <g class="pin" data-day="d2">
+      <circle cx="668" cy="372" r="10" fill="#1F7A5C"/>
+      <circle cx="668" cy="372" r="4" fill="#fff"/>
+      <text x="668" y="398" text-anchor="end" font-weight="700" font-size="12.5">Will's 鐵板燒</text>
+      <text x="668" y="414" text-anchor="end" font-size="11.5" fill="#6B7085">捷運綠線 3 站 →</text>
+    </g>
+
+    <g class="pin" data-day="both">
+      <circle cx="271" cy="552" r="9" fill="#22263A"/>
+      <circle cx="271" cy="552" r="3.5" fill="#fff"/>
+      <text x="271" y="576" text-anchor="middle" font-weight="700">台北車站</text>
+    </g>
+
+    <g class="pin" data-day="d2">
+      <path d="M 232 578 L 196 602" stroke="#7B62B8" stroke-width="2.4" stroke-dasharray="5 5" fill="none"/>
+      <circle cx="190" cy="606" r="5" fill="#7B62B8" opacity=".6"/>
+      <text x="208" y="598" font-size="11.5" fill="#6B7085">南機場夜市（車程 12 分）</text>
+    </g>
+  </g>
+
+  <g>
+    <line x1="460" y1="590" x2="539" y2="590" stroke="#A9AEC2" stroke-width="2.5"/>
+    <line x1="460" y1="584" x2="460" y2="596" stroke="#A9AEC2" stroke-width="2.5"/>
+    <line x1="539" y1="584" x2="539" y2="596" stroke="#A9AEC2" stroke-width="2.5"/>
+    <text x="500" y="581" text-anchor="middle" font-size="11.5" fill="#A9AEC2">約 300 公尺</text>
+  </g>
+</svg>
+
+<div class="legend">
+  <span><i style="background:#E8613C"></i>D1 動線</span>
+  <span><i style="background:#7B62B8"></i>D2 動線</span>
+  <span><i style="background:#1F7A5C"></i>已訂／指定餐廳</span>
+  <span>示意圖，非等比精確</span>
+</div>
+
+<a class="maplink" id="gmapday" href="#" target="_blank" rel="noopener">在 Google Maps 開啟 D1 整段路線</a>
+</div>
+
+<!-- ================= D1 ================= -->
+<section class="day active" id="d1">
+  <div class="day-head"><h2>黃記午餐 → 大稻埕夕陽 → 寧夏夜市</h2><small>D1 <span class="count" data-for="d1"></span></small></div>
+
+  <div class="warn"><strong>中秋連假注意（9/25–9/28 四天連假第一天）：</strong>
+    <b>① 黃記務必先打電話確認 9/25 有無營業</b>——原本週一、週四公休，國定假日小吃店常再加休，D1 午餐全押在這裡。
+    <b>② 寧夏夜市部分攤商可能回家過節提早收</b>，做好有些攤位沒開的心理準備。
+    <b>③ 高鐵連假人潮</b>，9/26 傍晚南下班次會滿，17:45 從飯店出發別再晚。</div>
+
+  <div class="item" data-id="d1-1">
+    <div class="time">10:15</div>
+    <div class="body"><p class="title">抵達台北車站 → amba 寄行李</p><p class="note">10:35 到飯店放行李，15:00 才能進房</p></div>
+    <input class="check" type="checkbox" aria-label="完成">
+    <div class="acts">
+      <details class="transit"><summary>🚇 交通</summary><div>
+        <p>高鐵台北站在台北車站地下。出閘門後往 <b>Y 區→中山地下街（R 區）</b>走，全程室內有冷氣，約 12 分鐘直達中山站，拉行李比上地面搭捷運舒服很多。</p>
+        <p>出中山地下街 R9 出口，再走 5 分鐘到 amba（中山北路二段 57-1 號）。從下車到飯店抓 20 分鐘。</p>
+      </div></details>
+      <a class="gmap" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=amba台北中山意舍酒店">📍 地圖</a>
+    </div>
+  </div>
+
+  <div class="item" data-id="d1-1b">
+    <div class="time">10:50</div>
+    <div class="body"><p class="title">沿中山北路往北散步</p><p class="note">林森公園、晴光商圈，邊走邊晃 30 分鐘剛好到黃記</p></div>
+    <input class="check" type="checkbox" aria-label="完成">
+  </div>
+
+  <div class="item meal" data-id="d1-2">
+    <div class="time">11:20</div>
+    <div class="body"><p class="title">黃記魯肉飯<span class="badge">午餐</span></p><p class="note">11:30 開門，提早 10 分鐘到排第一輪，完全不用等</p></div>
+    <input class="check" type="checkbox" aria-label="完成">
+    <div class="acts">
+      <details class="transit"><summary>🚇 交通</summary><div>
+        <p>從 amba 出來沿中山北路往北直走約 13 分鐘，過林森北路口後右手邊 183 巷進去。</p>
+        <p>不想走：中山站搭紅線往淡水 2 站到「民權西路站」，走 8 分鐘。</p>
+      </div></details>
+      <a class="gmap" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;origin=amba台北中山意舍酒店&amp;destination=黃記魯肉飯&amp;travelmode=walking">📍 路線</a>
+    </div>
+  </div>
+
+  <div class="warn"><strong>黃記排隊攻略：</strong>這間中午尖峰要等 30 分鐘左右，但你們 10:15 就到台北，<b>直接排 11:30 開門第一輪，等於零排隊</b>。流程是門口抽號碼牌、點餐、付款才能進場，全店自助式，只有出餐會送到桌。除了魯肉飯，評價最高的是<b>白菜滷</b>，雞絲飯可以加點。</div>
+
+  <div class="item" data-id="d1-3">
+    <div class="time">12:30</div>
+    <div class="body"><p class="title">赤峰街、心中山線形公園</p><p class="note">沿中山北路往南走回來，文青小店＋咖啡，下午時間很寬裕</p></div>
+    <input class="check" type="checkbox" aria-label="完成">
+    <div class="acts"><a class="gmap" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=赤峰街+台北">📍 地圖</a></div>
+  </div>
+
+  <div class="item rest" data-id="d1-4">
+    <div class="time">15:00</div>
+    <div class="body"><p class="title">Check-in，回房休息</p><p class="note">24 m²、6–9F 市景房。這段留白到 16:30，不要塞東西</p></div>
+    <input class="check" type="checkbox" aria-label="完成">
+  </div>
+
+  <div class="item" data-id="d1-5">
+    <div class="time">16:45</div>
+    <div class="body"><p class="title">迪化街 老街、伴手禮</p><p class="note">多數店家 18:00 收，17:30 前往碼頭走</p></div>
+    <input class="check" type="checkbox" aria-label="完成">
+    <div class="acts">
+      <details class="transit"><summary>🚇 交通</summary><div>
+        <p>飯店沿民生西路往西走約 15 分鐘，直接走比搭捷運快。</p>
+      </div></details>
+      <a class="gmap" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;origin=amba台北中山意舍酒店&amp;destination=迪化街&amp;travelmode=walking">📍 路線</a>
+    </div>
+  </div>
+
+  <div class="item key" data-id="d1-6">
+    <div class="time">17:30</div>
+    <div class="body"><p class="title">大稻埕碼頭 夕陽＋中秋滿月</p><p class="note">日落約 17:50，滿月同時從東邊升起。夕陽接滿月，一年就這一天</p></div>
+    <input class="check" type="checkbox" aria-label="完成">
+    <div class="acts">
+      <details class="transit"><summary>🚇 交通</summary><div>
+        <p>迪化街走到碼頭約 10 分鐘，從五號水門進去。週五營業 16:00–22:00。</p>
+      </div></details>
+      <a class="gmap" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=大稻埕碼頭貨櫃市集">📍 地圖</a>
+    </div>
+  </div>
+
+  <div class="tip"><strong>中秋賞月怎麼看：</strong>碼頭是朝西看河的，夕陽在正前方；<b>滿月在你們背後的東邊升起</b>，約 18:00 前後從樓房間爬出來，剛升起時位置低、顏色偏橘，最適合拍。所以 17:50 太陽下山後別急著走，轉身等 10 分鐘。之後往寧夏夜市走的路上（民生西路往東），月亮會一路在正前方，整段路都是賞月動線。</div>
+
+  <div class="item meal key" data-id="d1-7">
+    <div class="time">18:45</div>
+    <div class="body"><p class="title">寧夏夜市<span class="badge">晚餐</span></p><p class="note">19:00 前到人少很多。中秋可能有攤商休息，看到想吃的就先買</p></div>
+    <input class="check" type="checkbox" aria-label="完成">
+    <div class="acts">
+      <details class="transit"><summary>🚇 交通</summary><div>
+        <p>碼頭沿民生西路往東走約 15 分鐘，到寧夏路左轉。</p>
+      </div></details>
+      <a class="gmap" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;origin=大稻埕碼頭貨櫃市集&amp;destination=寧夏夜市&amp;travelmode=walking">📍 路線</a>
+    </div>
+  </div>
+
+  <div class="item meal" data-id="d1-7b">
+    <div class="time">20:15</div>
+    <div class="body"><p class="title">買宵夜帶回飯店<span class="badge">鹽酥雞＋飲料</span></p><p class="note">大眾鹽酥雞（萬全街 40 巷）＋蓮飲料吧楊桃甘蔗汁，都在回程路上</p></div>
+    <input class="check" type="checkbox" aria-label="完成">
+    <div class="acts">
+      <details class="transit"><summary>🚇 動線</summary><div>
+        <p>飲料先買：<b>蓮飲料吧</b>在寧夏路上（17:30–03:30），出夜市北端順手拿。</p>
+        <p>再往北走 5 分鐘到<b>大眾鹽酥雞</b>（萬全街 40 巷 19 號，週五 17:00–24:00）。</p>
+        <p>拿完沿民生西路往東走回 amba 約 10 分鐘，炸物還是熱的。</p>
+      </div></details>
+      <a class="gmap" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;origin=寧夏夜市&amp;waypoints=蓮飲料吧|大眾鹽酥雞&amp;destination=amba台北中山意舍酒店&amp;travelmode=walking">📍 宵夜路線</a>
+    </div>
+  </div>
+
+  <div class="warn"><strong>宵夜備援：</strong>大眾（0987-087-564）週一、週日休，<b>中秋當晚也可能休</b>；蓮飲料吧同樣是個人小店。出發前先看 Google Maps 即時營業狀態或直接打電話。
+    真的都沒開，改<b>龍鹽酥雞中山店</b>（02-2567-7770，民生東路二段 77-1 號，4.9★，每天 16:00–24:00 全年無休，豬血糕被特別點名）——但它在飯店<b>東邊</b> 10 分鐘，跟寧夏反方向，等於回飯店後要再出門一趟。</div>
+
+  <div class="item rest" data-id="d1-8">
+    <div class="time">20:45</div>
+    <div class="body"><p class="title">回飯店，宵夜配夜景</p><p class="note">6–9F 市景房。隔天中午有鐵板燒，別吃太撐</p></div>
+    <input class="check" type="checkbox" aria-label="完成">
+  </div>
+
+  <div class="warn"><strong>房型提醒：</strong>中房（Medium）只有淋浴間，<b>沒有浴缸</b>，本來想泡澡的話要改計畫。附近腳底按摩店很多，下午那段改成兩人按摩 60 分鐘也能達到放鬆效果。Check-in 時可以請櫃台安排 <b>9 樓、避開電梯旁</b>，市景會比 6 樓開闊，也順便備註是紀念日。</div>
+
+  <div class="tip"><strong>寧夏夜市先看這幾攤：</strong>圓環邊蚵仔煎、劉芋仔蛋黃芋餅、豬肝榮仔、方家雞肉飯、古早味豆花。中午吃過魯肉飯了，夜市就避開同類型的飯食，走小吃、湯品、甜點路線比較不重複。<br><br>
+  <strong>飲料怎麼選：</strong>配鹽酥雞解膩就<b>蓮飲料吧</b>的楊桃甘蔗汁，酸甜帶鹹、專門解油；想喝甜的當宵夜甜點改 <b>Nap Tea 寧夏</b>（民生西路 212 號，開到 22:00，黑糖珍珠、奶蓋評價最好）。<br>
+  <b>波諦波諦</b>果汁雖然評價高，但只開到 18:00 且週二四日休，你們會撲空，別排。</div>
+</section>
+
+<!-- ================= D2 ================= -->
+<section class="day" id="d2">
+  <div class="day-head"><h2>光點咖啡 → Will's 鐵板燒 → 回台中</h2><small>D2 <span class="count" data-for="d2"></span></small></div>
+
+  <div class="item rest" data-id="d2-1">
+    <div class="time">09:00</div>
+    <div class="body"><p class="title">飯店早餐</p><p class="note">中午是鐵板燒 omakase，早餐吃七分飽就好</p></div>
+    <input class="check" type="checkbox" aria-label="完成">
+  </div>
+
+  <div class="item" data-id="d2-2">
+    <div class="time">10:00</div>
+    <div class="body"><p class="title">光點台北 庭院咖啡</p><p class="note">飯店走 3 分鐘。白色老洋房，慢慢坐、散步消化</p></div>
+    <input class="check" type="checkbox" aria-label="完成">
+    <div class="acts"><a class="gmap" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=光點台北">📍 地圖</a></div>
+  </div>
+
+  <div class="item key" data-id="d2-3">
+    <div class="time">11:30</div>
+    <div class="body"><p class="title">退房，行李寄櫃台</p><p class="note">押金 NT$1,000／晚退回原卡。11:55 出發搭捷運</p></div>
+    <input class="check" type="checkbox" aria-label="完成">
+  </div>
+
+  <div class="item meal key" data-id="d2-4">
+    <div class="time">12:30</div>
+    <div class="body"><p class="title">Will's Teppanyaki<span class="badge">已訂位 12:30</span></p><p class="note">敦化北路 165 巷 10 號。午餐時段開到 14:30，吃到底剛好</p></div>
+    <input class="check" type="checkbox" aria-label="完成">
+    <div class="acts">
+      <details class="transit"><summary>🚇 交通</summary><div>
+        <p><b>中山站搭綠線（松山新店線）往松山方向 3 站</b>到「台北小巨蛋站」，車程約 7 分鐘，出站走 8 分鐘。整段抓 25 分鐘，11:55 出發、12:20 到，提早 10 分鐘入座。</p>
+        <p>叫車約 12 分鐘、NT$150 內，兩個人差不多划算。</p>
+      </div></details>
+      <a class="gmap" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;origin=amba台北中山意舍酒店&amp;destination=Will%27s+Teppanyaki+敦化北路&amp;travelmode=transit">📍 路線</a>
+    </div>
+  </div>
+
+  <div class="item" data-id="d2-5">
+    <div class="time">14:40</div>
+    <div class="body"><p class="title">微風南京 / 小巨蛋周邊 散步</p><p class="note">吃完很撐，走一走再回中山。不想逛就直接搭捷運回去</p></div>
+    <input class="check" type="checkbox" aria-label="完成">
+  </div>
+
+  <div class="item" data-id="d2-6">
+    <div class="time">15:50</div>
+    <div class="body"><p class="title">綠線回中山 → 誠品南西補買</p><p class="note">5F 書店、B1 甜點，買伴手禮。時間充裕，不用趕</p></div>
+    <input class="check" type="checkbox" aria-label="完成">
+    <div class="acts"><a class="gmap" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=誠品生活南西">📍 地圖</a></div>
+  </div>
+
+  <div class="item" data-id="d2-7">
+    <div class="time">17:30</div>
+    <div class="body"><p class="title">取行李 → 台北車站 → 18:31 發車</p><p class="note">17:45 出發，走中山地下街 12 分鐘，18:00 到站，還有 30 分鐘緩衝</p></div>
+    <input class="check" type="checkbox" aria-label="完成">
+    <div class="acts">
+      <details class="transit"><summary>🚇 交通</summary><div>
+        <p>走中山地下街回台北車站約 12 分鐘，到 Y 區後往高鐵閘門（B1）。<b>連假人潮會讓這段變慢</b>，17:45 出發、18:00 到站，緩衝 30 分鐘剛好，別再晚。</p>
+        <p>高鐵不需劃位改簽的話直接進閘；要買車上吃的，Y 區微風二樓便當櫃位最順路。</p>
+      </div></details>
+      <a class="gmap" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;origin=amba台北中山意舍酒店&amp;destination=台北車站&amp;travelmode=walking">📍 路線</a>
+    </div>
+  </div>
+
+  <div class="tip"><strong>南機場夜市這次放掉。</strong>18:31 的車，加上中午吃完 omakase 根本不會餓，來回趕沒有意義。上車前想帶東西的話，台北車站微風二樓的便當櫃位最快。</div>
+</section>
+
+</main>
+
+<footer>
+  <span>打勾會保存在這支手機</span>
+  <button id="reset">清除打勾</button>
+</footer>
+
+<script>
+(function(){
+  var KEY='taipei-trip-2026-09';
+  var store={};
+  try{ store=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){ store={}; }
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(store)); }catch(e){} }
+
+  var items=document.querySelectorAll('.item');
+  items.forEach(function(el){
+    var id=el.dataset.id, cb=el.querySelector('.check');
+    if(store[id]){ cb.checked=true; el.classList.add('done'); }
+    cb.addEventListener('change',function(){
+      store[id]=cb.checked; el.classList.toggle('done',cb.checked); save(); updateCounts();
+    });
+  });
+
+  function updateCounts(){
+    document.querySelectorAll('.count').forEach(function(c){
+      var day=document.getElementById(c.dataset.for);
+      var all=day.querySelectorAll('.item').length, done=day.querySelectorAll('.item.done').length;
+      c.textContent=done+'/'+all;
+    });
+  }
+  updateCounts();
+
+  var D1LINK='https://www.google.com/maps/dir/?api=1&origin=amba台北中山意舍酒店&waypoints=黃記魯肉飯|迪化街|大稻埕碼頭貨櫃市集&destination=寧夏夜市&travelmode=walking';
+  var D2LINK='https://www.google.com/maps/dir/?api=1&origin=amba台北中山意舍酒店&waypoints=Will%27s Teppanyaki 敦化北路165巷&destination=台北車站&travelmode=transit';
+  var dayLink=document.getElementById('gmapday');
+
+  var tabs=document.querySelectorAll('nav button');
+  function showDay(id){
+    document.querySelectorAll('.day').forEach(function(d){ d.classList.toggle('active',d.id===id); });
+    tabs.forEach(function(t){ t.setAttribute('aria-selected',t.dataset.day===id?'true':'false'); });
+    document.getElementById('route-d1').classList.toggle('dim',id!=='d1');
+    document.getElementById('route-d2').classList.toggle('dim',id!=='d2');
+    document.querySelectorAll('.pin').forEach(function(p){
+      var d=p.dataset.day;
+      p.classList.toggle('dim', d!=='both' && d!==id);
+    });
+    dayLink.setAttribute('href', id==='d1'?D1LINK:D2LINK);
+    dayLink.textContent = id==='d1' ? '在 Google Maps 開啟 D1 整段路線' : '在 Google Maps 開啟 D2 整段路線';
+    try{ localStorage.setItem(KEY+'-tab',id); }catch(e){}
+  }
+  tabs.forEach(function(t){ t.addEventListener('click',function(){ showDay(t.dataset.day); }); });
+  var last=null;
+  try{ last=localStorage.getItem(KEY+'-tab'); }catch(e){}
+  showDay(last||'d1');
+
+  document.getElementById('reset').addEventListener('click',function(){
+    if(!confirm('清除所有打勾？')) return;
+    store={}; save();
+    items.forEach(function(el){ el.querySelector('.check').checked=false; el.classList.remove('done'); });
+    updateCounts();
+  });
+})();
+</script>
+</body>
+</html>
