@@ -50,7 +50,7 @@ for c,r in rev[ym].items():
     tech = px>m20 and m20>m20p and px>m60 and (px-m20)/m20<0.15 and vol[c][i]>=500000
     if not tech: continue
     sb=code2sub[c]
-    rows.append([c,r["name"],sb,stage(sb),f"{BR[ym][sb]:.0f}%",f"{r['yoy']:.0f}",f"{p['yoy']:.0f}",f"{r.get('cum') or 0:.0f}",px,f"{(px-m20)/m20*100:.1f}",f"{m60:.1f}",int(vol[c][i]/1000),(r["note"] or "")[:40]])
+    rows.append([c,r["name"],sb,stage(sb),f"{BR[ym][sb]:.0f}%",f"{r['yoy']:.0f}",f"{p['yoy']:.0f}",f"{r.get('cum') or 0:.0f}",px,f"{(px-m20)/m20*100:.1f}",f"{m20:.1f}",f"{m20*1.15:.1f}",f"{m60:.1f}",f"{(m60/px-1)*100:.1f}",int(vol[c][i]/1000),(r["note"] or "")[:40]])
 excl=[r for r in rows if r[0] in EXCLUDE]
 rows=[r for r in rows if r[0] not in EXCLUDE]
 rows.sort(key=lambda x:-float(x[5]))
@@ -59,7 +59,7 @@ out=f"paper/candidates_{ym}.csv"
 with open(out,"w",newline="",encoding="utf-8-sig") as f:
     w=csv.writer(f)
     w.writerow([f"資料月 {ym}",f"價格日 {dates[i]}",f"加權 {taiex[i]:.0f}",f"季線 {t60:.0f}",f"閘門 {'開' if taiex[i]>=t60 else '關'}",f"自60日高 {(taiex[i]/hi60-1)*100:.1f}%"])
-    w.writerow(["代號","名稱","子產業","階段","擴散度","當月YoY%","上月YoY%","累計YoY%","收盤","乖離20MA%","60MA(出清線)","量(張)","備註"])
+    w.writerow(["代號","名稱","子產業","階段","擴散度","當月YoY%","上月YoY%","累計YoY%","收盤","乖離20MA%","進場下限(20MA)","進場上限(乖離15%)","60MA(出清線)","停損幅度%","量(張)","備註"])
     w.writerows(rows)
     if excl:
         w.writerow([]); w.writerow(["— 以下排除，不列入規則帳戶 —"])
