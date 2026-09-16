@@ -27,6 +27,11 @@
 
   main{max-width:640px;margin:0 auto;padding:16px 16px 60px}
 
+  nav.pages{display:flex;gap:8px;max-width:640px;margin:0 auto;padding:14px 16px 0}
+  nav.pages a{flex:1;text-align:center;font-size:13px;font-weight:600;padding:9px 0;border-radius:10px;
+        background:var(--paper);color:var(--muted);text-decoration:none;border:0.5px solid rgba(0,0,0,.09)}
+  nav.pages a.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
   .map{background:var(--paper);border-radius:14px;padding:12px 12px 10px;margin-bottom:14px}
   .map svg{width:100%;height:auto;display:block}
   .map .legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12.5px;color:var(--muted);margin:8px 2px 0;align-items:center}
@@ -88,6 +93,8 @@
   <h1>台北中山 2 天 1 夜</h1>
   <p>9/25 五 <b>中秋節</b> 10:15 抵達 – 9/26 六 18:31 離開｜amba 中山 · Medium Queen City View</p>
 </header>
+
+<nav class="pages"><a href="index.html" class="on">📋 行程</a><a href="map.html">🗺️ 地圖</a></nav>
 
 <nav role="tablist" aria-label="選擇日期">
   <button role="tab" aria-selected="true" data-day="d1">D1 五 9/25 中秋</button>
@@ -212,6 +219,7 @@
   <span>示意圖，非等比精確</span>
 </div>
 
+<a class="maplink" href="map.html" style="border-color:var(--ink);color:var(--ink);font-weight:600">🗺️ 開啟互動地圖（可點每一站看細節）</a>
 <a class="maplink" id="gmapday" href="#" target="_blank" rel="noopener">在 Google Maps 開啟 D1 整段路線</a>
 </div>
 
