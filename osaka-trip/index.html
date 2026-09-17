@@ -61,6 +61,18 @@ nav.pages{display:flex;gap:8px;margin:0 0 16px}
 nav.pages a{flex:1;text-align:center;font-size:13px;font-weight:600;padding:9px 0;border-radius:10px;
       background:#fff;color:#666;text-decoration:none;border:0.5px solid rgba(0,0,0,.09)}
 nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+
+.syncbar{display:flex;gap:8px;margin:-10px 0 18px}
+.sbtn{font-size:12px;font-weight:600;padding:7px 12px;border-radius:9px;border:none;background:#1a1a1a;color:#fff;cursor:pointer}
+.sbtn.ghost{background:#fff;color:#666;border:0.5px solid rgba(0,0,0,.12)}
+.syncpanel{display:none;background:#fff;border:0.5px solid rgba(0,0,0,.09);border-radius:12px;padding:14px;margin-bottom:18px}
+.syncpanel.open{display:block}
+.sp-t{font-size:12px;font-weight:600;color:#444;margin-bottom:6px}
+.syncpanel textarea{width:100%;font-size:11px;font-family:ui-monospace,Menlo,monospace;border:0.5px solid #ddd;
+  border-radius:8px;padding:8px;resize:none;background:#F5F6F8;color:#333;line-height:1.5;box-sizing:border-box}
+.sp-row{display:flex;align-items:center;gap:8px;margin-top:7px;flex-wrap:wrap}
+.sp-msg{font-size:11px;color:#0E9F6E;font-weight:600}
+.sp-note{font-size:11px;color:#999;line-height:1.6;margin-top:11px;padding-top:10px;border-top:0.5px solid #eee}
 .section { margin-bottom: 20px; }
 .section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #888; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 0.5px solid #ddd; }
 </style>
@@ -86,7 +98,19 @@ nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
 
 <p class="progress-text" id="progressText">0 / 0 完成</p>
 <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-<div style="text-align:right;margin:-16px 0 20px"><button onclick="resetAll()" style="font-size:11px;color:#aaa;background:none;border:0.5px solid #ddd;border-radius:6px;padding:3px 8px;cursor:pointer">清除打勾紀錄</button></div>
+<div class="syncbar">
+  <button class="sbtn" onclick="openSync()">🔄 跨裝置同步</button>
+  <button class="sbtn ghost" onclick="resetAll()">清除打勾</button>
+</div>
+<div id="syncPanel" class="syncpanel">
+  <div class="sp-t">① 把這串代碼複製到另一台裝置</div>
+  <textarea id="syncCode" readonly rows="2"></textarea>
+  <div class="sp-row"><button class="sbtn" onclick="copyCode()">複製代碼</button><span id="copyMsg" class="sp-msg"></span></div>
+  <div class="sp-t" style="margin-top:12px">② 或在這裡貼上另一台的代碼</div>
+  <textarea id="pasteCode" rows="2" placeholder="貼上代碼後按套用"></textarea>
+  <div class="sp-row"><button class="sbtn" onclick="applyCode()">套用</button><button class="sbtn ghost" onclick="closeSync()">關閉</button><span id="applyMsg" class="sp-msg"></span></div>
+  <div class="sp-note">💡 代碼只記錄「哪些項目打勾了」。換手機、或跟同行的人同步進度都用這個。⚠️ 行程項目增減後舊代碼會對不上。</div>
+</div>
 
 <!-- 出發前 -->
 <div class="section">
@@ -255,35 +279,82 @@ function tr(el){
   const open = box.classList.toggle('open');
   el.textContent = open ? '🚇 收合' : '🚇 交通';
 }
-function keyOf(cb){
-  const all = Array.from(document.querySelectorAll('.cb'));
-  return 'osaka2026_' + all.indexOf(cb);
-}
+const KEY='osaka2026_';
+function allCb(){ return Array.from(document.querySelectorAll('.cb')); }
+function keyOf(cb){ return KEY + allCb().indexOf(cb); }
+
 function toggle(cb) {
   cb.classList.toggle('checked');
   const label = cb.closest('.item').querySelector('.label');
   label.classList.toggle('checked');
   try { localStorage.setItem(keyOf(cb), cb.classList.contains('checked') ? '1' : '0'); } catch(e) {}
   updateProgress();
+  refreshCode();
+}
+function setChecked(cb, on){
+  cb.classList.toggle('checked', on);
+  cb.closest('.item').querySelector('.label').classList.toggle('checked', on);
+  try { localStorage.setItem(keyOf(cb), on ? '1' : '0'); } catch(e) {}
 }
 function restore(){
-  document.querySelectorAll('.cb').forEach(function(cb){
-    try {
-      if (localStorage.getItem(keyOf(cb)) === '1') {
-        cb.classList.add('checked');
-        cb.closest('.item').querySelector('.label').classList.add('checked');
-      }
-    } catch(e) {}
+  allCb().forEach(function(cb){
+    try { if (localStorage.getItem(keyOf(cb)) === '1') setChecked(cb, true); } catch(e) {}
   });
 }
 function resetAll(){
   if(!confirm('確定要清除所有打勾紀錄嗎？')) return;
-  document.querySelectorAll('.cb').forEach(function(cb){
-    cb.classList.remove('checked');
-    cb.closest('.item').querySelector('.label').classList.remove('checked');
-    try { localStorage.removeItem(keyOf(cb)); } catch(e) {}
-  });
-  updateProgress();
+  allCb().forEach(function(cb){ setChecked(cb, false); });
+  updateProgress(); refreshCode();
+}
+
+/* ── 跨裝置同步：把勾選狀態壓成 base64 代碼 ── */
+function encodeState(){
+  const cbs = allCb();
+  const bytes = new Uint8Array(Math.ceil(cbs.length/8));
+  cbs.forEach(function(cb,i){ if(cb.classList.contains('checked')) bytes[i>>3] |= (1 << (i&7)); });
+  let bin=''; bytes.forEach(function(b){ bin += String.fromCharCode(b); });
+  return 'OSK' + cbs.length + '-' + btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+function decodeState(code){
+  code = (code||'').trim();
+  const m = code.match(/^OSK(\d+)-(.+)$/);
+  if(!m) return null;
+  const n = parseInt(m[1],10);
+  if(n !== allCb().length) return {mismatch:n};
+  let b64 = m[2].replace(/-/g,'+').replace(/_/g,'/');
+  while(b64.length % 4) b64 += '=';
+  let bin;
+  try { bin = atob(b64); } catch(e){ return null; }
+  const bytes = new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
+  const out=[];
+  for(let i=0;i<n;i++) out.push(!!(bytes[i>>3] & (1 << (i&7))));
+  return {bits:out};
+}
+function refreshCode(){
+  const el=document.getElementById('syncCode');
+  if(el) el.value = encodeState();
+}
+function openSync(){ document.getElementById('syncPanel').classList.add('open'); refreshCode(); }
+function closeSync(){ document.getElementById('syncPanel').classList.remove('open'); }
+function copyCode(){
+  const el=document.getElementById('syncCode'); el.select(); el.setSelectionRange(0,99999);
+  const msg=document.getElementById('copyMsg');
+  try {
+    if(navigator.clipboard) navigator.clipboard.writeText(el.value); else document.execCommand('copy');
+    msg.textContent='已複製 ✓';
+  } catch(e){ msg.textContent='請長按手動複製'; }
+  setTimeout(function(){ msg.textContent=''; }, 2500);
+}
+function applyCode(){
+  const msg=document.getElementById('applyMsg');
+  const r = decodeState(document.getElementById('pasteCode').value);
+  if(!r){ msg.style.color='#BE123C'; msg.textContent='代碼格式不對'; return; }
+  if(r.mismatch){ msg.style.color='#BE123C'; msg.textContent='行程已更新，舊代碼不適用（'+r.mismatch+'≠'+allCb().length+'）'; return; }
+  allCb().forEach(function(cb,i){ setChecked(cb, r.bits[i]); });
+  updateProgress(); refreshCode();
+  msg.style.color='#0E9F6E'; msg.textContent='已套用 ✓';
+  setTimeout(function(){ msg.textContent=''; }, 2500);
 }
 function updateProgress() {
   const all = document.querySelectorAll('.cb');
@@ -294,6 +365,7 @@ function updateProgress() {
 }
 restore();
 updateProgress();
+refreshCode();
 </script>
 </body>
 </html>
