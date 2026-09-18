@@ -1,0 +1,136 @@
+name: weekly-research
+on:
+  schedule:
+    - cron: "0 12 * * 0"     # 每週日 台灣 20:00
+  workflow_dispatch:
+permissions: {contents: write}
+jobs:
+  r:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - env: {FM: "${{ secrets.FINMIND_TOKEN }}"}
+        run: |
+          mkdir -p research
+          python3 - << 'PY' 2>&1 | tee research/log.txt
+          import json,os,time,datetime,urllib.request,urllib.parse,statistics,glob
+          FM=os.environ["FM"]; HDR={"User-Agent":"Mozilla/5.0"}
+          B="https://raw.githubusercontent.com/kko3okk/family-dividend-web/main/"
+          def get(u):
+              return json.loads(urllib.request.urlopen(urllib.request.Request(u,headers=HDR),timeout=90).read().decode())
+          SUB=get(B+"data/subindustry.json")
+          codes=sorted({c for v in SUB.values() for c in v})
+          c2s={c:k for k,cs in SUB.items() for c in cs}
+          # 1) 毛利率（季報，每季更新；每週重抓成本低）
+          p="research/gm.json"
+          GM=json.load(open(p)) if os.path.exists(p) else {}
+          def fm(cid):
+              q=dict(dataset="TaiwanStockFinancialStatements",data_id=cid,start_date="2024-01-01",token=FM)
+              try: return get("https://api.finmindtrade.com/api/v4/data?"+urllib.parse.urlencode(q)).get("data",[])
+              except Exception as e: return []
+          for i,c in enumerate(codes):
+              rows=fm(c); by={}
+              for r in rows:
+                  if r.get("type") in ("GrossProfit","Revenue"): by.setdefault(r["date"],{})[r["type"]]=r["value"]
+              q=[]
+              for dt in sorted(by):
+                  g=by[dt].get("GrossProfit"); rv=by[dt].get("Revenue")
+                  if g is not None and rv: q.append([dt,round(g/rv*100,2)])
+              if q: GM[c]=q
+              if i%40==0: print("gm",i,flush=True)
+              time.sleep(0.22)
+          json.dump(GM,open(p,"w"))
+          # 2) 最新月營收
+          revs=sorted(f for f in os.listdir("data/revenue") if f.endswith(".json"))
+          cur=json.load(open("data/revenue/"+revs[-1],encoding="utf-8")); prev=json.load(open("data/revenue/"+revs[-2],encoding="utf-8"))
+          R={r["code"]:r for r in cur}; P={r["code"]:r for r in prev}
+          ym=revs[-1][:-5]
+          # 3) 價格
+          days={}
+          for f in sorted(glob.glob("data/prices/*.json")): days.update(json.load(open(f)))
+          otc={}
+          for f in sorted(glob.glob("data/prices_otc2/*.json")): otc.update(json.load(open(f)))
+          ds=sorted(days); od=sorted(otc)
+          def px(c):
+              s=[days[x]["px"].get(c,[None])[0] for x in ds]; w=[v for v in s if v]
+              if len(w)>=60: return w[-1],sum(w[-20:])/20,sum(w[-60:])/60,max(w[-60:]),days[ds[-1]]["px"].get(c,[0,0])[1]/1000
+              s=[otc[x].get(c,[None])[0] for x in od]; w=[v for v in s if v]
+              if len(w)>=60: return w[-1],sum(w[-20:])/20,sum(w[-60:])/60,max(w[-60:]),otc[od[-1]].get(c,[0,0])[1]/1000
+              return None
+          MODEL={'伺服器ODM':'過路費','網通交換器':'過路費','封裝測試':'過路費','記憶體':'租金','機殼導軌':'租金',
+           'PCB_CCL':'加工','PCB設備':'加工','散熱':'加工','探針卡測試介面':'加工','半導體設備材料':'加工',
+           '晶圓代工':'租金','光通訊_CPO':'加工','IC設計_ASIC':'混合','被動元件':'加工','導線架封裝材料':'加工',
+           '連接器線材':'加工','電源':'加工','機器人自動化':'加工','功率半導體':'加工','航運':'循環',
+           '檢測分析':'加工','重電電網':'加工'}
+          L=[]
+          L.append(f"# 產業數據看板（自動更新）\n")
+          L.append(f"**更新：{datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y-%m-%d %H:%M')}　營收月：{ym}　價格日：{ds[-1]}**\n")
+          L.append("本檔為 `RESEARCH.md` 的數據面，每週日 20:00 自動重算。質化分析（瓶頸成因、供應鏈結構、監控指標）仍在 `RESEARCH.md`，需人工更新。\n")
+          L.append("\n## 子產業總表（毛利率＝議價力）\n")
+          L.append("| 子產業 | 模式 | 家數 | 毛利率中位 | 近兩季變化 | 當月YoY中位 | 站60MA | 距高中位 |")
+          L.append("|---|---|---|---|---|---|---|---|")
+          rows=[]
+          for sub,cs in SUB.items():
+              lv=[];dl=[];ys=[];ab=0;n=0;dh=[]
+              for c in cs:
+                  g=[v for _,v in GM.get(c,[])]
+                  if len(g)>=3: lv.append(g[-1]); dl.append(g[-1]-g[-3])
+                  r=R.get(c)
+                  if r and r.get("yoy") is not None: ys.append(r["yoy"])
+                  t=px(c)
+                  if t:
+                      n+=1
+                      if t[0]>t[2]: ab+=1
+                      dh.append((t[0]/t[3]-1)*100)
+              if len(lv)<2: continue
+              rows.append((statistics.median(dl),sub,len(lv),statistics.median(lv),
+                           statistics.median(ys) if ys else 0, ab/n*100 if n else 0,
+                           statistics.median(dh) if dh else 0))
+          rows.sort(reverse=True)
+          for d,sub,nn,lv,y,ab,dh in rows:
+              L.append(f"| {sub} | {MODEL.get(sub,'—')} | {nn} | {lv:.1f}% | {d:+.1f}pt | {y:+.0f}% | {ab:.0f}% | {dh:+.1f}% |")
+          L.append("\n## 通過第12條草案（毛利率連兩季上升）且技術面合格\n")
+          L.append("| 代號 | 名稱 | 子產業 | 模式 | 當月YoY | 累計 | 毛利率三季 | 收盤 | 進場下限 | 出場線 | 停損 | 量(張) |")
+          L.append("|---|---|---|---|---|---|---|---|---|---|---|---|")
+          cnt=0
+          for c in codes:
+              r=R.get(c); p=P.get(c)
+              if not r or r.get("yoy") is None or not (30<=r["yoy"]<=300): continue
+              if not p or p.get("yoy") is None or p["yoy"]<30: continue
+              if (r.get("cum") or 0)<30: continue
+              g=[v for _,v in GM.get(c,[])]
+              if len(g)<3 or not (g[-1]>g[-2]>g[-3]): continue
+              t=px(c)
+              if not t: continue
+              pxx,m20,m60,hi,vol=t
+              if not (pxx>m20 and pxx>m60 and (pxx-m20)/m20<0.15 and vol>=500): continue
+              sub=c2s.get(c,"—")
+              L.append(f"| {c} | {r['name']} | {sub} | {MODEL.get(sub,'—')} | {r['yoy']:+.0f}% | {r['cum']:+.0f}% | {g[-3]:.1f}→{g[-2]:.1f}→{g[-1]:.1f} | {pxx:.1f} | {m20:.1f} | {m60:.1f} | {(m60/pxx-1)*100:.1f}% | {vol:.0f} |")
+              cnt+=1
+          if cnt==0: L.append("| — | 本週無標的同時通過 | | | | | | | | | | |")
+          L.append(f"\n## 毛利率變化前後各 10 名（全對照表）\n")
+          L.append("| 名稱 | 子產業 | 毛利率三季 | 變化 | 當月YoY | 距高 |")
+          L.append("|---|---|---|---|---|---|")
+          ind=[]
+          for c in codes:
+              g=[v for _,v in GM.get(c,[])]
+              if len(g)<3: continue
+              r=R.get(c); t=px(c)
+              if not t: continue
+              ind.append((g[-1]-g[-3],c,(r or {}).get("name",c),c2s.get(c,"—"),g[-3:],(r or {}).get("yoy"),(t[0]/t[3]-1)*100))
+          ind.sort(reverse=True)
+          for d,c,n_,sub,g,y,dh in ind[:10]+[(None,)*7]+ind[-10:]:
+              if d is None: L.append("| *…* | | | | | |"); continue
+              L.append(f"| {n_} | {sub} | {g[0]:.1f}→{g[1]:.1f}→{g[2]:.1f} | {d:+.1f}pt | {(f'{y:+.0f}%' if y is not None else '—')} | {dh:+.1f}% |")
+          open("research/DATA.md","w").write("\n".join(L)+"\n")
+          print("wrote research/DATA.md", cnt, "names pass Rule12")
+          PY
+      - run: |
+          git config user.name bot; git config user.email b@b.c
+          git add research
+          git diff --cached --quiet && exit 0
+          git commit -m "weekly research data $(date +%F)"
+          for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 5; done
