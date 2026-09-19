@@ -22,7 +22,7 @@ jobs:
           def get(u):
               return json.loads(urllib.request.urlopen(urllib.request.Request(u,headers=HDR),timeout=90).read().decode())
           SUB=get(B+"data/subindustry.json")
-          codes=sorted({c for v in SUB.values() for c in v})
+          codes=sorted({c for v in SUB.values() for c in v}|{"3707","3016","6488","3211","6548","5285","2481","6693","3026","2301","2308","2351"})
           c2s={c:k for k,cs in SUB.items() for c in cs}
           # 1) 毛利率（季報，每季更新；每週重抓成本低）
           p="research/gm.json"
@@ -182,6 +182,30 @@ jobs:
               spe=SUBPE.get(sub)
               anc=(ttm*spe) if (ttm and spe and ttm>0) else None
               L.append(f"| {r['name']} | {sub} | {pxx:.1f} | {(f'{ttm:.2f}' if ttm else '—')} | {(f'{PE[c]:.1f}' if c in PE else '—')} | {(f'{spe:.1f}' if spe else '—')} | {(f'{anc:.0f}' if anc else '—')} | {(f'{(anc/pxx-1)*100:+.0f}%' if anc else '—')} | {m60:.1f} | {(m60/pxx-1)*100:.1f}% |")
+          # 800V 電源鏈追蹤（能力驗證分層，固定名單）
+          L.append("\n## 800V HVDC 電源鏈追蹤\n")
+          L.append("**背景**：NVIDIA 18 家 800V 合作夥伴中 10 家半導體業者全為外商（英飛凌/MPS/ADI/TI/ROHM/ST/英諾賽科/納微/安森美/瑞薩）。**800V 的 SiC/GaN 晶片本身，台灣一家都沒有。** 台廠角色：T1 電源系統（NVIDIA 官方夥伴）→ T2 SiC/GaN 材料與代工（供外商 IDM）→ T3 矽基 MOSFET 周邊 → T4 封裝材料/被動元件。")
+          L.append("本表為數據面自動更新；「台廠是否進入 NVIDIA 800V 半導體夥伴名單」「漢磊 8吋 SiC Q4 驗證結果」等質化事件需人工確認（見 RESEARCH.md 追蹤清單）。\n")
+          L.append("| 層級 | 名稱 | 市 | 當月YoY | 上月 | 累計 | 毛利率三季 | PE | 收盤 | 距60MA | 距高 | 第1條 | 第12條 |")
+          L.append("|---|---|---|---|---|---|---|---|---|---|---|---|---|")
+          PW=[("T1","2308","台達電"),("T1","2301","光寶科"),("T2","3707","漢磊"),("T2","3016","嘉晶"),("T2","6488","環球晶"),("T2","3211","順達"),
+              ("T3","2481","強茂"),("T3","6693","廣閎科"),("T4","3026","禾伸堂"),("T4","2351","順德"),("T4","6548","長科"),("T4","5285","界霖")]
+          for tier,c,n in PW:
+              r=R.get(c); p=P.get(c); t=px(c)
+              y=f"{r['yoy']:+.0f}%" if r and r.get("yoy") is not None else "—"
+              yp=f"{p['yoy']:+.0f}%" if p and p.get("yoy") is not None else "—"
+              cum=f"{r['cum']:+.0f}%" if r and r.get("cum") is not None else "—"
+              g=[v for _,v in GM.get(c,[])][-3:]
+              gs=f"{g[0]:.1f}→{g[1]:.1f}→{g[2]:.1f}" if len(g)>=3 else "—"
+              r1 = "✓" if (r and p and r.get("yoy") is not None and p.get("yoy") is not None and 30<=r["yoy"]<=300 and p["yoy"]>=30 and (r.get("cum") or 0)>=30) else "✗"
+              r12 = "✓" if (len(g)>=3 and g[-1]>g[-2]>g[-3]) else "✗"
+              pe=f"{PE[c]:.0f}" if c in PE and 0<PE[c]<500 else "—"
+              if t:
+                  pxx,m20,m60,hi,vol=t
+                  mk="市" if c in {x[0] for x in (j.get("data",[]) if isinstance(j,dict) else [])} else "櫃"
+                  L.append(f"| {tier} | {n} | {mk} | {y} | {yp} | {cum} | {gs} | {pe} | {pxx:.1f} | {(pxx/m60-1)*100:+.1f}% | {(pxx/hi-1)*100:+.1f}% | {r1} | {r12} |")
+              else:
+                  L.append(f"| {tier} | {n} | — | {y} | {yp} | {cum} | {gs} | {pe} | — | — | — | {r1} | {r12} |")
           open("research/DATA.md","w").write("\n".join(L)+"\n")
           print("wrote research/DATA.md", cnt, "names pass Rule12")
           PY
