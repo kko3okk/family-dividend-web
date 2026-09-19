@@ -27,6 +27,8 @@ jobs:
           # 1) 毛利率（季報，每季更新；每週重抓成本低）
           p="research/gm.json"
           GM=json.load(open(p)) if os.path.exists(p) else {}
+          pe_p="research/eps.json"
+          EPS=json.load(open(pe_p)) if os.path.exists(pe_p) else {}
           def fm(cid):
               q=dict(dataset="TaiwanStockFinancialStatements",data_id=cid,start_date="2024-01-01",token=FM)
               try: return get("https://api.finmindtrade.com/api/v4/data?"+urllib.parse.urlencode(q)).get("data",[])
@@ -34,15 +36,36 @@ jobs:
           for i,c in enumerate(codes):
               rows=fm(c); by={}
               for r in rows:
-                  if r.get("type") in ("GrossProfit","Revenue"): by.setdefault(r["date"],{})[r["type"]]=r["value"]
-              q=[]
+                  if r.get("type") in ("GrossProfit","Revenue","EPS"): by.setdefault(r["date"],{})[r["type"]]=r["value"]
+              q=[];e=[]
               for dt in sorted(by):
                   g=by[dt].get("GrossProfit"); rv=by[dt].get("Revenue")
                   if g is not None and rv: q.append([dt,round(g/rv*100,2)])
+                  if by[dt].get("EPS") is not None: e.append([dt,by[dt]["EPS"]])
               if q: GM[c]=q
+              if e: EPS[c]=e
               if i%40==0: print("gm",i,flush=True)
               time.sleep(0.22)
-          json.dump(GM,open(p,"w"))
+          json.dump(GM,open(p,"w")); json.dump(EPS,open(pe_p,"w"))
+          # 1b) 本益比/淨值比（證交所 + 櫃買）
+          def tof(x):
+              try: return float(str(x).replace(",",""))
+              except: return None
+          PE={};PB={}
+          try:
+              j=get("https://www.twse.com.tw/rwd/zh/afterTrading/BWIBBU_d?date=&selectType=ALL&response=json")
+              for r in j.get("data",[]):
+                  if tof(r[5]): PE[r[0]]=tof(r[5])
+                  if tof(r[6]): PB[r[0]]=tof(r[6])
+          except Exception as e: print("pe twse fail",e)
+          try:
+              for r in get("https://www.tpex.org.tw/openapi/v1/tpex_mainboard_peratio_analysis"):
+                  v=tof(r.get("PriceEarningRatio")); pb=tof(r.get("PriceBookRatio"))
+                  if v and v>0: PE[r["SecuritiesCompanyCode"]]=v
+                  if pb: PB[r["SecuritiesCompanyCode"]]=pb
+          except Exception as e: print("pe tpex fail",e)
+          json.dump({"pe":PE,"pb":PB},open("research/valuation.json","w"))
+          print("PE",len(PE),"PB",len(PB))
           # 2) 最新月營收
           revs=sorted(f for f in os.listdir("data/revenue") if f.endswith(".json"))
           cur=json.load(open("data/revenue/"+revs[-1],encoding="utf-8")); prev=json.load(open("data/revenue/"+revs[-2],encoding="utf-8"))
@@ -125,6 +148,40 @@ jobs:
           for d,c,n_,sub,g,y,dh in ind[:10]+[(None,)*7]+ind[-10:]:
               if d is None: L.append("| *…* | | | | | |"); continue
               L.append(f"| {n_} | {sub} | {g[0]:.1f}→{g[1]:.1f}→{g[2]:.1f} | {d:+.1f}pt | {(f'{y:+.0f}%' if y is not None else '—')} | {dh:+.1f}% |")
+          # 估值與推估目標價
+          L.append("\n## 子產業本益比（相對估值錨點）\n")
+          L.append("| 子產業 | 模式 | 家數 | PE中位 | PE區間 | PB中位 |")
+          L.append("|---|---|---|---|---|---|")
+          SUBPE={}
+          for sub,cs in SUB.items():
+              v=[PE[c] for c in cs if c in PE and 0<PE[c]<500]
+              pb=[PB[c] for c in cs if c in PB and PB[c]>0]
+              if len(v)<3: continue
+              SUBPE[sub]=statistics.median(v)
+              L.append(f"| {sub} | {MODEL.get(sub,'—')} | {len(v)} | {statistics.median(v):.1f} | {min(v):.1f}–{max(v):.1f} | {statistics.median(pb) if pb else 0:.2f} |")
+          allv=[PE[c] for cs in SUB.values() for c in cs if c in PE and 0<PE[c]<500]
+          mkt=[v for v in PE.values() if 0<v<500]
+          L.append(f"\n對照表整體中位 **{statistics.median(allv):.1f}** 倍；全市場中位 {statistics.median(mkt):.1f} 倍；溢價 {statistics.median(allv)/statistics.median(mkt)*100-100:.0f}%\n")
+          L.append("\n## 候選清單的相對估值與推估目標價\n")
+          L.append("**方法**：近四季 EPS × 該子產業 PE 中位。這是「若回到同業平均估值」的錨點，**不是預測**。")
+          L.append("回測顯示本益比閘門在本系統為負貢獻（PE≤25 報酬僅 +4.4%），此欄僅供理解市場定價，不作進出依據。\n")
+          L.append("| 名稱 | 子產業 | 收盤 | 近四季EPS | 現行PE | 同業PE | 推估錨點 | 距錨點 | 出場線 | 停損 |")
+          L.append("|---|---|---|---|---|---|---|---|---|---|")
+          for c in codes:
+              r=R.get(c); p=P.get(c)
+              if not r or r.get("yoy") is None or not (30<=r["yoy"]<=300): continue
+              if not p or p.get("yoy") is None or p["yoy"]<30: continue
+              if (r.get("cum") or 0)<30: continue
+              t=px(c)
+              if not t: continue
+              pxx,m20,m60,hi,vol=t
+              if not (pxx>m20 and pxx>m60 and (pxx-m20)/m20<0.15 and vol>=500): continue
+              sub=c2s.get(c,"—")
+              ev=[v for _,v in EPS.get(c,[])][-4:]
+              ttm=sum(ev) if len(ev)==4 else None
+              spe=SUBPE.get(sub)
+              anc=(ttm*spe) if (ttm and spe and ttm>0) else None
+              L.append(f"| {r['name']} | {sub} | {pxx:.1f} | {(f'{ttm:.2f}' if ttm else '—')} | {(f'{PE[c]:.1f}' if c in PE else '—')} | {(f'{spe:.1f}' if spe else '—')} | {(f'{anc:.0f}' if anc else '—')} | {(f'{(anc/pxx-1)*100:+.0f}%' if anc else '—')} | {m60:.1f} | {(m60/pxx-1)*100:.1f}% |")
           open("research/DATA.md","w").write("\n".join(L)+"\n")
           print("wrote research/DATA.md", cnt, "names pass Rule12")
           PY
