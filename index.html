@@ -75,6 +75,13 @@
   .adv .t .px{font-family:var(--mono);font-size:11px;color:var(--mut);font-weight:400;margin-left:6px}
   .adv .d{font-family:var(--mono);font-size:11px;color:var(--mut);margin-top:2px}
   .adv .d b{color:var(--chang);font-weight:700}
+  .adv>div:last-child{flex:1;min-width:0}
+  .qbar{height:7px;border-radius:6px;background:var(--line);overflow:hidden;margin-top:6px}
+  .qbar i{display:block;height:100%;border-radius:6px;background:var(--wife)}
+  .qbar i.full{background:var(--green)}
+  .qtxt{font-family:var(--mono);font-size:11px;color:var(--mut);margin-top:3px}
+  .qsum{background:var(--card2);border-radius:14px;padding:12px 14px;margin-bottom:8px}
+  .qsum .t{font-size:13.5px;font-weight:700}
 
   table{width:100%;border-collapse:collapse;font-size:13px}
   th{font-size:10px;color:var(--mut2);font-weight:600;text-align:left;padding:5px 3px;
@@ -418,7 +425,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 <script>
-const APP_VERSION="2026.09.20-1500";
+const APP_VERSION="2026.09.20-1700";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -645,9 +652,23 @@ function advChang(){
   out.push(`<div class="adv">${badge("b-open","照扣")}<div><div class="t">0050</div><div class="d">每月 1.5 萬定期定額 · 不擇時</div></div></div>`);
   return out.join("");
 }
+const WIFE_QUOTA={"9917":500000,"4506":500000,"1231":500000};
+function quotaUsed(o,sid){
+  const y=String(new Date().getFullYear());
+  return DATA.transactions.filter(t=>t.owner===o&&t.stock===sid&&t.date.startsWith(y))
+    .reduce((a,t)=>a+t.shares*t.price,0);
+}
+function qbar(used,cap){
+  const r=Math.min(used/cap,1);
+  return `<div class="qbar"><i class="${used>=cap?"full":""}" style="width:${(r*100).toFixed(1)}%"></i></div>
+    <div class="qtxt">今年已買 ${fmt(used)} / ${fmt(cap)}（${(used/cap*100).toFixed(0)}%）· 剩 ${fmt(Math.max(cap-used,0))}</div>`;
+}
 function advWife(){
   // 2026.09 股息池新制：年 150 萬 = 中保科 / 崇友 / 聯華食 各 50 萬
   const P=DATA.prices||{},S=DATA.stocks,out=[];
+  {const cap=Object.values(WIFE_QUOTA).reduce((a,b)=>a+b,0),
+        used=Object.keys(WIFE_QUOTA).reduce((a,k)=>a+quotaUsed("wife",k),0);
+   out.push(`<div class="qsum"><div class="t">${new Date().getFullYear()} 年股息池額度</div>${qbar(used,cap)}</div>`);}
   [["9917","中保科","收入核心 · 分 2~3 批 · ",103.6],["4506","崇友","股息成長 · ",96.4]].forEach(([sid,nm,pre,cap])=>{
     const px=P[sid],div=S[sid]?S[sid].div:0,t1=div?Math.round(div/.055*10)/10:cap;
     let b=badge("b-wait","等待"),d=pre+`殖利率 ≥5.5% 才買：<b>≤${t1}</b>`;
@@ -656,10 +677,10 @@ function advWife(){
       else if(px<=t1*1.02)b=badge("b-near","接近");
       if(px>t1)d+=`（差 ${(px-t1).toFixed(1)} 元）`;
     }
-    out.push(`<div class="adv">${b}<div><div class="t">${nm}<span class="px">${px?"現價 "+px:"50 萬/年"}</span></div><div class="d">${d}</div></div></div>`);
+    out.push(`<div class="adv">${b}<div><div class="t">${nm}<span class="px">${px?"現價 "+px:"50 萬/年"}</span></div><div class="d">${d}</div>${qbar(quotaUsed("wife",sid),WIFE_QUOTA[sid])}</div></div>`);
   });
   {const w=lhWeight("wife"),over=w>.35;
-   out.push(`<div class="adv">${over?badge("b-act","轉大成"):badge("b-open","加速器")}<div><div class="t">聯華食<span class="px">占持股 ${(w*100).toFixed(1)}%</span></div><div class="d">${over?"已超過 35%：停止加碼，開始轉換到大成（1210）":"每年 50 萬 · 超過 35% 即停止加碼並轉換到大成（1210）"}</div></div></div>`);}
+   out.push(`<div class="adv">${over?badge("b-act","轉大成"):badge("b-open","加速器")}<div><div class="t">聯華食<span class="px">占持股 ${(w*100).toFixed(1)}%</span></div><div class="d">${over?"已超過 35%：停止加碼，開始轉換到大成（1210）":"每年 50 萬 · 超過 35% 即停止加碼並轉換到大成（1210）"}</div>${qbar(quotaUsed("wife","1231"),WIFE_QUOTA["1231"])}</div></div>`);}
   out.push(`<div class="adv">${badge("b-open","照扣")}<div><div class="t">0050</div><div class="d">每月 2 萬定期定額（池外）· 退休時轉高股息</div></div></div>`);
   out.push(`<div class="adv">${badge("b-open","再投入")}<div><div class="t">股息</div><div class="d">全數再投入中保科／崇友，不提領</div></div></div>`);
   return out.join("");
