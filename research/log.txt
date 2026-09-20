@@ -3,6 +3,5 @@ gm 40
 gm 80
 gm 120
 gm 160
-pe tpex fail HTTP Error 403: Forbidden
-PE 869 PB 1078
-wrote research/DATA.md 11 names pass Rule12
+PE 1542 PB 1965
+wrote research/DATA.md 13 names pass Rule12
