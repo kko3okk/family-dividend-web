@@ -77,7 +77,7 @@
   .adv .d b{color:var(--chang);font-weight:700}
   .adv>div:last-child{flex:1;min-width:0}
   .qbar{height:7px;border-radius:6px;background:var(--line);overflow:hidden;margin-top:6px}
-  .qbar i{display:block;height:100%;border-radius:6px;background:var(--wife)}
+  .qbar i{display:block;height:100%;border-radius:6px;background:var(--pcol,var(--wife))}
   .qbar i.full{background:var(--green)}
   .qtxt{font-family:var(--mono);font-size:11px;color:var(--mut);margin-top:3px}
   .qsum{background:var(--card2);border-radius:14px;padding:12px 14px;margin-bottom:8px}
@@ -425,7 +425,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 <script>
-const APP_VERSION="2026.09.20-1700";
+const APP_VERSION="2026.09.20-1800";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -623,6 +623,9 @@ function petalRain(){
 const badge=(c,t)=>`<span class="stb ${c}">${t}</span>`;
 function advChang(){
   const P=DATA.prices||{},S=DATA.stocks,out=[];
+  {const used=CHANG_POOL.reduce((a,k)=>a+quotaUsed("chang",k),0);
+   const parts=CHANG_POOL.map(k=>`${(S[k]||{}).name||k} ${fmt(quotaUsed("chang",k))}`).join(" · ");
+   out.push(`<div class="qsum"><div class="t">${new Date().getFullYear()} 年股息池額度<span class="px" style="font-family:var(--mono);font-size:11px;color:var(--mut);font-weight:400;margin-left:6px">年最低轉入 50 萬</span></div>${qbar(used,CHANG_POOL_QUOTA)}<div class="qtxt">${parts}</div></div>`);}
   [["4766","南寶",""],["6803","崑鼎","除息後窗口 · "]].forEach(([sid,nm,pre])=>{
     const px=P[sid],div=S[sid].div;
     const t1=Math.round(div/.055),t2=Math.round(div/.06),t3=Math.round(div/.065);
@@ -649,13 +652,14 @@ function advChang(){
     }
     out.push(`<div class="adv">${b}<div><div class="t">台產<span class="px">${px?"現價 "+px:"2832"}</span></div><div class="d">${dsc}　已填息，次次配息在明年</div></div></div>`);
   }
-  out.push(`<div class="adv">${badge("b-open","照扣")}<div><div class="t">0050</div><div class="d">每月 1.5 萬定期定額 · 不擇時</div></div></div>`);
+  {const cap=CHANG_DCA*12;
+   out.push(`<div class="adv">${badge("b-open","照扣")}<div><div class="t">0050<span class="px">核心池</span></div><div class="d">每月 1.5 萬定期定額 · 跌破 60MA 當月加倍 3 萬</div>${qbar(quotaUsed("chang","0050"),cap)}</div></div>`);}
   return out.join("");
 }
 const WIFE_QUOTA={"9917":500000,"4506":500000,"1231":500000};
 function quotaUsed(o,sid){
   const y=String(new Date().getFullYear());
-  return DATA.transactions.filter(t=>t.owner===o&&t.stock===sid&&t.date.startsWith(y))
+  return DATA.transactions.filter(t=>t.owner===o&&t.stock===sid&&t.date.startsWith(y)&&!(t.memo||"").includes("彙入"))
     .reduce((a,t)=>a+t.shares*t.price,0);
 }
 function qbar(used,cap){
@@ -663,6 +667,7 @@ function qbar(used,cap){
   return `<div class="qbar"><i class="${used>=cap?"full":""}" style="width:${(r*100).toFixed(1)}%"></i></div>
     <div class="qtxt">今年已買 ${fmt(used)} / ${fmt(cap)}（${(used/cap*100).toFixed(0)}%）· 剩 ${fmt(Math.max(cap-used,0))}</div>`;
 }
+const CHANG_POOL=["4766","6803","2832"],CHANG_POOL_QUOTA=500000,CHANG_DCA=15000;
 function advWife(){
   // 2026.09 股息池新制：年 150 萬 = 中保科 / 崇友 / 聯華食 各 50 萬
   const P=DATA.prices||{},S=DATA.stocks,out=[];
