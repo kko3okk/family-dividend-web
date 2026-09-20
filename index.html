@@ -52,6 +52,12 @@
   .strip .v.accent{color:var(--pcol,var(--chang))}
 
   /* 卡片 */
+  .pie{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+  .pie svg{width:140px;height:140px;flex:none}
+  .pie .lg{flex:1;min-width:150px;display:grid;gap:5px;font-size:13px}
+  .pie .lg div{display:flex;align-items:center;gap:7px}
+  .pie .lg b{width:10px;height:10px;border-radius:3px;flex:none}
+  .pie .lg .pct{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--mut)}
   .card{background:var(--card);border:1.5px solid var(--line);border-radius:18px;
     padding:18px 16px;margin-bottom:14px;box-shadow:0 3px 0 var(--line)}
   .card h3{font-size:14px;letter-spacing:.2em;color:var(--mut);
@@ -299,6 +305,7 @@
 <div class="card"><h3>買入指引</h3><div id="advBox"></div></div>
 
 <div class="card"><h3>持股</h3>
+  <div class="pie" id="holdPie"></div>
   <table><thead><tr><th>標的</th><th class="num">股數</th><th class="num">年股息</th><th class="num">成本殖利率</th></tr></thead>
   <tbody id="holdBody"></tbody></table>
 </div>
@@ -411,7 +418,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 <script>
-const APP_VERSION="2026.09.20-1200";
+const APP_VERSION="2026.09.20-1500";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -651,10 +658,37 @@ function advWife(){
     }
     out.push(`<div class="adv">${b}<div><div class="t">${nm}<span class="px">${px?"現價 "+px:"50 萬/年"}</span></div><div class="d">${d}</div></div></div>`);
   });
-  out.push(`<div class="adv">${badge("b-open","加速器")}<div><div class="t">聯華食<span class="px">50 萬/年</span></div><div class="d">占她總資產 &gt;35% 即停止加碼 · 第 5~6 年起每年轉 1/3 到高股息</div></div></div>`);
-  out.push(`<div class="adv">${badge("b-open","照扣")}<div><div class="t">0050</div><div class="d">每月 2 萬定期定額（池外）· 第 5~6 年起與聯華食一起每年轉 1/3</div></div></div>`);
+  {const w=lhWeight("wife"),over=w>.35;
+   out.push(`<div class="adv">${over?badge("b-act","轉大成"):badge("b-open","加速器")}<div><div class="t">聯華食<span class="px">占持股 ${(w*100).toFixed(1)}%</span></div><div class="d">${over?"已超過 35%：停止加碼，開始轉換到大成（1210）":"每年 50 萬 · 超過 35% 即停止加碼並轉換到大成（1210）"}</div></div></div>`);}
+  out.push(`<div class="adv">${badge("b-open","照扣")}<div><div class="t">0050</div><div class="d">每月 2 萬定期定額（池外）· 退休時轉高股息</div></div></div>`);
   out.push(`<div class="adv">${badge("b-open","再投入")}<div><div class="t">股息</div><div class="d">全數再投入中保科／崇友，不提領</div></div></div>`);
   return out.join("");
+}
+
+const PIE_COLS=["#4A90D9","#A55EC4","#5FBF6E","#F2A65A","#E36F8E","#3FB8AF","#C9A227","#8A7FBF","#9AA5B1"];
+function holdValues(h,o){
+  const P=DATA.prices||{},S=DATA.stocks;
+  return OWNER_STOCKS[o].map(sid=>{
+    const sh=h[o+"|"+sid]||0,px=P[sid]||costBasis(o,sid);
+    return {sid,name:(S[sid]||{}).name||sid,v:sh*px};
+  }).filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
+}
+function holdPie(h,o){
+  const xs=holdValues(h,o),tot=xs.reduce((a,x)=>a+x.v,0);
+  if(!tot)return "";
+  const R=60,C=2*Math.PI*R;let off=0;
+  const arcs=xs.map((x,i)=>{const len=x.v/tot*C;
+    const a=`<circle r="${R}" cx="70" cy="70" fill="none" stroke="${PIE_COLS[i%PIE_COLS.length]}" stroke-width="20"
+      stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-off}" transform="rotate(-90 70 70)"/>`;off+=len;return a;}).join("");
+  const lg=xs.map((x,i)=>`<div><b style="background:${PIE_COLS[i%PIE_COLS.length]}"></b>${x.name}<span class="pct">${(x.v/tot*100).toFixed(1)}%</span></div>`).join("");
+  return `<svg viewBox="0 0 140 140">${arcs}
+    <text x="70" y="66" text-anchor="middle" font-size="10" fill="var(--mut)">持股市值</text>
+    <text x="70" y="82" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink)">${tot>=1e6?(tot/1e6).toFixed(2)+"M":fmt(tot)}</text></svg>
+    <div class="lg">${lg}</div>`;
+}
+function lhWeight(o){
+  const xs=holdValues(holdings(),o),tot=xs.reduce((a,x)=>a+x.v,0),lh=xs.find(x=>x.sid==="1231");
+  return tot&&lh?lh.v/tot:0;
 }
 
 function costBasis(o,sid){
@@ -760,7 +794,7 @@ const CHECKS={
         "三月股利公告後重算觸發價（股利÷5.5%／6%／6.5%）"],
  wife:["中保科／崇友／聯華食配息軌跡維持（崇友看維保營收占比）",
        "年度 150 萬已三等分投入（各 50 萬）",
-       "聯華食占總資產未超過 35%",
+       "聯華食占比是否超過 35%（超過即停買、轉大成）",
        "股息已全數再投入中保科／崇友",
        "0050 月扣未中斷",
        "除權息季買點窗口已把握"]};
@@ -840,6 +874,7 @@ function render(){
   document.getElementById("trCount").textContent=(pD/1000000*100).toFixed(2)+"%";
   document.getElementById("advBox").innerHTML=person==="chang"?advChang():advWife();
   document.getElementById("holdBody").innerHTML=holdRows(h,person);
+  document.getElementById("holdPie").innerHTML=holdPie(h,person);
   document.getElementById("exBox").innerHTML=exRows(person);
   renderYear();
   document.getElementById("payBox").innerHTML=payRows(person);
@@ -852,7 +887,7 @@ function render(){
       <td class="num"><button class="delbtn" onclick="delTx(${t._i})" title="刪除這筆">✕</button></td></tr>`).join("");
   document.getElementById("ruleNote").innerHTML=person==="chang"
     ?"觸發價每年 3 月隨新股利重算（股利 ÷ 5.5%／6%／6.5%）。熔斷：南寶配息＜15、崑鼎配息停止成長、EPS 連兩年衰退 → 停買。"
-    :"股息池每年 150 萬，中保科／崇友／聯華食各 50 萬；中保科、崇友只在殖利率 ≥5.5% 時買（中保科 ≤103.6、崇友 ≤96.4），中保科分 2~3 批。股息全數再投入中保科／崇友。聯華食占總資產 >35% 停止加碼。第 5~6 年起聯華食與 0050 每年約 1/3 轉入高股息。目標約 7~8 年達年股息 100 萬。";
+    :"股息池每年 150 萬，中保科／崇友／聯華食各 50 萬；中保科、崇友只在殖利率 ≥5.5% 時買（中保科 ≤103.6、崇友 ≤96.4），中保科分 2~3 批。股息全數再投入中保科／崇友。聯華食占持股超過 35% 即停止加碼，並開始轉換到大成（1210）。0050 退休時轉高股息。目標約 7~8 年達年股息 100 萬。";
   document.getElementById("meta").textContent=`資料 ${DATA.updated} · ${DATA.transactions.length} 筆紀錄 · v${APP_VERSION}`;
 }
 
