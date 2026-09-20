@@ -425,7 +425,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 <script>
-const APP_VERSION="2026.09.20-1800";
+const APP_VERSION="2026.09.20-1830";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -652,8 +652,8 @@ function advChang(){
     }
     out.push(`<div class="adv">${b}<div><div class="t">台產<span class="px">${px?"現價 "+px:"2832"}</span></div><div class="d">${dsc}　已填息，次次配息在明年</div></div></div>`);
   }
-  {const cap=CHANG_DCA*12;
-   out.push(`<div class="adv">${badge("b-open","照扣")}<div><div class="t">0050<span class="px">核心池</span></div><div class="d">每月 1.5 萬定期定額 · 跌破 60MA 當月加倍 3 萬</div>${qbar(quotaUsed("chang","0050"),cap)}</div></div>`);}
+  out.push(`<div class="adv">${badge("b-open","照扣")}<div><div class="t">0050<span class="px">核心池</span></div><div class="d">每月 1.5 萬定期定額 · 跌破 60MA 當月加倍 3 萬</div></div></div>`);
+  out.push(`<div class="adv">${badge("b-open","再投入")}<div><div class="t">股息</div><div class="d">全數再投入股息池（南寶／崑鼎），退休前不提領</div></div></div>`);
   return out.join("");
 }
 const WIFE_QUOTA={"9917":500000,"4506":500000,"1231":500000};
