@@ -411,12 +411,12 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 <script>
-const APP_VERSION="2026.08.19-1139";
+const APP_VERSION="2026.09.20-1200";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
 const ETA={chang:["第 3~4 年","第 9~10 年","第 12~14 年"],wife:["第 4~5 年","第 12~13 年","第 16~18 年"]};
-const OWNER_STOCKS={chang:["4766","6803","2832","0050"],wife:["0050","1231","4506","1201","1218","00878","00687B"]};
+const OWNER_STOCKS={chang:["4766","6803","2832","0050"],wife:["0050","9917","4506","1231","1201","1218","00878","00687B"]};
 const PCOL={chang:"#D96C4F",wife:"#DFA53B"};
 const TIERS=[[.055,1],[.06,2],[.065,3]];
 const fmt=n=>Math.round(n).toLocaleString("zh-Hant");
@@ -639,15 +639,22 @@ function advChang(){
   return out.join("");
 }
 function advWife(){
-  const m=new Date().getMonth()+1,lhOpen=(m>=9||m<=1);
-  return `
-  <div class="adv">${badge("b-wait","已除息")}<div><div class="t">味全<span class="px">1201</span></div><div class="d">殖利率僅約 1.7%，屬成長型非現金流，配置比重宜低</div></div></div>
-  <div class="adv">${badge("b-near","接近除息")}<div><div class="t">泰山<span class="px">1218</span></div><div class="d">股利 1.32 元 · 五年填息機率僅 20%，建議除息後買</div></div></div>
-  <div class="adv">${lhOpen?badge("b-open","窗口開啟"):badge("b-wait","等除權")}<div><div class="t">聯華食<span class="px">獎金 40%</span></div><div class="d">${lhOpen?"除權後窗口 · 分批買入":"8 月除權後再買 · 股價自動下修約一成"}</div></div></div>
-  <div class="adv">${badge("b-open","隨時可買")}<div><div class="t">崇友<span class="px">獎金 30%</span></div><div class="d">除息已過 · 分 2~3 個月零股買入</div></div></div>
-  <div class="adv">${badge("b-open","照扣")}<div><div class="t">0050</div><div class="d">每月 2 萬定期定額 · 不停扣</div></div></div>
-  <div class="adv">${badge("b-open","季配")}<div><div class="t">00878<span class="px">高股息 ETF</span></div><div class="d">2/5/8/11 月除息 · 分批買，不追高</div></div></div>
-  <div class="adv">${badge("b-wait","看利率")}<div><div class="t">國泰20年美債<span class="px">00687B</span></div><div class="d">季配 · 長天期債對利率敏感，降息循環才是順風</div></div></div>`;
+  // 2026.09 股息池新制：年 150 萬 = 中保科 / 崇友 / 聯華食 各 50 萬
+  const P=DATA.prices||{},S=DATA.stocks,out=[];
+  [["9917","中保科","收入核心 · 分 2~3 批 · ",103.6],["4506","崇友","股息成長 · ",96.4]].forEach(([sid,nm,pre,cap])=>{
+    const px=P[sid],div=S[sid]?S[sid].div:0,t1=div?Math.round(div/.055*10)/10:cap;
+    let b=badge("b-wait","等待"),d=pre+`殖利率 ≥5.5% 才買：<b>≤${t1}</b>`;
+    if(px){
+      if(px<=t1)b=badge("b-act","觸發 · 可買");
+      else if(px<=t1*1.02)b=badge("b-near","接近");
+      if(px>t1)d+=`（差 ${(px-t1).toFixed(1)} 元）`;
+    }
+    out.push(`<div class="adv">${b}<div><div class="t">${nm}<span class="px">${px?"現價 "+px:"50 萬/年"}</span></div><div class="d">${d}</div></div></div>`);
+  });
+  out.push(`<div class="adv">${badge("b-open","加速器")}<div><div class="t">聯華食<span class="px">50 萬/年</span></div><div class="d">占她總資產 &gt;35% 即停止加碼 · 第 5~6 年起每年轉 1/3 到高股息</div></div></div>`);
+  out.push(`<div class="adv">${badge("b-open","照扣")}<div><div class="t">0050</div><div class="d">每月 2 萬定期定額（池外）· 第 5~6 年起與聯華食一起每年轉 1/3</div></div></div>`);
+  out.push(`<div class="adv">${badge("b-open","再投入")}<div><div class="t">股息</div><div class="d">全數再投入中保科／崇友，不提領</div></div></div>`);
+  return out.join("");
 }
 
 function costBasis(o,sid){
@@ -751,8 +758,10 @@ const CHECKS={
         "單檔市值未超過總資產 15%",
         "已結算去年主動獲利，準備三月搬運 40%",
         "三月股利公告後重算觸發價（股利÷5.5%／6%／6.5%）"],
- wife:["三檔配息軌跡維持（崇友看維保營收占比）",
-       "獎金 4:3:3 分批已執行",
+ wife:["中保科／崇友／聯華食配息軌跡維持（崇友看維保營收占比）",
+       "年度 150 萬已三等分投入（各 50 萬）",
+       "聯華食占總資產未超過 35%",
+       "股息已全數再投入中保科／崇友",
        "0050 月扣未中斷",
        "除權息季買點窗口已把握"]};
 
@@ -843,7 +852,7 @@ function render(){
       <td class="num"><button class="delbtn" onclick="delTx(${t._i})" title="刪除這筆">✕</button></td></tr>`).join("");
   document.getElementById("ruleNote").innerHTML=person==="chang"
     ?"觸發價每年 3 月隨新股利重算（股利 ÷ 5.5%／6%／6.5%）。熔斷：南寶配息＜15、崑鼎配息停止成長、EPS 連兩年衰退 → 停買。"
-    :"獎金購入 4:3:3、分 2~3 個月投入。年檢核：除權息季後確認三檔配息軌跡（崇友看維保營收占比）。";
+    :"股息池每年 150 萬，中保科／崇友／聯華食各 50 萬；中保科、崇友只在殖利率 ≥5.5% 時買（中保科 ≤103.6、崇友 ≤96.4），中保科分 2~3 批。股息全數再投入中保科／崇友。聯華食占總資產 >35% 停止加碼。第 5~6 年起聯華食與 0050 每年約 1/3 轉入高股息。目標約 7~8 年達年股息 100 萬。";
   document.getElementById("meta").textContent=`資料 ${DATA.updated} · ${DATA.transactions.length} 筆紀錄 · v${APP_VERSION}`;
 }
 
