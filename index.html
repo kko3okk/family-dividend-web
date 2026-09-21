@@ -425,7 +425,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 <script>
-const APP_VERSION="2026.09.21-2245";
+const APP_VERSION="2026.09.21-2300";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -648,7 +648,7 @@ function advChang(){
       if(w>=cap)b=badge("b-wait","達上限 · 份額轉他檔");}
     out.push(`<div class="adv">${b}<div><div class="t">${nm}<span class="px">${px?"現價 "+px:sid}</span></div><div class="d">${d}</div></div></div>`);
   });
-  out.push(`<div class="adv">${badge("b-open","分配")}<div><div class="t">轉入分配</div><div class="d">本次 374,518：崑鼎、南寶各半 · 之後長榮 50%、崑鼎 25%、南寶 25%；未觸發者份額轉給已觸發者；長榮達 35% 上限後其份額轉給崑鼎／南寶</div></div></div>`);
+  out.push(`<div class="adv">${badge("b-open","分配")}<div><div class="t">轉入分配</div><div class="d">本次 374,518 起即採：長榮 50%、崑鼎 25%、南寶 25%（長榮先下單）；未觸發者份額轉給已觸發者；長榮達 35% 上限後其份額轉給崑鼎／南寶</div></div></div>`);
   {const px=P["2832"];
    out.push(`<div class="adv">${badge("b-wait","觀察中")}<div><div class="t">台產<span class="px">${px?"現價 "+px:"2832"}</span></div><div class="d">暫停加碼（1,000 股續抱）。3.5 元配息為異常值，待連兩年驗證或拆出承保本業可支撐的配息後，再用正常化配息重算觸發價</div></div></div>`);}
   out.push(`<div class="adv">${badge("b-open","照扣")}<div><div class="t">0050<span class="px">核心池</span></div><div class="d">每月 1.5 萬定期定額 · 跌破 60MA 當月加倍 3 萬</div></div></div>`);
