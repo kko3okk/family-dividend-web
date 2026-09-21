@@ -1,0 +1,80 @@
+name: garp
+on: {workflow_dispatch: {}}
+permissions: {contents: write}
+jobs:
+  s:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - env: {FM: "${{ secrets.FINMIND_TOKEN }}"}
+        run: |
+          mkdir -p research
+          python3 - << 'PY' 2>&1 | tee research/garp_log.txt
+          import json,os,time,glob,urllib.request,urllib.parse,collections,statistics
+          FM=os.environ["FM"]; HDR={"User-Agent":"Mozilla/5.0"}
+          def get(u): return json.loads(urllib.request.urlopen(urllib.request.Request(u,headers=HDR),timeout=90).read().decode())
+          def f(x):
+              try: return float(str(x).replace(",",""))
+              except: return None
+          PE={};PB={};NM={}
+          for r in get("https://www.twse.com.tw/rwd/zh/afterTrading/BWIBBU_d?date=&selectType=ALL&response=json").get("data",[]):
+              PE[r[0]]=f(r[5]); PB[r[0]]=f(r[6]); NM[r[0]]=r[1]
+          for r in get("https://www.tpex.org.tw/openapi/v1/tpex_mainboard_peratio_analysis"):
+              c=r["SecuritiesCompanyCode"]; PE[c]=f(r.get("PriceEarningRatio")); PB[c]=f(r.get("PriceBookRatio")); NM[c]=r.get("CompanyName")
+          R={ym:{x["code"]:x for x in json.load(open(f"data/revenue/{ym}.json",encoding="utf-8"))} for ym in ["11506","11507","11508"]}
+          days={}
+          for fn in sorted(glob.glob("data/prices/*.json")): days.update(json.load(open(fn)))
+          otc={}
+          for fn in sorted(glob.glob("data/prices_otc2/*.json")): otc.update(json.load(open(fn)))
+          ds=sorted(days)[-20:]; od=sorted(otc)[-20:]
+          def pv(c):
+              s=[days[d]["px"].get(c) for d in ds if days[d]["px"].get(c)]
+              if s: return s[-1][0], sum(v for _,v in s)/len(s)/1000,"市"
+              s=[otc[d].get(c) for d in od if otc[d].get(c)]
+              if s: return s[-1][0], sum(v for _,v in s)/len(s)/1000,"櫃"
+              return None,0,""
+          cand=[]
+          for c,r in R["11508"].items():
+              if not(c.isdigit() and len(c)==4): continue
+              pe=PE.get(c)
+              if pe is None or not(3<=pe<=18): continue
+              ys=[R[m].get(c,{}).get("yoy") for m in ["11506","11507","11508"]]
+              if any(y is None or y<15 for y in ys): continue
+              if (r.get("cum") or 0)<15: continue
+              px,vol,mk=pv(c)
+              if not px or vol<300: continue
+              cand.append((c,px,vol,mk,ys,r.get("cum"),r.get("industry")))
+          print("初篩",len(cand))
+          out={}
+          for i,(c,px,vol,mk,ys,cum,ind) in enumerate(cand):
+              def fm(ds_):
+                  q=dict(dataset=ds_,data_id=c,start_date="2019-01-01",token=FM)
+                  try: return get("https://api.finmindtrade.com/api/v4/data?"+urllib.parse.urlencode(q)).get("data",[])
+                  except Exception: return []
+              st=fm("TaiwanStockFinancialStatements"); by=collections.defaultdict(dict)
+              for x in st:
+                  if x.get("type") in ("EPS","Revenue","GrossProfit"): by[x["date"]][x["type"]]=x["value"]
+              q=sorted(by)
+              eps=[by[d].get("EPS") for d in q]; gm=[(by[d]["GrossProfit"]/by[d]["Revenue"]*100) if by[d].get("Revenue") and by[d].get("GrossProfit") is not None else None for d in q]
+              dv=fm("TaiwanStockDividend"); yr=collections.defaultdict(float)
+              for x in dv:
+                  cash=(x.get("CashEarningsDistribution") or 0)+(x.get("CashStatutorySurplus") or 0)
+                  y=str(x.get("year") or x.get("date","")[:4]).replace("年","")
+                  if y.isdigit() and int(y)<1911: y=str(int(y)+1911)
+                  yr[y]+=cash
+              out[c]=dict(name=NM.get(c),mk=mk,px=px,vol=round(vol),pe=PE.get(c),pb=PB.get(c),ind=ind,rev3=ys,cum=cum,
+                          q=q[-12:],eps=eps[-12:],gm=[round(g,1) if g is not None else None for g in gm[-12:]],
+                          div={k:round(v,2) for k,v in sorted(yr.items())[-6:]})
+              if i%25==0: print(i,c,flush=True)
+              time.sleep(0.3)
+          json.dump(out,open("research/garp.json","w"),ensure_ascii=False)
+          print("done",len(out))
+          PY
+      - run: |
+          git config user.name bot; git config user.email b@b.c
+          git add research; git diff --cached --quiet && exit 0
+          git commit -m "garp scan"
+          for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 5; done
