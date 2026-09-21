@@ -425,12 +425,12 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 <script>
-const APP_VERSION="2026.09.21-2330";
+const APP_VERSION="2026.09.21-2345";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
 const ETA={chang:["第 3~4 年","第 9~10 年","第 12~14 年"],wife:["第 4~5 年","第 12~13 年","第 16~18 年"]};
-const OWNER_STOCKS={chang:["4766","6803","2603","2832","0050"],wife:["0050","2603","4506","1231","1201","1218","00878","00687B"]};
+const OWNER_STOCKS={chang:["4766","6803","2603","2832","0050"],wife:["0050","2603","4506","1231","1210","1201","1218","00878","00687B"]};
 const PCOL={chang:"#D96C4F",wife:"#DFA53B"};
 const TIERS=[[.055,1],[.06,2],[.065,3]];
 const fmt=n=>Math.round(n).toLocaleString("zh-Hant");
@@ -934,7 +934,7 @@ document.getElementById("traveler").querySelectorAll("div").forEach(d=>d.onclick
 
 function chips(){
   const box=document.getElementById("stockChips");
-  const order=OWNER_STOCKS[fOwner].concat(Object.keys(DATA.stocks).filter(s=>!OWNER_STOCKS[fOwner].includes(s)));
+  const order=OWNER_STOCKS[fOwner].concat(Object.keys(DATA.stocks).filter(s=>!OWNER_STOCKS[fOwner].includes(s))).filter(s=>DATA.stocks[s]&&!DATA.stocks[s].hidden);
   if(!order.includes(fStock))fStock=order[0];
   box.innerHTML=order.map(sid=>`<div class="chip ${sid===fStock?"on":""}" data-s="${sid}">
       <div class="n">${DATA.stocks[sid].name}</div><div class="c">${sid}</div></div>`).join("");
