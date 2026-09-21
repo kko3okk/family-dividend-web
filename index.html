@@ -336,7 +336,7 @@
 <div class="card"><h3>除權息倒數</h3><div id="exBox"></div>
   <div class="note" style="margin-top:8px">
   「預估」＝依去年同期推算，實際日期以公司公告為準；腳本每日自動抓取證交所／櫃買公告，抓到後轉為「已公告」。<br>
-  買點規則：崑鼎、台產除息後買（最便宜窗口）· 聯華食除權後買 · 南寶照觸發價</div>
+  買點規則：崑鼎除息後買（最便宜窗口）· 南寶、長榮照觸發價 · 聯華食除權後買 · 台產觀察中</div>
 </div>
 
 <div class="card"><h3>股息入帳紀錄</h3>
@@ -425,12 +425,12 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 <script>
-const APP_VERSION="2026.09.20-1830";
+const APP_VERSION="2026.09.21-2200";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
 const ETA={chang:["第 3~4 年","第 9~10 年","第 12~14 年"],wife:["第 4~5 年","第 12~13 年","第 16~18 年"]};
-const OWNER_STOCKS={chang:["4766","6803","2832","0050"],wife:["0050","9917","4506","1231","1201","1218","00878","00687B"]};
+const OWNER_STOCKS={chang:["4766","6803","2603","2832","0050"],wife:["0050","9917","4506","1231","1201","1218","00878","00687B"]};
 const PCOL={chang:"#D96C4F",wife:"#DFA53B"};
 const TIERS=[[.055,1],[.06,2],[.065,3]];
 const fmt=n=>Math.round(n).toLocaleString("zh-Hant");
@@ -626,10 +626,17 @@ function advChang(){
   {const used=CHANG_POOL.reduce((a,k)=>a+quotaUsed("chang",k),0);
    const parts=CHANG_POOL.map(k=>`${(S[k]||{}).name||k} ${fmt(quotaUsed("chang",k))}`).join(" · ");
    out.push(`<div class="qsum"><div class="t">${new Date().getFullYear()} 年股息池額度<span class="px" style="font-family:var(--mono);font-size:11px;color:var(--mut);font-weight:400;margin-left:6px">年最低轉入 50 萬</span></div>${qbar(used,CHANG_POOL_QUOTA)}<div class="qtxt">${parts}</div></div>`);}
-  [["4766","南寶",""],["6803","崑鼎","除息後窗口 · "]].forEach(([sid,nm,pre])=>{
-    const px=P[sid],div=S[sid].div;
-    const t1=Math.round(div/.055),t2=Math.round(div/.06),t3=Math.round(div/.065);
-    let b=badge("b-wait","等待"),d=pre+`<b>${t1}</b> 買1份 · ${t2} 買2份 · ${t3} 買3份`;
+  // 2026.09.21：三檔分工 — 崑鼎（收租基石）、南寶（成長型配息）、長榮（循環型加速器，上限 20%）
+  const chXs=holdValues(holdings(),"chang"),chTot=chXs.reduce((a,x)=>a+x.v,0);
+  const wOf=sid=>{const x=chXs.find(y=>y.sid===sid);return chTot&&x?x.v/chTot:0;};
+  [["4766","南寶","成長型配息 · ",[.05,.055,.06],null],
+   ["6803","崑鼎","收租基石 · 除息後窗口 · ",[.055,.06,.065],null],
+   ["2603","長榮","循環型加速器 · ",[.055,.06,.065],.20]].forEach(([sid,nm,pre,rs,cap])=>{
+    const px=P[sid],div=(S[sid]||{}).div;
+    if(!div){out.push(`<div class="adv">${badge("b-wait","無股利")}<div><div class="t">${nm}</div><div class="d">尚無股利資料</div></div></div>`);return;}
+    const [t1,t2,t3]=rs.map(r=>Math.round(div/r*10)/10);
+    const lab=rs.map(r=>(r*100).toFixed(1)).join("/")+"%";
+    let b=badge("b-wait","等待"),d=pre+`<b>${t1}</b> 買1份 · ${t2} 買2份 · ${t3} 買3份（${lab}）`;
     if(px){
       if(px<=t3)b=badge("b-act","第三層 · 買3份");
       else if(px<=t2)b=badge("b-act","第二層 · 買2份");
@@ -637,23 +644,15 @@ function advChang(){
       else if(px<=t1*1.02)b=badge("b-near","接近");
       if(px>t1)d+=`（差 ${(px-t1).toFixed(1)} 元）`;
     }
-    out.push(`<div class="adv">${b}<div><div class="t">${nm}<span class="px">${px?"現價 "+px:"無報價"}</span></div><div class="d">${d}</div></div></div>`);
+    if(cap){const w=wOf(sid);d+=`<br>占池 ${(w*100).toFixed(1)}% / 上限 ${cap*100}%`;
+      if(w>=cap)b=badge("b-wait","達上限 · 份額轉他檔");}
+    out.push(`<div class="adv">${b}<div><div class="t">${nm}<span class="px">${px?"現價 "+px:sid}</span></div><div class="d">${d}</div></div></div>`);
   });
-  {
-    const px=P["2832"],div=S["2832"]?S["2832"].div:3.5;
-    const t1=Math.round(div/0.060),t2=Math.round(div/0.065),t3=Math.round(div/0.070);
-    let b=badge("b-wait","等待"),dsc=`<b>${t1}</b>/${t2}/${t3}（6.0/6.5/7.0%）`;
-    if(px){
-      if(px<=t3)b=badge("b-act","第三層 · 買3份");
-      else if(px<=t2)b=badge("b-act","第二層 · 買2份");
-      else if(px<=t1)b=badge("b-act","觸發 · 買1份");
-      else if(px<=t1*1.02)b=badge("b-near","接近");
-      if(px>t1)dsc+=`（差 ${(px-t1).toFixed(1)} 元）`;
-    }
-    out.push(`<div class="adv">${b}<div><div class="t">台產<span class="px">${px?"現價 "+px:"2832"}</span></div><div class="d">${dsc}　已填息，次次配息在明年</div></div></div>`);
-  }
+  out.push(`<div class="adv">${badge("b-open","分配")}<div><div class="t">轉入分配</div><div class="d">本次 374,518：崑鼎、南寶各半 · 之後三檔均分；未觸發者的份額轉給已觸發者；長榮超過 20% 亦轉出</div></div></div>`);
+  {const px=P["2832"];
+   out.push(`<div class="adv">${badge("b-wait","觀察中")}<div><div class="t">台產<span class="px">${px?"現價 "+px:"2832"}</span></div><div class="d">暫停加碼（1,000 股續抱）。3.5 元配息為異常值，待連兩年驗證或拆出承保本業可支撐的配息後，再用正常化配息重算觸發價</div></div></div>`);}
   out.push(`<div class="adv">${badge("b-open","照扣")}<div><div class="t">0050<span class="px">核心池</span></div><div class="d">每月 1.5 萬定期定額 · 跌破 60MA 當月加倍 3 萬</div></div></div>`);
-  out.push(`<div class="adv">${badge("b-open","再投入")}<div><div class="t">股息</div><div class="d">全數再投入股息池（南寶／崑鼎），退休前不提領</div></div></div>`);
+  out.push(`<div class="adv">${badge("b-open","再投入")}<div><div class="t">股息</div><div class="d">全數再投入股息池（崑鼎／南寶／長榮），退休前不提領</div></div></div>`);
   return out.join("");
 }
 const WIFE_QUOTA={"9917":500000,"4506":500000,"1231":500000};
@@ -667,7 +666,7 @@ function qbar(used,cap){
   return `<div class="qbar"><i class="${used>=cap?"full":""}" style="width:${(r*100).toFixed(1)}%"></i></div>
     <div class="qtxt">今年已買 ${fmt(used)} / ${fmt(cap)}（${(used/cap*100).toFixed(0)}%）· 剩 ${fmt(Math.max(cap-used,0))}</div>`;
 }
-const CHANG_POOL=["4766","6803","2832"],CHANG_POOL_QUOTA=500000,CHANG_DCA=15000;
+const CHANG_POOL=["4766","6803","2603"],CHANG_POOL_QUOTA=500000,CHANG_DCA=15000;
 function advWife(){
   // 2026.09 股息池新制：年 150 萬 = 中保科 / 崇友 / 聯華食 各 50 萬
   const P=DATA.prices||{},S=DATA.stocks,out=[];
@@ -812,12 +811,12 @@ window.editPay=async function(i){
 };
 
 const CHECKS={
- chang:["南寶年度配息 ≥ 15 元（低於則停買）",
-        "崑鼎配息維持成長（未成長則停買）",
-        "兩檔 EPS 未連兩年衰退",
-        "單檔市值未超過總資產 15%",
-        "已結算去年主動獲利，準備三月搬運 40%",
-        "三月股利公告後重算觸發價（股利÷5.5%／6%／6.5%）"],
+ chang:["南寶成長型資格：兩季 EPS 年增 ≥15%、配息率穩定、營收累計 >0（不符改回標準層）",
+        "崑鼎配息維持成長；南寶配息 ≥ 15 元（低於則停買）",
+        "長榮占股息池 ≤ 20%（超過則該份額轉給崑鼎／南寶）",
+        "三檔 EPS 未連兩年衰退；長榮最差單季仍獲利",
+        "年轉入 ≥ 50 萬（主動池獲利 40%，不足由薪資補）",
+        "三月股利公告後重算觸發價；台產觀察是否恢復"],
  wife:["中保科／崇友／聯華食配息軌跡維持（崇友看維保營收占比）",
        "年度 150 萬已三等分投入（各 50 萬）",
        "聯華食占比是否超過 35%（超過即停買、轉大成）",
@@ -912,7 +911,7 @@ function render(){
       <td class="num">${fmt(t.shares)}</td><td class="num">${t.price}</td>
       <td class="num"><button class="delbtn" onclick="delTx(${t._i})" title="刪除這筆">✕</button></td></tr>`).join("");
   document.getElementById("ruleNote").innerHTML=person==="chang"
-    ?"觸發價每年 3 月隨新股利重算（股利 ÷ 5.5%／6%／6.5%）。熔斷：南寶配息＜15、崑鼎配息停止成長、EPS 連兩年衰退 → 停買。"
+    ?"三檔分工：崑鼎標準層（5.5/6/6.5%）、南寶成長型（5.0/5.5/6.0%，每年重驗資格）、長榮循環型（標準層、上限占池 20%）。觸發價每年 3 月隨已公告股利重算，不用推估值。台產觀察中暫停加碼。熔斷：南寶配息＜15、崑鼎配息停止成長、EPS 連兩年衰退 → 停買。"
     :"股息池每年 150 萬，中保科／崇友／聯華食各 50 萬；中保科、崇友只在殖利率 ≥5.5% 時買（中保科 ≤103.6、崇友 ≤96.4），中保科分 2~3 批。股息全數再投入中保科／崇友。聯華食占持股超過 35% 即停止加碼，並開始轉換到大成（1210）。0050 退休時轉高股息。目標約 7~8 年達年股息 100 萬。";
   document.getElementById("meta").textContent=`資料 ${DATA.updated} · ${DATA.transactions.length} 筆紀錄 · v${APP_VERSION}`;
 }
