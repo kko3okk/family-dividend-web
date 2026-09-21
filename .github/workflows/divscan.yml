@@ -1,0 +1,73 @@
+name: divscan
+on: {workflow_dispatch: {}}
+permissions: {contents: write}
+jobs:
+  s:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - env: {FM: "${{ secrets.FINMIND_TOKEN }}"}
+        run: |
+          mkdir -p research
+          python3 - << 'PY' 2>&1 | tee research/divscan_log.txt
+          import json,os,time,glob,urllib.request,urllib.parse,collections
+          FM=os.environ["FM"]; HDR={"User-Agent":"Mozilla/5.0"}
+          def get(u): return json.loads(urllib.request.urlopen(urllib.request.Request(u,headers=HDR),timeout=90).read().decode())
+          def f(x):
+              try: return float(str(x).replace(",",""))
+              except: return None
+          info={}
+          j=get("https://www.twse.com.tw/rwd/zh/afterTrading/BWIBBU_d?date=&selectType=ALL&response=json")
+          for r in j.get("data",[]):
+              info[r[0]]=dict(name=r[1],px=f(r[2]),y=f(r[3]),pe=f(r[5]),pb=f(r[6]),mk="市")
+          for r in get("https://www.tpex.org.tw/openapi/v1/tpex_mainboard_peratio_analysis"):
+              c=r["SecuritiesCompanyCode"]
+              info[c]=dict(name=r.get("CompanyName"),px=None,y=f(r.get("YieldRatio")),pe=f(r.get("PriceEarningRatio")),pb=f(r.get("PriceBookRatio")),mk="櫃")
+          # 價格與量
+          days={}
+          for fn in sorted(glob.glob("data/prices/*.json")): days.update(json.load(open(fn)))
+          ds=sorted(days)[-20:]
+          otc={}
+          for fn in sorted(glob.glob("data/prices_otc2/*.json")): otc.update(json.load(open(fn)))
+          od=sorted(otc)[-20:]
+          def pv(c):
+              s=[days[d]["px"].get(c) for d in ds if days[d]["px"].get(c)]
+              if s: return s[-1][0], sum(v for _,v in s)/len(s)/1000
+              s=[otc[d].get(c) for d in od if otc[d].get(c)]
+              if s: return s[-1][0], sum(v for _,v in s)/len(s)/1000
+              return None,0
+          cand=[]
+          for c,v in info.items():
+              if not c.isdigit() or len(c)!=4: continue
+              if v["y"] is None or not (4.0<=v["y"]<=9.0): continue
+              if v["pe"] is None or not (4<=v["pe"]<=25): continue
+              px,vol=pv(c)
+              if not px or vol<200: continue
+              v["px"]=px; v["vol"]=vol; cand.append(c)
+          print("初篩",len(cand))
+          out={}
+          for i,c in enumerate(cand):
+              q=dict(dataset="TaiwanStockDividend",data_id=c,start_date="2019-01-01",token=FM)
+              try: rows=get("https://api.finmindtrade.com/api/v4/data?"+urllib.parse.urlencode(q)).get("data",[])
+              except Exception as e: rows=[]
+              yr=collections.defaultdict(float)
+              for r in rows:
+                  cash=(r.get("CashEarningsDistribution") or 0)+(r.get("CashStatutorySurplus") or 0)
+                  y=str(r.get("year") or r.get("date","")[:4]).replace("年","")
+                  if y.isdigit() and int(y)<1911: y=str(int(y)+1911)
+                  yr[y]+=cash
+              ys=sorted(yr)[-5:]
+              out[c]=dict(**info[c],div={y:round(yr[y],3) for y in ys})
+              if i%40==0: print(i,c,len(ys),flush=True)
+              time.sleep(0.25)
+          json.dump(out,open("research/divscan.json","w"),ensure_ascii=False)
+          print("done",len(out))
+          PY
+      - run: |
+          git config user.name bot; git config user.email b@b.c
+          git add research; git diff --cached --quiet && exit 0
+          git commit -m "dividend scan"
+          for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 5; done
