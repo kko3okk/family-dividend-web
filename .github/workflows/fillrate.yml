@@ -1,0 +1,45 @@
+name: fillrate
+on:
+  workflow_dispatch:
+    inputs:
+      codes: {description: "comma separated", required: true}
+permissions: {contents: write}
+jobs:
+  s:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - env: {FM: "${{ secrets.FINMIND_TOKEN }}", CODES: "${{ github.event.inputs.codes }}"}
+        run: |
+          mkdir -p research
+          python3 - << 'PY' 2>&1 | tee research/fill_log.txt
+          import json,os,time,urllib.request,urllib.parse
+          FM=os.environ["FM"]; HDR={"User-Agent":"Mozilla/5.0"}
+          def fm(ds,c,start):
+              q=dict(dataset=ds,data_id=c,start_date=start,token=FM)
+              return json.loads(urllib.request.urlopen(urllib.request.Request("https://api.finmindtrade.com/api/v4/data?"+urllib.parse.urlencode(q),headers=HDR),timeout=90).read().decode()).get("data",[])
+          out={}
+          for c in os.environ["CODES"].split(","):
+              c=c.strip()
+              ev=[e for e in fm("TaiwanStockDividendResult",c,"2016-01-01") if (e.get("stock_and_cache_dividend") or 0)>0]
+              px=fm("TaiwanStockPrice",c,"2016-01-01"); px=[(p["date"],p["close"]) for p in px if p.get("close")]
+              res=[]
+              for e in ev:
+                  d=e["date"]; before=e.get("before_price")
+                  if not before: continue
+                  after=[(dd,cl) for dd,cl in px if dd>=d]
+                  hit=next((i for i,(dd,cl) in enumerate(after) if cl>=before),None)
+                  res.append(dict(date=d,div=e.get("stock_and_cache_dividend"),before=before,days=hit,filled=hit is not None))
+              out[c]=res
+              print(c,[(r["date"][:4],r["days"]) for r in res],flush=True)
+              time.sleep(0.5)
+          json.dump(out,open("research/fill.json","w"),ensure_ascii=False)
+          PY
+      - run: |
+          git config user.name bot; git config user.email b@b.c
+          git add research; git diff --cached --quiet && exit 0
+          git commit -m "fill rate"
+          for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 5; done
