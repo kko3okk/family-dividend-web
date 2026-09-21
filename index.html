@@ -425,7 +425,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 <script>
-const APP_VERSION="2026.09.21-2230";
+const APP_VERSION="2026.09.21-2245";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -814,6 +814,7 @@ const CHECKS={
  chang:["南寶成長型資格：兩季 EPS 年增 ≥15%、配息率穩定、營收累計 >0（不符改回標準層）",
         "崑鼎配息維持成長；南寶配息 ≥ 15 元（低於則停買）",
         "長榮占股息池 ≤ 35%（超過則該份額轉給崑鼎／南寶）",
+        "長榮配息 ≥ 13 元（兩平線；連兩年低於則份額由 50% 降回 1/3）",
         "三檔 EPS 未連兩年衰退；長榮最差單季仍獲利",
         "年轉入 ≥ 50 萬（主動池獲利 40%，不足由薪資補）",
         "三月股利公告後重算觸發價；台產觀察是否恢復"],
