@@ -119,8 +119,23 @@ const DAYS=[
 
 const map=L.map('map',{zoomControl:false}).setView([34.668,135.502],12);
 L.control.zoom({position:'bottomright'}).addTo(map);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
- {attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19}).addTo(map);
+// 底圖：OpenStreetMap（免 API key）；載入失敗自動切換備援來源
+const TILES=[
+  {url:'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+   opt:{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}},
+  {url:'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
+   opt:{maxZoom:19,subdomains:'abc',attribution:'&copy; OpenStreetMap France &copy; OpenStreetMap'}}
+];
+let tileIdx=0, tileErr=0, base=L.tileLayer(TILES[0].url,TILES[0].opt).addTo(map);
+function onTileErr(){
+  tileErr++;
+  if(tileErr>=4 && tileIdx<TILES.length-1){
+    map.removeLayer(base); tileIdx++; tileErr=0;
+    base=L.tileLayer(TILES[tileIdx].url,TILES[tileIdx].opt).addTo(map);
+    base.on('tileerror',onTileErr);
+  }
+}
+base.on('tileerror',onTileErr);
 const layer=L.layerGroup().addTo(map);
 
 function bearing(a,b){
