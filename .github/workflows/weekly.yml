@@ -7,7 +7,9 @@ permissions: {contents: write}
 jobs:
   r:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    env:
+      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -214,6 +216,17 @@ jobs:
       - name: news tracking
         env: {ANTHROPIC_API_KEY: "${{ secrets.ANTHROPIC_API_KEY }}"}
         run: python3 research/news.py
+      - name: claude review (subscription token)
+        if: ${{ env.CLAUDE_CODE_OAUTH_TOKEN != '' }}
+        env: {CLAUDE_CODE_OAUTH_TOKEN: "${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}"}
+        continue-on-error: true
+        timeout-minutes: 25
+        run: |
+          curl -fsSL https://claude.ai/install.sh | bash
+          export PATH="$HOME/.local/bin:$PATH"
+          claude --version
+          claude -p "$(cat research/review_prompt.md)" --allowedTools "WebSearch" "WebFetch" "Read" --max-turns 60 > research/REVIEW.md 2> research/review_log.txt || echo "review failed" >> research/review_log.txt
+          echo "_產生時間：$(TZ=Asia/Taipei date '+%Y-%m-%d %H:%M')_" >> research/REVIEW.md
       - run: |
           git config user.name bot; git config user.email b@b.c
           git add research
