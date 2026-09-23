@@ -39,24 +39,37 @@ for c,r in cur.items():
     px,bias,ok4,vol=tech(c)
     kw=bool(AIKW.search(note))
     e=log.setdefault(c,{"name":r["name"],"first_seen":TODAY,"status":"待審","history":[]})
+    if px and not e.get("px_first"): e["px_first"]=px
     if not e["history"] or e["history"][-1]["ym"]!=YM:
         e["history"].append({"date":TODAY,"ym":YM,"yoy":round(r["yoy"],1),"cum":round(r.get("cum") or 0,1),"ai_note":kw})
     e["weeks"]=len(e["history"]); e["name"]=r["name"]
     hits.append(dict(c=c,n=r["name"],mk=r["market"],ind=ind,yoy=r["yoy"],cum=r.get("cum") or 0,note=note,kw=kw,px=px,bias=bias,ok4=ok4,vol=vol,e=e))
+# 所有曾被掃到的標的都追蹤報酬（不論是否納入）
+for c,e in log.items():
+    p,_,_,_=tech(c)
+    if p: e["px_last"]=p; e["px_last_date"]=TODAY
+    if p and e.get("px_first"): e["ret_since"]=round((p/e["px_first"]-1)*100,1)
 json.dump(log,open(LOGF,"w",encoding="utf-8"),ensure_ascii=False,indent=1)
 def row(h):
     b=f"{h['bias']:+.0f}%" if h['bias'] is not None else "—"
     return f"| {h['c']} {h['n']} | {h['mk']} | {h['ind']} | {h['yoy']:+.0f}% | {h['cum']:+.0f}% | {'✓' if h['ok4'] else '✗'} {b} | {h['vol']:.0f} | {h['e']['first_seen']} | {h['e']['status']} | {h['note'][:40] or '—'} |"
 HDR="| 代號名稱 | 市 | 產業別 | 當月 | 累計 | 第4條(乖離) | 均量 | 首次掃到 | 狀態 | 營收備註 |\n|---|---|---|---|---|---|---|---|---|---|"
 act=[h for h in hits if h['e']['status'] in ("待審","觀察")]
-pri=[h for h in act if h['kw'] and h['ind'] not in SKIP_IND]; oth=[h for h in act if not h['kw'] and h['ind'] not in SKIP_IND]; skip=[h for h in act if h['ind'] in SKIP_IND]
+pri=[h for h in act if h['ind'] not in SKIP_IND and h['mk']=='上市' and (h['kw'] or h['e']['weeks']>=2)]; oth=[h for h in act if h['ind'] not in SKIP_IND and h not in pri]; skip=[h for h in act if h['ind'] in SKIP_IND]
 done=[h for h in hits if h['e']['status'] not in ("待審","觀察")]
 L=[f"# 對照表覆蓋率缺口（自動）\n",f"**更新：{TODAY}　營收月：{YM}**\n",
    "通過第 1 條、但**不在對照表**的股票。營收備註含 AI／伺服器／光通訊／半導體等關鍵字者列為優先。**納入前須查證產品線**，決定寫回 `coverage_log.json` 的 status（待審／觀察／已納入／排除）與理由。\n",
-   f"\n## 一、優先審查：營收備註提到 AI 相關（{len(pri)} 檔）\n",HDR]+[row(h) for h in sorted(pri,key=lambda x:(x['mk']!='上市',-x['yoy']))]
+   f"\n## 一、優先審查：上市電子，備註提到 AI 或已連續兩期通過（{len(pri)} 檔）\n",HDR]+[row(h) for h in sorted(pri,key=lambda x:(-x['e']['weeks'],-x['cum']))]
 L+=[f"\n## 二、其他電子／製造（{len(oth)} 檔）\n",HDR]+[row(h) for h in sorted(oth,key=lambda x:(x['mk']!='上市',-x['yoy']))]
 L+=[f"\n## 三、已審過（{len(done)} 檔，不重複審）\n","| 代號名稱 | 狀態 | 理由 |","|---|---|---|"]+[f"| {h['c']} {h['n']} | {h['e']['status']} | {h['e'].get('reason','—')} |" for h in done]
 L+=[f"\n## 四、結構性排除產業（電子通路、資訊服務、非電子；{len(skip)} 檔，略）\n",", ".join(f"{h['n']}" for h in skip) or "—"]
-L+=["\n---\n註：上櫃股主動池不進場（規則），列出僅供對照表完整性參考。"]
+trk=sorted([(c,e) for c,e in log.items() if e.get("ret_since") is not None],key=lambda x:-x[1]["ret_since"])
+L+=[f"\n## 五、驗證追蹤：所有曾被掃到的標的，自首次掃到後的報酬（{len(trk)} 檔）\n","| 代號名稱 | 狀態 | 首次掃到 | 當時價 | 現價 | 報酬 |","|---|---|---|---|---|---|"]
+L+=[f"| {c} {e['name']} | {e['status']} | {e['first_seen']} | {e['px_first']} | {e['px_last']} | {e['ret_since']:+.1f}% |" for c,e in trk[:60]]
+def avg(xs): return sum(xs)/len(xs) if xs else 0
+for st in ("已納入","排除","觀察","待審"):
+    xs=[e["ret_since"] for _,e in trk if e["status"]==st]
+    if xs: L.append(f"\n- **{st}**：{len(xs)} 檔，平均 {avg(xs):+.1f}%")
+L+=["\n---\n註：上櫃股主動池不進場（規則），列出僅供對照表完整性參考。驗證追蹤用於檢驗『補進對照表的標的是否優於未補的』，避免後見之明。"]
 open("research/COVERAGE.md","w",encoding="utf-8").write("\n".join(L)+"\n")
 print("coverage:",len(hits),"hits;",len(pri),"priority;",len(oth),"other;",len(done),"reviewed")
