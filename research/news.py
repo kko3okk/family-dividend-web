@@ -4,7 +4,7 @@ import os, json, datetime, urllib.request, urllib.parse, xml.etree.ElementTree a
 
 TPE = datetime.timezone(datetime.timedelta(hours=8))
 NOW = datetime.datetime.now(TPE)
-SINCE = NOW - datetime.timedelta(days=8)
+SINCE = NOW - datetime.timedelta(days=2)
 
 CHECKS = [
  # (分類, 追蹤項目, 搜尋關鍵字, 判讀問題)
@@ -37,7 +37,7 @@ CHECKS = [
 ]
 
 def rss(q):
-    url = "https://news.google.com/rss/search?" + urllib.parse.urlencode({"q": q + " when:7d", "hl": "zh-TW", "gl": "TW", "ceid": "TW:zh-Hant"})
+    url = "https://news.google.com/rss/search?" + urllib.parse.urlencode({"q": q + " when:2d", "hl": "zh-TW", "gl": "TW", "ceid": "TW:zh-Hant"})
     for _ in range(2):
         try:
             raw = urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"}), timeout=30).read()
@@ -59,12 +59,12 @@ def claude(results):
     if not key: return None
     blocks = []
     for (cat, item, q, question), news in results:
-        heads = "\n".join(f"- [{n['date']}] {n['title']}（{n['source']}）" for n in (news or [])) or "（本週無相關新聞）"
+        heads = "\n".join(f"- [{n['date']}] {n['title']}（{n['source']}）" for n in (news or [])) or "（近兩日無相關新聞）"
         blocks.append(f"### {item}\n問題：{question}\n本週標題：\n{heads}")
-    prompt = ("你是台股產業研究助理。以下是每週追蹤項目與本週 Google News 標題（僅標題，非全文）。"
-              "請對每一項用一到兩句繁體中文判讀：本週是否有『實質變化』（有／無／待確認），以及理由。"
+    prompt = ("你是台股產業研究助理。以下是每日追蹤項目與近兩日 Google News 標題（僅標題，非全文）。"
+              "請對每一項用一到兩句繁體中文判讀：近兩日是否有『實質變化』（有／無／待確認），以及理由。"
               "只根據標題判斷，標題不足以判斷時寫『待確認』，不要推測或編造標題以外的事實。"
-              "最後用三行列出本週最值得注意的變化。輸出 Markdown。\n\n" + "\n\n".join(blocks))
+              "最後用三行列出今天最值得注意的變化。輸出 Markdown。\n\n" + "\n\n".join(blocks))
     body = json.dumps({"model": "claude-sonnet-5", "max_tokens": 4000,
                        "messages": [{"role": "user", "content": prompt}]}).encode()
     req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body, headers={
@@ -80,7 +80,7 @@ for c in CHECKS:
     results.append((c, rss(c[2])))
     time.sleep(1.5)
 
-L = [f"# 每週新聞追蹤（自動）\n", f"**更新：{NOW:%Y-%m-%d %H:%M}　涵蓋：近 7 日**\n",
+L = [f"# 每日新聞追蹤（自動）\n", f"**更新：{NOW:%Y-%m-%d %H:%M}　涵蓋：近 2 日**\n",
      "標題與連結來自 Google News RSS，僅供索引；判讀段落由 Claude API 依標題產生，**只看標題、未讀全文**，重大事項請點原文確認。\n"]
 summary = claude(results)
 if summary:
@@ -93,7 +93,7 @@ for (cat, item, q, question), news in results:
     if cat != cur: L.append(f"\n### {cat}\n"); cur = cat
     L.append(f"**{item}**　（搜尋：{q}）")
     if news is None: L.append("- ⚠ 抓取失敗")
-    elif not news: L.append("- 本週無相關新聞")
+    elif not news: L.append("- 近兩日無相關新聞")
     else:
         for n in news: L.append(f"- {n['date']} [{n['title']}]({n['link']})")
     L.append("")
