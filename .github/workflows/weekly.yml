@@ -209,6 +209,8 @@ jobs:
           open("research/DATA.md","w").write("\n".join(L)+"\n")
           print("wrote research/DATA.md", cnt, "names pass Rule12")
           PY
+      - name: coverage gap scan
+        run: python3 research/coverage.py
       - name: news tracking
         env: {ANTHROPIC_API_KEY: "${{ secrets.ANTHROPIC_API_KEY }}"}
         run: python3 research/news.py
