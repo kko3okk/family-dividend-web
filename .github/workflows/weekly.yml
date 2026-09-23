@@ -1,7 +1,7 @@
-name: weekly-research
+name: daily-research
 on:
   schedule:
-    - cron: "0 12 * * 0"     # 每週日 台灣 20:00
+    - cron: "0 22 * * *"     # 每天 台灣 06:00
   workflow_dispatch:
 permissions: {contents: write}
 jobs:
@@ -93,7 +93,7 @@ jobs:
           L=[]
           L.append(f"# 產業數據看板（自動更新）\n")
           L.append(f"**更新：{datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y-%m-%d %H:%M')}　營收月：{ym}　價格日：{ds[-1]}**\n")
-          L.append("本檔為 `RESEARCH.md` 的數據面，每週日 20:00 自動重算。質化分析（瓶頸成因、供應鏈結構、監控指標）仍在 `RESEARCH.md`，需人工更新。\n")
+          L.append("本檔為 `RESEARCH.md` 的數據面，每天 06:00 自動重算。質化分析（瓶頸成因、供應鏈結構、監控指標）仍在 `RESEARCH.md`，需人工更新。\n")
           L.append("\n## 子產業總表（毛利率＝議價力）\n")
           L.append("| 子產業 | 模式 | 家數 | 毛利率中位 | 近兩季變化 | 當月YoY中位 | 站60MA | 距高中位 |")
           L.append("|---|---|---|---|---|---|---|---|")
