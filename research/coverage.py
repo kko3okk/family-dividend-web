@@ -49,14 +49,14 @@ def row(h):
     return f"| {h['c']} {h['n']} | {h['mk']} | {h['ind']} | {h['yoy']:+.0f}% | {h['cum']:+.0f}% | {'✓' if h['ok4'] else '✗'} {b} | {h['vol']:.0f} | {h['e']['first_seen']} | {h['e']['status']} | {h['note'][:40] or '—'} |"
 HDR="| 代號名稱 | 市 | 產業別 | 當月 | 累計 | 第4條(乖離) | 均量 | 首次掃到 | 狀態 | 營收備註 |\n|---|---|---|---|---|---|---|---|---|---|"
 act=[h for h in hits if h['e']['status'] in ("待審","觀察")]
-pri=[h for h in act if h['kw']]; oth=[h for h in act if not h['kw'] and h['ind'] not in SKIP_IND]; skip=[h for h in act if not h['kw'] and h['ind'] in SKIP_IND]
+pri=[h for h in act if h['kw'] and h['ind'] not in SKIP_IND]; oth=[h for h in act if not h['kw'] and h['ind'] not in SKIP_IND]; skip=[h for h in act if h['ind'] in SKIP_IND]
 done=[h for h in hits if h['e']['status'] not in ("待審","觀察")]
 L=[f"# 對照表覆蓋率缺口（自動）\n",f"**更新：{TODAY}　營收月：{YM}**\n",
    "通過第 1 條、但**不在對照表**的股票。營收備註含 AI／伺服器／光通訊／半導體等關鍵字者列為優先。**納入前須查證產品線**，決定寫回 `coverage_log.json` 的 status（待審／觀察／已納入／排除）與理由。\n",
    f"\n## 一、優先審查：營收備註提到 AI 相關（{len(pri)} 檔）\n",HDR]+[row(h) for h in sorted(pri,key=lambda x:(x['mk']!='上市',-x['yoy']))]
 L+=[f"\n## 二、其他電子／製造（{len(oth)} 檔）\n",HDR]+[row(h) for h in sorted(oth,key=lambda x:(x['mk']!='上市',-x['yoy']))]
 L+=[f"\n## 三、已審過（{len(done)} 檔，不重複審）\n","| 代號名稱 | 狀態 | 理由 |","|---|---|---|"]+[f"| {h['c']} {h['n']} | {h['e']['status']} | {h['e'].get('reason','—')} |" for h in done]
-L+=[f"\n## 四、非電子產業（{len(skip)} 檔，略）\n",", ".join(f"{h['n']}" for h in skip) or "—"]
+L+=[f"\n## 四、結構性排除產業（電子通路、資訊服務、非電子；{len(skip)} 檔，略）\n",", ".join(f"{h['n']}" for h in skip) or "—"]
 L+=["\n---\n註：上櫃股主動池不進場（規則），列出僅供對照表完整性參考。"]
 open("research/COVERAGE.md","w",encoding="utf-8").write("\n".join(L)+"\n")
 print("coverage:",len(hits),"hits;",len(pri),"priority;",len(oth),"other;",len(done),"reviewed")
