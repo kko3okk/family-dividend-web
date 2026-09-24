@@ -225,8 +225,13 @@ jobs:
           curl -fsSL https://claude.ai/install.sh | bash
           export PATH="$HOME/.local/bin:$PATH"
           claude --version
-          claude -p "$(cat research/review_prompt.md)" --allowedTools "WebSearch" "WebFetch" "Read" --max-turns 60 > research/REVIEW.md 2> research/review_log.txt || echo "review failed" >> research/review_log.txt
-          echo "_產生時間：$(TZ=Asia/Taipei date '+%Y-%m-%d %H:%M')_" >> research/REVIEW.md
+          [ -f research/REVIEW.md ] && cp research/REVIEW.md research/REVIEW_prev.md
+          if claude -p "$(cat research/review_prompt.md)" --allowedTools "WebSearch" "WebFetch" "Read" --max-turns 60 > research/REVIEW.new.md 2> research/review_log.txt && [ -s research/REVIEW.new.md ]; then
+            mv research/REVIEW.new.md research/REVIEW.md
+            echo "_產生時間：$(TZ=Asia/Taipei date '+%Y-%m-%d %H:%M')_" >> research/REVIEW.md
+          else
+            echo "review failed $(date)" >> research/review_log.txt; rm -f research/REVIEW.new.md
+          fi
       - run: |
           git config user.name bot; git config user.email b@b.c
           git add research
