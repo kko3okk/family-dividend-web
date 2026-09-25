@@ -4,4 +4,4 @@ gm 80
 gm 120
 gm 160
 PE 1544 PB 1970
-wrote research/DATA.md 14 names pass Rule12
+wrote research/DATA.md 12 names pass Rule12
