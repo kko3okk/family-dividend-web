@@ -240,6 +240,10 @@ jobs:
             echo "$TS FAILED: $(tail -c 300 research/review_err.txt | tr '\n' ' ')" >> research/review_log.txt; rm -f research/REVIEW.new.md
           fi
           tail -n 60 research/review_log.txt > research/review_log.tmp && mv research/review_log.tmp research/review_log.txt
+      - name: apply news-topic changes proposed by review
+        if: always()
+        continue-on-error: true
+        run: python3 research/apply_topics.py
       - name: data health check
         if: always()
         env: {NTFY_TOPIC: "${{ secrets.NTFY_TOPIC }}"}

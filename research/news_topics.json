@@ -1,0 +1,234 @@
+[
+ {
+  "cat": "800V電源鏈",
+  "item": "NVIDIA 800V 夥伴名單是否新增台廠",
+  "q": "NVIDIA 800V 合作夥伴 台廠",
+  "question": "是否有台灣半導體公司（非電源供應器廠）新進入 NVIDIA 800V HVDC 合作夥伴名單？",
+  "added": "≤2026-09-25",
+  "by": "chang"
+ },
+ {
+  "cat": "800V電源鏈",
+  "item": "漢磊 8吋 SiC 驗證",
+  "q": "漢磊 SiC 驗證",
+  "question": "漢磊 8 吋 SiC 驗證進度或國際 IDM 委外訂單有無新消息？",
+  "added": "≤2026-09-25",
+  "by": "chang"
+ },
+ {
+  "cat": "800V電源鏈",
+  "item": "台達電 800V 電源櫃出貨",
+  "q": "台達電 800V",
+  "question": "台達電 800V 液冷電源櫃出貨量或客戶有無更新？",
+  "added": "≤2026-09-25",
+  "by": "chang"
+ },
+ {
+  "cat": "800V電源鏈",
+  "item": "光寶科 Vera Rubin 驗證",
+  "q": "光寶科 800V Power Rack",
+  "question": "光寶科 800V Power Rack 是否通過驗證？",
+  "added": "≤2026-09-25",
+  "by": "chang"
+ },
+ {
+  "cat": "800V電源鏈",
+  "item": "800V HVDC 採用時程",
+  "q": "800V HVDC 資料中心 時程",
+  "question": "800V HVDC 採用時程是否提前或延後？",
+  "added": "≤2026-09-25",
+  "by": "chang"
+ },
+ {
+  "cat": "800V電源鏈",
+  "item": "Kyber 機櫃時程",
+  "q": "Kyber 機櫃 Rubin Ultra 量產",
+  "question": "Kyber/Rubin Ultra 量產時程是 2027H2 還是延至 2028？",
+  "added": "≤2026-09-25",
+  "by": "chang"
+ },
+ {
+  "cat": "800V電源鏈",
+  "item": "GaN 代工進度",
+  "q": "世界先進 GaN 力積電 GaN",
+  "question": "世界先進或力積電 GaN 代工有無量產或客戶進展？",
+  "added": "≤2026-09-25",
+  "by": "chang"
+ },
+ {
+  "cat": "CPU擴散",
+  "item": "AMD Venice／Helios 出貨",
+  "q": "AMD Venice Helios 出貨 MI450",
+  "question": "Venice CPU 與 Helios 機櫃是否如期 2026 下半年出貨？量級與客戶？",
+  "added": "2026-09-27",
+  "by": "claude"
+ },
+ {
+  "cat": "CPU擴散",
+  "item": "EFB 封裝營收貢獻",
+  "q": "EFB 封裝 日月光 力成 面板級",
+  "question": "日月光、矽品、力成的 EFB（2.5D 橋接）是否從驗證進入量產、有無營收貢獻數字？",
+  "added": "2026-09-27",
+  "by": "claude"
+ },
+ {
+  "cat": "CPU擴散",
+  "item": "ABF 載板報價與擴產",
+  "q": "ABF 載板 漲價 欣興 南電 景碩",
+  "question": "ABF 載板報價是否持續上漲、三雄擴產與交期？CPU 大晶片是否帶來額外層數需求？",
+  "added": "2026-09-27",
+  "by": "claude"
+ },
+ {
+  "cat": "第9條觸發",
+  "item": "DRAM 大廠漲價",
+  "q": "三星 SK海力士 美光 漲價 DRAM 合約價",
+  "question": "三星、SK海力士、美光是否有≥2家公開宣布漲價，或 DRAM 合約價指數連兩期上升？（第9條觸發條件）",
+  "added": "2026-09-27",
+  "by": "claude"
+ },
+ {
+  "cat": "第9條觸發",
+  "item": "MLCC 大廠漲價",
+  "q": "村田 三星電機 國巨 MLCC 漲價",
+  "question": "村田、三星電機、國巨等前三大 MLCC 廠是否有≥2家公開宣布漲價？是否停漲？（第9條觸發／國巨型機會）",
+  "added": "2026-09-27",
+  "by": "claude"
+ },
+ {
+  "cat": "第9條觸發",
+  "item": "功率元件與 SiC 漲價",
+  "q": "英飛凌 安森美 意法 功率半導體 漲價",
+  "question": "英飛凌、安森美、意法等功率元件大廠是否公開漲價？對嘉晶、漢磊、強茂是否形成第9條條件？",
+  "added": "2026-09-27",
+  "by": "claude"
+ },
+ {
+  "cat": "第9條觸發",
+  "item": "成熟製程代工漲價",
+  "q": "聯電 力積電 世界先進 漲價 成熟製程",
+  "question": "成熟製程代工報價是否普遍調漲（力積電傳漲四成）？力積電毛利率連升是否有報價支撐？",
+  "added": "2026-09-27",
+  "by": "claude"
+ },
+ {
+  "cat": "第9條觸發",
+  "item": "貨櫃運價 SCFI",
+  "q": "SCFI 運價指數 貨櫃",
+  "question": "SCFI 是否連兩期上升？也關係長榮配息能力。",
+  "added": "2026-09-27",
+  "by": "claude"
+ },
+ {
+  "cat": "瓶頸監控",
+  "item": "T-glass 供給",
+  "q": "T-glass 玻纖布 擴產",
+  "question": "T-glass 供給是否改善（日東紡、旭化成擴產）？這是 ABF 瓶頸解除的第一個訊號。",
+  "added": "≤2026-09-25",
+  "by": "chang"
+ },
+ {
+  "cat": "瓶頸監控",
+  "item": "三星 DDR4 產能",
+  "q": "三星 DDR4 停產",
+  "question": "三星 DDR4 停產時程有無改變？若延後停產或回頭增產，利基型 DRAM 租金會消失。",
+  "added": "≤2026-09-25",
+  "by": "chang"
+ },
+ {
+  "cat": "瓶頸監控",
+  "item": "DDR4 現貨價",
+  "q": "DDR4 現貨價",
+  "question": "DDR4 現貨價本週方向？",
+  "added": "≤2026-09-25",
+  "by": "chang"
+ },
+ {
+  "cat": "瓶頸監控",
+  "item": "InP 雷射缺貨",
+  "q": "InP 磷化銦 雷射 缺貨",
+  "question": "InP 基板/雷射缺口是否收斂？",
+  "added": "≤2026-09-25",
+  "by": "chang"
+ },
+ {
+  "cat": "瓶頸監控",
+  "item": "光通訊交期與 DSP 價格",
+  "q": "光通訊 交期 DSP 漲價 光模組",
+  "question": "光通訊元件交期（目前約 26-28 週）是否拉長或縮短？DSP 報價是否鬆動？客戶 2027 年訂單能見度？",
+  "added": "≤2026-09-25",
+  "by": "chang"
+ },
+ {
+  "cat": "瓶頸監控",
+  "item": "1.6T 導入時程",
+  "q": "1.6T 光模組 量產 2027",
+  "question": "1.6T 光模組放量時程是否提前或延後（目前預期 2027 年中上市、2028 量產）？CPO/LPO 是否提前取代可插拔模組？",
+  "added": "≤2026-09-25",
+  "by": "chang"
+ },
+ {
+  "cat": "瓶頸監控",
+  "item": "CoWoS 產能",
+  "q": "CoWoS 產能 台積電",
+  "question": "CoWoS 產能與供需缺口有無新數字？",
+  "added": "≤2026-09-25",
+  "by": "chang"
+ },
+ {
+  "cat": "瓶頸監控",
+  "item": "CPU 伺服器與 DDR5 需求",
+  "q": "AI CPU 伺服器 需求 DDR5 RDIMM 報價",
+  "question": "AI 代理帶動的 CPU 伺服器需求有無新訂單或資本支出（例：Akamai 為 Anthropic 增加 17 億美元 capex 預購記憶體）？DDR5 伺服器記憶體合約價方向？這是需求從 GPU 擴散到 CPU 的訊號，但與利基型 DRAM（晶豪科）無直接關係。",
+  "added": "≤2026-09-25",
+  "by": "chang"
+ },
+ {
+  "cat": "風險監控",
+  "item": "長鑫 DRAM 擴產與價格戰",
+  "q": "長鑫 CXMT DDR4 DDR5 擴產 價格",
+  "question": "長鑫產能開出是否壓低 DDR4/DDR5 價格？這是記憶體租金消失的主要風險。",
+  "added": "2026-09-27",
+  "by": "claude"
+ },
+ {
+  "cat": "風險監控",
+  "item": "AI 資本支出風向",
+  "q": "超大型雲端 資本支出 下修 AI capex",
+  "question": "四大雲端業者 AI 資本支出是否上修或下修？任何一家下修是整個 AI 硬體鏈的最上游風險。",
+  "added": "2026-09-27",
+  "by": "claude"
+ },
+ {
+  "cat": "研究追蹤",
+  "item": "南寶 半導體膠進度",
+  "q": "南寶 半導體 封裝膠 新寶紘",
+  "question": "南寶半導體先進封裝膠的認證進度、營收占比是否首度揭露、新寶紘/信紘科相關消息？",
+  "added": "≤2026-09-25",
+  "by": "chang"
+ },
+ {
+  "cat": "研究追蹤",
+  "item": "Bloom Energy 出貨與 GW 目標",
+  "q": "Bloom Energy SOFC 資料中心",
+  "question": "Bloom Energy 出貨、GW 目標（2026 1.5GW→2027 3.5GW+）或第二供應商有無變化？",
+  "added": "≤2026-09-25",
+  "by": "chang"
+ },
+ {
+  "cat": "研究追蹤",
+  "item": "宏致 AI 占比與毛利率",
+  "q": "宏致 3605",
+  "question": "宏致 AI 營收占比（Q4 目標 30%）、毛利率、NB 客戶缺料有無新消息？",
+  "added": "≤2026-09-25",
+  "by": "chang"
+ },
+ {
+  "cat": "太空",
+  "item": "SpaceX 對台下單",
+  "q": "SpaceX 台廠 昇達科 華通",
+  "question": "SpaceX 對台廠下單規模有無新消息？",
+  "added": "≤2026-09-25",
+  "by": "chang"
+ }
+]

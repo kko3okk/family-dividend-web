@@ -1,41 +1,15 @@
 #!/usr/bin/env python3
-"""每週新聞追蹤：Google News RSS 抓標題；若有 ANTHROPIC_API_KEY 則由 Claude 判讀。"""
+"""每日新聞追蹤：Google News RSS 抓標題；若有 ANTHROPIC_API_KEY 則由 Claude 判讀。"""
 import os, json, datetime, urllib.request, urllib.parse, xml.etree.ElementTree as ET, email.utils, time
 
 TPE = datetime.timezone(datetime.timedelta(hours=8))
 NOW = datetime.datetime.now(TPE)
 SINCE = NOW - datetime.timedelta(days=2)
 
-CHECKS = [
- # (分類, 追蹤項目, 搜尋關鍵字, 判讀問題)
- ("800V電源鏈","NVIDIA 800V 夥伴名單是否新增台廠","NVIDIA 800V 合作夥伴 台廠","是否有台灣半導體公司（非電源供應器廠）新進入 NVIDIA 800V HVDC 合作夥伴名單？"),
- ("800V電源鏈","漢磊 8吋 SiC 驗證","漢磊 SiC 驗證","漢磊 8 吋 SiC 驗證進度或國際 IDM 委外訂單有無新消息？"),
- ("800V電源鏈","台達電 800V 電源櫃出貨","台達電 800V","台達電 800V 液冷電源櫃出貨量或客戶有無更新？"),
- ("800V電源鏈","光寶科 Vera Rubin 驗證","光寶科 800V Power Rack","光寶科 800V Power Rack 是否通過驗證？"),
- ("800V電源鏈","800V HVDC 採用時程","800V HVDC 資料中心 時程","800V HVDC 採用時程是否提前或延後？"),
- ("800V電源鏈","Kyber 機櫃時程","Kyber 機櫃 Rubin Ultra 量產","Kyber/Rubin Ultra 量產時程是 2027H2 還是延至 2028？"),
- ("800V電源鏈","GaN 代工進度","世界先進 GaN 力積電 GaN","世界先進或力積電 GaN 代工有無量產或客戶進展？"),
- ("瓶頸監控","T-glass 供給","T-glass 玻纖布 擴產","T-glass 供給是否改善（日東紡、旭化成擴產）？這是 ABF 瓶頸解除的第一個訊號。"),
- ("瓶頸監控","三星 DDR4 產能","三星 DDR4 停產","三星 DDR4 停產時程有無改變？若延後停產或回頭增產，利基型 DRAM 租金會消失。"),
- ("瓶頸監控","DDR4 現貨價","DDR4 現貨價","DDR4 現貨價本週方向？"),
- ("瓶頸監控","InP 雷射缺貨","InP 磷化銦 雷射 缺貨","InP 基板/雷射缺口是否收斂？"),
- ("瓶頸監控","光通訊交期與 DSP 價格","光通訊 交期 DSP 漲價 光模組","光通訊元件交期（目前約 26-28 週）是否拉長或縮短？DSP 報價是否鬆動？客戶 2027 年訂單能見度？"),
- ("瓶頸監控","1.6T 導入時程","1.6T 光模組 量產 2027","1.6T 光模組放量時程是否提前或延後（目前預期 2027 年中上市、2028 量產）？CPO/LPO 是否提前取代可插拔模組？"),
- ("瓶頸監控","CoWoS 產能","CoWoS 產能 台積電","CoWoS 產能與供需缺口有無新數字？"),
- ("瓶頸監控","CPU 伺服器與 DDR5 需求","AI CPU 伺服器 需求 DDR5 RDIMM 報價","AI 代理帶動的 CPU 伺服器需求有無新訂單或資本支出（例：Akamai 為 Anthropic 增加 17 億美元 capex 預購記憶體）？DDR5 伺服器記憶體合約價方向？這是需求從 GPU 擴散到 CPU 的訊號，但與利基型 DRAM（晶豪科）無直接關係。"),
- ("瓶頸監控","MLCC 報價","MLCC 漲價 國巨","MLCC 報價是否持續上漲或停漲？"),
- ("持股","晶豪科","晶豪科","有無影響晶豪科基本面的重大消息？"),
- ("持股","大量","大量科技 鑽孔","有無影響大量基本面的重大消息？"),
- ("持股","全新","全新光電","有無影響全新基本面的重大消息？"),
- ("持股","順德","順德工業 導線架","有無影響順德基本面的重大消息？"),
- ("持股","嘉晶","嘉晶 SiC","有無影響嘉晶基本面的重大消息（含增資、訂單、驗證）？"),
- ("股息池","崑鼎","崑鼎 焚化","有無影響崑鼎配息能力的消息（合約、可轉債、新廠）？"),
- ("股息池","南寶 半導體膠進度","南寶 半導體 封裝膠 新寶紘","南寶半導體先進封裝膠的認證進度、營收占比是否首度揭露、新寶紘/信紘科相關消息？"),
- ("股息池","中保科","中保科","有無影響中保科配息能力的消息？"),
- ("研究追蹤","Bloom Energy 出貨與 GW 目標","Bloom Energy SOFC 資料中心","Bloom Energy 出貨、GW 目標（2026 1.5GW→2027 3.5GW+）或第二供應商有無變化？"),
- ("研究追蹤","宏致 AI 占比與毛利率","宏致 3605","宏致 AI 營收占比（Q4 目標 30%）、毛利率、NB 客戶缺料有無新消息？"),
- ("太空","SpaceX 對台下單","SpaceX 台廠 昇達科 華通","SpaceX 對台廠下單規模有無新消息？"),
-]
+TOPICS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "news_topics.json")
+CHECKS = [(t["cat"], t["item"], t["q"], t["question"]) for t in json.load(open(TOPICS_FILE, encoding="utf-8"))]
+# 追蹤名單在 research/news_topics.json；每日查證（REVIEW.md 第五節）可自動增刪，紀錄在 news_topics_log.md。
+# 持股個別新聞改在私有庫 family-dividend-data 的 holdings-check 產生，公開庫不列持股。
 
 def rss(q):
     url = "https://news.google.com/rss/search?" + urllib.parse.urlencode({"q": q + " when:2d", "hl": "zh-TW", "gl": "TW", "ceid": "TW:zh-Hant"})
