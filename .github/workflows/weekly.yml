@@ -1,7 +1,7 @@
 name: daily-research
 on:
   schedule:
-    - cron: "0 22 * * *"     # 每天 台灣 06:00
+    - cron: "17 20 * * *"    # 每天 台灣 04:17 開跑（GitHub 排程常延遲 1–2.5 小時，約 06:00 前後完成）
   workflow_dispatch:
 permissions: {contents: write}
 jobs:
@@ -14,6 +14,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
+      - name: backfill prices (paper 作業漏跑時補抓)
+        continue-on-error: true
+        run: python3 scripts/refresh_prices.py
       - env: {FM: "${{ secrets.FINMIND_TOKEN }}"}
         run: |
           mkdir -p research
@@ -226,15 +229,25 @@ jobs:
           export PATH="$HOME/.local/bin:$PATH"
           claude --version
           [ -f research/REVIEW.md ] && cp research/REVIEW.md research/REVIEW_prev.md
-          if claude -p "$(cat research/review_prompt.md)" --allowedTools "WebSearch" "WebFetch" "Read" --max-turns 60 > research/REVIEW.new.md 2> research/review_log.txt && [ -s research/REVIEW.new.md ]; then
+          TS="$(TZ=Asia/Taipei date '+%Y-%m-%d %H:%M')"
+          PROMPT="今天是 $(TZ=Asia/Taipei date '+%Y-%m-%d %A')（台灣時間）。
+          $(cat research/review_prompt.md)"
+          if claude -p "$PROMPT" --allowedTools "WebSearch" "WebFetch" "Read" --max-turns 80 > research/REVIEW.new.md 2> research/review_err.txt && [ -s research/REVIEW.new.md ]; then
             mv research/REVIEW.new.md research/REVIEW.md
-            echo "_產生時間：$(TZ=Asia/Taipei date '+%Y-%m-%d %H:%M')_" >> research/REVIEW.md
+            echo "_產生時間：${TS}_" >> research/REVIEW.md
+            echo "$TS ok" >> research/review_log.txt
           else
-            echo "review failed $(date)" >> research/review_log.txt; rm -f research/REVIEW.new.md
+            echo "$TS FAILED: $(tail -c 300 research/review_err.txt | tr '\n' ' ')" >> research/review_log.txt; rm -f research/REVIEW.new.md
           fi
-      - run: |
+          tail -n 60 research/review_log.txt > research/review_log.tmp && mv research/review_log.tmp research/review_log.txt
+      - name: data health check
+        if: always()
+        env: {NTFY_TOPIC: "${{ secrets.NTFY_TOPIC }}"}
+        run: python3 research/health.py
+      - if: always()
+        run: |
           git config user.name bot; git config user.email b@b.c
-          git add research
+          git add research data/prices data/prices_otc2
           git diff --cached --quiet && exit 0
-          git commit -m "weekly research data $(date +%F)"
+          git commit -m "daily research data $(TZ=Asia/Taipei date +%F)"
           for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 5; done

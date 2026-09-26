@@ -87,7 +87,7 @@ summary = claude(results)
 if summary:
     L.append("## Claude 判讀\n"); L.append(summary + "\n")
 else:
-    L.append("## Claude 判讀\n（未設定 ANTHROPIC_API_KEY，本週僅列標題）\n")
+    L.append("## Claude 判讀\n（此處不判讀；每日判讀見 research/REVIEW.md 第二節，由訂閱版 Claude 產生）\n")
 L.append("## 原始標題\n")
 cur = None
 for (cat, item, q, question), news in results:
