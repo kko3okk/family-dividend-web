@@ -27,7 +27,7 @@ jobs:
           def get(u):
               return json.loads(urllib.request.urlopen(urllib.request.Request(u,headers=HDR),timeout=90).read().decode())
           SUB=get(B+"data/subindustry.json")
-          codes=sorted({c for v in SUB.values() for c in v}|{"3707","3016","6488","3211","6548","5285","2481","6693","3026","2301","2308","2351"})
+          codes=sorted({c for v in SUB.values() for c in v}|{"3707","3016","6488","3211","6548","5285","2481","6693","3026","2301","2308","2351","4971","4991","3081","4979","3234","3450","4977","6442","3163","3363","3105","4908"})
           c2s={c:k for k,cs in SUB.items() for c in cs}
           # 1) 毛利率（季報，每季更新；每週重抓成本低）
           p="research/gm.json"
@@ -211,6 +211,32 @@ jobs:
                   L.append(f"| {tier} | {n} | {mk} | {y} | {yp} | {cum} | {gs} | {pe} | {pxx:.1f} | {(pxx/m60-1)*100:+.1f}% | {(pxx/hi-1)*100:+.1f}% | {r1} | {r12} |")
               else:
                   L.append(f"| {tier} | {n} | — | {y} | {yp} | {cum} | {gs} | {pe} | — | — | — | {r1} | {r12} |")
+          # InP／矽光光源鏈追蹤（2026-09-27 起，固定名單；中國曝險分類見 RESEARCH.md InP 章節十一）
+          L.append("\n## InP／矽光光源鏈追蹤\n")
+          L.append("**背景**：InP 是 2026–2028 無可替代的 AI 光通訊材料，瓶頸兩層：基板（住友/AXT/JX，AXT 產於北京、受中國出口許可）與雷射晶片（Lumentum/Coherent/博通/三菱）。台灣無基板廠，最上游在磊晶。需求由 EML 轉向矽光 CW；矽光接收端改用鍺 PD，InP PD 需求被壓縮。質化清單見 RESEARCH.md〈InP 磷化銦深度研究〉。\n")
+          L.append("| 層級 | 名稱 | 市 | 中國曝險 | 當月YoY | 上月 | 累計 | 毛利率三季 | PE | 收盤 | 距20MA | 距60MA | 第1條 | 第12條 |")
+          L.append("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|")
+          INP=[("L1 磊晶","2455","全新","原料高（AXT）／客戶低"),("L1 磊晶","3081","聯亞","客戶高（中國模組廠）／原料低"),("L1 磊晶","4971","英特磊","低"),
+               ("L2 晶片/代工","4979","華星光","低"),("L2 晶片/代工","3234","光環","偏低"),("L2 晶片/代工","4991","環宇","偏高"),("L2 晶片/代工","3105","穩懋","不明"),
+               ("L3 封裝/光引擎","3450","聯鈞","本業低／合併混合"),("L3 封裝/光引擎","4977","眾達","混合（蘇州廠）"),("L3 封裝/光引擎","4908","前鼎","偏低"),
+               ("L4 被動/FAU","6442","光聖","混合（寧波廠）"),("L4 被動/FAU","3163","波若威","混合"),("L4 被動/FAU","3363","上詮","混合")]
+          _j=globals().get("j"); listed={x[0] for x in (_j.get("data",[]) if isinstance(_j,dict) else [])}
+          for tier,c,n,cx in INP:
+              r=R.get(c); p=P.get(c); t=px(c)
+              y=f"{r['yoy']:+.0f}%" if r and r.get("yoy") is not None else "—"
+              yp=f"{p['yoy']:+.0f}%" if p and p.get("yoy") is not None else "—"
+              cum=f"{r['cum']:+.0f}%" if r and r.get("cum") is not None else "—"
+              g=[v for _,v in GM.get(c,[])][-3:]
+              gs=f"{g[0]:.1f}→{g[1]:.1f}→{g[2]:.1f}" if len(g)>=3 else "—"
+              r1 = "✓" if (r and p and r.get("yoy") is not None and p.get("yoy") is not None and 30<=r["yoy"]<=300 and p["yoy"]>=30 and (r.get("cum") or 0)>=30) else "✗"
+              r12 = "✓" if (len(g)>=3 and g[-1]>g[-2]>g[-3]) else "✗"
+              pe=f"{PE[c]:.0f}" if c in PE and 0<PE[c]<500 else "—"
+              mk="市" if c in listed else "櫃"
+              if t:
+                  pxx,m20,m60,hi,vol=t
+                  L.append(f"| {tier} | {n} | {mk} | {cx} | {y} | {yp} | {cum} | {gs} | {pe} | {pxx:.1f} | {(pxx/m20-1)*100:+.1f}% | {(pxx/m60-1)*100:+.1f}% | {r1} | {r12} |")
+              else:
+                  L.append(f"| {tier} | {n} | {mk} | {cx} | {y} | {yp} | {cum} | {gs} | {pe} | — | — | — | {r1} | {r12} |")
           open("research/DATA.md","w").write("\n".join(L)+"\n")
           print("wrote research/DATA.md", cnt, "names pass Rule12")
           PY
