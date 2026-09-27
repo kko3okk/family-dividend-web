@@ -74,7 +74,7 @@
 
 **驅動**：銅退光進。400G→800G→2026 1.6T 放量。NVIDIA 2026/6 GTC 宣布 Spectrum-X Photonics CPO 交換器量產；博通 Tomahawk 6-Davisson 用台積 COUPE 封裝。
 **三個層級**：InP（上游材料/雷射）、矽光子（技術基礎）、CPO（封裝架構）。
-**瓶頸在最上游 InP 雷射**：Lumentum/Coherent 高功率雷射供不應求，InP 基板缺口 30%，訂單滿到 2027。NVIDIA 2026/3 各注資 20 億美元包產能。
+**瓶頸在最上游 InP 雷射**：Lumentum/Coherent 高功率雷射供不應求——Lumentum CEO 說的「缺口 >30%」是**雷射晶片**（非基板，2026-09-27 更正）；基板另有交期 30–58 週、6 吋漲 ~250%。NVIDIA 2026/3 各注資 20 億美元並附多年採購承諾。詳見文末〈InP 磷化銦深度研究〉。
 **下游兩極化**：有料大賺、無料卡關。料源保障決定實質獲利。
 **資料驗證**：上游聯亞毛利率 43→57%、全新 34→39% 升；下游波若威 17→15%、上詮 20→0% 降。上詮是台積 COUPE FAU 獨家但擴產折舊吃掉毛利、累計營收 −11%——題材最純、財報最差。
 **法人選擇**：不選光聖、華星光，點名聯亞、環宇、全新（上游有定價權）。
@@ -135,7 +135,7 @@
 
 | 瓶頸類型 | 族群 | 證據 | 可持續性 |
 |---|---|---|---|
-| **材料缺** | ABF 載板（T-glass）、光通訊（InP） | 交期 48-56 週／缺口 30% | 擴產 2-3 年，到 2027-28 |
+| **材料缺** | ABF 載板（T-glass）、光通訊（InP 基板＋雷射） | T-glass 交期 48-56 週；InP 基板交期 30-58 週、雷射缺口 >30% | 擴產 2-3 年，日系產能 2027H2-2028 開出 |
 | **產能轉移** | 記憶體（利基 DRAM/NOR/SLC） | 毛利率 +20pt | 看三星何時回頭 |
 | **規格升級** | 散熱（IHS/水冷板）、被動元件（高壓 MLCC） | 單櫃價值 +50-180% | 看 Rubin 時程 |
 | **設備/耗材** | PCB 設備、封測設備、光罩盒、鑽石碟 | 毛利率 40-55% | 跟客戶擴產週期，先見頂 |
@@ -263,3 +263,94 @@ NVIDIA 18 家 800V HVDC 合作夥伴中，10 家半導體業者**全為外商**�
 - SpaceX 對台下單規模（昇達科、華通）
 - 昇達科衛星營收占比（2025 約 50-60% → 2026 估 60-70%）；TT&C 與 ISL 新產品出貨
 - Amazon Leo、OneWeb 等第二來源星座進度
+
+
+# InP 磷化銦深度研究（2026-09-27）
+
+標記：【確】公司財報/IR/法說或具名記者；【析】具名研究機構；【匿】匿名法人、論壇、無出處。數字口徑不一（2 吋／4 吋當量、片／顆），只作方向參考。
+
+## 一、一句話
+InP 是 AI 光通訊唯一在 2026–2028 無法被替代的材料（200G/lane 的 500m–2km 鏈路）。瓶頸有**兩層**：最上游的**基板**（全球由住友、AXT、JX 寡占約 90%，且 AXT 產地在中國、受出口許可管制），以及**雷射晶片**產能（Lumentum/Coherent/三菱/博通）。台灣**沒有基板廠**，站在「磊晶」與「晶片代工」這一層——夾在基板漲價與客戶之間，但目前能轉嫁（毛利率連升）。
+
+## 二、供給鏈與寡占程度
+
+| 層 | 主要廠商 | 集中度 | 台灣 |
+|---|---|---|---|
+| 銦金屬 | 中國為主（精煉） | 中國管控出口 | — |
+| **InP 基板** | 住友電工、AXT（中國通美）、JX；中國雲南鍺業、先導 | AXT+住友 ≈80%、JX ≈10%【確 Reuters 2026/6】 | **無**【確 工商 2026/8/12】 |
+| 磊晶 | IQE、全新、聯亞、英特磊（MBE）、晶片廠自製 | 分散 | 全新、聯亞、英特磊 |
+| 雷射/PD 晶片 | EML：Lumentum+博通+三菱 ≈72%；CW-DFB：博通+住友+Coherent+聯亞 ≈74%【析 TrendForce 2026/6】 | 高 | 華星光、光環（自製）；環宇（美國廠）、穩懋（代工） |
+| 模組/封裝 | 中系模組廠、Coherent、Fabrinet | 分散 | 聯鈞（COSA）、眾達、光聖/波若威/上詮（被動/FAU） |
+
+## 三、缺口有多大（更正舊說法）
+- **「缺口 30%」是雷射晶片，不是基板**：Lumentum CEO 5/5 法說「EML 供給低於需求 30% 以上」，8/12 再說「we are way behind」，高功率雷射落後幅度大於 EML【確】。舊版本寫「InP 基板缺口 30%」屬誤植。
+- **基板**：TrendForce 估 2026 有效產能與需求缺口可能 >70%、交期 30–58 週【析 2026/9】；東吳估有效產能 60–75 萬片 vs 需求 260–300 萬片【析，口徑未註明】。
+- **價格**：6 吋晶圓均價漲約 250% 至 ~US$5,000【確 Reuters 2026/6】；基板自 2025Q4 已漲 3 次（各 3–5%），2026Q4 第 4 次漲逾一成【匿 經濟日報 8/17 引業界】。銦價 2025/2 約 US$250/kg → 2026/8 約 US$805/kg【確 Asia Times 9/3】。
+- **出口管制**：中國 2025/2/4 起將磷化銦（3C004.a）、三甲基銦等納入許可制，2025/11 暫停部分管制時**未包含**此項【確 商務部公告 2025 第 10 號】。AXT 2026Q2 InP 營收 US$30.7M（一年前 US$3.6M），許可在「部分地區」變規律，但對美出貨仍受限【確】。
+- **反方**：LightCounting（2026/4）認為 2026 年底前緩解【析】；中國 5 月底放行一批基板出口【整】。
+
+## 四、需求結構正在變（對台廠很關鍵）
+- **EML → CW**：1.6T 可插拔 EML 方案用 8 顆 200G EML；矽光方案只要 2–4 顆 CW 雷射（70–100mW）【匿 NADDOD/產業文章】。TrendForce：CW+SiPh 已是 CSP 因應 EML 短缺的主要替代路線【析 2025/12】。
+- **CPO 外部光源（ELS）**：NVIDIA 說每個 ELS 8 顆雷射供 32 通道，雷射數比傳統少 4 倍【確】；但需要 300–400mW 高功率 CW，Lumentum 超高功率雷射 2027H2 才量產、供 2028 部署【確 8/11 法說】。
+- **淨效果**：每 Gbps 的雷射顆數↓，但單顆功率、晶粒面積、價格↑；總體 InP 晶圓面積需求仍在增（800G+ 模組 2025 年 2,400 萬 → 2026 年 6,300 萬顆【析 TrendForce】）。需求從 EML 移向 **CW**——利多做 CW 磊晶／晶片者（聯亞、全新、華星光、環宇），對只做 EML 者不利。
+- **替代技術時程**：VCSEL 只能 30–50m（威脅不到 DR/FR）；LPO 只拿掉 DSP、不影響雷射；TFLN 是調變器仍需 CW 光源；矽上量子點雷射最快 2028–29【析】。**2026–2028 無替代。**
+- **不是唯一瓶頸**：1.6T 還卡 3nm DSP——野村專家會議稱 2027 需求 6,000–7,000 萬顆、供給約 4,000 萬【匿 鉅亨 9/24】。
+
+## 五、擴產時程——何時退燒
+
+| 廠商 | 計畫 | 何時見效 |
+|---|---|---|
+| 住友（基板） | FY2028 產能為 FY2024 的 3.1 倍，¥180 億【確 日經】 | 2027–2028 |
+| JX（基板） | 4 年最多 ¥1,200 億，產能 7–10 倍【確 2026/6/16】 | 未揭露，推估 2028+ |
+| AXT（基板） | 每季 InP 產能（營收計）2026 底 US$60M → 2027 底 US$130M；Lumentum 長約到 2031、預付 US$87M【確】 | 取決於中國許可 |
+| 先導（中國基板） | 300 萬片/年（4–6 吋），工期 2026/8–2029/8【析】 | 2029 |
+| Coherent（雷射） | 6 吋 InP 量產（Sherman、瑞典），內部 InP 產出 2026 底翻倍、2027 底再翻倍【確】 | 已在放量 |
+| Lumentum（雷射） | Greensboro 新廠 2028 初貢獻營收【確】 | 2028 |
+| 三菱（EML） | FY30 產能為 FY26 的 3 倍以上【確】 | 2027–2030 |
+
+**判斷**：2026 下半年價格與交期仍在惡化；**2027H2–2028** 日系基板與雷射新產能陸續開出，是 InP 題材最可能退燒的窗口。第一個訊號會是**基板停漲**（比營收早），其次是中國許可常態化。
+
+## 六、台廠拆解（2026-09-24 收盤、8 月營收）
+
+| 公司 | 層 | 市場 | InP 事實 | 8月YoY/累計 | 毛利率近四季 | 距60MA |
+|---|---|---|---|---|---|---|
+| **全新 2455** | 磊晶（MOCVD） | **上市** | 光電占營收 Q1 25% → 8 月 46%；PD/CW/EML 磊晶；Q2 兩度漲價；已取得美國基板料源；2026 增 6 台 InP MOCVD【確】 | +71%/+36% | 32.9→37.3→38.1→38.6 | +35.5%（處置中） |
+| 聯亞 3081 | 磊晶（CW 為主） | 櫃 | Datacom 80–85%；住友 2027–31、日系 2026–29、美系基板長約；2027 產能 2.5 倍；**出貨 70–80% 到中國模組廠**【確/整】 | +181%/+129% | 43.6→48.7→54.8→57.5 | +10.6% |
+| 英特磊 4971 | 磊晶（MBE，PD） | 櫃 | InP PD 占 48.7%；Q2 受住友停工衝擊、拿不到中國基板【確/整】 | +33%/+20% | —（H1 41.8%） | +10.4% |
+| 環宇-KY 4991 | 美國廠 InP 代工＋元件 | 櫃 | 200G PD、CW 量產；客戶 Lumentum/Coherent/AAOI；Q2 毛利率 54.5→43.3%（基板成本）【確】 | +46%/+46% | — | +1.0% |
+| 穩懋 3105 | 化合物代工 | 櫃 | InP PD 量產、EML 長距量產、CW 2027 貢獻；光學占 10–15%【確/整】 | +31%/+33% | 26.9→31.8→26.3→28.2 | +25.0% |
+| 華星光 4979 | 自製 InP 晶片 | 櫃 | 一條龍，InP 約占 15%；CW 出貨年增 4 倍；2 吋→4 吋【整】 | +37%/+20% | 21.1→23.0→25.4→22.4 | +11.3% |
+| 光環 3234 | 自製 InP/GaAs | 櫃 | CW 代工為主軸，仍虧損【確/整】 | +110%/+27% | 2.4→8.4→9.8→19.8 | +22.8% |
+| 聯鈞 3450 | COSA 封裝（外購晶片） | 上市 | ELSFP 最快 2027H2 小量；不接中國模組廠【整】 | +110%/+29% | 22.8→26.7→24.8→32.4 | +1.3% |
+| 光聖 6442 | 被動元件 | 上市 | 非 InP【整】 | +152%/+43% | 60.4→57.6→55.4→62.5 | +2.4% |
+| 波若威 3163 / 上詮 3363 | 被動 / FAU | 櫃 | 非 InP | 低 | 下滑 / 崩 | — |
+| 宏捷科 8086 | GaAs 代工 | 櫃 | InP 業務**未證實**（僅論壇）【匿】 | +13%/+36% | — | −6.4% |
+
+## 七、規律與對系統的意義
+1. **往上游走再次成立**：聯亞（磊晶）毛利率四季 +14pt、全新 +6pt；下游波若威、上詮下滑。但台灣最上游只到磊晶——**真正的定價權在基板（日系＋中國）**，台廠能不能轉嫁取決於是否握有**基板長約**：聯亞長約最完整、全新有美國料源；英特磊、環宇已被基板供應打到。
+2. **系統內可操作的只有全新**：InP 上游名單裡唯一上市者；聯亞、英特磊、環宇、穩懋、華星光皆上櫃（主動池排除）。全新目前為持有部位，處置中、距 60MA +35%。
+3. **全新的論點措辭要修**：active.json 寫「InP 基板缺口30%」——實際是雷射晶片缺口 >30%，基板缺口估計更大但來源多為分析機構；方向成立、措辭需更正。全新尚無否證條件，可用的客觀指標：(a) InP 基板報價停漲或下跌；(b) 全新毛利率連兩季下滑；(c) 光電營收占比回落至 30% 以下。
+4. **中國曝險分兩派**：聯亞出貨七八成到中國模組廠（若美中升級或中系模組被制裁，風險最大）；聯鈞、光聖刻意避開中國。
+5. **退燒監控順序**：基板報價停漲 → 中國許可常態化 → 住友/JX 新產能開出（2027H2–2028）→ 台廠毛利率連兩季不升。
+
+## 八、主要來源
+- Reuters：China's control over indium phosphide（2026/6/10）https://finance.yahoo.com/sectors/technology/articles/chinas-control-over-indium-phosphide-010212293.html
+- TrendForce：InP shortage emerges as AI optical interconnect bottleneck（2026/8/6）https://www.trendforce.com/news/2026/08/06/news-inp-shortage-emerges-as-ai-optical-interconnect-bottleneck/
+- TrendForce：住友擴產 ¥180 億（2026/7/13）https://www.trendforce.com/news/2026/07/13/news-sumitomo-electric-to-raise-inp-substrate-expansion-scale-with-jpy-18-billion/
+- JX 擴產公告（2026/6/16）https://www.jx-nmm.com/english/newsrelease/fy2026/20260616_02.html
+- 商務部 2025 年第 10 號公告 https://www.mofcom.gov.cn/zwgk/zcfb/art/2025/art_e623090907fc4e1092f0a4db72f57b95.html
+- AXT 2026Q2（Semiconductor Today 2026/8）https://www.semiconductor-today.com/news_items/2026/aug/axt-040826.shtml
+- AXT–Lumentum 長約 https://www.semiconductor-today.com/news_items/2026/jul/axt-lumentum-300726.shtml
+- Lumentum CEO（Tom's Hardware 2026/7/31）https://www.tomshardware.com/tech-industry/semiconductors/lumentum-ceo-says-the-indium-phosphide-shortage-will-become-worse-than-memory
+- Lumentum FY26Q4 https://investor.lumentum.com/financial-news-releases/news-details/2026/Lumentum-Announces-Fourth-Quarter-and-Full-Fiscal-Year-2026-Results/default.aspx
+- Coherent 6 吋 InP https://www.coherent.com/news/press-releases/worlds-first-6-inch-inp-scalable-wafer-fabs-paving-the-way-for-the-next-generation-of-lasers-for-ai-transceivers-and-6g-wireless-networks
+- NVIDIA × Lumentum https://nvidianews.nvidia.com/news/nvidia-announces-strategic-partnership-with-lumentum-to-develop-state-of-the-art-optics-technology
+- 三菱電機 EML 擴產 https://www.mitsubishielectric.com/en/pr/2026/pdf/0529_co5.pdf
+- 經濟日報 陳昱翔（基板第 4 次漲價，2026/8/17）https://money.udn.com/money/story/5612/9695292
+- 工商時報 陳傑鳴（台灣缺 InP 晶圓，2026/8/12）https://www.ctee.com.tw/news/20260812701099-430502
+- 鉅亨 聯亞法說（2026/8/12）https://news.cnyes.com/news/id/6573688 ；聯亞董事會 https://news.cnyes.com/news/id/6587976
+- MoneyDJ 全新（2026/9/17）https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=b72f2a34-72b0-45ef-86ca-7e2114a7039d
+- 時報 英特磊（2026/8/27）https://www.chinatimes.com/realtimenews/20260827003312-260410 ；環宇 https://www.chinatimes.com/realtimenews/20260805004051-260410
+- TechNews 穩懋 Q2 https://technews.tw/2026/07/24/win-semiconductors-2026-q2-financial-report/
+- 鉅亨 野村專家會議 DSP（2026/9/24）https://news.cnyes.com/news/id/6614058
+- Asia Times 銦價（2026/9/3）https://asiatimes.com/2026/09/us-japan-race-to-secure-chip-grade-minerals-as-china-curbs-exports/
