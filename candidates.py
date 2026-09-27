@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""每月候選名單：十一行規則第1–5、10、12條全過的上市標的（不限檔數），供 Chang 挑選；輸出 paper/candidates_{ym}.csv"""
+"""每月候選名單：十一行規則第1–5、10條全過的上市標的（不限檔數），供 Chang 挑選；輸出 paper/candidates_{ym}.csv"""
 import json,os,re,csv,glob,collections,datetime
 SUB=json.load(open("data/subindustry.json",encoding="utf-8")); code2sub={c:s for s,cs in SUB.items() for c in cs}
 days={}
@@ -50,7 +50,8 @@ def stage(sb):
     return "早期(低擴散)"
 t60=ma(taiex,i,60); hi60=max(taiex[max(0,i-60):i+1])
 rows=[]
-# 第12條（Chang 2026-09-27 上線）：最近三個已公布季度毛利率連續上升；research/gm.json 只含已公布季報
+# 第12條（草案，2026-09-27 短暫上線後撤回）：僅標示、不過濾；最近三個已公布季度毛利率連續上升
+RULE12_LIVE=False
 try: GM=json.load(open("research/gm.json",encoding="utf-8"))
 except Exception: GM={}
 def gm3(c):
@@ -76,8 +77,8 @@ for c,r in rev[ym].items():
     if not why:
         g=gm3(c)
         if not g or not (g[2]>g[1]>g[0]):
-            why.append("第12條")
-            if len(why)==1: r12_block.append([c,r["name"],code2sub[c],f"{r['yoy']:.0f}", "→".join(f"{x:.1f}" for x in g) if g else "無季報資料"])
+            if RULE12_LIVE: why.append("第12條")
+            r12_block.append([c,r["name"],code2sub[c],f"{r['yoy']:.0f}", "→".join(f"{x:.1f}" for x in g) if g else "無季報資料"])
     if ex:
         exempt_status.append([c,r["name"],OTC_EXEMPT[c],"通過" if not why else "未過："+"、".join(why),px,f"{(px-m20)/m20*100:.1f}" if (px and m20) else "",f"{m60:.1f}" if m60 else ""])
     if why: continue
@@ -94,7 +95,7 @@ with open(out,"w",newline="",encoding="utf-8-sig") as f:
     w.writerow(["代號","名稱","子產業","階段","擴散度","當月YoY%","上月YoY%","累計YoY%","收盤","乖離20MA%","進場下限(20MA)","進場上限(乖離15%)","60MA(出清線)","停損幅度%","量(張)","備註"])
     w.writerows(rows)
     if r12_block:
-        w.writerow([]); w.writerow(["— 第1–5、10條通過但被第12條擋下（毛利率未連兩季上升）—"])
+        w.writerow([]); w.writerow(["— 第12條草案參考：未通過毛利率連兩季上升（草案，不影響規則帳戶）—" if not RULE12_LIVE else "— 第1–5、10條通過但被第12條擋下（毛利率未連兩季上升）—"])
         w.writerow(["代號","名稱","子產業","當月YoY%","毛利率三季"])
         w.writerows(r12_block)
     if exempt_status:
