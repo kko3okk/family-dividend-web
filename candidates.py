@@ -9,6 +9,14 @@ close=collections.defaultdict(lambda:[None]*N); vol=collections.defaultdict(lamb
 for k,d in enumerate(dates):
     for c,(p,v) in days[d]["px"].items(): close[c][k]=p; vol[c][k]=v or 0
 taiex=[days[d]["taiex"] for d in dates]
+# 上櫃豁免（Chang 2026-09-27 決定）：聯亞 3081 不受「僅限上市」限制，其餘第1–5、10條照常適用；列為 12/4 檢討樣本
+OTC_EXEMPT={"3081":"上櫃豁免（Chang 2026-09-27）"}
+otc={}
+for f in sorted(glob.glob("data/prices_otc2/*.json")): otc.update(json.load(open(f,encoding="utf-8")))
+for k,d in enumerate(dates):
+    for c in OTC_EXEMPT:
+        v=otc.get(d,{}).get(c)
+        if v: close[c][k]=v[0]; vol[c][k]=v[1] or 0
 def ma(s,k,n): w=[v for v in s[max(0,k-n+1):k+1] if v]; return sum(w)/len(w) if w else None
 rev={}
 for f in sorted(glob.glob("data/revenue/*.json")): rev[os.path.basename(f)[:-5]]={r["code"]:r for r in json.load(open(f,encoding="utf-8"))}
@@ -42,18 +50,27 @@ def stage(sb):
     return "早期(低擴散)"
 t60=ma(taiex,i,60); hi60=max(taiex[max(0,i-60):i+1])
 rows=[]
+exempt_status=[]
 for c,r in rev[ym].items():
-    if r["market"]!="上市" or c in fin or c not in code2sub: continue
-    if r["yoy"] is None or not(30<=r["yoy"]<=300) or (r.get("cum") or 0)<30: continue
+    ex=c in OTC_EXEMPT
+    if (r["market"]!="上市" and not ex) or c in fin or c not in code2sub: continue
+    why=[]
     p=rev[pym].get(c)
-    if not p or p["yoy"] is None or p["yoy"]<30: continue
-    if ONETIME.search(r["note"] or ""): continue
+    if r["yoy"] is None or not(30<=r["yoy"]<=300) or (r.get("cum") or 0)<30 or not p or p["yoy"] is None or p["yoy"]<30: why.append("第1條")
+    if ONETIME.search(r["note"] or ""): why.append("第3條")
     s=close[c]; px=s[i]; m20=ma(s,i,20); m60=ma(s,i,60); m20p=ma(s,i-5,20)
-    if not(px and m20 and m60 and m20p): continue
-    tech = px>m20 and m20>m20p and px>m60 and (px-m20)/m20<0.15 and vol[c][i]>=500000
-    if not tech: continue
+    if not(px and m20 and m60 and m20p): why.append("無價格")
+    else:
+        if not px>m20: why.append("收盤<20MA")
+        if not m20>m20p: why.append("20MA未上揚")
+        if not px>m60: why.append("收盤<60MA")
+        if not (px-m20)/m20<0.15: why.append("乖離≥15%")
+        if not vol[c][i]>=500000: why.append("量<500張")
+    if ex:
+        exempt_status.append([c,r["name"],OTC_EXEMPT[c],"通過" if not why else "未過："+"、".join(why),px,f"{(px-m20)/m20*100:.1f}" if (px and m20) else "",f"{m60:.1f}" if m60 else ""])
+    if why: continue
     sb=code2sub[c]
-    rows.append([c,r["name"],sb,stage(sb),f"{BR[ym][sb]:.0f}%",f"{r['yoy']:.0f}",f"{p['yoy']:.0f}",f"{r.get('cum') or 0:.0f}",px,f"{(px-m20)/m20*100:.1f}",f"{m20:.1f}",f"{m20*1.15:.1f}",f"{m60:.1f}",f"{(m60/px-1)*100:.1f}",int(vol[c][i]/1000),(r["note"] or "")[:40]])
+    rows.append([c,r["name"],sb,stage(sb),f"{BR[ym][sb]:.0f}%",f"{r['yoy']:.0f}",f"{p['yoy']:.0f}",f"{r.get('cum') or 0:.0f}",px,f"{(px-m20)/m20*100:.1f}",f"{m20:.1f}",f"{m20*1.15:.1f}",f"{m60:.1f}",f"{(m60/px-1)*100:.1f}",int(vol[c][i]/1000),(("【"+OTC_EXEMPT[c]+"】") if c in OTC_EXEMPT else "")+(r["note"] or "")[:40]])
 excl=[r for r in rows if r[0] in EXCLUDE]
 rows=[r for r in rows if r[0] not in EXCLUDE]
 rows.sort(key=lambda x:-float(x[5]))
@@ -64,6 +81,10 @@ with open(out,"w",newline="",encoding="utf-8-sig") as f:
     w.writerow([f"資料月 {ym}",f"價格日 {dates[i]}",f"加權 {taiex[i]:.0f}",f"季線 {t60:.0f}",f"閘門 {'開' if taiex[i]>=t60 else '關'}",f"自60日高 {(taiex[i]/hi60-1)*100:.1f}%"])
     w.writerow(["代號","名稱","子產業","階段","擴散度","當月YoY%","上月YoY%","累計YoY%","收盤","乖離20MA%","進場下限(20MA)","進場上限(乖離15%)","60MA(出清線)","停損幅度%","量(張)","備註"])
     w.writerows(rows)
+    if exempt_status:
+        w.writerow([]); w.writerow(["— 例外標的狀態（上櫃豁免）—"])
+        w.writerow(["代號","名稱","依據","狀態","收盤","乖離20MA%","60MA"])
+        w.writerows(exempt_status)
     if excl:
         w.writerow([]); w.writerow(["— 以下排除，不列入規則帳戶 —"])
         for r in excl: w.writerow(r+[EXCLUDE[r[0]]])
