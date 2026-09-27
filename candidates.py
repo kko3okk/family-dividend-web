@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""每月候選名單：十一行規則第1–5、10條全過的上市標的（不限檔數），供 Chang 挑選；輸出 paper/candidates_{ym}.csv"""
+"""每月候選名單：十一行規則第1–5、10、12條全過的上市標的（不限檔數），供 Chang 挑選；輸出 paper/candidates_{ym}.csv"""
 import json,os,re,csv,glob,collections,datetime
 SUB=json.load(open("data/subindustry.json",encoding="utf-8")); code2sub={c:s for s,cs in SUB.items() for c in cs}
 days={}
@@ -50,6 +50,13 @@ def stage(sb):
     return "早期(低擴散)"
 t60=ma(taiex,i,60); hi60=max(taiex[max(0,i-60):i+1])
 rows=[]
+# 第12條（Chang 2026-09-27 上線）：最近三個已公布季度毛利率連續上升；research/gm.json 只含已公布季報
+try: GM=json.load(open("research/gm.json",encoding="utf-8"))
+except Exception: GM={}
+def gm3(c):
+    g=[v for _,v in GM.get(c,[])][-3:]
+    return g if len(g)==3 else None
+r12_block=[]
 exempt_status=[]
 for c,r in rev[ym].items():
     ex=c in OTC_EXEMPT
@@ -66,6 +73,11 @@ for c,r in rev[ym].items():
         if not px>m60: why.append("收盤<60MA")
         if not (px-m20)/m20<0.15: why.append("乖離≥15%")
         if not vol[c][i]>=500000: why.append("量<500張")
+    if not why:
+        g=gm3(c)
+        if not g or not (g[2]>g[1]>g[0]):
+            why.append("第12條")
+            if len(why)==1: r12_block.append([c,r["name"],code2sub[c],f"{r['yoy']:.0f}", "→".join(f"{x:.1f}" for x in g) if g else "無季報資料"])
     if ex:
         exempt_status.append([c,r["name"],OTC_EXEMPT[c],"通過" if not why else "未過："+"、".join(why),px,f"{(px-m20)/m20*100:.1f}" if (px and m20) else "",f"{m60:.1f}" if m60 else ""])
     if why: continue
@@ -81,6 +93,10 @@ with open(out,"w",newline="",encoding="utf-8-sig") as f:
     w.writerow([f"資料月 {ym}",f"價格日 {dates[i]}",f"加權 {taiex[i]:.0f}",f"季線 {t60:.0f}",f"閘門 {'開' if taiex[i]>=t60 else '關'}",f"自60日高 {(taiex[i]/hi60-1)*100:.1f}%"])
     w.writerow(["代號","名稱","子產業","階段","擴散度","當月YoY%","上月YoY%","累計YoY%","收盤","乖離20MA%","進場下限(20MA)","進場上限(乖離15%)","60MA(出清線)","停損幅度%","量(張)","備註"])
     w.writerows(rows)
+    if r12_block:
+        w.writerow([]); w.writerow(["— 第1–5、10條通過但被第12條擋下（毛利率未連兩季上升）—"])
+        w.writerow(["代號","名稱","子產業","當月YoY%","毛利率三季"])
+        w.writerows(r12_block)
     if exempt_status:
         w.writerow([]); w.writerow(["— 例外標的狀態（上櫃豁免）—"])
         w.writerow(["代號","名稱","依據","狀態","收盤","乖離20MA%","60MA"])
