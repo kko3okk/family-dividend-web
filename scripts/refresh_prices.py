@@ -20,10 +20,26 @@ def get(u):
                       .read().decode("utf-8", "ignore"))
 
 
+NO_TRADE = "data/prices/no_trade.json"
+
+
+def mark_no_trade(d):
+    """證交所回應正常但無資料（休市），記下來讓健康檢查不誤報。"""
+    try:
+        s = set(json.load(open(NO_TRADE))) if os.path.exists(NO_TRADE) else set()
+        s.add(d.isoformat())
+        json.dump(sorted(s), open(NO_TRADE, "w"))
+    except Exception:
+        pass
+
+
 def fetch_twse(d):
     try:
         j = get(f"https://www.twse.com.tw/rwd/zh/afterTrading/MI_INDEX?date={d.strftime('%Y%m%d')}&type=ALL&response=json")
     except Exception:
+        return None
+    if str(j.get("stat", "")).upper() != "OK" and not j.get("tables"):
+        mark_no_trade(d)
         return None
     px = {}; tx = None
     for tb in j.get("tables", []):

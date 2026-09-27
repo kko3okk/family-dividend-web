@@ -13,16 +13,24 @@ today = now.date()
 def last_weekday_closed():
     """最近一個應已收盤的工作日（不含國定假日判斷）。"""
     d = today if now.hour >= 15 else today - datetime.timedelta(days=1)
-    while d.weekday() >= 5:
+    while d.weekday() >= 5 or d.isoformat() in NO_TRADE:
         d -= datetime.timedelta(days=1)
     return d
+
+
+try:
+    NO_TRADE = set(json.load(open("data/prices/no_trade.json")))
+except Exception:
+    NO_TRADE = set()
+# 已知休市日；其餘由 refresh_prices.py 在證交所回傳無資料時自動補登
+NO_TRADE |= {"2026-09-25"}  # 中秋節
 
 
 def weekdays_between(a, b):
     n = 0; d = a
     while d < b:
         d += datetime.timedelta(days=1)
-        if d.weekday() < 5:
+        if d.weekday() < 5 and d.isoformat() not in NO_TRADE:
             n += 1
     return n
 
