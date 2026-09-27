@@ -4,4 +4,6 @@ gm 80
 gm 120
 gm 160
 PE 1544 PB 1970
-wrote research/DATA.md 12 names pass Rule12
+Traceback (most recent call last):
+  File "<stdin>", line 58, in <module>
+ValueError: dictionary update sequence element #0 has length 10; 2 is required
