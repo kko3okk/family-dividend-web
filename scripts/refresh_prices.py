@@ -20,7 +20,7 @@ def get(u):
                       .read().decode("utf-8", "ignore"))
 
 
-NO_TRADE = "data/prices/no_trade.json"
+NO_TRADE = "data/no_trade.json"  # 不可放在 data/prices/（其他程式會 glob 該目錄）
 
 
 def mark_no_trade(d):

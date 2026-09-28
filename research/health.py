@@ -19,7 +19,7 @@ def last_weekday_closed():
 
 
 try:
-    NO_TRADE = set(json.load(open("data/prices/no_trade.json")))
+    NO_TRADE = set(json.load(open("data/no_trade.json")))
 except Exception:
     NO_TRADE = set()
 # 已知休市日；其餘由 refresh_prices.py 在證交所回傳無資料時自動補登

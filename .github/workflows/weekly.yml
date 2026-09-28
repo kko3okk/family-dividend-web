@@ -3,6 +3,8 @@ on:
   schedule:
     - cron: "17 20 * * *"    # 每天 台灣 04:17 開跑（GitHub 排程常延遲 1–2.5 小時，約 06:00 前後完成）
   workflow_dispatch:
+  push:
+    paths: [".github/workflows/weekly.yml"]   # 修改工作流程時立即重跑一次
 permissions: {contents: write}
 jobs:
   r:
@@ -277,7 +279,7 @@ jobs:
       - if: always()
         run: |
           git config user.name bot; git config user.email b@b.c
-          git add research data/prices data/prices_otc2
+          git add research data/prices data/prices_otc2 data/no_trade.json
           git diff --cached --quiet && exit 0
           git commit -m "daily research data $(TZ=Asia/Taipei date +%F)"
           for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 5; done
