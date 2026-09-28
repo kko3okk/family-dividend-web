@@ -64,7 +64,7 @@ for c,r in rev[ym].items():
     if (r["market"]!="上市" and not ex) or c in fin or c not in code2sub: continue
     why=[]
     p=rev[pym].get(c)
-    if r["yoy"] is None or not(30<=r["yoy"]<=300) or (r.get("cum") or 0)<30 or not p or p["yoy"] is None or p["yoy"]<30: why.append("第1條")
+    if r["yoy"] is None or not(30<=r["yoy"]<=300) or (r.get("cum") or 0)<30 or not p or p["yoy"] is None or not(30<=p["yoy"]<=300): why.append("第1條")  # 前月也須 ≤300%（RULES 第1條「連兩月落在 30–300%」）
     if ONETIME.search(r["note"] or ""): why.append("第3條")
     s=close[c]; px=s[i]; m20=ma(s,i,20); m60=ma(s,i,60); m20p=ma(s,i-5,20)
     if not(px and m20 and m60 and m20p): why.append("無價格")

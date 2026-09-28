@@ -129,7 +129,7 @@ jobs:
           for c in codes:
               r=R.get(c); p=P.get(c)
               if not r or r.get("yoy") is None or not (30<=r["yoy"]<=300): continue
-              if not p or p.get("yoy") is None or p["yoy"]<30: continue
+              if not p or p.get("yoy") is None or not (30<=p["yoy"]<=300): continue
               if (r.get("cum") or 0)<30: continue
               g=[v for _,v in GM.get(c,[])]
               if len(g)<3 or not (g[-1]>g[-2]>g[-3]): continue
@@ -177,7 +177,7 @@ jobs:
           for c in codes:
               r=R.get(c); p=P.get(c)
               if not r or r.get("yoy") is None or not (30<=r["yoy"]<=300): continue
-              if not p or p.get("yoy") is None or p["yoy"]<30: continue
+              if not p or p.get("yoy") is None or not (30<=p["yoy"]<=300): continue
               if (r.get("cum") or 0)<30: continue
               t=px(c)
               if not t: continue
@@ -204,7 +204,7 @@ jobs:
               cum=f"{r['cum']:+.0f}%" if r and r.get("cum") is not None else "—"
               g=[v for _,v in GM.get(c,[])][-3:]
               gs=f"{g[0]:.1f}→{g[1]:.1f}→{g[2]:.1f}" if len(g)>=3 else "—"
-              r1 = "✓" if (r and p and r.get("yoy") is not None and p.get("yoy") is not None and 30<=r["yoy"]<=300 and p["yoy"]>=30 and (r.get("cum") or 0)>=30) else "✗"
+              r1 = "✓" if (r and p and r.get("yoy") is not None and p.get("yoy") is not None and 30<=r["yoy"]<=300 and 30<=p["yoy"]<=300 and (r.get("cum") or 0)>=30) else "✗"
               r12 = "✓" if (len(g)>=3 and g[-1]>g[-2]>g[-3]) else "✗"
               pe=f"{PE[c]:.0f}" if c in PE and 0<PE[c]<500 else "—"
               if t:
@@ -230,7 +230,7 @@ jobs:
               cum=f"{r['cum']:+.0f}%" if r and r.get("cum") is not None else "—"
               g=[v for _,v in GM.get(c,[])][-3:]
               gs=f"{g[0]:.1f}→{g[1]:.1f}→{g[2]:.1f}" if len(g)>=3 else "—"
-              r1 = "✓" if (r and p and r.get("yoy") is not None and p.get("yoy") is not None and 30<=r["yoy"]<=300 and p["yoy"]>=30 and (r.get("cum") or 0)>=30) else "✗"
+              r1 = "✓" if (r and p and r.get("yoy") is not None and p.get("yoy") is not None and 30<=r["yoy"]<=300 and 30<=p["yoy"]<=300 and (r.get("cum") or 0)>=30) else "✗"
               r12 = "✓" if (len(g)>=3 and g[-1]>g[-2]>g[-3]) else "✗"
               pe=f"{PE[c]:.0f}" if c in PE and 0<PE[c]<500 else "—"
               mk="市" if c in listed else "櫃"

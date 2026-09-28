@@ -31,7 +31,7 @@ for c,r in cur.items():
     if c in INMAP or r.get("market") not in ("上市","上櫃"): continue
     if r.get("yoy") is None or not (30<=r["yoy"]<=300): continue
     p=prev.get(c)
-    if not p or p.get("yoy") is None or p["yoy"]<30: continue
+    if not p or p.get("yoy") is None or not (30<=p["yoy"]<=300): continue
     if (r.get("cum") or 0)<30: continue
     note=(r.get("note") or "").strip()
     if ONETIME.search(note): continue
