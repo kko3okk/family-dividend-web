@@ -212,6 +212,7 @@ def run(**kw):
         cands.sort()
         for _, c in cands[:free]:
             pend_buy.append((c, 1 / p["slots"])); bought.add(c)
+    run.last_pos = pos
     return summarize(eq, trades, p)
 
 
