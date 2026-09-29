@@ -284,5 +284,14 @@
   "added": "2026-09-28",
   "by": "claude-review",
   "reason": "09/27頭條稱『CPO、測試概念股接棒爆發』，需查證是否有基本面數字支撐"
+ },
+ {
+  "cat": "風險監控",
+  "item": "Google TPU／ASIC 訂單流向",
+  "q": "Google TPU 訂單 轉單 ASIC 博通 聯發科",
+  "question": "Google TPU 及其他 ASIC 大單是否有轉單、延後或下修？台灣 ASIC 設計與先進封裝供應鏈是否受影響？",
+  "added": "2026-09-30",
+  "by": "claude-review",
+  "reason": "09/29 出現『Google TPU 大單飛了』標題，聯發科單日重摔近 7%，現有名單沒有追蹤 ASIC 訂單流向"
  }
 ]
