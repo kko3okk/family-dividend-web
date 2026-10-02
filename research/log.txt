@@ -3,5 +3,6 @@ gm 40
 gm 80
 gm 120
 gm 160
-PE 1542 PB 1968
-wrote research/DATA.md 0 names pass Rule12
+<stdin>:57: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+PE 1542 PB 1969
+wrote research/DATA.md 18 names pass Rule12
