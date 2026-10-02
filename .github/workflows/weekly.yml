@@ -75,6 +75,12 @@ jobs:
           print("PE",len(PE),"PB",len(PB))
           # 2) 最新月營收
           revs=sorted(f for f in os.listdir("data/revenue") if f.endswith(".json"))
+          import datetime as _dt
+          def _eff(ym):  # 次月 11 日起生效，10 日前的新月份資料不完整
+              y=1911+int(ym[:3]); m=int(ym[3:]); y2,m2=(y+1,1) if m==12 else (y,m+1)
+              return _dt.date(y2,m2,11).isoformat()
+          _today=(_dt.datetime.utcnow()+_dt.timedelta(hours=8)).date().isoformat()
+          revs=[r for r in revs if _eff(r[:-5])<=_today] or revs
           cur=json.load(open("data/revenue/"+revs[-1],encoding="utf-8")); prev=json.load(open("data/revenue/"+revs[-2],encoding="utf-8"))
           R={r["code"]:r for r in cur}; P={r["code"]:r for r in prev}
           ym=revs[-1][:-5]

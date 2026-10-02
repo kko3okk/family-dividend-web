@@ -4,6 +4,10 @@ import json, os, re, glob, datetime
 TPE=datetime.timezone(datetime.timedelta(hours=8)); TODAY=datetime.datetime.now(TPE).strftime("%Y-%m-%d")
 S=json.load(open("data/subindustry.json",encoding="utf-8")); INMAP={c for v in S.values() for c in v}
 revs=sorted(f for f in os.listdir("data/revenue") if f.endswith(".json"))
+def _eff(ym):  # 次月 11 日起生效，10 日前的新月份資料不完整
+    y=1911+int(ym[:3]); m=int(ym[3:]); y2,m2=(y+1,1) if m==12 else (y,m+1)
+    return datetime.date(y2,m2,11).isoformat()
+revs=[r for r in revs if _eff(r[:-5])<=TODAY] or revs
 cur={r["code"]:r for r in json.load(open("data/revenue/"+revs[-1],encoding="utf-8"))}
 prev={r["code"]:r for r in json.load(open("data/revenue/"+revs[-2],encoding="utf-8"))}
 YM=revs[-1][:-5]
