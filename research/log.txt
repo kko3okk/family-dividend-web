@@ -4,5 +4,6 @@ gm 80
 gm 120
 gm 160
 <stdin>:57: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
-PE 1542 PB 1969
+pe tpex fail HTTP Error 502: Bad Gateway
+PE 870 PB 1082
 wrote research/DATA.md 18 names pass Rule12
