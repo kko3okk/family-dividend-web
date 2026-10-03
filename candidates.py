@@ -2,6 +2,9 @@
 """每月候選名單：十一行規則第1–5、10條全過的上市標的（不限檔數），供 Chang 挑選；輸出 paper/candidates_{ym}.csv"""
 import json,os,re,csv,glob,collections,datetime
 SUB=json.load(open("data/subindustry.json",encoding="utf-8")); code2sub={c:s for s,cs in SUB.items() for c in cs}
+# 擴散度改用全分類（上市＋上櫃，2026-10-03 Chang 決定，v7）；進場範圍仍為 subindustry.json
+try: FULL=json.load(open("data/industry_full.json",encoding="utf-8"))
+except Exception: FULL=SUB
 days={}
 for f in sorted(glob.glob("data/prices/*.json")): days.update(json.load(open(f,encoding="utf-8")))
 dates=sorted(days); N=len(dates); i=N-1
@@ -34,7 +37,7 @@ ONETIME=re.compile('交屋|過戶|完工|出售資產|認列|合併|納入|處�
 fin=set(str(x) for x in range(2801,2900))|{"5820","5880","6005","2855","6024","2820"}
 def breadth(m,pm):
     out={}
-    for k,cs in SUB.items():
+    for k,cs in FULL.items():
         n=h=0
         for c in cs:
             r=rev[m].get(c); p=rev[pm].get(c)
