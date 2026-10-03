@@ -63,6 +63,7 @@ def git_date(path):
 
 
 rows = []   # (項目, 最新, 狀態, 說明)
+rows_h = None
 warn = []
 exp = last_weekday_closed()
 
@@ -102,6 +103,22 @@ try:
 except Exception:
     rows.append(("季報毛利率/EPS", "—", "⚠", "gm.json 讀不到")); warn.append("季報")
 
+# 候選名單：最新 CSV 是否為空（2026-10-02 曾因不完整的新月份營收產生 0 檔名單）
+try:
+    import csv as _csv
+    cf=sorted(glob.glob("paper/candidates_*.csv"))[-1]
+    _cr=list(_csv.reader(open(cf,encoding="utf-8-sig")))
+    n=0
+    for r in _cr[2:]:
+        if not r: break
+        n+=1
+    pdate=(_cr[0][1].replace("價格日","").strip() if _cr and len(_cr[0])>1 else "—")
+    ok=n>0
+    rows_h=("候選名單", f"{cf.split('_')[-1][:-4]}／{pdate}", "✓" if ok else "⚠", "" if ok else "名單 0 檔，檢查營收月份或價格資料")
+except Exception as e:
+    rows_h=("候選名單","—","⚠",f"讀不到：{e}"); ok=False
+if not ok: warn.append("候選名單")
+
 # 新聞、自動查證
 nd = None
 try:
@@ -137,6 +154,7 @@ if rd:
     if age > 60:
         warn.append("RESEARCH.md")
 
+if rows_h: rows.append(rows_h)
 L = [f"**資料健康（{now.strftime('%m/%d %H:%M')}）**：" + ("全部正常" if not warn else "⚠ " + "、".join(warn)), "",
      "| 項目 | 最新 | 狀態 | 說明 |", "|---|---|---|---|"]
 L += [f"| {a} | {b} | {c} | {d} |" for a, b, c, d in rows]
