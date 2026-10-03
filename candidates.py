@@ -2,9 +2,11 @@
 """每月候選名單：十一行規則第1–5、10條全過的上市標的（不限檔數），供 Chang 挑選；輸出 paper/candidates_{ym}.csv"""
 import json,os,re,csv,glob,collections,datetime
 SUB=json.load(open("data/subindustry.json",encoding="utf-8")); code2sub={c:s for s,cs in SUB.items() for c in cs}
-# 擴散度改用全分類（上市＋上櫃，2026-10-03 Chang 決定，v7）；進場範圍仍為 subindustry.json
+# 擴散度與進場範圍皆改用全分類（上市＋上櫃，2026-10-03 Chang 決定，v7）
 try: FULL=json.load(open("data/industry_full.json",encoding="utf-8"))
 except Exception: FULL=SUB
+# 進場範圍也擴大到全分類（2026-10-03 Chang 決定試行）；原對照表成員另標記，供 12/4 對照
+ORIG=set(code2sub); code2sub={c:s for s,cs in FULL.items() for c in cs}
 days={}
 for f in sorted(glob.glob("data/prices/*.json")): days.update(json.load(open(f,encoding="utf-8")))
 dates=sorted(days); N=len(dates); i=N-1
@@ -90,7 +92,7 @@ for c,r in rev[ym].items():
         exempt_status.append([c,r["name"],OTC_EXEMPT[c],"通過" if not why else "未過："+"、".join(why),px,f"{(px-m20)/m20*100:.1f}" if (px and m20) else "",f"{m60:.1f}" if m60 else ""])
     if why: continue
     sb=code2sub[c]
-    rows.append([c,r["name"],sb,stage(sb),f"{BR[ym][sb]:.0f}%",f"{r['yoy']:.0f}",f"{p['yoy']:.0f}",f"{r.get('cum') or 0:.0f}",px,f"{(px-m20)/m20*100:.1f}",f"{m20:.1f}",f"{m20*1.15:.1f}",f"{m60:.1f}",f"{(m60/px-1)*100:.1f}",int(vol[c][i]/1000),(("【"+OTC_EXEMPT[c]+"】") if c in OTC_EXEMPT else "")+(r["note"] or "")[:40]])
+    rows.append([c,r["name"],sb,stage(sb),f"{BR[ym][sb]:.0f}%",f"{r['yoy']:.0f}",f"{p['yoy']:.0f}",f"{r.get('cum') or 0:.0f}",px,f"{(px-m20)/m20*100:.1f}",f"{m20:.1f}",f"{m20*1.15:.1f}",f"{m60:.1f}",f"{(m60/px-1)*100:.1f}",int(vol[c][i]/1000),(("【"+OTC_EXEMPT[c]+"】") if c in OTC_EXEMPT else "")+("" if c in ORIG else "【v7新增】")+(r["note"] or "")[:40]])
 excl=[r for r in rows if r[0] in EXCLUDE]
 rows=[r for r in rows if r[0] not in EXCLUDE]
 rows.sort(key=lambda x:-float(x[5]))
