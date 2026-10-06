@@ -243,6 +243,11 @@
   .delbtn{background:none;border:1px solid var(--line);color:var(--mut2);border-radius:6px;
     width:26px;height:26px;font-size:12px;line-height:1;cursor:pointer;padding:0}
   .delbtn:hover,.delbtn:active{border-color:var(--chang);color:var(--chang)}
+  .txnav{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+  .txnav .mini{width:40px;padding:6px 0;font-size:18px;line-height:1}
+  .txnav .mini:disabled{opacity:.3;cursor:default}
+  .txlab{flex:1;text-align:center;font-weight:800;font-size:14px}
+  .txlab .c{font-family:var(--mono);font-size:11px;color:var(--mut2);font-weight:400;margin-left:6px}
 </style>
 <link rel="stylesheet" href="dividend-journey-map/src/journey-map.css">
 <style>
@@ -350,6 +355,11 @@
 </div>
 
 <div class="card"><h3>最近交易（全家）</h3>
+  <div class="txnav">
+    <button class="mini" id="txPrev" aria-label="上個月">‹</button>
+    <div class="txlab" id="txLab">–</div>
+    <button class="mini" id="txNext" aria-label="下個月">›</button>
+  </div>
   <table><thead><tr><th>日期</th><th>誰</th><th>標的</th><th class="num">股數</th><th class="num">價格</th><th></th></tr></thead>
   <tbody id="txBody"></tbody></table>
 </div>
@@ -425,7 +435,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 <script>
-const APP_VERSION="2026.09.21-2345";
+const APP_VERSION="2026.10.07-0010";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -912,18 +922,35 @@ function render(){
   document.getElementById("exBox").innerHTML=exRows(person);
   renderYear();
   document.getElementById("payBox").innerHTML=payRows(person);
-  document.getElementById("txBody").innerHTML=DATA.transactions
-    .map((t,i)=>({...t,_i:i}))
-    .sort((a,b)=>b.date.localeCompare(a.date)).slice(0,20).map(t=>`<tr>
-      <td>${t.date.slice(5)}</td><td><span class="otag ${t.owner}">${t.owner==="chang"?"C":"W"}</span></td>
-      <td>${(DATA.stocks[t.stock]||{}).name||t.stock}</td>
-      <td class="num">${fmt(t.shares)}</td><td class="num">${t.price}</td>
-      <td class="num"><button class="delbtn" onclick="delTx(${t._i})" title="刪除這筆">✕</button></td></tr>`).join("");
+  renderTx();
   document.getElementById("ruleNote").innerHTML=person==="chang"
     ?"三檔分工：崑鼎標準層（5.5/6/6.5%）、南寶成長型（5.0/5.5/6.0%，每年重驗資格）、長榮循環型（標準層、上限占池 35%）。轉入分配：長榮 50%／崑鼎 25%／南寶 25%。觸發價每年 3 月隨已公告股利重算，不用推估值。台產觀察中暫停加碼。熔斷：南寶配息＜15、崑鼎配息停止成長、EPS 連兩年衰退 → 停買。"
     :"股息池每年 150 萬，長榮／崇友／聯華食各 50 萬。長榮規則同 Chang：標準三層觸發（5.5/6/6.5%）、占池上限 35%、配息連兩年低於 13 元則檢討。崇友殖利率 ≥5.5% 才買（≤96.4）。股息全數再投入長榮／崇友。聯華食占持股超過 35% 即停止加碼並轉換（轉換標的屆時重新評估）。0050 退休時轉高股息。";
   document.getElementById("meta").textContent=`資料 ${DATA.updated} · ${DATA.transactions.length} 筆紀錄 · v${APP_VERSION}`;
 }
+
+// 最近交易：依年月分頁
+var txMonth=null;
+function txMonths(){return [...new Set(DATA.transactions.map(t=>t.date.slice(0,7)))].sort();}
+function renderTx(){
+  const ms=txMonths();
+  if(!ms.length){document.getElementById("txBody").innerHTML="";document.getElementById("txLab").textContent="尚無紀錄";return;}
+  if(!txMonth||!ms.includes(txMonth))txMonth=ms[ms.length-1];
+  const i=ms.indexOf(txMonth);
+  const rows=DATA.transactions.map((t,j)=>({...t,_i:j})).filter(t=>t.date.startsWith(txMonth))
+    .sort((a,b)=>b.date.localeCompare(a.date)||b._i-a._i);
+  const [y,m]=txMonth.split("-");
+  document.getElementById("txLab").innerHTML=`${y} 年 ${+m} 月<span class="c">${rows.length} 筆</span>`;
+  document.getElementById("txPrev").disabled=i<=0;
+  document.getElementById("txNext").disabled=i>=ms.length-1;
+  document.getElementById("txBody").innerHTML=rows.map(t=>`<tr>
+      <td>${t.date.slice(5)}</td><td><span class="otag ${t.owner}">${t.owner==="chang"?"C":"W"}</span></td>
+      <td>${(DATA.stocks[t.stock]||{}).name||t.stock}</td>
+      <td class="num">${fmt(t.shares)}</td><td class="num">${t.price}</td>
+      <td class="num"><button class="delbtn" onclick="delTx(${t._i})" title="刪除這筆">✕</button></td></tr>`).join("");
+}
+document.getElementById("txPrev").onclick=()=>{const ms=txMonths(),i=ms.indexOf(txMonth);if(i>0){txMonth=ms[i-1];renderTx();}};
+document.getElementById("txNext").onclick=()=>{const ms=txMonths(),i=ms.indexOf(txMonth);if(i<ms.length-1){txMonth=ms[i+1];renderTx();}};
 
 document.getElementById("traveler").querySelectorAll("div").forEach(d=>d.onclick=()=>{
   try{Snd.fx("tap");}catch(e){} person=d.dataset.p;
@@ -983,6 +1010,7 @@ document.getElementById("goBtn").onclick=async()=>{
     if(!r.ok)throw new Error("HTTP "+r.status);
     msg.textContent="✓ 已寫入，旅人前進了 🌿"; Snd.fx("coin");
     ["fShares","fPrice","fMemo"].forEach(id=>document.getElementById(id).value="");
+    txMonth=dt.slice(0,7);
     await load();render();
     setTimeout(()=>document.getElementById("txDlg").close(),900);
   }catch(e){msg.className="msg err";msg.textContent="寫入失敗："+e.message;}
