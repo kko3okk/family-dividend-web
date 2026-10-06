@@ -14,7 +14,7 @@
 <style>
   :root{
     --paper:#EDEBF5; --card:#FFFFFF; --card2:#F2F0FA; --line:#DAD5EC;
-    --ink:#3B3357; --mut:#7A7295; --mut2:#A9A2C2;
+    --ink:#3B3357; --mut:#655D82; --mut2:#7A7295;
     --chang:#4A90D9; --chang-soft:#DBEAF9;
     --wife:#A55EC4; --wife-soft:#F0E1F7;
     --green:#5FBF6E; --green-soft:#DFF3E2;
@@ -38,7 +38,7 @@
   .traveler div{flex:1;text-align:center;padding:13px 4px;font-size:14px;font-weight:800;
     letter-spacing:.15em;color:var(--mut);cursor:pointer;transition:background .2s}
   .traveler div.on[data-p="chang"]{background:var(--chang);color:#FFF8EF}
-  .traveler div.on[data-p="wife"]{background:var(--wife);color:#4A3E32}
+  .traveler div.on[data-p="wife"]{background:var(--wife);color:#FFF8EF}
 
   /* 山景里程碑 */
   .scene{background:var(--sky);border:1.5px solid var(--line);border-radius:20px;
@@ -67,8 +67,8 @@
   .adv{display:flex;align-items:center;gap:11px;background:var(--card2);
     border:1.5px solid var(--line);border-radius:14px;padding:11px 13px;margin-bottom:9px}
   .stb{font-size:10px;font-weight:800;letter-spacing:.08em;border-radius:20px;padding:4px 10px;white-space:nowrap}
-  .b-act{background:var(--chang);color:#FFF8EF}
-  .b-near{background:var(--wife);color:#4A3E32}
+  .b-act{background:var(--pcol,var(--chang));color:#FFF8EF}
+  .b-near{background:#F6E2A8;color:#6B5200}
   .b-wait{background:#E7DCC6;color:var(--mut)}
   .b-open{background:var(--green);color:#FFF8EF}
   .adv .t{font-size:13.5px;font-weight:700}
@@ -328,6 +328,56 @@
     [id^="sec"],#yrCard,#top{scroll-margin-top:96px}
     .gsum b{font-size:14px}
   }
+
+  /* 2026-10-07 版面調整 */
+  .gdot{display:none;width:6px;height:6px;border-radius:50%;background:#E5484D;margin-left:3px;vertical-align:top}
+  .gdot.on{display:inline-block}
+  .scene .strip .blk{min-width:110px}
+  .strip .v{white-space:nowrap}
+  @media(max-width:560px){.scene .strip .blk{padding:11px 12px}.strip .v{font-size:16px}}
+  .pxwarn .v{font-size:12px;color:#B54708}
+  .info{margin-left:auto;background:none;border:none;color:var(--mut2);font-size:15px;cursor:pointer;padding:0 2px;letter-spacing:0}
+  .info.on{color:var(--pcol,var(--chang))}
+  .more{display:none;background:var(--card2);border-radius:12px;padding:10px 12px;margin:-4px 0 12px;font-size:11.5px;color:var(--mut);line-height:1.8}
+  .more.on{display:block}
+  .todo{display:flex;align-items:center;gap:11px;padding:10px 2px;border-bottom:1.5px dashed var(--line);text-decoration:none;color:inherit}
+  .todo:last-child{border-bottom:none}
+  .todo .ic{width:34px;height:34px;flex:none;border-radius:10px;display:grid;place-items:center;font-size:16px;background:var(--card2)}
+  .todo.hot .ic{background:var(--pcol,var(--chang));color:#fff}
+  .todo .tx{flex:1;min-width:0}
+  .todo .tx b{display:block;font-size:13.5px}
+  .todo .tx span{font-size:11.5px;color:var(--mut)}
+  .todo .go{color:var(--mut2);font-size:16px}
+  .todo-none{font-size:13px;color:var(--mut);padding:6px 2px}
+  .payempty{font-size:12.5px;color:var(--mut);padding:2px 2px 8px}
+  .foot{text-align:center;font-size:11px;color:var(--mut);padding:8px 4px 16px;line-height:1.8}
+  .foot details{margin-top:4px}
+  .foot summary{cursor:pointer;color:var(--mut2)}
+  .foot .note{margin-top:6px}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);z-index:210;background:var(--card);
+    border:1.5px solid var(--line);box-shadow:0 10px 30px -10px rgba(59,51,87,.45);border-radius:16px;padding:12px 16px;
+    font-size:13px;opacity:0;transition:all .3s;pointer-events:none;max-width:90vw;text-align:center}
+  .toast.on{opacity:1;transform:translate(-50%,0)}
+  .toast b{color:var(--pcol,var(--chang));font-family:var(--mono)}
+  .milestone{position:fixed;inset:0;z-index:300;background:rgba(23,27,51,.72);display:none;place-items:center;padding:24px;
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+  .milestone.on{display:grid}
+  .mscard{background:var(--card);border-radius:24px;padding:28px 24px 22px;text-align:center;max-width:340px;width:100%;
+    animation:mspop .5s cubic-bezier(.2,1.4,.4,1)}
+  .msicon{font-size:56px}
+  .mst{font-size:22px;font-weight:900;margin:6px 0 4px;color:var(--pcol,var(--chang))}
+  .mss{font-size:13px;color:var(--mut);line-height:1.7;margin-bottom:16px}
+  .mscard .btn{width:100%}
+  @keyframes mspop{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
+  @media (prefers-reduced-motion:reduce){.mscard{animation:none}}
+  .scene .journey-map{max-height:40vh}
+  @media(min-width:960px){
+    body{max-width:1160px}
+    .gin{max-width:1160px}
+    .cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+    .cards>.card{margin:0}
+    .cards>.wide{grid-column:1/-1}
+  }
 </style>
 </head>
 <body>
@@ -337,10 +387,10 @@
 
 <nav class="gnav" id="gnav">
   <div class="gin">
-    <a class="gbrand" href="#top">家的旅程</a>
+    <a class="gbrand" href="#secMap">家的旅程</a>
     <div class="glinks" id="glinks">
-      <a href="#secMap">旅程</a><a href="#secAdv">指引</a><a href="#secHold">持股</a><a href="#yrCard" id="lnkYr">年度</a>
-      <a href="#secEx">除權息</a><a href="#secPay">入帳</a><a href="#secTx">交易</a>
+      <a href="#secMap">旅程</a><a href="#secTodo">待辦<i class="gdot" id="dotTodo"></i></a><a href="#secAdv">指引</a><a href="#secHold">持股</a><a href="#yrCard" id="lnkYr">年度</a>
+      <a href="#secEx">除權息</a><a href="#secPay">入帳<i class="gdot" id="dotPay"></i></a><a href="#secTx">交易</a>
     </div>
     <div class="gtools">
       <div class="traveler" id="traveler">
@@ -355,28 +405,23 @@
   <div class="gprog"><i id="mFill"></i></div>
 </nav>
 
-<div class="topbar" id="top">
-  <div>
-    <div class="eyebrow">DIVIDEND QUEST</div>
-    <h1>家的旅程</h1>
-    <div class="meta" id="meta">載入中…</div>
-  </div>
-</div>
-
 <div class="scene" id="secMap">
   <div id="sceneSvg"></div>
   <div class="strip">
-    <div class="blk"><div class="k">年股息</div><div class="v accent" id="pDiv">–</div></div>
-    <div class="blk"><div class="k" id="nextK">距下一站</div><div class="v" id="nextV">–</div></div>
     <div class="blk"><div class="k">家庭合計</div><div class="v" id="famDiv">–</div></div>
-    <div class="blk"><div class="k">總進度</div><div class="v" id="trCount">–</div></div>
-    <div class="blk"><div class="k">報價</div><div class="v" style="font-size:12px;padding-top:5px" id="pxMeta">–</div></div>
+    <div class="blk"><div class="k">持股市值</div><div class="v" id="trCount">–</div></div>
+    <div class="blk pxwarn" id="pxBlk" style="display:none"><div class="k">報價</div><div class="v" id="pxMeta">–</div></div>
   </div>
 </div>
 
 <div class="btn-row" style="display:none"><button class="btn" id="addBtn">＋ 記一筆買進</button></div>
 
-<div class="card" id="secAdv"><h3>買入指引</h3><div id="advBox"></div></div>
+<main class="cards">
+<div class="card wide" id="secTodo"><h3>今日待辦</h3><div id="todoBox"></div></div>
+
+<div class="card" id="secAdv"><h3>買入指引<button class="info" data-more="advMore">ⓘ</button></h3>
+  <div class="more" id="advMore"><div id="ruleNote"></div></div>
+  <div id="advBox"></div></div>
 
 <div class="card" id="secHold"><h3>持股</h3>
   <div class="pie" id="holdPie"></div>
@@ -384,7 +429,34 @@
   <tbody id="holdBody"></tbody></table>
 </div>
 
-<div class="card yrcard" id="yrCard" style="display:none">
+<div class="card" id="secEx"><h3>除權息倒數<button class="info" data-more="exMore">ⓘ</button></h3>
+  <div class="more note" id="exMore">
+  每天 18:20 自動從 FinMind 抓取公司公告的除權息日與發放日。「已公告」＝公司已公告的下一次日期；「預估」＝依上次除息日與配息頻率往後推算。金額＝目前股數 × 最近一次每股配息，未扣二代健保與匯費。<br>
+  買點規則：崑鼎除息後買（最便宜窗口）· 南寶、長榮照觸發價 · 聯華食除權後買 · 台產觀察中</div>
+  <div id="exBox"></div>
+</div>
+
+<div class="card" id="secPay"><h3>股息入帳紀錄<button class="info" data-more="payMore">ⓘ</button></h3>
+  <div class="more note" id="payMore">發放日一到，腳本自動依除息日前一天的持股計算應收金額（已扣補充保費與匯費），產生「待確認」項目；核對存摺後按確認即可。配股不會自動加進股數。</div>
+  <div class="paysum">
+    <div><div class="k">今年已入帳</div><div class="v" id="payYear">–</div></div>
+    <div><div class="k">累計已入帳</div><div class="v" id="payAll">–</div></div>
+  </div>
+  <div id="payBox"></div>
+  <button class="mini" id="addPayBtn" style="width:100%;margin-top:10px">＋ 手動補記一筆</button>
+</div>
+
+<div class="card" id="secTx"><h3>最近交易（全家）</h3>
+  <div class="txnav">
+    <button class="mini" id="txPrev" aria-label="上個月">‹</button>
+    <div class="txlab" id="txLab">–</div>
+    <button class="mini" id="txNext" aria-label="下個月">›</button>
+  </div>
+  <table><thead><tr><th>日期</th><th>誰</th><th>標的</th><th class="num">股數</th><th class="num">價格</th><th></th></tr></thead>
+  <tbody id="txBody"></tbody></table>
+</div>
+
+<div class="card yrcard wide" id="yrCard" style="display:none">
   <h3>年度回顧</h3>
   <div class="yrhead">
     <div><div class="note" style="margin:0" id="yrLabel">–</div>
@@ -400,36 +472,19 @@
   <div id="yrCheck"></div>
 </div>
 
-<div class="card" id="secEx"><h3>除權息倒數</h3><div id="exBox"></div>
-  <div class="note" style="margin-top:8px">
-  每天 18:20 自動從 FinMind 抓取公司公告的除權息日與發放日。「已公告」＝公司已公告的下一次日期；「預估」＝依上次除息日與配息頻率往後推算。金額＝目前股數 × 最近一次每股配息，未扣二代健保與匯費。<br>
-  買點規則：崑鼎除息後買（最便宜窗口）· 南寶、長榮照觸發價 · 聯華食除權後買 · 台產觀察中</div>
-</div>
+</main>
+<footer class="foot">
+  <div id="meta">載入中…</div>
+  <details><summary>關於這個網頁</summary>
+  <div class="note">所有紀錄（交易、股息入帳、檢核、里程碑達成）皆存於私有 GitHub，換手機不會遺失。<br>
+  背景音樂：上傳 bgm.m4a（或 .mp3／.aac／.ogg）至網站 repo 根目錄即自動啟用；音效可另放 sfx-coin/gem/fanfare/tap.m4a；無檔案時使用程式生成的環境音。<br>
+  美術素材：Kenney Platformer Art Deluxe（kenney.nl）· CC0 公眾領域授權</div></details>
+</footer>
 
-<div class="card" id="secPay"><h3>股息入帳紀錄</h3>
-  <div class="paysum">
-    <div><div class="k">今年已入帳</div><div class="v" id="payYear">–</div></div>
-    <div><div class="k">累計已入帳</div><div class="v" id="payAll">–</div></div>
-  </div>
-  <div id="payBox"></div>
-  <button class="mini" id="addPayBtn" style="width:100%;margin-top:10px">＋ 手動補記一筆</button>
-  <div class="note" style="margin-top:8px">發放日一到，腳本會自動產生「待確認」項目（已估算補充保費與匯費），核對存摺後按確認即可。</div>
-</div>
-
-<div class="card" id="secTx"><h3>最近交易（全家）</h3>
-  <div class="txnav">
-    <button class="mini" id="txPrev" aria-label="上個月">‹</button>
-    <div class="txlab" id="txLab">–</div>
-    <button class="mini" id="txNext" aria-label="下個月">›</button>
-  </div>
-  <table><thead><tr><th>日期</th><th>誰</th><th>標的</th><th class="num">股數</th><th class="num">價格</th><th></th></tr></thead>
-  <tbody id="txBody"></tbody></table>
-</div>
-
-<div class="card note" id="ruleNote"></div>
-<div class="note" style="text-align:center;padding:0 4px 8px">
-  背景音樂：上傳 bgm.m4a（或 .mp3／.aac／.ogg）至網站 repo 根目錄即自動啟用；音效可另放 sfx-coin/gem/fanfare/tap.m4a；無檔案時使用程式生成的環境音<br>所有紀錄（交易、股息入帳、檢核、里程碑達成）皆存於私有 GitHub，換手機不會遺失<br>美術素材：Kenney Platformer Art Deluxe（kenney.nl）· CC0 公眾領域授權
-</div>
+<div class="toast" id="toast"></div>
+<div class="milestone" id="msOverlay"><div class="mscard"><div class="msicon" id="msIcon">🎈</div>
+  <div class="mst" id="msTitle">抵達旅遊站</div><div class="mss" id="msSub"></div>
+  <button class="btn" onclick="document.getElementById('msOverlay').classList.remove('on')">繼續前進</button></div></div>
 
 <dialog id="txDlg">
   <div class="dlg-x" onclick="txDlg.close()">✕</div>
@@ -497,13 +552,13 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 <script>
-const APP_VERSION="2026.10.07-0140";
+const APP_VERSION="2026.10.07-0230";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
 const ETA={chang:["第 3~4 年","第 9~10 年","第 12~14 年"],wife:["第 4~5 年","第 12~13 年","第 16~18 年"]};
 const OWNER_STOCKS={chang:["4766","6803","2603","2832","0050"],wife:["0050","2603","4506","1231","1210","1201","1218","00878","00687B"]};
-const PCOL={chang:"#D96C4F",wife:"#DFA53B"};
+const PCOL={chang:"#4A90D9",wife:"#A55EC4"};
 const TIERS=[[.055,1],[.06,2],[.065,3]];
 const fmt=n=>Math.round(n).toLocaleString("zh-Hant");
 let DATA=null,SHA=null,person="chang",fOwner="chang",fStock="4766";
@@ -523,7 +578,7 @@ async function ensurePrices(){
   DATA.prices=DATA.prices||{};
   const ts=DATA.prices_updated?new Date(DATA.prices_updated):null;
   const fresh=ts&&(Date.now()-ts.getTime())<36*3600*1000;
-  if(fresh){document.getElementById("pxMeta").textContent="回寫 "+DATA.prices_updated.slice(5,16).replace("T"," ");return;}
+  if(fresh){document.getElementById("pxMeta").textContent="回寫 "+DATA.prices_updated.slice(5,16).replace("T"," ");document.getElementById("pxBlk").style.display="none";return;}
   try{
     const twse=await (await fetch("https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL")).json();
     let tpex=[];try{tpex=await (await fetch("https://www.tpex.org.tw/openapi/v1/tpex_mainboard_quotes")).json();}catch(e){}
@@ -533,7 +588,7 @@ async function ensurePrices(){
       const p=parseFloat(x.Close||x.ClosingPrice||x.LatestPrice);
       if(want.includes(c)&&p)DATA.prices[c]=p;});
     document.getElementById("pxMeta").textContent="收盤價（備援）";
-  }catch(e){document.getElementById("pxMeta").textContent=ts?"舊報價":"無報價";}
+  }catch(e){document.getElementById("pxMeta").textContent=ts?"舊報價":"無報價";document.getElementById("pxBlk").style.display="";}
 }
 function holdings(){const h={};DATA.transactions.forEach(t=>{const k=t.owner+"|"+t.stock;h[k]=(h[k]||0)+t.shares;});return h;}
 function ownerDiv(h,o){let d=0;for(const[k,sh]of Object.entries(h)){const[ow,s]=k.split("|");if(ow===o)d+=sh*((DATA.stocks[s]||{}).div||0);}return d;}
@@ -662,7 +717,7 @@ async function celebrate(divNow){
   const ach=DATA.achievements=DATA.achievements||[];
   const has=ach.some(a=>a.owner===person&&a.milestone===idx);
   if(has)return;
-  petalRain(); Snd.fx("fanfare");
+  petalRain(); Snd.fx("fanfare"); showMilestone(idx,divNow);
   if(!token())return;                       // 沒 Token 就只慶祝、不寫入
   try{
     await load();
@@ -812,7 +867,7 @@ function holdRows(h,o){
   }).join("");
 }
 
-function exRows(o){
+function exList(o){
   const S=DATA.stocks,today=new Date();today.setHours(0,0,0,0);
   const sh={};DATA.transactions.filter(t=>t.owner===o).forEach(t=>sh[t.stock]=(sh[t.stock]||0)+t.shares);
   const list=OWNER_STOCKS[o].map(sid=>{
@@ -827,6 +882,10 @@ function exRows(o){
       pay:proj?"":(st.pay_date||""),confirmed:!!st.ex_confirmed&&!proj,freq,kind:st.ex_kind||"除息",
       amt:(sh[sid]||0)*per};
   }).filter(Boolean).sort((a,b)=>a.days-b.days);
+  return list;
+}
+function exRows(o){
+  const list=exList(o);
   if(!list.length)return '<div class="note">尚未設定除權息日</div>';
   const md=d=>[d.getMonth()+1,d.getDate()];
   const FQ={2:"半年配",4:"季配",12:"月配"};
@@ -870,8 +929,10 @@ function payRows(o){
         <button class="btn-edit" onclick="editPay(${idx})">✎ 改金額</button>
       </span></div>`;
   });
+  document.querySelector("#secPay .paysum").style.display=done.length?"":"none";
   if(!done.length&&!pend.length)
-    return '<div class="note">還沒有入帳紀錄。發放日到了腳本會自動產生待確認項目，你按一下確認即可。</div>';
+    return '<div class="payempty">今年還沒有入帳。發放日一到會自動產生待確認項目。</div>';
+  if(!done.length)html+='<div class="payempty">還沒有已確認的入帳。</div>';
   html+=done.slice(0,12).map(p=>`<div class="payrow">
     <span>${p.date.slice(5)} · ${(DATA.stocks[p.stock]||{}).name||p.stock}</span>
     <span class="amt">+${fmt(p.amount)}</span></div>`).join("");
@@ -1006,28 +1067,54 @@ document.getElementById("mAdd").onclick=()=>document.getElementById("addBtn").cl
   links.forEach(a=>{const el=document.getElementById(a.getAttribute("href").slice(1));if(el)io.observe(el);});
 })();
 
+// ── 今日待辦：觸發中的買點、待確認入帳、預定下單、14 天內除權息 ──
+function renderTodo(){
+  const items=[],o=person;
+  const tmp=document.createElement("div");tmp.innerHTML=o==="chang"?advChang():advWife();
+  tmp.querySelectorAll(".adv").forEach(a=>{const st=a.querySelector(".stb.b-act");if(!st)return;
+    const t=a.querySelector(".t");const nm=t?t.childNodes[0].textContent.trim():"";const px=a.querySelector(".t .px");
+    items.push({hot:1,ic:"🛒",t:`${nm}：${st.textContent}`,s:px?px.textContent:"",href:"#secAdv"});});
+  const pend=(DATA.payouts||[]).filter(p=>p.owner===o&&p.pending);
+  if(pend.length)items.push({hot:1,ic:"💰",t:`${pend.length} 筆股息待確認`,s:`約 ${fmt(pend.reduce((a,p)=>a+p.amount,0))} 元，核對存摺後按確認`,href:"#secPay"});
+  (DATA.planned_orders||[]).filter(p=>p.owner===o&&p.status==="planned").forEach(p=>
+    items.push({hot:0,ic:"📝",t:`預定：${p.name||p.stock} ${fmt(p.shares)} 股`,s:`${p.date.slice(5).replace("-","/")} · ${p.limit_note||""}`,href:"#secAdv"}));
+  exList(o).filter(x=>x.days<=14).forEach(x=>items.push({hot:0,ic:"📅",t:`${x.name} ${x.days===0?"今天":x.days+" 天後"}${x.kind}`,s:x.amt?`約可領 ${fmt(x.amt)} 元`:"",href:"#secEx"}));
+  document.getElementById("todoBox").innerHTML=items.length?items.map(i=>`<a class="todo ${i.hot?"hot":""}" href="${i.href}">
+    <div class="ic">${i.ic}</div><div class="tx"><b>${i.t}</b><span>${i.s}</span></div><div class="go">›</div></a>`).join("")
+    :'<div class="todo-none">✓ 今天沒有需要處理的事</div>';
+  document.getElementById("dotTodo").classList.toggle("on",items.some(i=>i.hot));
+  document.getElementById("dotPay").classList.toggle("on",pend.length>0);
+}
+document.addEventListener("click",e=>{const b=e.target.closest(".info");if(!b)return;
+  const m=document.getElementById(b.dataset.more);if(m){m.classList.toggle("on");b.classList.toggle("on");}});
+function toast(html,ms){const t=document.getElementById("toast");t.innerHTML=html;t.classList.add("on");
+  clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove("on"),ms||3200);}
+function showMilestone(idx,divNow){const m=MILES[idx-1];if(!m)return;
+  document.getElementById("msIcon").textContent=m.icon||"🎉";
+  document.getElementById("msTitle").textContent=`抵達${m.name}！`;
+  document.getElementById("msSub").innerHTML=`年股息 <b>${fmt(divNow)}</b> 元，跨過 ${fmt(m.amt)} 元。<br>${MILES[idx]?`下一站：${MILES[idx].name}（${fmt(MILES[idx].amt)} 元）`:"已抵達終點 🏯"}`;
+  document.getElementById("msOverlay").classList.add("on");}
+
 function render(){
   document.body.style.setProperty("--pcol",PCOL[person]);
   const h=holdings(),pD=ownerDiv(h,person),oD=ownerDiv(h,person==="chang"?"wife":"chang");
   scene(pD, oD);
-  document.getElementById("pDiv").textContent=fmt(pD)+" 元";
   const next=MILES.find(m=>pD<m.amt);
-  document.getElementById("nextK").textContent=next?("距"+next.name):"已到終點";
-  document.getElementById("nextV").textContent=next?((next.amt-pD)/10000).toFixed(1)+" 萬":"🎉";
   updateMini(pD,next);
   document.getElementById("famDiv").textContent=fmt(pD+oD)+" 元";
-  document.getElementById("trCount").textContent=(pD/1000000*100).toFixed(2)+"%";
+  document.getElementById("trCount").textContent=(holdValues(h,person).reduce((a,x)=>a+x.v,0)/10000).toFixed(1)+" 萬";
   document.getElementById("advBox").innerHTML=person==="chang"?advChang():advWife();
   document.getElementById("holdBody").innerHTML=holdRows(h,person);
   document.getElementById("holdPie").innerHTML=holdPie(h,person);
   document.getElementById("exBox").innerHTML=exRows(person);
+  renderTodo();
   renderYear();
   document.getElementById("payBox").innerHTML=payRows(person);
   renderTx();
   document.getElementById("ruleNote").innerHTML=person==="chang"
     ?"三檔分工：崑鼎標準層（5.5/6/6.5%）、南寶成長型（5.0/5.5/6.0%，每年重驗資格）、長榮循環型（標準層、上限占池 35%）。轉入分配：長榮 50%／崑鼎 25%／南寶 25%。觸發價每年 3 月隨已公告股利重算，不用推估值。台產觀察中暫停加碼。熔斷：南寶配息＜15、崑鼎配息停止成長、EPS 連兩年衰退 → 停買。"
     :"股息池每年 150 萬，長榮／崇友／聯華食各 50 萬。長榮規則同 Chang：標準三層觸發（5.5/6/6.5%）、占池上限 35%、配息連兩年低於 13 元則檢討。崇友殖利率 ≥5.5% 才買（≤96.4）。股息全數再投入長榮／崇友。聯華食占持股超過 35% 即停止加碼並轉換（轉換標的屆時重新評估）。0050 退休時轉高股息。";
-  document.getElementById("meta").textContent=`資料 ${DATA.updated} · ${DATA.transactions.length} 筆紀錄 · v${APP_VERSION}`;
+  document.getElementById("meta").textContent=`資料 ${DATA.updated} · ${DATA.transactions.length} 筆紀錄 · 報價 ${DATA.prices_updated?DATA.prices_updated.slice(5,16).replace("T"," "):"–"} · v${APP_VERSION}`;
 }
 
 // 最近交易：依年月分頁
@@ -1110,6 +1197,8 @@ document.getElementById("goBtn").onclick=async()=>{
       body:JSON.stringify({message:`add tx ${dt}`,content:b64e(JSON.stringify(DATA,null,2)),sha:SHA})});
     if(!r.ok)throw new Error("HTTP "+r.status);
     msg.textContent="✓ 已寫入，旅人前進了 🌿"; Snd.fx("coin");
+    {const st=DATA.stocks[fStock]||{},add=sh*(st.div||0);
+     toast(`${st.name||fStock} +${fmt(sh)} 股${add?` · 年股息 <b>+${fmt(add)}</b> 元`:""}`);}
     ["fShares","fPrice","fMemo"].forEach(id=>document.getElementById(id).value="");
     txMonth=dt.slice(0,7);
     await load();render();
