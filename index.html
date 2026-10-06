@@ -294,30 +294,40 @@
     width:26px;height:26px;font-size:12px;line-height:1;cursor:pointer;padding:0}
   .delbtn:hover,.delbtn:active{border-color:var(--chang);color:var(--chang)}
 
-  /* 固定頂部：標題、旅人切換；捲過山景後出現精簡進度條與記一筆 */
-  .stickyhead{position:sticky;top:0;z-index:30;background:var(--paper);margin:-18px -16px 0;padding:12px 16px 10px;
-    transition:box-shadow .2s}
-  .stickyhead.compact{box-shadow:0 6px 14px -8px rgba(59,51,87,.35)}
-  .stickyhead.compact .eyebrow,.stickyhead.compact .meta{display:none}
-  .stickyhead.compact h1{font-size:17px;margin:2px 0}
-  .stickyhead.compact .traveler{margin-bottom:8px}
-  .stickyhead.compact .traveler div{padding:8px 4px}
-  .stickyhead.compact .gear{padding:6px 10px}
-  .stickyhead .traveler{margin-bottom:0}
-  .minibar{display:none;align-items:center;gap:10px;background:var(--card);border:1.5px solid var(--line);
-    border-radius:14px;padding:8px 10px}
-  .stickyhead.compact .minibar{display:flex}
-  .minibar .mtxt{display:flex;flex-direction:column;min-width:86px;line-height:1.25}
-  .minibar .mtxt b{font-family:var(--mono);font-size:14px;color:var(--pcol,var(--chang))}
-  .minibar .mtxt span{font-size:10.5px;color:var(--mut)}
-  .mtrack{flex:1;position:relative;height:8px;border-radius:6px;background:var(--card2);border:1px solid var(--line)}
-  .mtrack i{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:var(--pcol,var(--chang))}
-  .mtrack .dot{position:absolute;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;
-    background:var(--card);border:2px solid var(--mut2)}
-  .mtrack .dot.done{border-color:var(--pcol,var(--chang));background:var(--pcol,var(--chang))}
-  .mbtn{border:none;border-radius:10px;background:var(--pcol,var(--chang));color:#FFF8EF;font-weight:800;
-    font-size:12.5px;padding:8px 11px;cursor:pointer;white-space:nowrap}
-  .scene{margin-top:14px}
+  /* 頂部導覽列（Apple 式：半透明毛玻璃、細分隔線、區塊連結） */
+  html{scroll-behavior:smooth} body{overflow-x:clip}
+  [id^="sec"],#yrCard,#top{scroll-margin-top:62px}
+  .gnav{position:sticky;top:0;z-index:40;margin:-18px 0 14px;width:100vw;margin-left:calc(50% - 50vw);
+    background:rgba(237,235,245,.78);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
+    border-bottom:1px solid rgba(59,51,87,.10)}
+  .gin{display:flex;align-items:center;gap:6px;height:48px;padding:0 12px;max-width:820px;margin:0 auto}
+  .gbrand{font-weight:900;font-size:15px;letter-spacing:.06em;color:var(--ink);text-decoration:none;white-space:nowrap;margin-right:4px}
+  .glinks{flex:1;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent)}
+  .glinks::-webkit-scrollbar{display:none}
+  .glinks a{flex:none;font-size:13px;color:var(--mut);text-decoration:none;padding:6px 9px;border-radius:8px;white-space:nowrap;transition:color .2s}
+  .glinks a:hover{color:var(--ink)}
+  .glinks a.on{color:var(--ink);font-weight:800}
+  .gtools{display:flex;align-items:center;gap:4px;flex:none}
+  .gnav .traveler{margin:0;border-radius:9px;box-shadow:none;border:1px solid var(--line)}
+  .gnav .traveler div{padding:5px 8px;font-size:11px;letter-spacing:.06em}
+  .gicon{background:none;border:none;font-size:15px;color:var(--mut);cursor:pointer;padding:6px;border-radius:8px}
+  .gicon:hover{color:var(--ink)}
+  .gadd{border:none;width:30px;height:30px;border-radius:50%;background:var(--pcol,var(--chang));color:#FFF8EF;
+    font-size:18px;font-weight:800;line-height:30px;padding:0;cursor:pointer}
+  .gprog{height:2px;background:transparent}
+  .gprog i{display:block;height:100%;width:0;background:var(--pcol,var(--chang));transition:width .6s}
+  .gsum{text-align:right;line-height:1.35;padding-top:6px}
+  .gsum b{display:block;font-family:var(--mono);font-size:17px;color:var(--pcol,var(--chang));white-space:nowrap}
+  .gsum span{font-size:11px;color:var(--mut)}
+  @media(max-width:560px){
+    .gin{flex-wrap:wrap;height:auto;padding:6px 10px 0;row-gap:2px}
+    .gbrand{order:1;flex:1}
+    .gtools{order:2}
+    .glinks{order:3;flex:0 0 100%;margin:0 -4px;padding-bottom:4px}
+    .glinks a{padding:5px 8px;font-size:12.5px}
+    [id^="sec"],#yrCard,#top{scroll-margin-top:96px}
+    .gsum b{font-size:14px}
+  }
 </style>
 </head>
 <body>
@@ -325,31 +335,36 @@
 <div id="ptr">↓</div>
 <div id="sndMsg"></div>
 
-<div class="stickyhead" id="stickyHead">
-<div class="topbar">
+<nav class="gnav" id="gnav">
+  <div class="gin">
+    <a class="gbrand" href="#top">家的旅程</a>
+    <div class="glinks" id="glinks">
+      <a href="#secMap">旅程</a><a href="#secAdv">指引</a><a href="#secHold">持股</a><a href="#yrCard" id="lnkYr">年度</a>
+      <a href="#secEx">除權息</a><a href="#secPay">入帳</a><a href="#secTx">交易</a>
+    </div>
+    <div class="gtools">
+      <div class="traveler" id="traveler">
+        <div data-p="chang" class="on">CHANG</div>
+        <div data-p="wife">老婆</div>
+      </div>
+      <button class="gicon" id="sndBtn" title="音效">🔇</button>
+      <button class="gicon" id="gearBtn" title="設定">⚙</button>
+      <button class="gadd" id="mAdd" title="記一筆買進">＋</button>
+    </div>
+  </div>
+  <div class="gprog"><i id="mFill"></i></div>
+</nav>
+
+<div class="topbar" id="top">
   <div>
     <div class="eyebrow">DIVIDEND QUEST</div>
     <h1>家的旅程</h1>
     <div class="meta" id="meta">載入中…</div>
   </div>
-  <div style="display:flex;gap:8px">
-    <button class="gear" id="sndBtn">🔇</button>
-    <button class="gear" id="gearBtn">⚙ 設定</button>
-  </div>
+  <div class="gsum"><b id="mDiv">–</b><span id="mNext">–</span></div>
 </div>
 
-<div class="traveler" id="traveler">
-  <div data-p="chang" class="on">CHANG</div>
-  <div data-p="wife">老婆</div>
-</div>
-<div class="minibar" id="miniBar">
-  <div class="mtxt"><b id="mDiv">–</b><span id="mNext">–</span></div>
-  <div class="mtrack"><i id="mFill"></i><span id="mDots"></span></div>
-  <button class="mbtn" id="mAdd">＋ 記一筆</button>
-</div>
-</div>
-
-<div class="scene">
+<div class="scene" id="secMap">
   <div id="sceneSvg"></div>
   <div class="strip">
     <div class="blk"><div class="k">年股息</div><div class="v accent" id="pDiv">–</div></div>
@@ -362,9 +377,9 @@
 
 <div class="btn-row"><button class="btn" id="addBtn">＋ 記一筆買進</button></div>
 
-<div class="card"><h3>買入指引</h3><div id="advBox"></div></div>
+<div class="card" id="secAdv"><h3>買入指引</h3><div id="advBox"></div></div>
 
-<div class="card"><h3>持股</h3>
+<div class="card" id="secHold"><h3>持股</h3>
   <div class="pie" id="holdPie"></div>
   <table><thead><tr><th>標的</th><th class="num">股數</th><th class="num">年股息</th><th class="num">成本殖利率</th></tr></thead>
   <tbody id="holdBody"></tbody></table>
@@ -386,13 +401,13 @@
   <div id="yrCheck"></div>
 </div>
 
-<div class="card"><h3>除權息倒數</h3><div id="exBox"></div>
+<div class="card" id="secEx"><h3>除權息倒數</h3><div id="exBox"></div>
   <div class="note" style="margin-top:8px">
   每天 18:20 自動從 FinMind 抓取公司公告的除權息日與發放日。「已公告」＝公司已公告的下一次日期；「預估」＝依上次除息日與配息頻率往後推算。金額＝目前股數 × 最近一次每股配息，未扣二代健保與匯費。<br>
   買點規則：崑鼎除息後買（最便宜窗口）· 南寶、長榮照觸發價 · 聯華食除權後買 · 台產觀察中</div>
 </div>
 
-<div class="card"><h3>股息入帳紀錄</h3>
+<div class="card" id="secPay"><h3>股息入帳紀錄</h3>
   <div class="paysum">
     <div><div class="k">今年已入帳</div><div class="v" id="payYear">–</div></div>
     <div><div class="k">累計已入帳</div><div class="v" id="payAll">–</div></div>
@@ -402,7 +417,7 @@
   <div class="note" style="margin-top:8px">發放日一到，腳本會自動產生「待確認」項目（已估算補充保費與匯費），核對存摺後按確認即可。</div>
 </div>
 
-<div class="card"><h3>最近交易（全家）</h3>
+<div class="card" id="secTx"><h3>最近交易（全家）</h3>
   <div class="txnav">
     <button class="mini" id="txPrev" aria-label="上個月">‹</button>
     <div class="txlab" id="txLab">–</div>
@@ -483,7 +498,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 <script>
-const APP_VERSION="2026.10.07-0100";
+const APP_VERSION="2026.10.07-0130";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -971,18 +986,28 @@ function renderYear(){
   });
 }
 
-// 精簡進度條（固定頂部）：以最後一站為 100%
+// 頂部導覽列：年股息摘要、進度細線、目前區塊高亮
 function updateMini(pD,next){
   const last=MILES[MILES.length-1].amt;
-  document.getElementById("mDiv").textContent=fmt(pD)+" 元";
+  document.getElementById("mDiv").textContent=fmt(pD)+" 元／年";
   document.getElementById("mNext").textContent=next?`距${next.name} ${((next.amt-pD)/10000).toFixed(1)} 萬`:"已到終點";
   document.getElementById("mFill").style.width=Math.min(100,pD/last*100)+"%";
-  document.getElementById("mDots").innerHTML=MILES.map(m=>`<span class="dot ${pD>=m.amt?"done":""}" style="left:${m.amt/last*100}%" title="${m.name}"></span>`).join("");
+  const yr=document.getElementById("yrCard"),ly=document.getElementById("lnkYr");
+  if(yr&&ly)ly.style.display=yr.style.display==="none"?"none":"";
 }
 document.getElementById("mAdd").onclick=()=>document.getElementById("addBtn").click();
-(()=>{const sc=document.querySelector(".scene"),hd=document.getElementById("stickyHead");
-  if(!sc||!("IntersectionObserver" in window))return;
-  new IntersectionObserver(([e])=>hd.classList.toggle("compact",!e.isIntersecting),{rootMargin:"-120px 0px 0px 0px"}).observe(sc);})();
+(()=>{
+  const links=[...document.querySelectorAll("#glinks a")];
+  if(!("IntersectionObserver" in window))return;
+  const vis=new Map();
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>vis.set(e.target.id,e.isIntersecting?e.intersectionRatio:0));
+    let best=null,br=0;links.forEach(a=>{const r=vis.get(a.getAttribute("href").slice(1))||0;if(r>br){br=r;best=a;}});
+    links.forEach(a=>a.classList.toggle("on",a===best));
+    if(best){const g=document.getElementById("glinks");g.scrollTo({left:Math.max(0,best.offsetLeft-g.offsetLeft-24),behavior:"smooth"});}
+  },{threshold:[0,.15,.3,.5,.7],rootMargin:"-80px 0px -35% 0px"});
+  links.forEach(a=>{const el=document.getElementById(a.getAttribute("href").slice(1));if(el)io.observe(el);});
+})();
 
 function render(){
   document.body.style.setProperty("--pcol",PCOL[person]);
