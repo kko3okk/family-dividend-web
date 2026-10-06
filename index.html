@@ -189,15 +189,31 @@
   @media (prefers-reduced-motion:reduce){.wframe{animation:none}.wframe.f2{opacity:0}}
 
   .yoc{font-family:var(--mono);font-size:11px;color:var(--green);font-weight:700}
-  .exrow{display:flex;align-items:center;gap:10px;padding:9px 2px;border-bottom:1.5px dashed var(--line)}
+  .exnext{display:flex;align-items:center;gap:12px;background:var(--card2);border-radius:14px;padding:12px 14px;margin-bottom:10px}
+  .exnext .big{font-family:var(--mono);font-size:30px;font-weight:800;line-height:1;color:var(--pcol,var(--chang));font-variant-numeric:tabular-nums}
+  .exnext .big small{font-size:12px;font-weight:700;margin-left:2px}
+  .exnext .t{flex:1;font-size:12px;color:var(--mut);line-height:1.6}
+  .exnext .t b{color:var(--ink);font-size:14px}
+  .exgrp{font-size:11px;font-weight:800;color:var(--mut2);letter-spacing:.12em;margin:12px 2px 4px}
+  .exrow{display:flex;align-items:center;gap:11px;padding:9px 2px;border-bottom:1.5px dashed var(--line)}
   .exrow:last-child{border-bottom:none}
-  .exrow .nm{font-size:13px;font-weight:700;flex:1}
-  .exrow .nm span{font-size:10.5px;color:var(--mut2);font-family:var(--mono);margin-left:5px}
-  .exrow .cd{font-family:var(--mono);font-size:12px;text-align:right;min-width:96px}
-  .cd b{font-size:15px}
-  .cd.soon b{color:var(--chang)}
-  .cd.today b{color:var(--green)}
-  .cd.past{color:var(--mut2)}
+  .exrow.est{opacity:.78}
+  .exdate{width:46px;flex:none;text-align:center;border-radius:10px;background:var(--card2);padding:5px 0;border:1.5px solid var(--line)}
+  .exdate .m{font-size:10px;color:var(--mut);font-weight:700}
+  .exdate .d{font-family:var(--mono);font-size:18px;font-weight:800;line-height:1.1}
+  .exrow.soon .exdate{border-color:var(--pcol,var(--chang));background:var(--chang-soft)}
+  .exrow.today .exdate{border-color:var(--green);background:var(--green-soft)}
+  .exrow .nm{flex:1;min-width:0;font-size:13.5px;font-weight:800}
+  .exrow .nm .code{font-size:10.5px;color:var(--mut2);font-family:var(--mono);font-weight:400;margin-left:5px}
+  .extags{margin-top:3px;display:flex;flex-wrap:wrap;gap:4px}
+  .extag{font-size:10px;font-weight:700;border-radius:6px;padding:1px 6px;background:var(--card2);color:var(--mut)}
+  .extag.ok{background:var(--green-soft);color:#3E8A4B}
+  .exrow .cd{text-align:right;font-family:var(--mono);min-width:72px}
+  .exrow .cd .n{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums}
+  .exrow .cd .n small{font-size:11px;font-weight:700;margin-left:1px}
+  .exrow.soon .cd .n{color:var(--pcol,var(--chang))}
+  .exrow.today .cd .n{color:var(--green)}
+  .exrow .cd .amt{font-size:10.5px;color:var(--mut)}
   .payrow{display:flex;justify-content:space-between;font-size:12.5px;padding:7px 2px;border-bottom:1.5px dashed var(--line)}
   .payrow:last-child{border-bottom:none}
   .payrow .amt{font-family:var(--mono);font-weight:700;color:var(--green)}
@@ -340,7 +356,7 @@
 
 <div class="card"><h3>除權息倒數</h3><div id="exBox"></div>
   <div class="note" style="margin-top:8px">
-  「預估」＝依去年同期推算，實際日期以公司公告為準；腳本每日自動抓取證交所／櫃買公告，抓到後轉為「已公告」。<br>
+  每天 18:20 自動從 FinMind 抓取公司公告的除權息日與發放日。「已公告」＝公司已公告的下一次日期；「預估」＝依上次除息日與配息頻率往後推算。金額＝目前股數 × 最近一次每股配息，未扣二代健保與匯費。<br>
   買點規則：崑鼎除息後買（最便宜窗口）· 南寶、長榮照觸發價 · 聯華食除權後買 · 台產觀察中</div>
 </div>
 
@@ -435,7 +451,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 <script>
-const APP_VERSION="2026.10.07-0010";
+const APP_VERSION="2026.10.07-0045";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -752,23 +768,40 @@ function holdRows(h,o){
 
 function exRows(o){
   const S=DATA.stocks,today=new Date();today.setHours(0,0,0,0);
+  const sh={};DATA.transactions.filter(t=>t.owner===o).forEach(t=>sh[t.stock]=(sh[t.stock]||0)+t.shares);
   const list=OWNER_STOCKS[o].map(sid=>{
     const st=S[sid]||{};if(!st.ex_date)return null;
     const freq=st.freq||1, stepM=Math.round(12/freq);
-    let d=new Date(st.ex_date+"T00:00:00");
-    let guard=0;
-    while(d<today&&guard++<40){const nd=new Date(d);nd.setMonth(d.getMonth()+stepM);d=nd;}
-    return {sid,name:st.name,div:st.div,date:d,days:Math.round((d-today)/86400000),pay:st.pay_date,confirmed:!!st.ex_confirmed,freq:freq};
+    let d=new Date(st.ex_date+"T00:00:00"),guard=0,proj=false;
+    while(d<today&&guard++<40){const nd=new Date(d);nd.setMonth(d.getMonth()+stepM);d=nd;proj=true;}
+    // 公告日已過、依配息頻率往後推算的日期一律標「預估」
+    const ev=(st.last_events||[]).filter(e=>e.cash>0);
+    const per=ev.length?ev[ev.length-1].cash:(st.div||0)/freq;
+    return {sid,name:st.name||sid,div:st.div,date:d,days:Math.round((d-today)/86400000),
+      pay:proj?"":(st.pay_date||""),confirmed:!!st.ex_confirmed&&!proj,freq,kind:st.ex_kind||"除息",
+      amt:(sh[sid]||0)*per};
   }).filter(Boolean).sort((a,b)=>a.days-b.days);
   if(!list.length)return '<div class="note">尚未設定除權息日</div>';
-  return list.map(x=>{
-    const cls=x.days===0?"today":(x.days<=21?"soon":"");
-    const est=!x.confirmed;
-    const txt=est?`約 <b>${x.days}</b> 天後`:(x.days===0?"今天除息":`還有 <b>${x.days}</b> 天`);
-    return `<div class="exrow" ${est?'style="opacity:.72"':""}><div class="nm">${x.name}<span>${x.sid}</span>
-      ${est?'<span style="color:var(--mut2)">· 預估</span>':'<span style="color:var(--green)">· 已公告</span>'}</div>
-      <div class="cd ${est?"":cls}">${txt}<br><span class="tick">${x.date.toISOString().slice(5,10)} 除息 · 全年配 ${x.div} 元${x.freq>1?" · 半年配":""}</span></div></div>`;
-  }).join("");
+  const md=d=>[d.getMonth()+1,d.getDate()];
+  const FQ={2:"半年配",4:"季配",12:"月配"};
+  const row=x=>{
+    const [m,dd]=md(x.date),cls=x.days===0?"today":(x.days<=30?"soon":"");
+    const n=x.days===0?`今天`:`${x.days}<small>天</small>`;
+    return `<div class="exrow ${cls} ${x.confirmed?"":"est"}">
+      <div class="exdate"><div class="m">${m} 月</div><div class="d">${dd}</div></div>
+      <div class="nm">${x.name}${x.name!==x.sid?`<span class="code">${x.sid}</span>`:""}
+        <div class="extags">${x.confirmed?'<span class="extag ok">已公告</span>':'<span class="extag">預估</span>'}
+          <span class="extag">${x.kind}</span>${FQ[x.freq]?`<span class="extag">${FQ[x.freq]}</span>`:""}
+          ${x.pay?`<span class="extag">${x.pay.slice(5).replace("-","/")} 發放</span>`:""}</div></div>
+      <div class="cd"><div class="n">${n}</div><div class="amt">${x.amt?`約 ${fmt(x.amt)} 元`:"尚未持有"}</div></div></div>`;
+  };
+  const nx=list[0],soon=list.filter(x=>x.days<=30),later=list.filter(x=>x.days>30);
+  const in90=list.filter(x=>x.days<=90),sum90=in90.reduce((a,x)=>a+x.amt,0);
+  let html=`<div class="exnext"><div class="big">${nx.days===0?"今天":`${nx.days}<small>天</small>`}</div>
+    <div class="t">下一筆 <b>${nx.name}</b>${nx.confirmed?"":"（預估）"}<br>${in90.length?`90 天內 ${in90.length} 檔除權息 · 約可領 ${fmt(sum90)} 元`:"90 天內沒有除權息"}</div></div>`;
+  if(soon.length)html+=`<div class="exgrp">30 天內</div>`+soon.map(row).join("");
+  if(later.length)html+=`<div class="exgrp">之後</div>`+later.map(row).join("");
+  return html;
 }
 function payRows(o){
   const ps=(DATA.payouts||[]).filter(p=>p.owner===o);
