@@ -1,6 +1,6 @@
 name: close-now
 # 隨選收盤更新：改 ops/refresh.txt 推上來即觸發（paper-daily 被 GitHub 延遲時用）
-# 只抓收盤價、重算候選名單與健康檢查，不跑新聞與 Claude 查證。
+# 抓收盤價與已申報月營收、重算候選名單與健康檢查，不跑新聞與 Claude 查證。
 on:
   workflow_dispatch:
   push:
@@ -16,13 +16,15 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
       - run: python3 scripts/refresh_prices.py
+      - run: python3 scripts/refresh_revenue.py
+        continue-on-error: true
       - run: python3 candidates.py
         continue-on-error: true
       - run: python3 research/health.py
         continue-on-error: true
       - run: |
           git config user.name bot; git config user.email b@b.c
-          git add data/prices data/prices_otc2 data/no_trade.json paper/candidates_*.csv research/HEALTH.md research/DATA.md
+          git add data/prices data/prices_otc2 data/revenue data/no_trade.json paper/candidates_*.csv research/HEALTH.md research/DATA.md
           git diff --cached --quiet && exit 0
           git commit -m "close-now $(TZ=Asia/Taipei date '+%F %H:%M')"
           for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 5; done
