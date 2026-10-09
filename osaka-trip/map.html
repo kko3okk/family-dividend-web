@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#f5f4f0">
+<meta name="theme-color" content="#FFFCF6">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Huninn&display=swap" rel="stylesheet">
 <title>旅遊地圖｜大阪・USJ・京都 2026</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -38,6 +40,7 @@ nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
 .num.bed{border-radius:6px;width:26px;height:26px;font-size:14px}
 .arrow{font-size:14px;line-height:1;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 3px #fff}
 </style>
+<link rel="stylesheet" href="theme.css?v=1">
 </head>
 <body>
 
@@ -193,13 +196,14 @@ DAYS.forEach((d,idx)=>{
   const b=document.createElement('button');
   b.className='chip'; b.textContent=d.t; b.style.borderColor=d.c;
   b.onclick=()=>{
-    document.querySelectorAll('.chip').forEach(x=>{x.classList.remove('on');x.style.background='#fff';x.style.color='#666';});
-    b.classList.add('on'); b.style.background=d.c; b.style.color='#fff';
+    document.querySelectorAll('.chip').forEach(x=>{x.classList.remove('on');x.style.background='#FFFFFF';x.style.color='#3E3A39';});
+    b.classList.add('on'); b.style.background=d.c+'59'; b.style.color='#3E3A39';
     draw(d);
   };
   bar.appendChild(b);
   if(idx===0) setTimeout(()=>b.click(),0);
 });
 </script>
+<script src="theme.js?v=1"></script>
 </body>
 </html>
