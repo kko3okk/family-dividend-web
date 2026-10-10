@@ -378,6 +378,119 @@
     .cards>.card{margin:0}
     .cards>.wide{grid-column:1/-1}
   }
+
+  /* ═══ 2026-10-11 財務 / 健康 分區 ═══ */
+  .domain{display:flex;flex:none;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:2px;gap:2px}
+  .domain button{border:none;background:none;font:inherit;font-size:12px;font-weight:800;color:var(--mut);
+    padding:5px 9px;border-radius:8px;cursor:pointer;white-space:nowrap;letter-spacing:.04em}
+  .domain button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 0 var(--line),0 1px 3px rgba(59,51,87,.12)}
+  body:not(.mode-health) .hl{display:none!important}
+  body.mode-health .fin{display:none!important}
+  @media(max-width:560px){
+    .gbrand{display:none}
+    .domain{order:1}
+    .gin{justify-content:space-between;padding-top:7px}
+    .domain button{padding:5px 8px;font-size:11.5px}
+  }
+  @media(max-width:350px){ .domain button{padding:5px 5px;font-size:11px} .gicon{padding:5px 3px} }
+
+  #healthApp .card{scroll-margin-top:96px}
+  .h-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+  .h-eyebrow{font-size:11px;letter-spacing:.18em;color:var(--mut2);font-family:var(--mono)}
+  .h-title{font-size:19px;font-weight:900;letter-spacing:.06em;margin:3px 0 2px}
+  .h-sub{font-size:12px;color:var(--mut)}
+  .h-ring{flex:none;width:76px;height:76px;position:relative}
+  .h-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+  .h-ring .c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1}
+  .h-ring .c b{font-family:var(--mono);font-size:20px;font-weight:800;font-variant-numeric:tabular-nums}
+  .h-ring .c span{font-size:9.5px;color:var(--mut);letter-spacing:.08em}
+  .h-ring.full .c b{color:var(--green)}
+
+  .h-chal{background:var(--card2);border-radius:14px;padding:11px 13px 12px;margin-bottom:12px}
+  .h-chal .t{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:12.5px;font-weight:700}
+  .h-chal .t span{font-family:var(--mono);font-size:11px;color:var(--mut);font-weight:400}
+  .h-chal .t .fire{color:#D9622B;font-weight:800}
+  .h-strip{display:grid;grid-template-columns:repeat(15,1fr);gap:3px;margin-top:8px}
+  .h-strip i{aspect-ratio:1;border-radius:3px;background:var(--line)}
+  .h-strip i.p{background:var(--pcol,var(--chang));opacity:.38}
+  .h-strip i.d{background:var(--green)}
+  .h-strip i.f{background:transparent;border:1px dashed var(--line)}
+  .h-strip i.now{outline:2px solid var(--ink);outline-offset:1px}
+
+  .h-row{border:1.5px solid var(--line);border-radius:14px;padding:11px 12px 10px;margin-bottom:9px;background:var(--card);transition:background .25s,border-color .25s}
+  .h-row.done{background:var(--green-soft);border-color:#BDE5C4}
+  .h-r1{display:flex;align-items:center;gap:10px}
+  .h-no{flex:none;width:26px;height:26px;border-radius:50%;background:var(--card2);color:var(--mut);
+    font-family:var(--mono);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
+  .h-row.done .h-no{background:var(--green);color:#fff}
+  .h-nm{flex:1;min-width:0}
+  .h-nm b{display:block;font-size:14.5px;font-weight:800}
+  .h-nm span{font-size:11px;color:var(--mut)}
+  .h-cnt{flex:none;border:none;background:none;font-family:var(--mono);font-size:22px;font-weight:800;color:var(--ink);
+    cursor:pointer;padding:2px 4px;border-radius:8px;font-variant-numeric:tabular-nums}
+  .h-cnt small{font-size:12px;color:var(--mut);font-weight:400}
+  .h-row.done .h-cnt{color:#2F8A45}
+  .h-bar{height:6px;border-radius:6px;background:var(--line);overflow:hidden;margin:9px 0 9px}
+  .h-bar i{display:block;height:100%;border-radius:6px;background:var(--pcol,var(--chang));transition:width .35s}
+  .h-row.done .h-bar i{background:var(--green)}
+  .h-btns{display:grid;grid-template-columns:1fr 1fr 1.2fr 1.3fr;gap:6px}
+  .h-btns button{border:1.5px solid var(--line);background:var(--card2);color:var(--ink);border-radius:10px;
+    font:inherit;font-size:13px;font-weight:800;padding:9px 0;cursor:pointer;font-variant-numeric:tabular-nums;touch-action:manipulation}
+  .h-btns button:active{transform:translateY(1px)}
+  .h-btns .pri{background:var(--pcol,var(--chang));border-color:transparent;color:#fff}
+  .h-btns .ok{background:var(--card);color:#2F8A45;border-color:#BDE5C4}
+  .h-row.done .h-btns .ok{background:var(--green);color:#fff;border-color:transparent}
+  .h-btns button:disabled{opacity:.35;cursor:default}
+  .h-sync{font-size:10.5px;color:var(--mut2);text-align:right;margin-top:4px;font-family:var(--mono)}
+  .h-sync.warn{color:#B4532A}
+
+  .h-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+  .h-cal .wd{text-align:center;font-size:10px;color:var(--mut2);padding:2px 0 4px;letter-spacing:.1em}
+  .h-day{position:relative;aspect-ratio:1;border:none;border-radius:12px;background:none;font:inherit;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;padding:0;color:var(--ink)}
+  .h-day .dot{width:78%;aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-size:12.5px;font-weight:700;background:var(--card2)}
+  .h-day.part .dot{background:conic-gradient(var(--pcol,var(--chang)) var(--pc), var(--line) 0)}
+  .h-day.part .dot span{background:var(--card);width:72%;aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center}
+  .h-day.done .dot{background:var(--green);color:#fff}
+  .h-day.today .dot{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--ink)}
+  .h-day.fut{cursor:default}
+  .h-day.fut .dot{background:none;color:var(--mut2);opacity:.6}
+  .h-day.out{visibility:hidden}
+  .h-day .o{position:absolute;top:6%;right:8%;width:8px;height:8px;border-radius:50%;background:var(--ocol);border:1.5px solid var(--card)}
+  .h-legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11px;color:var(--mut);margin:10px 0 2px}
+  .h-legend span{display:flex;align-items:center;gap:5px}
+  .h-legend b{width:10px;height:10px;border-radius:50%;display:inline-block}
+  .h-legend em{font-style:normal}
+  .h-lg-done{background:var(--green)}
+  .h-lg-part{background:conic-gradient(var(--pcol,var(--chang)) 60%, var(--line) 0)}
+  .h-lg-other{background:var(--ocol,var(--wife))}
+  .h-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+  .h-stats div{background:var(--card2);border-radius:12px;padding:9px 10px}
+  .h-stats .k{font-size:10px;color:var(--mut);letter-spacing:.1em}
+  .h-stats .v{font-family:var(--mono);font-size:17px;font-weight:800;margin-top:2px;font-variant-numeric:tabular-nums}
+  .h-stats .v small{font-size:11px;color:var(--mut);font-weight:400}
+
+  .h-src{margin:-4px 0 10px}
+  .h-edit{margin-left:auto;font-size:11px;padding:4px 10px;letter-spacing:.04em}
+  .h-mv{display:flex;gap:11px;padding:11px 0;border-bottom:1.5px dashed var(--line)}
+  .h-mv:last-child{border-bottom:none}
+  .h-mv .h-no{margin-top:1px}
+  .h-mv b{font-size:14px}
+  .h-mv .tag{display:inline-block;font-size:10.5px;font-weight:800;border-radius:20px;padding:2px 8px;margin-left:6px;
+    background:var(--chang-soft);color:var(--pcol,var(--chang));vertical-align:1px}
+  .h-mv p{font-size:12.5px;color:var(--mut);line-height:1.7;margin-top:3px}
+  .h-mv p em{font-style:normal;color:#B4532A}
+  #hDayRows .h-row{margin-bottom:8px}
+  .h-clear{width:100%;margin-top:6px;color:#B4532A}
+  .h-prow{display:flex;align-items:center;gap:10px;margin-top:10px}
+  .h-prow span{flex:1;font-size:13.5px;font-weight:700}
+  .h-prow input{width:96px;text-align:right}
+  @media(min-width:960px){
+    #healthApp{display:grid;grid-template-columns:1.1fr 1fr;gap:14px;align-items:start}
+    #healthApp>.card{margin:0}
+    #secHMoves{grid-column:1/-1}
+  }
 </style>
 </head>
 <body>
@@ -388,9 +501,13 @@
 <nav class="gnav" id="gnav">
   <div class="gin">
     <a class="gbrand" href="#secMap">家的旅程</a>
+    <div class="domain" id="domain" role="tablist">
+      <button data-d="fin" class="on" role="tab">💰 財務</button><button data-d="health" role="tab">💪 健康</button>
+    </div>
     <div class="glinks" id="glinks">
-      <a href="#secMap">旅程</a><a href="#secTodo">待辦<i class="gdot" id="dotTodo"></i></a><a href="#secAdv">指引</a><a href="#secHold">持股</a><a href="#yrCard" id="lnkYr">年度</a>
-      <a href="#secEx">除權息</a><a href="#secPay">入帳<i class="gdot" id="dotPay"></i></a><a href="#secTx">交易</a>
+      <a class="fin" href="#secMap">旅程</a><a class="fin" href="#secTodo">待辦<i class="gdot" id="dotTodo"></i></a><a class="fin" href="#secAdv">指引</a><a class="fin" href="#secHold">持股</a><a class="fin" href="#yrCard" id="lnkYr">年度</a>
+      <a class="fin" href="#secEx">除權息</a><a class="fin" href="#secPay">入帳<i class="gdot" id="dotPay"></i></a><a class="fin" href="#secTx">交易</a>
+      <a class="hl" href="#secHToday">今日清單</a><a class="hl" href="#secHCal">日曆回顧</a><a class="hl" href="#secHMoves">動作說明</a>
     </div>
     <div class="gtools">
       <div class="traveler" id="traveler">
@@ -399,13 +516,48 @@
       </div>
       <button class="gicon" id="sndBtn" title="音效">🔇</button>
       <button class="gicon" id="gearBtn" title="設定">⚙</button>
-      <button class="gadd" id="mAdd" title="記一筆買進">＋</button>
+      <button class="gadd fin" id="mAdd" title="記一筆買進">＋</button>
     </div>
   </div>
-  <div class="gprog"><i id="mFill"></i></div>
+  <div class="gprog"><i id="mFill" class="fin"></i><i id="hFill" class="hl"></i></div>
 </nav>
 
-<div class="scene" id="secMap">
+<!-- ═══ 健康管理 ═══ -->
+<section class="hl" id="healthApp">
+  <div class="card h-today" id="secHToday">
+    <div class="h-head">
+      <div>
+        <div class="h-eyebrow" id="hDate">–</div>
+        <h2 class="h-title">今日壺鈴清單</h2>
+        <div class="h-sub" id="hSub">5 個動作 × 80 下</div>
+      </div>
+      <div class="h-ring" id="hRing"></div>
+    </div>
+    <div class="h-chal" id="hChal"></div>
+    <div id="hRows"></div>
+    <div class="h-sync" id="hSync"></div>
+  </div>
+
+  <div class="card" id="secHCal"><h3>日曆回顧</h3>
+    <div class="txnav">
+      <button class="mini" id="hCalPrev" aria-label="上個月">‹</button>
+      <div class="txlab" id="hCalLab">–</div>
+      <button class="mini" id="hCalNext" aria-label="下個月">›</button>
+    </div>
+    <div class="h-cal" id="hCal"></div>
+    <div class="h-legend">
+      <span><b class="h-lg-done"></b>全部達成</span><span><b class="h-lg-part"></b>做了一部分</span><span><b class="h-lg-other"></b><em id="hOtherName">老婆</em>也達成</span>
+    </div>
+    <div class="h-stats" id="hStats"></div>
+  </div>
+
+  <div class="card" id="secHMoves"><h3>動作說明<button class="mini h-edit" id="hPlanBtn">調整目標</button></h3>
+    <div class="note h-src">來源：bingbing.fitness 影片 — 6 公斤壺鈴，每天每個動作 80 下，在家就能練、不用跑不用跳。</div>
+    <div id="hMoves"></div>
+  </div>
+</section>
+
+<div class="scene fin" id="secMap">
   <div id="sceneSvg"></div>
   <div class="strip">
     <div class="blk"><div class="k">家庭合計</div><div class="v" id="famDiv">–</div></div>
@@ -416,7 +568,7 @@
 
 <div class="btn-row" style="display:none"><button class="btn" id="addBtn">＋ 記一筆買進</button></div>
 
-<main class="cards">
+<main class="cards fin">
 <div class="card wide" id="secTodo"><h3>今日待辦</h3><div id="todoBox"></div></div>
 
 <div class="card" id="secAdv"><h3>買入指引<button class="info" data-more="advMore">ⓘ</button></h3>
@@ -538,6 +690,26 @@
   <button class="go" id="tokenSave">儲存</button>
 </dialog>
 
+<dialog id="hDayDlg">
+  <div class="dlg-x" onclick="hDayDlg.close()">✕</div>
+  <h2 id="hDayTitle">–</h2>
+  <div class="sub" id="hDaySub">可以補記或修改這天的次數</div>
+  <div id="hDayRows"></div>
+  <button class="mini h-clear" id="hDayClear">清除這天的紀錄</button>
+</dialog>
+
+<dialog id="hPlanDlg">
+  <div class="dlg-x" onclick="hPlanDlg.close()">✕</div>
+  <h2>調整目標</h2>
+  <div class="sub" id="hPlanSub">只影響今天之後的新紀錄；過去的達成狀態不變</div>
+  <label>壺鈴重量（公斤）</label>
+  <input id="hWeight" type="number" inputmode="decimal" min="1" step="0.5">
+  <div id="hPlanRows"></div>
+  <label>30 天挑戰起始日</label>
+  <div class="datewrap"><input id="hStart" type="date"></div>
+  <button class="go" id="hPlanSave">儲存</button>
+</dialog>
+
 <script type="module">
   const V = "2026.08.19-1139";   // 由 deploy.sh 注入，確保模組不吃到舊快取
   const M  = await import(`./dividend-journey-map/src/renderMap.js?v=${V}`);
@@ -552,7 +724,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 <script>
-const APP_VERSION="2026.10.07-0230";
+const APP_VERSION="2026.10.11-0100";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -1525,5 +1697,6 @@ addEventListener("resize",()=>{ clearTimeout(_rz); _rz=setTimeout(()=>{ if(DATA)
   catch(e){document.getElementById("meta").textContent=e.message;}
 })();
 </script>
+<script src="health.js?v=2026.10.11-0100"></script>
 </body>
 </html>
