@@ -11,12 +11,19 @@
     "yoy": 240.0,
     "cum": 113.2,
     "ai_note": true
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 212.8,
+    "cum": 125.1,
+    "ai_note": true
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 63.6,
   "px_last": 64.7,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 1.7
  },
  "3624": {
@@ -31,12 +38,19 @@
     "yoy": 65.8,
     "cum": 30.7,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 67.4,
+    "cum": 34.8,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 134.0,
   "px_last": 175.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 30.6
  },
  "6861": {
@@ -51,12 +65,19 @@
     "yoy": 52.5,
     "cum": 46.2,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 57.1,
+    "cum": 47.5,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 273.0,
   "px_last": 262.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -3.8
  },
  "7717": {
@@ -76,7 +97,7 @@
   "weeks": 1,
   "px_first": 608.0,
   "px_last": 577.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -5.1
  },
  "6525": {
@@ -86,7 +107,7 @@
   "reason": "功率封測但營收以消費性/PC/工業為主，AI 未單列；產能在上海/合肥",
   "history": [],
   "px_last": 138.0,
-  "px_last_date": "2026-10-10"
+  "px_last_date": "2026-10-11"
  },
  "2342": {
   "name": "茂矽",
@@ -95,7 +116,7 @@
   "reason": "高壓矽基 MOSFET/IGBT 代工（單一來源）；營收未動",
   "history": [],
   "px_last": 49.15,
-  "px_last_date": "2026-10-10"
+  "px_last_date": "2026-10-11"
  },
  "7744": {
   "name": "崴寶",
@@ -114,7 +135,7 @@
   "weeks": 1,
   "px_first": 534.0,
   "px_last": 506.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -5.2
  },
  "1316": {
@@ -133,7 +154,7 @@
   "weeks": 1,
   "px_first": 10.6,
   "px_last": 10.4,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -1.9
  },
  "1340": {
@@ -152,7 +173,7 @@
   "weeks": 1,
   "px_first": 5.25,
   "px_last": 5.14,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -2.1
  },
  "1342": {
@@ -171,7 +192,7 @@
   "weeks": 1,
   "px_first": 101.0,
   "px_last": 101.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 0.0
  },
  "1416": {
@@ -185,12 +206,19 @@
     "yoy": 46.0,
     "cum": 44.5,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 70.5,
+    "cum": 47.6,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 11.5,
   "px_last": 12.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 4.3
  },
  "1617": {
@@ -209,7 +237,7 @@
   "weeks": 1,
   "px_first": 20.15,
   "px_last": 24.1,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 19.6
  },
  "1714": {
@@ -223,12 +251,19 @@
     "yoy": 56.1,
     "cum": 60.5,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 57.4,
+    "cum": 60.1,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 15.8,
   "px_last": 19.95,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 26.3
  },
  "1785": {
@@ -242,12 +277,19 @@
     "yoy": 30.7,
     "cum": 63.4,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 49.9,
+    "cum": 61.8,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 96.5,
   "px_last": 103.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 7.3
  },
  "1799": {
@@ -261,12 +303,19 @@
     "yoy": 82.4,
     "cum": 78.1,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 80.6,
+    "cum": 78.6,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 28.8,
   "px_last": 28.6,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -0.7
  },
  "2025": {
@@ -280,12 +329,19 @@
     "yoy": 102.5,
     "cum": 136.2,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 163.0,
+    "cum": 139.0,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 12.65,
   "px_last": 13.6,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 7.5
  },
  "2027": {
@@ -299,12 +355,19 @@
     "yoy": 46.1,
     "cum": 34.2,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 41.1,
+    "cum": 35.0,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 46.6,
   "px_last": 48.25,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 3.5
  },
  "2073": {
@@ -323,7 +386,7 @@
   "weeks": 1,
   "px_first": 25.9,
   "px_last": 25.6,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -1.2
  },
  "2101": {
@@ -337,12 +400,19 @@
     "yoy": 84.2,
     "cum": 156.5,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 270.3,
+    "cum": 167.4,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 30.05,
   "px_last": 30.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -0.2
  },
  "2237": {
@@ -376,7 +446,7 @@
   "weeks": 1,
   "px_first": 43.65,
   "px_last": 50.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 15.7
  },
  "2248": {
@@ -395,7 +465,7 @@
   "weeks": 1,
   "px_first": 61.9,
   "px_last": 60.3,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -2.6
  },
  "2302": {
@@ -409,12 +479,19 @@
     "yoy": 87.7,
     "cum": 38.0,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 39.9,
+    "cum": 38.2,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 45.75,
   "px_last": 50.1,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 9.5
  },
  "2316": {
@@ -433,7 +510,7 @@
   "weeks": 1,
   "px_first": 159.0,
   "px_last": 171.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 7.5
  },
  "2347": {
@@ -447,12 +524,19 @@
     "yoy": 122.0,
     "cum": 89.7,
     "ai_note": true
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 158.7,
+    "cum": 98.0,
+    "ai_note": true
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 94.5,
   "px_last": 96.4,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 2.0
  },
  "2357": {
@@ -471,7 +555,7 @@
   "weeks": 1,
   "px_first": 958.0,
   "px_last": 996.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 4.0
  },
  "2369": {
@@ -490,7 +574,7 @@
   "weeks": 1,
   "px_first": 31.65,
   "px_last": 32.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 1.1
  },
  "2374": {
@@ -509,7 +593,7 @@
   "weeks": 1,
   "px_first": 66.1,
   "px_last": 66.2,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 0.2
  },
  "2388": {
@@ -528,7 +612,7 @@
   "weeks": 1,
   "px_first": 70.8,
   "px_last": 70.9,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 0.1
  },
  "2395": {
@@ -542,12 +626,19 @@
     "yoy": 87.5,
     "cum": 45.9,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 73.1,
+    "cum": 49.1,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 701.0,
   "px_last": 727.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 3.7
  },
  "2397": {
@@ -561,12 +652,19 @@
     "yoy": 48.0,
     "cum": 31.4,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 34.2,
+    "cum": 31.7,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 62.1,
   "px_last": 65.1,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 4.8
  },
  "2406": {
@@ -585,7 +683,7 @@
   "weeks": 1,
   "px_first": 29.9,
   "px_last": 30.05,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 0.5
  },
  "2425": {
@@ -599,12 +697,19 @@
     "yoy": 118.5,
     "cum": 120.5,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 288.6,
+    "cum": 133.9,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 37.1,
   "px_last": 35.75,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -3.6
  },
  "2432": {
@@ -618,12 +723,19 @@
     "yoy": 80.4,
     "cum": 60.7,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 98.9,
+    "cum": 66.3,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 27.25,
   "px_last": 28.8,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 5.7
  },
  "2436": {
@@ -637,12 +749,19 @@
     "yoy": 32.1,
     "cum": 30.4,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 32.3,
+    "cum": 30.6,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 69.6,
   "px_last": 71.2,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 2.3
  },
  "2460": {
@@ -656,12 +775,19 @@
     "yoy": 75.6,
     "cum": 65.3,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 97.5,
+    "cum": 68.8,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 30.8,
   "px_last": 30.4,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -1.3
  },
  "2476": {
@@ -675,12 +801,19 @@
     "yoy": 41.0,
     "cum": 39.8,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 53.8,
+    "cum": 41.5,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 122.0,
   "px_last": 130.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 7.0
  },
  "2495": {
@@ -699,7 +832,7 @@
   "weeks": 1,
   "px_first": 38.85,
   "px_last": 37.85,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -2.6
  },
  "2543": {
@@ -713,12 +846,19 @@
     "yoy": 51.5,
     "cum": 59.4,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 32.7,
+    "cum": 55.4,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 38.3,
   "px_last": 39.6,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 3.4
  },
  "2646": {
@@ -737,7 +877,7 @@
   "weeks": 1,
   "px_first": 20.35,
   "px_last": 20.1,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -1.2
  },
  "2724": {
@@ -756,7 +896,7 @@
   "weeks": 1,
   "px_first": 12.3,
   "px_last": 13.2,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 7.3
  },
  "2734": {
@@ -775,7 +915,7 @@
   "weeks": 1,
   "px_first": 14.5,
   "px_last": 14.65,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 1.0
  },
  "2923": {
@@ -794,7 +934,7 @@
   "weeks": 1,
   "px_first": 25.7,
   "px_last": 24.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -6.6
  },
  "3004": {
@@ -808,12 +948,19 @@
     "yoy": 62.3,
     "cum": 40.5,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 56.8,
+    "cum": 42.4,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 118.0,
   "px_last": 120.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 2.1
  },
  "3022": {
@@ -827,12 +974,19 @@
     "yoy": 85.0,
     "cum": 32.4,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 75.9,
+    "cum": 36.8,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 90.7,
   "px_last": 90.3,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -0.4
  },
  "3028": {
@@ -846,12 +1000,19 @@
     "yoy": 88.0,
     "cum": 95.6,
     "ai_note": true
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 46.9,
+    "cum": 89.0,
+    "ai_note": true
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 61.7,
   "px_last": 63.6,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 3.1
  },
  "3033": {
@@ -870,7 +1031,7 @@
   "weeks": 1,
   "px_first": 41.6,
   "px_last": 41.55,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -0.1
  },
  "3036": {
@@ -884,12 +1045,19 @@
     "yoy": 98.2,
     "cum": 109.2,
     "ai_note": true
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 60.0,
+    "cum": 101.3,
+    "ai_note": true
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 206.0,
   "px_last": 215.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 4.6
  },
  "3041": {
@@ -908,7 +1076,7 @@
   "weeks": 1,
   "px_first": 23.6,
   "px_last": 23.85,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 1.1
  },
  "3048": {
@@ -922,12 +1090,19 @@
     "yoy": 50.3,
     "cum": 36.3,
     "ai_note": true
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 41.9,
+    "cum": 37.0,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 50.4,
   "px_last": 57.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 13.1
  },
  "3054": {
@@ -941,12 +1116,19 @@
     "yoy": 75.6,
     "cum": 358.9,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 214.6,
+    "cum": 342.0,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 58.5,
   "px_last": 58.1,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -0.7
  },
  "3088": {
@@ -960,12 +1142,19 @@
     "yoy": 78.5,
     "cum": 49.5,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 37.0,
+    "cum": 47.9,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 127.0,
   "px_last": 132.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 3.9
  },
  "3090": {
@@ -979,12 +1168,19 @@
     "yoy": 38.4,
     "cum": 30.0,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 31.3,
+    "cum": 30.2,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 165.0,
   "px_last": 174.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 5.5
  },
  "3135": {
@@ -998,12 +1194,19 @@
     "yoy": 237.8,
     "cum": 246.1,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 132.5,
+    "cum": 228.6,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 159.0,
   "px_last": 157.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -0.9
  },
  "3147": {
@@ -1022,7 +1225,7 @@
   "weeks": 1,
   "px_first": 234.5,
   "px_last": 308.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 31.3
  },
  "3162": {
@@ -1041,7 +1244,7 @@
   "weeks": 1,
   "px_first": 74.7,
   "px_last": 82.2,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 10.0
  },
  "3229": {
@@ -1055,12 +1258,19 @@
     "yoy": 80.4,
     "cum": 63.1,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 48.7,
+    "cum": 61.2,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 57.4,
   "px_last": 55.4,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -3.5
  },
  "3276": {
@@ -1074,12 +1284,19 @@
     "yoy": 41.3,
     "cum": 36.8,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 89.8,
+    "cum": 42.3,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 13.85,
   "px_last": 14.2,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 2.5
  },
  "3290": {
@@ -1093,12 +1310,19 @@
     "yoy": 79.8,
     "cum": 84.3,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 76.6,
+    "cum": 83.2,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 45.75,
   "px_last": 55.8,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 22.0
  },
  "3305": {
@@ -1112,12 +1336,19 @@
     "yoy": 47.4,
     "cum": 61.4,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 46.3,
+    "cum": 59.5,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 102.0,
   "px_last": 110.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 8.3
  },
  "3357": {
@@ -1131,12 +1362,19 @@
     "yoy": 53.1,
     "cum": 32.2,
     "ai_note": true
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 47.8,
+    "cum": 34.1,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 206.0,
   "px_last": 226.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 10.0
  },
  "3360": {
@@ -1155,7 +1393,7 @@
   "weeks": 1,
   "px_first": 15.05,
   "px_last": 15.4,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 2.3
  },
  "3491": {
@@ -1169,12 +1407,19 @@
     "yoy": 93.2,
     "cum": 73.4,
     "ai_note": true
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 52.5,
+    "cum": 70.9,
+    "ai_note": true
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 1565.0,
   "px_last": 1685.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 7.7
  },
  "3528": {
@@ -1188,12 +1433,19 @@
     "yoy": 43.1,
     "cum": 75.0,
     "ai_note": true
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 48.7,
+    "cum": 71.2,
+    "ai_note": true
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 84.5,
   "px_last": 86.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 1.8
  },
  "3555": {
@@ -1212,7 +1464,7 @@
   "weeks": 1,
   "px_first": 171.5,
   "px_last": 158.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -7.9
  },
  "3556": {
@@ -1226,12 +1478,19 @@
     "yoy": 36.3,
     "cum": 30.7,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 39.2,
+    "cum": 31.6,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 56.6,
   "px_last": 65.7,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 16.1
  },
  "3577": {
@@ -1250,7 +1509,7 @@
   "weeks": 1,
   "px_first": 114.0,
   "px_last": 106.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -7.0
  },
  "3594": {
@@ -1264,12 +1523,19 @@
     "yoy": 50.5,
     "cum": 44.0,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 71.1,
+    "cum": 47.5,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 46.6,
   "px_last": 46.25,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -0.8
  },
  "3689": {
@@ -1283,12 +1549,19 @@
     "yoy": 62.1,
     "cum": 43.3,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 62.1,
+    "cum": 45.4,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 109.5,
   "px_last": 117.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 7.3
  },
  "3691": {
@@ -1307,7 +1580,7 @@
   "weeks": 1,
   "px_first": 121.5,
   "px_last": 103.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -14.8
  },
  "3702": {
@@ -1326,7 +1599,7 @@
   "weeks": 1,
   "px_first": 114.0,
   "px_last": 117.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 3.1
  },
  "3709": {
@@ -1340,12 +1613,19 @@
     "yoy": 76.1,
     "cum": 44.8,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 118.7,
+    "cum": 53.7,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 63.3,
   "px_last": 66.2,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 4.6
  },
  "3713": {
@@ -1364,7 +1644,7 @@
   "weeks": 1,
   "px_first": 14.1,
   "px_last": 14.85,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 5.3
  },
  "3715": {
@@ -1378,12 +1658,19 @@
     "yoy": 84.0,
     "cum": 46.5,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 84.7,
+    "cum": 51.3,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 125.5,
   "px_last": 137.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 9.6
  },
  "4154": {
@@ -1402,7 +1689,7 @@
   "weeks": 1,
   "px_first": 11.85,
   "px_last": 12.45,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 5.1
  },
  "4442": {
@@ -1421,7 +1708,7 @@
   "weeks": 1,
   "px_first": 54.1,
   "px_last": 53.4,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -1.3
  },
  "4502": {
@@ -1440,7 +1727,7 @@
   "weeks": 1,
   "px_first": 15.7,
   "px_last": 15.7,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 0.0
  },
  "4534": {
@@ -1454,12 +1741,19 @@
     "yoy": 39.4,
     "cum": 33.6,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 44.7,
+    "cum": 34.9,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 31.5,
   "px_last": 30.75,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -2.4
  },
  "4576": {
@@ -1473,12 +1767,19 @@
     "yoy": 98.0,
     "cum": 55.8,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 74.7,
+    "cum": 58.1,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 223.5,
   "px_last": 228.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 2.2
  },
  "4760": {
@@ -1492,12 +1793,19 @@
     "yoy": 91.5,
     "cum": 65.5,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 76.3,
+    "cum": 66.9,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 265.0,
   "px_last": 367.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 38.5
  },
  "4806": {
@@ -1511,12 +1819,19 @@
     "yoy": 179.1,
     "cum": 173.8,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 114.4,
+    "cum": 161.8,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 10.4,
   "px_last": 11.25,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 8.2
  },
  "4807": {
@@ -1535,7 +1850,7 @@
   "weeks": 1,
   "px_first": 29.85,
   "px_last": 34.25,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 14.7
  },
  "4905": {
@@ -1549,12 +1864,19 @@
     "yoy": 68.2,
     "cum": 37.7,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 36.7,
+    "cum": 37.6,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 78.1,
   "px_last": 89.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 14.0
  },
  "4912": {
@@ -1573,7 +1895,7 @@
   "weeks": 1,
   "px_first": 98.4,
   "px_last": 109.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 11.3
  },
  "4916": {
@@ -1592,7 +1914,7 @@
   "weeks": 1,
   "px_first": 104.5,
   "px_last": 102.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -2.4
  },
  "4931": {
@@ -1606,12 +1928,19 @@
     "yoy": 125.9,
     "cum": 88.4,
     "ai_note": true
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 176.3,
+    "cum": 96.5,
+    "ai_note": true
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 238.5,
   "px_last": 244.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 2.5
  },
  "4934": {
@@ -1625,12 +1954,19 @@
     "yoy": 193.0,
     "cum": 163.6,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 34.5,
+    "cum": 136.1,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 14.45,
   "px_last": 17.1,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 18.3
  },
  "4943": {
@@ -1649,7 +1985,7 @@
   "weeks": 1,
   "px_first": 7.0,
   "px_last": 6.64,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -5.1
  },
  "4949": {
@@ -1663,12 +1999,19 @@
     "yoy": 107.6,
     "cum": 53.3,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 93.3,
+    "cum": 57.9,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 73.6,
   "px_last": 85.3,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 15.9
  },
  "4973": {
@@ -1682,12 +2025,19 @@
     "yoy": 204.0,
     "cum": 135.9,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 277.7,
+    "cum": 151.6,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 135.0,
   "px_last": 149.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 10.4
  },
  "4989": {
@@ -1701,12 +2051,19 @@
     "yoy": 101.8,
     "cum": 73.0,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 56.6,
+    "cum": 70.9,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 59.9,
   "px_last": 73.2,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 22.2
  },
  "5220": {
@@ -1725,7 +2082,7 @@
   "weeks": 1,
   "px_first": 19.8,
   "px_last": 22.1,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 11.6
  },
  "5228": {
@@ -1739,12 +2096,19 @@
     "yoy": 70.2,
     "cum": 55.6,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 109.8,
+    "cum": 61.7,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 39.65,
   "px_last": 61.3,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 54.6
  },
  "5263": {
@@ -1758,12 +2122,19 @@
     "yoy": 216.6,
     "cum": 79.3,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 124.2,
+    "cum": 85.7,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 90.8,
   "px_last": 96.1,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 5.8
  },
  "5288": {
@@ -1782,7 +2153,7 @@
   "weeks": 1,
   "px_first": 189.0,
   "px_last": 188.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -0.3
  },
  "5291": {
@@ -1796,12 +2167,19 @@
     "yoy": 61.4,
     "cum": 45.8,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 45.5,
+    "cum": 45.7,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 57.5,
   "px_last": 62.2,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 8.2
  },
  "5314": {
@@ -1820,7 +2198,7 @@
   "weeks": 1,
   "px_first": 26.0,
   "px_last": 27.15,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 4.4
  },
  "5355": {
@@ -1834,12 +2212,19 @@
     "yoy": 103.3,
     "cum": 36.1,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 135.1,
+    "cum": 46.1,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 6.8,
   "px_last": 7.77,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 14.3
  },
  "5498": {
@@ -1858,7 +2243,7 @@
   "weeks": 1,
   "px_first": 50.2,
   "px_last": 54.1,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 7.8
  },
  "5516": {
@@ -1877,7 +2262,7 @@
   "weeks": 1,
   "px_first": 11.95,
   "px_last": 12.7,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 6.3
  },
  "5607": {
@@ -1891,12 +2276,19 @@
     "yoy": 33.5,
     "cum": 36.2,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 35.5,
+    "cum": 36.1,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 52.2,
   "px_last": 52.8,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 1.1
  },
  "6028": {
@@ -1915,7 +2307,7 @@
   "weeks": 1,
   "px_first": 99.2,
   "px_last": 113.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 14.4
  },
  "6108": {
@@ -1929,12 +2321,19 @@
     "yoy": 45.7,
     "cum": 31.2,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 33.1,
+    "cum": 31.4,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 24.0,
   "px_last": 25.6,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 6.7
  },
  "6113": {
@@ -1948,12 +2347,19 @@
     "yoy": 130.4,
     "cum": 72.3,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 103.1,
+    "cum": 75.8,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 22.3,
   "px_last": 23.7,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 6.3
  },
  "6141": {
@@ -1972,7 +2378,7 @@
   "weeks": 1,
   "px_first": 51.8,
   "px_last": 51.3,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -1.0
  },
  "6152": {
@@ -1986,12 +2392,19 @@
     "yoy": 118.5,
     "cum": 55.9,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 76.8,
+    "cum": 57.9,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 15.05,
   "px_last": 21.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 39.5
  },
  "6166": {
@@ -2005,12 +2418,19 @@
     "yoy": 47.8,
     "cum": 41.6,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 50.5,
+    "cum": 42.6,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 126.5,
   "px_last": 125.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -1.2
  },
  "6179": {
@@ -2029,7 +2449,7 @@
   "weeks": 1,
   "px_first": 35.1,
   "px_last": 37.8,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 7.7
  },
  "6185": {
@@ -2043,12 +2463,19 @@
     "yoy": 43.4,
     "cum": 34.9,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 62.1,
+    "cum": 38.1,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 12.6,
   "px_last": 12.3,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -2.4
  },
  "6199": {
@@ -2067,7 +2494,7 @@
   "weeks": 1,
   "px_first": 122.0,
   "px_last": 142.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 16.4
  },
  "6206": {
@@ -2086,7 +2513,7 @@
   "weeks": 1,
   "px_first": 139.0,
   "px_last": 133.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -4.0
  },
  "6209": {
@@ -2105,7 +2532,7 @@
   "weeks": 1,
   "px_first": 78.0,
   "px_last": 90.1,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 15.5
  },
  "6214": {
@@ -2124,7 +2551,7 @@
   "weeks": 1,
   "px_first": 190.0,
   "px_last": 192.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 1.1
  },
  "6225": {
@@ -2143,7 +2570,7 @@
   "weeks": 1,
   "px_first": 46.2,
   "px_last": 71.6,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 55.0
  },
  "6227": {
@@ -2157,12 +2584,19 @@
     "yoy": 168.9,
     "cum": 51.4,
     "ai_note": true
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 99.5,
+    "cum": 55.6,
+    "ai_note": true
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 134.5,
   "px_last": 138.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 3.0
  },
  "6234": {
@@ -2176,12 +2610,19 @@
     "yoy": 68.4,
     "cum": 33.8,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 133.5,
+    "cum": 46.5,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 38.2,
   "px_last": 39.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 3.4
  },
  "6259": {
@@ -2195,12 +2636,19 @@
     "yoy": 93.7,
     "cum": 58.6,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 119.4,
+    "cum": 63.8,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 29.05,
   "px_last": 33.1,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 13.9
  },
  "6264": {
@@ -2219,7 +2667,7 @@
   "weeks": 1,
   "px_first": 6.01,
   "px_last": 6.06,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 0.8
  },
  "6291": {
@@ -2238,7 +2686,7 @@
   "weeks": 1,
   "px_first": 493.0,
   "px_last": 439.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -11.0
  },
  "6415": {
@@ -2257,7 +2705,7 @@
   "weeks": 1,
   "px_first": 426.0,
   "px_last": 462.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 8.6
  },
  "6425": {
@@ -2271,12 +2719,19 @@
     "yoy": 94.0,
     "cum": 56.1,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 66.1,
+    "cum": 57.8,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 72.8,
   "px_last": 72.1,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -1.0
  },
  "6465": {
@@ -2290,12 +2745,19 @@
     "yoy": 128.7,
     "cum": 90.8,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 196.4,
+    "cum": 98.9,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 41.7,
   "px_last": 41.7,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 0.0
  },
  "6494": {
@@ -2314,7 +2776,7 @@
   "weeks": 1,
   "px_first": 51.4,
   "px_last": 51.3,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -0.2
  },
  "6588": {
@@ -2328,12 +2790,19 @@
     "yoy": 189.0,
     "cum": 135.2,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 94.9,
+    "cum": 130.7,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 112.5,
   "px_last": 107.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -4.4
  },
  "6613": {
@@ -2352,7 +2821,7 @@
   "weeks": 1,
   "px_first": 269.0,
   "px_last": 286.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 6.3
  },
  "6629": {
@@ -2371,7 +2840,7 @@
   "weeks": 1,
   "px_first": 104.0,
   "px_last": 101.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -2.9
  },
  "6691": {
@@ -2385,12 +2854,19 @@
     "yoy": 213.7,
     "cum": 112.8,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 114.3,
+    "cum": 113.0,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 646.0,
   "px_last": 789.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 22.1
  },
  "6716": {
@@ -2409,7 +2885,7 @@
   "weeks": 1,
   "px_first": 117.5,
   "px_last": 138.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 17.9
  },
  "6741": {
@@ -2428,7 +2904,7 @@
   "weeks": 1,
   "px_first": 55.7,
   "px_last": 54.2,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -2.7
  },
  "6834": {
@@ -2442,12 +2918,19 @@
     "yoy": 114.3,
     "cum": 52.8,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 132.4,
+    "cum": 61.2,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 113.5,
   "px_last": 132.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 16.3
  },
  "6863": {
@@ -2466,7 +2949,7 @@
   "weeks": 1,
   "px_first": 98.0,
   "px_last": 95.6,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -2.4
  },
  "6870": {
@@ -2485,7 +2968,7 @@
   "weeks": 1,
   "px_first": 328.5,
   "px_last": 319.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -2.9
  },
  "6874": {
@@ -2499,12 +2982,19 @@
     "yoy": 182.5,
     "cum": 55.0,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 35.8,
+    "cum": 53.3,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 69.4,
   "px_last": 70.3,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 1.3
  },
  "6884": {
@@ -2518,12 +3008,19 @@
     "yoy": 101.2,
     "cum": 38.7,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 105.1,
+    "cum": 46.2,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 31.9,
   "px_last": 32.1,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 0.6
  },
  "6885": {
@@ -2537,12 +3034,19 @@
     "yoy": 157.1,
     "cum": 248.3,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 209.5,
+    "cum": 243.0,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 30.25,
   "px_last": 29.6,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -2.1
  },
  "6903": {
@@ -2556,12 +3060,19 @@
     "yoy": 122.7,
     "cum": 231.1,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 109.0,
+    "cum": 206.9,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 308.5,
   "px_last": 326.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 5.8
  },
  "6907": {
@@ -2580,7 +3091,7 @@
   "weeks": 1,
   "px_first": 184.5,
   "px_last": 182.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -1.1
  },
  "6922": {
@@ -2594,12 +3105,19 @@
     "yoy": 59.0,
     "cum": 45.9,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 79.4,
+    "cum": 49.5,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 204.5,
   "px_last": 203.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -0.7
  },
  "6933": {
@@ -2618,7 +3136,7 @@
   "weeks": 1,
   "px_first": 350.0,
   "px_last": 382.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 9.1
  },
  "6947": {
@@ -2652,7 +3170,7 @@
   "weeks": 1,
   "px_first": 138.0,
   "px_last": 139.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 0.7
  },
  "7721": {
@@ -2666,12 +3184,19 @@
     "yoy": 47.6,
     "cum": 38.2,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 40.5,
+    "cum": 38.5,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 62.0,
   "px_last": 61.1,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -1.5
  },
  "7749": {
@@ -2690,7 +3215,7 @@
   "weeks": 1,
   "px_first": 402.0,
   "px_last": 364.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -9.5
  },
  "7750": {
@@ -2704,12 +3229,19 @@
     "yoy": 151.1,
     "cum": 101.3,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 125.1,
+    "cum": 103.9,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 1950.0,
   "px_last": 1975.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 1.3
  },
  "7767": {
@@ -2728,7 +3260,7 @@
   "weeks": 1,
   "px_first": 46.65,
   "px_last": 45.35,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -2.8
  },
  "7780": {
@@ -2742,12 +3274,19 @@
     "yoy": 38.1,
     "cum": 36.3,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 32.6,
+    "cum": 35.9,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 16.2,
   "px_last": 16.55,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 2.2
  },
  "7794": {
@@ -2766,7 +3305,7 @@
   "weeks": 1,
   "px_first": 30.2,
   "px_last": 29.3,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -3.0
  },
  "7810": {
@@ -2780,12 +3319,19 @@
     "yoy": 119.8,
     "cum": 79.2,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 95.0,
+    "cum": 81.1,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 234.5,
   "px_last": 245.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 4.5
  },
  "7828": {
@@ -2799,12 +3345,19 @@
     "yoy": 192.1,
     "cum": 226.2,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 102.3,
+    "cum": 196.5,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 1970.0,
   "px_last": 1840.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -6.6
  },
  "7842": {
@@ -2823,7 +3376,7 @@
   "weeks": 1,
   "px_first": 96.2,
   "px_last": 96.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 0.3
  },
  "8027": {
@@ -2837,12 +3390,19 @@
     "yoy": 37.3,
     "cum": 47.4,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 30.9,
+    "cum": 44.8,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 176.5,
   "px_last": 202.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 14.7
  },
  "8032": {
@@ -2861,7 +3421,7 @@
   "weeks": 1,
   "px_first": 36.0,
   "px_last": 36.1,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 0.3
  },
  "8040": {
@@ -2875,12 +3435,19 @@
     "yoy": 54.1,
     "cum": 34.8,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 48.3,
+    "cum": 36.4,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 91.1,
   "px_last": 89.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -2.3
  },
  "8042": {
@@ -2899,7 +3466,7 @@
   "weeks": 1,
   "px_first": 111.5,
   "px_last": 138.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 24.2
  },
  "8043": {
@@ -2918,7 +3485,7 @@
   "weeks": 1,
   "px_first": 131.5,
   "px_last": 146.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 11.4
  },
  "8054": {
@@ -2937,7 +3504,7 @@
   "weeks": 1,
   "px_first": 84.5,
   "px_last": 81.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -4.1
  },
  "8068": {
@@ -2951,12 +3518,19 @@
     "yoy": 76.7,
     "cum": 78.4,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 197.3,
+    "cum": 91.8,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 18.5,
   "px_last": 18.75,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 1.4
  },
  "8076": {
@@ -2975,7 +3549,7 @@
   "weeks": 1,
   "px_first": 21.5,
   "px_last": 21.4,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -0.5
  },
  "8088": {
@@ -2994,7 +3568,7 @@
   "weeks": 1,
   "px_first": 42.2,
   "px_last": 43.8,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 3.8
  },
  "8093": {
@@ -3013,7 +3587,7 @@
   "weeks": 1,
   "px_first": 23.85,
   "px_last": 26.3,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 10.3
  },
  "8096": {
@@ -3032,7 +3606,7 @@
   "weeks": 1,
   "px_first": 83.9,
   "px_last": 90.3,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 7.6
  },
  "8103": {
@@ -3051,7 +3625,7 @@
   "weeks": 1,
   "px_first": 123.5,
   "px_last": 114.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -7.3
  },
  "8109": {
@@ -3065,12 +3639,19 @@
     "yoy": 56.1,
     "cum": 30.7,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 40.7,
+    "cum": 31.9,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 132.0,
   "px_last": 136.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 3.0
  },
  "8112": {
@@ -3084,12 +3665,19 @@
     "yoy": 154.8,
     "cum": 177.4,
     "ai_note": true
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 233.5,
+    "cum": 184.5,
+    "ai_note": true
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 82.6,
   "px_last": 85.1,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 3.0
  },
  "8155": {
@@ -3103,12 +3691,19 @@
     "yoy": 35.1,
     "cum": 35.6,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 30.6,
+    "cum": 35.0,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 347.0,
   "px_last": 326.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -5.9
  },
  "8374": {
@@ -3127,7 +3722,7 @@
   "weeks": 1,
   "px_first": 76.1,
   "px_last": 74.1,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -2.6
  },
  "8383": {
@@ -3141,12 +3736,19 @@
     "yoy": 73.6,
     "cum": 60.5,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 83.6,
+    "cum": 63.0,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 66.1,
   "px_last": 69.0,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 4.4
  },
  "8390": {
@@ -3160,12 +3762,19 @@
     "yoy": 49.4,
     "cum": 44.0,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 38.1,
+    "cum": 43.4,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 90.4,
   "px_last": 90.9,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 0.6
  },
  "8438": {
@@ -3179,12 +3788,19 @@
     "yoy": 44.5,
     "cum": 40.6,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 34.4,
+    "cum": 39.9,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 78.0,
   "px_last": 80.9,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 3.7
  },
  "8499": {
@@ -3203,7 +3819,7 @@
   "weeks": 1,
   "px_first": 253.0,
   "px_last": 253.5,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": 0.2
  },
  "9958": {
@@ -3217,12 +3833,494 @@
     "yoy": 91.1,
     "cum": 41.5,
     "ai_note": false
+   },
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 83.3,
+    "cum": 45.6,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 91.9,
   "px_last": 89.1,
-  "px_last_date": "2026-10-10",
+  "px_last_date": "2026-10-11",
   "ret_since": -3.0
+ },
+ "1312": {
+  "name": "國喬",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 96.8,
+    "cum": 30.3,
+    "ai_note": false
+   }
+  ],
+  "px_first": 15.15,
+  "weeks": 1,
+  "px_last": 15.15,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "1595": {
+  "name": "川寶",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 226.7,
+    "cum": 38.1,
+    "ai_note": false
+   }
+  ],
+  "px_first": 73.4,
+  "weeks": 1,
+  "px_last": 73.4,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "2221": {
+  "name": "大甲",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 44.5,
+    "cum": 31.1,
+    "ai_note": false
+   }
+  ],
+  "px_first": 192.0,
+  "weeks": 1,
+  "px_last": 192.0,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "2486": {
+  "name": "一詮",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 56.8,
+    "cum": 33.0,
+    "ai_note": true
+   }
+  ],
+  "px_first": 238.5,
+  "weeks": 1,
+  "px_last": 238.5,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "2855": {
+  "name": "統一證",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 113.2,
+    "cum": 200.8,
+    "ai_note": false
+   }
+  ],
+  "px_first": 58.6,
+  "weeks": 1,
+  "px_last": 58.6,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "3354": {
+  "name": "律勝",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 37.5,
+    "cum": 31.5,
+    "ai_note": false
+   }
+  ],
+  "px_first": 32.0,
+  "weeks": 1,
+  "px_last": 32.0,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "3466": {
+  "name": "德晉",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 223.8,
+    "cum": 190.8,
+    "ai_note": true
+   }
+  ],
+  "px_first": 28.6,
+  "weeks": 1,
+  "px_last": 28.6,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "3546": {
+  "name": "宇峻",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 109.1,
+    "cum": 56.1,
+    "ai_note": false
+   }
+  ],
+  "px_first": 73.5,
+  "weeks": 1,
+  "px_last": 73.5,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "3550": {
+  "name": "聯穎",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 38.7,
+    "cum": 30.6,
+    "ai_note": false
+   }
+  ],
+  "px_first": 23.9,
+  "weeks": 1,
+  "px_last": 23.9,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "4142": {
+  "name": "國光生",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 90.1,
+    "cum": 31.8,
+    "ai_note": false
+   }
+  ],
+  "px_first": 19.2,
+  "weeks": 1,
+  "px_last": 19.2,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "4510": {
+  "name": "高鋒",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 42.2,
+    "cum": 31.1,
+    "ai_note": false
+   }
+  ],
+  "px_first": 41.65,
+  "weeks": 1,
+  "px_last": 41.65,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "5340": {
+  "name": "建榮",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 46.7,
+    "cum": 30.0,
+    "ai_note": false
+   }
+  ],
+  "px_first": 94.4,
+  "weeks": 1,
+  "px_last": 94.4,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "6016": {
+  "name": "康和證",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 49.2,
+    "cum": 200.4,
+    "ai_note": false
+   }
+  ],
+  "px_first": 23.95,
+  "weeks": 1,
+  "px_last": 23.95,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "6156": {
+  "name": "松上",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 84.3,
+    "cum": 30.3,
+    "ai_note": false
+   }
+  ],
+  "px_first": 23.8,
+  "weeks": 1,
+  "px_last": 23.8,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "6190": {
+  "name": "萬泰科",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 58.4,
+    "cum": 32.7,
+    "ai_note": false
+   }
+  ],
+  "px_first": 76.5,
+  "weeks": 1,
+  "px_last": 76.5,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "6414": {
+  "name": "樺漢",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 45.3,
+    "cum": 31.3,
+    "ai_note": false
+   }
+  ],
+  "px_first": 399.0,
+  "weeks": 1,
+  "px_last": 399.0,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "6548": {
+  "name": "長科*",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 42.9,
+    "cum": 30.0,
+    "ai_note": false
+   }
+  ],
+  "px_first": 77.3,
+  "weeks": 1,
+  "px_last": 77.3,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "6574": {
+  "name": "霈方",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 81.3,
+    "cum": 43.5,
+    "ai_note": false
+   }
+  ],
+  "px_first": 123.0,
+  "weeks": 1,
+  "px_last": 123.0,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "6756": {
+  "name": "威鋒電子",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 66.2,
+    "cum": 33.6,
+    "ai_note": false
+   }
+  ],
+  "px_first": 97.6,
+  "weeks": 1,
+  "px_last": 97.6,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "6776": {
+  "name": "展碁國際",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 35.9,
+    "cum": 36.4,
+    "ai_note": false
+   }
+  ],
+  "px_first": 53.0,
+  "weeks": 1,
+  "px_last": 53.0,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "6811": {
+  "name": "宏碁資訊",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 97.4,
+    "cum": 33.4,
+    "ai_note": true
+   }
+  ],
+  "px_first": 281.0,
+  "weeks": 1,
+  "px_last": 281.0,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "6829": {
+  "name": "千附精密",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 44.1,
+    "cum": 42.5,
+    "ai_note": false
+   }
+  ],
+  "px_first": 210.0,
+  "weeks": 1,
+  "px_last": 210.0,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "6894": {
+  "name": "衛司特",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 85.8,
+    "cum": 69.0,
+    "ai_note": false
+   }
+  ],
+  "px_first": 362.0,
+  "weeks": 1,
+  "px_last": 362.0,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "6944": {
+  "name": "兆聯實業",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 35.1,
+    "cum": 40.2,
+    "ai_note": false
+   }
+  ],
+  "px_first": 860.0,
+  "weeks": 1,
+  "px_last": 860.0,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
+ },
+ "8147": {
+  "name": "正淩",
+  "first_seen": "2026-10-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-10-11",
+    "ym": "11509",
+    "yoy": 45.9,
+    "cum": 31.2,
+    "ai_note": false
+   }
+  ],
+  "px_first": 139.0,
+  "weeks": 1,
+  "px_last": 139.0,
+  "px_last_date": "2026-10-11",
+  "ret_since": 0.0
  }
 }
