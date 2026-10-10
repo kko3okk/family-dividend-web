@@ -487,7 +487,7 @@
   .h-prow span{flex:1;font-size:13.5px;font-weight:700}
   .h-prow input{width:96px;text-align:right}
   @media(min-width:960px){
-    #healthApp{display:grid;grid-template-columns:1.1fr 1fr;gap:14px;align-items:start}
+    #healthApp{display:grid;grid-template-columns:1fr 1.1fr;gap:14px;align-items:start}
     #healthApp>.card{margin:0}
     #secHMoves{grid-column:1/-1}
   }
@@ -507,7 +507,7 @@
     <div class="glinks" id="glinks">
       <a class="fin" href="#secMap">旅程</a><a class="fin" href="#secTodo">待辦<i class="gdot" id="dotTodo"></i></a><a class="fin" href="#secAdv">指引</a><a class="fin" href="#secHold">持股</a><a class="fin" href="#yrCard" id="lnkYr">年度</a>
       <a class="fin" href="#secEx">除權息</a><a class="fin" href="#secPay">入帳<i class="gdot" id="dotPay"></i></a><a class="fin" href="#secTx">交易</a>
-      <a class="hl" href="#secHToday">今日清單</a><a class="hl" href="#secHCal">日曆回顧</a><a class="hl" href="#secHMoves">動作說明</a>
+      <a class="hl" href="#secHCal">日曆回顧</a><a class="hl" href="#secHToday">今日清單</a><a class="hl" href="#secHMoves">動作說明</a>
     </div>
     <div class="gtools">
       <div class="traveler" id="traveler">
@@ -524,6 +524,19 @@
 
 <!-- ═══ 健康管理 ═══ -->
 <section class="hl" id="healthApp">
+  <div class="card" id="secHCal"><h3>日曆回顧</h3>
+    <div class="txnav">
+      <button class="mini" id="hCalPrev" aria-label="上個月">‹</button>
+      <div class="txlab" id="hCalLab">–</div>
+      <button class="mini" id="hCalNext" aria-label="下個月">›</button>
+    </div>
+    <div class="h-cal" id="hCal"></div>
+    <div class="h-legend">
+      <span><b class="h-lg-done"></b>全部達成</span><span><b class="h-lg-part"></b>做了一部分</span><span><b class="h-lg-other"></b><em id="hOtherName">老婆</em>也達成</span>
+    </div>
+    <div class="h-stats" id="hStats"></div>
+  </div>
+
   <div class="card h-today" id="secHToday">
     <div class="h-head">
       <div>
@@ -536,19 +549,6 @@
     <div class="h-chal" id="hChal"></div>
     <div id="hRows"></div>
     <div class="h-sync" id="hSync"></div>
-  </div>
-
-  <div class="card" id="secHCal"><h3>日曆回顧</h3>
-    <div class="txnav">
-      <button class="mini" id="hCalPrev" aria-label="上個月">‹</button>
-      <div class="txlab" id="hCalLab">–</div>
-      <button class="mini" id="hCalNext" aria-label="下個月">›</button>
-    </div>
-    <div class="h-cal" id="hCal"></div>
-    <div class="h-legend">
-      <span><b class="h-lg-done"></b>全部達成</span><span><b class="h-lg-part"></b>做了一部分</span><span><b class="h-lg-other"></b><em id="hOtherName">老婆</em>也達成</span>
-    </div>
-    <div class="h-stats" id="hStats"></div>
   </div>
 
   <div class="card" id="secHMoves"><h3>動作說明<button class="mini h-edit" id="hPlanBtn">調整目標</button></h3>
@@ -724,7 +724,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 <script>
-const APP_VERSION="2026.10.11-0100";
+const APP_VERSION="2026.10.11-0045";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -1697,6 +1697,6 @@ addEventListener("resize",()=>{ clearTimeout(_rz); _rz=setTimeout(()=>{ if(DATA)
   catch(e){document.getElementById("meta").textContent=e.message;}
 })();
 </script>
-<script src="health.js?v=2026.10.11-0100"></script>
+<script src="health.js?v=2026.10.11-0045"></script>
 </body>
 </html>

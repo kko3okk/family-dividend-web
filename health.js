@@ -332,7 +332,7 @@ function setMode(m, scroll){
   document.body.classList.toggle("mode-health", h);
   $("domain").querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.d === m));
   try { localStorage.setItem(LS_MODE, m); } catch(e){}
-  const br = document.querySelector(".gbrand"); if (br) br.setAttribute("href", h ? "#secHToday" : "#secMap");
+  const br = document.querySelector(".gbrand"); if (br) br.setAttribute("href", h ? "#secHCal" : "#secMap");
   if (h) { render(); if (!loaded && token()) pull(); }
   else if (typeof DATA !== "undefined" && DATA && typeof window.render === "function") {
     try { window.render(); } catch(e){}                       // 財務畫面換人後要重繪
