@@ -179,5 +179,43 @@ L += ["", "---", "**12/4 判定方式（2026-10-11 預先登記，事後不改�
       "   - 若 B 或 C 前測報酬落後 A 超過 5 個百分點，該方案不採用，延到下次檢討。",
       "   - 若 B、C 都通過，取回撤較小者（回測：C）。",
       "3. 採用與否由 Chang 決定；採用後只改第 7 條（與 C 的進場突破條件），其他規則不動。"]
+# ---------- 今日推薦清單（新舊策略）----------
+i = N - 1; d = dates[i]
+ref = max(d, datetime.date.today().isoformat())          # 週末／盤前跑時，用已生效的最新名單
+cur = [x for x in LISTS if x[0] <= ref]
+cur = cur[-1] if cur else None
+hi60 = max(t for t in taiex[max(0, i - 59):i + 1] if t); t60 = ma(taiex, i, 60); t20 = ma(taiex, i, 20)
+gate5 = bool(t60 and taiex[i] >= t60)
+# 第 11 條狀態：從 START 前 120 日起重走一次
+lk = False; ab = 0
+for k in range(max(0, i - 120), i + 1):
+    h = max(t for t in taiex[max(0, k - 59):k + 1] if t); m = ma(taiex, k, 20)
+    if taiex[k] < h * 0.92: lk = True; ab = 0
+    if lk:
+        ab = ab + 1 if (m and taiex[k] > m) else 0
+        if ab >= 3: lk = False
+P_ = [f"# 新舊策略推薦清單（{d} 收盤）", "",
+      f"名單：資料月 {cur[1] if cur else '—'}（{cur[0] if cur else ''} 生效）　大盤 {taiex[i]:,.0f}／季線 {t60:,.0f} → 第5條 {'通過' if gate5 else '**關閉，停止新進場**'}　"
+      f"自60日高 {(taiex[i] / hi60 - 1) * 100:+.1f}% → 第11條 {'**鎖定中，停止新進場**' if lk else '未鎖定'}", "",
+      "舊策略（A）與新出場（B）進場條件相同，清單一樣，差在出場線；新進出場（C）只取「收盤突破前 20 日最高」者。", "",
+      "| # | 標的 | 子產業 | 當月YoY | 收盤 | 乖離20MA | A 出場線 60MA | B/C 出場線 前55日低 | C 突破線 前20日高 | C |",
+      "|---|---|---|---|---|---|---|---|---|---|"]
+nC = 0; rank = 0
+for y, c, nm in (cur[2] if cur else []):
+    s = close[c]; px = s[i]; m20 = ma(s, i, 20); m60 = ma(s, i, 60); m20p = ma(s, i - 5, 20)
+    if not (px and m20 and m60 and m20p): continue
+    if not (px > m20 and m20 > m20p and px > m60 and (px - m20) / m20 < 0.15 and vol[c][i] >= 500_000): continue
+    lo = prior(s, i, 55, min); h20 = prior(s, i, 20, max); okc = bool(h20 and px > h20); nC += okc; rank += 1
+    P_.append(f"| {rank} | {nm} {c} | {code2sub.get(c, '')} | {y:.0f}% | {px} | {(px / m20 - 1) * 100:.1f}% | {m60:.1f}（{(m60 / px - 1) * 100:+.0f}%） | "
+              + (f"{lo:.1f}（{(lo / px - 1) * 100:+.0f}%）" if lo else "—") + " | " + (f"{h20:.1f}" if h20 else "—") + f" | {'✓' if okc else '—'} |")
+if rank == 0: P_.append("| — | 今日無符合者 | | | | | | | | |")
+P_ += ["", f"A/B 合格 {rank} 檔，C 合格 {nC} 檔。排序依第 6 條（當月 YoY 由高到低），有空格時由上往下補。", "",
+       "**模擬帳戶明日收盤待執行**"]
+for k, r in res.items():
+    held = "、".join(f"{p['name']}" for p in r["positions"]) or "空手"
+    P_.append(f"- {r['cfg']['name']}：買 {('、'.join(r['pending_buy']) or '—')}；賣 {('、'.join(r['pending_sell']) or '—')}　（持股 {len(r['positions'])}/5：{held}）")
+P_.append("\n僅供對照，實際帳戶 12/4 前照現行規則（A）。")
+open("paper/picks.md" if OUT == "paper/abtest" else OUT + "_picks.md", "w", encoding="utf-8").write("\n".join(P_) + "\n")
+L = P_ + ["", "---", ""] + L
 open(OUT + ".md", "w", encoding="utf-8").write("\n".join(L) + "\n")
 print("\n".join(L[:9]))
