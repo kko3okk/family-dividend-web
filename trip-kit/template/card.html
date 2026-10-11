@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#FFFCF6">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@400;500;600;700&family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+<title>刷卡攻略｜【目的地】 2027</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Noto Sans JP",sans-serif;
+     background:#f5f4f0;color:#1a1a1a;padding:18px 16px 60px;max-width:760px;margin:0 auto;font-size:15px;line-height:1.55}
+h1{font-size:18px;font-weight:600}
+.sub{font-size:12px;color:#999;margin:2px 0 18px}
+nav{display:flex;gap:6px;margin-bottom:16px}
+nav a{flex:1;text-align:center;font-size:12.5px;font-weight:600;padding:9px 0;border-radius:10px;white-space:nowrap;
+      background:#fff;color:#666;text-decoration:none;border:0.5px solid rgba(0,0,0,.09)}
+nav a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+h2{font-size:14px;font-weight:700;margin:22px 0 8px}
+.tldr{background:#1a1a1a;color:#f2f2f2;border-radius:14px;padding:14px 16px;font-size:12.5px;line-height:1.85}
+.tldr b{color:#FFD166}
+.tldr .h{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px}
+.card{background:#fff;border:0.5px solid rgba(0,0,0,.09);border-radius:12px;padding:12px 14px;font-size:12.5px;line-height:1.75;color:#333}
+.card b{color:#1a1a1a}
+.card + .card{margin-top:8px}
+.row2{display:flex;gap:8px;margin-bottom:8px}
+.row2 .card{flex:1;text-align:center;margin:0}
+.big{font-size:20px;font-weight:700;color:#1a1a1a;line-height:1.3}
+.lbl{font-size:11px;color:#888}
+.tw{overflow-x:auto;background:#fff;border:0.5px solid rgba(0,0,0,.09);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:12px;line-height:1.6}
+th{background:#F5F6F8;text-align:left;font-weight:700;color:#444;padding:8px 10px;white-space:nowrap;font-size:11.5px}
+td{padding:8px 10px;border-top:0.5px solid #E9EBEE;vertical-align:top;color:#333}
+td b{color:#1a1a1a}
+.muted{color:#888;font-size:11.5px}
+.pill{display:inline-block;font-size:10.5px;font-weight:700;color:#fff;padding:1px 7px;border-radius:10px;margin:1px 2px 1px 0;white-space:nowrap}
+.d1{background:#7A5AF8}.d2{background:#E5006E}.d3{background:#1E9E5A}.d4{background:#F0842C}
+.d5{background:#0284C7}.d6{background:#CA8A04}.d7{background:#E60012}.d8{background:#4B5563}
+.warn{background:#FFF8E6;border:0.5px solid #F0D48A;border-radius:12px;padding:12px 14px;font-size:12px;color:#6b5300;line-height:1.75}
+.warn b{color:#4a3a00}
+ul.chk{list-style:none}
+ul.chk li{padding:6px 0 6px 24px;position:relative;border-top:0.5px solid #EEE}
+ul.chk li:first-child{border-top:none}
+ul.chk li::before{content:"☐";position:absolute;left:2px;top:5px;color:#999}
+a.ext{color:#1a6fd4;text-decoration:none;font-weight:600}
+.foot{font-size:11px;color:#999;margin-top:26px;line-height:1.8}
+.foot a{color:#999}
+.cc{display:inline-block;flex:0 0 auto;font-size:11px;font-weight:700;color:#fff;padding:3px 9px;border-radius:8px;white-space:nowrap;align-self:flex-start}
+.leg{background:#fff;border:0.5px solid rgba(0,0,0,.09);border-radius:12px;padding:6px 14px}
+.lg{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:0.5px solid #EEE;font-size:12px;line-height:1.6;color:#444}
+.lg:first-child{border-top:none}.lg .cc{min-width:92px;text-align:center}.lg .cc+.cc{min-width:0}
+.dayb{background:#fff;border:0.5px solid rgba(0,0,0,.09);border-radius:12px;padding:10px 14px 4px;margin-bottom:8px}
+.dh{font-size:13px;font-weight:700;margin-bottom:4px}
+.dr{display:flex;gap:10px;justify-content:space-between;padding:7px 0;border-top:0.5px solid #EEE;font-size:12.5px;line-height:1.5}
+.dw{min-width:0}.dn{font-size:11px;color:#888;margin-top:1px}
+details{margin-top:22px}summary{font-size:14px;font-weight:700;cursor:pointer;padding:10px 14px;background:#fff;border:0.5px solid rgba(0,0,0,.09);border-radius:12px;list-style:none}
+summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom:4px}
+</style>
+<link rel="stylesheet" href="../trip-kit/trip.css?v=1">
+</head>
+<body>
+<nav>
+  <a href="../#travel" title="回家的旅程" style="flex:0 0 auto!important;padding:8px 12px!important">‹ 家</a><a href="index.html">📋 行程</a>
+  <a href="map.html">🗺️ 地圖</a>
+  <a href="food.html">🍜 美食</a>
+  <a href="card.html" class="on">💳 刷卡</a>
+</nav>
+<h1>刷卡攻略</h1>
+<div class="sub">【目的地】｜5/1–5/5, 2027｜資料整理於 __/__，出發前請再確認</div>
+<h2>💳 這趟要記的卡</h2>
+<div class="leg">
+<div class="lg"><span class="cc" style="background:#EA580C">主卡</span><div><b>預設主卡，沒特別寫就刷它</b>｜回饋 %｜每月上限</div></div>
+<div class="lg"><span class="cc" style="background:#1F2937">指定通路卡</span><div><b>哪些店加碼</b>｜回饋 %｜上限</div></div>
+<div class="lg"><span class="cc" style="background:#6B7280">現金</span><span class="cc" style="background:#2563EB">交通卡</span><div>神社、小店、電車巴士</div></div>
+</div>
+<div class="card" style="margin-top:8px;font-size:12px">
+<b>刷滿怎麼辦：</b>主卡刷滿 → 改用備用卡。到<a class="ext" href="index.html">行程頁</a>點每一項的「💳 刷卡」記帳，額度滿了會建議換卡。
+</div>
+<h2>📅 每天刷哪張</h2>
+<div class="dayb"><div class="dh"><span class="pill d1">D1</span>5/1（六）抵達</div>
+<div class="dr"><div class="dw">機場 → 市區交通<div class=dn>交通卡先加值</div></div><span class="cc" style="background:#2563EB">交通卡</span></div>
+<div class="dr"><div class="dw">晚餐 店名</div><span class="cc" style="background:#EA580C">主卡</span></div>
+</div>
+<div class="dayb"><div class="dh"><span class="pill d2">D2</span>5/2（日）今天的主題</div>
+<div class="dr"><div class="dw">景點門票</div><span class="cc" style="background:#EA580C">主卡</span></div>
+<div class="dr"><div class="dw">指定通路購物<div class=dn>先出示優惠券＋免稅</div></div><span class="cc" style="background:#1F2937">指定通路卡</span></div>
+<div class="dr"><div class="dw">小攤、扭蛋</div><span class="cc" style="background:#6B7280">現金</span></div>
+</div>
+<script src="../trip-kit/trip.js?v=1"></script>
+<script src="../trip-home.js?v=1"></script>
+</body>
+</html>
