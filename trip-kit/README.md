@@ -10,11 +10,11 @@
 | `trip.css` | 四頁共用的配色與版面質感（各頁自己的 `<style>` 只放骨架） |
 | `trip.js` | 深色標籤自動轉淺色、頁尾留白 |
 | `../trip-home.js` | 左下「家的旅程」返回鈕（PWA 沒有返回鍵） |
-| `template/` | 公版：行程（index）、地圖（map）、美食（food）、刷卡（card） |
+| `../trip-template/` | 公版：行程（index）、地圖（map）、美食（food）、刷卡（card） |
 
 ## 開新的一趟
 
-1. 把 `template/` 整個複製到 repo 根目錄，改名成 `<地點><年>-trip/`（例：`nagoya2027-trip/`）
+1. 把根目錄的 `trip-template/` 整個複製一份，改名成 `<地點><年>-trip/`（例：`nagoya2027-trip/`）
 2. **index.html**：改最上面那段 `const TRIP={...}`
    - `id` 每趟要不同（手機裡的打勾與刷卡紀錄用它分開存）
    - `days` 每天日期，順序對應 D1、D2…；`dep`／`ret` 出發與回到台灣的時間；`tz` 當地時差
