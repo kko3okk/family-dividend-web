@@ -2,359 +2,561 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>台北中山 2 天 1 夜｜9/25–9/26</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#FFFCF6">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@400;500;600;700&family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+<title>旅遊清單｜台北中山 2026</title>
 <style>
-  :root{
-    --bg:#EEF0F6; --paper:#FFFFFF; --ink:#22263A; --muted:#6B7085;
-    --line:#D9DCE8; --sunset:#E8613C; --river:#2E7D8C; --river-soft:#E3F0F2;
-    --violet:#7B62B8; --done:#B9BED0; --meal:#1F7A5C; --meal-soft:#E4F2EC;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans TC",system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.55}
-  a{color:var(--river)}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4f0; color: #1a1a1a; padding: 20px; max-width: 720px; margin: 0 auto; }
+h1 { font-size: 18px; font-weight: 600; margin-bottom: 2px; }
+.subtitle { font-size: 13px; color: #999; margin-bottom: 16px; }
+.flight-bar { font-size: 12px; color: #075985; background: #e0f2fe; border-radius: 8px; padding: 10px 12px; margin-bottom: 12px; line-height: 1.8; }
+.flight-bar b { color: #0c4a6e; }
+.principle { font-size: 12px; color: #085041; background: #E1F5EE; border-radius: 8px; padding: 8px 12px; margin-bottom: 12px; }
+.stay-bar { font-size: 12px; color: #666; background: #fff; border: 0.5px solid rgba(0,0,0,0.09); border-radius: 8px; padding: 10px 12px; margin-bottom: 16px; line-height: 1.7; }
+.stay-bar b { color: #1a1a1a; }
+.progress-text { font-size: 12px; color: #aaa; margin-bottom: 6px; }
+.progress-bar { height: 4px; background: #e8e7e3; border-radius: 2px; margin-bottom: 24px; overflow: hidden; }
+.progress-fill { height: 100%; background: #1a1a1a; border-radius: 2px; transition: width 0.3s; }
+.day-block { margin-bottom: 20px; }
+.day-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.day-badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+.bo { background: #E1F5EE; color: #085041; }
+.bu { background: #FCE7F3; color: #9D174D; }
+.bkobe { background: #FEF3C7; color: #92400E; }
+.bt { background: #F1EFE8; color: #444441; }
+.day-title { font-size: 14px; font-weight: 500; }
+.day-date { font-size: 12px; color: #aaa; margin-left: auto; }
+.card { background: #fff; border: 0.5px solid rgba(0,0,0,0.09); border-radius: 12px; overflow: hidden; }
+.item { display: flex; align-items: flex-start; gap: 10px; padding: 9px 14px; border-bottom: 0.5px solid #f0efeb; }
+.item:last-child { border-bottom: none; }
+.cb { width: 16px; height: 16px; border: 1.5px solid #ccc; border-radius: 4px; flex-shrink: 0; margin-top: 2px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+.cb.checked { background: #1a1a1a; border-color: #1a1a1a; }
+.cb.checked::after { content: '✓'; color: white; font-size: 10px; font-weight: 700; }
+.content { flex: 1; }
+.label { font-size: 13px; line-height: 1.5; }
+.label.checked { color: #bbb; text-decoration: line-through; }
+.note { font-size: 11px; color: #aaa; margin-top: 1px; line-height: 1.4; }
+.tag { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 10px; margin-left: 5px; vertical-align: middle; white-space: nowrap; }
+.t-sight { background: #EEEDFE; color: #3C3489; }
+.t-food { background: #fff3e0; color: #7c4700; }
+.t-move { background: #f0efeb; color: #555; }
+.t-stay { background: #E1F5EE; color: #085041; }
+.t-warn { background: #faeeda; color: #92580a; }
+.t-shop { background: #fce8f3; color: #7a1048; }
+.t-shrine { background: #ffe4e6; color: #9f1239; }
+.t-usj { background: #FCE7F3; color: #9D174D; }
 
-  header{background:linear-gradient(160deg,#22263A 0%,#3A3F6B 55%,#E8613C 140%);color:#fff;padding:28px 20px 20px}
-  header h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:26px;margin:0 0 4px;letter-spacing:.02em}
-  header p{margin:0;opacity:.85;font-size:14px}
+.transit { display:none; margin-top:6px; padding:8px 10px; background:#F1EFE8; border-radius:8px; font-size:11px; line-height:1.65; color:#555; }
+.transit.open { display:block; }
+.transit b { color:#1a1a1a; }
+.transit .r { display:block; margin-bottom:4px; }
+.transit .r:last-child { margin-bottom:0; }
+.trbtn { display:inline-block; font-size:10px; padding:1px 7px; border-radius:10px; margin-left:5px; vertical-align:middle;
+         background:#e8eef7; color:#2c4a73; cursor:pointer; user-select:none; white-space:nowrap; }
+.trbtn:active { opacity:.6; }
 
-  nav{position:sticky;top:0;z-index:5;background:var(--bg);padding:12px 16px 8px;display:flex;gap:8px;border-bottom:1px solid var(--line)}
-  nav button{flex:1;border:1px solid var(--line);background:var(--paper);color:var(--muted);font:inherit;font-weight:500;padding:10px 6px;border-radius:10px;cursor:pointer}
-  nav button[aria-selected="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
-  nav button:focus-visible{outline:2px solid var(--sunset);outline-offset:2px}
+nav.pages{display:flex;gap:6px;margin:0 0 16px}
+nav.pages a{flex:1;text-align:center;font-size:12.5px;white-space:nowrap;font-weight:600;padding:9px 0;border-radius:10px;
+      background:#fff;color:#666;text-decoration:none;border:0.5px solid rgba(0,0,0,.09)}
+nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
 
-  main{max-width:640px;margin:0 auto;padding:16px 16px 60px}
-
-  nav.pages{display:flex;gap:8px;max-width:640px;margin:0 auto;padding:14px 16px 0}
-  nav.pages a{flex:1;text-align:center;font-size:13px;font-weight:600;padding:9px 0;border-radius:10px;
-        background:var(--paper);color:var(--muted);text-decoration:none;border:0.5px solid rgba(0,0,0,.09)}
-  nav.pages a.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-
-  .day{display:none}
-  .day.active{display:block}
-  .day-head{display:flex;align-items:baseline;justify-content:space-between;margin:8px 4px 14px}
-  .day-head h2{font-family:"Noto Serif TC",serif;font-size:20px;margin:0}
-  .day-head small{color:var(--muted);font-size:13px}
-
-  .item{background:var(--paper);border-radius:14px;padding:14px 14px 12px;margin-bottom:10px;
-    display:grid;grid-template-columns:52px 1fr auto;gap:10px 12px;align-items:start;border-left:4px solid transparent}
-  .item.key{border-left-color:var(--sunset)}
-  .item.rest{border-left-color:#C9B6E8}
-  .item.meal{border-left-color:var(--meal)}
-  .item.done{opacity:.55}
-  .item.done .title{text-decoration:line-through;text-decoration-color:var(--done)}
-  .time{font-weight:700;font-size:15px;padding-top:2px}
-  .body{min-width:0}
-  .title{font-weight:700;font-size:16px;margin:0}
-  .badge{display:inline-block;background:var(--meal-soft);color:var(--meal);font-size:11.5px;font-weight:700;padding:2px 7px;border-radius:5px;margin-left:6px;vertical-align:2px}
-  .note{margin:4px 0 0;font-size:14px;color:var(--muted)}
-  .check{appearance:none;width:24px;height:24px;border:2px solid var(--line);border-radius:7px;background:#fff;cursor:pointer;margin-top:2px;position:relative}
-  .check:checked{background:var(--sunset);border-color:var(--sunset)}
-  .check:checked::after{content:"";position:absolute;left:7px;top:3px;width:6px;height:11px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg)}
-  .check:focus-visible{outline:2px solid var(--river);outline-offset:2px}
-
-  .acts{grid-column:2/4;display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start}
-  .transit summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;
-    background:var(--river-soft);color:var(--river);font-size:13px;font-weight:500;padding:5px 10px;border-radius:999px;user-select:none}
-  .transit summary::-webkit-details-marker{display:none}
-  .transit[open]{width:100%}
-  .transit[open] summary{border-radius:10px 10px 0 0}
-  .transit div{background:var(--river-soft);font-size:14px;padding:10px 12px;border-radius:0 10px 10px 10px;margin-top:-1px}
-  .transit div p{margin:0 0 6px}
-  .transit div p:last-child{margin:0}
-  .gmap{display:inline-flex;align-items:center;gap:5px;background:#F3EEFA;color:var(--violet);
-    font-size:13px;font-weight:500;padding:5px 10px;border-radius:999px;text-decoration:none}
-  .gmap:hover{background:#EAE1F6}
-
-  .tip{background:#FFF3EC;border-radius:12px;padding:12px 14px;font-size:14px;margin:18px 0 8px}
-  .tip strong{color:var(--sunset)}
-  .warn{background:#FDECEC;border-radius:12px;padding:12px 14px;font-size:14px;margin:10px 0 8px}
-  .warn strong{color:#C03A3A}
-
-  footer{max-width:640px;margin:0 auto;padding:0 16px 40px;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px}
-  footer button{border:1px solid var(--line);background:var(--paper);color:var(--muted);font:inherit;font-size:13px;padding:6px 12px;border-radius:8px;cursor:pointer}
+.syncbar{display:flex;gap:8px;margin:-10px 0 18px}
+.sbtn{font-size:12px;font-weight:600;padding:7px 12px;border-radius:9px;border:none;background:#1a1a1a;color:#fff;cursor:pointer}
+.sbtn.ghost{background:#fff;color:#666;border:0.5px solid rgba(0,0,0,.12)}
+.syncpanel{display:none;background:#fff;border:0.5px solid rgba(0,0,0,.09);border-radius:12px;padding:14px;margin-bottom:18px}
+.syncpanel.open{display:block}
+.sp-t{font-size:12px;font-weight:600;color:#444;margin-bottom:6px}
+.syncpanel textarea{width:100%;font-size:11px;font-family:ui-monospace,Menlo,monospace;border:0.5px solid #ddd;
+  border-radius:8px;padding:8px;resize:none;background:#F5F6F8;color:#333;line-height:1.5;box-sizing:border-box}
+.sp-row{display:flex;align-items:center;gap:8px;margin-top:7px;flex-wrap:wrap}
+.sp-msg{font-size:11px;color:#0E9F6E;font-weight:600}
+.sp-note{font-size:11px;color:#999;line-height:1.6;margin-top:11px;padding-top:10px;border-top:0.5px solid #eee}
+.section { margin-bottom: 20px; }
+.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #888; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 0.5px solid #ddd; }
+.altbtn{display:inline-block;font-size:10px;padding:1px 7px;border-radius:10px;margin-left:5px;vertical-align:middle;background:#E6F6EE;color:#0E7A4F;cursor:pointer;user-select:none;white-space:nowrap}
+.altbox{display:none;margin-top:6px;padding:8px 10px;background:#F0FAF4;border-radius:8px;font-size:11px;line-height:1.65;color:#555}.altbox.open{display:block}.altbox .r{display:block;margin-bottom:4px}.altbox b{color:#1a1a1a}
+.paybtn{display:inline-block;font-size:10px;padding:1px 7px;border-radius:10px;margin-left:5px;vertical-align:middle;background:#FDECDD;color:#9A3412;cursor:pointer;user-select:none;white-space:nowrap}
+.paybtn:active{opacity:.6}
+.payl{display:none;margin-top:6px;padding:8px 10px;background:#FFF7ED;border-radius:8px;font-size:11px;line-height:1.6;color:#555}
+.payl.open{display:block}
+.pl{padding:5px 0;border-top:0.5px dashed #F3D9C2}.pl:first-child{border-top:none;padding-top:0}.pl:last-child{padding-bottom:0}
+.pc{display:inline-block;font-size:10.5px;font-weight:700;color:#fff;padding:0 7px;border-radius:6px;margin-right:4px}
+.pst{display:block;color:#9A3412;font-size:10.5px;margin-top:1px}.pst.ok{color:#0E9F6E}.pst.full{color:#BE123C}
+.qlog{display:flex;gap:5px;margin-top:4px;align-items:center}
+.qlog input{width:84px;font-size:12px;padding:3px 6px;border:0.5px solid #E5C9AE;border-radius:6px;background:#fff}
+.qlog button,.pbtn{font-size:11px;font-weight:600;padding:3px 9px;border-radius:6px;border:none;background:#EA580C;color:#fff;cursor:pointer}
+.qmsg{font-size:10.5px;color:#0E9F6E;font-weight:600}
+.paypanel{display:none;background:#fff;border:0.5px solid rgba(0,0,0,.09);border-radius:12px;padding:14px;margin-bottom:18px}
+.paypanel.open{display:block}
+.cap{margin:6px 0 9px}.cap .ct{display:flex;justify-content:space-between;font-size:11.5px;color:#444}.cap .ct b{color:#1a1a1a}
+.cap .cbar{height:6px;background:#EEE;border-radius:4px;overflow:hidden;margin-top:3px}.cap .cbar i{display:block;height:100%;border-radius:4px}
+.cpn{display:flex;flex-wrap:wrap;gap:5px;margin:4px 0 8px}.cpn span{font-size:10.5px;padding:2px 7px;border-radius:6px;background:#F5F6F8;color:#666}.cpn span.u{background:#E6F6EE;color:#0E7A4F;text-decoration:line-through}
+.pf{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
+.pf select,.pf input{font-size:12.5px;padding:6px 7px;border:0.5px solid #ddd;border-radius:8px;background:#fff;width:100%;box-sizing:border-box}
+.rec{display:flex;justify-content:space-between;gap:8px;font-size:11.5px;padding:5px 0;border-top:0.5px solid #eee;color:#444}
+.rec .x{color:#BE123C;cursor:pointer;padding:0 4px}
 </style>
+<link rel="stylesheet" href="../trip-kit/trip.css?v=1">
 </head>
 <body>
 
-<header>
-  <h1>台北中山 2 天 1 夜</h1>
-  <p>9/25 五 <b>中秋節</b> 10:15 抵達 – 9/26 六 18:31 離開｜amba 中山 · Medium Queen City View</p>
-</header>
-
 <nav class="pages"><a href="../#travel" title="回家的旅程" style="flex:0 0 auto!important;padding:8px 12px!important">‹ 家</a><a href="index.html" class="on">📋 行程</a><a href="map.html">🗺️ 地圖</a></nav>
 
-<nav role="tablist" aria-label="選擇日期">
-  <button role="tab" aria-selected="true" data-day="d1">D1 五 9/25 中秋</button>
-  <button role="tab" aria-selected="false" data-day="d2">D2 六 9/26 寶可夢</button>
-</nav>
+<div class="hero"><svg aria-label="高鐵與山丘的插圖" role="img" viewbox="0 0 360 180">
+<g class="sv-sun"><line stroke="#3E3A39" stroke-linecap="round" stroke-width="3" x1="350.0" x2="356.0" y1="36.0" y2="36.0"></line><line stroke="#3E3A39" stroke-linecap="round" stroke-width="3" x1="344.1" x2="348.4" y1="50.1" y2="54.4"></line><line stroke="#3E3A39" stroke-linecap="round" stroke-width="3" x1="330.0" x2="330.0" y1="56.0" y2="62.0"></line><line stroke="#3E3A39" stroke-linecap="round" stroke-width="3" x1="315.9" x2="311.6" y1="50.1" y2="54.4"></line><line stroke="#3E3A39" stroke-linecap="round" stroke-width="3" x1="310.0" x2="304.0" y1="36.0" y2="36.0"></line><line stroke="#3E3A39" stroke-linecap="round" stroke-width="3" x1="315.9" x2="311.6" y1="21.9" y2="17.6"></line><line stroke="#3E3A39" stroke-linecap="round" stroke-width="3" x1="330.0" x2="330.0" y1="16.0" y2="10.0"></line><line stroke="#3E3A39" stroke-linecap="round" stroke-width="3" x1="344.1" x2="348.4" y1="21.9" y2="17.6"></line></g><circle cx="330" cy="36" fill="#F6D27A" r="14" stroke="#3E3A39" stroke-width="3"></circle>
+<g class="sv-cloud"><g transform="translate(14,2)"><path d="M20 50 a10 10 0 0 1 18-6 a12 12 0 0 1 22 2 a8 8 0 0 1 2 16 H22 a8 8 0 0 1 -2-12Z" fill="#FFFFFF" stroke="#3E3A39" stroke-linejoin="round" stroke-width="3"></path></g></g>
+<g class="sv-cloud c2"><g transform="translate(200,-14) scale(.85)"><path d="M20 50 a10 10 0 0 1 18-6 a12 12 0 0 1 22 2 a8 8 0 0 1 2 16 H22 a8 8 0 0 1 -2-12Z" fill="#FFFFFF" stroke="#3E3A39" stroke-linejoin="round" stroke-width="3"></path></g></g>
+<path d="M0 150 Q60 136 120 147 T240 145 T360 147 V180 H0Z" fill="#B9DAA5" stroke="#3E3A39" stroke-linejoin="round" stroke-width="3"></path>
 
-<main>
 
 
-<!-- ================= D1 ================= -->
-<section class="day active" id="d1">
-  <div class="day-head"><h2>黃記午餐 → 大稻埕夕陽 → 寧夏夜市</h2><small>D1 <span class="count" data-for="d1"></span></small></div>
 
-  <div class="warn"><strong>中秋連假注意（9/25–9/28 四天連假第一天）：</strong>
-    <b>① 黃記務必先打電話確認 9/25 有無營業</b>——原本週一、週四公休，國定假日小吃店常再加休，D1 午餐全押在這裡。
+
+
+<line stroke="#3E3A39" stroke-width="2.5" x1="0" x2="360" y1="170" y2="170"></line>
+<g class="sv-train">
+<rect fill="#A8D3E6" height="16" rx="6" stroke="#3E3A39" stroke-width="2.5" width="56" x="0" y="150"></rect>
+<rect fill="#A8D3E6" height="16" rx="6" stroke="#3E3A39" stroke-width="2.5" width="56" x="60" y="150"></rect>
+<path d="M116 150 h4 q10 0 12 16 h-16Z" fill="#F6D27A" stroke="#3E3A39" stroke-linejoin="round" stroke-width="2.5"></path>
+<rect fill="#FFFFFF" height="6" rx="1.5" stroke="#3E3A39" stroke-width="1.5" width="9" x="8" y="154"></rect><rect fill="#FFFFFF" height="6" rx="1.5" stroke="#3E3A39" stroke-width="1.5" width="9" x="23" y="154"></rect><rect fill="#FFFFFF" height="6" rx="1.5" stroke="#3E3A39" stroke-width="1.5" width="9" x="38" y="154"></rect>
+<rect fill="#FFFFFF" height="6" rx="1.5" stroke="#3E3A39" stroke-width="1.5" width="9" x="68" y="154"></rect><rect fill="#FFFFFF" height="6" rx="1.5" stroke="#3E3A39" stroke-width="1.5" width="9" x="83" y="154"></rect><rect fill="#FFFFFF" height="6" rx="1.5" stroke="#3E3A39" stroke-width="1.5" width="9" x="98" y="154"></rect>
+<circle cx="12" cy="167" fill="#3E3A39" r="3"></circle><circle cx="44" cy="167" fill="#3E3A39" r="3"></circle><circle cx="72" cy="167" fill="#3E3A39" r="3"></circle><circle cx="104" cy="167" fill="#3E3A39" r="3"></circle>
+</g>
+<g transform="translate(130,24)"><g class="sv-leaf"><path d="M0 -6 L2 -2 L6 -3 L3 1 L4 5 L0 3 L-4 5 L-3 1 L-6 -3 L-2 -2Z" fill="#F2A497" stroke="#3E3A39" stroke-linejoin="round" stroke-width="1.5"></path></g></g>
+<g transform="translate(250,18)"><g class="sv-leaf l2"><path d="M0 -6 L2 -2 L6 -3 L3 1 L4 5 L0 3 L-4 5 L-3 1 L-6 -3 L-2 -2Z" fill="#F6D27A" stroke="#3E3A39" stroke-linejoin="round" stroke-width="1.5"></path></g></g>
+<g transform="translate(36,20)"><g class="sv-leaf l3"><path d="M0 -6 L2 -2 L6 -3 L3 1 L4 5 L0 3 L-4 5 L-3 1 L-6 -3 L-2 -2Z" fill="#F2A497" stroke="#3E3A39" stroke-linejoin="round" stroke-width="1.5"></path></g></g>
+</svg>
+<h1>台北中山 2 天 1 夜</h1>
+<p class="subtitle">中秋節・大稻埕・寶可夢中心｜9/25–9/26, 2026｜2天1夜｜2人</p>
+<div class="countdown" id="countdown">出發倒數計算中…</div>
+</div>
+<div class="flight-bar">
+🚄 <b>高鐵</b>：去程 9/25（五）<b>10:15</b> 抵達台北車站｜回程 9/26（六）<b>18:31</b> 台北發車<br>
+中秋連假第一天，回程傍晚南下班次會滿，17:45 從飯店出發別再晚
+</div>
+<div class="principle">🌿 準則：每天 1 個重點，輕鬆為主，放不下的就放掉。</div>
+<div class="stay-bar">
+🏨 住宿：<br>
+<b>amba 台北中山</b>　9/25–26（1晚）｜Medium Queen City View 24m²、6–9F｜中山北路二段57-1號，捷運中山站徒步5分
+</div>
+
+<p class="progress-text" id="progressText">0 / 0 完成</p>
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+<div class="syncbar">
+  <button class="sbtn" onclick="openSync()">🔄 跨裝置同步</button>
+  <button class="sbtn" style="display:none" onclick="openPay()">💳 刷卡紀錄</button>
+  <button class="sbtn ghost" onclick="resetAll()">清除打勾</button>
+</div>
+<div id="payPanel" class="paypanel">
+  <div class="sp-t">💳 額度進度（依紀錄自動計算）</div>
+  <div id="capBox"></div>
+  <div class="sp-t" style="margin-top:10px">＋ 記一筆</div>
+  <div class="pf">
+    <select id="pfCard"><option value="U">uniopen</option><option value="K">熊本熊卡（刷卡）</option><option value="KP">玉山Wallet PayPay</option><option value="J">吉鶴 Apple Pay</option><option value="W">老婆 JCB</option><option value="CUBE">CUBE</option><option value="C">現金</option></select>
+    <select id="pfWho"><option value="me">我刷的</option><option value="wife">老婆刷的</option></select>
+    <input id="pfYen" type="number" inputmode="numeric" placeholder="金額 ¥">
+    <select id="pfDay"></select>
+    <select id="pfCpn"><option value="">沒用樂享券</option><option value="conv">便利商店券</option><option value="dept">百貨店券</option><option value="gu">UNIQLO・GU券</option><option value="drug">藥妝店券</option><option value="air">機場券</option></select>
+    <input id="pfNote" type="text" placeholder="備註（店名）">
+  </div>
+  <div class="sp-row"><button class="sbtn" onclick="addFromForm()">新增</button><button class="sbtn ghost" onclick="closePay()">關閉</button><span id="pfMsg" class="sp-msg"></span></div>
+  <div class="sp-t" style="margin-top:12px">紀錄</div>
+  <div id="recBox"></div>
+  <div class="sp-note">💡 行程每一項的「💳 刷卡」點開也能直接記帳，建議會依額度自動換卡。<br>匯率 1 NT$ = <input id="fxIn" type="number" step="0.01" style="width:58px;font-size:11px" onchange="setFx(this.value)"> ¥（換算上限用）<br>紀錄存在這台手機；用「🔄 跨裝置同步」代碼可以一起帶到另一台（兩台紀錄會合併）。</div>
+</div>
+<div id="syncPanel" class="syncpanel">
+  <div class="sp-t">① 把這串代碼複製到另一台裝置</div>
+  <textarea id="syncCode" readonly rows="2"></textarea>
+  <div class="sp-row"><button class="sbtn" onclick="copyCode()">複製代碼</button><span id="copyMsg" class="sp-msg"></span></div>
+  <div class="sp-t" style="margin-top:12px">② 或在這裡貼上另一台的代碼</div>
+  <textarea id="pasteCode" rows="2" placeholder="貼上代碼後按套用"></textarea>
+  <div class="sp-row"><button class="sbtn" onclick="applyCode()">套用</button><button class="sbtn ghost" onclick="closeSync()">關閉</button><span id="applyMsg" class="sp-msg"></span></div>
+  <div class="sp-note">💡 代碼包含「哪些項目打勾了」和「💳 刷卡紀錄」。換手機、或跟同行的人同步進度都用這個。⚠️ 行程項目增減後舊代碼會對不上。</div>
+</div>
+
+<div class="daytabs" id="dayTabs"></div>
+<!-- 出發前 -->
+<div class="section">
+  <div class="section-title">✈️ 出發前準備</div>
+  <div class="card">
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">✅ 高鐵票<span class="tag t-move">9/25去 9/26回</span></div><div class="note">去程 10:15 抵達台北｜回程 18:31 台北發車</div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">✅ 住宿已訂<span class="tag t-stay">amba 台北中山</span></div><div class="note">Medium Queen City View｜押金 NT$1,000／晚，退房退回原卡｜Check-in 可請櫃台安排 9 樓、避開電梯旁，備註紀念日</div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">✅ Will's Teppanyaki 午餐已訂<span class="tag t-food">9/26 12:30</span></div><div class="note">敦化北路165巷10號｜週一公休</div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">📞 打電話確認黃記 9/25 有沒有開<span class="tag t-warn">出發前</span></div><div class="note">原本週一、週四公休，國定假日小吃店常再加休</div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">寶可夢中心入店方法<span class="tag t-warn">前一天</span></div><div class="note">出發前一天看官網當月「入店方法說明」</div></div></div>
+  </div>
+</div>
+
+<!-- D1 -->
+<div class="day-block">
+  <div class="day-header"><span class="day-badge bo">D1</span><span class="day-title">黃記午餐 → 大稻埕夕陽 → 寧夏夜市</span><span class="day-date">9/25（五）中秋</span></div>
+  <div class="card">
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">⚠️ 中秋連假注意（9/25–9/28 四天連假第一天）<span class="tag t-warn">注意</span></div><div class="note"><b>① 黃記務必先打電話確認 9/25 有無營業</b>——原本週一、週四公休，國定假日小吃店常再加休，D1 午餐全押在這裡。
     <b>② 寧夏夜市部分攤商可能回家過節提早收</b>，做好有些攤位沒開的心理準備。
-    <b>③ 高鐵連假人潮</b>，9/26 傍晚南下班次會滿，17:45 從飯店出發別再晚。</div>
-
-  <div class="item" data-id="d1-1">
-    <div class="time">10:15</div>
-    <div class="body"><p class="title">抵達台北車站 → amba 寄行李</p><p class="note">10:35 到飯店放行李，15:00 才能進房</p></div>
-    <input class="check" type="checkbox" aria-label="完成">
-    <div class="acts">
-      <details class="transit"><summary>🚇 交通</summary><div>
-        <p>高鐵台北站在台北車站地下。出閘門後往 <b>Y 區→中山地下街（R 區）</b>走，全程室內有冷氣，約 12 分鐘直達中山站，拉行李比上地面搭捷運舒服很多。</p>
-        <p>出中山地下街 R9 出口，再走 5 分鐘到 amba（中山北路二段 57-1 號）。從下車到飯店抓 20 分鐘。</p>
-      </div></details>
-      <a class="gmap" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=amba台北中山意舍酒店">📍 地圖</a>
-    </div>
+    <b>③ 高鐵連假人潮</b>，9/26 傍晚南下班次會滿，17:45 從飯店出發別再晚。</div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">抵達台北車站 → amba 寄行李<span class="tag t-move">10:15</span><span class="trbtn" onclick="tr(this)">🚇 交通</span></div><div class="note">10:35 到飯店放行李，15:00 才能進房</div><div class="transit"><span class="r">高鐵台北站在台北車站地下。出閘門後往 <b>Y 區→中山地下街（R 區）</b>走，全程室內有冷氣，約 12 分鐘直達中山站，拉行李比上地面搭捷運舒服很多。</span><span class="r">出中山地下街 R9 出口，再走 5 分鐘到 amba（中山北路二段 57-1 號）。從下車到飯店抓 20 分鐘。</span><span class="r"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=amba台北中山意舍酒店">📍 地圖 ↗</a></span></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">沿中山北路往北散步<span class="tag t-move">10:50</span></div><div class="note">林森公園、晴光商圈，邊走邊晃 30 分鐘剛好到黃記</div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">黃記魯肉飯<span class="tag t-move">11:20</span><span class="tag t-food">午餐</span><span class="trbtn" onclick="tr(this)">🚇 交通</span></div><div class="note">11:30 開門，提早 10 分鐘到排第一輪，完全不用等</div><div class="transit"><span class="r">從 amba 出來沿中山北路往北直走約 13 分鐘，過林森北路口後右手邊 183 巷進去。</span><span class="r">不想走：中山站搭紅線往淡水 2 站到「民權西路站」，走 8 分鐘。</span><span class="r"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;origin=amba台北中山意舍酒店&amp;destination=黃記魯肉飯&amp;travelmode=walking">📍 路線 ↗</a></span></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">⚠️ 黃記排隊攻略<span class="tag t-warn">注意</span></div><div class="note">這間中午尖峰要等 30 分鐘左右，但你們 10:15 就到台北，<b>直接排 11:30 開門第一輪，等於零排隊</b>。流程是門口抽號碼牌、點餐、付款才能進場，全店自助式，只有出餐會送到桌。除了魯肉飯，評價最高的是<b>白菜滷</b>，雞絲飯可以加點。</div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">赤峰街、心中山線形公園<span class="tag t-move">12:30</span></div><div class="note">沿中山北路往南走回來，文青小店＋咖啡，下午時間很寬裕｜<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=赤峰街+台北">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">Check-in，回房休息<span class="tag t-move">15:00</span><span class="tag t-relax">休息</span></div><div class="note">24 m²、6–9F 市景房。這段留白到 16:30，不要塞東西</div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">迪化街 老街、伴手禮<span class="tag t-move">16:45</span><span class="trbtn" onclick="tr(this)">🚇 交通</span></div><div class="note">多數店家 18:00 收，17:30 前往碼頭走</div><div class="transit"><span class="r">飯店沿民生西路往西走約 15 分鐘，直接走比搭捷運快。</span><span class="r"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;origin=amba台北中山意舍酒店&amp;destination=迪化街&amp;travelmode=walking">📍 路線 ↗</a></span></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">大稻埕碼頭 夕陽＋中秋滿月<span class="tag t-move">17:30</span><span class="tag t-must">重點</span><span class="trbtn" onclick="tr(this)">🚇 交通</span></div><div class="note">日落約 17:50，滿月同時從東邊升起。夕陽接滿月，一年就這一天</div><div class="transit"><span class="r">迪化街走到碼頭約 10 分鐘，從五號水門進去。週五營業 16:00–22:00。</span><span class="r"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=大稻埕碼頭貨櫃市集">📍 地圖 ↗</a></span></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">💡 中秋賞月怎麼看<span class="tag t-sight">小撇步</span></div><div class="note">碼頭是朝西看河的，夕陽在正前方；<b>滿月在你們背後的東邊升起</b>，約 18:00 前後從樓房間爬出來，剛升起時位置低、顏色偏橘，最適合拍。所以 17:50 太陽下山後別急著走，轉身等 10 分鐘。之後往寧夏夜市走的路上（民生西路往東），月亮會一路在正前方，整段路都是賞月動線。</div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">寧夏夜市<span class="tag t-move">18:45</span><span class="tag t-food">晚餐</span><span class="tag t-must">重點</span><span class="trbtn" onclick="tr(this)">🚇 交通</span></div><div class="note">19:00 前到人少很多。中秋可能有攤商休息，看到想吃的就先買</div><div class="transit"><span class="r">碼頭沿民生西路往東走約 15 分鐘，到寧夏路左轉。</span><span class="r"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;origin=大稻埕碼頭貨櫃市集&amp;destination=寧夏夜市&amp;travelmode=walking">📍 路線 ↗</a></span></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">買宵夜帶回飯店<span class="tag t-move">20:15</span><span class="tag t-food">鹽酥雞＋飲料</span><span class="trbtn" onclick="tr(this)">🚇 動線</span></div><div class="note">大眾鹽酥雞（萬全街 40 巷）＋蓮飲料吧楊桃甘蔗汁，都在回程路上</div><div class="transit"><span class="r">飲料先買：<b>蓮飲料吧</b>在寧夏路上（17:30–03:30），出夜市北端順手拿。</span><span class="r">再往北走 5 分鐘到<b>大眾鹽酥雞</b>（萬全街 40 巷 19 號，週五 17:00–24:00）。</span><span class="r">拿完沿民生西路往東走回 amba 約 10 分鐘，炸物還是熱的。</span><span class="r"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;origin=寧夏夜市&amp;waypoints=蓮飲料吧|大眾鹽酥雞&amp;destination=amba台北中山意舍酒店&amp;travelmode=walking">📍 宵夜路線 ↗</a></span></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">⚠️ 宵夜備援<span class="tag t-warn">注意</span></div><div class="note">大眾（0987-087-564）週一、週日休，<b>中秋當晚也可能休</b>；蓮飲料吧同樣是個人小店。出發前先看 Google Maps 即時營業狀態或直接打電話。
+    真的都沒開，改<b>龍鹽酥雞中山店</b>（02-2567-7770，民生東路二段 77-1 號，4.9★，每天 16:00–24:00 全年無休，豬血糕被特別點名）——但它在飯店<b>東邊</b> 10 分鐘，跟寧夏反方向，等於回飯店後要再出門一趟。</div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">回飯店，宵夜配夜景<span class="tag t-move">20:45</span><span class="tag t-relax">休息</span></div><div class="note">6–9F 市景房。隔天中午有鐵板燒，別吃太撐</div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">⚠️ 房型提醒<span class="tag t-warn">注意</span></div><div class="note">中房（Medium）只有淋浴間，<b>沒有浴缸</b>，本來想泡澡的話要改計畫。附近腳底按摩店很多，下午那段改成兩人按摩 60 分鐘也能達到放鬆效果。Check-in 時可以請櫃台安排 <b>9 樓、避開電梯旁</b>，市景會比 6 樓開闊，也順便備註是紀念日。</div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">💡 寧夏夜市先看這幾攤<span class="tag t-sight">小撇步</span></div><div class="note">圓環邊蚵仔煎、劉芋仔蛋黃芋餅、豬肝榮仔、方家雞肉飯、古早味豆花。中午吃過魯肉飯了，夜市就避開同類型的飯食，走小吃、湯品、甜點路線比較不重複。<br><br>
+<strong>飲料怎麼選：</strong>配鹽酥雞解膩就<b>蓮飲料吧</b>的楊桃甘蔗汁，酸甜帶鹹、專門解油；想喝甜的當宵夜甜點改 <b>Nap Tea 寧夏</b>（民生西路 212 號，開到 22:00，黑糖珍珠、奶蓋評價最好）。<br>
+<b>波諦波諦</b>果汁雖然評價高，但只開到 18:00 且週二四日休，你們會撲空，別排。</div></div></div>
   </div>
+</div>
 
-  <div class="item" data-id="d1-1b">
-    <div class="time">10:50</div>
-    <div class="body"><p class="title">沿中山北路往北散步</p><p class="note">林森公園、晴光商圈，邊走邊晃 30 分鐘剛好到黃記</p></div>
-    <input class="check" type="checkbox" aria-label="完成">
-  </div>
-
-  <div class="item meal" data-id="d1-2">
-    <div class="time">11:20</div>
-    <div class="body"><p class="title">黃記魯肉飯<span class="badge">午餐</span></p><p class="note">11:30 開門，提早 10 分鐘到排第一輪，完全不用等</p></div>
-    <input class="check" type="checkbox" aria-label="完成">
-    <div class="acts">
-      <details class="transit"><summary>🚇 交通</summary><div>
-        <p>從 amba 出來沿中山北路往北直走約 13 分鐘，過林森北路口後右手邊 183 巷進去。</p>
-        <p>不想走：中山站搭紅線往淡水 2 站到「民權西路站」，走 8 分鐘。</p>
-      </div></details>
-      <a class="gmap" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;origin=amba台北中山意舍酒店&amp;destination=黃記魯肉飯&amp;travelmode=walking">📍 路線</a>
-    </div>
-  </div>
-
-  <div class="warn"><strong>黃記排隊攻略：</strong>這間中午尖峰要等 30 分鐘左右，但你們 10:15 就到台北，<b>直接排 11:30 開門第一輪，等於零排隊</b>。流程是門口抽號碼牌、點餐、付款才能進場，全店自助式，只有出餐會送到桌。除了魯肉飯，評價最高的是<b>白菜滷</b>，雞絲飯可以加點。</div>
-
-  <div class="item" data-id="d1-3">
-    <div class="time">12:30</div>
-    <div class="body"><p class="title">赤峰街、心中山線形公園</p><p class="note">沿中山北路往南走回來，文青小店＋咖啡，下午時間很寬裕</p></div>
-    <input class="check" type="checkbox" aria-label="完成">
-    <div class="acts"><a class="gmap" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=赤峰街+台北">📍 地圖</a></div>
-  </div>
-
-  <div class="item rest" data-id="d1-4">
-    <div class="time">15:00</div>
-    <div class="body"><p class="title">Check-in，回房休息</p><p class="note">24 m²、6–9F 市景房。這段留白到 16:30，不要塞東西</p></div>
-    <input class="check" type="checkbox" aria-label="完成">
-  </div>
-
-  <div class="item" data-id="d1-5">
-    <div class="time">16:45</div>
-    <div class="body"><p class="title">迪化街 老街、伴手禮</p><p class="note">多數店家 18:00 收，17:30 前往碼頭走</p></div>
-    <input class="check" type="checkbox" aria-label="完成">
-    <div class="acts">
-      <details class="transit"><summary>🚇 交通</summary><div>
-        <p>飯店沿民生西路往西走約 15 分鐘，直接走比搭捷運快。</p>
-      </div></details>
-      <a class="gmap" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;origin=amba台北中山意舍酒店&amp;destination=迪化街&amp;travelmode=walking">📍 路線</a>
-    </div>
-  </div>
-
-  <div class="item key" data-id="d1-6">
-    <div class="time">17:30</div>
-    <div class="body"><p class="title">大稻埕碼頭 夕陽＋中秋滿月</p><p class="note">日落約 17:50，滿月同時從東邊升起。夕陽接滿月，一年就這一天</p></div>
-    <input class="check" type="checkbox" aria-label="完成">
-    <div class="acts">
-      <details class="transit"><summary>🚇 交通</summary><div>
-        <p>迪化街走到碼頭約 10 分鐘，從五號水門進去。週五營業 16:00–22:00。</p>
-      </div></details>
-      <a class="gmap" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=大稻埕碼頭貨櫃市集">📍 地圖</a>
-    </div>
-  </div>
-
-  <div class="tip"><strong>中秋賞月怎麼看：</strong>碼頭是朝西看河的，夕陽在正前方；<b>滿月在你們背後的東邊升起</b>，約 18:00 前後從樓房間爬出來，剛升起時位置低、顏色偏橘，最適合拍。所以 17:50 太陽下山後別急著走，轉身等 10 分鐘。之後往寧夏夜市走的路上（民生西路往東），月亮會一路在正前方，整段路都是賞月動線。</div>
-
-  <div class="item meal key" data-id="d1-7">
-    <div class="time">18:45</div>
-    <div class="body"><p class="title">寧夏夜市<span class="badge">晚餐</span></p><p class="note">19:00 前到人少很多。中秋可能有攤商休息，看到想吃的就先買</p></div>
-    <input class="check" type="checkbox" aria-label="完成">
-    <div class="acts">
-      <details class="transit"><summary>🚇 交通</summary><div>
-        <p>碼頭沿民生西路往東走約 15 分鐘，到寧夏路左轉。</p>
-      </div></details>
-      <a class="gmap" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;origin=大稻埕碼頭貨櫃市集&amp;destination=寧夏夜市&amp;travelmode=walking">📍 路線</a>
-    </div>
-  </div>
-
-  <div class="item meal" data-id="d1-7b">
-    <div class="time">20:15</div>
-    <div class="body"><p class="title">買宵夜帶回飯店<span class="badge">鹽酥雞＋飲料</span></p><p class="note">大眾鹽酥雞（萬全街 40 巷）＋蓮飲料吧楊桃甘蔗汁，都在回程路上</p></div>
-    <input class="check" type="checkbox" aria-label="完成">
-    <div class="acts">
-      <details class="transit"><summary>🚇 動線</summary><div>
-        <p>飲料先買：<b>蓮飲料吧</b>在寧夏路上（17:30–03:30），出夜市北端順手拿。</p>
-        <p>再往北走 5 分鐘到<b>大眾鹽酥雞</b>（萬全街 40 巷 19 號，週五 17:00–24:00）。</p>
-        <p>拿完沿民生西路往東走回 amba 約 10 分鐘，炸物還是熱的。</p>
-      </div></details>
-      <a class="gmap" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;origin=寧夏夜市&amp;waypoints=蓮飲料吧|大眾鹽酥雞&amp;destination=amba台北中山意舍酒店&amp;travelmode=walking">📍 宵夜路線</a>
-    </div>
-  </div>
-
-  <div class="warn"><strong>宵夜備援：</strong>大眾（0987-087-564）週一、週日休，<b>中秋當晚也可能休</b>；蓮飲料吧同樣是個人小店。出發前先看 Google Maps 即時營業狀態或直接打電話。
-    真的都沒開，改<b>龍鹽酥雞中山店</b>（02-2567-7770，民生東路二段 77-1 號，4.9★，每天 16:00–24:00 全年無休，豬血糕被特別點名）——但它在飯店<b>東邊</b> 10 分鐘，跟寧夏反方向，等於回飯店後要再出門一趟。</div>
-
-  <div class="item rest" data-id="d1-8">
-    <div class="time">20:45</div>
-    <div class="body"><p class="title">回飯店，宵夜配夜景</p><p class="note">6–9F 市景房。隔天中午有鐵板燒，別吃太撐</p></div>
-    <input class="check" type="checkbox" aria-label="完成">
-  </div>
-
-  <div class="warn"><strong>房型提醒：</strong>中房（Medium）只有淋浴間，<b>沒有浴缸</b>，本來想泡澡的話要改計畫。附近腳底按摩店很多，下午那段改成兩人按摩 60 分鐘也能達到放鬆效果。Check-in 時可以請櫃台安排 <b>9 樓、避開電梯旁</b>，市景會比 6 樓開闊，也順便備註是紀念日。</div>
-
-  <div class="tip"><strong>寧夏夜市先看這幾攤：</strong>圓環邊蚵仔煎、劉芋仔蛋黃芋餅、豬肝榮仔、方家雞肉飯、古早味豆花。中午吃過魯肉飯了，夜市就避開同類型的飯食，走小吃、湯品、甜點路線比較不重複。<br><br>
-  <strong>飲料怎麼選：</strong>配鹽酥雞解膩就<b>蓮飲料吧</b>的楊桃甘蔗汁，酸甜帶鹹、專門解油；想喝甜的當宵夜甜點改 <b>Nap Tea 寧夏</b>（民生西路 212 號，開到 22:00，黑糖珍珠、奶蓋評價最好）。<br>
-  <b>波諦波諦</b>果汁雖然評價高，但只開到 18:00 且週二四日休，你們會撲空，別排。</div>
-</section>
-
-<!-- ================= D2 ================= -->
-<section class="day" id="d2">
-  <div class="day-head"><h2>寶可夢中心 → Will's 鐵板燒 → 回台中</h2><small>D2 <span class="count" data-for="d2"></span></small></div>
-
-  <div class="warn"><strong>寶可夢中心整理券：</strong>9/26 是週六＋中秋連假，<b>幾乎確定要領入店整理券</b>。發券時間 10:00–10:45，地點在新光三越信義新天地 <b>A11 一樓入口（香堤大道廣場側）</b>。連假 8 點多就有人排，9 點過後才到可能只拿到下午的時段。
+<!-- D2 -->
+<div class="day-block">
+  <div class="day-header"><span class="day-badge bu">D2</span><span class="day-title">寶可夢中心 → Will's 鐵板燒 → 回台中</span><span class="day-date">9/26（六）</span></div>
+  <div class="card">
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">⚠️ 寶可夢中心整理券<span class="tag t-warn">注意</span></div><div class="note">9/26 是週六＋中秋連假，<b>幾乎確定要領入店整理券</b>。發券時間 10:00–10:45，地點在新光三越信義新天地 <b>A11 一樓入口（香堤大道廣場側）</b>。連假 8 點多就有人排，9 點過後才到可能只拿到下午的時段。
     整理券<b>須本人領取、兩人要一起排</b>，依順序發放、不能選時段，錯過券面時段會失效。
     9/12 剛推出遊戲外盒胸針、神奧 30 週年系列，9/19 又有 Pokopia 淺色皮卡丘新品，人潮只會更多。
-    出發前一天務必看官網當月「入店方法說明」確認。</div>
-
-  <div class="item rest" data-id="d2-1">
-    <div class="time">08:00</div>
-    <div class="body"><p class="title">飯店早餐（快速吃）</p><p class="note">中午是鐵板燒 omakase，七分飽就好</p></div>
-    <input class="check" type="checkbox" aria-label="完成">
+    出發前一天務必看官網當月「入店方法說明」確認。</div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">飯店早餐（快速吃）<span class="tag t-move">08:00</span><span class="tag t-relax">休息</span></div><div class="note">中午是鐵板燒 omakase，七分飽就好</div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">提早退房，行李寄櫃台<span class="tag t-move">08:40</span><span class="tag t-must">重點</span></div><div class="note">一次退掉，之後一整天不用回來，17:00 再取行李。押金 NT$1,000／晚退回原卡</div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">捷運直達信義 → 排整理券<span class="tag t-move">08:50</span><span class="tag t-must">重點</span><span class="trbtn" onclick="tr(this)">🚇 交通</span></div><div class="note">9:15 前到 A11 一樓香堤大道側排隊，10:00 開始發券</div><div class="transit"><span class="r"><b>中山站搭紅線（淡水信義線）往象山方向，直達「台北101/世貿站」</b>，不用轉車，約 15 分鐘。</span><span class="r">4 號出口出站，走約 10 分鐘到新光三越信義新天地 A11。</span><span class="r"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;origin=amba台北中山意舍酒店&amp;destination=新光三越台北信義新天地A11&amp;travelmode=transit">📍 路線 ↗</a></span></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">Pokémon Center TAIPEI（A11 3F）<span class="tag t-move">10:00</span><span class="trbtn" onclick="tr(this)">🎫 時段怎麼排</span></div><div class="note">週五六營業 11:00–22:00。依整理券時段入店，看拿到的時間決定走 A 或 B</div><div class="transit"><span class="r"><b>A｜拿到 11:00–11:30 的早時段：</b>直接逛到 12:05，叫車去 Will's。</span><span class="r"><b>B｜拿到 14:30 之後的午後時段：</b>先在信義一帶晃，12:05 叫車去 Will's，吃完 14:40 再叫車回 A11 入店，逛到 16:15。</span><span class="r">拿到 12:00–14:30 之間的時段＝跟 Will's 衝突，這種最麻煩，只能放棄或請同行的人照券面時間回來（兩張券要一起用）。</span><span class="r"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=寶可夢中心台北">📍 地圖 ↗</a></span></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">Will's Teppanyaki<span class="tag t-move">12:30</span><span class="tag t-food">已訂位 12:30</span><span class="tag t-must">重點</span><span class="trbtn" onclick="tr(this)">🚇 交通</span></div><div class="note">敦化北路 165 巷 10 號。午餐時段開到 14:30，吃到底剛好</div><div class="transit"><span class="r">從信義 A11 <b>叫車約 12 分鐘</b>，12:05 叫車、12:20 到，提早 10 分鐘入座。</span><span class="r">搭捷運要轉車反而慢，這段直接叫車。</span><span class="r"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;origin=新光三越台北信義新天地A11&amp;destination=Will%27s+Teppanyaki+敦化北路&amp;travelmode=driving">📍 路線 ↗</a></span></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">（B 方案）回寶可夢中心入店<span class="tag t-move">14:40</span></div><div class="note">叫車回 A11 約 12 分鐘，逛到 16:15。A 方案的話這段改小巨蛋周邊散步消化</div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">紅線直達回中山 → 取行李<span class="tag t-move">16:30</span></div><div class="note">台北101/世貿站搭紅線往淡水，直達中山站約 15 分鐘，17:00 前到飯店</div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">台北車站 → 18:31 發車<span class="tag t-move">17:45</span><span class="trbtn" onclick="tr(this)">🚇 交通</span></div><div class="note">走中山地下街 12 分鐘，18:00 到站，還有 30 分鐘緩衝</div><div class="transit"><span class="r">走中山地下街回台北車站約 12 分鐘，到 Y 區後往高鐵閘門（B1）。<b>連假人潮會讓這段變慢</b>，17:45 出發別再晚。</span><span class="r">要買車上吃的，Y 區微風二樓便當櫃位最順路。</span><span class="r"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;origin=amba台北中山意舍酒店&amp;destination=台北車站&amp;travelmode=walking">📍 路線 ↗</a></span></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">💡 這天放掉的<span class="tag t-sight">小撇步</span></div><div class="note">光點台北、誠品南西。早上的時間全拿去換整理券了，光點離飯店只有 3 分鐘，下次住中山隨時可以補。南機場夜市也維持不去。</div></div></div>
   </div>
-
-  <div class="item key" data-id="d2-2">
-    <div class="time">08:40</div>
-    <div class="body"><p class="title">提早退房，行李寄櫃台</p><p class="note">一次退掉，之後一整天不用回來，17:00 再取行李。押金 NT$1,000／晚退回原卡</p></div>
-    <input class="check" type="checkbox" aria-label="完成">
-  </div>
-
-  <div class="item key" data-id="d2-3">
-    <div class="time">08:50</div>
-    <div class="body"><p class="title">捷運直達信義 → 排整理券</p><p class="note">9:15 前到 A11 一樓香堤大道側排隊，10:00 開始發券</p></div>
-    <input class="check" type="checkbox" aria-label="完成">
-    <div class="acts">
-      <details class="transit"><summary>🚇 交通</summary><div>
-        <p><b>中山站搭紅線（淡水信義線）往象山方向，直達「台北101/世貿站」</b>，不用轉車，約 15 分鐘。</p>
-        <p>4 號出口出站，走約 10 分鐘到新光三越信義新天地 A11。</p>
-      </div></details>
-      <a class="gmap" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;origin=amba台北中山意舍酒店&amp;destination=新光三越台北信義新天地A11&amp;travelmode=transit">📍 路線</a>
-    </div>
-  </div>
-
-  <div class="item" data-id="d2-4">
-    <div class="time">10:00</div>
-    <div class="body"><p class="title">Pokémon Center TAIPEI（A11 3F）</p><p class="note">週五六營業 11:00–22:00。依整理券時段入店，看拿到的時間決定走 A 或 B</p></div>
-    <input class="check" type="checkbox" aria-label="完成">
-    <div class="acts">
-      <details class="transit"><summary>🎫 時段怎麼排</summary><div>
-        <p><b>A｜拿到 11:00–11:30 的早時段：</b>直接逛到 12:05，叫車去 Will's。</p>
-        <p><b>B｜拿到 14:30 之後的午後時段：</b>先在信義一帶晃，12:05 叫車去 Will's，吃完 14:40 再叫車回 A11 入店，逛到 16:15。</p>
-        <p>拿到 12:00–14:30 之間的時段＝跟 Will's 衝突，這種最麻煩，只能放棄或請同行的人照券面時間回來（兩張券要一起用）。</p>
-      </div></details>
-      <a class="gmap" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=寶可夢中心台北">📍 地圖</a>
-    </div>
-  </div>
-
-  <div class="item meal key" data-id="d2-5">
-    <div class="time">12:30</div>
-    <div class="body"><p class="title">Will's Teppanyaki<span class="badge">已訂位 12:30</span></p><p class="note">敦化北路 165 巷 10 號。午餐時段開到 14:30，吃到底剛好</p></div>
-    <input class="check" type="checkbox" aria-label="完成">
-    <div class="acts">
-      <details class="transit"><summary>🚇 交通</summary><div>
-        <p>從信義 A11 <b>叫車約 12 分鐘</b>，12:05 叫車、12:20 到，提早 10 分鐘入座。</p>
-        <p>搭捷運要轉車反而慢，這段直接叫車。</p>
-      </div></details>
-      <a class="gmap" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;origin=新光三越台北信義新天地A11&amp;destination=Will%27s+Teppanyaki+敦化北路&amp;travelmode=driving">📍 路線</a>
-    </div>
-  </div>
-
-  <div class="item" data-id="d2-6">
-    <div class="time">14:40</div>
-    <div class="body"><p class="title">（B 方案）回寶可夢中心入店</p><p class="note">叫車回 A11 約 12 分鐘，逛到 16:15。A 方案的話這段改小巨蛋周邊散步消化</p></div>
-    <input class="check" type="checkbox" aria-label="完成">
-  </div>
-
-  <div class="item" data-id="d2-7">
-    <div class="time">16:30</div>
-    <div class="body"><p class="title">紅線直達回中山 → 取行李</p><p class="note">台北101/世貿站搭紅線往淡水，直達中山站約 15 分鐘，17:00 前到飯店</p></div>
-    <input class="check" type="checkbox" aria-label="完成">
-  </div>
-
-  <div class="item" data-id="d2-8">
-    <div class="time">17:45</div>
-    <div class="body"><p class="title">台北車站 → 18:31 發車</p><p class="note">走中山地下街 12 分鐘，18:00 到站，還有 30 分鐘緩衝</p></div>
-    <input class="check" type="checkbox" aria-label="完成">
-    <div class="acts">
-      <details class="transit"><summary>🚇 交通</summary><div>
-        <p>走中山地下街回台北車站約 12 分鐘，到 Y 區後往高鐵閘門（B1）。<b>連假人潮會讓這段變慢</b>，17:45 出發別再晚。</p>
-        <p>要買車上吃的，Y 區微風二樓便當櫃位最順路。</p>
-      </div></details>
-      <a class="gmap" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;origin=amba台北中山意舍酒店&amp;destination=台北車站&amp;travelmode=walking">📍 路線</a>
-    </div>
-  </div>
-
-  <div class="tip"><strong>這天放掉的：</strong>光點台北、誠品南西。早上的時間全拿去換整理券了，光點離飯店只有 3 分鐘，下次住中山隨時可以補。南機場夜市也維持不去。</div>
-</section>
-
-</main>
-
-<footer>
-  <span>打勾會保存在這支手機</span>
-  <button id="reset">清除打勾</button>
-</footer>
+</div>
 
 <script>
-(function(){
-  var KEY='taipei-trip-2026-09';
-  var store={};
-  try{ store=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){ store={}; }
-  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(store)); }catch(e){} }
+/* ═══ 這趟旅程的設定（新旅程只要改這裡＋上面的內容）═══
+   id：英數字，作為手機裡打勾／刷卡紀錄的名稱，每趟要不同
+   days：每天的日期，順序對應 D1、D2…
+   dep／ret：出發、回到台灣的時間（含時區）；tz：當地與 UTC 的時差（小時） */
+const TRIP={
+  id:'taipei2026',
+  days:['2026-09-25','2026-09-26'],
+  dep:'2026-09-25T10:15:00+08:00',
+  ret:'2026-09-26T20:00:00+08:00',
+  tz:8
+};
+function altT(el){
+  const box = el.closest('.content').querySelector('.altbox');
+  if(!box) return;
+  if(!el.dataset.orig) el.dataset.orig = el.textContent;
+  const open = box.classList.toggle('open');
+  el.textContent = open ? '收合 ▲' : el.dataset.orig;
+}
+function tr(el){
+  const box = el.closest('.content').querySelector('.transit');
+  if(!box) return;
+  if(!el.dataset.orig) el.dataset.orig = el.textContent;
+  const open = box.classList.toggle('open');
+  el.textContent = open ? '收合 ▲' : el.dataset.orig;
+}
+const KEY=TRIP.id+'_';
+function allCb(){ return Array.from(document.querySelectorAll('.cb')); }
+function keyOf(cb){ return KEY + allCb().indexOf(cb); }
 
-  var items=document.querySelectorAll('.item');
-  items.forEach(function(el){
-    var id=el.dataset.id, cb=el.querySelector('.check');
-    if(store[id]){ cb.checked=true; el.classList.add('done'); }
-    cb.addEventListener('change',function(){
-      store[id]=cb.checked; el.classList.toggle('done',cb.checked); save(); updateCounts();
-    });
+function toggle(cb) {
+  cb.classList.toggle('checked');
+  const label = cb.closest('.item').querySelector('.label');
+  label.classList.toggle('checked');
+  try { localStorage.setItem(keyOf(cb), cb.classList.contains('checked') ? '1' : '0'); } catch(e) {}
+  updateProgress();
+  refreshCode();
+}
+function setChecked(cb, on){
+  cb.classList.toggle('checked', on);
+  cb.closest('.item').querySelector('.label').classList.toggle('checked', on);
+  try { localStorage.setItem(keyOf(cb), on ? '1' : '0'); } catch(e) {}
+}
+function restore(){
+  allCb().forEach(function(cb){
+    try { if (localStorage.getItem(keyOf(cb)) === '1') setChecked(cb, true); } catch(e) {}
   });
+}
+function resetAll(){
+  if(!confirm('確定要清除所有打勾紀錄嗎？')) return;
+  allCb().forEach(function(cb){ setChecked(cb, false); });
+  updateProgress(); refreshCode();
+}
 
-  function updateCounts(){
-    document.querySelectorAll('.count').forEach(function(c){
-      var day=document.getElementById(c.dataset.for);
-      var all=day.querySelectorAll('.item').length, done=day.querySelectorAll('.item.done').length;
-      c.textContent=done+'/'+all;
-    });
+/* ── 跨裝置同步：把勾選狀態壓成 base64 代碼 ── */
+function encodeState(){
+  const cbs = allCb();
+  const bytes = new Uint8Array(Math.ceil(cbs.length/8));
+  cbs.forEach(function(cb,i){ if(cb.classList.contains('checked')) bytes[i>>3] |= (1 << (i&7)); });
+  let bin=''; bytes.forEach(function(b){ bin += String.fromCharCode(b); });
+  let code = 'OSK' + cbs.length + '-' + btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  if(typeof recs!=='undefined' && recs.length) code += '~' + b64uEnc(JSON.stringify(recs));
+  return code;
+}
+function decodeState(code){
+  code = (code||'').trim().replace(/\s+/g,'');
+  let recPart=null;
+  const t = code.indexOf('~');
+  if(t>=0){ recPart = code.slice(t+1); code = code.slice(0,t); }
+  const m = code.match(/^OSK(\d+)-(.+)$/);
+  if(!m) return null;
+  const n = parseInt(m[1],10);
+  if(n !== allCb().length) return {mismatch:n};
+  let b64 = m[2].replace(/-/g,'+').replace(/_/g,'/');
+  while(b64.length % 4) b64 += '=';
+  let bin;
+  try { bin = atob(b64); } catch(e){ return null; }
+  const bytes = new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
+  const out=[];
+  for(let i=0;i<n;i++) out.push(!!(bytes[i>>3] & (1 << (i&7))));
+  let inc=null;
+  if(recPart){ try{ inc=JSON.parse(b64uDec(recPart)); }catch(e){ inc=null; } }
+  return {bits:out, recs:inc};
+}
+function refreshCode(){
+  const el=document.getElementById('syncCode');
+  if(el) el.value = encodeState();
+}
+function openSync(){ document.getElementById('syncPanel').classList.add('open'); refreshCode(); }
+function closeSync(){ document.getElementById('syncPanel').classList.remove('open'); }
+function copyCode(){
+  const el=document.getElementById('syncCode'); el.select(); el.setSelectionRange(0,99999);
+  const msg=document.getElementById('copyMsg');
+  try {
+    if(navigator.clipboard) navigator.clipboard.writeText(el.value); else document.execCommand('copy');
+    msg.textContent='已複製 ✓';
+  } catch(e){ msg.textContent='請長按手動複製'; }
+  setTimeout(function(){ msg.textContent=''; }, 2500);
+}
+function applyCode(){
+  const msg=document.getElementById('applyMsg');
+  const r = decodeState(document.getElementById('pasteCode').value);
+  if(!r){ msg.style.color='#BE123C'; msg.textContent='代碼格式不對'; return; }
+  if(r.mismatch){ msg.style.color='#BE123C'; msg.textContent='行程已更新，舊代碼不適用（'+r.mismatch+'≠'+allCb().length+'）'; return; }
+  allCb().forEach(function(cb,i){ setChecked(cb, r.bits[i]); });
+  let added=0; if(r.recs && r.recs.length) added=mergeRecs(r.recs);
+  renderAll(); updateProgress(); refreshCode();
+  msg.style.color='#0E9F6E'; msg.textContent='已套用 ✓'+(added?'（合併 '+added+' 筆刷卡紀錄）':'');
+  setTimeout(function(){ msg.textContent=''; }, 2500);
+}
+function updateProgress() {
+  const all = document.querySelectorAll('.cb');
+  const done = document.querySelectorAll('.cb.checked');
+  const pct = all.length ? Math.round(done.length / all.length * 100) : 0;
+  document.getElementById('progressText').textContent = `${done.length} / ${all.length} 完成`;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+/* ── 💳 刷卡紀錄與動態建議 ── */
+const PAYKEY=TRIP.id+'_pay', FXKEY=TRIP.id+'_fx';
+const CARDS={U:['#EA580C','uniopen'],K:['#1F2937','熊本熊卡'],KP:['#E11D48','PayPay'],J:['#0F766E','吉鶴 Apple Pay'],W:['#0369A1','老婆 JCB'],CUBE:['#7C3AED','CUBE'],C:['#6B7280','現金']};
+const CPN={conv:'便利商店券',dept:'百貨店券',gu:'UNIQLO・GU券',drug:'藥妝店券',air:'機場券'};
+const CAP_NT={U:6250,K:8333,KP:2857};
+const DAYDATE=TRIP.days;
+let recs=[];
+function fx(){ try{ const v=parseFloat(localStorage.getItem(FXKEY)); if(v>1&&v<10) return v; }catch(e){} return 4.65; }
+function setFx(v){ v=parseFloat(v); if(v>1&&v<10){ try{localStorage.setItem(FXKEY,v);}catch(e){} renderAll(); } }
+function capY(c){ return Math.round(CAP_NT[c]*fx()/100)*100; }
+function loadRecs(){ try{ recs=JSON.parse(localStorage.getItem(PAYKEY)||'[]')||[]; }catch(e){ recs=[]; } }
+function saveRecs(){ try{ localStorage.setItem(PAYKEY, JSON.stringify(recs)); }catch(e){} }
+function yen(n){ return '¥'+Math.round(n).toLocaleString('en-US'); }
+function spent(card, who, day){ return recs.filter(function(r){ return r.c===card && (!who||r.w===who) && (!day||r.d===day); }).reduce(function(a,r){return a+r.y;},0); }
+function usjMe(){ return spent('K','me','D4'); }
+function usjWife(){ return recs.filter(function(r){return r.d==='D4' && r.w==='wife' && (r.c==='W');}).reduce(function(a,r){return a+r.y;},0); }
+function cpnUsed(t,who){ return recs.some(function(r){ return r.p===t && r.w===who; }); }
+function chip(c){ const x=CARDS[c]; return '<span class="pc" style="background:'+x[0]+'">'+x[1]+'</span>'; }
+function todayDay(){ const t=new Date(); const iso=t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0'); const i=DAYDATE.indexOf(iso); return i>=0?'D'+(i+1):'D1'; }
+/* 依規則算出現在建議：回傳 {card, who, cpn, html} */
+function resolve(rule){
+  if(rule==='C') return {card:'C', html:''};
+  if(rule==='J') return {card:'J', html:'<span class="pst">不限額度</span>'};
+  if(rule==='U'){
+    const u=spent('U','me'), cap=capY('U');
+    if(u<cap) return {card:'U', html:'<span class="pst">11%｜已刷 '+yen(u)+' / '+yen(cap)+'（還剩 '+yen(cap-u)+'）</span>'};
+    return {card:'J', html:'<span class="pst full">uniopen 已刷滿 '+yen(cap)+' → 改吉鶴 Apple Pay</span>'};
   }
-  updateCounts();
-
-  var tabs=document.querySelectorAll('nav button');
-  function showDay(id){
-    document.querySelectorAll('.day').forEach(function(d){ d.classList.toggle('active',d.id===id); });
-    tabs.forEach(function(t){ t.setAttribute('aria-selected',t.dataset.day===id?'true':'false'); });
-    try{ localStorage.setItem(KEY+'-tab',id); }catch(e){}
+  if(rule==='K'){
+    const k=spent('K','me'), cap=capY('K');
+    if(k<cap) return {card:'K', html:'<span class="pst">8.5%｜已刷 '+yen(k)+' / '+yen(cap)+'（還剩 '+yen(cap-k)+'）</span>'};
+    return {card:'J', html:'<span class="pst full">熊本熊卡加碼已滿 '+yen(cap)+' → 改吉鶴 Apple Pay</span>'};
   }
-  tabs.forEach(function(t){ t.addEventListener('click',function(){ showDay(t.dataset.day); }); });
-  var last=null;
-  try{ last=localStorage.getItem(KEY+'-tab'); }catch(e){}
-  showDay(last||'d1');
-
-  document.getElementById('reset').addEventListener('click',function(){
-    if(!confirm('清除所有打勾？')) return;
-    store={}; save();
-    items.forEach(function(el){ el.querySelector('.check').checked=false; el.classList.remove('done'); });
-    updateCounts();
+  if(rule==='KU'){
+    const m=usjMe();
+    if(m<10000) return {card:'K', html:'<span class="pst">JCB 20%＋8.5%｜你的 USJ 進度 '+yen(m)+' / ¥10,000（還差 '+yen(10000-m)+'）</span>'};
+    const w=usjWife();
+    if(w<10000) return {card:'W', who:'wife', html:'<span class="pst ok">你已達標 ✓ 換幫老婆湊：'+yen(w)+' / ¥10,000</span>'};
+    const r=resolve('U'); r.html='<span class="pst ok">兩人都達標 ✓</span>'+r.html; return r;
+  }
+  if(rule==='W'){
+    const w=usjWife();
+    if(w<10000) return {card:'W', who:'wife', html:'<span class="pst">JCB 20%｜老婆 USJ 進度 '+yen(w)+' / ¥10,000（還差 '+yen(10000-w)+'）</span>'};
+    const m=usjMe();
+    if(m<10000) return {card:'K', html:'<span class="pst ok">老婆已達標 ✓ 換幫你湊：'+yen(m)+' / ¥10,000</span>'};
+    const r=resolve('U'); r.html='<span class="pst ok">兩人都達標 ✓</span>'+r.html; return r;
+  }
+  const m=rule.match(/^P:(\w+)>(\w+)$/);
+  if(m){
+    const t=m[1], me=cpnUsed(t,'me'), wf=cpnUsed(t,'wife');
+    if(!me||!wf){
+      const who = me ? 'wife' : 'me';
+      return {card:'KP', who:who, cpn:t, html:'<span class="pst">🎟️ '+CPN[t]+'：湊 ¥1,000 出頭折 ¥200｜你 '+(me?'✓已用':'未用')+'・老婆 '+(wf?'✓已用':'未用')+'</span>'};
+    }
+    const r=resolve(m[2]); r.html='<span class="pst ok">🎟️ '+CPN[t]+' 兩人都用過了 ✓</span>'+r.html; return r;
+  }
+  return {card:'C', html:''};
+}
+function renderPayl(el){
+  const rules=JSON.parse(el.dataset.rules);
+  const day=el.dataset.day;
+  let h='';
+  rules.forEach(function(rn,i){
+    const r=resolve(rn[0]);
+    h+='<div class="pl">'+chip(r.card)+(rn[1]?rn[1]:'')+(r.html||'');
+    if(r.card!=='C'){
+      h+='<div class="qlog"><input type="number" inputmode="numeric" placeholder="¥ 金額"><button onclick="qlog(this)" data-card="'+r.card+'" data-who="'+(r.who||'me')+'" data-cpn="'+(r.cpn||'')+'" data-day="'+day+'">記一筆</button><span class="qmsg"></span></div>';
+    }
+    h+='</div>';
+  });
+  el.innerHTML=h;
+}
+function renderCaps(){
+  const box=document.getElementById('capBox'); if(!box) return;
+  function bar(name,v,cap,color,sub){ const p=Math.min(100,Math.round(v/cap*100)); return '<div class="cap"><div class="ct"><span><b>'+name+'</b> '+(sub||'')+'</span><span>'+yen(v)+' / '+yen(cap)+(v>=cap?' ✓':'')+'</span></div><div class="cbar"><i style="width:'+p+'%;background:'+color+'"></i></div></div>'; }
+  let h='';
+  h+=bar('uniopen',spent('U','me'),capY('U'),'#EA580C','11% 加碼上限');
+  h+=bar('熊本熊卡 刷卡',spent('K','me'),capY('K'),'#1F2937','6% 加碼上限');
+  h+=bar('熊本熊 PayPay',spent('KP','me'),capY('KP'),'#E11D48','5% 上限');
+  let c='';
+  Object.keys(CPN).forEach(function(t){ ['me','wife'].forEach(function(w){ c+='<span class="'+(cpnUsed(t,w)?'u':'')+'">'+(w==='me'?'你':'老婆')+'・'+CPN[t]+'</span>'; }); });
+  h+='<div class="ct" style="font-size:11.5px;color:#444;margin-top:4px"><b>樂享券</b>（劃線＝已用）</div><div class="cpn">'+c+'</div>';
+  const tot=recs.reduce(function(a,r){return a+r.y;},0);
+  h+='<div style="font-size:11.5px;color:#666">總花費 <b>'+yen(tot)+'</b>（約 NT$'+Math.round(tot/fx()).toLocaleString('en-US')+'）</div>';
+  box.innerHTML=h;
+  const rb=document.getElementById('recBox');
+  if(rb){
+    if(!recs.length){ rb.innerHTML='<div style="font-size:11.5px;color:#999">還沒有紀錄</div>'; }
+    else rb.innerHTML=recs.slice().reverse().map(function(r){ return '<div class="rec"><span>'+r.d+' '+chip(r.c)+(r.w==='wife'?'（老婆）':'')+(r.p?'🎟️'+CPN[r.p]+' ':'')+(r.n||'')+'</span><span><b>'+yen(r.y)+'</b><span class="x" onclick="delRec(\''+r.i+'\')">✕</span></span></div>'; }).join('');
+  }
+  const fi=document.getElementById('fxIn'); if(fi && document.activeElement!==fi) fi.value=fx();
+}
+function renderAll(){ document.querySelectorAll('.payl').forEach(renderPayl); renderCaps(); }
+function addRec(card,who,yenAmt,day,cpn,note){
+  yenAmt=parseInt(yenAmt,10); if(!(yenAmt>0)) return false;
+  recs.push({i:Date.now().toString(36)+Math.random().toString(36).slice(2,5),c:card,w:who||'me',y:yenAmt,d:day,p:cpn||'',n:(note||'').slice(0,30)});
+  saveRecs(); renderAll(); refreshCode(); return true;
+}
+function qlog(btn){
+  const inp=btn.parentNode.querySelector('input');
+  const lab=btn.closest('.content').querySelector('.label');
+  const note=lab ? lab.childNodes[0].textContent.trim() : '';
+  const payl=btn.closest('.payl');
+  if(addRec(btn.dataset.card,btn.dataset.who,inp.value,btn.dataset.day,btn.dataset.cpn,note)){
+    payl.classList.add('open');
+    const msg=payl.querySelectorAll('.qmsg'); if(msg.length){ msg[0].textContent='已記錄 ✓'; setTimeout(function(){ msg[0].textContent=''; },2000); }
+  } else { inp.focus(); }
+}
+function addFromForm(){
+  const card=document.getElementById('pfCard').value;
+  let who=document.getElementById('pfWho').value; if(card==='W') who='wife';
+  const ok=addRec(card,who,document.getElementById('pfYen').value,document.getElementById('pfDay').value,document.getElementById('pfCpn').value,document.getElementById('pfNote').value);
+  const msg=document.getElementById('pfMsg');
+  if(ok){ document.getElementById('pfYen').value=''; document.getElementById('pfNote').value=''; document.getElementById('pfCpn').value=''; msg.style.color='#0E9F6E'; msg.textContent='已新增 ✓'; }
+  else { msg.style.color='#BE123C'; msg.textContent='請輸入金額'; }
+  setTimeout(function(){ msg.textContent=''; },2000);
+}
+function delRec(id){ if(!confirm('刪除這筆紀錄？')) return; recs=recs.filter(function(r){return r.i!==id;}); saveRecs(); renderAll(); refreshCode(); }
+function pb(el){
+  const box=el.closest('.content').querySelector('.payl'); if(!box) return;
+  const open=box.classList.toggle('open');
+  el.textContent= open ? '收合 ▲' : '💳 刷卡';
+}
+function openPay(){ document.getElementById('payPanel').classList.add('open'); renderCaps(); }
+function closePay(){ document.getElementById('payPanel').classList.remove('open'); }
+function b64uEnc(str){ const b=btoa(unescape(encodeURIComponent(str))); return b.replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }
+function b64uDec(s){ s=s.replace(/-/g,'+').replace(/_/g,'/'); while(s.length%4) s+='='; return decodeURIComponent(escape(atob(s))); }
+function mergeRecs(inc){
+  const have={}; recs.forEach(function(r){ have[r.i]=1; });
+  let n=0; inc.forEach(function(r){ if(r && r.i && !have[r.i] && r.y>0){ recs.push(r); n++; } });
+  recs.sort(function(a,b){ return a.i<b.i?-1:1; });
+  saveRecs(); return n;
+}
+(function(){
+  const sel=document.getElementById('pfDay');
+  if(sel){ for(let i=1;i<=8;i++){ const o=document.createElement('option'); o.value='D'+i; o.textContent='D'+i+'（'+DAYDATE[i-1].slice(5).replace('-','/')+'）'; sel.appendChild(o); } sel.value=todayDay(); }
+})();
+loadRecs();
+renderAll();
+restore();
+updateProgress();
+refreshCode();
+</script>
+<script src="../trip-kit/trip.js?v=1"></script>
+<script>
+/* ── 出發倒數 ── */
+(function(){
+  var pz=function(h){return (h<0?'-':'+')+String(Math.abs(h)).padStart(2,'0')+':00';};
+  var DEP=new Date(TRIP.dep).getTime(), RET=new Date(TRIP.ret).getTime(), DAY0=new Date(TRIP.days[0]+'T00:00:00'+pz(TRIP.tz)).getTime();
+  var el=document.getElementById('countdown');
+  function p(n){return (n<10?'0':'')+n;}
+  function tick(){
+    var now=Date.now();
+    if(now<DEP){var t=Math.floor((DEP-now)/1000),d=Math.floor(t/86400),h=Math.floor(t%86400/3600),m=Math.floor(t%3600/60),sec=t%60;
+      el.innerHTML='距離出發還有 <span class="n">'+d+'</span> 天 <span class="hms">'+p(h)+':'+p(m)+':'+p(sec)+'</span>';}
+    else if(now<RET){el.innerHTML='🎒 旅行中・第 <span class="n">'+(Math.floor((now-DAY0)/86400000)+1)+'</span> 天，玩得開心！';}
+    else{el.innerHTML='🏠 平安回家，辛苦了！';}
+  }
+  tick(); setInterval(tick,1000);
+})();
+/* ── 日期切換 ── */
+(function(){
+  var bar=document.getElementById('dayTabs'); if(!bar) return;
+  var pre=document.querySelector('.section'), days=[].slice.call(document.querySelectorAll('.day-block'));
+  var tabs=[{k:'pre',t:'出發前',d:'清單',els:[pre]}];
+  days.forEach(function(b){var badge=b.querySelector('.day-badge').textContent, date=(b.querySelector('.day-date').textContent.match(/\d+\/\d+/)||[''])[0];tabs.push({k:badge,t:badge,d:date,els:[b]});});
+  tabs.push({k:'all',t:'全部',d:'一覽',els:[pre].concat(days)});
+  var all=[pre].concat(days);
+  function show(k,anim){
+    var tab=tabs.filter(function(x){return x.k===k;})[0]||tabs[0];
+    all.forEach(function(e){e.style.display=tab.els.indexOf(e)>=0?'':'none';e.classList.remove('bounce');});
+    if(anim) tab.els.forEach(function(e){void e.offsetWidth;e.classList.add('bounce');});
+    [].forEach.call(bar.children,function(b){b.classList.toggle('on',b.dataset.k===tab.k);});
+    var on=bar.querySelector('.on'); if(on) bar.scrollLeft=on.offsetLeft-bar.clientWidth/2+on.offsetWidth/2;
+    try{localStorage.setItem(TRIP.id+'_tab',tab.k);}catch(e){}
+  }
+  tabs.forEach(function(x){var b=document.createElement('button');b.className='dtab';b.dataset.k=x.k;b.innerHTML=x.t+'<small>'+x.d+'</small>';
+    b.onclick=function(){show(x.k,true);var nav=document.querySelector('nav.pages');var y=bar.getBoundingClientRect().top+window.scrollY-(nav?nav.offsetHeight:0)-4;if(window.scrollY>y)window.scrollTo({top:y,behavior:'smooth'});};bar.appendChild(b);});
+  function fixTop(){var nav=document.querySelector('nav.pages');bar.style.top=(nav?nav.offsetHeight:0)+'px';}
+  fixTop(); window.addEventListener('resize',fixTop);
+  // 預設：旅途中顯示當天，出發前顯示「出發前」，回國後顯示全部
+  var now=new Date(Date.now()+TRIP.tz*3600000), md=(now.getUTCMonth()+1)+'/'+now.getUTCDate(), def='pre';
+  tabs.forEach(function(x){if(x.d===md) def=x.k;});
+  if(Date.now()>new Date(TRIP.ret).getTime()) def='all';
+  var saved=null; try{saved=localStorage.getItem(TRIP.id+'_tab');}catch(e){}
+  if(def==='pre'&&saved) def=saved;
+  show(def,false);
+})();
+/* ── 交通方式彩色小標籤 ── */
+(function(){
+  var M=[['m-walk','🚶 走路',/徒步|走路|步行/],['m-sub','🚇 地鐵',/御堂筋|谷町線|堺筋線|千日前線|地鐵|北大阪急行|長堀鶴見/],['m-jr','🚆 JR',/JR|環狀線|ゆめ咲/],['m-rail','🚃 私鐵',/阪急(?!巴士|バス)|京阪|南海|ラピート|空港急行/],['m-bus','🚌 巴士',/巴士|バス|市巴士/],['m-taxi','🚕 計程車',/計程車|叫車|送機|接送|GO \/ DiDi/],['m-air','✈️ 飛機',/起飛|落地|CI1\d\d/]];
+  document.querySelectorAll('.day-block .item').forEach(function(it){
+    var lab=it.querySelector('.label'); if(!lab) return;
+    var head=lab.textContent.trim();
+    if(!/^(🚃|🚕|🚗|🚇|🚌|✈️)|機場|→/.test(head)) return;
+    var txt=lab.textContent+' '+((it.querySelector('.note')||{}).textContent||'')+' '+((it.querySelector('.transit')||{}).textContent||'');
+    var box=document.createElement('div'); box.className='modes';
+    M.forEach(function(m){if(m[2].test(txt)){var s=document.createElement('span');s.className='mode '+m[0];s.textContent=m[1];box.appendChild(s);}});
+    if(box.children.length) lab.insertAdjacentElement('afterend',box);
   });
 })();
 </script>

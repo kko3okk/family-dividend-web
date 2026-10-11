@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#f5f4f0">
+<meta name="theme-color" content="#FFFCF6">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@400;500;600;700&family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
 <title>旅遊地圖｜台北中山 2026</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -20,8 +22,8 @@ h1{font-size:16px;font-weight:600}
       border:1.5px solid transparent;background:#fff;color:#666;white-space:nowrap;transition:.15s}
 .chip.on{color:#fff}
 
-nav.pages{display:flex;gap:8px;margin:14px 0 4px}
-nav.pages a{flex:1;text-align:center;font-size:13px;font-weight:600;padding:9px 0;border-radius:10px;
+nav.pages{display:flex;gap:6px;margin:14px 0 4px}
+nav.pages a{flex:1;text-align:center;font-size:12.5px;white-space:nowrap;font-weight:600;padding:9px 0;border-radius:10px;
       background:#fff;color:#666;text-decoration:none;border:0.5px solid rgba(0,0,0,.09)}
 nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
 .legend{padding:0 16px 8px;font-size:11px;color:#999}
@@ -38,19 +40,23 @@ nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
 .num.bed{border-radius:6px;width:26px;height:26px;font-size:14px}
 .arrow{font-size:14px;line-height:1;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 3px #fff}
 </style>
+<link rel="stylesheet" href="../trip-kit/trip.css?v=1">
 </head>
 <body>
 
 <nav class="pages" style="padding:0 16px"><a href="../#travel" title="回家的旅程" style="flex:0 0 auto!important;padding:8px 12px!important">‹ 家</a><a href="index.html">📋 行程</a><a href="map.html" class="on">🗺️ 地圖</a></nav>
 <header>
   <h1>旅遊地圖</h1>
-  <div class="sub">台北中山｜9/25 中秋–9/26, 2026</div>
+  <div class="sub">台北中山 2 天 1 夜｜9/25–9/26, 2026</div>
 </header>
 <div class="bar" id="bar"></div>
-<div class="legend">數字＝當天順序　➤＝移動方向　🏨＝住宿　🚄＝高鐵站</div>
+<div class="legend">數字＝當天順序　➤＝移動方向　🏨＝住宿　✈️＝機場</div>
 <div id="map"></div>
 
 <script>
+/* ═══ 地點資料（新旅程改這裡）═══
+   每個點：n 名稱、lat/lng 座標（Google 地圖長按可複製）、m 一行資訊、note 備註
+   bed:1＝住宿圖示、air:1＝機場圖示、rail:1＝車站圖示；DAYS 每天一組，c 是當天路線顏色 */
 const HOTEL={n:'amba 台北中山',lat:25.0557209,lng:121.5230678,bed:1,
   m:'中山北路二段57-1號｜⭐4.3(1502)｜9/25–9/26',
   note:'Medium Queen City View 24m²、6–9F｜⚠️中房只有淋浴間無浴缸｜押金NT$1,000/晚｜捷運中山站徒步5分'};
@@ -88,10 +94,25 @@ const DAYS=[
  TPE]}
 ];
 
-const map=L.map('map',{zoomControl:false}).setView([25.056,121.518],14);
+const map=L.map('map',{zoomControl:false}).setView([DAYS[0].stops[1].lat,DAYS[0].stops[1].lng],12);
 L.control.zoom({position:'bottomright'}).addTo(map);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
- {attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19}).addTo(map);
+// 底圖：OpenStreetMap（免 API key）；載入失敗自動切換備援來源
+const TILES=[
+  {url:'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+   opt:{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}},
+  {url:'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
+   opt:{maxZoom:19,subdomains:'abc',attribution:'&copy; OpenStreetMap France &copy; OpenStreetMap'}}
+];
+let tileIdx=0, tileErr=0, base=L.tileLayer(TILES[0].url,TILES[0].opt).addTo(map);
+function onTileErr(){
+  tileErr++;
+  if(tileErr>=4 && tileIdx<TILES.length-1){
+    map.removeLayer(base); tileIdx++; tileErr=0;
+    base=L.tileLayer(TILES[tileIdx].url,TILES[tileIdx].opt).addTo(map);
+    base.on('tileerror',onTileErr);
+  }
+}
+base.on('tileerror',onTileErr);
 const layer=L.layerGroup().addTo(map);
 
 function bearing(a,b){
@@ -122,14 +143,14 @@ function draw(day){
 
   let n=0;
   seq.forEach(s=>{
-    const special=s.bed||s.rail;
+    const special=s.bed||s.air||s.rail;
     if(!special) n++;
-    const label=s.bed?'\uD83C\uDFE8':(s.rail?'\uD83D\uDE84':n);
+    const label=s.bed?'\uD83C\uDFE8':(s.air?'\u2708\uFE0F':(s.rail?'\uD83D\uDE84':n));
     const icon=L.divIcon({className:'',
       html:'<div class="num'+(special?' bed':'')+'" style="background:'+c+'">'+label+'</div>',
       iconSize:[24,24],iconAnchor:[12,12],popupAnchor:[0,-14]});
     const g='https://www.google.com/maps/search/?api=1&query='+s.lat+','+s.lng;
-    const seqTxt=s.bed?'住宿':(s.rail?'高鐵':'第 '+n+' 站');
+    const seqTxt=s.bed?'住宿':(s.air?'機場':(s.rail?'車站':'第 '+n+' 站'));
     L.marker([s.lat,s.lng],{icon,zIndexOffset:special?1000:0}).bindPopup(
       '<div><span class="pp-seq" style="background:'+c+'">'+day.t+' \u00B7 '+seqTxt+'</span>'+
       '<div class="pp-n">'+s.n+'</div><div class="pp-m">'+(s.m||'')+'</div>'+
@@ -144,14 +165,15 @@ DAYS.forEach((d,idx)=>{
   const b=document.createElement('button');
   b.className='chip'; b.textContent=d.t; b.style.borderColor=d.c;
   b.onclick=()=>{
-    document.querySelectorAll('.chip').forEach(x=>{x.classList.remove('on');x.style.background='#fff';x.style.color='#666';});
-    b.classList.add('on'); b.style.background=d.c; b.style.color='#fff';
+    document.querySelectorAll('.chip').forEach(x=>{x.classList.remove('on');x.style.background='#FFFFFF';x.style.color='#3E3A39';});
+    b.classList.add('on'); b.style.background=d.c+'59'; b.style.color='#3E3A39';
     draw(d);
   };
   bar.appendChild(b);
   if(idx===0) setTimeout(()=>b.click(),0);
 });
 </script>
+<script src="../trip-kit/trip.js?v=1"></script>
 <script src="../trip-home.js?v=1"></script>
 </body>
 </html>

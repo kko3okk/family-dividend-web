@@ -56,7 +56,7 @@ nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
 <script>
 /* ═══ 地點資料（新旅程改這裡）═══
    每個點：n 名稱、lat/lng 座標（Google 地圖長按可複製）、m 一行資訊、note 備註
-   bed:1＝住宿圖示、air:1＝機場圖示；DAYS 每天一組，c 是當天路線顏色 */
+   bed:1＝住宿圖示、air:1＝機場圖示、rail:1＝車站圖示；DAYS 每天一組，c 是當天路線顏色 */
 const HOTEL={n:'飯店名稱',lat:35.6812,lng:139.7671,bed:1,m:'5/1–5/5',note:'最近車站、步行分鐘'};
 const AIRPORT={n:'機場',lat:35.5494,lng:139.7798,air:1,m:'去程 5/1 12:00 抵達｜回程 5/5 14:00 起飛',note:'機場到市區的交通'};
 
@@ -120,14 +120,14 @@ function draw(day){
 
   let n=0;
   seq.forEach(s=>{
-    const special=s.bed||s.air;
+    const special=s.bed||s.air||s.rail;
     if(!special) n++;
-    const label=s.bed?'\uD83C\uDFE8':(s.air?'\u2708\uFE0F':n);
+    const label=s.bed?'\uD83C\uDFE8':(s.air?'\u2708\uFE0F':(s.rail?'\uD83D\uDE84':n));
     const icon=L.divIcon({className:'',
       html:'<div class="num'+(special?' bed':'')+'" style="background:'+c+'">'+label+'</div>',
       iconSize:[24,24],iconAnchor:[12,12],popupAnchor:[0,-14]});
     const g='https://www.google.com/maps/search/?api=1&query='+s.lat+','+s.lng;
-    const seqTxt=s.bed?'住宿':(s.air?'機場':'第 '+n+' 站');
+    const seqTxt=s.bed?'住宿':(s.air?'機場':(s.rail?'車站':'第 '+n+' 站'));
     L.marker([s.lat,s.lng],{icon,zIndexOffset:special?1000:0}).bindPopup(
       '<div><span class="pp-seq" style="background:'+c+'">'+day.t+' \u00B7 '+seqTxt+'</span>'+
       '<div class="pp-n">'+s.n+'</div><div class="pp-m">'+(s.m||'')+'</div>'+
