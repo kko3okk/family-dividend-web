@@ -828,6 +828,36 @@
     .t-links a{padding:6px 11px 6px 9px;font-size:12.5px;gap:5px}
     .t-links{gap:6px}
   }
+
+  /* 旅遊日曆：月／年切換、全年小月曆 */
+  .tv-mode{margin-left:auto;display:flex;background:var(--card2);border-radius:999px;padding:3px;gap:2px}
+  .tv-mode button{border:none;background:none;font:inherit;font-size:12.5px;font-weight:700;color:var(--mut);padding:4px 12px;border-radius:999px;cursor:pointer;letter-spacing:.06em}
+  .tv-mode button.on{background:var(--card);color:var(--brown);box-shadow:0 2px 8px -3px rgba(93,55,19,.35)}
+  .tv-cal.year{grid-template-columns:repeat(3,1fr);gap:10px 8px;row-gap:12px}
+  .tv-ym{border:none;background:none;font:inherit;padding:6px 4px 8px;border-radius:14px;cursor:pointer;text-align:left}
+  .tv-ym.has{background:var(--card2)}
+  .tv-ym span{display:block;font-size:12px;font-weight:700;color:var(--mut);margin:0 0 4px 3px;letter-spacing:.06em}
+  .tv-ym.has span{color:var(--brown)}
+  .tv-ym div{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+  .tv-ym i{aspect-ratio:1;border-radius:50%;background:#F1E6C8}
+  .tv-ym i.o{background:none}
+  .tv-ym i.t{background:var(--tc)}
+  .tv-ym i.now{box-shadow:0 0 0 1.5px var(--brown)}
+  @media(min-width:700px){ .tv-cal.year{grid-template-columns:repeat(4,1fr)} }
+  /* 旅遊紀錄：年份收合 */
+  .t-yrbox{margin-top:6px}
+  .t-yrbox>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:10px;padding:8px 2px;border-bottom:var(--dot)}
+  .t-yrbox>summary::-webkit-details-marker{display:none}
+  .t-yrbox>summary::after{content:"＋";margin-left:auto;color:var(--chang);font-weight:700}
+  .t-yrbox[open]>summary::after{content:"－"}
+  .t-yrbox>summary b{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--chang);letter-spacing:.2em}
+  .t-yrbox>summary span{font-size:12px;color:var(--mut);letter-spacing:.06em}
+  .t-yr{margin:0}
+  /* 分享鈕 */
+  .t-share{display:inline-flex;align-items:center;gap:5px;border:none;background:none;font:inherit;font-size:12.5px;font-weight:700;
+    color:var(--mut);padding:6px 10px;border-radius:999px;cursor:pointer;letter-spacing:.06em}
+  .t-share svg{width:16px;height:16px}
+  .t-share:active{background:var(--card2)}
 </style>
 </head>
 <body>
@@ -897,7 +927,7 @@
 
 <!-- ═══ 旅遊（資料：trips.json；行程細節在各趟資料夾）═══ -->
 <section class="tv" id="travelApp">
-  <div class="card" id="secTCal"><h3 data-en="CALENDAR">旅遊日曆</h3>
+  <div class="card" id="secTCal"><h3 data-en="CALENDAR">旅遊日曆<span class="tv-mode" id="tCalMode"><button data-m="month" class="on">月</button><button data-m="year">年</button></span></h3>
     <div class="txnav">
       <button class="mini" id="tCalPrev" aria-label="上個月">‹</button>
       <div class="txlab" id="tCalLab">–</div>
@@ -1088,7 +1118,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.11-1050";
+const APP_VERSION="2026.10.11-1100";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -2061,7 +2091,7 @@ addEventListener("resize",()=>{ clearTimeout(_rz); _rz=setTimeout(()=>{ if(DATA)
   catch(e){document.getElementById("meta").textContent=e.message;}
 })();
 </script>
-<script src="travel.js?v=2026.10.11-1020"></script>
+<script src="travel.js?v=2026.10.11-1100"></script>
 <script src="health.js?v=2026.10.11-1020"></script>
 </body>
 </html>

@@ -11,6 +11,7 @@ const IC = {
   card: SV + '<rect x="3.5" y="6" width="17" height="12" rx="3"/><path d="M3.5 10h17M7 14.5h3"/></svg>',
   pin:  SV + '<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.3"/></svg>',
   bed:  SV + '<path d="M3.5 18V7M3.5 14h17v4M20.5 14v-2.5a3 3 0 0 0-3-3H11V14"/><circle cx="7.5" cy="11" r="1.8"/></svg>',
+  share:SV + '<path d="M12 4v11M7.5 8.5 12 4l4.5 4.5"/><path d="M5 12.5V18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5.5"/></svg>',
   plane:SV + '<path d="M3 12h18M14.5 5.5 21 12l-6.5 6.5"/><path d="M3 8.5v7"/></svg>'
 };
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -20,6 +21,7 @@ let TRIPS = null, loading = null;
 const COLS = ["#DEAE0B", "#E07A9B", "#97CC27", "#C9844A", "#7FB8A4", "#B9A4D6"];
 const colorOf = (t, i) => t.color || COLS[i % COLS.length];
 let calMonth = null, calSel = null;   // calMonth: "YYYY-MM"
+let calMode = "month";                 // "month" | "year"
 
 // 以台北日期計算（避免時區把今天算成昨天）
 function todayStr(){
@@ -37,7 +39,21 @@ const nights = t => dnum(t.end) - dnum(t.start);
 
 function links(t){
   return `<div class="t-links">${(t.pages || []).map(p =>
-    `<a href="${esc(t.path + p.href)}">${IC[p.icon] || ""}<span>${esc(p.label)}</span></a>`).join("")}</div>`;
+    `<a href="${esc(t.path + p.href)}">${IC[p.icon] || ""}<span>${esc(p.label)}</span></a>`).join("")}<button class="t-share" data-share="${esc(t.id)}" aria-label="分享這趟">${IC.share}<span>分享</span></button></div>`;
+}
+/* ── 分享：手機叫出系統分享選單；不支援就複製連結 ── */
+function flash(msg){
+  const el = $("toast"); if (!el){ alert(msg); return; }
+  el.textContent = msg; el.classList.add("on"); clearTimeout(flash.t); flash.t = setTimeout(() => el.classList.remove("on"), 2200);
+}
+async function shareTrip(id){
+  const t = (TRIPS || []).find(x => x.id === id); if (!t) return;
+  const url = new URL(t.path + ((t.pages || [])[0]?.href || ""), location.href).href;
+  const n = nights(t);
+  const text = `${t.title}｜${md(t.start)}–${md(t.end)}（${n + 1} 天 ${n} 夜）`;
+  if (navigator.share){ try { await navigator.share({ title: t.title, text, url }); } catch (e) {} return; }
+  try { await navigator.clipboard.writeText(text + "\n" + url); flash("已複製這趟的連結"); }
+  catch (e) { prompt("複製這個連結", url); }
 }
 
 function renderNext(list, today){
@@ -87,10 +103,22 @@ function renderLog(list, today){
     <div><div class="k">今年</div><div class="v">${done.filter(t => t.start.startsWith(yr)).length}<small> 趟</small></div></div>
     <div><div class="k">在外</div><div class="v">${done.reduce((a, t) => a + nights(t), 0)}<small> 晚</small></div></div>
     <div><div class="k">地點</div><div class="v">${places.size}<small> 處</small></div></div>`;
-  let lastY = "", h = "";
-  sorted.forEach(t => {
-    const y = t.start.slice(0, 4), st = status(t, today), n = nights(t);
-    if (y !== lastY){ h += `<div class="t-yr">${y}</div>`; lastY = y; }
+  // 依年份分組：今年、未來、或有進行中／即將出發的年份展開，其他年份收成一行摘要
+  const years = [];
+  sorted.forEach(t => { const y = t.start.slice(0, 4); let g = years[years.length - 1]; if (!g || g.y !== y){ g = { y, trips: [] }; years.push(g); } g.trips.push(t); });
+  let h = "";
+  years.forEach(g => {
+    const open = g.y >= yr || g.trips.some(t => status(t, today) !== "past");
+    const nt = g.trips.reduce((a, t) => a + nights(t), 0);
+    h += `<details class="t-yrbox"${open ? " open" : ""}><summary class="t-yr"><b>${g.y}</b><span>${g.trips.length} 趟 · ${nt} 晚</span></summary>`;
+    g.trips.forEach(t => { h += tripCard(t, today); });
+    h += `</details>`;
+  });
+  box.innerHTML = h || `<div class="t-empty">還沒有旅遊紀錄。</div>`;
+}
+function tripCard(t, today){
+    const st = status(t, today), n = nights(t);
+    let h = "";
     const tag = st === "next" ? `<span class="t-tag next">即將出發</span>` : st === "now" ? `<span class="t-tag now">旅程中</span>` : "";
     h += `<div class="t-trip ${st}">
       <div class="exdate"><div class="m">${+t.start.slice(5,7)} 月</div><div class="d">${+t.start.slice(8,10)}</div></div>
@@ -102,8 +130,7 @@ function renderLog(list, today){
         ${links(t)}
       </div>
     </div>`;
-  });
-  box.innerHTML = h || `<div class="t-empty">還沒有旅遊紀錄。</div>`;
+    return h;
 }
 
 
@@ -124,6 +151,9 @@ function renderCal(list, today){
     calMonth = today.slice(0, 7);
     calSel = hit ? today : (nxt && nxt.start.slice(0, 7) === calMonth ? nxt.start : null);
   }
+  document.querySelectorAll("#tCalMode button").forEach(b => b.classList.toggle("on", b.dataset.m === calMode));
+  box.classList.toggle("year", calMode === "year");
+  if (calMode === "year") return renderYear(list, today);
   const [Y, M] = calMonth.split("-").map(Number);
   $("tCalLab").textContent = `${Y} 年 ${M} 月`;
   const first = new Date(Date.UTC(Y, M - 1, 1)).getUTCDay();
@@ -163,11 +193,40 @@ function renderCal(list, today){
       ${(t.pages || [])[0] ? `<a class="tv-go" href="${esc(t.path + t.pages[0].href)}">看這天的行程 ›</a>` : ""}
     </div>`;
 }
+function renderYear(list, today){
+  const box = $("tCal"), Y = +calMonth.slice(0, 4);
+  $("tCalLab").textContent = `${Y} 年`;
+  const inYear = new Map();
+  let h = "";
+  for (let M = 1; M <= 12; M++){
+    const first = new Date(Date.UTC(Y, M - 1, 1)).getUTCDay(), days = new Date(Date.UTC(Y, M, 0)).getUTCDate();
+    let cells = "", any = false;
+    for (let i = 0; i < first; i++) cells += `<i class="o"></i>`;
+    for (let d = 1; d <= days; d++){
+      const ds = `${Y}-${pad(M)}-${pad(d)}`, hit = tripOn(list, ds);
+      if (hit){ any = true; inYear.set(hit.t.id, hit); }
+      cells += `<i class="${hit ? "t" : ""}${ds === today ? " now" : ""}"${hit ? ` style="--tc:${colorOf(hit.t, hit.i)}"` : ""}></i>`;
+    }
+    h += `<button class="tv-ym${any ? " has" : ""}" data-ym="${Y}-${pad(M)}"><span>${M} 月</span><div>${cells}</div></button>`;
+  }
+  box.innerHTML = h;
+  $("tCalLegend").innerHTML = [...inYear.values()].map(({ t, i }) =>
+    `<span><b style="background:${colorOf(t, i)}"></b>${md(t.start)} ${esc(t.title)}</span>`).join("") || `<span class="t-none">這一年沒有旅程</span>`;
+  $("tCalDay").innerHTML = "";
+}
 function shiftMonth(n){
+  if (calMode === "year"){ const Y = +calMonth.slice(0, 4) + n; calMonth = `${Y}-${calMonth.slice(5)}`; render(); return; }
   const [Y, M] = calMonth.split("-").map(Number), d = new Date(Date.UTC(Y, M - 1 + n, 1));
   calMonth = `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}`; calSel = null; render();
 }
 document.addEventListener("click", e => {
+  const sh = e.target.closest("[data-share]"); if (sh){ shareTrip(sh.dataset.share); return; }
+  const md_ = e.target.closest("#tCalMode button"); if (md_){ calMode = md_.dataset.m; render(); return; }
+  const ym = e.target.closest(".tv-ym"); if (ym){
+    calMode = "month"; calMonth = ym.dataset.ym;
+    const t = (TRIPS || []).filter(x => x.start.slice(0, 7) <= calMonth && x.end.slice(0, 7) >= calMonth).sort((a, b) => a.start.localeCompare(b.start))[0];
+    calSel = t ? (t.start.slice(0, 7) === calMonth ? t.start : calMonth + "-01") : null; render(); return;
+  }
   const b = e.target.closest(".tv-day.trip, .tv-day:not(.out)");
   if (b && b.closest("#tCal")){ calSel = b.dataset.ds; render(); return; }
   if (e.target.closest("#tCalPrev")) shiftMonth(-1);
