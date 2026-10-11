@@ -6,7 +6,7 @@
 import json, os, re, glob, datetime
 import numpy as np, pandas as pd
 
-W = "/home/claude/family-dividend-web"; D = "/home/claude/family-dividend-data"
+W = os.environ.get("BT_W", "/home/claude/family-dividend-web"); D = os.environ.get("BT_D", "/home/claude/family-dividend-data")
 SP = os.path.dirname(os.path.abspath(__file__))
 START_CASH = 5_000_000; FEE_B = 0.001425; FEE_S = 0.004425
 ONETIME = re.compile('交屋|過戶|完工|出售資產|認列|合併|納入|處分|試運轉|工程進度|專案進度|股利|投資收益|評價|金融資產|租金')
@@ -24,7 +24,7 @@ try:
 except Exception:
     pass
 cache = f"{SP}/bt6_{MODE}.pkl"
-if os.path.exists(cache):
+if os.path.exists(cache) and not os.environ.get("BT_NOCACHE"):
     close, vol, taiex = pd.read_pickle(cache)
 else:
     cl, vo, tx = {}, {}, {}
@@ -69,7 +69,8 @@ for m in seq:
 fin = set(str(x) for x in range(2801, 2900)) | {"5820", "5880", "6005", "2855", "6024", "2820"}
 SUB = json.load(open(f"{W}/data/subindustry.json", encoding="utf-8"))
 ELEC = {"半導體業", "電腦及週邊設備業", "光電業", "通信網路業", "電子零組件業", "其他電子業", "電機機械", "電器電纜"}
-GROUPS = {"map": SUB,
+FULLMAP = json.load(open(f"{W}/data/industry_full.json", encoding="utf-8")) if os.path.exists(f"{W}/data/industry_full.json") else SUB
+GROUPS = {"map": SUB, "full": FULLMAP,   # full = v7 進場範圍（2026-10-03 起）
           "elec": {}}
 for c, g in IND.items():
     if g in ELEC: GROUPS["elec"].setdefault(g, []).append(c)

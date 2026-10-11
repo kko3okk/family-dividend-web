@@ -10,11 +10,15 @@ sys.path.insert(0, ".")
 import bt6
 from bt6 import *
 cl = pd.DataFrame(C)
-HI = {n: cl.shift(1).rolling(n, min_periods=n).max().values for n in (20, 55)}
-LO = {n: cl.shift(1).rolling(n, min_periods=n).min().values for n in (10, 20, 55)}
+class _Roll(dict):
+    def __init__(self, f): super().__init__(); self.f = f
+    def __missing__(self, n): v = self.f(n); self[n] = v; return v
+HI = _Roll(lambda n: cl.shift(1).rolling(n, min_periods=n).max().values)   # 前 n 日最高收盤（不含當日）
+LO = _Roll(lambda n: cl.shift(1).rolling(n, min_periods=n).min().values)   # 前 n 日最低收盤
+_MA = _Roll(lambda n: cl.rolling(n, min_periods=int(n * 0.8)).mean().values)
 NN = cl.diff().abs().rolling(20, min_periods=15).mean().values
 
-def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, **kw):
+def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, start=None, **kw):
     p = dict(BASE); p.update(kw)
     lists = build_lists(p)
     cash = START_CASH; pos = {}; eq = []; trades = []; pend_buy = []; pend_sell = []; pend_add = []
@@ -57,14 +61,14 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, **kw):
         for c, q in pos.items():
             px = C[i, ci[c]]
             if not np.isnan(px): q["last"] = px; q["hi"] = max(q["hi"], px)
-        if d >= T0: eq.append((d, cash + sum(q["last"] * q["sh"] for q in pos.values())))
+        if d >= (start or T0): eq.append((d, cash + sum(q["last"] * q["sh"] for q in pos.values())))
         for c, q in pos.items():
             k = ci[c]; px = C[i, k]
             if np.isnan(px): continue
             if px >= 2 * q["cost"]: q["dbl"] = True
             out = False
             for e in exit.split("|"):
-                if e == "ma60": m = MA[60][i, k]; out |= (not np.isnan(m) and px < m)
+                if e.startswith("ma"): m = _MA[int(e[2:])][i, k]; out |= (not np.isnan(m) and px < m)
                 elif e.startswith("lo"): m = LO[int(e[2:])][i, k]; out |= (not np.isnan(m) and px < m)
             if p["t4"] and q["dbl"] and px <= q["hi"] * 0.75: out = True
             if stop2n and not np.isnan(q["N"]) and px < q["lastadd"] - 2 * q["N"]: out = True
@@ -79,7 +83,7 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, **kw):
                 above = above + 1 if TX[i] > TXMA[20][i] else 0
                 if above >= 3: lock = False
         while li + 1 < len(lists) and lists[li + 1][0] <= d: li += 1; bought = set()
-        if d < T0 or li < 0 or lock: continue
+        if d < (start or T0) or li < 0 or lock: continue
         if p["mkt_ma"] and not (TX[i] >= TXMA[p["mkt_ma"]][i]): continue
         free = S - (len(pos) - len(pend_sell))
         if free <= 0: continue
@@ -98,6 +102,7 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, **kw):
             cands.append((-r["yoy"], c))
         cands.sort()
         for _, c in cands[:free]: pend_buy.append((c, 1 / S)); bought.add(c)
+    if raw: return dict(eq=eq, trades=trades, pos=pos, pend_sell=pend_sell, pend_buy=pend_buy, lock=lock, li=lists[li][1] if li >= 0 else None)
     return summarize(eq, trades, p)
 
 if __name__ == "__main__":
