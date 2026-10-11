@@ -161,7 +161,7 @@ function setSync(s, msg){
   const el = $("hSync"); if (!el) return;
   const txt = {
     idle:"", ok:"✓ 已同步到雲端", pending:"● 稍後同步…", syncing:"⟳ 同步中…",
-    local:"只存在這支手機 · 按 ⚙ 設定 Token 才會同步",
+    local:"只存在這支手機 · 按右上角「設定」填入 Token 才會同步",
     err:"⚠ 同步失敗，紀錄先存在手機，下次會再試" + (syncMsg ? `（${syncMsg}）` : "")
   }[s] || "";
   el.textContent = txt;

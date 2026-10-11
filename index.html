@@ -659,6 +659,43 @@
   .mscard{border-radius:32px}
   #ptr{border:none;box-shadow:0 6px 16px -6px rgba(93,55,19,.4)}
   .foot{color:var(--mut)}
+
+  /* ═══ 2026-10-11 導覽列重整：線條圖示、留白、單一選取語言 ═══ */
+  .gnav svg{width:18px;height:18px;display:block;flex:none}
+  .gin{gap:8px}
+  .domain{padding:3px;gap:2px}
+  .domain button{display:flex;align-items:center;gap:5px;padding:6px 12px 6px 10px;font-size:13px;font-weight:700;letter-spacing:.08em}
+  .domain button svg{width:16px;height:16px;opacity:.75}
+  .domain button.on svg{opacity:1;color:var(--pcol,var(--chang))}
+  .gtools{gap:6px}
+  .gnav .traveler{padding:3px}
+  .gnav .traveler div{padding:6px 11px;font-size:12px;letter-spacing:.06em;font-weight:700;line-height:1.2}
+  .gnav .traveler div[data-p="chang"]{font-family:"Fredoka",var(--font-round);letter-spacing:.1em}
+  .gicon{width:34px;height:34px;padding:0;border-radius:50%;display:grid;place-items:center;color:var(--mut);background:transparent;transition:background .2s,color .2s}
+  .gicon:hover,.gicon:active{background:var(--card2);color:var(--brown)}
+  .gicon.on{color:var(--pcol,var(--chang))}
+  .gicon.dim{opacity:.55}
+  .gadd{width:36px;height:36px;padding:0;display:grid;place-items:center;line-height:1}
+  .gadd svg{width:18px;height:18px;color:#fff}
+  .glinks{gap:4px}
+  .glinks a{padding:6px 12px;border-radius:999px;font-size:13.5px;font-weight:600;transition:background .2s,color .2s}
+  .glinks a.on{background:color-mix(in srgb,var(--pcol,var(--chang)) 16%,#FFFFFF);color:var(--brown);font-weight:700}
+  .glinks a.on::after{display:none}
+  .gdot{position:absolute;top:4px;right:5px;width:6px;height:6px;margin:0;box-shadow:0 0 0 2px var(--paper)}
+  .gprog{height:2px}
+  @media(max-width:560px){
+    .gin{padding:10px 14px 0;row-gap:8px}
+    .glinks{margin:0 -6px;padding:0 0 8px}
+    .glinks a{padding:5px 11px;font-size:13px}
+    .gtools{gap:4px}
+    [id^="sec"],#yrCard,#top{scroll-margin-top:108px}
+  }
+  @media(max-width:374px){
+    .domain button{padding:6px 9px;gap:4px}
+    .domain button svg{display:none}
+    .gnav .traveler div{padding:6px 8px}
+    .gicon{width:30px;height:30px}
+  }
 </style>
 </head>
 <body>
@@ -670,7 +707,7 @@
   <div class="gin">
     <a class="gbrand" href="#secMap">家的旅程</a>
     <div class="domain" id="domain" role="tablist">
-      <button data-d="fin" class="on" role="tab">💰 財務</button><button data-d="health" role="tab">💪 健康</button>
+      <button data-d="fin" class="on" role="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20v-8"/><path d="M12 12c0-3.3-2.4-5.5-6-5.5 0 3.6 2.4 5.5 6 5.5Z"/><path d="M12 14c0-3 2.2-5 5.5-5 0 3-2.2 5-5.5 5Z"/></svg><span>財務</span></button><button data-d="health" role="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19.5s-7-4.3-7-9.4A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.1c0 5.1-7 9.4-7 9.4Z"/></svg><span>健康</span></button>
     </div>
     <div class="glinks" id="glinks">
       <a class="fin" href="#secMap">旅程</a><a class="fin" href="#secTodo">待辦<i class="gdot" id="dotTodo"></i></a><a class="fin" href="#secAdv">指引</a><a class="fin" href="#secHold">持股</a><a class="fin" href="#yrCard" id="lnkYr">年度</a>
@@ -682,9 +719,9 @@
         <div data-p="chang" class="on">CHANG</div>
         <div data-p="wife">老婆</div>
       </div>
-      <button class="gicon" id="sndBtn" title="音效">🔇</button>
-      <button class="gicon" id="gearBtn" title="設定">⚙</button>
-      <button class="gadd fin" id="mAdd" title="記一筆買進">＋</button>
+      <button class="gicon" id="sndBtn" title="音效" aria-label="音效"></button>
+      <button class="gicon" id="gearBtn" title="設定" aria-label="設定"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h9M18 7h1M5 17h1M10 17h9"/><circle cx="16" cy="7" r="2.2"/><circle cx="8" cy="17" r="2.2"/></svg></button>
+      <button class="gadd fin" id="mAdd" title="記一筆買進" aria-label="記一筆買進"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg></button>
     </div>
   </div>
   <div class="gprog"><i id="mFill" class="fin"></i><i id="hFill" class="hl"></i></div>
@@ -879,7 +916,7 @@
 </dialog>
 
 <script type="module">
-  const V = "2026.10.11-0900";   // 由 deploy.sh 注入，確保模組不吃到舊快取
+  const V = "2026.10.11-0915";   // 由 deploy.sh 注入，確保模組不吃到舊快取
   const M  = await import(`./dividend-journey-map/src/renderMap.js?v=${V}`);
   const AN = await import(`./dividend-journey-map/src/animate.js?v=${V}`);
   window.JM = {
@@ -892,7 +929,13 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 <script>
-const APP_VERSION="2026.10.11-0900";
+const SND_ICON={
+  on:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v4h3.5L12 18V6L7.5 10Z"/><path d="M15.5 9.5a3.5 3.5 0 0 1 0 5M18 7a7 7 0 0 1 0 10"/></svg>',
+  off:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v4h3.5L12 18V6L7.5 10Z"/><path d="M16 10l4 4M20 10l-4 4"/></svg>'};
+function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)return;
+  b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
+setSndIcon("off");
+const APP_VERSION="2026.10.11-0915";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -911,7 +954,7 @@ async function load(){
   const h={"Accept":"application/vnd.github+json"};
   if(token())h.Authorization="Bearer "+token();
   const r=await fetch(API+"?t="+Date.now(),{headers:h});
-  if(!r.ok)throw new Error("讀取失敗 HTTP "+r.status+"（請按 ⚙ 設定 Token）");
+  if(!r.ok)throw new Error("讀取失敗 HTTP "+r.status+"（請按右上角「設定」填入 Token）");
   const j=await r.json();SHA=j.sha;DATA=JSON.parse(b64d(j.content.replace(/\n/g,"")));
 }
 async function ensurePrices(){
@@ -1280,7 +1323,7 @@ function payRows(o){
 }
 
 async function savePayouts(msgOk){
-  if(!token()){alert("請先按 ⚙ 設定 Token");return;}
+  if(!token()){alert("請先按右上角「設定」填入 Token");return;}
   const snapshot=JSON.parse(JSON.stringify(DATA.payouts));
   try{
     const cur=JSON.parse(JSON.stringify(DATA));   // 保留本地修改
@@ -1521,7 +1564,7 @@ document.getElementById("addBtn").onclick=()=>{
 };
 document.getElementById("goBtn").onclick=async()=>{
   const msg=document.getElementById("txMsg"),btn=document.getElementById("goBtn");
-  if(!token()){msg.className="msg err";msg.textContent="請先按 ⚙ 設定 Token";return;}
+  if(!token()){msg.className="msg err";msg.textContent="請先按右上角「設定」填入 Token";return;}
   const sh=parseFloat(document.getElementById("fShares").value),
         px=parseFloat(document.getElementById("fPrice").value),
         dt=document.getElementById("fDate").value;
@@ -1569,7 +1612,7 @@ document.getElementById("addPayBtn").onclick=()=>{
 };
 document.getElementById("payGoBtn").onclick=async()=>{
   const msg=document.getElementById("payMsg"),btn=document.getElementById("payGoBtn");
-  if(!token()){msg.className="msg err";msg.textContent="請先按 ⚙ 設定 Token";return;}
+  if(!token()){msg.className="msg err";msg.textContent="請先按右上角「設定」填入 Token";return;}
   const amt=parseFloat(document.getElementById("pAmt").value),dt=document.getElementById("pDate").value;
   if(!amt||!dt){msg.className="msg err";msg.textContent="金額與日期必填";return;}
   btn.disabled=true;msg.className="msg";msg.textContent="寫入中…";
@@ -1594,7 +1637,7 @@ window.delTx=async function(i){
   const t=DATA.transactions[i];
   const nm=(DATA.stocks[t.stock]||{}).name||t.stock;
   if(!confirm(`刪除這筆紀錄？\n\n${t.date}　${t.owner==="chang"?"Chang":"老婆"}\n${nm}　${fmt(t.shares)} 股 @ ${t.price}\n\n此動作無法復原。`))return;
-  if(!token()){alert("請先按 ⚙ 設定 Token");return;}
+  if(!token()){alert("請先按右上角「設定」填入 Token");return;}
   try{
     await load();
     const cur=DATA.transactions[i];
@@ -1805,7 +1848,7 @@ const Snd={
       this.say("已靜音",1500);
     }
     localStorage.setItem("snd",this.on?"1":"0");
-    document.getElementById("sndBtn").textContent=this.on?"🔊":"🔇";
+    setSndIcon(this.on?"on":"off");
     return this.on;
   },
   startGenerated(){
@@ -1856,7 +1899,7 @@ addEventListener("resize",()=>{ clearTimeout(_rz); _rz=setTimeout(()=>{ if(DATA)
   }
   person=localStorage.getItem("person")||"chang";
   if(localStorage.getItem("snd")==="1"){
-    const b=document.getElementById("sndBtn"); b.textContent="🔈";
+    const b=document.getElementById("sndBtn"); setSndIcon("pending");
     b.title="點一下恢復音樂";
     addEventListener("pointerdown",function once(){ if(localStorage.getItem("snd")==="1"&&!Snd.on)Snd.toggle(); removeEventListener("pointerdown",once); },{once:true});
   }
@@ -1865,6 +1908,6 @@ addEventListener("resize",()=>{ clearTimeout(_rz); _rz=setTimeout(()=>{ if(DATA)
   catch(e){document.getElementById("meta").textContent=e.message;}
 })();
 </script>
-<script src="health.js?v=2026.10.11-0900"></script>
+<script src="health.js?v=2026.10.11-0915"></script>
 </body>
 </html>
