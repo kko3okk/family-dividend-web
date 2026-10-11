@@ -794,6 +794,40 @@
     .domain button{padding:6px 9px}
   }
   @media(max-width:374px){ .domain button{padding:6px 7px;font-size:12px} }
+
+  /* 旅遊日曆 */
+  .tv-cal{display:grid;grid-template-columns:repeat(7,1fr);row-gap:6px}
+  .tv-cal .wd{text-align:center;font-size:10.5px;color:var(--mut2);padding:2px 0 4px;letter-spacing:.1em}
+  .tv-day{position:relative;height:40px;border:none;background:none;font:inherit;padding:0;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;color:var(--ink)}
+  .tv-day span{position:relative;z-index:1;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-size:13.5px;font-weight:500;font-variant-numeric:tabular-nums}
+  .tv-day.out{visibility:hidden}
+  .tv-day.trip::before{content:"";position:absolute;inset:4px 0;background:color-mix(in srgb,var(--tc) 26%,#FFFFFF)}
+  .tv-day.trip.s::before{left:4px;border-radius:999px 0 0 999px}
+  .tv-day.trip.e::before{right:4px;border-radius:0 999px 999px 0}
+  .tv-day.trip.s.e::before{border-radius:999px}
+  .tv-day.trip span{color:var(--brown);font-weight:600}
+  .tv-day.trip.s span,.tv-day.trip.e span{background:var(--tc);color:#fff}
+  .tv-day.today span{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--brown)}
+  .tv-day.sel span{background:var(--brown)!important;color:#fff!important}
+  #tCalLegend{margin:12px 0 0}
+  #tCalLegend b{width:12px;height:12px}
+  .t-none{color:var(--mut2)}
+  .tv-det{margin-top:12px;background:color-mix(in srgb,var(--tc) 14%,#FFFFFF);border-radius:18px;padding:12px 14px}
+  .tv-det.none{background:var(--card2);font-size:13px;color:var(--mut);font-family:inherit}
+  .tv-dh{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+  .tv-dh b{font-family:var(--mono);font-weight:600;color:#fff;background:var(--tc);border-radius:999px;padding:1px 9px;font-size:12px}
+  .tv-dh span{font-size:13px;font-weight:700;color:var(--brown)}
+  .tv-dh em{font-style:normal;font-size:11.5px;color:var(--mut)}
+  .tv-dp{font-size:14px;font-weight:700;color:var(--ink);margin-top:6px;line-height:1.5}
+  .tv-go{display:inline-block;margin-top:8px;font-size:12.5px;font-weight:700;color:var(--brown);text-decoration:none;
+    border-bottom:2px solid var(--tc)}
+  @media(min-width:960px){ #secTCal{grid-column:1/-1} }
+  @media(max-width:560px){
+    .t-links a{padding:6px 11px 6px 9px;font-size:12.5px;gap:5px}
+    .t-links{gap:6px}
+  }
 </style>
 </head>
 <body>
@@ -811,7 +845,7 @@
       <a class="fin" href="#secMap">旅程</a><a class="fin" href="#secTodo">待辦<i class="gdot" id="dotTodo"></i></a><a class="fin" href="#secAdv">指引</a><a class="fin" href="#secHold">持股</a><a class="fin" href="#yrCard" id="lnkYr">年度</a>
       <a class="fin" href="#secEx">除權息</a><a class="fin" href="#secPay">入帳<i class="gdot" id="dotPay"></i></a><a class="fin" href="#secTx">交易</a>
       <a class="hl" href="#secHCal">日曆回顧</a><a class="hl" href="#secHToday">今日清單</a><a class="hl" href="#secHMoves">動作說明</a>
-      <a class="tv" href="#secTNext">下一趟</a><a class="tv" href="#secTLog">旅遊紀錄</a>
+      <a class="tv" href="#secTCal">日曆</a><a class="tv" href="#secTNext">下一趟</a><a class="tv" href="#secTLog">旅遊紀錄</a>
     </div>
     <div class="gtools">
       <div class="traveler" id="traveler">
@@ -863,6 +897,16 @@
 
 <!-- ═══ 旅遊（資料：trips.json；行程細節在各趟資料夾）═══ -->
 <section class="tv" id="travelApp">
+  <div class="card" id="secTCal"><h3 data-en="CALENDAR">旅遊日曆</h3>
+    <div class="txnav">
+      <button class="mini" id="tCalPrev" aria-label="上個月">‹</button>
+      <div class="txlab" id="tCalLab">–</div>
+      <button class="mini" id="tCalNext" aria-label="下個月">›</button>
+    </div>
+    <div class="tv-cal" id="tCal"></div>
+    <div class="h-legend" id="tCalLegend"></div>
+    <div id="tCalDay"></div>
+  </div>
   <div class="card" id="secTNext"><h3 data-en="NEXT TRIP">下一趟旅程</h3><div id="tNextBox"><div class="t-empty">載入中…</div></div></div>
   <div class="card" id="secTLog"><h3 data-en="FOOTPRINTS">旅遊紀錄</h3>
     <div class="h-stats t-stats" id="tStats"></div>
@@ -1024,7 +1068,7 @@
 </dialog>
 
 <script type="module">
-  const V = "2026.10.11-1000";   // 由 deploy.sh 注入，確保模組不吃到舊快取
+  const V = "2026.10.11-1015";   // 由 deploy.sh 注入，確保模組不吃到舊快取
   const M  = await import(`./dividend-journey-map/src/renderMap.js?v=${V}`);
   const AN = await import(`./dividend-journey-map/src/animate.js?v=${V}`);
   window.JM = {
@@ -1044,7 +1088,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.11-1000";
+const APP_VERSION="2026.10.11-1015";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -2017,7 +2061,7 @@ addEventListener("resize",()=>{ clearTimeout(_rz); _rz=setTimeout(()=>{ if(DATA)
   catch(e){document.getElementById("meta").textContent=e.message;}
 })();
 </script>
-<script src="travel.js?v=2026.10.11-1000"></script>
-<script src="health.js?v=2026.10.11-1000"></script>
+<script src="travel.js?v=2026.10.11-1015"></script>
+<script src="health.js?v=2026.10.11-1015"></script>
 </body>
 </html>

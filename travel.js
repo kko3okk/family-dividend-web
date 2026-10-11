@@ -11,12 +11,15 @@ const IC = {
   card: SV + '<rect x="3.5" y="6" width="17" height="12" rx="3"/><path d="M3.5 10h17M7 14.5h3"/></svg>',
   pin:  SV + '<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.3"/></svg>',
   bed:  SV + '<path d="M3.5 18V7M3.5 14h17v4M20.5 14v-2.5a3 3 0 0 0-3-3H11V14"/><circle cx="7.5" cy="11" r="1.8"/></svg>',
-  plane:SV + '<path d="M10.5 13.5 4 11l1.5-1.5 7 .5 4-4a1.8 1.8 0 0 1 2.5 2.5l-4 4 .5 7L14 21l-2.5-6.5L8 17v2.5L6.5 21 5 17.5 1.5 16 3 14.5h2.5Z"/></svg>'
+  plane:SV + '<path d="M3 12h18M14.5 5.5 21 12l-6.5 6.5"/><path d="M3 8.5v7"/></svg>'
 };
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const WD = "日一二三四五六";
 
 let TRIPS = null, loading = null;
+const COLS = ["#DEAE0B", "#E07A9B", "#97CC27", "#C9844A", "#7FB8A4", "#B9A4D6"];
+const colorOf = (t, i) => t.color || COLS[i % COLS.length];
+let calMonth = null, calSel = null;   // calMonth: "YYYY-MM"
 
 // 以台北日期計算（避免時區把今天算成昨天）
 function todayStr(){
@@ -103,6 +106,72 @@ function renderLog(list, today){
   box.innerHTML = h || `<div class="t-empty">還沒有旅遊紀錄。</div>`;
 }
 
+
+/* ── 旅遊日曆：每趟是一條色帶，點一天看當天去哪 ── */
+function tripOn(list, ds){
+  for (let i = 0; i < list.length; i++){
+    const t = list[i];
+    if (dnum(ds) >= dnum(t.start) && dnum(ds) <= dnum(t.end)) return { t, i, k: dnum(ds) - dnum(t.start) };
+  }
+  return null;
+}
+const pad = n => String(n).padStart(2, "0");
+function renderCal(list, today){
+  const box = $("tCal"); if (!box) return;
+  if (!calMonth){
+    const hit = tripOn(list, today);
+    const nxt = [...list].filter(t => t.start > today).sort((a, b) => a.start.localeCompare(b.start))[0];
+    calMonth = today.slice(0, 7);
+    calSel = hit ? today : (nxt && nxt.start.slice(0, 7) === calMonth ? nxt.start : null);
+  }
+  const [Y, M] = calMonth.split("-").map(Number);
+  $("tCalLab").textContent = `${Y} 年 ${M} 月`;
+  const first = new Date(Date.UTC(Y, M - 1, 1)).getUTCDay();
+  const days = new Date(Date.UTC(Y, M, 0)).getUTCDate();
+  let h = [..."日一二三四五六"].map(w => `<div class="wd">${w}</div>`).join("");
+  for (let i = 0; i < first; i++) h += `<div class="tv-day out"></div>`;
+  const inMonth = new Map();
+  for (let d = 1; d <= days; d++){
+    const ds = `${Y}-${pad(M)}-${pad(d)}`, col = (first + d - 1) % 7, hit = tripOn(list, ds);
+    let cls = "tv-day", sty = "";
+    if (hit){
+      const { t, i, k } = hit, n = nights(t);
+      cls += " trip";
+      if (k === 0 || col === 0) cls += " s";
+      if (k === n || col === 6) cls += " e";
+      sty = ` style="--tc:${colorOf(t, i)}"`;
+      inMonth.set(t.id, { t, i });
+    }
+    if (ds === today) cls += " today";
+    if (ds === calSel) cls += " sel";
+    h += `<button class="${cls}" data-ds="${ds}"${sty}><span>${d}</span></button>`;
+  }
+  box.innerHTML = h;
+  $("tCalLegend").innerHTML = [...inMonth.values()].map(({ t, i }) =>
+    `<span><b style="background:${colorOf(t, i)}"></b>${esc(t.title)}</span>`).join("") || `<span class="t-none">這個月沒有旅程</span>`;
+  // 選取日的細節
+  const det = $("tCalDay"), hit = calSel && tripOn(list, calSel);
+  if (!calSel){ det.innerHTML = ""; return; }
+  const head = `${md(calSel)}（${wd(calSel)}）`;
+  if (!hit){ det.innerHTML = `<div class="tv-det none">${head}　在家</div>`; return; }
+  const { t, i, k } = hit, plan = (t.days || [])[k] || "";
+  det.innerHTML = `<div class="tv-det" style="--tc:${colorOf(t, i)}">
+      <div class="tv-dh"><b>D${k + 1}</b><span>${head}</span><em>${esc(t.title)}</em></div>
+      ${plan ? `<div class="tv-dp">${esc(plan)}</div>` : ""}
+      ${(t.pages || [])[0] ? `<a class="tv-go" href="${esc(t.path + t.pages[0].href)}">看這天的行程 ›</a>` : ""}
+    </div>`;
+}
+function shiftMonth(n){
+  const [Y, M] = calMonth.split("-").map(Number), d = new Date(Date.UTC(Y, M - 1 + n, 1));
+  calMonth = `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}`; calSel = null; render();
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest(".tv-day.trip, .tv-day:not(.out)");
+  if (b && b.closest("#tCal")){ calSel = b.dataset.ds; render(); return; }
+  if (e.target.closest("#tCalPrev")) shiftMonth(-1);
+  if (e.target.closest("#tCalNext")) shiftMonth(1);
+});
+
 async function load(){
   if (TRIPS) return TRIPS;
   if (!loading) loading = fetch("trips.json?t=" + Date.now(), { cache: "no-store" })
@@ -115,7 +184,7 @@ async function load(){
 async function render(){
   try {
     const list = await load(), today = todayStr();
-    renderNext(list, today); renderLog(list, today);
+    renderCal(list, today); renderNext(list, today); renderLog(list, today);
   } catch (e) {
     const b = $("tNextBox"); if (b) b.innerHTML = `<div class="t-empty">旅遊資料讀取失敗（${esc(e.message)}），稍後再試。</div>`;
   }
