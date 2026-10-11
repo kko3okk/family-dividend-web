@@ -11,27 +11,28 @@
   // 導覽列裡原本的「‹ 家」也套同樣行為
   document.querySelectorAll('a[href="../#travel"]').forEach(function(a){ a.addEventListener("click", goHome); });
 
-  if (document.getElementById("tripHomeFab")) return;
+  if (document.getElementById("tripBar")) return;
   var st = document.createElement("style");
+  // 回家＋分享合成一顆浮動膠囊，離底部留足空間（避開 iPhone 底部橫條、不壓到內容）
   st.textContent =
-    "#tripHomeFab{position:fixed;left:14px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:2147483000;" +
-    "display:flex;align-items:center;gap:6px;padding:10px 16px 10px 12px;border-radius:999px;" +
+    "#tripBar{position:fixed;left:16px;bottom:calc(26px + env(safe-area-inset-bottom));z-index:2147483000;display:flex;align-items:center;gap:2px;" +
+    "padding:4px;border-radius:999px;background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);" +
+    "box-shadow:0 12px 28px -12px rgba(93,55,19,.55)}" +
+    "#tripHomeFab{display:flex;align-items:center;gap:6px;padding:10px 16px 10px 12px;border-radius:999px;" +
     "background:#DEAE0B;color:#fff!important;text-decoration:none!important;font:700 14px/1 'Chiron GoRound TC','PingFang TC','Noto Sans TC',sans-serif;" +
-    "letter-spacing:.08em;box-shadow:0 10px 24px -10px rgba(93,55,19,.6);-webkit-tap-highlight-color:transparent}" +
+    "letter-spacing:.08em;-webkit-tap-highlight-color:transparent}" +
     "#tripHomeFab svg{width:18px;height:18px}" +
-    "#tripHomeFab:active{transform:scale(.96)}" +
-    "#tripShareFab{position:fixed;left:calc(14px + 132px);bottom:calc(14px + env(safe-area-inset-bottom));z-index:2147483000;" +
-    "width:42px;height:42px;border:none;border-radius:50%;background:#FFFFFF;color:#5D3713;display:grid;place-items:center;cursor:pointer;" +
-    "box-shadow:0 10px 24px -10px rgba(93,55,19,.6);-webkit-tap-highlight-color:transparent}" +
+    "#tripHomeFab:active,#tripShareFab:active{transform:scale(.95)}" +
+    "#tripShareFab{width:40px;height:40px;border:none;border-radius:50%;background:transparent;color:#5D3713;display:grid;place-items:center;cursor:pointer;-webkit-tap-highlight-color:transparent}" +
     "#tripShareFab svg{width:19px;height:19px}#tripShareFab.ok{background:#97CC27;color:#fff}" +
-    "#tripShareFab:active{transform:scale(.94)}" +
-    "@media print{#tripHomeFab,#tripShareFab{display:none}}";
+    "@media print{#tripBar{display:none}}";
   document.head.appendChild(st);
   var a = document.createElement("a");
   a.id = "tripHomeFab"; a.href = HOME; a.setAttribute("aria-label", "回家的旅程");
   a.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><span>家的旅程</span>';
   a.addEventListener("click", goHome);
-  document.body.appendChild(a);
+  var bar = document.createElement("div"); bar.id = "tripBar"; bar.appendChild(a);
+  document.body.appendChild(bar);
 
   // 分享這趟：手機叫出系統分享選單，電腦則複製連結
   var sh = document.createElement("button");
@@ -46,5 +47,5 @@
       sh.classList.add("ok"); setTimeout(function(){ sh.classList.remove("ok"); }, 1600);
     }, function(){ prompt("複製這個連結", url); });
   });
-  document.body.appendChild(sh);
+  bar.appendChild(sh);
 })();

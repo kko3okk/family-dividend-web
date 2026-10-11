@@ -17,7 +17,7 @@
   window.themeSoften=run;
   function spacer(){
     if(document.getElementById('tripSpacer')) return;
-    var d=document.createElement('div'); d.id='tripSpacer'; d.style.height='72px'; document.body.appendChild(d);
+    var d=document.createElement('div'); d.id='tripSpacer'; d.style.height='110px'; document.body.appendChild(d);
   }
   function init(){ run(); spacer(); }
   if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
