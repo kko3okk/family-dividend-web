@@ -690,11 +690,18 @@
     .gtools{gap:4px}
     [id^="sec"],#yrCard,#top{scroll-margin-top:108px}
   }
+  @media(max-width:560px){
+    .gin{padding:10px 12px 0}
+    .domain button{padding:6px 10px;gap:4px;font-size:12.5px}
+    .domain button:not(.on) svg{display:none}
+    .gnav .traveler div{padding:6px 9px;font-size:11.5px}
+    .gicon{width:32px;height:32px}
+    .gadd{width:34px;height:34px}
+  }
   @media(max-width:374px){
-    .domain button{padding:6px 9px;gap:4px}
     .domain button svg{display:none}
-    .gnav .traveler div{padding:6px 8px}
-    .gicon{width:30px;height:30px}
+    .gnav .traveler div{padding:6px 7px}
+    .gicon{width:28px;height:28px}
   }
 </style>
 </head>
@@ -916,7 +923,7 @@
 </dialog>
 
 <script type="module">
-  const V = "2026.10.11-0915";   // 由 deploy.sh 注入，確保模組不吃到舊快取
+  const V = "2026.10.11-0925";   // 由 deploy.sh 注入，確保模組不吃到舊快取
   const M  = await import(`./dividend-journey-map/src/renderMap.js?v=${V}`);
   const AN = await import(`./dividend-journey-map/src/animate.js?v=${V}`);
   window.JM = {
@@ -935,7 +942,7 @@ const SND_ICON={
 function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)return;
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
-const APP_VERSION="2026.10.11-0915";
+const APP_VERSION="2026.10.11-0925";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -1908,6 +1915,6 @@ addEventListener("resize",()=>{ clearTimeout(_rz); _rz=setTimeout(()=>{ if(DATA)
   catch(e){document.getElementById("meta").textContent=e.message;}
 })();
 </script>
-<script src="health.js?v=2026.10.11-0915"></script>
+<script src="health.js?v=2026.10.11-0925"></script>
 </body>
 </html>
