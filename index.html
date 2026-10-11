@@ -911,6 +911,134 @@
     body{padding-bottom:calc(110px + env(safe-area-inset-bottom))!important}
     #sndMsg,.toast{bottom:calc(max(12px,env(safe-area-inset-bottom)) + 84px)!important}
   }
+
+  /* ═══ 2026-10-11 設定頁：整頁滑入、分組清單、點進子頁 ═══ */
+  .sp{position:fixed;inset:0;z-index:58;background:var(--paper);overflow:hidden;visibility:hidden;opacity:0;
+    transform:translateY(18px);transition:opacity .28s ease,transform .32s cubic-bezier(.2,.8,.2,1),visibility 0s linear .32s}
+  .sp.on{visibility:visible;opacity:1;transform:none;transition:opacity .28s ease,transform .32s cubic-bezier(.2,.8,.2,1),visibility 0s}
+  body.set-open{overflow:hidden}
+  body.set-open .fab{display:none!important}
+  .sp-view{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;background:var(--paper);
+    transform:translateX(100%);visibility:hidden}
+  .sp-view.cur{transform:none;visibility:visible}
+  .sp-view.under{transform:translateX(-28%);visibility:visible}
+  .sp.anim .sp-view{transition:transform .34s cubic-bezier(.2,.8,.2,1),visibility 0s linear .34s}
+  .sp.anim .sp-view.cur,.sp.anim .sp-view.under{transition:transform .34s cubic-bezier(.2,.8,.2,1),visibility 0s}
+  .sp-view.cur{box-shadow:-18px 0 30px -26px rgba(93,55,19,.6)}
+  .sp-view[data-v="home"]{box-shadow:none}
+
+  .sp-hd{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:8px;min-height:56px;
+    padding:calc(10px + env(safe-area-inset-top)) 18px 8px;background:rgba(253,247,225,.9);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+  .sp-hd h2{margin:0;flex:1;font-size:26px;font-weight:700;color:var(--brown);letter-spacing:.14em}
+  .sp-hd.sub h2{position:absolute;left:0;right:0;text-align:center;font-size:16px;letter-spacing:.12em;pointer-events:none;
+    bottom:8px;line-height:36px}
+  .sp-x{margin-left:auto;width:36px;height:36px;border:none;border-radius:50%;background:var(--card);color:var(--brown);display:grid;place-items:center;
+    cursor:pointer;box-shadow:var(--soft)}
+  .sp-x svg{width:18px;height:18px}
+  .sp-back{position:relative;z-index:1;display:flex;align-items:center;gap:2px;height:36px;padding:0 12px 0 6px;border:none;border-radius:999px;
+    background:var(--card);color:var(--brown);font:700 14px/1 var(--font-round);letter-spacing:.08em;cursor:pointer;box-shadow:var(--soft)}
+  .sp-back svg{width:18px;height:18px}
+  .sp-x:active,.sp-back:active{transform:scale(.95)}
+
+  .sp-body{max-width:560px;margin:0 auto;padding:6px 16px calc(120px + env(safe-area-inset-bottom))}
+  .sp-gl{display:flex;align-items:baseline;gap:8px;margin:22px 6px 8px;font-size:13px;font-weight:700;color:var(--mut);letter-spacing:.12em}
+  .sp-gl::before{content:attr(data-en);font:600 10.5px/1 var(--mono);letter-spacing:.2em;color:var(--mut2)}
+  .sp-group{background:var(--card);border-radius:22px;box-shadow:var(--soft);overflow:hidden}
+  .sp-group+.sp-note,.sp-note+.sp-group{margin-top:14px}
+  .sp-group.pad{padding:14px}
+  .sp-row{display:flex;align-items:center;gap:12px;width:100%;min-height:58px;padding:10px 16px;border:none;background:none;text-align:left;
+    font:inherit;color:var(--ink);text-decoration:none;-webkit-tap-highlight-color:transparent}
+  .sp-row+.sp-row{border-top:var(--dot)}
+  button.sp-row,a.sp-row{cursor:pointer}
+  button.sp-row:active,a.sp-row:active{background:var(--card2)}
+  .sp-l{flex:1;min-width:0;font-size:15px;font-weight:600;letter-spacing:.06em;line-height:1.35}
+  .sp-l small{display:block;margin-top:2px;font-size:11.5px;font-weight:500;color:var(--mut2);letter-spacing:.04em}
+  .sp-v{flex:none;max-width:52%;text-align:right;font-size:13px;color:var(--mut);letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sp-v.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .sp-v.ok{color:var(--green-ink);font-weight:700}
+  .sp-v.warn{color:#C0563A;font-weight:700}
+  .sp-v.ok::before,.sp-v.warn::before{content:"";display:inline-block;width:7px;height:7px;margin-right:6px;border-radius:50%;background:currentColor;vertical-align:1px}
+  .sp-row.nav::after{content:"";flex:none;width:8px;height:8px;margin-left:-4px;border-top:2px solid var(--mut2);border-right:2px solid var(--mut2);
+    transform:rotate(45deg);border-radius:1px}
+  .sp-row.danger .sp-l{color:#C0563A;text-align:center}
+  .sp-ic{flex:none;width:36px;height:36px;border-radius:12px;display:grid;place-items:center}
+  .sp-ic svg{width:20px;height:20px}
+  .sp-ic.y{background:var(--chang-soft);color:#9A7406}
+  .sp-ic.p{background:var(--wife-soft);color:#B8506F}
+  .sp-ic.g{background:var(--green-soft);color:var(--green-ink)}
+  .sp-ic.b{background:#E3F0F2;color:#3F7F8C}
+
+  /* 個人卡 */
+  .sp-me{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:8px;padding:16px;border-radius:24px;background:var(--card);box-shadow:var(--soft);
+    border-left:6px solid var(--pcol,var(--chang))}
+  .sp-ava{flex:none;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#fff;background:var(--pcol,var(--chang))}
+  .sp-ava svg{width:26px;height:26px}
+  .sp-me-t{flex:1;min-width:0}
+  .sp-me-t small{display:block;font-size:11.5px;color:var(--mut2);letter-spacing:.08em}
+  .sp-me-t b{display:block;margin-top:2px;font-size:20px;color:var(--brown);letter-spacing:.1em}
+  .sp-seg{display:flex;gap:2px;padding:3px;border-radius:999px;background:var(--card2)}
+  .sp-seg button{border:none;background:none;padding:8px 14px;border-radius:999px;font:700 12.5px/1 var(--font-round);color:var(--mut);letter-spacing:.08em;cursor:pointer}
+  .sp-seg button[data-p="chang"]{font-family:var(--mono);letter-spacing:.12em}
+  .sp-seg button.on{background:var(--pcol,var(--chang));color:#fff;box-shadow:0 4px 10px -5px rgba(93,55,19,.5)}
+
+  /* 開關 */
+  .sp-sw{flex:none;position:relative;width:50px;height:30px;border:none;border-radius:999px;background:var(--line);cursor:pointer;transition:background .2s}
+  .sp-sw i{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(93,55,19,.3);transition:transform .22s cubic-bezier(.3,1.4,.5,1)}
+  .sp-sw[aria-checked="true"]{background:var(--green)}
+  .sp-sw[aria-checked="true"] i{transform:translateX(20px)}
+
+  /* 單選 */
+  .sp-ck{flex:none;width:22px;height:22px;border-radius:50%;border:2px solid var(--line)}
+  .sp-row.pick.on .sp-ck{border-color:var(--green);background:var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/14px no-repeat}
+  .sp-row.pick.on .sp-l{color:var(--brown);font-weight:700}
+
+  /* 同步狀態 */
+  .sp-hero{display:flex;gap:14px;align-items:center;margin-top:8px;padding:18px;border-radius:24px;background:var(--card);box-shadow:var(--soft)}
+  .sp-hero>i{flex:none;width:46px;height:46px;border-radius:50%;background:var(--line) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M8 12h8'/%3E%3C/svg%3E") center/24px no-repeat}
+  .sp-hero.ok>i{background-color:var(--green);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E")}
+  .sp-hero.err>i{background-color:#E08A6B;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M12 7v6M12 17h.01'/%3E%3C/svg%3E")}
+  .sp-hero b{display:block;font-size:17px;color:var(--brown);letter-spacing:.1em}
+  .sp-hero span{display:block;margin-top:3px;font-size:12.5px;color:var(--mut);line-height:1.6}
+  .sp-in{display:flex;align-items:center;gap:6px;padding:4px 4px 4px 14px;border-radius:14px;background:var(--card2);border:1.5px solid var(--line)}
+  .sp-in:focus-within{border-color:var(--chang)}
+  .sp-in input{flex:1;min-width:0;border:none;background:none;outline:none;padding:10px 0;font:500 16px/1.2 var(--mono);color:var(--ink);letter-spacing:.02em}
+  .sp-eye{flex:none;width:38px;height:38px;border:none;border-radius:10px;background:none;color:var(--mut2);display:grid;place-items:center;cursor:pointer}
+  .sp-eye.on{color:var(--brown);background:var(--card)}
+  .sp-eye svg{width:20px;height:20px}
+  .sp-btns{display:flex;gap:8px;margin-top:12px}
+  .sp-btn{flex:1;padding:13px 10px;border:1.5px solid var(--line);border-radius:14px;background:var(--card);color:var(--brown);
+    font:700 14px/1 var(--font-round);letter-spacing:.1em;cursor:pointer;transition:background .2s,color .2s}
+  .sp-btn.main{flex:1.4;border-color:transparent;background:var(--green);color:#fff;box-shadow:0 8px 16px -10px rgba(94,140,20,.8)}
+  .sp-btn.wide{width:100%}
+  .sp-btn.ok{background:var(--green-ink);color:#fff}
+  .sp-btn:active{transform:scale(.97)}
+  .sp-btn:disabled{opacity:.6}
+  .sp-note{margin:12px 8px 0;font-size:12px;line-height:1.75;color:var(--mut);letter-spacing:.04em}
+  .sp-note b{color:var(--brown)}
+  .sp-foot{margin:26px 0 0;text-align:center;font-size:11.5px;color:var(--mut2);letter-spacing:.2em}
+
+  .sp-stats{display:grid;grid-template-columns:repeat(3,1fr);padding:16px 8px 12px;border-bottom:var(--dot)}
+  .sp-stats div{text-align:center}
+  .sp-stats b{display:block;font:600 26px/1.1 var(--mono);color:var(--brown)}
+  .sp-stats span{font-size:11px;color:var(--mut2);letter-spacing:.1em}
+
+  .sp-app{display:flex;gap:14px;align-items:center;margin-top:8px;padding:16px;border-radius:24px;background:var(--card);box-shadow:var(--soft)}
+  .sp-app img{flex:none;border-radius:20px;box-shadow:0 8px 18px -10px rgba(93,55,19,.6)}
+  .sp-app b{display:block;font-size:18px;color:var(--brown);letter-spacing:.14em}
+  .sp-app span{display:block;margin-top:4px;font-size:12.5px;color:var(--mut);line-height:1.6}
+  .sp-app.center{flex-direction:column;text-align:center;padding:26px 16px 20px;background:none;box-shadow:none}
+  .sp-app.center+.sp-group{margin-top:4px}
+  .sp-steps{margin:0;padding:6px 16px 6px 16px;list-style:none;counter-reset:s;background:var(--card);border-radius:22px;box-shadow:var(--soft)}
+  .sp-steps li{counter-increment:s;position:relative;padding:12px 0 12px 38px;font-size:13.5px;line-height:1.7;color:var(--ink)}
+  .sp-steps li+li{border-top:var(--dot)}
+  .sp-steps li::before{content:counter(s);position:absolute;left:0;top:12px;width:26px;height:26px;border-radius:50%;background:var(--chang-soft);
+    color:#9A7406;font:600 13px/26px var(--mono);text-align:center}
+  .sp-steps b{color:var(--brown)}
+  .sp-steps+.sp-group{margin-top:16px}
+  @media(prefers-reduced-motion:reduce){.sp,.sp.on,.sp.anim .sp-view{transition:none!important}}
+  @media(min-width:761px){
+    .sp-hd{padding-left:max(18px,calc(50% - 280px));padding-right:max(18px,calc(50% - 280px))}
+  }
 </style>
 </head>
 <body>
@@ -1130,14 +1258,140 @@
   <div class="msg" id="payMsg"></div>
 </dialog>
 
-<dialog id="setDlg">
-  <div class="dlg-x" onclick="setDlg.close()">✕</div>
-  <h2>裝置設定</h2>
-  <div class="sub">貼上 GitHub Token（只需 data repo 的 Contents 讀寫）。僅存於此裝置。</div>
-  <label>GitHub Token</label>
-  <input type="password" id="tokenInput" placeholder="github_pat_…">
-  <button class="go" id="tokenSave">儲存</button>
-</dialog>
+<!-- ═══ 設定：整頁滑入＋分頁（取代原本的裝置設定彈窗）═══ -->
+<div class="sp" id="setPage" aria-hidden="true" role="dialog" aria-label="設定">
+  <!-- 首頁 -->
+  <div class="sp-view" data-v="home">
+    <header class="sp-hd"><h2>設定</h2><button class="sp-x" data-close aria-label="關閉設定"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"/></svg></button></header>
+    <div class="sp-body">
+      <div class="sp-me">
+        <div class="sp-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="3.6"/><path d="M5.5 19.5c1.2-3.2 3.6-4.8 6.5-4.8s5.3 1.6 6.5 4.8"/></svg></div>
+        <div class="sp-me-t"><small>這支手機的使用者</small><b id="spName">CHANG</b></div>
+        <div class="sp-seg" id="spWho"><button data-p="chang">CHANG</button><button data-p="wife">老婆</button></div>
+      </div>
+
+      <div class="sp-gl" data-en="DATA">資料</div>
+      <div class="sp-group">
+        <button class="sp-row nav" data-go="sync"><i class="sp-ic g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17.5a4.5 4.5 0 0 1-.6-9 5.5 5.5 0 0 1 10.6 1.4 3.8 3.8 0 0 1-.5 7.6Z"/><path d="M12 11v5M9.8 13.8 12 16l2.2-2.2"/></svg></i><span class="sp-l">雲端同步<small>GitHub Token、資料狀態</small></span><span class="sp-v" id="spSyncV">–</span></button>
+      </div>
+
+      <div class="sp-gl" data-en="PREFERENCE">偏好</div>
+      <div class="sp-group">
+        <button class="sp-row nav" data-go="start"><i class="sp-ic y"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 11 12 4.5l7.5 6.5"/><path d="M6.5 9.5V19h11V9.5"/><path d="M10 19v-5h4v5"/></svg></i><span class="sp-l">打開時先看</span><span class="sp-v" id="spStartV">記住上次</span></button>
+        <div class="sp-row"><i class="sp-ic p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 17.5V6l10-2v11.5"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="15.5" r="2.5"/></svg></i><span class="sp-l">背景音樂與音效</span><button class="sp-sw" id="spSnd" role="switch" aria-checked="false" aria-label="背景音樂與音效"><i></i></button></div>
+      </div>
+
+      <div class="sp-gl" data-en="MODULES">功能</div>
+      <div class="sp-group">
+        <button class="sp-row nav" data-go="health"><i class="sp-ic p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19.5s-7-4.3-7-9.4A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.1c0 5.1-7 9.4-7 9.4Z"/></svg></i><span class="sp-l">健康目標<small>壺鈴重量、每日次數</small></span><span class="sp-v"></span></button>
+        <button class="sp-row nav" data-go="travel"><i class="sp-ic b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7.5" width="16" height="12" rx="3"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5M9 11v5M15 11v5"/></svg></i><span class="sp-l">旅遊行程<small>足跡統計、行程範本</small></span><span class="sp-v"></span></button>
+      </div>
+
+      <div class="sp-gl" data-en="APP">App</div>
+      <div class="sp-group">
+        <button class="sp-row nav" data-go="home2"><i class="sp-ic y"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="3" width="11" height="18" rx="3"/><path d="M10.5 17.5h3"/></svg></i><span class="sp-l">加到主畫面<small>圖示沒出現怎麼辦</small></span><span class="sp-v"></span></button>
+        <button class="sp-row nav" data-go="about"><i class="sp-ic g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 11v5M12 8h.01"/></svg></i><span class="sp-l">關於與更新</span><span class="sp-v" id="spVerV">–</span></button>
+      </div>
+      <div class="sp-foot">家的旅程 · 我們一起慢慢走</div>
+    </div>
+  </div>
+
+  <!-- 雲端同步 -->
+  <div class="sp-view" data-v="sync">
+    <header class="sp-hd sub"><button class="sp-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>設定</button><h2>雲端同步</h2></header>
+    <div class="sp-body">
+      <div class="sp-hero" id="spSyncState"><i></i><div><b id="spSyncT">–</b><span id="spSyncD"></span></div></div>
+      <div class="sp-gl" data-en="TOKEN">GitHub Token</div>
+      <div class="sp-group pad">
+        <div class="sp-in"><input type="password" id="tokenInput" placeholder="github_pat_…" autocomplete="off" autocapitalize="off" spellcheck="false"><button class="sp-eye" id="spEye" aria-label="顯示或隱藏 Token"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.8"/></svg></button></div>
+        <div class="sp-btns"><button class="sp-btn main" id="tokenSave">儲存並同步</button><button class="sp-btn" id="spTest">測試連線</button></div>
+      </div>
+      <div class="sp-gl" data-en="STATUS">資料狀態</div>
+      <div class="sp-group">
+        <div class="sp-row"><span class="sp-l">財務資料更新</span><span class="sp-v num" id="spDataUpd">–</span></div>
+        <div class="sp-row"><span class="sp-l">交易紀錄</span><span class="sp-v num" id="spDataN">–</span></div>
+        <div class="sp-row"><span class="sp-l">報價時間</span><span class="sp-v num" id="spPriceUpd">–</span></div>
+        <div class="sp-row"><span class="sp-l">健康紀錄</span><span class="sp-v" id="spHealthSync">–</span></div>
+      </div>
+      <div class="sp-note">Token 只存在這支手機的瀏覽器裡，不會上傳到任何地方。權限只需要 <b>family-dividend-data</b> 的 Contents 讀寫。換手機或清除 Safari 資料後，要重新貼一次。</div>
+      <div class="sp-group"><button class="sp-row danger" id="spClear"><span class="sp-l">清除這支手機的 Token</span></button></div>
+    </div>
+  </div>
+
+  <!-- 打開時先看 -->
+  <div class="sp-view" data-v="start">
+    <header class="sp-hd sub"><button class="sp-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>設定</button><h2>打開時先看</h2></header>
+    <div class="sp-body">
+      <div class="sp-group" id="spStartList">
+        <button class="sp-row pick" data-t="last"><span class="sp-l">記住上次<small>停在上次離開的分頁</small></span><i class="sp-ck"></i></button>
+        <button class="sp-row pick" data-t="fin"><span class="sp-l">財務</span><i class="sp-ck"></i></button>
+        <button class="sp-row pick" data-t="health"><span class="sp-l">健康</span><i class="sp-ck"></i></button>
+        <button class="sp-row pick" data-t="travel"><span class="sp-l">旅遊</span><i class="sp-ck"></i></button>
+      </div>
+      <div class="sp-note">只影響這支手機。從分享連結打開時，仍然會直接跳到連結指定的地方。</div>
+    </div>
+  </div>
+
+  <!-- 健康目標 -->
+  <div class="sp-view" data-v="health">
+    <header class="sp-hd sub"><button class="sp-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>設定</button><h2>健康目標</h2></header>
+    <div class="sp-body">
+      <div class="sp-gl" data-en="GOALS" id="spHealthWho">目標</div>
+      <div class="sp-group" id="spHealthBox"></div>
+      <div class="sp-group pad"><button class="sp-btn main wide" id="spPlan">調整目標</button></div>
+      <div class="sp-note">目標只影響之後新記的日子，過去的達成紀錄不會變。兩個人的目標分開存，切換上方的使用者就能各自調整。</div>
+    </div>
+  </div>
+
+  <!-- 旅遊行程 -->
+  <div class="sp-view" data-v="travel">
+    <header class="sp-hd sub"><button class="sp-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>設定</button><h2>旅遊行程</h2></header>
+    <div class="sp-body">
+      <div class="sp-gl" data-en="FOOTPRINTS">足跡</div>
+      <div class="sp-group" id="spTripBox"><div class="sp-note">讀取中…</div></div>
+      <div class="sp-gl" data-en="TEMPLATE">行程範本</div>
+      <div class="sp-group">
+        <a class="sp-row nav" href="trip-template/index.html"><span class="sp-l">預覽行程範本<small>行程・地圖・美食・刷卡 四頁</small></span><span class="sp-v"></span></a>
+      </div>
+      <div class="sp-note">新的旅程都從同一份範本開始：複製 trip-template 資料夾、改好日期和行程，再到 trips.json 加一筆，就會出現在日曆和旅遊紀錄裡。想排下一趟時跟我說一聲就好。</div>
+    </div>
+  </div>
+
+  <!-- 加到主畫面 -->
+  <div class="sp-view" data-v="home2">
+    <header class="sp-hd sub"><button class="sp-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>設定</button><h2>加到主畫面</h2></header>
+    <div class="sp-body">
+      <div class="sp-app"><img src="apple-touch-icon.png" alt="" width="72" height="72"><div><b>家的旅程</b><span>加到主畫面後，會像 App 一樣全螢幕打開。</span></div></div>
+      <div class="sp-gl" data-en="IPHONE">iPhone</div>
+      <ol class="sp-steps">
+        <li>用 <b>Safari</b> 打開這個網址（其他瀏覽器不能加）。</li>
+        <li>點下方的 <b>分享</b> 按鈕（方框加向上箭頭）。</li>
+        <li>往下找 <b>加入主畫面</b>，名稱留「家的旅程」，按新增。</li>
+      </ol>
+      <div class="sp-gl" data-en="NO ICON">圖示是空白的？</div>
+      <ol class="sp-steps">
+        <li>先長按主畫面上的空白圖示，<b>移除</b>。</li>
+        <li>回到 Safari 打開網址，往下拉重新整理一次，等畫面完全載入。</li>
+        <li>再照上面的步驟加一次。還是空白的話，到 iPhone 設定 → Safari → 進階 → 網站資料，只刪掉 <b>github.io</b> 這一筆再試（之後要重新貼 Token）。</li>
+      </ol>
+      <div class="sp-group pad"><button class="sp-btn main wide" id="spCopy">複製網址</button></div>
+    </div>
+  </div>
+
+  <!-- 關於與更新 -->
+  <div class="sp-view" data-v="about">
+    <header class="sp-hd sub"><button class="sp-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>設定</button><h2>關於與更新</h2></header>
+    <div class="sp-body">
+      <div class="sp-app center"><img src="apple-touch-icon.png" alt="" width="84" height="84"><div><b>家的旅程</b><span id="spVer2">財務・健康・旅遊，兩個人的小日子</span></div></div>
+      <div class="sp-group">
+        <button class="sp-row nav" id="spUpd"><span class="sp-l">檢查更新</span><span class="sp-v">點一下檢查</span></button>
+        <button class="sp-row nav" id="spReload"><span class="sp-l">重新整理資料<small>重新抓財務、健康、報價</small></span><span class="sp-v"></span></button>
+        <button class="sp-row nav" id="spHard"><span class="sp-l">清除快取並重新開啟<small>畫面怪怪的時候用；不會刪除紀錄</small></span><span class="sp-v"></span></button>
+      </div>
+      <div class="sp-note">App 每次打開都會自動檢查新版本，有更新會自己重新載入，通常不用手動按。</div>
+    </div>
+  </div>
+</div>
 
 <dialog id="hDayDlg">
   <div class="dlg-x" onclick="hDayDlg.close()">✕</div>
@@ -1180,7 +1434,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.11-1700";
+const APP_VERSION="2026.10.11-1800";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -1199,7 +1453,7 @@ async function load(){
   const h={"Accept":"application/vnd.github+json"};
   if(token())h.Authorization="Bearer "+token();
   const r=await fetch(API+"?t="+Date.now(),{headers:h});
-  if(!r.ok)throw new Error("讀取失敗 HTTP "+r.status+"（請按右上角「設定」填入 Token）");
+  if(!r.ok)throw new Error("讀取失敗 HTTP "+r.status+"（請到「設定 → 雲端同步」填入 Token）");
   const j=await r.json();SHA=j.sha;DATA=JSON.parse(b64d(j.content.replace(/\n/g,"")));
 }
 async function ensurePrices(){
@@ -1568,7 +1822,7 @@ function payRows(o){
 }
 
 async function savePayouts(msgOk){
-  if(!token()){alert("請先按右上角「設定」填入 Token");return;}
+  if(!token()){alert("請先到「設定 → 雲端同步」填入 Token");return;}
   const snapshot=JSON.parse(JSON.stringify(DATA.payouts));
   try{
     const cur=JSON.parse(JSON.stringify(DATA));   // 保留本地修改
@@ -1695,12 +1949,15 @@ function updateMini(pD,next){
   var bar=document.getElementById("tabbar"); if(!bar) return;
   var NAME={fin:"財務",health:"健康",travel:"旅遊"};
   function cur(){ var c=document.body.classList; return c.contains("mode-health")?"health":c.contains("mode-travel")?"travel":"fin"; }
-  function sync(){ var m=cur(); bar.querySelectorAll("button[data-go]").forEach(function(b){ b.classList.toggle("on",b.dataset.go===m); });
-    var t=document.getElementById("gTitle"); if(t) t.textContent=NAME[m]; }
+  function sync(){ var m=document.body.classList.contains("set-open")?"set":cur(); bar.querySelectorAll("button[data-go]").forEach(function(b){ b.classList.toggle("on",b.dataset.go===m); });
+    var t=document.getElementById("gTitle"); if(t&&NAME[m]) t.textContent=NAME[m]; }
   bar.addEventListener("click",function(e){
     var b=e.target.closest("button[data-go]"); if(!b) return;
-    if(b.dataset.go==="set"){ document.getElementById("gearBtn").click(); return; }
-    var d=document.querySelector('#domain button[data-d="'+b.dataset.go+'"]'); if(d) d.click();
+    if(b.dataset.go==="set"){ if(window.Settings) window.Settings.open(); return; }
+    var open=window.Settings&&window.Settings.isOpen();
+    if(open) window.Settings.close();
+    var d=document.querySelector('#domain button[data-d="'+b.dataset.go+'"]');
+    if(d&&!(open&&d.classList.contains("on"))) d.click();
   });
   new MutationObserver(sync).observe(document.body,{attributes:true,attributeFilter:["class"]});
   sync();
@@ -1834,7 +2091,7 @@ document.getElementById("addBtn").onclick=()=>{
 };
 document.getElementById("goBtn").onclick=async()=>{
   const msg=document.getElementById("txMsg"),btn=document.getElementById("goBtn");
-  if(!token()){msg.className="msg err";msg.textContent="請先按右上角「設定」填入 Token";return;}
+  if(!token()){msg.className="msg err";msg.textContent="請先到「設定 → 雲端同步」填入 Token";return;}
   const sh=parseFloat(document.getElementById("fShares").value),
         px=parseFloat(document.getElementById("fPrice").value),
         dt=document.getElementById("fDate").value;
@@ -1882,7 +2139,7 @@ document.getElementById("addPayBtn").onclick=()=>{
 };
 document.getElementById("payGoBtn").onclick=async()=>{
   const msg=document.getElementById("payMsg"),btn=document.getElementById("payGoBtn");
-  if(!token()){msg.className="msg err";msg.textContent="請先按右上角「設定」填入 Token";return;}
+  if(!token()){msg.className="msg err";msg.textContent="請先到「設定 → 雲端同步」填入 Token";return;}
   const amt=parseFloat(document.getElementById("pAmt").value),dt=document.getElementById("pDate").value;
   if(!amt||!dt){msg.className="msg err";msg.textContent="金額與日期必填";return;}
   btn.disabled=true;msg.className="msg";msg.textContent="寫入中…";
@@ -1907,7 +2164,7 @@ window.delTx=async function(i){
   const t=DATA.transactions[i];
   const nm=(DATA.stocks[t.stock]||{}).name||t.stock;
   if(!confirm(`刪除這筆紀錄？\n\n${t.date}　${t.owner==="chang"?"Chang":"老婆"}\n${nm}　${fmt(t.shares)} 股 @ ${t.price}\n\n此動作無法復原。`))return;
-  if(!token()){alert("請先按右上角「設定」填入 Token");return;}
+  if(!token()){alert("請先到「設定 → 雲端同步」填入 Token");return;}
   try{
     await load();
     const cur=DATA.transactions[i];
@@ -1924,16 +2181,8 @@ window.delTx=async function(i){
   }catch(e){alert("刪除失敗："+e.message);}
 };
 
-document.getElementById("gearBtn").onclick=()=>{
-  document.getElementById("tokenInput").value=token();
-  document.getElementById("setDlg").showModal();
-};
-document.getElementById("tokenSave").onclick=async()=>{
-  localStorage.setItem("gh_token",document.getElementById("tokenInput").value.trim());
-  document.getElementById("setDlg").close();
-  try{await load();await ensurePrices();render();}catch(e){document.getElementById("meta").textContent=e.message;}
-};
-["txDlg","setDlg","payDlg"].forEach(id=>{
+/* 設定頁（Token、偏好、更新）在 settings.js */
+["txDlg","payDlg"].forEach(id=>{
   const dlg=document.getElementById(id);
   dlg.addEventListener("click",e=>{
     const r=dlg.getBoundingClientRect();
@@ -1970,7 +2219,7 @@ async function refreshData(){
 (function(){
   let y0=null,pulling=false;const TH=72;const el=()=>document.getElementById("ptr");
   addEventListener("touchstart",e=>{
-    if(window.scrollY<=0&&!document.querySelector("dialog[open]")){y0=e.touches[0].clientY;pulling=true;}
+    if(window.scrollY<=0&&!document.querySelector("dialog[open]")&&!document.body.classList.contains("set-open")){y0=e.touches[0].clientY;pulling=true;}
     else pulling=false;
   },{passive:true});
   addEventListener("touchmove",e=>{
@@ -2178,7 +2427,8 @@ addEventListener("resize",()=>{ clearTimeout(_rz); _rz=setTimeout(()=>{ if(DATA)
   catch(e){document.getElementById("meta").textContent=e.message;}
 })();
 </script>
-<script src="travel.js?v=2026.10.11-1100"></script>
-<script src="health.js?v=2026.10.11-1020"></script>
+<script src="travel.js?v=2026.10.11-1800"></script>
+<script src="health.js?v=2026.10.11-1800"></script>
+<script src="settings.js?v=2026.10.11-1800"></script>
 </body>
 </html>

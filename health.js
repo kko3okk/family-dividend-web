@@ -161,7 +161,7 @@ function setSync(s, msg){
   const el = $("hSync"); if (!el) return;
   const txt = {
     idle:"", ok:"✓ 已同步到雲端", pending:"● 稍後同步…", syncing:"⟳ 同步中…",
-    local:"只存在這支手機 · 按右上角「設定」填入 Token 才會同步",
+    local:"只存在這支手機 · 到「設定 → 雲端同步」填入 Token 才會同步",
     err:"⚠ 同步失敗，紀錄先存在手機，下次會再試" + (syncMsg ? `（${syncMsg}）` : "")
   }[s] || "";
   el.textContent = txt;
@@ -401,8 +401,18 @@ try { if (typeof person !== "undefined") person = localStorage.getItem("person")
 loadLocal();
 const hashH = /^#(secH|health)/.test(location.hash);
 const hashT = /^#(secT|travel)/.test(location.hash);
-let mode = "fin"; try { mode = localStorage.getItem(LS_MODE) || "fin"; } catch(e){}
+let mode = "fin"; try {
+  const st = localStorage.getItem("startTab");            // 設定頁「打開時先看」
+  mode = st && st !== "last" ? st : (localStorage.getItem(LS_MODE) || "fin");
+} catch(e){}
 setMode(hashH ? "health" : hashT ? "travel" : mode, false);
 if (!document.body.classList.contains("mode-health")) pull();   // 背景先載入，切過去就有資料
-window.Health = { render, pull, setMode };
+window.Health = { render, pull, setMode,
+  info(){                                                  // 給設定頁看的摘要
+    const txt = { ok:"已同步", pending:"等待同步", syncing:"同步中", local:"只存在這支手機", err:"同步失敗", idle:token() ? (loaded ? "已同步" : "載入中") : "只存在這支手機" };
+    if (!HD) return { ready:false, syncText: txt[syncState] || "–" };
+    const p = who(), pl = plan(p);
+    return { ready:true, name:NAMES[p], weight:pl.weight, start:pl.start || "",
+      moves: MOVES.map(m => ({ name:m.name, goal:m.goal, target:pl.targets[m.id] })), syncText: txt[syncState] || "–" };
+  } };
 })();

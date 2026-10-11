@@ -251,6 +251,6 @@ async function render(){
   }
 }
 
-window.Travel = { render, reload(){ TRIPS = null; loading = null; return render(); } };
+window.Travel = { render, list: load, reload(){ TRIPS = null; loading = null; return render(); } };
 if (document.body.classList.contains("mode-travel")) render();
 })();
