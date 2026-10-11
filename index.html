@@ -878,16 +878,58 @@
     .gnav .traveler div{padding:6px 6px!important}
     .gicon{width:26px!important}
   }
+
+  /* ═══ 2026-10-11 手機版導覽重新設計：頂部只留標題＋旅人＋音效，分頁移到底部 ═══ */
+  .gtitle,.tabbar,.fab{display:none}
+  @media(max-width:760px){
+    .gnav .domain,#gearBtn,.gnav .gadd{display:none!important}
+    .gin{padding:10px 16px 0!important;row-gap:6px!important;flex-wrap:wrap}
+    .gtitle{display:block;order:1;flex:1;font-size:20px;font-weight:700;color:var(--brown);letter-spacing:.14em;line-height:36px}
+    .gtools{order:2;gap:6px!important}
+    .glinks{order:3}
+    .gnav .traveler div{padding:6px 12px!important;font-size:12px!important}
+    .gicon{width:34px!important;height:34px!important}
+
+    .tabbar{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;z-index:60;left:12px;right:12px;
+      bottom:max(12px,env(safe-area-inset-bottom));height:64px;padding:6px;border-radius:26px;
+      background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+      box-shadow:0 14px 34px -14px rgba(93,55,19,.5)}
+    .tabbar button{border:none;background:none;font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+      border-radius:20px;color:var(--mut2);font-size:11px;font-weight:700;letter-spacing:.08em;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .2s,color .2s}
+    .tabbar button svg{width:22px;height:22px}
+    .tabbar button.on{background:var(--chang-soft);color:var(--brown)}
+    .tabbar button.on svg{color:color-mix(in srgb,var(--pcol,var(--chang)) 85%,#5D3713)}
+    .tabbar button:active{transform:scale(.95)}
+
+    .fab{display:grid;place-items:center;position:fixed;z-index:61;right:20px;bottom:calc(max(12px,env(safe-area-inset-bottom)) + 78px);
+      width:54px;height:54px;border:none;border-radius:50%;background:var(--pcol,var(--chang));color:#fff;cursor:pointer;
+      box-shadow:0 12px 24px -10px rgba(93,55,19,.6);-webkit-tap-highlight-color:transparent}
+    .fab svg{width:24px;height:24px}
+    .fab:active{transform:scale(.94)}
+    body.mode-health .fab,body.mode-travel .fab{display:none!important}
+
+    body{padding-bottom:calc(110px + env(safe-area-inset-bottom))!important}
+    #sndMsg,.toast{bottom:calc(max(12px,env(safe-area-inset-bottom)) + 84px)!important}
+  }
 </style>
 </head>
 <body>
 
 <div id="ptr">↓</div>
 <div id="sndMsg"></div>
+<!-- 手機：底部分頁列（財務／健康／旅遊／設定）＋記一筆浮鈕 -->
+<nav class="tabbar" id="tabbar" aria-label="分頁">
+  <button data-go="fin" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20v-8"/><path d="M12 12c0-3.3-2.4-5.5-6-5.5 0 3.6 2.4 5.5 6 5.5Z"/><path d="M12 14c0-3 2.2-5 5.5-5 0 3-2.2 5-5.5 5Z"/></svg><span>財務</span></button>
+  <button data-go="health"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19.5s-7-4.3-7-9.4A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.1c0 5.1-7 9.4-7 9.4Z"/></svg><span>健康</span></button>
+  <button data-go="travel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7.5" width="16" height="12" rx="3"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5M9 11v5M15 11v5"/></svg><span>旅遊</span></button>
+  <button data-go="set"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h9M18 7h1M5 17h1M10 17h9"/><circle cx="16" cy="7" r="2.2"/><circle cx="8" cy="17" r="2.2"/></svg><span>設定</span></button>
+</nav>
+<button class="fab fin" id="mAddFab" aria-label="記一筆買進"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg></button>
+
 
 <nav class="gnav" id="gnav">
   <div class="gin">
-    <a class="gbrand" href="#secMap">家的旅程</a>
+    <a class="gbrand" href="#secMap">家的旅程</a><div class="gtitle" id="gTitle">財務</div>
     <div class="domain" id="domain" role="tablist">
       <button data-d="fin" class="on" role="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20v-8"/><path d="M12 12c0-3.3-2.4-5.5-6-5.5 0 3.6 2.4 5.5 6 5.5Z"/><path d="M12 14c0-3 2.2-5 5.5-5 0 3-2.2 5-5.5 5Z"/></svg><span>財務</span></button><button data-d="health" role="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19.5s-7-4.3-7-9.4A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.1c0 5.1-7 9.4-7 9.4Z"/></svg><span>健康</span></button><button data-d="travel" role="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7.5" width="16" height="12" rx="3"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5M9 11v5M15 11v5"/></svg><span>旅遊</span></button>
     </div>
@@ -1138,7 +1180,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.11-1120";
+const APP_VERSION="2026.10.11-1700";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -1646,6 +1688,23 @@ function updateMini(pD,next){
   function set(){ document.documentElement.style.setProperty("--navh", nav.offsetHeight+"px"); }
   set(); window.addEventListener("resize", set);
   if("ResizeObserver" in window) new ResizeObserver(set).observe(nav);
+})();
+
+// 手機底部分頁列：切換分頁沿用原本的分頁按鈕（健康模組監聽它），標題與選中狀態跟著 body 狀態走
+(function(){
+  var bar=document.getElementById("tabbar"); if(!bar) return;
+  var NAME={fin:"財務",health:"健康",travel:"旅遊"};
+  function cur(){ var c=document.body.classList; return c.contains("mode-health")?"health":c.contains("mode-travel")?"travel":"fin"; }
+  function sync(){ var m=cur(); bar.querySelectorAll("button[data-go]").forEach(function(b){ b.classList.toggle("on",b.dataset.go===m); });
+    var t=document.getElementById("gTitle"); if(t) t.textContent=NAME[m]; }
+  bar.addEventListener("click",function(e){
+    var b=e.target.closest("button[data-go]"); if(!b) return;
+    if(b.dataset.go==="set"){ document.getElementById("gearBtn").click(); return; }
+    var d=document.querySelector('#domain button[data-d="'+b.dataset.go+'"]'); if(d) d.click();
+  });
+  new MutationObserver(sync).observe(document.body,{attributes:true,attributeFilter:["class"]});
+  sync();
+  var fab=document.getElementById("mAddFab"); if(fab) fab.onclick=function(){ document.getElementById("addBtn").click(); };
 })();
 document.getElementById("mAdd").onclick=()=>document.getElementById("addBtn").click();
 (()=>{
