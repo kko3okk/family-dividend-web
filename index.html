@@ -974,7 +974,7 @@
   .sp-ava{flex:none;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#fff;background:var(--pcol,var(--chang))}
   .sp-ava svg{width:26px;height:26px}
   .sp-me-t{flex:1;min-width:0}
-  .sp-me-t small{display:block;font-size:11.5px;color:var(--mut2);letter-spacing:.08em}
+  .sp-me-t small{display:block;white-space:nowrap;font-size:11.5px;color:var(--mut2);letter-spacing:.08em}
   .sp-me-t b{display:block;margin-top:2px;font-size:20px;color:var(--brown);letter-spacing:.1em}
   .sp-seg{display:flex;gap:2px;padding:3px;border-radius:999px;background:var(--card2)}
   .sp-seg button{border:none;background:none;padding:8px 14px;border-radius:999px;font:700 12.5px/1 var(--font-round);color:var(--mut);letter-spacing:.08em;cursor:pointer}
@@ -1266,7 +1266,7 @@
     <div class="sp-body">
       <div class="sp-me">
         <div class="sp-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="3.6"/><path d="M5.5 19.5c1.2-3.2 3.6-4.8 6.5-4.8s5.3 1.6 6.5 4.8"/></svg></div>
-        <div class="sp-me-t"><small>這支手機的使用者</small><b id="spName">CHANG</b></div>
+        <div class="sp-me-t"><small>目前使用者</small><b id="spName">CHANG</b></div>
         <div class="sp-seg" id="spWho"><button data-p="chang">CHANG</button><button data-p="wife">老婆</button></div>
       </div>
 
@@ -1287,7 +1287,7 @@
         <button class="sp-row nav" data-go="travel"><i class="sp-ic b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7.5" width="16" height="12" rx="3"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5M9 11v5M15 11v5"/></svg></i><span class="sp-l">旅遊行程<small>足跡統計、行程範本</small></span><span class="sp-v"></span></button>
       </div>
 
-      <div class="sp-gl" data-en="APP">App</div>
+      <div class="sp-gl" data-en="OTHERS">其他</div>
       <div class="sp-group">
         <button class="sp-row nav" data-go="home2"><i class="sp-ic y"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="3" width="11" height="18" rx="3"/><path d="M10.5 17.5h3"/></svg></i><span class="sp-l">加到主畫面<small>圖示沒出現怎麼辦</small></span><span class="sp-v"></span></button>
         <button class="sp-row nav" data-go="about"><i class="sp-ic g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 11v5M12 8h.01"/></svg></i><span class="sp-l">關於與更新</span><span class="sp-v" id="spVerV">–</span></button>
@@ -1301,7 +1301,7 @@
     <header class="sp-hd sub"><button class="sp-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>設定</button><h2>雲端同步</h2></header>
     <div class="sp-body">
       <div class="sp-hero" id="spSyncState"><i></i><div><b id="spSyncT">–</b><span id="spSyncD"></span></div></div>
-      <div class="sp-gl" data-en="TOKEN">GitHub Token</div>
+      <div class="sp-gl" data-en="ACCESS">GitHub Token</div>
       <div class="sp-group pad">
         <div class="sp-in"><input type="password" id="tokenInput" placeholder="github_pat_…" autocomplete="off" autocapitalize="off" spellcheck="false"><button class="sp-eye" id="spEye" aria-label="顯示或隱藏 Token"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.8"/></svg></button></div>
         <div class="sp-btns"><button class="sp-btn main" id="tokenSave">儲存並同步</button><button class="sp-btn" id="spTest">測試連線</button></div>
@@ -1339,7 +1339,7 @@
       <div class="sp-gl" data-en="GOALS" id="spHealthWho">目標</div>
       <div class="sp-group" id="spHealthBox"></div>
       <div class="sp-group pad"><button class="sp-btn main wide" id="spPlan">調整目標</button></div>
-      <div class="sp-note">目標只影響之後新記的日子，過去的達成紀錄不會變。兩個人的目標分開存，切換上方的使用者就能各自調整。</div>
+      <div class="sp-note">目標只影響之後新記的日子，過去的達成紀錄不會變。兩個人的目標分開存，回設定首頁切換使用者就能各自調整。</div>
     </div>
   </div>
 
@@ -1362,7 +1362,7 @@
     <header class="sp-hd sub"><button class="sp-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>設定</button><h2>加到主畫面</h2></header>
     <div class="sp-body">
       <div class="sp-app"><img src="apple-touch-icon.png" alt="" width="72" height="72"><div><b>家的旅程</b><span>加到主畫面後，會像 App 一樣全螢幕打開。</span></div></div>
-      <div class="sp-gl" data-en="IPHONE">iPhone</div>
+      <div class="sp-gl" data-en="STEPS">iPhone 加入步驟</div>
       <ol class="sp-steps">
         <li>用 <b>Safari</b> 打開這個網址（其他瀏覽器不能加）。</li>
         <li>點下方的 <b>分享</b> 按鈕（方框加向上箭頭）。</li>
@@ -1434,7 +1434,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.11-1800";
+const APP_VERSION="2026.10.11-1810";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
