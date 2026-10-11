@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#FFFCF6">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@400;500;600;700&family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+<title>旅遊清單｜東京・河口湖 2025</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4f0; color: #1a1a1a; padding: 20px; max-width: 720px; margin: 0 auto; }
+h1 { font-size: 18px; font-weight: 600; margin-bottom: 2px; }
+.subtitle { font-size: 13px; color: #999; margin-bottom: 16px; }
+.flight-bar { font-size: 12px; color: #075985; background: #e0f2fe; border-radius: 8px; padding: 10px 12px; margin-bottom: 12px; line-height: 1.8; }
+.flight-bar b { color: #0c4a6e; }
+.principle { font-size: 12px; color: #085041; background: #E1F5EE; border-radius: 8px; padding: 8px 12px; margin-bottom: 12px; }
+.stay-bar { font-size: 12px; color: #666; background: #fff; border: 0.5px solid rgba(0,0,0,0.09); border-radius: 8px; padding: 10px 12px; margin-bottom: 16px; line-height: 1.7; }
+.stay-bar b { color: #1a1a1a; }
+.progress-text { font-size: 12px; color: #aaa; margin-bottom: 6px; }
+.progress-bar { height: 4px; background: #e8e7e3; border-radius: 2px; margin-bottom: 24px; overflow: hidden; }
+.progress-fill { height: 100%; background: #1a1a1a; border-radius: 2px; transition: width 0.3s; }
+.day-block { margin-bottom: 20px; }
+.day-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.day-badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+.bo { background: #E1F5EE; color: #085041; }
+.bu { background: #FCE7F3; color: #9D174D; }
+.bkobe { background: #FEF3C7; color: #92400E; }
+.bt { background: #F1EFE8; color: #444441; }
+.day-title { font-size: 14px; font-weight: 500; }
+.day-date { font-size: 12px; color: #aaa; margin-left: auto; }
+.card { background: #fff; border: 0.5px solid rgba(0,0,0,0.09); border-radius: 12px; overflow: hidden; }
+.item { display: flex; align-items: flex-start; gap: 10px; padding: 9px 14px; border-bottom: 0.5px solid #f0efeb; }
+.item:last-child { border-bottom: none; }
+.cb { width: 16px; height: 16px; border: 1.5px solid #ccc; border-radius: 4px; flex-shrink: 0; margin-top: 2px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+.cb.checked { background: #1a1a1a; border-color: #1a1a1a; }
+.cb.checked::after { content: '✓'; color: white; font-size: 10px; font-weight: 700; }
+.content { flex: 1; }
+.label { font-size: 13px; line-height: 1.5; }
+.label.checked { color: #bbb; text-decoration: line-through; }
+.note { font-size: 11px; color: #aaa; margin-top: 1px; line-height: 1.4; }
+.tag { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 10px; margin-left: 5px; vertical-align: middle; white-space: nowrap; }
+.t-sight { background: #EEEDFE; color: #3C3489; }
+.t-food { background: #fff3e0; color: #7c4700; }
+.t-move { background: #f0efeb; color: #555; }
+.t-stay { background: #E1F5EE; color: #085041; }
+.t-warn { background: #faeeda; color: #92580a; }
+.t-shop { background: #fce8f3; color: #7a1048; }
+.t-shrine { background: #ffe4e6; color: #9f1239; }
+.t-usj { background: #FCE7F3; color: #9D174D; }
+
+.transit { display:none; margin-top:6px; padding:8px 10px; background:#F1EFE8; border-radius:8px; font-size:11px; line-height:1.65; color:#555; }
+.transit.open { display:block; }
+.transit b { color:#1a1a1a; }
+.transit .r { display:block; margin-bottom:4px; }
+.transit .r:last-child { margin-bottom:0; }
+.trbtn { display:inline-block; font-size:10px; padding:1px 7px; border-radius:10px; margin-left:5px; vertical-align:middle;
+         background:#e8eef7; color:#2c4a73; cursor:pointer; user-select:none; white-space:nowrap; }
+.trbtn:active { opacity:.6; }
+
+nav.pages{display:flex;gap:6px;margin:0 0 16px}
+nav.pages a{flex:1;text-align:center;font-size:12.5px;white-space:nowrap;font-weight:600;padding:9px 0;border-radius:10px;
+      background:#fff;color:#666;text-decoration:none;border:0.5px solid rgba(0,0,0,.09)}
+nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+
+.syncbar{display:flex;gap:8px;margin:-10px 0 18px}
+.sbtn{font-size:12px;font-weight:600;padding:7px 12px;border-radius:9px;border:none;background:#1a1a1a;color:#fff;cursor:pointer}
+.sbtn.ghost{background:#fff;color:#666;border:0.5px solid rgba(0,0,0,.12)}
+.syncpanel{display:none;background:#fff;border:0.5px solid rgba(0,0,0,.09);border-radius:12px;padding:14px;margin-bottom:18px}
+.syncpanel.open{display:block}
+.sp-t{font-size:12px;font-weight:600;color:#444;margin-bottom:6px}
+.syncpanel textarea{width:100%;font-size:11px;font-family:ui-monospace,Menlo,monospace;border:0.5px solid #ddd;
+  border-radius:8px;padding:8px;resize:none;background:#F5F6F8;color:#333;line-height:1.5;box-sizing:border-box}
+.sp-row{display:flex;align-items:center;gap:8px;margin-top:7px;flex-wrap:wrap}
+.sp-msg{font-size:11px;color:#0E9F6E;font-weight:600}
+.sp-note{font-size:11px;color:#999;line-height:1.6;margin-top:11px;padding-top:10px;border-top:0.5px solid #eee}
+.section { margin-bottom: 20px; }
+.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #888; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 0.5px solid #ddd; }
+.altbtn{display:inline-block;font-size:10px;padding:1px 7px;border-radius:10px;margin-left:5px;vertical-align:middle;background:#E6F6EE;color:#0E7A4F;cursor:pointer;user-select:none;white-space:nowrap}
+.altbox{display:none;margin-top:6px;padding:8px 10px;background:#F0FAF4;border-radius:8px;font-size:11px;line-height:1.65;color:#555}.altbox.open{display:block}.altbox .r{display:block;margin-bottom:4px}.altbox b{color:#1a1a1a}
+.paybtn{display:inline-block;font-size:10px;padding:1px 7px;border-radius:10px;margin-left:5px;vertical-align:middle;background:#FDECDD;color:#9A3412;cursor:pointer;user-select:none;white-space:nowrap}
+.paybtn:active{opacity:.6}
+.payl{display:none;margin-top:6px;padding:8px 10px;background:#FFF7ED;border-radius:8px;font-size:11px;line-height:1.6;color:#555}
+.payl.open{display:block}
+.pl{padding:5px 0;border-top:0.5px dashed #F3D9C2}.pl:first-child{border-top:none;padding-top:0}.pl:last-child{padding-bottom:0}
+.pc{display:inline-block;font-size:10.5px;font-weight:700;color:#fff;padding:0 7px;border-radius:6px;margin-right:4px}
+.pst{display:block;color:#9A3412;font-size:10.5px;margin-top:1px}.pst.ok{color:#0E9F6E}.pst.full{color:#BE123C}
+.qlog{display:flex;gap:5px;margin-top:4px;align-items:center}
+.qlog input{width:84px;font-size:12px;padding:3px 6px;border:0.5px solid #E5C9AE;border-radius:6px;background:#fff}
+.qlog button,.pbtn{font-size:11px;font-weight:600;padding:3px 9px;border-radius:6px;border:none;background:#EA580C;color:#fff;cursor:pointer}
+.qmsg{font-size:10.5px;color:#0E9F6E;font-weight:600}
+.paypanel{display:none;background:#fff;border:0.5px solid rgba(0,0,0,.09);border-radius:12px;padding:14px;margin-bottom:18px}
+.paypanel.open{display:block}
+.cap{margin:6px 0 9px}.cap .ct{display:flex;justify-content:space-between;font-size:11.5px;color:#444}.cap .ct b{color:#1a1a1a}
+.cap .cbar{height:6px;background:#EEE;border-radius:4px;overflow:hidden;margin-top:3px}.cap .cbar i{display:block;height:100%;border-radius:4px}
+.cpn{display:flex;flex-wrap:wrap;gap:5px;margin:4px 0 8px}.cpn span{font-size:10.5px;padding:2px 7px;border-radius:6px;background:#F5F6F8;color:#666}.cpn span.u{background:#E6F6EE;color:#0E7A4F;text-decoration:line-through}
+.pf{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
+.pf select,.pf input{font-size:12.5px;padding:6px 7px;border:0.5px solid #ddd;border-radius:8px;background:#fff;width:100%;box-sizing:border-box}
+.rec{display:flex;justify-content:space-between;gap:8px;font-size:11.5px;padding:5px 0;border-top:0.5px solid #eee;color:#444}
+.rec .x{color:#BE123C;cursor:pointer;padding:0 4px}
+</style>
+<link rel="stylesheet" href="../trip-kit/trip.css?v=1">
+</head>
+<body>
+
+<nav class="pages"><a href="index.html" class="on">📋 行程</a></nav>
+
+<div class="hero"><svg aria-label="高鐵與山丘的插圖" role="img" viewbox="0 0 360 180">
+<g class="sv-sun"><line stroke="#3E3A39" stroke-linecap="round" stroke-width="3" x1="350.0" x2="356.0" y1="36.0" y2="36.0"></line><line stroke="#3E3A39" stroke-linecap="round" stroke-width="3" x1="344.1" x2="348.4" y1="50.1" y2="54.4"></line><line stroke="#3E3A39" stroke-linecap="round" stroke-width="3" x1="330.0" x2="330.0" y1="56.0" y2="62.0"></line><line stroke="#3E3A39" stroke-linecap="round" stroke-width="3" x1="315.9" x2="311.6" y1="50.1" y2="54.4"></line><line stroke="#3E3A39" stroke-linecap="round" stroke-width="3" x1="310.0" x2="304.0" y1="36.0" y2="36.0"></line><line stroke="#3E3A39" stroke-linecap="round" stroke-width="3" x1="315.9" x2="311.6" y1="21.9" y2="17.6"></line><line stroke="#3E3A39" stroke-linecap="round" stroke-width="3" x1="330.0" x2="330.0" y1="16.0" y2="10.0"></line><line stroke="#3E3A39" stroke-linecap="round" stroke-width="3" x1="344.1" x2="348.4" y1="21.9" y2="17.6"></line></g><circle cx="330" cy="36" fill="#F6D27A" r="14" stroke="#3E3A39" stroke-width="3"></circle>
+<g class="sv-cloud"><g transform="translate(14,2)"><path d="M20 50 a10 10 0 0 1 18-6 a12 12 0 0 1 22 2 a8 8 0 0 1 2 16 H22 a8 8 0 0 1 -2-12Z" fill="#FFFFFF" stroke="#3E3A39" stroke-linejoin="round" stroke-width="3"></path></g></g>
+<g class="sv-cloud c2"><g transform="translate(200,-14) scale(.85)"><path d="M20 50 a10 10 0 0 1 18-6 a12 12 0 0 1 22 2 a8 8 0 0 1 2 16 H22 a8 8 0 0 1 -2-12Z" fill="#FFFFFF" stroke="#3E3A39" stroke-linejoin="round" stroke-width="3"></path></g></g>
+<path d="M0 150 Q60 136 120 147 T240 145 T360 147 V180 H0Z" fill="#B9DAA5" stroke="#3E3A39" stroke-linejoin="round" stroke-width="3"></path>
+
+
+
+
+
+
+<line stroke="#3E3A39" stroke-width="2.5" x1="0" x2="360" y1="170" y2="170"></line>
+<g class="sv-train">
+<rect fill="#A8D3E6" height="16" rx="6" stroke="#3E3A39" stroke-width="2.5" width="56" x="0" y="150"></rect>
+<rect fill="#A8D3E6" height="16" rx="6" stroke="#3E3A39" stroke-width="2.5" width="56" x="60" y="150"></rect>
+<path d="M116 150 h4 q10 0 12 16 h-16Z" fill="#F6D27A" stroke="#3E3A39" stroke-linejoin="round" stroke-width="2.5"></path>
+<rect fill="#FFFFFF" height="6" rx="1.5" stroke="#3E3A39" stroke-width="1.5" width="9" x="8" y="154"></rect><rect fill="#FFFFFF" height="6" rx="1.5" stroke="#3E3A39" stroke-width="1.5" width="9" x="23" y="154"></rect><rect fill="#FFFFFF" height="6" rx="1.5" stroke="#3E3A39" stroke-width="1.5" width="9" x="38" y="154"></rect>
+<rect fill="#FFFFFF" height="6" rx="1.5" stroke="#3E3A39" stroke-width="1.5" width="9" x="68" y="154"></rect><rect fill="#FFFFFF" height="6" rx="1.5" stroke="#3E3A39" stroke-width="1.5" width="9" x="83" y="154"></rect><rect fill="#FFFFFF" height="6" rx="1.5" stroke="#3E3A39" stroke-width="1.5" width="9" x="98" y="154"></rect>
+<circle cx="12" cy="167" fill="#3E3A39" r="3"></circle><circle cx="44" cy="167" fill="#3E3A39" r="3"></circle><circle cx="72" cy="167" fill="#3E3A39" r="3"></circle><circle cx="104" cy="167" fill="#3E3A39" r="3"></circle>
+</g>
+<g transform="translate(130,24)"><g class="sv-leaf"><path d="M0 -6 L2 -2 L6 -3 L3 1 L4 5 L0 3 L-4 5 L-3 1 L-6 -3 L-2 -2Z" fill="#F2A497" stroke="#3E3A39" stroke-linejoin="round" stroke-width="1.5"></path></g></g>
+<g transform="translate(250,18)"><g class="sv-leaf l2"><path d="M0 -6 L2 -2 L6 -3 L3 1 L4 5 L0 3 L-4 5 L-3 1 L-6 -3 L-2 -2Z" fill="#F6D27A" stroke="#3E3A39" stroke-linejoin="round" stroke-width="1.5"></path></g></g>
+<g transform="translate(36,20)"><g class="sv-leaf l3"><path d="M0 -6 L2 -2 L6 -3 L3 1 L4 5 L0 3 L-4 5 L-3 1 L-6 -3 L-2 -2Z" fill="#F2A497" stroke="#3E3A39" stroke-linejoin="round" stroke-width="1.5"></path></g></g>
+</svg>
+<h1>東京・河口湖</h1>
+<p class="subtitle">川越・河口湖・銀座・六本木｜4/19–4/27, 2025｜9天8夜｜2人</p>
+<div class="countdown" id="countdown">出發倒數計算中…</div>
+</div>
+<div class="flight-bar">
+✈️ 4/19 航班 JL8664 12:40 桃園機場 →17:05 成田機場<br>
+✈️ 4/27 JL8663日本航空 08:55 - 11:30
+</div>
+<div class="principle">🌿 準則：每天 1 個重點，輕鬆為主，放不下的就放掉。</div>
+<div class="stay-bar">
+🏨 住宿：<br>
+（住宿資料見行程）
+</div>
+
+<p class="progress-text" id="progressText">0 / 0 完成</p>
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+<div class="syncbar">
+  <button class="sbtn" onclick="openSync()">🔄 跨裝置同步</button>
+  <button class="sbtn" style="display:none" onclick="openPay()">💳 刷卡紀錄</button>
+  <button class="sbtn ghost" onclick="resetAll()">清除打勾</button>
+</div>
+<div id="payPanel" class="paypanel">
+  <div class="sp-t">💳 額度進度（依紀錄自動計算）</div>
+  <div id="capBox"></div>
+  <div class="sp-t" style="margin-top:10px">＋ 記一筆</div>
+  <div class="pf">
+    <select id="pfCard"><option value="U">uniopen</option><option value="K">熊本熊卡（刷卡）</option><option value="KP">玉山Wallet PayPay</option><option value="J">吉鶴 Apple Pay</option><option value="W">老婆 JCB</option><option value="CUBE">CUBE</option><option value="C">現金</option></select>
+    <select id="pfWho"><option value="me">我刷的</option><option value="wife">老婆刷的</option></select>
+    <input id="pfYen" type="number" inputmode="numeric" placeholder="金額 ¥">
+    <select id="pfDay"></select>
+    <select id="pfCpn"><option value="">沒用樂享券</option><option value="conv">便利商店券</option><option value="dept">百貨店券</option><option value="gu">UNIQLO・GU券</option><option value="drug">藥妝店券</option><option value="air">機場券</option></select>
+    <input id="pfNote" type="text" placeholder="備註（店名）">
+  </div>
+  <div class="sp-row"><button class="sbtn" onclick="addFromForm()">新增</button><button class="sbtn ghost" onclick="closePay()">關閉</button><span id="pfMsg" class="sp-msg"></span></div>
+  <div class="sp-t" style="margin-top:12px">紀錄</div>
+  <div id="recBox"></div>
+  <div class="sp-note">💡 行程每一項的「💳 刷卡」點開也能直接記帳，建議會依額度自動換卡。<br>匯率 1 NT$ = <input id="fxIn" type="number" step="0.01" style="width:58px;font-size:11px" onchange="setFx(this.value)"> ¥（換算上限用）<br>紀錄存在這台手機；用「🔄 跨裝置同步」代碼可以一起帶到另一台（兩台紀錄會合併）。</div>
+</div>
+<div id="syncPanel" class="syncpanel">
+  <div class="sp-t">① 把這串代碼複製到另一台裝置</div>
+  <textarea id="syncCode" readonly rows="2"></textarea>
+  <div class="sp-row"><button class="sbtn" onclick="copyCode()">複製代碼</button><span id="copyMsg" class="sp-msg"></span></div>
+  <div class="sp-t" style="margin-top:12px">② 或在這裡貼上另一台的代碼</div>
+  <textarea id="pasteCode" rows="2" placeholder="貼上代碼後按套用"></textarea>
+  <div class="sp-row"><button class="sbtn" onclick="applyCode()">套用</button><button class="sbtn ghost" onclick="closeSync()">關閉</button><span id="applyMsg" class="sp-msg"></span></div>
+  <div class="sp-note">💡 代碼包含「哪些項目打勾了」和「💳 刷卡紀錄」。換手機、或跟同行的人同步進度都用這個。⚠️ 行程項目增減後舊代碼會對不上。</div>
+</div>
+
+<div class="daytabs" id="dayTabs"></div>
+<!-- 出發前 -->
+<div class="section">
+  <div class="section-title">✈️ 出發前準備（從 Notion 匯入）</div>
+  <div class="card">
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">✅ 航班 JL8664<span class="tag t-move">4/19</span><span class="tag t-stay">已預訂</span></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">✅ 高速<span class="tag t-move">4/22</span><span class="tag t-stay">已預訂</span></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">✅ 高速巴士<span class="tag t-move">4/22</span><span class="tag t-stay">已預訂</span></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">✅ 燒肉INOUE 銀座店<span class="tag t-move">4/23</span><span class="tag t-stay">已預訂</span></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">✅ TeamLab 六本木<span class="tag t-move">4/24</span><span class="tag t-stay">已預訂</span></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">✅ <b>蕃 YORONIKU</b><span class="tag t-move">4/24</span><span class="tag t-stay">已預訂</span></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">✅ 挽肉與米 澀谷<span class="tag t-move">4/25</span><span class="tag t-stay">已預訂</span></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">✅ 機場接送<span class="tag t-move">4/27</span><span class="tag t-stay">已預訂</span></div></div></div>
+  </div>
+</div>
+
+<!-- D1 -->
+<div class="day-block">
+  <div class="day-header"><span class="day-badge bo">D1</span><span class="day-title">抵達・牛舌、買大猩猩按摩器</span><span class="day-date">4/19（六）</span></div>
+  <div class="card">
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">航班 JL8664<span class="tag t-move">移動</span><span class="tag t-stay">已預訂</span></div><div class="note"><b>12:40</b> 桃園機場 →<br><b>17:05</b> 成田機場</div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">牛舌<span class="tag t-food">吃喝</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=牛舌">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">買大猩猩按摩器<span class="tag t-shop">購物</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=買大猩猩按摩器">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">吃卡拉阿給君<span class="tag t-food">吃喝</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=吃卡拉阿給君">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">池袋商圈扭蛋, 打台<span class="tag t-usj">玩樂</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=池袋商圈扭蛋, 打台">📍 地圖 ↗</a></div></div></div>
+  </div>
+</div>
+
+<!-- D2 -->
+<div class="day-block">
+  <div class="day-header"><span class="day-badge bu">D2</span><span class="day-title">川越 → 冰川神社 → 鰻魚飯老店 小川菊</span><span class="day-date">4/20（日）</span></div>
+  <div class="card">
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">川越<span class="tag t-sight">景點</span></div><div class="note">購買<b>西武川越1日券(700日圓),  搭乘川越特急(25分鐘) 就可以到川越  Klook可以買電子版(內有搭乘路線)</b><br><a class="gm" target="_blank" rel="noopener" href="https://tokyo.letsgojp.com/archives/323720">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=川越">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">冰川神社<span class="tag t-sight">景點</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=冰川神社">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>鰻魚飯老店 小川菊</b><span class="tag t-food">吃喝</span></div><div class="note">10:40–18:30 ,  去到就要現場抽號碼牌<br><a class="gm" target="_blank" rel="noopener" href="https://g.co/kgs/rzEt1Ju">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=鰻魚飯老店 小川菊">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">小江戶川越一番街商店街<span class="tag t-sight">景點</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://bobbyworld.tw/kawagoe-ichibangai/">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=小江戶川越一番街商店街">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">「吉伊卡哇 MOGUMOGU 本舖」川越店<span class="tag t-shop">購物</span></div><div class="note">需要抽入場券<br><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=「吉伊卡哇 MOGUMOGU 本舖」川越店">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">池袋商圈扭蛋, 打台<span class="tag t-usj">玩樂</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=池袋商圈扭蛋, 打台">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>Uchitate家 (烏龍麵)</b><span class="tag t-food">吃喝</span></div><div class="note">(1-3, 5-7) <b>11:00–21:00 , 現場排隊</b><br><a class="gm" target="_blank" rel="noopener" href="https://g.co/kgs/nXT1vx3">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Uchitate家 (烏龍麵)">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">唐吉軻德<span class="tag t-shop">購物</span></div><div class="note">24小時<br><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=唐吉軻德">📍 地圖 ↗</a></div></div></div>
+  </div>
+</div>
+
+<!-- D3 -->
+<div class="day-block">
+  <div class="day-header"><span class="day-badge bkobe">D3</span><span class="day-title">三軒茶屋 → 幸福招財貓電車 → RARASAND ララサ…</span><span class="day-date">4/21（一）</span></div>
+  <div class="card">
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">三軒茶屋<span class="tag t-sight">景點</span></div><div class="note">池袋 -&gt; 三軒茶屋約35-40分鐘,  需搭配好幸福招財貓電車的時間<br><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=三軒茶屋">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">幸福招財貓電車<span class="tag t-sight">景點</span></div><div class="note">三軒茶屋到豪德寺, 約10分鐘<br><a class="gm" target="_blank" rel="noopener" href="https://ii.tokyu.co.jp/event/nekodensya">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=幸福招財貓電車">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>RARASAND ララサンド</b><span class="tag t-food">吃喝</span></div><div class="note">(1-7) <b>10:00–18:00 , 甜點</b><br><a class="gm" target="_blank" rel="noopener" href="https://g.co/kgs/h7jt4BR">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=RARASAND ララサンド">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">豪德寺<span class="tag t-sight">景點</span></div><div class="note">(1-7) <b>06:00–17:00 , 停留時間約 1\~ 1.5 小時</b><br><a class="gm" target="_blank" rel="noopener" href="https://gotokuji.jp/shop/?utm_source=chatgpt.com">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=豪德寺">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>下北沢</b><span class="tag t-sight">景點</span></div><div class="note">豪德寺到下北澤, 約6分鐘<br><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=下北沢">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>Curry Spice Gelateria KALPASI</b><span class="tag t-food">吃喝</span></div><div class="note">(1-3, 5-7) <b>11:30–21:00 , 預計吃飯時間 : 12:30 \~ 13:30</b><br><a class="gm" target="_blank" rel="noopener" href="https://g.co/kgs/NYn5Uvw">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Curry Spice Gelateria KALPASI">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>APFR</b><span class="tag t-shop">購物</span></div><div class="note">香氛店 , 停留時間30分鐘<br><a class="gm" target="_blank" rel="noopener" href="https://www.marieclaire.com.tw/beauty/perfume-and-nails/73836/apfr">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">高田馬場  思夢樂<span class="tag t-shop">購物</span></div><div class="note">星期日10:00–20:00<br><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=高田馬場  思夢樂">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">とん久<span class="tag t-food">吃喝</span></div><div class="note">(1-7) <b>11:00–21:40</b><br><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=とん久">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">池袋商圈扭蛋, 打台<span class="tag t-usj">玩樂</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=池袋商圈扭蛋, 打台">📍 地圖 ↗</a></div></div></div>
+  </div>
+</div>
+
+<!-- D4 -->
+<div class="day-block">
+  <div class="day-header"><span class="day-badge bt">D4</span><span class="day-title">河口湖 → 羅森便利商店 河口湖車站… → 天上山公園纜車</span><span class="day-date">4/22（二）</span></div>
+  <div class="card">
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">高速<span class="tag t-move">移動</span><span class="tag t-food">¥8,800</span><span class="tag t-stay">已預訂</span></div><div class="note">04/22(星期二) 出發 08:15  （上車） 新宿高速巴士總站(Busta新宿) / （下車） 河口湖站</div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">河口湖<span class="tag t-sight">景點</span></div><div class="note">內容有行程表<br><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=河口湖">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>羅森便利商店 河口湖車站前店</b><span class="tag t-sight">景點</span></div><div class="note">拍照<br><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=羅森便利商店 河口湖車站前店">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">天上山公園纜車<span class="tag t-sight">景點</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=天上山公園纜車">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">新倉富士淺間公園<span class="tag t-sight">景點</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=新倉富士淺間公園">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">高速巴士<span class="tag t-move">移動</span><span class="tag t-food">¥8,800</span><span class="tag t-stay">已預訂</span></div><div class="note">04/22(星期二) 出發 17:29   （上車） 富士山站（富士吉田站） / （下車） 新宿高速巴士總站(Busta新宿)</div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>Kailaku  開樂</b><span class="tag t-food">吃喝</span></div><div class="note">(2-7) 11:00–22:00<br><a class="gm" target="_blank" rel="noopener" href="https://www.japaholic.com/tw/article/detail/76397-%E3%80%90%E7%BE%8E%E9%A3%9F%E4%B8%89%E5%86%A0%E7%8E%8B%E3%80%91%E9%80%99%E6%89%8D%E6%98%AF%E6%B1%A0%E8%A2%8B%E5%90%8D%E7%94%A2%EF%BC%81%EF%BC%9F%E3%80%8C%E9%96%8B%E6%A8%82%E3%80%8D%E7%9A%84%E5%B7%A8%E5%A4%A7%E7%85%8E%E9%A4%83">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Kailaku  開樂">📍 地圖 ↗</a></div></div></div>
+  </div>
+</div>
+
+<!-- D5 -->
+<div class="day-block">
+  <div class="day-header"><span class="day-badge bo">D5</span><span class="day-title">燒肉INOUE 銀座店 → LOFT → 藍瓶咖啡</span><span class="day-date">4/23（三）</span></div>
+  <div class="card">
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">燒肉INOUE 銀座店<span class="tag t-food">吃喝</span><span class="tag t-stay">已預訂</span></div><div class="note">和牛三吃 , 已預約，11:00  (內有預定資訊)<br><a class="gm" target="_blank" rel="noopener" href="https://www.tablecheck.com/zh-TW/shops/yakinikuinoue-ginza/reserve">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=燒肉INOUE 銀座店">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">LOFT<span class="tag t-shop">購物</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=LOFT">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">藍瓶咖啡<span class="tag t-shop">購物</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=藍瓶咖啡">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">東京一番街<span class="tag t-shop">購物</span></div><div class="note">東京動漫人物街, 東京甜點樂園( 特殊伴手禮 )<br><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=東京一番街">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>神田 藪蕎麥</b><span class="tag t-food">吃喝</span></div><div class="note">(1-2, 4-7)  11:30–20:00    <b>(蕎麥麵)</b><br><a class="gm" target="_blank" rel="noopener" href="https://g.co/kgs/42Uu3qH">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=神田 藪蕎麥">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>迴轉壽司 Toriton 池袋東武店</b><span class="tag t-food">吃喝</span></div><div class="note">11:00–22:00    只能現場排隊<br><a class="gm" target="_blank" rel="noopener" href="https://monicaleecat.pixnet.net/blog/post/274955532">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=迴轉壽司 Toriton 池袋東武店">📍 地圖 ↗</a></div></div></div>
+  </div>
+</div>
+
+<!-- D6 -->
+<div class="day-block">
+  <div class="day-header"><span class="day-badge bu">D6</span><span class="day-title">客美多 → 東京鐵塔 → TeamLab 六本木</span><span class="day-date">4/24（四）</span></div>
+  <div class="card">
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">客美多<span class="tag t-food">吃喝</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=客美多">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">東京鐵塔<span class="tag t-sight">景點</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=東京鐵塔">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">TeamLab 六本木<span class="tag t-sight">景點</span><span class="tag t-stay">已預訂</span></div><div class="note">預約時間 13:00 停留時間估計2-3小時 (內有QR CODE)<br><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=TeamLab 六本木">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">%ARABICA<span class="tag t-food">吃喝</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://maps.app.goo.gl/7RtHw1nSF88VgNoR6?g_st=com.google.maps.preview.copy">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">中目黑櫻花<span class="tag t-sight">景點</span></div><div class="note">出發前須確認有沒有<br><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=中目黑櫻花">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>蕃 YORONIKU</b><span class="tag t-food">吃喝</span><span class="tag t-food">¥63,360</span><span class="tag t-stay">已預訂</span></div><div class="note">19:15 開吃 (內有預定資訊)<br><a class="gm" target="_blank" rel="noopener" href="https://huangmiz.com/ebisuyoroniku/">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=蕃 YORONIKU">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">扭蛋<span class="tag t-usj">玩樂</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=扭蛋">📍 地圖 ↗</a></div></div></div>
+  </div>
+</div>
+
+<!-- D7 -->
+<div class="day-block">
+  <div class="day-header"><span class="day-badge bkobe">D7</span><span class="day-title">池袋太陽城 → 挽肉與米 澀谷 → 迪士尼商店 澀谷公園大道…</span><span class="day-date">4/25（五）</span></div>
+  <div class="card">
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">採購日<span class="tag t-warn">提醒</span></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">池袋太陽城<span class="tag t-shop">購物</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=池袋太陽城">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">挽肉與米 澀谷<span class="tag t-food">吃喝</span><span class="tag t-food">¥11,280</span><span class="tag t-stay">已預訂</span></div><div class="note">已預約 17:15  (內有預定資訊)<br><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=挽肉與米 澀谷">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>迪士尼商店 澀谷公園大道店</b><span class="tag t-shop">購物</span></div><div class="note">(1-7) <b>11:00–20:00</b><br><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=迪士尼商店 澀谷公園大道店">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">任天堂澀谷旗艦店<span class="tag t-shop">購物</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=任天堂澀谷旗艦店">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">唐吉軻德<span class="tag t-shop">購物</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=唐吉軻德">📍 地圖 ↗</a></div></div></div>
+  </div>
+</div>
+
+<!-- D8 -->
+<div class="day-block">
+  <div class="day-header"><span class="day-badge bt">D8</span><span class="day-title">yellow 池袋 → GU → UNIQULO</span><span class="day-date">4/26（六）</span></div>
+  <div class="card">
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">採購日<span class="tag t-warn">提醒</span></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">yellow 池袋<span class="tag t-food">吃喝</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=yellow 池袋">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">GU<span class="tag t-shop">購物</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=GU">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">UNIQULO<span class="tag t-shop">購物</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=UNIQULO">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">池袋太陽城<span class="tag t-shop">購物</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=池袋太陽城">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">麥當勞<span class="tag t-food">吃喝</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=麥當勞">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">扭蛋<span class="tag t-usj">玩樂</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=扭蛋">📍 地圖 ↗</a></div></div></div>
+  </div>
+</div>
+
+<!-- D9 -->
+<div class="day-block">
+  <div class="day-header"><span class="day-badge bo">D9</span><span class="day-title">回台</span><span class="day-date">4/27（日）</span></div>
+  <div class="card">
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">機場接送<span class="tag t-move">移動</span><span class="tag t-stay">已預訂</span></div><div class="note">5:30</div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">JL8663日本航空<span class="tag t-move">移動</span></div><div class="note"><b>08:55 - 11:30</b></div></div></div>
+  </div>
+</div>
+
+<!-- 口袋名單 -->
+<div class="day-block">
+  <div class="day-header"><span class="day-badge bt">口袋</span><span class="day-title">想去但沒排進去</span><span class="day-date">清單</span></div>
+  <div class="card">
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">買御朱印帳<span class="tag t-warn">提醒</span></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>らぁ麺や 嶋</b><span class="tag t-food">吃喝</span></div><div class="note">(1-5) <b>08:45–14:00  ,  前一天可以預約隔天的</b><br><a class="gm" target="_blank" rel="noopener" href="https://www.tablecheck.com/shops/ramenya-shima/reserve?utm_source=google">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=らぁ麺や 嶋">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">淺草<span class="tag t-sight">景點</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=淺草">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>淺草櫻田</b><span class="tag t-food">吃喝</span></div><div class="note">(1-7) 11:30–21:30<br><a class="gm" target="_blank" rel="noopener" href="https://bobbyworld.tw/2023-06-07-2454/">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=淺草櫻田">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>Asterisque</b><span class="tag t-food">吃喝</span></div><div class="note">蛋糕   (3-7)  10:00–18:00 ,  <b>世田谷代田 → 上原代代木約5分鐘</b><br><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Asterisque">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">千鳥之淵<span class="tag t-sight">景點</span></div><div class="note">出發前再看看有沒有櫻花<br><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=千鳥之淵">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>拉麵 山與樹</b><span class="tag t-food">吃喝</span></div><div class="note">(2-7) 11:30–15:00<br><a class="gm" target="_blank" rel="noopener" href="https://g.co/kgs/yXYy4E7">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=拉麵 山與樹">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">氣象神社 - 冰川神社<span class="tag t-sight">景點</span></div><div class="note">買晴天娃娃, 蒐集御朱印<br><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=氣象神社 - 冰川神社">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>純情商店街</b><span class="tag t-shop">購物</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=純情商店街">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>Floresta 高円寺店</b><span class="tag t-food">吃喝</span></div><div class="note">甜甜圈<br><a class="gm" target="_blank" rel="noopener" href="https://g.co/kgs/X4bPZmb">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Floresta 高円寺店">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>Los Tacos Azules</b><span class="tag t-food">吃喝</span></div><div class="note">(2-7) 09:00–15:00<br><a class="gm" target="_blank" rel="noopener" href="https://g.co/kgs/LBiLUuA">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Los Tacos Azules">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">三軒茶屋<span class="tag t-sight">景點</span></div><div class="note"><a class="gm" target="_blank" rel="noopener" href="https://gogojp.tw/neko-tokyu/">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=三軒茶屋">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>藍瓶咖啡 三軒茶屋店</b><span class="tag t-food">吃喝</span></div><div class="note">逛逛拍照<br><a class="gm" target="_blank" rel="noopener" href="https://gogojp.tw/bluebottle-sangenjaya/">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=藍瓶咖啡 三軒茶屋店">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>東亭 (餃子)</b><span class="tag t-food">吃喝</span></div><div class="note"><b>16:00–18:30  (2,5)</b><br><a class="gm" target="_blank" rel="noopener" href="https://g.co/kgs/n1vbXH1">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=東亭 (餃子)">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>やきとん木々家（はやしや） 池袋東口駅前店</b><span class="tag t-food">吃喝</span><span class="tag t-stay">已預訂</span></div><div class="note">燒鳥,  已預約 20:15<br><a class="gm" target="_blank" rel="noopener" href="https://tabelog.com/tw/tokyo/A1305/A130501/13061254/">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=やきとん木々家（はやしや） 池袋東口駅前店">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>Curry Rice Senmon Ten Brother </b>(カレーライス専門店 ブラザー)<span class="tag t-food">吃喝</span></div><div class="note">(1-6) 11:00–15:00, 17:00–22:00<br><a class="gm" target="_blank" rel="noopener" href="https://g.co/kgs/yxqRw4Z">🔗 連結 ↗</a>　<a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Curry Rice Senmon Ten Brother (カレーライス専門店 ブラザー)">📍 地圖 ↗</a></div></div></div>
+    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label"><b>Hotel Resol Ikebukuro</b></div><div class="note">4/19-4/27  入住 : 15:00  退房 : 10:00</div></div></div>
+  </div>
+</div>
+
+<script>
+/* ═══ 這趟旅程的設定（新旅程只要改這裡＋上面的內容）═══
+   id：英數字，作為手機裡打勾／刷卡紀錄的名稱，每趟要不同
+   days：每天的日期，順序對應 D1、D2…
+   dep／ret：出發、回到台灣的時間（含時區）；tz：當地與 UTC 的時差（小時） */
+const TRIP={
+  id:'tokyo2025',
+  days:["2025-04-19", "2025-04-20", "2025-04-21", "2025-04-22", "2025-04-23", "2025-04-24", "2025-04-25", "2025-04-26", "2025-04-27"],
+  dep:'2025-04-19T08:00:00+08:00',
+  ret:'2025-04-27T22:00:00+08:00',
+  tz:9
+};
+function altT(el){
+  const box = el.closest('.content').querySelector('.altbox');
+  if(!box) return;
+  if(!el.dataset.orig) el.dataset.orig = el.textContent;
+  const open = box.classList.toggle('open');
+  el.textContent = open ? '收合 ▲' : el.dataset.orig;
+}
+function tr(el){
+  const box = el.closest('.content').querySelector('.transit');
+  if(!box) return;
+  if(!el.dataset.orig) el.dataset.orig = el.textContent;
+  const open = box.classList.toggle('open');
+  el.textContent = open ? '收合 ▲' : el.dataset.orig;
+}
+const KEY=TRIP.id+'_';
+function allCb(){ return Array.from(document.querySelectorAll('.cb')); }
+function keyOf(cb){ return KEY + allCb().indexOf(cb); }
+
+function toggle(cb) {
+  cb.classList.toggle('checked');
+  const label = cb.closest('.item').querySelector('.label');
+  label.classList.toggle('checked');
+  try { localStorage.setItem(keyOf(cb), cb.classList.contains('checked') ? '1' : '0'); } catch(e) {}
+  updateProgress();
+  refreshCode();
+}
+function setChecked(cb, on){
+  cb.classList.toggle('checked', on);
+  cb.closest('.item').querySelector('.label').classList.toggle('checked', on);
+  try { localStorage.setItem(keyOf(cb), on ? '1' : '0'); } catch(e) {}
+}
+function restore(){
+  allCb().forEach(function(cb){
+    try { if (localStorage.getItem(keyOf(cb)) === '1') setChecked(cb, true); } catch(e) {}
+  });
+}
+function resetAll(){
+  if(!confirm('確定要清除所有打勾紀錄嗎？')) return;
+  allCb().forEach(function(cb){ setChecked(cb, false); });
+  updateProgress(); refreshCode();
+}
+
+/* ── 跨裝置同步：把勾選狀態壓成 base64 代碼 ── */
+function encodeState(){
+  const cbs = allCb();
+  const bytes = new Uint8Array(Math.ceil(cbs.length/8));
+  cbs.forEach(function(cb,i){ if(cb.classList.contains('checked')) bytes[i>>3] |= (1 << (i&7)); });
+  let bin=''; bytes.forEach(function(b){ bin += String.fromCharCode(b); });
+  let code = 'OSK' + cbs.length + '-' + btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  if(typeof recs!=='undefined' && recs.length) code += '~' + b64uEnc(JSON.stringify(recs));
+  return code;
+}
+function decodeState(code){
+  code = (code||'').trim().replace(/\s+/g,'');
+  let recPart=null;
+  const t = code.indexOf('~');
+  if(t>=0){ recPart = code.slice(t+1); code = code.slice(0,t); }
+  const m = code.match(/^OSK(\d+)-(.+)$/);
+  if(!m) return null;
+  const n = parseInt(m[1],10);
+  if(n !== allCb().length) return {mismatch:n};
+  let b64 = m[2].replace(/-/g,'+').replace(/_/g,'/');
+  while(b64.length % 4) b64 += '=';
+  let bin;
+  try { bin = atob(b64); } catch(e){ return null; }
+  const bytes = new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
+  const out=[];
+  for(let i=0;i<n;i++) out.push(!!(bytes[i>>3] & (1 << (i&7))));
+  let inc=null;
+  if(recPart){ try{ inc=JSON.parse(b64uDec(recPart)); }catch(e){ inc=null; } }
+  return {bits:out, recs:inc};
+}
+function refreshCode(){
+  const el=document.getElementById('syncCode');
+  if(el) el.value = encodeState();
+}
+function openSync(){ document.getElementById('syncPanel').classList.add('open'); refreshCode(); }
+function closeSync(){ document.getElementById('syncPanel').classList.remove('open'); }
+function copyCode(){
+  const el=document.getElementById('syncCode'); el.select(); el.setSelectionRange(0,99999);
+  const msg=document.getElementById('copyMsg');
+  try {
+    if(navigator.clipboard) navigator.clipboard.writeText(el.value); else document.execCommand('copy');
+    msg.textContent='已複製 ✓';
+  } catch(e){ msg.textContent='請長按手動複製'; }
+  setTimeout(function(){ msg.textContent=''; }, 2500);
+}
+function applyCode(){
+  const msg=document.getElementById('applyMsg');
+  const r = decodeState(document.getElementById('pasteCode').value);
+  if(!r){ msg.style.color='#BE123C'; msg.textContent='代碼格式不對'; return; }
+  if(r.mismatch){ msg.style.color='#BE123C'; msg.textContent='行程已更新，舊代碼不適用（'+r.mismatch+'≠'+allCb().length+'）'; return; }
+  allCb().forEach(function(cb,i){ setChecked(cb, r.bits[i]); });
+  let added=0; if(r.recs && r.recs.length) added=mergeRecs(r.recs);
+  renderAll(); updateProgress(); refreshCode();
+  msg.style.color='#0E9F6E'; msg.textContent='已套用 ✓'+(added?'（合併 '+added+' 筆刷卡紀錄）':'');
+  setTimeout(function(){ msg.textContent=''; }, 2500);
+}
+function updateProgress() {
+  const all = document.querySelectorAll('.cb');
+  const done = document.querySelectorAll('.cb.checked');
+  const pct = all.length ? Math.round(done.length / all.length * 100) : 0;
+  document.getElementById('progressText').textContent = `${done.length} / ${all.length} 完成`;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+/* ── 💳 刷卡紀錄與動態建議 ── */
+const PAYKEY=TRIP.id+'_pay', FXKEY=TRIP.id+'_fx';
+const CARDS={U:['#EA580C','uniopen'],K:['#1F2937','熊本熊卡'],KP:['#E11D48','PayPay'],J:['#0F766E','吉鶴 Apple Pay'],W:['#0369A1','老婆 JCB'],CUBE:['#7C3AED','CUBE'],C:['#6B7280','現金']};
+const CPN={conv:'便利商店券',dept:'百貨店券',gu:'UNIQLO・GU券',drug:'藥妝店券',air:'機場券'};
+const CAP_NT={U:6250,K:8333,KP:2857};
+const DAYDATE=TRIP.days;
+let recs=[];
+function fx(){ try{ const v=parseFloat(localStorage.getItem(FXKEY)); if(v>1&&v<10) return v; }catch(e){} return 4.65; }
+function setFx(v){ v=parseFloat(v); if(v>1&&v<10){ try{localStorage.setItem(FXKEY,v);}catch(e){} renderAll(); } }
+function capY(c){ return Math.round(CAP_NT[c]*fx()/100)*100; }
+function loadRecs(){ try{ recs=JSON.parse(localStorage.getItem(PAYKEY)||'[]')||[]; }catch(e){ recs=[]; } }
+function saveRecs(){ try{ localStorage.setItem(PAYKEY, JSON.stringify(recs)); }catch(e){} }
+function yen(n){ return '¥'+Math.round(n).toLocaleString('en-US'); }
+function spent(card, who, day){ return recs.filter(function(r){ return r.c===card && (!who||r.w===who) && (!day||r.d===day); }).reduce(function(a,r){return a+r.y;},0); }
+function usjMe(){ return spent('K','me','D4'); }
+function usjWife(){ return recs.filter(function(r){return r.d==='D4' && r.w==='wife' && (r.c==='W');}).reduce(function(a,r){return a+r.y;},0); }
+function cpnUsed(t,who){ return recs.some(function(r){ return r.p===t && r.w===who; }); }
+function chip(c){ const x=CARDS[c]; return '<span class="pc" style="background:'+x[0]+'">'+x[1]+'</span>'; }
+function todayDay(){ const t=new Date(); const iso=t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0'); const i=DAYDATE.indexOf(iso); return i>=0?'D'+(i+1):'D1'; }
+/* 依規則算出現在建議：回傳 {card, who, cpn, html} */
+function resolve(rule){
+  if(rule==='C') return {card:'C', html:''};
+  if(rule==='J') return {card:'J', html:'<span class="pst">不限額度</span>'};
+  if(rule==='U'){
+    const u=spent('U','me'), cap=capY('U');
+    if(u<cap) return {card:'U', html:'<span class="pst">11%｜已刷 '+yen(u)+' / '+yen(cap)+'（還剩 '+yen(cap-u)+'）</span>'};
+    return {card:'J', html:'<span class="pst full">uniopen 已刷滿 '+yen(cap)+' → 改吉鶴 Apple Pay</span>'};
+  }
+  if(rule==='K'){
+    const k=spent('K','me'), cap=capY('K');
+    if(k<cap) return {card:'K', html:'<span class="pst">8.5%｜已刷 '+yen(k)+' / '+yen(cap)+'（還剩 '+yen(cap-k)+'）</span>'};
+    return {card:'J', html:'<span class="pst full">熊本熊卡加碼已滿 '+yen(cap)+' → 改吉鶴 Apple Pay</span>'};
+  }
+  if(rule==='KU'){
+    const m=usjMe();
+    if(m<10000) return {card:'K', html:'<span class="pst">JCB 20%＋8.5%｜你的 USJ 進度 '+yen(m)+' / ¥10,000（還差 '+yen(10000-m)+'）</span>'};
+    const w=usjWife();
+    if(w<10000) return {card:'W', who:'wife', html:'<span class="pst ok">你已達標 ✓ 換幫老婆湊：'+yen(w)+' / ¥10,000</span>'};
+    const r=resolve('U'); r.html='<span class="pst ok">兩人都達標 ✓</span>'+r.html; return r;
+  }
+  if(rule==='W'){
+    const w=usjWife();
+    if(w<10000) return {card:'W', who:'wife', html:'<span class="pst">JCB 20%｜老婆 USJ 進度 '+yen(w)+' / ¥10,000（還差 '+yen(10000-w)+'）</span>'};
+    const m=usjMe();
+    if(m<10000) return {card:'K', html:'<span class="pst ok">老婆已達標 ✓ 換幫你湊：'+yen(m)+' / ¥10,000</span>'};
+    const r=resolve('U'); r.html='<span class="pst ok">兩人都達標 ✓</span>'+r.html; return r;
+  }
+  const m=rule.match(/^P:(\w+)>(\w+)$/);
+  if(m){
+    const t=m[1], me=cpnUsed(t,'me'), wf=cpnUsed(t,'wife');
+    if(!me||!wf){
+      const who = me ? 'wife' : 'me';
+      return {card:'KP', who:who, cpn:t, html:'<span class="pst">🎟️ '+CPN[t]+'：湊 ¥1,000 出頭折 ¥200｜你 '+(me?'✓已用':'未用')+'・老婆 '+(wf?'✓已用':'未用')+'</span>'};
+    }
+    const r=resolve(m[2]); r.html='<span class="pst ok">🎟️ '+CPN[t]+' 兩人都用過了 ✓</span>'+r.html; return r;
+  }
+  return {card:'C', html:''};
+}
+function renderPayl(el){
+  const rules=JSON.parse(el.dataset.rules);
+  const day=el.dataset.day;
+  let h='';
+  rules.forEach(function(rn,i){
+    const r=resolve(rn[0]);
+    h+='<div class="pl">'+chip(r.card)+(rn[1]?rn[1]:'')+(r.html||'');
+    if(r.card!=='C'){
+      h+='<div class="qlog"><input type="number" inputmode="numeric" placeholder="¥ 金額"><button onclick="qlog(this)" data-card="'+r.card+'" data-who="'+(r.who||'me')+'" data-cpn="'+(r.cpn||'')+'" data-day="'+day+'">記一筆</button><span class="qmsg"></span></div>';
+    }
+    h+='</div>';
+  });
+  el.innerHTML=h;
+}
+function renderCaps(){
+  const box=document.getElementById('capBox'); if(!box) return;
+  function bar(name,v,cap,color,sub){ const p=Math.min(100,Math.round(v/cap*100)); return '<div class="cap"><div class="ct"><span><b>'+name+'</b> '+(sub||'')+'</span><span>'+yen(v)+' / '+yen(cap)+(v>=cap?' ✓':'')+'</span></div><div class="cbar"><i style="width:'+p+'%;background:'+color+'"></i></div></div>'; }
+  let h='';
+  h+=bar('uniopen',spent('U','me'),capY('U'),'#EA580C','11% 加碼上限');
+  h+=bar('熊本熊卡 刷卡',spent('K','me'),capY('K'),'#1F2937','6% 加碼上限');
+  h+=bar('熊本熊 PayPay',spent('KP','me'),capY('KP'),'#E11D48','5% 上限');
+  let c='';
+  Object.keys(CPN).forEach(function(t){ ['me','wife'].forEach(function(w){ c+='<span class="'+(cpnUsed(t,w)?'u':'')+'">'+(w==='me'?'你':'老婆')+'・'+CPN[t]+'</span>'; }); });
+  h+='<div class="ct" style="font-size:11.5px;color:#444;margin-top:4px"><b>樂享券</b>（劃線＝已用）</div><div class="cpn">'+c+'</div>';
+  const tot=recs.reduce(function(a,r){return a+r.y;},0);
+  h+='<div style="font-size:11.5px;color:#666">總花費 <b>'+yen(tot)+'</b>（約 NT$'+Math.round(tot/fx()).toLocaleString('en-US')+'）</div>';
+  box.innerHTML=h;
+  const rb=document.getElementById('recBox');
+  if(rb){
+    if(!recs.length){ rb.innerHTML='<div style="font-size:11.5px;color:#999">還沒有紀錄</div>'; }
+    else rb.innerHTML=recs.slice().reverse().map(function(r){ return '<div class="rec"><span>'+r.d+' '+chip(r.c)+(r.w==='wife'?'（老婆）':'')+(r.p?'🎟️'+CPN[r.p]+' ':'')+(r.n||'')+'</span><span><b>'+yen(r.y)+'</b><span class="x" onclick="delRec(\''+r.i+'\')">✕</span></span></div>'; }).join('');
+  }
+  const fi=document.getElementById('fxIn'); if(fi && document.activeElement!==fi) fi.value=fx();
+}
+function renderAll(){ document.querySelectorAll('.payl').forEach(renderPayl); renderCaps(); }
+function addRec(card,who,yenAmt,day,cpn,note){
+  yenAmt=parseInt(yenAmt,10); if(!(yenAmt>0)) return false;
+  recs.push({i:Date.now().toString(36)+Math.random().toString(36).slice(2,5),c:card,w:who||'me',y:yenAmt,d:day,p:cpn||'',n:(note||'').slice(0,30)});
+  saveRecs(); renderAll(); refreshCode(); return true;
+}
+function qlog(btn){
+  const inp=btn.parentNode.querySelector('input');
+  const lab=btn.closest('.content').querySelector('.label');
+  const note=lab ? lab.childNodes[0].textContent.trim() : '';
+  const payl=btn.closest('.payl');
+  if(addRec(btn.dataset.card,btn.dataset.who,inp.value,btn.dataset.day,btn.dataset.cpn,note)){
+    payl.classList.add('open');
+    const msg=payl.querySelectorAll('.qmsg'); if(msg.length){ msg[0].textContent='已記錄 ✓'; setTimeout(function(){ msg[0].textContent=''; },2000); }
+  } else { inp.focus(); }
+}
+function addFromForm(){
+  const card=document.getElementById('pfCard').value;
+  let who=document.getElementById('pfWho').value; if(card==='W') who='wife';
+  const ok=addRec(card,who,document.getElementById('pfYen').value,document.getElementById('pfDay').value,document.getElementById('pfCpn').value,document.getElementById('pfNote').value);
+  const msg=document.getElementById('pfMsg');
+  if(ok){ document.getElementById('pfYen').value=''; document.getElementById('pfNote').value=''; document.getElementById('pfCpn').value=''; msg.style.color='#0E9F6E'; msg.textContent='已新增 ✓'; }
+  else { msg.style.color='#BE123C'; msg.textContent='請輸入金額'; }
+  setTimeout(function(){ msg.textContent=''; },2000);
+}
+function delRec(id){ if(!confirm('刪除這筆紀錄？')) return; recs=recs.filter(function(r){return r.i!==id;}); saveRecs(); renderAll(); refreshCode(); }
+function pb(el){
+  const box=el.closest('.content').querySelector('.payl'); if(!box) return;
+  const open=box.classList.toggle('open');
+  el.textContent= open ? '收合 ▲' : '💳 刷卡';
+}
+function openPay(){ document.getElementById('payPanel').classList.add('open'); renderCaps(); }
+function closePay(){ document.getElementById('payPanel').classList.remove('open'); }
+function b64uEnc(str){ const b=btoa(unescape(encodeURIComponent(str))); return b.replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }
+function b64uDec(s){ s=s.replace(/-/g,'+').replace(/_/g,'/'); while(s.length%4) s+='='; return decodeURIComponent(escape(atob(s))); }
+function mergeRecs(inc){
+  const have={}; recs.forEach(function(r){ have[r.i]=1; });
+  let n=0; inc.forEach(function(r){ if(r && r.i && !have[r.i] && r.y>0){ recs.push(r); n++; } });
+  recs.sort(function(a,b){ return a.i<b.i?-1:1; });
+  saveRecs(); return n;
+}
+(function(){
+  const sel=document.getElementById('pfDay');
+  if(sel){ for(let i=1;i<=8;i++){ const o=document.createElement('option'); o.value='D'+i; o.textContent='D'+i+'（'+DAYDATE[i-1].slice(5).replace('-','/')+'）'; sel.appendChild(o); } sel.value=todayDay(); }
+})();
+loadRecs();
+renderAll();
+restore();
+updateProgress();
+refreshCode();
+</script>
+<script src="../trip-kit/trip.js?v=1"></script>
+<script>
+/* ── 出發倒數 ── */
+(function(){
+  var pz=function(h){return (h<0?'-':'+')+String(Math.abs(h)).padStart(2,'0')+':00';};
+  var DEP=new Date(TRIP.dep).getTime(), RET=new Date(TRIP.ret).getTime(), DAY0=new Date(TRIP.days[0]+'T00:00:00'+pz(TRIP.tz)).getTime();
+  var el=document.getElementById('countdown');
+  function p(n){return (n<10?'0':'')+n;}
+  function tick(){
+    var now=Date.now();
+    if(now<DEP){var t=Math.floor((DEP-now)/1000),d=Math.floor(t/86400),h=Math.floor(t%86400/3600),m=Math.floor(t%3600/60),sec=t%60;
+      el.innerHTML='距離出發還有 <span class="n">'+d+'</span> 天 <span class="hms">'+p(h)+':'+p(m)+':'+p(sec)+'</span>';}
+    else if(now<RET){el.innerHTML='🎒 旅行中・第 <span class="n">'+(Math.floor((now-DAY0)/86400000)+1)+'</span> 天，玩得開心！';}
+    else{el.innerHTML='🏠 平安回家，辛苦了！';}
+  }
+  tick(); setInterval(tick,1000);
+})();
+/* ── 日期切換 ── */
+(function(){
+  var bar=document.getElementById('dayTabs'); if(!bar) return;
+  var pre=document.querySelector('.section'), days=[].slice.call(document.querySelectorAll('.day-block'));
+  var tabs=[{k:'pre',t:'出發前',d:'清單',els:[pre]}];
+  days.forEach(function(b){var badge=b.querySelector('.day-badge').textContent, date=(b.querySelector('.day-date').textContent.match(/\d+\/\d+/)||[''])[0];tabs.push({k:badge,t:badge,d:date,els:[b]});});
+  tabs.push({k:'all',t:'全部',d:'一覽',els:[pre].concat(days)});
+  var all=[pre].concat(days);
+  function show(k,anim){
+    var tab=tabs.filter(function(x){return x.k===k;})[0]||tabs[0];
+    all.forEach(function(e){e.style.display=tab.els.indexOf(e)>=0?'':'none';e.classList.remove('bounce');});
+    if(anim) tab.els.forEach(function(e){void e.offsetWidth;e.classList.add('bounce');});
+    [].forEach.call(bar.children,function(b){b.classList.toggle('on',b.dataset.k===tab.k);});
+    var on=bar.querySelector('.on'); if(on) bar.scrollLeft=on.offsetLeft-bar.clientWidth/2+on.offsetWidth/2;
+    try{localStorage.setItem(TRIP.id+'_tab',tab.k);}catch(e){}
+  }
+  tabs.forEach(function(x){var b=document.createElement('button');b.className='dtab';b.dataset.k=x.k;b.innerHTML=x.t+'<small>'+x.d+'</small>';
+    b.onclick=function(){show(x.k,true);var nav=document.querySelector('nav.pages');var y=bar.getBoundingClientRect().top+window.scrollY-(nav?nav.offsetHeight:0)-4;if(window.scrollY>y)window.scrollTo({top:y,behavior:'smooth'});};bar.appendChild(b);});
+  function fixTop(){var nav=document.querySelector('nav.pages');bar.style.top=(nav?nav.offsetHeight:0)+'px';}
+  fixTop(); window.addEventListener('resize',fixTop);
+  // 預設：旅途中顯示當天，出發前顯示「出發前」，回國後顯示全部
+  var now=new Date(Date.now()+TRIP.tz*3600000), md=(now.getUTCMonth()+1)+'/'+now.getUTCDate(), def='pre';
+  tabs.forEach(function(x){if(x.d===md) def=x.k;});
+  if(Date.now()>new Date(TRIP.ret).getTime()) def='all';
+  var saved=null; try{saved=localStorage.getItem(TRIP.id+'_tab');}catch(e){}
+  if(def==='pre'&&saved) def=saved;
+  show(def,false);
+})();
+/* ── 交通方式彩色小標籤 ── */
+(function(){
+  var M=[['m-walk','🚶 走路',/徒步|走路|步行/],['m-sub','🚇 地鐵',/御堂筋|谷町線|堺筋線|千日前線|地鐵|北大阪急行|長堀鶴見/],['m-jr','🚆 JR',/JR|環狀線|ゆめ咲/],['m-rail','🚃 私鐵',/阪急(?!巴士|バス)|京阪|南海|ラピート|空港急行/],['m-bus','🚌 巴士',/巴士|バス|市巴士/],['m-taxi','🚕 計程車',/計程車|叫車|送機|接送|GO \/ DiDi/],['m-air','✈️ 飛機',/起飛|落地|CI1\d\d/]];
+  document.querySelectorAll('.day-block .item').forEach(function(it){
+    var lab=it.querySelector('.label'); if(!lab) return;
+    var head=lab.textContent.trim();
+    if(!/^(🚃|🚕|🚗|🚇|🚌|✈️)|機場|→/.test(head)) return;
+    var txt=lab.textContent+' '+((it.querySelector('.note')||{}).textContent||'')+' '+((it.querySelector('.transit')||{}).textContent||'');
+    var box=document.createElement('div'); box.className='modes';
+    M.forEach(function(m){if(m[2].test(txt)){var s=document.createElement('span');s.className='mode '+m[0];s.textContent=m[1];box.appendChild(s);}});
+    if(box.children.length) lab.insertAdjacentElement('afterend',box);
+  });
+})();
+</script>
+<script src="../trip-home.js?v=2"></script>
+</body>
+</html>

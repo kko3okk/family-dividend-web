@@ -10,14 +10,41 @@
       "people": 2,
       "path": "osaka-trip/",
       "pages": [
-        { "label": "行程", "href": "index.html", "icon": "list" },
-        { "label": "地圖", "href": "map.html", "icon": "map" },
-        { "label": "美食", "href": "food.html", "icon": "food" },
-        { "label": "刷卡", "href": "card.html", "icon": "card" }
+        {
+          "label": "行程",
+          "href": "index.html",
+          "icon": "list"
+        },
+        {
+          "label": "地圖",
+          "href": "map.html",
+          "icon": "map"
+        },
+        {
+          "label": "美食",
+          "href": "food.html",
+          "icon": "food"
+        },
+        {
+          "label": "刷卡",
+          "href": "card.html",
+          "icon": "card"
+        }
       ],
-      "flights": ["10/17 CI172 TPE 14:20 → KIX 18:05", "10/24 CI153 KIX 14:00 → TPE 16:00"],
-      "hotels": ["相鐵 FRESA INN 心齋橋", "Hotel Universal Port（USJ）"],
-      "highlights": ["環球影城（芙莉蓮）", "京都東山", "勝尾寺", "日本橋採買"],
+      "flights": [
+        "10/17 CI172 TPE 14:20 → KIX 18:05",
+        "10/24 CI153 KIX 14:00 → TPE 16:00"
+      ],
+      "hotels": [
+        "相鐵 FRESA INN 心齋橋",
+        "Hotel Universal Port（USJ）"
+      ],
+      "highlights": [
+        "環球影城（芙莉蓮）",
+        "京都東山",
+        "勝尾寺",
+        "日本橋採買"
+      ],
       "days": [
         "飛抵大阪（純移動）",
         "大阪 心齋橋→日本橋（採買日）",
@@ -38,15 +65,193 @@
       "people": 2,
       "path": "taipei-trip/",
       "pages": [
-        { "label": "行程", "href": "index.html", "icon": "list" },
-        { "label": "地圖", "href": "map.html", "icon": "map" }
+        {
+          "label": "行程",
+          "href": "index.html",
+          "icon": "list"
+        },
+        {
+          "label": "地圖",
+          "href": "map.html",
+          "icon": "map"
+        }
       ],
-      "hotels": ["amba 台北中山"],
-      "highlights": ["中秋節", "大稻埕夕陽＋滿月", "寧夏夜市", "寶可夢中心"],
+      "hotels": [
+        "amba 台北中山"
+      ],
+      "highlights": [
+        "中秋節",
+        "大稻埕夕陽＋滿月",
+        "寧夏夜市",
+        "寶可夢中心"
+      ],
       "days": [
         "黃記午餐 → 大稻埕夕陽 → 寧夏夜市",
         "寶可夢中心 → Will's 鐵板燒 → 回台中"
       ]
+    },
+    {
+      "id": "tokyo2026-05",
+      "title": "東京・江之島",
+      "place": "日本 東京",
+      "start": "2026-05-23",
+      "end": "2026-05-31",
+      "people": 2,
+      "path": "tokyo2026-trip/",
+      "pages": [
+        {
+          "label": "行程",
+          "href": "index.html",
+          "icon": "list"
+        }
+      ],
+      "flights": [
+        "5/23 ✈️ 抵達成田機場 T2 JL802 TPE 10:25→NRT 14:55，通關+領行李",
+        "5/31 ✈️ JL8663 NRT 08:55→TPE 11:35 成田 T2 起飛"
+      ],
+      "hotels": [
+        "京王布萊索飯店"
+      ],
+      "highlights": [
+        "マンホールカード：豊島區",
+        "ジュンク堂書店 池袋本店",
+        "雷門＋仲見世通＋淺草寺",
+        "御朱印：淺草寺"
+      ],
+      "days": [
+        "抵達・マンホールカード：豊島區、ジュンク堂書店 池袋本店",
+        "浅草 すし賢 → 雷門＋仲見世通＋淺草寺 → 浅草花月堂 ジャンボメロ…",
+        "迪士尼海洋",
+        "池袋藥妝補貨 → 回轉壽司トリトン 池袋東… → サンシャインシティ 逛街",
+        "Pokémon Cent… → 澳谷十字路口＋忠犬八公 → Afternoon Te…",
+        "江島神社 → 御朱印：江島神社 → bills 七里ヶ浜",
+        "らぁ麺やまぐち → 神樂坂通り＋かくれんぼ横… → 赤城神社",
+        "すずめや → 人形町今半 池袋東武店 → 第48回 足立の花火",
+        "回台"
+      ],
+      "source": "Notion",
+      "color": "#B9A4D6"
+    },
+    {
+      "id": "fukuoka2025-12",
+      "title": "福岡・豪斯登堡",
+      "place": "日本 福岡",
+      "start": "2025-12-06",
+      "end": "2025-12-13",
+      "people": 2,
+      "path": "fukuoka2025-trip/",
+      "pages": [
+        {
+          "label": "行程",
+          "href": "index.html",
+          "icon": "list"
+        }
+      ],
+      "flights": [
+        "12/6 JX840 14:45-18:00 第一航廈",
+        "12/13 JX841 19:10-20:50"
+      ],
+      "hotels": [
+        "博多祇園櫛田神社前西鐵克魯姆酒店",
+        "JR豪斯登堡大倉飯店"
+      ],
+      "highlights": [
+        "寶滿宮竈門神社",
+        "太宰府天滿宮",
+        "豪斯登堡",
+        "櫛田神社"
+      ],
+      "days": [
+        "抵達・博多車站逛街、Pokémon Cent…",
+        "寶滿宮竈門神社 → 太宰府天滿宮 → 星巴克 太宰府天滿宮表參…",
+        "豪斯登堡 → 聖誕市集",
+        "Sushi Sakaba… → 博多車站逛街 → 努努雞",
+        "パンデルソル → 櫛田神社 → 上川端商店街",
+        "門斯港 → Princess Phi… → 小倉城 or Aruar…",
+        "博多拉麵 ShinShi… → 天神地下街 → ワンカルビ PREMIU…",
+        "Wakaba、免稅店購物・回台"
+      ],
+      "source": "Notion",
+      "color": "#C9844A"
+    },
+    {
+      "id": "tokyo2025-04",
+      "title": "東京・河口湖",
+      "place": "日本 東京",
+      "start": "2025-04-19",
+      "end": "2025-04-27",
+      "people": 2,
+      "path": "tokyo2025-trip/",
+      "pages": [
+        {
+          "label": "行程",
+          "href": "index.html",
+          "icon": "list"
+        }
+      ],
+      "flights": [
+        "4/19 航班 JL8664 12:40 桃園機場 →17:05 成田機場",
+        "4/27 JL8663日本航空 08:55 - 11:30"
+      ],
+      "highlights": [
+        "池袋商圈扭蛋, 打台",
+        "川越",
+        "冰川神社",
+        "小江戶川越一番街商店街"
+      ],
+      "days": [
+        "抵達・牛舌、買大猩猩按摩器",
+        "川越 → 冰川神社 → 鰻魚飯老店 小川菊",
+        "三軒茶屋 → 幸福招財貓電車 → RARASAND ララサ…",
+        "河口湖 → 羅森便利商店 河口湖車站… → 天上山公園纜車",
+        "燒肉INOUE 銀座店 → LOFT → 藍瓶咖啡",
+        "客美多 → 東京鐵塔 → TeamLab 六本木",
+        "池袋太陽城 → 挽肉與米 澀谷 → 迪士尼商店 澀谷公園大道…",
+        "yellow 池袋 → GU → UNIQULO",
+        "回台"
+      ],
+      "source": "Notion",
+      "color": "#97CC27"
+    },
+    {
+      "id": "tokyo2024-11",
+      "title": "東京・迪士尼海洋",
+      "place": "日本 東京",
+      "start": "2024-11-23",
+      "end": "2024-11-29",
+      "people": 2,
+      "path": "tokyo2024-trip/",
+      "pages": [
+        {
+          "label": "行程",
+          "href": "index.html",
+          "icon": "list"
+        }
+      ],
+      "flights": [
+        "11/23 航班 JL-802 10:35 桃園機場 →14:35 成田機場",
+        "11/29 航班 JL-809 18:05 成田機場 →21:15 桃園機場"
+      ],
+      "hotels": [
+        "太陽城王子大飯店"
+      ],
+      "highlights": [
+        "忠犬小八",
+        "澀谷 SKY",
+        "國營昭和記念公園",
+        "迪士尼海洋"
+      ],
+      "days": [
+        "抵達・拉麵林田 池袋店、BicCamera",
+        "太陽城逛街 → 忠犬小八 → 澀谷 梅丘寿司の美登利",
+        "SATOU牛肉丸 → 初音鯛魚燒 → 國營昭和記念公園",
+        "迪士尼海洋",
+        "銀座 → にし邑 → 銀座LOFT 銀座ロフト",
+        "Yakiniku Ino… → 藍瓶咖啡 銀座 → 寶可夢中心Mega To…",
+        "太陽城逛街・回台"
+      ],
+      "source": "Notion",
+      "color": "#7FB8C4"
     }
   ]
 }
