@@ -137,8 +137,10 @@ function renderCal(list, today){
     if (hit){
       const { t, i, k } = hit, n = nights(t);
       cls += " trip";
-      if (k === 0 || col === 0) cls += " s";
+      if (k === 0 || col === 0) cls += " s";     // 色帶圓角（含跨週換行）
       if (k === n || col === 6) cls += " e";
+      if (k === 0) cls += " first";               // 實心圓只標出發與回程日
+      if (k === n) cls += " last";
       sty = ` style="--tc:${colorOf(t, i)}"`;
       inMonth.set(t.id, { t, i });
     }
