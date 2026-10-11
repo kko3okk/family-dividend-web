@@ -328,12 +328,14 @@ function render(){
 
 /* ── 財務 / 健康 切換 ── */
 function setMode(m, scroll){
-  const h = m === "health";
+  const h = m === "health", t = m === "travel";
   document.body.classList.toggle("mode-health", h);
+  document.body.classList.toggle("mode-travel", t);
   $("domain").querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.d === m));
   try { localStorage.setItem(LS_MODE, m); } catch(e){}
-  const br = document.querySelector(".gbrand"); if (br) br.setAttribute("href", h ? "#secHCal" : "#secMap");
+  const br = document.querySelector(".gbrand"); if (br) br.setAttribute("href", h ? "#secHCal" : t ? "#secTNext" : "#secMap");
   if (h) { render(); if (!loaded && token()) pull(); }
+  else if (t) { try { window.Travel?.render(); } catch(e){} }
   else if (typeof DATA !== "undefined" && DATA && typeof window.render === "function") {
     try { window.render(); } catch(e){}                       // 財務畫面換人後要重繪
   }
@@ -398,8 +400,9 @@ $("tokenSave").addEventListener("click", () => setTimeout(() => { loaded = false
 try { if (typeof person !== "undefined") person = localStorage.getItem("person") || person; } catch(e){}
 loadLocal();
 const hashH = /^#(secH|health)/.test(location.hash);
+const hashT = /^#(secT|travel)/.test(location.hash);
 let mode = "fin"; try { mode = localStorage.getItem(LS_MODE) || "fin"; } catch(e){}
-setMode(hashH ? "health" : mode, false);
+setMode(hashH ? "health" : hashT ? "travel" : mode, false);
 if (!document.body.classList.contains("mode-health")) pull();   // 背景先載入，切過去就有資料
 window.Health = { render, pull, setMode };
 })();

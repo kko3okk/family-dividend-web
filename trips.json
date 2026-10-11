@@ -1,0 +1,52 @@
+{
+  "updated": "2026-10-11",
+  "trips": [
+    {
+      "id": "osaka-2026",
+      "title": "大阪・USJ・京都",
+      "place": "日本 大阪",
+      "start": "2026-10-17",
+      "end": "2026-10-24",
+      "people": 2,
+      "path": "osaka-trip/",
+      "pages": [
+        { "label": "行程", "href": "index.html", "icon": "list" },
+        { "label": "地圖", "href": "map.html", "icon": "map" },
+        { "label": "美食", "href": "food.html", "icon": "food" },
+        { "label": "刷卡", "href": "card.html", "icon": "card" }
+      ],
+      "flights": ["10/17 CI172 TPE 14:20 → KIX 18:05", "10/24 CI153 KIX 14:00 → TPE 16:00"],
+      "hotels": ["相鐵 FRESA INN 心齋橋", "Hotel Universal Port（USJ）"],
+      "highlights": ["環球影城（芙莉蓮）", "京都東山", "勝尾寺", "日本橋採買"],
+      "days": [
+        "飛抵大阪（純移動）",
+        "大阪 心齋橋→日本橋（採買日）",
+        "勝尾寺 → 移動 USJ",
+        "環球影城 USJ（芙莉蓮）",
+        "USJ → 梅田逛到晚上 → 回心齋橋",
+        "京都一日（東山下坡線）",
+        "大阪 購物總攻日",
+        "最後早晨 → KIX → 回台"
+      ]
+    },
+    {
+      "id": "taipei-2026",
+      "title": "台北中山 2 天 1 夜",
+      "place": "台灣 台北",
+      "start": "2026-09-25",
+      "end": "2026-09-26",
+      "people": 2,
+      "path": "taipei-trip/",
+      "pages": [
+        { "label": "行程", "href": "index.html", "icon": "list" },
+        { "label": "地圖", "href": "map.html", "icon": "map" }
+      ],
+      "hotels": ["amba 台北中山"],
+      "highlights": ["中秋節", "大稻埕夕陽＋滿月", "寧夏夜市", "寶可夢中心"],
+      "days": [
+        "黃記午餐 → 大稻埕夕陽 → 寧夏夜市",
+        "寶可夢中心 → Will's 鐵板燒 → 回台中"
+      ]
+    }
+  ]
+}

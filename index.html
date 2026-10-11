@@ -725,6 +725,75 @@
     .h-row{padding:11px 11px 10px}
     .h-btns{gap:5px}
   }
+
+  /* ═══ 2026-10-11 旅遊分頁 ═══ */
+  body:not(.mode-travel) .tv{display:none!important}
+  body.mode-travel .fin,body.mode-travel .hl{display:none!important}
+  body.mode-travel #traveler{display:none}
+  @media(min-width:960px){
+    #travelApp{display:grid;grid-template-columns:1fr 1.2fr;gap:18px;align-items:start}
+    #travelApp>.card{margin:0}
+  }
+  .t-empty{font-size:13px;color:var(--mut);line-height:1.8;padding:4px 2px}
+  .t-hero{display:flex;gap:16px;align-items:center}
+  .t-cd{flex:none;width:92px;height:92px;border-radius:50%;background:var(--chang-soft);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;line-height:1.15;box-shadow:inset 0 0 0 3px var(--chang)}
+  .t-cd b{font-family:var(--mono);font-size:34px;font-weight:600;color:var(--brown);font-variant-numeric:tabular-nums}
+  .t-cd small{font-size:10.5px;color:var(--mut);letter-spacing:.08em}
+  .t-cd.now{background:var(--green-soft);box-shadow:inset 0 0 0 3px var(--green)}
+  .t-ht{flex:1;min-width:0}
+  .t-place{display:flex;align-items:center;gap:4px;font-size:11.5px;color:var(--mut);letter-spacing:.1em}
+  .t-place svg,.t-facts svg{width:15px;height:15px;flex:none;color:var(--chang)}
+  .t-title{font-size:20px;font-weight:700;color:var(--brown);letter-spacing:.08em;line-height:1.35;margin:3px 0 4px}
+  .t-meta{font-size:12px;color:var(--mut);line-height:1.6}
+  .t-today{margin-top:14px;background:var(--green-soft);border-radius:16px;padding:10px 14px;font-size:13.5px;font-weight:700;color:var(--ink)}
+  .t-today span{display:inline-block;font-size:10.5px;font-weight:700;background:var(--green);color:#fff;border-radius:999px;padding:2px 9px;margin-right:8px;letter-spacing:.1em}
+  .t-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .t-links a{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--brown);background:var(--card);
+    border:2px solid var(--line);border-radius:999px;padding:7px 14px 7px 11px;font-size:13px;font-weight:700;letter-spacing:.08em;transition:background .2s,border-color .2s}
+  .t-links a svg{width:17px;height:17px;color:var(--chang)}
+  .t-links a:hover,.t-links a:active{background:var(--chang-soft);border-color:var(--chang)}
+  #secTNext .t-links a:first-child{background:var(--chang);border-color:var(--chang);color:#fff}
+  #secTNext .t-links a:first-child svg{color:#fff}
+  .t-facts{margin-top:16px;border-top:var(--dot);padding-top:12px;display:grid;gap:7px}
+  .t-facts div{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:var(--ink);line-height:1.5}
+  .t-facts svg{margin-top:2px}
+  .t-stats{grid-template-columns:repeat(4,1fr);margin:0 0 6px}
+  .t-stats>div{padding:9px 8px;text-align:center}
+  .t-yr{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--chang);letter-spacing:.2em;margin:16px 2px 4px}
+  .t-trip{display:flex;gap:12px;padding:12px 0 14px;border-bottom:var(--dot)}
+  .t-trip:last-child{border-bottom:none}
+  .t-trip .exdate{width:50px;align-self:flex-start}
+  .t-trip.next .exdate{background:var(--chang-soft);box-shadow:inset 0 0 0 2px var(--chang)}
+  .t-trip.now .exdate{background:var(--green-soft);box-shadow:inset 0 0 0 2px var(--green)}
+  .t-tb{flex:1;min-width:0}
+  .t-tt{font-size:15px;font-weight:700;color:var(--brown);letter-spacing:.06em;line-height:1.4}
+  .t-tag{display:inline-block;vertical-align:2px;margin-left:8px;font-size:10px;font-weight:700;border-radius:999px;padding:2px 8px;letter-spacing:.08em}
+  .t-tag.next{background:var(--chang);color:#fff}
+  .t-tag.now{background:var(--green);color:#fff}
+  .t-tm{font-size:11.5px;color:var(--mut);margin:2px 0 6px}
+  .t-days{margin-top:8px;font-size:12.5px}
+  .t-days summary{cursor:pointer;color:var(--mut);font-weight:700;letter-spacing:.06em;list-style:none}
+  .t-days summary::-webkit-details-marker{display:none}
+  .t-days summary::before{content:"＋";display:inline-block;width:16px;color:var(--chang);font-weight:700}
+  .t-days[open] summary::before{content:"－"}
+  .t-days ol{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px}
+  .t-days li{display:flex;gap:8px;line-height:1.55;color:var(--ink)}
+  .t-days li b{flex:none;width:26px;font-family:var(--mono);font-weight:600;color:var(--chang)}
+  .t-trip .t-links{margin-top:10px;gap:6px}
+  .t-trip .t-links a{padding:5px 11px 5px 9px;font-size:12px;border-width:1.5px}
+  .t-trip .t-links a svg{width:15px;height:15px}
+  @media(max-width:560px){
+    .t-cd{width:82px;height:82px}.t-cd b{font-size:30px}
+    .t-title{font-size:18px}
+    .t-stats{gap:6px}
+  }
+  /* 三個分頁後的手機導覽：分頁只留文字 */
+  @media(max-width:560px){
+    .domain button svg{display:none!important}
+    .domain button{padding:6px 9px}
+  }
+  @media(max-width:374px){ .domain button{padding:6px 7px;font-size:12px} }
 </style>
 </head>
 <body>
@@ -736,12 +805,13 @@
   <div class="gin">
     <a class="gbrand" href="#secMap">家的旅程</a>
     <div class="domain" id="domain" role="tablist">
-      <button data-d="fin" class="on" role="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20v-8"/><path d="M12 12c0-3.3-2.4-5.5-6-5.5 0 3.6 2.4 5.5 6 5.5Z"/><path d="M12 14c0-3 2.2-5 5.5-5 0 3-2.2 5-5.5 5Z"/></svg><span>財務</span></button><button data-d="health" role="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19.5s-7-4.3-7-9.4A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.1c0 5.1-7 9.4-7 9.4Z"/></svg><span>健康</span></button>
+      <button data-d="fin" class="on" role="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20v-8"/><path d="M12 12c0-3.3-2.4-5.5-6-5.5 0 3.6 2.4 5.5 6 5.5Z"/><path d="M12 14c0-3 2.2-5 5.5-5 0 3-2.2 5-5.5 5Z"/></svg><span>財務</span></button><button data-d="health" role="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19.5s-7-4.3-7-9.4A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.1c0 5.1-7 9.4-7 9.4Z"/></svg><span>健康</span></button><button data-d="travel" role="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7.5" width="16" height="12" rx="3"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5M9 11v5M15 11v5"/></svg><span>旅遊</span></button>
     </div>
     <div class="glinks" id="glinks">
       <a class="fin" href="#secMap">旅程</a><a class="fin" href="#secTodo">待辦<i class="gdot" id="dotTodo"></i></a><a class="fin" href="#secAdv">指引</a><a class="fin" href="#secHold">持股</a><a class="fin" href="#yrCard" id="lnkYr">年度</a>
       <a class="fin" href="#secEx">除權息</a><a class="fin" href="#secPay">入帳<i class="gdot" id="dotPay"></i></a><a class="fin" href="#secTx">交易</a>
       <a class="hl" href="#secHCal">日曆回顧</a><a class="hl" href="#secHToday">今日清單</a><a class="hl" href="#secHMoves">動作說明</a>
+      <a class="tv" href="#secTNext">下一趟</a><a class="tv" href="#secTLog">旅遊紀錄</a>
     </div>
     <div class="gtools">
       <div class="traveler" id="traveler">
@@ -788,6 +858,15 @@
   <div class="card" id="secHMoves"><h3 data-en="MOVES">動作說明<button class="mini h-edit" id="hPlanBtn">調整目標</button></h3>
     <div class="note h-src">來源：bingbing.fitness 影片 — 6 公斤壺鈴，每天每個動作 80 下，在家就能練、不用跑不用跳。</div>
     <div id="hMoves"></div>
+  </div>
+</section>
+
+<!-- ═══ 旅遊（資料：trips.json；行程細節在各趟資料夾）═══ -->
+<section class="tv" id="travelApp">
+  <div class="card" id="secTNext"><h3 data-en="NEXT TRIP">下一趟旅程</h3><div id="tNextBox"><div class="t-empty">載入中…</div></div></div>
+  <div class="card" id="secTLog"><h3 data-en="FOOTPRINTS">旅遊紀錄</h3>
+    <div class="h-stats t-stats" id="tStats"></div>
+    <div id="tLogBox"></div>
   </div>
 </section>
 
@@ -945,7 +1024,7 @@
 </dialog>
 
 <script type="module">
-  const V = "2026.10.11-0955";   // 由 deploy.sh 注入，確保模組不吃到舊快取
+  const V = "2026.10.11-1000";   // 由 deploy.sh 注入，確保模組不吃到舊快取
   const M  = await import(`./dividend-journey-map/src/renderMap.js?v=${V}`);
   const AN = await import(`./dividend-journey-map/src/animate.js?v=${V}`);
   window.JM = {
@@ -965,7 +1044,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.11-0955";
+const APP_VERSION="2026.10.11-1000";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -1938,6 +2017,7 @@ addEventListener("resize",()=>{ clearTimeout(_rz); _rz=setTimeout(()=>{ if(DATA)
   catch(e){document.getElementById("meta").textContent=e.message;}
 })();
 </script>
-<script src="health.js?v=2026.10.11-0955"></script>
+<script src="travel.js?v=2026.10.11-1000"></script>
+<script src="health.js?v=2026.10.11-1000"></script>
 </body>
 </html>
