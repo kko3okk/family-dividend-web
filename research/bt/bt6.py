@@ -10,7 +10,8 @@ W = os.environ.get("BT_W", "/home/claude/family-dividend-web"); D = os.environ.g
 SP = os.path.dirname(os.path.abspath(__file__))
 START_CASH = 5_000_000; FEE_B = 0.001425; FEE_S = 0.004425
 ONETIME = re.compile('交屋|過戶|完工|出售資產|認列|合併|納入|處分|試運轉|工程進度|專案進度|股利|投資收益|評價|金融資產|租金')
-T0 = "2022-01-03"
+PRE = os.environ.get("BT_PRE") == "1"   # 2026-10-11：加入 2019-06~2021-05 回補資料，回測自 2020 起
+T0 = os.environ.get("BT_T0", "2020-01-02" if PRE else "2022-01-03")
 
 # ---------- 載入 ----------
 MODE = os.environ.get("BT_PX", "raw")   # raw：未還原（配息不入帳，保守）；adj：還原股價（含息總報酬）
@@ -23,7 +24,7 @@ try:
         elif len(v) == 7: LISTING[c] = f"{int(v[:3])+1911}-{v[3:5]}-{v[5:]}"
 except Exception:
     pass
-cache = f"{SP}/bt6_{MODE}.pkl"
+cache = f"{SP}/bt6_{MODE}{'_pre' if PRE else ''}.pkl"
 if os.path.exists(cache) and not os.environ.get("BT_NOCACHE"):
     close, vol, taiex = pd.read_pickle(cache)
 else:
@@ -37,6 +38,7 @@ else:
     else:
         add(json.load(open(f"{D}/hist/px/universe.json")))
         if os.path.exists(f"{PX2}/raw_extra.json"): add(json.load(open(f"{PX2}/raw_extra.json")))
+        if PRE: add({c: {d: v for d, v in s_.items() if d < "2021-06-01"} for c, s_ in json.load(open(f"{D}/hist/px/pre2021.json")).items()})
     for f in sorted(glob.glob(f"{W}/data/prices/*.json")):
         for d, x in json.load(open(f)).items():
             if MODE != "adj":
@@ -46,7 +48,7 @@ else:
     for r in json.load(open(f"{D}/hist/taiex.json")):
         tx.setdefault(r["date"], r["close"])
     close = pd.DataFrame(cl).sort_index(); vol = pd.DataFrame(vo).reindex(close.index).fillna(0)
-    close = close[close.index >= "2021-06-01"]; vol = vol.loc[close.index]
+    close = close[close.index >= ("2019-06-01" if PRE else "2021-06-01")]; vol = vol.loc[close.index]
     taiex = pd.Series(tx).reindex(close.index).ffill()
     pd.to_pickle((close, vol, taiex), cache)
 close = close.ffill(limit=5)
@@ -232,7 +234,7 @@ def summarize(eq, trades, p):
     # 每年以前一年最後一天為基準
     yrs = {}
     last = None
-    for y in ("2022", "2023", "2024", "2025", "2026"):
+    for y in ("2020", "2021", "2022", "2023", "2024", "2025", "2026"):
         s = [(d, v) for d, v in eq if d[:4] == y]
         if not s: continue
         base = last if last else s[0][1]
