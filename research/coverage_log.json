@@ -23,7 +23,7 @@
   "weeks": 2,
   "px_first": 63.6,
   "px_last": 64.7,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 1.7
  },
  "3624": {
@@ -50,7 +50,7 @@
   "weeks": 2,
   "px_first": 134.0,
   "px_last": 175.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 30.6
  },
  "6861": {
@@ -77,7 +77,7 @@
   "weeks": 2,
   "px_first": 273.0,
   "px_last": 262.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -3.8
  },
  "7717": {
@@ -97,7 +97,7 @@
   "weeks": 1,
   "px_first": 608.0,
   "px_last": 577.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -5.1
  },
  "6525": {
@@ -107,7 +107,7 @@
   "reason": "功率封測但營收以消費性/PC/工業為主，AI 未單列；產能在上海/合肥",
   "history": [],
   "px_last": 138.0,
-  "px_last_date": "2026-10-11"
+  "px_last_date": "2026-10-12"
  },
  "2342": {
   "name": "茂矽",
@@ -116,7 +116,7 @@
   "reason": "高壓矽基 MOSFET/IGBT 代工（單一來源）；營收未動",
   "history": [],
   "px_last": 49.15,
-  "px_last_date": "2026-10-11"
+  "px_last_date": "2026-10-12"
  },
  "7744": {
   "name": "崴寶",
@@ -135,7 +135,7 @@
   "weeks": 1,
   "px_first": 534.0,
   "px_last": 506.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -5.2
  },
  "1316": {
@@ -154,7 +154,7 @@
   "weeks": 1,
   "px_first": 10.6,
   "px_last": 10.4,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -1.9
  },
  "1340": {
@@ -173,7 +173,7 @@
   "weeks": 1,
   "px_first": 5.25,
   "px_last": 5.14,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -2.1
  },
  "1342": {
@@ -192,7 +192,7 @@
   "weeks": 1,
   "px_first": 101.0,
   "px_last": 101.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "1416": {
@@ -218,7 +218,7 @@
   "weeks": 2,
   "px_first": 11.5,
   "px_last": 12.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 4.3
  },
  "1617": {
@@ -237,7 +237,7 @@
   "weeks": 1,
   "px_first": 20.15,
   "px_last": 24.1,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 19.6
  },
  "1714": {
@@ -263,7 +263,7 @@
   "weeks": 2,
   "px_first": 15.8,
   "px_last": 19.95,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 26.3
  },
  "1785": {
@@ -289,7 +289,7 @@
   "weeks": 2,
   "px_first": 96.5,
   "px_last": 103.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 7.3
  },
  "1799": {
@@ -315,7 +315,7 @@
   "weeks": 2,
   "px_first": 28.8,
   "px_last": 28.6,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -0.7
  },
  "2025": {
@@ -341,7 +341,7 @@
   "weeks": 2,
   "px_first": 12.65,
   "px_last": 13.6,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 7.5
  },
  "2027": {
@@ -367,7 +367,7 @@
   "weeks": 2,
   "px_first": 46.6,
   "px_last": 48.25,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 3.5
  },
  "2073": {
@@ -386,7 +386,7 @@
   "weeks": 1,
   "px_first": 25.9,
   "px_last": 25.6,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -1.2
  },
  "2101": {
@@ -412,7 +412,7 @@
   "weeks": 2,
   "px_first": 30.05,
   "px_last": 30.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -0.2
  },
  "2237": {
@@ -446,7 +446,7 @@
   "weeks": 1,
   "px_first": 43.65,
   "px_last": 50.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 15.7
  },
  "2248": {
@@ -465,7 +465,7 @@
   "weeks": 1,
   "px_first": 61.9,
   "px_last": 60.3,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -2.6
  },
  "2302": {
@@ -491,7 +491,7 @@
   "weeks": 2,
   "px_first": 45.75,
   "px_last": 50.1,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 9.5
  },
  "2316": {
@@ -510,7 +510,7 @@
   "weeks": 1,
   "px_first": 159.0,
   "px_last": 171.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 7.5
  },
  "2347": {
@@ -536,7 +536,7 @@
   "weeks": 2,
   "px_first": 94.5,
   "px_last": 96.4,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 2.0
  },
  "2357": {
@@ -555,7 +555,7 @@
   "weeks": 1,
   "px_first": 958.0,
   "px_last": 996.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 4.0
  },
  "2369": {
@@ -574,7 +574,7 @@
   "weeks": 1,
   "px_first": 31.65,
   "px_last": 32.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 1.1
  },
  "2374": {
@@ -593,7 +593,7 @@
   "weeks": 1,
   "px_first": 66.1,
   "px_last": 66.2,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.2
  },
  "2388": {
@@ -612,7 +612,7 @@
   "weeks": 1,
   "px_first": 70.8,
   "px_last": 70.9,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.1
  },
  "2395": {
@@ -638,7 +638,7 @@
   "weeks": 2,
   "px_first": 701.0,
   "px_last": 727.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 3.7
  },
  "2397": {
@@ -664,7 +664,7 @@
   "weeks": 2,
   "px_first": 62.1,
   "px_last": 65.1,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 4.8
  },
  "2406": {
@@ -683,7 +683,7 @@
   "weeks": 1,
   "px_first": 29.9,
   "px_last": 30.05,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.5
  },
  "2425": {
@@ -709,7 +709,7 @@
   "weeks": 2,
   "px_first": 37.1,
   "px_last": 35.75,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -3.6
  },
  "2432": {
@@ -735,7 +735,7 @@
   "weeks": 2,
   "px_first": 27.25,
   "px_last": 28.8,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 5.7
  },
  "2436": {
@@ -761,7 +761,7 @@
   "weeks": 2,
   "px_first": 69.6,
   "px_last": 71.2,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 2.3
  },
  "2460": {
@@ -787,7 +787,7 @@
   "weeks": 2,
   "px_first": 30.8,
   "px_last": 30.4,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -1.3
  },
  "2476": {
@@ -813,7 +813,7 @@
   "weeks": 2,
   "px_first": 122.0,
   "px_last": 130.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 7.0
  },
  "2495": {
@@ -832,7 +832,7 @@
   "weeks": 1,
   "px_first": 38.85,
   "px_last": 37.85,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -2.6
  },
  "2543": {
@@ -858,7 +858,7 @@
   "weeks": 2,
   "px_first": 38.3,
   "px_last": 39.6,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 3.4
  },
  "2646": {
@@ -877,7 +877,7 @@
   "weeks": 1,
   "px_first": 20.35,
   "px_last": 20.1,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -1.2
  },
  "2724": {
@@ -896,7 +896,7 @@
   "weeks": 1,
   "px_first": 12.3,
   "px_last": 13.2,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 7.3
  },
  "2734": {
@@ -915,7 +915,7 @@
   "weeks": 1,
   "px_first": 14.5,
   "px_last": 14.65,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 1.0
  },
  "2923": {
@@ -934,7 +934,7 @@
   "weeks": 1,
   "px_first": 25.7,
   "px_last": 24.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -6.6
  },
  "3004": {
@@ -960,7 +960,7 @@
   "weeks": 2,
   "px_first": 118.0,
   "px_last": 120.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 2.1
  },
  "3022": {
@@ -986,7 +986,7 @@
   "weeks": 2,
   "px_first": 90.7,
   "px_last": 90.3,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -0.4
  },
  "3028": {
@@ -1012,7 +1012,7 @@
   "weeks": 2,
   "px_first": 61.7,
   "px_last": 63.6,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 3.1
  },
  "3033": {
@@ -1031,7 +1031,7 @@
   "weeks": 1,
   "px_first": 41.6,
   "px_last": 41.55,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -0.1
  },
  "3036": {
@@ -1057,7 +1057,7 @@
   "weeks": 2,
   "px_first": 206.0,
   "px_last": 215.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 4.6
  },
  "3041": {
@@ -1076,7 +1076,7 @@
   "weeks": 1,
   "px_first": 23.6,
   "px_last": 23.85,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 1.1
  },
  "3048": {
@@ -1102,7 +1102,7 @@
   "weeks": 2,
   "px_first": 50.4,
   "px_last": 57.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 13.1
  },
  "3054": {
@@ -1128,7 +1128,7 @@
   "weeks": 2,
   "px_first": 58.5,
   "px_last": 58.1,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -0.7
  },
  "3088": {
@@ -1154,7 +1154,7 @@
   "weeks": 2,
   "px_first": 127.0,
   "px_last": 132.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 3.9
  },
  "3090": {
@@ -1180,7 +1180,7 @@
   "weeks": 2,
   "px_first": 165.0,
   "px_last": 174.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 5.5
  },
  "3135": {
@@ -1206,7 +1206,7 @@
   "weeks": 2,
   "px_first": 159.0,
   "px_last": 157.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -0.9
  },
  "3147": {
@@ -1225,7 +1225,7 @@
   "weeks": 1,
   "px_first": 234.5,
   "px_last": 308.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 31.3
  },
  "3162": {
@@ -1244,7 +1244,7 @@
   "weeks": 1,
   "px_first": 74.7,
   "px_last": 82.2,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 10.0
  },
  "3229": {
@@ -1270,7 +1270,7 @@
   "weeks": 2,
   "px_first": 57.4,
   "px_last": 55.4,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -3.5
  },
  "3276": {
@@ -1296,7 +1296,7 @@
   "weeks": 2,
   "px_first": 13.85,
   "px_last": 14.2,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 2.5
  },
  "3290": {
@@ -1322,7 +1322,7 @@
   "weeks": 2,
   "px_first": 45.75,
   "px_last": 55.8,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 22.0
  },
  "3305": {
@@ -1348,7 +1348,7 @@
   "weeks": 2,
   "px_first": 102.0,
   "px_last": 110.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 8.3
  },
  "3357": {
@@ -1374,7 +1374,7 @@
   "weeks": 2,
   "px_first": 206.0,
   "px_last": 226.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 10.0
  },
  "3360": {
@@ -1393,7 +1393,7 @@
   "weeks": 1,
   "px_first": 15.05,
   "px_last": 15.4,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 2.3
  },
  "3491": {
@@ -1419,7 +1419,7 @@
   "weeks": 2,
   "px_first": 1565.0,
   "px_last": 1685.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 7.7
  },
  "3528": {
@@ -1445,7 +1445,7 @@
   "weeks": 2,
   "px_first": 84.5,
   "px_last": 86.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 1.8
  },
  "3555": {
@@ -1464,7 +1464,7 @@
   "weeks": 1,
   "px_first": 171.5,
   "px_last": 158.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -7.9
  },
  "3556": {
@@ -1490,7 +1490,7 @@
   "weeks": 2,
   "px_first": 56.6,
   "px_last": 65.7,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 16.1
  },
  "3577": {
@@ -1509,7 +1509,7 @@
   "weeks": 1,
   "px_first": 114.0,
   "px_last": 106.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -7.0
  },
  "3594": {
@@ -1535,7 +1535,7 @@
   "weeks": 2,
   "px_first": 46.6,
   "px_last": 46.25,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -0.8
  },
  "3689": {
@@ -1561,7 +1561,7 @@
   "weeks": 2,
   "px_first": 109.5,
   "px_last": 117.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 7.3
  },
  "3691": {
@@ -1580,7 +1580,7 @@
   "weeks": 1,
   "px_first": 121.5,
   "px_last": 103.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -14.8
  },
  "3702": {
@@ -1599,7 +1599,7 @@
   "weeks": 1,
   "px_first": 114.0,
   "px_last": 117.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 3.1
  },
  "3709": {
@@ -1625,7 +1625,7 @@
   "weeks": 2,
   "px_first": 63.3,
   "px_last": 66.2,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 4.6
  },
  "3713": {
@@ -1644,7 +1644,7 @@
   "weeks": 1,
   "px_first": 14.1,
   "px_last": 14.85,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 5.3
  },
  "3715": {
@@ -1670,7 +1670,7 @@
   "weeks": 2,
   "px_first": 125.5,
   "px_last": 137.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 9.6
  },
  "4154": {
@@ -1689,7 +1689,7 @@
   "weeks": 1,
   "px_first": 11.85,
   "px_last": 12.45,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 5.1
  },
  "4442": {
@@ -1708,7 +1708,7 @@
   "weeks": 1,
   "px_first": 54.1,
   "px_last": 53.4,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -1.3
  },
  "4502": {
@@ -1727,7 +1727,7 @@
   "weeks": 1,
   "px_first": 15.7,
   "px_last": 15.7,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "4534": {
@@ -1753,7 +1753,7 @@
   "weeks": 2,
   "px_first": 31.5,
   "px_last": 30.75,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -2.4
  },
  "4576": {
@@ -1779,7 +1779,7 @@
   "weeks": 2,
   "px_first": 223.5,
   "px_last": 228.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 2.2
  },
  "4760": {
@@ -1805,7 +1805,7 @@
   "weeks": 2,
   "px_first": 265.0,
   "px_last": 367.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 38.5
  },
  "4806": {
@@ -1831,7 +1831,7 @@
   "weeks": 2,
   "px_first": 10.4,
   "px_last": 11.25,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 8.2
  },
  "4807": {
@@ -1850,7 +1850,7 @@
   "weeks": 1,
   "px_first": 29.85,
   "px_last": 34.25,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 14.7
  },
  "4905": {
@@ -1876,7 +1876,7 @@
   "weeks": 2,
   "px_first": 78.1,
   "px_last": 89.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 14.0
  },
  "4912": {
@@ -1895,7 +1895,7 @@
   "weeks": 1,
   "px_first": 98.4,
   "px_last": 109.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 11.3
  },
  "4916": {
@@ -1914,7 +1914,7 @@
   "weeks": 1,
   "px_first": 104.5,
   "px_last": 102.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -2.4
  },
  "4931": {
@@ -1940,7 +1940,7 @@
   "weeks": 2,
   "px_first": 238.5,
   "px_last": 244.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 2.5
  },
  "4934": {
@@ -1966,7 +1966,7 @@
   "weeks": 2,
   "px_first": 14.45,
   "px_last": 17.1,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 18.3
  },
  "4943": {
@@ -1985,7 +1985,7 @@
   "weeks": 1,
   "px_first": 7.0,
   "px_last": 6.64,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -5.1
  },
  "4949": {
@@ -2011,7 +2011,7 @@
   "weeks": 2,
   "px_first": 73.6,
   "px_last": 85.3,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 15.9
  },
  "4973": {
@@ -2037,7 +2037,7 @@
   "weeks": 2,
   "px_first": 135.0,
   "px_last": 149.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 10.4
  },
  "4989": {
@@ -2063,7 +2063,7 @@
   "weeks": 2,
   "px_first": 59.9,
   "px_last": 73.2,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 22.2
  },
  "5220": {
@@ -2082,7 +2082,7 @@
   "weeks": 1,
   "px_first": 19.8,
   "px_last": 22.1,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 11.6
  },
  "5228": {
@@ -2108,7 +2108,7 @@
   "weeks": 2,
   "px_first": 39.65,
   "px_last": 61.3,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 54.6
  },
  "5263": {
@@ -2134,7 +2134,7 @@
   "weeks": 2,
   "px_first": 90.8,
   "px_last": 96.1,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 5.8
  },
  "5288": {
@@ -2153,7 +2153,7 @@
   "weeks": 1,
   "px_first": 189.0,
   "px_last": 188.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -0.3
  },
  "5291": {
@@ -2179,7 +2179,7 @@
   "weeks": 2,
   "px_first": 57.5,
   "px_last": 62.2,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 8.2
  },
  "5314": {
@@ -2198,7 +2198,7 @@
   "weeks": 1,
   "px_first": 26.0,
   "px_last": 27.15,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 4.4
  },
  "5355": {
@@ -2224,7 +2224,7 @@
   "weeks": 2,
   "px_first": 6.8,
   "px_last": 7.77,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 14.3
  },
  "5498": {
@@ -2243,7 +2243,7 @@
   "weeks": 1,
   "px_first": 50.2,
   "px_last": 54.1,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 7.8
  },
  "5516": {
@@ -2262,7 +2262,7 @@
   "weeks": 1,
   "px_first": 11.95,
   "px_last": 12.7,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 6.3
  },
  "5607": {
@@ -2288,7 +2288,7 @@
   "weeks": 2,
   "px_first": 52.2,
   "px_last": 52.8,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 1.1
  },
  "6028": {
@@ -2307,7 +2307,7 @@
   "weeks": 1,
   "px_first": 99.2,
   "px_last": 113.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 14.4
  },
  "6108": {
@@ -2333,7 +2333,7 @@
   "weeks": 2,
   "px_first": 24.0,
   "px_last": 25.6,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 6.7
  },
  "6113": {
@@ -2359,7 +2359,7 @@
   "weeks": 2,
   "px_first": 22.3,
   "px_last": 23.7,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 6.3
  },
  "6141": {
@@ -2378,7 +2378,7 @@
   "weeks": 1,
   "px_first": 51.8,
   "px_last": 51.3,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -1.0
  },
  "6152": {
@@ -2404,7 +2404,7 @@
   "weeks": 2,
   "px_first": 15.05,
   "px_last": 21.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 39.5
  },
  "6166": {
@@ -2430,7 +2430,7 @@
   "weeks": 2,
   "px_first": 126.5,
   "px_last": 125.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -1.2
  },
  "6179": {
@@ -2449,7 +2449,7 @@
   "weeks": 1,
   "px_first": 35.1,
   "px_last": 37.8,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 7.7
  },
  "6185": {
@@ -2475,7 +2475,7 @@
   "weeks": 2,
   "px_first": 12.6,
   "px_last": 12.3,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -2.4
  },
  "6199": {
@@ -2494,7 +2494,7 @@
   "weeks": 1,
   "px_first": 122.0,
   "px_last": 142.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 16.4
  },
  "6206": {
@@ -2513,7 +2513,7 @@
   "weeks": 1,
   "px_first": 139.0,
   "px_last": 133.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -4.0
  },
  "6209": {
@@ -2532,7 +2532,7 @@
   "weeks": 1,
   "px_first": 78.0,
   "px_last": 90.1,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 15.5
  },
  "6214": {
@@ -2551,7 +2551,7 @@
   "weeks": 1,
   "px_first": 190.0,
   "px_last": 192.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 1.1
  },
  "6225": {
@@ -2570,7 +2570,7 @@
   "weeks": 1,
   "px_first": 46.2,
   "px_last": 71.6,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 55.0
  },
  "6227": {
@@ -2596,7 +2596,7 @@
   "weeks": 2,
   "px_first": 134.5,
   "px_last": 138.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 3.0
  },
  "6234": {
@@ -2622,7 +2622,7 @@
   "weeks": 2,
   "px_first": 38.2,
   "px_last": 39.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 3.4
  },
  "6259": {
@@ -2648,7 +2648,7 @@
   "weeks": 2,
   "px_first": 29.05,
   "px_last": 33.1,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 13.9
  },
  "6264": {
@@ -2667,7 +2667,7 @@
   "weeks": 1,
   "px_first": 6.01,
   "px_last": 6.06,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.8
  },
  "6291": {
@@ -2686,7 +2686,7 @@
   "weeks": 1,
   "px_first": 493.0,
   "px_last": 439.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -11.0
  },
  "6415": {
@@ -2705,7 +2705,7 @@
   "weeks": 1,
   "px_first": 426.0,
   "px_last": 462.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 8.6
  },
  "6425": {
@@ -2731,7 +2731,7 @@
   "weeks": 2,
   "px_first": 72.8,
   "px_last": 72.1,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -1.0
  },
  "6465": {
@@ -2757,7 +2757,7 @@
   "weeks": 2,
   "px_first": 41.7,
   "px_last": 41.7,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "6494": {
@@ -2776,7 +2776,7 @@
   "weeks": 1,
   "px_first": 51.4,
   "px_last": 51.3,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -0.2
  },
  "6588": {
@@ -2802,7 +2802,7 @@
   "weeks": 2,
   "px_first": 112.5,
   "px_last": 107.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -4.4
  },
  "6613": {
@@ -2821,7 +2821,7 @@
   "weeks": 1,
   "px_first": 269.0,
   "px_last": 286.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 6.3
  },
  "6629": {
@@ -2840,7 +2840,7 @@
   "weeks": 1,
   "px_first": 104.0,
   "px_last": 101.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -2.9
  },
  "6691": {
@@ -2866,7 +2866,7 @@
   "weeks": 2,
   "px_first": 646.0,
   "px_last": 789.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 22.1
  },
  "6716": {
@@ -2885,7 +2885,7 @@
   "weeks": 1,
   "px_first": 117.5,
   "px_last": 138.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 17.9
  },
  "6741": {
@@ -2904,7 +2904,7 @@
   "weeks": 1,
   "px_first": 55.7,
   "px_last": 54.2,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -2.7
  },
  "6834": {
@@ -2930,7 +2930,7 @@
   "weeks": 2,
   "px_first": 113.5,
   "px_last": 132.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 16.3
  },
  "6863": {
@@ -2949,7 +2949,7 @@
   "weeks": 1,
   "px_first": 98.0,
   "px_last": 95.6,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -2.4
  },
  "6870": {
@@ -2968,7 +2968,7 @@
   "weeks": 1,
   "px_first": 328.5,
   "px_last": 319.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -2.9
  },
  "6874": {
@@ -2994,7 +2994,7 @@
   "weeks": 2,
   "px_first": 69.4,
   "px_last": 70.3,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 1.3
  },
  "6884": {
@@ -3020,7 +3020,7 @@
   "weeks": 2,
   "px_first": 31.9,
   "px_last": 32.1,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.6
  },
  "6885": {
@@ -3046,7 +3046,7 @@
   "weeks": 2,
   "px_first": 30.25,
   "px_last": 29.6,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -2.1
  },
  "6903": {
@@ -3072,7 +3072,7 @@
   "weeks": 2,
   "px_first": 308.5,
   "px_last": 326.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 5.8
  },
  "6907": {
@@ -3091,7 +3091,7 @@
   "weeks": 1,
   "px_first": 184.5,
   "px_last": 182.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -1.1
  },
  "6922": {
@@ -3117,7 +3117,7 @@
   "weeks": 2,
   "px_first": 204.5,
   "px_last": 203.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -0.7
  },
  "6933": {
@@ -3136,7 +3136,7 @@
   "weeks": 1,
   "px_first": 350.0,
   "px_last": 382.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 9.1
  },
  "6947": {
@@ -3170,7 +3170,7 @@
   "weeks": 1,
   "px_first": 138.0,
   "px_last": 139.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.7
  },
  "7721": {
@@ -3196,7 +3196,7 @@
   "weeks": 2,
   "px_first": 62.0,
   "px_last": 61.1,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -1.5
  },
  "7749": {
@@ -3215,7 +3215,7 @@
   "weeks": 1,
   "px_first": 402.0,
   "px_last": 364.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -9.5
  },
  "7750": {
@@ -3241,7 +3241,7 @@
   "weeks": 2,
   "px_first": 1950.0,
   "px_last": 1975.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 1.3
  },
  "7767": {
@@ -3260,7 +3260,7 @@
   "weeks": 1,
   "px_first": 46.65,
   "px_last": 45.35,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -2.8
  },
  "7780": {
@@ -3286,7 +3286,7 @@
   "weeks": 2,
   "px_first": 16.2,
   "px_last": 16.55,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 2.2
  },
  "7794": {
@@ -3305,7 +3305,7 @@
   "weeks": 1,
   "px_first": 30.2,
   "px_last": 29.3,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -3.0
  },
  "7810": {
@@ -3331,7 +3331,7 @@
   "weeks": 2,
   "px_first": 234.5,
   "px_last": 245.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 4.5
  },
  "7828": {
@@ -3357,7 +3357,7 @@
   "weeks": 2,
   "px_first": 1970.0,
   "px_last": 1840.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -6.6
  },
  "7842": {
@@ -3376,7 +3376,7 @@
   "weeks": 1,
   "px_first": 96.2,
   "px_last": 96.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.3
  },
  "8027": {
@@ -3402,7 +3402,7 @@
   "weeks": 2,
   "px_first": 176.5,
   "px_last": 202.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 14.7
  },
  "8032": {
@@ -3421,7 +3421,7 @@
   "weeks": 1,
   "px_first": 36.0,
   "px_last": 36.1,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.3
  },
  "8040": {
@@ -3447,7 +3447,7 @@
   "weeks": 2,
   "px_first": 91.1,
   "px_last": 89.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -2.3
  },
  "8042": {
@@ -3466,7 +3466,7 @@
   "weeks": 1,
   "px_first": 111.5,
   "px_last": 138.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 24.2
  },
  "8043": {
@@ -3485,7 +3485,7 @@
   "weeks": 1,
   "px_first": 131.5,
   "px_last": 146.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 11.4
  },
  "8054": {
@@ -3504,7 +3504,7 @@
   "weeks": 1,
   "px_first": 84.5,
   "px_last": 81.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -4.1
  },
  "8068": {
@@ -3530,7 +3530,7 @@
   "weeks": 2,
   "px_first": 18.5,
   "px_last": 18.75,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 1.4
  },
  "8076": {
@@ -3549,7 +3549,7 @@
   "weeks": 1,
   "px_first": 21.5,
   "px_last": 21.4,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -0.5
  },
  "8088": {
@@ -3568,7 +3568,7 @@
   "weeks": 1,
   "px_first": 42.2,
   "px_last": 43.8,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 3.8
  },
  "8093": {
@@ -3587,7 +3587,7 @@
   "weeks": 1,
   "px_first": 23.85,
   "px_last": 26.3,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 10.3
  },
  "8096": {
@@ -3606,7 +3606,7 @@
   "weeks": 1,
   "px_first": 83.9,
   "px_last": 90.3,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 7.6
  },
  "8103": {
@@ -3625,7 +3625,7 @@
   "weeks": 1,
   "px_first": 123.5,
   "px_last": 114.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -7.3
  },
  "8109": {
@@ -3651,7 +3651,7 @@
   "weeks": 2,
   "px_first": 132.0,
   "px_last": 136.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 3.0
  },
  "8112": {
@@ -3677,7 +3677,7 @@
   "weeks": 2,
   "px_first": 82.6,
   "px_last": 85.1,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 3.0
  },
  "8155": {
@@ -3703,7 +3703,7 @@
   "weeks": 2,
   "px_first": 347.0,
   "px_last": 326.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -5.9
  },
  "8374": {
@@ -3722,7 +3722,7 @@
   "weeks": 1,
   "px_first": 76.1,
   "px_last": 74.1,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -2.6
  },
  "8383": {
@@ -3748,7 +3748,7 @@
   "weeks": 2,
   "px_first": 66.1,
   "px_last": 69.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 4.4
  },
  "8390": {
@@ -3774,7 +3774,7 @@
   "weeks": 2,
   "px_first": 90.4,
   "px_last": 90.9,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.6
  },
  "8438": {
@@ -3800,7 +3800,7 @@
   "weeks": 2,
   "px_first": 78.0,
   "px_last": 80.9,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 3.7
  },
  "8499": {
@@ -3819,7 +3819,7 @@
   "weeks": 1,
   "px_first": 253.0,
   "px_last": 253.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.2
  },
  "9958": {
@@ -3845,7 +3845,7 @@
   "weeks": 2,
   "px_first": 91.9,
   "px_last": 89.1,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": -3.0
  },
  "1312": {
@@ -3864,7 +3864,7 @@
   "px_first": 15.15,
   "weeks": 1,
   "px_last": 15.15,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "1595": {
@@ -3883,7 +3883,7 @@
   "px_first": 73.4,
   "weeks": 1,
   "px_last": 73.4,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "2221": {
@@ -3902,7 +3902,7 @@
   "px_first": 192.0,
   "weeks": 1,
   "px_last": 192.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "2486": {
@@ -3921,7 +3921,7 @@
   "px_first": 238.5,
   "weeks": 1,
   "px_last": 238.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "2855": {
@@ -3940,7 +3940,7 @@
   "px_first": 58.6,
   "weeks": 1,
   "px_last": 58.6,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "3354": {
@@ -3959,7 +3959,7 @@
   "px_first": 32.0,
   "weeks": 1,
   "px_last": 32.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "3466": {
@@ -3978,7 +3978,7 @@
   "px_first": 28.6,
   "weeks": 1,
   "px_last": 28.6,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "3546": {
@@ -3997,7 +3997,7 @@
   "px_first": 73.5,
   "weeks": 1,
   "px_last": 73.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "3550": {
@@ -4016,7 +4016,7 @@
   "px_first": 23.9,
   "weeks": 1,
   "px_last": 23.9,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "4142": {
@@ -4035,7 +4035,7 @@
   "px_first": 19.2,
   "weeks": 1,
   "px_last": 19.2,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "4510": {
@@ -4054,7 +4054,7 @@
   "px_first": 41.65,
   "weeks": 1,
   "px_last": 41.65,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "5340": {
@@ -4073,7 +4073,7 @@
   "px_first": 94.4,
   "weeks": 1,
   "px_last": 94.4,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "6016": {
@@ -4092,7 +4092,7 @@
   "px_first": 23.95,
   "weeks": 1,
   "px_last": 23.95,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "6156": {
@@ -4111,7 +4111,7 @@
   "px_first": 23.8,
   "weeks": 1,
   "px_last": 23.8,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "6190": {
@@ -4130,7 +4130,7 @@
   "px_first": 76.5,
   "weeks": 1,
   "px_last": 76.5,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "6414": {
@@ -4149,7 +4149,7 @@
   "px_first": 399.0,
   "weeks": 1,
   "px_last": 399.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "6548": {
@@ -4168,7 +4168,7 @@
   "px_first": 77.3,
   "weeks": 1,
   "px_last": 77.3,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "6574": {
@@ -4187,7 +4187,7 @@
   "px_first": 123.0,
   "weeks": 1,
   "px_last": 123.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "6756": {
@@ -4206,7 +4206,7 @@
   "px_first": 97.6,
   "weeks": 1,
   "px_last": 97.6,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "6776": {
@@ -4225,7 +4225,7 @@
   "px_first": 53.0,
   "weeks": 1,
   "px_last": 53.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "6811": {
@@ -4244,7 +4244,7 @@
   "px_first": 281.0,
   "weeks": 1,
   "px_last": 281.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "6829": {
@@ -4263,7 +4263,7 @@
   "px_first": 210.0,
   "weeks": 1,
   "px_last": 210.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "6894": {
@@ -4282,7 +4282,7 @@
   "px_first": 362.0,
   "weeks": 1,
   "px_last": 362.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "6944": {
@@ -4301,7 +4301,7 @@
   "px_first": 860.0,
   "weeks": 1,
   "px_last": 860.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  },
  "8147": {
@@ -4320,7 +4320,7 @@
   "px_first": 139.0,
   "weeks": 1,
   "px_last": 139.0,
-  "px_last_date": "2026-10-11",
+  "px_last_date": "2026-10-12",
   "ret_since": 0.0
  }
 }
