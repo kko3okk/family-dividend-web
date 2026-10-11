@@ -86,6 +86,8 @@ for c,r in rev[ym].items():
         if not px>m60: why.append("收盤<60MA")
         if not (px-m20)/m20<0.15: why.append("乖離≥15%")
         if not vol[c][i]>=500000: why.append("量<500張")
+        _h=[v for v in s[max(0,i-20):i] if v]
+        if not (len(_h)>=18 and px>max(_h)): why.append("未突破前20日高")   # 第4條突破（2026-10-11 改版）
     if not why:
         g=gm3(c)
         if not g or not (g[2]>g[1]>g[0]):
