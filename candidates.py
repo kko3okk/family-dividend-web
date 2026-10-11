@@ -29,7 +29,10 @@ def _eff(ym):  # 資料月 ym 的名單自次月 11 日起生效（RULES：每�
     import datetime as _dt
     y=1911+int(ym[:3]); m=int(ym[3:]); y2,m2=(y+1,1) if m==12 else (y,m+1)
     return _dt.date(y2,m2,11).isoformat()
-seq=[m for m in sorted(rev) if _eff(m)<=dates[i]] or sorted(rev); ym,pym=seq[-1],seq[-2]
+# 生效判斷用「價格日」與「台北今天」較晚者：連假／週末跨過 11 日時不必等下一個交易日（Chang 2026-10-11）
+import datetime as _dt2, zoneinfo as _zi
+_asof=max(dates[i], _dt2.datetime.now(_zi.ZoneInfo("Asia/Taipei")).date().isoformat())
+seq=[m for m in sorted(rev) if _eff(m)<=_asof] or sorted(rev); ym,pym=seq[-1],seq[-2]
 # 對照表凍結至 2026-12-04。因回應提問而修改對照表所新增者，不列入規則帳戶（避免規則吸收主觀選股）
 # 對照表凍結至 2026-12-04。v3 (2026-09-09) 擴充三組：功率半導體、探針卡測試介面、導線架封裝材料，
 # 並將 7788 松川補入連接器線材。擴充由 Chang 提問觸發，但有獨立產業理由（AI 伺服器電源供應鏈、
