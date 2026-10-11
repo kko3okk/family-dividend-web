@@ -1,0 +1,183 @@
+/* ═══════════════════════════════════════════════════════════
+   trip-kit/trip.css — 旅遊行程公版（與「家的旅程」同一套 みのわ 風格）
+   用法：每趟頁面先寫自己的 <style>（版面骨架），再載入這支覆蓋配色與質感。
+   行程／地圖／美食／刷卡 四頁共用。改這支＝所有旅程一起換。
+   ═══════════════════════════════════════════════════════════ */
+:root{
+  --paper:#FDF7E1; --card:#FFFFFF; --card2:#FBF3DA; --line-c:#EFE2BD;
+  --ink:#4E3418; --ink2:#8A7150; --ink3:#AD9670; --brown:#5D3713;
+  --mustard:#DEAE0B; --green:#97CC27; --green-ink:#5E8C14; --pink:#E07A9B;
+  /* 分類淺色（標籤、資訊框） */
+  --coral-l:#FBE3EA; --yama-l:#FBEFC4; --mizu-l:#E2F1F3; --waka-l:#EEF6D6; --fuji-l:#EEE7F5;
+  --coral:#F4B9C9; --yama:#F5D77A; --mizu:#BFE2E8; --waka:#CFE59A;
+  --r:24px; --line:none; --dot:2px dotted #E8D6A2;
+  --soft:0 12px 30px -20px rgba(93,55,19,.45);
+  --round:"Chiron GoRound TC","Huninn","PingFang TC","Noto Sans TC",sans-serif;
+  --num:"Fredoka","Chiron GoRound TC",ui-rounded,sans-serif;
+}
+html{background:var(--paper)}
+body{font-family:var(--round)!important;background:var(--paper)!important;color:var(--ink)!important;letter-spacing:.04em}
+b,strong{color:var(--brown)!important}
+a{color:var(--brown)}
+input,select,textarea,button{font-family:inherit}
+
+/* ── 頂端頁籤：奶油霧面＋膠囊 ── */
+nav.pages, body>nav{position:sticky;top:0;z-index:1000;background:rgba(253,247,225,.9)!important;
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  margin:0 -16px 16px!important;padding:10px 16px!important;border-bottom:none!important;gap:6px!important;
+  box-shadow:0 8px 20px -18px rgba(93,55,19,.6)}
+nav.pages[style]{margin:0!important}
+nav.pages a, body>nav a{font-family:inherit!important;background:var(--card)!important;color:var(--ink2)!important;border:none!important;
+  border-radius:999px!important;font-size:13px!important;font-weight:700;padding:8px 0!important;box-shadow:0 4px 12px -8px rgba(93,55,19,.5)!important;
+  transition:background .2s,color .2s;letter-spacing:.06em}
+nav.pages a.on, body>nav a.on{background:var(--mustard)!important;color:#fff!important;transform:none!important}
+nav.pages a:active, body>nav a:active{transform:scale(.96)}
+
+h1{font-size:22px!important;font-weight:700!important;color:var(--brown)!important;letter-spacing:.1em}
+h2{color:var(--brown)!important;font-weight:700!important;letter-spacing:.08em}
+.subtitle,.sub{color:var(--ink2)!important;line-height:1.7}
+
+/* ── 共用卡片：無框白卡、大圓角、柔影 ── */
+.card,.row,.dayb,.leg,.tw,.paypanel,.syncpanel,.stay-bar,.flight-bar{background:var(--card)!important;border:none!important;
+  border-radius:var(--r)!important;box-shadow:var(--soft)!important}
+.card{overflow:visible!important}
+.tip,.warn,.principle,.tldr{background:var(--yama-l)!important;border:none!important;border-radius:20px!important;color:var(--ink)!important;box-shadow:none!important}
+.tldr .h{color:var(--brown)!important}
+.section-title{font-size:16px!important;font-weight:700!important;letter-spacing:.1em!important;text-transform:none!important;color:var(--brown)!important;
+  border-bottom:var(--dot)!important;padding-bottom:6px}
+.stay-bar,.flight-bar,.principle{line-height:1.8!important}
+
+/* ── 行程項目 ── */
+.item{border-bottom:var(--dot)!important;padding:13px 14px!important}
+.label{font-size:14.5px!important;color:var(--ink);font-weight:600;line-height:1.55}
+.label.checked{color:var(--ink3)!important;text-decoration:line-through;text-decoration-color:rgba(173,150,112,.6)}
+.note{color:var(--ink2)!important;font-size:12.5px!important;line-height:1.75!important;margin-top:4px!important}
+.cb{width:24px!important;height:24px!important;border:2px solid #E3D2A6!important;border-radius:50%!important;background:var(--card)!important;position:relative;z-index:1;flex:none}
+.cb.checked{background:var(--green)!important;border-color:var(--green)!important;animation:pop .35s}
+.cb.checked::after{color:#fff!important;font-size:13px!important}
+@keyframes pop{0%{transform:scale(.6)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
+
+/* 標籤與小按鈕：一律膠囊、無框 */
+.tag,.trbtn,.paybtn,.altbtn{border:none!important;color:var(--brown)!important;border-radius:999px!important;font-size:11px!important;
+  padding:2px 10px!important;font-weight:700;letter-spacing:.04em}
+.t-sight{background:var(--mizu-l)!important}.t-food{background:var(--yama-l)!important}.t-move{background:#F3ECDD!important}
+.t-stay{background:var(--waka-l)!important}.t-warn{background:var(--yama)!important}.t-shop{background:var(--coral-l)!important}
+.t-shrine{background:var(--coral-l)!important}.t-usj{background:var(--coral-l)!important}.t-relax{background:var(--waka-l)!important}
+.t-must{background:var(--mustard)!important;color:#fff!important;animation:wiggle 2.8s ease-in-out infinite;display:inline-block}
+@keyframes wiggle{0%,86%,100%{transform:rotate(0)}90%{transform:rotate(-6deg)}95%{transform:rotate(5deg)}}
+.trbtn{background:var(--mizu)!important}.paybtn{background:var(--yama)!important}.altbtn{background:var(--waka)!important}
+.transit,.altbox,.payl{border:none!important;border-radius:18px!important;color:var(--ink)!important;font-size:12.5px!important;line-height:1.7}
+.transit{background:var(--mizu-l)!important}
+.altbox{background:var(--waka-l)!important}
+.payl{background:var(--yama-l)!important}
+.transit .r,.dr,.lg{border-color:rgba(93,55,19,.12)!important}
+
+/* 每日標題 */
+.day-badge,.badge{border:none!important;color:#fff!important;font-family:var(--num);font-weight:600;border-radius:999px!important;letter-spacing:.06em}
+.bo{background:var(--green)!important}.bu{background:var(--pink)!important}.bkobe{background:var(--mustard)!important}.bt{background:#7FB8C4!important}
+.day-title{font-size:17px!important;font-weight:700;color:var(--brown)!important;letter-spacing:.06em}
+.day-date,.dtitle{color:var(--ink2)!important}
+
+/* 按鈕 */
+.sbtn,.pbtn,.qlog button{font-family:inherit!important;background:var(--mustard)!important;color:#fff!important;border:none!important;border-radius:999px!important;
+  box-shadow:0 8px 18px -10px rgba(93,55,19,.6)!important;font-weight:700;letter-spacing:.06em}
+.sbtn.ghost{background:var(--card)!important;color:var(--ink2)!important;box-shadow:inset 0 0 0 2px var(--line-c)!important}
+.sbtn:active,.pbtn:active,.qlog button:active{transform:scale(.96);box-shadow:none!important}
+.syncpanel textarea,.qlog input,.paypanel input,.paypanel select,.pf input,.pf select{background:#FFFDF6!important;border:2px solid var(--line-c)!important;
+  border-radius:14px!important;color:var(--ink)!important}
+.progress-bar{height:10px!important;border:none!important;border-radius:999px!important;background:#F3E7C6!important;overflow:hidden}
+.progress-fill{background:var(--green)!important;border-radius:999px!important}
+.progress-text{color:var(--ink2)!important;font-family:var(--num)}
+
+/* ── 美食／刷卡頁 ── */
+.kind,.cc,.pill,.pp-seq{border:none!important;border-radius:999px!important;color:var(--brown)!important;font-weight:700}
+.rname{color:var(--brown)!important;font-weight:700}
+.rnote,.altnote,.altmeta,.dn,.muted,.lbl{color:var(--ink2)!important}
+.alt{background:var(--mizu-l)!important;border:none!important;border-radius:18px!important}
+.gm,a.ext{color:#3F7F8C!important}
+.row.warn{border-left:4px solid var(--mustard)!important;background:var(--card)!important}
+table{border-collapse:separate;border-spacing:0}
+th{background:var(--yama-l)!important;color:var(--brown)!important;font-weight:700}
+th:first-child{border-radius:12px 0 0 12px}th:last-child{border-radius:0 12px 12px 0}
+td{color:var(--ink)!important;border-top:var(--dot)!important}
+.big{color:var(--brown)!important;font-family:var(--num)}
+.dr,.lg{border-top:var(--dot)!important}
+.dr:first-of-type,.lg:first-child{border-top:none!important}
+details summary{cursor:pointer}
+
+/* ── 地圖頁 ── */
+.chip{font-family:inherit!important;border:none!important;border-radius:999px!important;color:var(--ink2)!important;background:var(--card)!important;
+  box-shadow:0 4px 12px -8px rgba(93,55,19,.5);font-weight:700}
+.chip.on{background:var(--mustard)!important;color:#fff!important}
+#map{border-top:none!important;border-radius:24px 24px 0 0;overflow:hidden}
+.leaflet-popup-content-wrapper{border:none!important;border-radius:18px!important;font-family:var(--round)!important;box-shadow:0 14px 30px -14px rgba(93,55,19,.55)!important}
+.num{font-family:var(--num)!important}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ── 行程頁：封面插圖、倒數、航班卡、日期頁籤、時間軸 ── */
+.hero{background:var(--card);border:none;border-radius:32px;box-shadow:var(--soft);padding:12px 12px 18px;margin-bottom:16px;text-align:center;overflow:hidden}
+.hero svg{width:100%;height:auto;display:block}
+/* 插圖線條：黑 → 深咖啡，配色換成暖色系 */
+.hero svg [stroke="#3E3A39"]{stroke:#6B4A26}
+.hero svg [fill="#3E3A39"]{fill:#6B4A26}
+.hero svg [fill="#B9DAA5"]{fill:#CFE29A}
+.hero svg [fill="#F2A497"]{fill:#F4B0C2}
+.hero svg [fill="#F6D27A"]{fill:#F2C744}
+.hero svg [fill="#A8D3E6"]{fill:#BFE2EC}
+.hero svg [fill="#FBE1DB"]{fill:#FBE3EA}
+.hero svg [fill="#FCF0CF"]{fill:#FBEFC4}
+.hero h1{margin:8px 0 2px}
+.hero .subtitle{margin-bottom:12px!important}
+.countdown{display:inline-flex;align-items:baseline;gap:6px;flex-wrap:wrap;justify-content:center;background:var(--yama-l);border:none;border-radius:999px;
+  padding:8px 18px;font-size:13px;color:var(--brown);box-shadow:inset 0 0 0 2px var(--mustard)}
+.countdown .n{font-family:var(--num);font-size:26px;font-weight:600;line-height:1;color:var(--brown)}
+.countdown .hms{font-family:var(--num);font-variant-numeric:tabular-nums;color:var(--ink2)}
+.flights{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.fcard{background:var(--card);border:none;border-radius:var(--r);box-shadow:var(--soft);padding:12px 13px}
+.fcard.back{background:var(--card)}
+.fhead{display:flex;justify-content:space-between;font-size:13px;font-weight:700;color:var(--brown)}
+.fhead span{color:var(--ink2);font-size:12px;font-weight:400}
+.froute{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.froute b{display:block;font-family:var(--num);font-size:22px;font-weight:600;line-height:1.1;color:var(--brown)!important}
+.froute small{font-family:var(--num);font-size:12px;color:var(--ink2)}
+.fplane{flex:1;text-align:center;position:relative;font-size:16px}
+.fplane::before{content:'';position:absolute;left:8%;right:8%;top:50%;border-top:2px dotted var(--mustard);z-index:0}
+.fplane span{position:relative;z-index:1;display:inline-block;animation:fly 3s ease-in-out infinite;background:transparent}
+.fplane i{display:block;font-style:normal;font-family:var(--num);font-size:11px;color:var(--ink2);margin-top:2px}
+@keyframes fly{0%,100%{transform:translateX(-6px)}50%{transform:translateX(6px) translateY(-2px)}}
+.flight-bar{color:var(--ink)!important;font-size:13px!important}
+.daytabs{position:sticky;z-index:900;display:flex;gap:6px;overflow-x:auto;background:rgba(253,247,225,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  padding:8px 2px 10px;margin:0 0 14px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.daytabs::-webkit-scrollbar{display:none}
+.dtab{flex:0 0 auto;font-family:inherit;font-size:13px;font-weight:700;color:var(--brown);background:var(--card);border:none;border-radius:16px;
+  padding:6px 12px;cursor:pointer;line-height:1.25;text-align:center;box-shadow:0 4px 12px -8px rgba(93,55,19,.5)}
+.dtab small{display:block;font-family:var(--num);font-size:10.5px;font-weight:400;color:var(--ink2)}
+.dtab.on{background:var(--mustard);color:#fff;transform:none}
+.dtab.on small{color:rgba(255,255,255,.85)}
+.dtab:active{transform:scale(.96)}
+.bounce{animation:bounceIn .5s cubic-bezier(.28,1.5,.5,1)}
+@keyframes bounceIn{0%{opacity:0;transform:translateY(16px)}100%{opacity:1;transform:none}}
+.day-header{margin-bottom:12px!important}
+.day-badge{font-size:13px!important;padding:3px 12px!important}
+.day-block .card{position:relative}
+.day-block .card::before{content:'';position:absolute;left:25px;top:24px;bottom:24px;border-left:2px dotted var(--mustard);opacity:.55}
+.modes{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.mode{font-size:11px;border:none;border-radius:999px;padding:1px 8px;line-height:1.6;color:var(--brown);font-weight:700}
+.m-walk{background:var(--waka-l)}.m-sub{background:var(--mizu)}.m-jr{background:var(--coral-l)}.m-rail{background:var(--yama-l)}.m-bus{background:var(--fuji-l)}.m-taxi{background:var(--yama)}.m-air{background:var(--mizu-l)}
+/* 插圖動畫 */
+.sv-cloud{animation:drift 16s ease-in-out infinite alternate}
+.sv-cloud.c2{animation-duration:22s;animation-delay:-6s}
+@keyframes drift{from{transform:translateX(-14px)}to{transform:translateX(18px)}}
+.sv-sun{transform-box:fill-box;transform-origin:center;animation:spin 24s linear infinite}
+.sv-wheel{transform-box:fill-box;transform-origin:center;animation:spin 30s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sv-bob{transform-box:fill-box;transform-origin:bottom center;animation:bob 4s ease-in-out infinite}
+.sv-bob.b2{animation-delay:-2s}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.sv-train{animation:train 14s linear infinite}
+@keyframes train{from{transform:translateX(-130px)}to{transform:translateX(380px)}}
+.sv-leaf{transform-box:fill-box;transform-origin:center;animation:leaf 9s linear infinite}
+.sv-leaf.l2{animation-delay:-3s;animation-duration:11s}.sv-leaf.l3{animation-delay:-6s;animation-duration:10s}
+@keyframes leaf{0%{transform:translate(0,-30px) rotate(0);opacity:0}10%{opacity:1}100%{transform:translate(-40px,150px) rotate(320deg);opacity:0}}
+@media (max-width:420px){.froute b{font-size:19px}.flights{gap:8px}.fcard{padding:10px}}
