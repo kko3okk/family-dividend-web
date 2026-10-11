@@ -703,6 +703,26 @@
     .gnav .traveler div{padding:6px 7px}
     .gicon{width:28px;height:28px}
   }
+
+  /* ═══ 2026-10-11 全頁排版檢查後微調 ═══ */
+  .strip .blk:last-child{border-right:none}
+  .strip .blk,.paysum div,.h-stats div{line-height:1.35}
+  .strip .k,.paysum .k,.h-stats .k{margin-bottom:4px}
+  .paysum div{padding:12px 14px}
+  .todo .ic{color:var(--brown)}
+  .todo .ic svg{width:19px;height:19px}
+  .todo.hot .ic{color:#fff}
+  .h-strip{gap:5px}
+  .h-strip i.f{background:#F6EDD2;border:none}
+  .foot{letter-spacing:.02em;text-wrap:balance}
+  .adv .d{line-height:1.6}
+  @media(max-width:560px){
+    .card{padding:20px 16px 18px;border-radius:24px}
+    .card h3{font-size:17px;margin-bottom:12px}
+    .adv{padding:12px 13px;gap:10px}
+    .h-row{padding:11px 11px 10px}
+    .h-btns{gap:5px}
+  }
 </style>
 </head>
 <body>
@@ -923,7 +943,7 @@
 </dialog>
 
 <script type="module">
-  const V = "2026.10.11-0925";   // 由 deploy.sh 注入，確保模組不吃到舊快取
+  const V = "2026.10.11-0945";   // 由 deploy.sh 注入，確保模組不吃到舊快取
   const M  = await import(`./dividend-journey-map/src/renderMap.js?v=${V}`);
   const AN = await import(`./dividend-journey-map/src/animate.js?v=${V}`);
   window.JM = {
@@ -942,7 +962,8 @@ const SND_ICON={
 function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)return;
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
-const APP_VERSION="2026.10.11-0925";
+const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
+const APP_VERSION="2026.10.11-0945";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -1470,7 +1491,7 @@ function renderTodo(){
     items.push({hot:0,ic:"📝",t:`預定：${p.name||p.stock} ${fmt(p.shares)} 股`,s:`${p.date.slice(5).replace("-","/")} · ${p.limit_note||""}`,href:"#secAdv"}));
   exList(o).filter(x=>x.days<=14).forEach(x=>items.push({hot:0,ic:"📅",t:`${x.name} ${x.days===0?"今天":x.days+" 天後"}${x.kind}`,s:x.amt?`約可領 ${fmt(x.amt)} 元`:"",href:"#secEx"}));
   document.getElementById("todoBox").innerHTML=items.length?items.map(i=>`<a class="todo ${i.hot?"hot":""}" href="${i.href}">
-    <div class="ic">${i.ic}</div><div class="tx"><b>${i.t}</b><span>${i.s}</span></div><div class="go">›</div></a>`).join("")
+    <div class="ic">${TODO_ICON[i.ic]||i.ic}</div><div class="tx"><b>${i.t}</b><span>${i.s}</span></div><div class="go">›</div></a>`).join("")
     :'<div class="todo-none">✓ 今天沒有需要處理的事</div>';
   document.getElementById("dotTodo").classList.toggle("on",items.some(i=>i.hot));
   document.getElementById("dotPay").classList.toggle("on",pend.length>0);
@@ -1915,6 +1936,6 @@ addEventListener("resize",()=>{ clearTimeout(_rz); _rz=setTimeout(()=>{ if(DATA)
   catch(e){document.getElementById("meta").textContent=e.message;}
 })();
 </script>
-<script src="health.js?v=2026.10.11-0925"></script>
+<script src="health.js?v=2026.10.11-0945"></script>
 </body>
 </html>

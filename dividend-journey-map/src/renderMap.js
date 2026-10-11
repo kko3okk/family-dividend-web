@@ -375,26 +375,29 @@ export function renderMap(container, data) {
   /* 進度氣泡 */
   const gC = svg.querySelector("#layer-callout");
   const co = el("g", { id: "callout", "aria-hidden": "true" }, gC);
-  const coW = compact ? 392 : 300, coX = compact ? 24 : 32, coY = compact ? 22 : 30, coH = compact ? 104 : 82;
+  const coW = compact ? 392 : 300, coX = compact ? 24 : 32, coY = compact ? 22 : 30, coH = compact ? 132 : 102;
   el("rect", { x: coX, y: coY, width: coW, height: coH, rx: compact ? 18 : 14, class: "co-bg" }, co);
   const big = el("text", { x: coX + (compact ? 24 : 20), y: coY + (compact ? 58 : 48), class: "co-amount" }, co);
   big.textContent = (data.meta?.annualDividend ?? 0).toLocaleString("zh-Hant");
   const unit = el("text", { x: 0, y: coY + (compact ? 58 : 48), class: "co-unit" }, co);
   unit.textContent = " 元／年";
   // 以實際量測定位，避免以字元數估算造成重疊（不同字型字寬差異大）
-  {
+  const placeUnit = () => {
     let w = 0;
     try { w = big.getBBox().width; } catch (e) { w = 0; }
     if (!w) { try { w = big.getComputedTextLength(); } catch (e) { w = 0; } }
     if (!w) w = big.textContent.length * (compact ? 38 : 25);   // 最終後備
     unit.setAttribute("x", coX + (compact ? 24 : 20) + w + 8);
-  }
+  };
+  placeUnit();
+  // 網頁字型（Fredoka）晚到時字寬會變，載入完成後再量一次
+  try { document.fonts?.ready.then(placeUnit); } catch (e) {}
   const sub = el("text", { x: coX + (compact ? 24 : 20), y: coY + (compact ? 88 : 69), class: "co-sub" }, co);
   const nextSt = stations.find(s => s.id === data.progress?.nextStationId);
   sub.textContent = nextSt
     ? `距 ${nextSt.label} 還差 ${formatAmount(data.progress.gapToNext)}`
     : "已抵達最終站點";
-  const q = el("text", { x: coX + coW - 18, y: coY + (compact ? 30 : 22), class: "co-quote", "text-anchor": "end" }, co);
+  const q = el("text", { x: coX + (compact ? 24 : 20), y: coY + (compact ? 118 : 90), class: "co-quote" }, co);   // 報價時間移到第三行，避免與大數字重疊
   q.textContent = data.meta?.quote ?? "無報價";
 
   return svg;
