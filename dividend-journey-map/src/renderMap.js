@@ -8,19 +8,19 @@
 /* ═══════ 日夜循環：依真實時間決定天色與天體位置 ═══════
    色階以「時刻 → 天空上下漸層 + 山巒三層 + 地面」定義，
    相鄰時段之間線性內插，故一天之內連續變化而非跳段。      */
-const SKY_KEYS = [
-  { h: 0,  top:"#0E1226", bot:"#1E2340", far:"#232A4A", mid:"#2C3358", near:"#39406A", gnd:"#151931", star:1.0 },
-  { h: 5,  top:"#1B2145", bot:"#3E3560", far:"#3A3560", mid:"#4A4270", near:"#5A5080", gnd:"#241F3C", star:0.6 },
-  { h: 6.5,top:"#4A4A82", bot:"#E88A5E", far:"#6A5A8E", mid:"#8A6A8E", near:"#B07A80", gnd:"#4A3A52", star:0.15 },
-  { h: 7.2,top:"#5590AE", bot:"#D9B396", far:"#748AA6", mid:"#8C93AC", near:"#A6969E", gnd:"#546069", star:0.04 },
-  { h: 8,  top:"#5FA8D8", bot:"#BEDCEA", far:"#7E96BE", mid:"#8FA8C8", near:"#A0B6D0", gnd:"#5A6E78", star:0 },
-  { h: 12, top:"#3E96D8", bot:"#AFDCF0", far:"#6E8FC0", mid:"#7FA0CC", near:"#90B0D8", gnd:"#4E6E72", star:0 },
-  { h: 16, top:"#5A9AD0", bot:"#E4D2A8", far:"#7E90B4", mid:"#96A0B8", near:"#AEB0BC", gnd:"#5E6668", star:0 },
-  { h: 18, top:"#8A6AA8", bot:"#F0A45E", far:"#7A5E92", mid:"#9A6E88", near:"#BC8078", gnd:"#4E3A4A", star:0.1 },
-  { h: 18.8,top:"#5E4A80", bot:"#B87768", far:"#5C4A7A", mid:"#75567C", near:"#8F657B", gnd:"#3B2D44", star:0.32 },
-  { h: 19.5,top:"#2E2A58", bot:"#7A4A72", far:"#3E3462", mid:"#4E3E70", near:"#61497E", gnd:"#28203E", star:0.55 },
-  { h: 21, top:"#131735", bot:"#252A4A", far:"#262C4E", mid:"#30375C", near:"#3D446E", gnd:"#191D38", star:0.95 },
-  { h: 24, top:"#0E1226", bot:"#1E2340", far:"#232A4A", mid:"#2C3358", near:"#39406A", gnd:"#151931", star:1.0 }
+const SKY_KEYS = [   // 2026-10-11 暖色版：白天奶油天空＋嫩綠丘陵，夜晚改為暖棕夜色
+  { h: 0,  top:"#231C2E", bot:"#3A2E40", far:"#3A2F42", mid:"#45384C", near:"#514258", gnd:"#2A2132", star:1.0 },
+  { h: 5,  top:"#2E2440", bot:"#5E4558", far:"#4A3A52", mid:"#574560", near:"#63506A", gnd:"#33283A", star:0.6 },
+  { h: 6.5,top:"#F6C9A0", bot:"#FBE4B8", far:"#E6C9A6", mid:"#D9BE8C", near:"#C8B07A", gnd:"#9C8A5A", star:0.15 },
+  { h: 7.2,top:"#C9E2EC", bot:"#FBEFCB", far:"#E6DDB0", mid:"#D2D59A", near:"#BBCB7E", gnd:"#98AF58", star:0.04 },
+  { h: 8,  top:"#BFE2F2", bot:"#FDF3D2", far:"#EDE6B9", mid:"#D6E19F", near:"#B9D276", gnd:"#97B850", star:0 },
+  { h: 12, top:"#B3DDF2", bot:"#FDF5D8", far:"#EBE7BC", mid:"#CFE09A", near:"#B5D26E", gnd:"#93B84A", star:0 },
+  { h: 16, top:"#A9D6EC", bot:"#FBEAC0", far:"#E8E0B2", mid:"#D2DC98", near:"#B9CF76", gnd:"#98B552", star:0 },
+  { h: 18, top:"#F2B98A", bot:"#FCE0A8", far:"#E2B98E", mid:"#D4A97C", near:"#BF9468", gnd:"#8E6A4A", star:0.1 },
+  { h: 18.8,top:"#C98A7A", bot:"#EDB98E", far:"#B98872", mid:"#A47866", near:"#8F6858", gnd:"#6A4C3E", star:0.3 },
+  { h: 19.5,top:"#6A4E66", bot:"#B7806E", far:"#6A5060", mid:"#5E4658", near:"#523E4E", gnd:"#3A2C38", star:0.55 },
+  { h: 21, top:"#2A2234", bot:"#3E3244", far:"#3C3144", mid:"#483A4E", near:"#54445A", gnd:"#2C2334", star:0.95 },
+  { h: 24, top:"#231C2E", bot:"#3A2E40", far:"#3A2F42", mid:"#45384C", near:"#514258", gnd:"#2A2132", star:1.0 }
 ];
 const hx2 = h => [1,3,5].map(i => parseInt(h.slice(i, i + 2), 16));
 const mix = (a, b, t) => "#" + hx2(a).map((c, i) =>

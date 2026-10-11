@@ -6,7 +6,10 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
-<meta name="theme-color" content="#54447B">
+<meta name="theme-color" content="#FDF7E1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@400;500;600;700;800&family=Fredoka:wght@400;500;600;700&display=swap">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="家的旅程">
@@ -492,6 +495,171 @@
     #secHMoves{grid-column:1/-1}
   }
 </style>
+<style id="theme-minowa">
+  /* ═══ 2026-10-11 みのわ風格：圓・暖・軟 ═══
+     色票：奶油米底＋芥末黃＋深咖啡字＋草綠行動色；
+     兩位旅人＝Logo 的兩隻耳朵（CHANG 芥末黃、老婆 櫻花粉）。 */
+  :root{
+    --paper:#FDF7E1; --card:#FFFFFF; --card2:#FBF3DA; --line:#EFE2BD;
+    --ink:#4E3418; --brown:#5D3713; --mut:#8A7150; --mut2:#AD9670;
+    --chang:#DEAE0B; --chang-soft:#FBEFC4;
+    --wife:#E07A9B; --wife-soft:#FBE3EA;
+    --green:#97CC27; --green-soft:#EEF6D6; --green-ink:#5E8C14;
+    --sky:#FDF7E1;
+    --font-round:"Chiron GoRound TC","jf-openhuninn-2.1","PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+    --mono:"Fredoka","Chiron GoRound TC",ui-rounded,sans-serif;
+    --dot:2px dotted #E8D6A2;
+    --soft:0 12px 32px -20px rgba(93,55,19,.45);
+  }
+  body{background:var(--paper);color:var(--ink);font-family:var(--font-round);letter-spacing:.04em}
+  button,input,select,textarea{font-family:inherit}
+  .strip .v,.adv .d,.qtxt,th.num,td.num,.exdate .d,.exrow .cd,.payrow .amt,.paysum .v,.yrhead .big,
+  .h-ring .c b,.h-cnt,.h-stats .v,.gsum b,.exnext .big{font-variant-numeric:tabular-nums;letter-spacing:.01em}
+
+  /* 頂部導覽：奶油霧面、膠囊切換 */
+  .gnav{background:rgba(253,247,225,.86);border-bottom:none;box-shadow:0 6px 20px -16px rgba(93,55,19,.5)}
+  .gbrand{color:var(--brown);font-size:16px;letter-spacing:.1em}
+  .glinks a{color:var(--mut);position:relative;font-weight:600}
+  .glinks a:hover{color:var(--brown)}
+  .glinks a.on{color:var(--brown);font-weight:800}
+  .glinks a.on::after{content:"";position:absolute;left:50%;bottom:1px;width:5px;height:5px;margin-left:-2.5px;
+    border-radius:50%;background:var(--pcol,var(--chang))}
+  .domain{background:var(--card2);border:none;border-radius:999px;padding:3px}
+  .domain button{border-radius:999px;color:var(--mut)}
+  .domain button.on{background:var(--card);color:var(--brown);box-shadow:0 2px 8px -3px rgba(93,55,19,.35)}
+  .gnav .traveler{border:none;border-radius:999px;background:var(--card2);padding:3px;gap:2px}
+  .gnav .traveler div{border-radius:999px;font-weight:800}
+  .traveler div.on[data-p="chang"],.traveler div.on[data-p="wife"]{color:#fff}
+  .gicon{color:var(--mut)}
+  .gadd{width:32px;height:32px;line-height:32px;box-shadow:0 6px 14px -6px var(--pcol,var(--chang))}
+  .gprog{height:3px}
+  .gprog i{border-radius:0 3px 3px 0}
+  .gdot{background:#E5484D}
+
+  /* 卡片：無框白卡、大圓角、柔影 */
+  .card{border:none;border-radius:28px;padding:22px 20px 20px;box-shadow:var(--soft);margin-bottom:18px}
+  @media(min-width:960px){.cards{gap:18px}}
+  .card h3{flex-wrap:wrap;row-gap:2px;font-size:18px;font-weight:700;color:var(--brown);letter-spacing:.14em;margin-bottom:14px}
+  .card h3::before{content:attr(data-en);flex:0 0 100%;order:-1;width:auto;height:auto;border-radius:0;background:none;
+    font-family:"Fredoka",sans-serif;font-size:11px;font-weight:600;letter-spacing:.28em;
+    color:color-mix(in srgb,var(--pcol,var(--chang)) 80%,#5D3713)}
+  .card h3:not([data-en])::before{display:none}
+  .info{color:var(--mut2)}
+  .more{background:var(--card2);border-radius:18px}
+
+  /* 數字強調色：芥末/粉色混一點咖啡，白底上才讀得清 */
+  .gsum b,.exnext .big,.exrow.soon .cd .n,.mst,.toast b,.adv .d b,.preview b,.h-mv .tag{
+    color:color-mix(in srgb,var(--pcol,var(--chang)) 68%,#5D3713)}
+
+  /* 指引、配額 */
+  .adv{background:var(--card2);border:none;border-radius:20px;padding:13px 15px}
+  .stb{border-radius:999px}
+  .b-near{background:#FBEFC4;color:#7A5A00}
+  .b-wait{background:#F1E6CB;color:var(--mut)}
+  .qbar,.h-bar{height:8px;border-radius:999px;background:#F3E7C6}
+  .qbar i,.h-bar i{border-radius:999px}
+  .qsum{background:var(--card2);border-radius:20px}
+
+  /* 表格與分隔：點線 */
+  th{color:var(--mut2);border-bottom:var(--dot);font-weight:700}
+  td{border-bottom:var(--dot)}
+  .exrow,.payrow,.ck,.todo,.h-mv{border-bottom:var(--dot)}
+  .otag{border-radius:999px}
+  .otag.chang{background:var(--chang-soft);color:#8A6300}
+  .otag.wife{background:var(--wife-soft);color:#B24B70}
+
+  /* 按鈕：一律膠囊 */
+  .btn,dialog button.go{border-radius:999px;box-shadow:0 10px 22px -12px rgba(93,55,19,.55)}
+  .btn{background:var(--pcol,var(--chang));color:#fff}
+  dialog button.go{background:var(--green);color:#fff}
+  .mini{border:2px solid var(--line);border-radius:999px;color:var(--mut);background:var(--card)}
+  .txnav .mini{width:42px;height:42px;padding:0;display:grid;place-items:center;
+    background:var(--pcol,var(--chang));border:none;color:#fff;font-size:18px}
+  .txlab{color:var(--brown)}
+  .delbtn{border-radius:50%;border:1.5px solid var(--line)}
+
+  /* 對話框 */
+  dialog{border:none;border-radius:28px;box-shadow:0 30px 60px -20px rgba(93,55,19,.45)}
+  dialog::backdrop{background:rgba(93,55,19,.38)}
+  dialog h2{color:var(--brown)}
+  .dlg-x{border:none;border-radius:50%;background:var(--card2)}
+  .seg{border:none;border-radius:999px;padding:3px;gap:3px}
+  .seg div{border-radius:999px}
+  .seg .on.wife{color:#fff}
+  .chip{border:2px solid transparent;border-radius:16px}
+  .chip.on{border-color:var(--pcol,var(--chang));background:var(--chang-soft)}
+  .chip.on .n{color:var(--brown)}
+  dialog input{background:#FFFDF6;border:2px solid var(--line);border-radius:14px;font-family:var(--mono)}
+  dialog input:focus{outline:2.5px solid var(--chang)}
+  .preview{background:var(--green-soft);border:2px dotted var(--green);border-radius:18px}
+
+  /* 除權息、入帳 */
+  .exnext{background:var(--card2);border-radius:22px}
+  .exdate{border:none;border-radius:16px;background:var(--card2)}
+  .exrow.soon .exdate{background:var(--chang-soft);box-shadow:inset 0 0 0 2px var(--pcol,var(--chang))}
+  .exrow.today .exdate{background:var(--green-soft);box-shadow:inset 0 0 0 2px var(--green)}
+  .exrow.today .cd .n,.yoc,.payrow .amt{color:var(--green-ink)}
+  .extag{border-radius:999px;padding:1px 8px}
+  .extag.ok{color:var(--green-ink)}
+  .paysum div{background:var(--green-soft);border-radius:18px}
+  .paysum .v{color:var(--green-ink)}
+  .payrow.pend{background:#FFF8E0;border:2px solid #F2D27A;border-radius:18px}
+  .payrow.pend .tagp{background:var(--chang);color:#fff}
+  .payrow.pend button{border-radius:999px}
+  .btn-ok{background:var(--green)}
+
+  /* 待辦 */
+  .todo .ic{border-radius:50%;background:var(--card2)}
+
+  /* 年度回顧：背景大字浮水印 */
+  .yrcard{border:none!important;background:var(--card);position:relative;overflow:hidden}
+  .yrcard::after{content:"ANNUAL";position:absolute;right:-6px;top:6px;font-family:"Fredoka",sans-serif;font-weight:700;
+    font-size:92px;line-height:1;letter-spacing:.06em;color:rgba(222,174,11,.09);pointer-events:none}
+  .yrcard>*{position:relative;z-index:1}
+  .yrhead .big{color:var(--brown)}
+  .yrhead .yoy{color:var(--green-ink)}
+  .bar i{border-radius:12px 12px 4px 4px}
+  .legend b,.pie .lg b{border-radius:50%}
+
+  /* 地圖：白天暖色系、標籤改奶油卡、底部波浪 */
+  .scene{border:none;border-radius:32px;box-shadow:var(--soft);background:var(--card);margin-bottom:18px;
+    --path-base:#FFFFFF; --path-done:#F2B705; --path-glow:#FFE79A;
+    --station-cleared:#97CC27; --station-active:#F2B705; --station-locked:#C9B48A; --station-ring:#FFFFFF;
+    --text-primary:#5D3713; --text-muted:#9A7F55; --text-on-light:#FFFFFF;
+    --card-bg:#FFFBEF; --card-border:#EAD9A8; --card-bg-active:#FFF3CC; --card-border-active:#DEAE0B;
+    --tree-trunk:#8A6A3E; --tree-crown:#8DB84A; --tree-crown-2:#74A13A;
+    --font-display:"Fredoka","Chiron GoRound TC",sans-serif;
+    --font-body:"Chiron GoRound TC","Noto Sans TC",sans-serif;
+    --font-data:"Fredoka",ui-rounded,sans-serif}
+  .scene .co-amount,.scene .label-card[data-state="active"] .lc-target{fill:#B5850A}
+  .scene .ic-check{stroke:#FFFFFF}
+  #sceneSvg{background:linear-gradient(180deg,var(--sky-top,#B3DDF2) 0%,var(--sky-bottom,#FDF5D8) 45%,var(--sky-mid,#CFE09A) 70%,var(--ground,#93B84A) 100%)}
+  .scene .strip{position:relative;border-top:none;background:var(--card)}
+  .scene .strip::before{content:"";position:absolute;left:0;right:0;top:-17px;height:18px;pointer-events:none;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 18' preserveAspectRatio='none'%3E%3Cpath d='M0 10 C60 0 120 0 190 8 S320 18 400 4 V18 H0Z' fill='%23FFFFFF'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+  .strip .blk{border-right:var(--dot)}
+  .strip .k{font-size:11px;color:var(--mut);letter-spacing:.14em;font-weight:700}
+  .strip .v{font-size:21px;font-weight:600;color:var(--brown)}
+
+  /* 健康頁 */
+  .h-title{color:var(--brown)}
+  .h-chal,.h-stats div{background:var(--card2);border-radius:20px}
+  .h-row{border:2px solid var(--line);border-radius:22px}
+  .h-row.done{border-color:#D8EAA6}
+  .h-row.done .h-cnt,.h-ring.full .c b{color:var(--green-ink)}
+  .h-btns button{border-radius:999px;border:2px solid var(--line)}
+  .h-btns .ok{color:var(--green-ink);border-color:#D8EAA6}
+  .h-strip i{border-radius:50%}
+  .h-day .dot{font-family:var(--mono)}
+
+  /* 浮動提示 */
+  #sndMsg{background:var(--brown)}
+  .toast{border:none;border-radius:999px;box-shadow:0 14px 30px -14px rgba(93,55,19,.55)}
+  .milestone{background:rgba(93,55,19,.5)}
+  .mscard{border-radius:32px}
+  #ptr{border:none;box-shadow:0 6px 16px -6px rgba(93,55,19,.4)}
+  .foot{color:var(--mut)}
+</style>
 </head>
 <body>
 
@@ -524,7 +692,7 @@
 
 <!-- ═══ 健康管理 ═══ -->
 <section class="hl" id="healthApp">
-  <div class="card" id="secHCal"><h3>日曆回顧</h3>
+  <div class="card" id="secHCal"><h3 data-en="CALENDAR">日曆回顧</h3>
     <div class="txnav">
       <button class="mini" id="hCalPrev" aria-label="上個月">‹</button>
       <div class="txlab" id="hCalLab">–</div>
@@ -551,7 +719,7 @@
     <div class="h-sync" id="hSync"></div>
   </div>
 
-  <div class="card" id="secHMoves"><h3>動作說明<button class="mini h-edit" id="hPlanBtn">調整目標</button></h3>
+  <div class="card" id="secHMoves"><h3 data-en="MOVES">動作說明<button class="mini h-edit" id="hPlanBtn">調整目標</button></h3>
     <div class="note h-src">來源：bingbing.fitness 影片 — 6 公斤壺鈴，每天每個動作 80 下，在家就能練、不用跑不用跳。</div>
     <div id="hMoves"></div>
   </div>
@@ -569,26 +737,26 @@
 <div class="btn-row" style="display:none"><button class="btn" id="addBtn">＋ 記一筆買進</button></div>
 
 <main class="cards fin">
-<div class="card wide" id="secTodo"><h3>今日待辦</h3><div id="todoBox"></div></div>
+<div class="card wide" id="secTodo"><h3 data-en="TODAY">今日待辦</h3><div id="todoBox"></div></div>
 
-<div class="card" id="secAdv"><h3>買入指引<button class="info" data-more="advMore">ⓘ</button></h3>
+<div class="card" id="secAdv"><h3 data-en="GUIDE">買入指引<button class="info" data-more="advMore">ⓘ</button></h3>
   <div class="more" id="advMore"><div id="ruleNote"></div></div>
   <div id="advBox"></div></div>
 
-<div class="card" id="secHold"><h3>持股</h3>
+<div class="card" id="secHold"><h3 data-en="HOLDINGS">持股</h3>
   <div class="pie" id="holdPie"></div>
   <table><thead><tr><th>標的</th><th class="num">股數</th><th class="num">年股息</th><th class="num">成本殖利率</th></tr></thead>
   <tbody id="holdBody"></tbody></table>
 </div>
 
-<div class="card" id="secEx"><h3>除權息倒數<button class="info" data-more="exMore">ⓘ</button></h3>
+<div class="card" id="secEx"><h3 data-en="EX-DIVIDEND">除權息倒數<button class="info" data-more="exMore">ⓘ</button></h3>
   <div class="more note" id="exMore">
   每天 18:20 自動從 FinMind 抓取公司公告的除權息日與發放日。「已公告」＝公司已公告的下一次日期；「預估」＝依上次除息日與配息頻率往後推算。金額＝目前股數 × 最近一次每股配息，未扣二代健保與匯費。<br>
   買點規則：崑鼎除息後買（最便宜窗口）· 南寶、長榮照觸發價 · 聯華食除權後買 · 台產觀察中</div>
   <div id="exBox"></div>
 </div>
 
-<div class="card" id="secPay"><h3>股息入帳紀錄<button class="info" data-more="payMore">ⓘ</button></h3>
+<div class="card" id="secPay"><h3 data-en="INCOME">股息入帳紀錄<button class="info" data-more="payMore">ⓘ</button></h3>
   <div class="more note" id="payMore">發放日一到，腳本自動依除息日前一天的持股計算應收金額（已扣補充保費與匯費），產生「待確認」項目；核對存摺後按確認即可。配股不會自動加進股數。</div>
   <div class="paysum">
     <div><div class="k">今年已入帳</div><div class="v" id="payYear">–</div></div>
@@ -598,7 +766,7 @@
   <button class="mini" id="addPayBtn" style="width:100%;margin-top:10px">＋ 手動補記一筆</button>
 </div>
 
-<div class="card" id="secTx"><h3>最近交易（全家）</h3>
+<div class="card" id="secTx"><h3 data-en="HISTORY">最近交易（全家）</h3>
   <div class="txnav">
     <button class="mini" id="txPrev" aria-label="上個月">‹</button>
     <div class="txlab" id="txLab">–</div>
@@ -609,7 +777,7 @@
 </div>
 
 <div class="card yrcard wide" id="yrCard" style="display:none">
-  <h3>年度回顧</h3>
+  <h3 data-en="ANNUAL REVIEW">年度回顧</h3>
   <div class="yrhead">
     <div><div class="note" style="margin:0" id="yrLabel">–</div>
       <div class="big" id="yrDiv">–</div>
@@ -711,7 +879,7 @@
 </dialog>
 
 <script type="module">
-  const V = "2026.08.19-1139";   // 由 deploy.sh 注入，確保模組不吃到舊快取
+  const V = "2026.10.11-0900";   // 由 deploy.sh 注入，確保模組不吃到舊快取
   const M  = await import(`./dividend-journey-map/src/renderMap.js?v=${V}`);
   const AN = await import(`./dividend-journey-map/src/animate.js?v=${V}`);
   window.JM = {
@@ -724,13 +892,13 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
 <script>
-const APP_VERSION="2026.10.11-0045";
+const APP_VERSION="2026.10.11-0900";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
 const ETA={chang:["第 3~4 年","第 9~10 年","第 12~14 年"],wife:["第 4~5 年","第 12~13 年","第 16~18 年"]};
 const OWNER_STOCKS={chang:["4766","6803","2603","2832","0050"],wife:["0050","2603","4506","1231","1210","1201","1218","00878","00687B"]};
-const PCOL={chang:"#4A90D9",wife:"#A55EC4"};
+const PCOL={chang:"#DEAE0B",wife:"#E07A9B"};
 const TIERS=[[.055,1],[.06,2],[.065,3]];
 const fmt=n=>Math.round(n).toLocaleString("zh-Hant");
 let DATA=null,SHA=null,person="chang",fOwner="chang",fStock="4766";
@@ -906,7 +1074,7 @@ async function celebrate(divNow){
   }catch(e){}
 }
 function petalRain(){
-  const cols=["#4A90D9","#5FBF6E","#F7E9A8","#A55EC4","#F2A65A"];
+  const cols=["#DEAE0B","#97CC27","#F5E3A3","#E07A9B","#C9844A"];
   for(let i=0;i<26;i++){
     const d=document.createElement("div");
     d.className="petal";
@@ -997,7 +1165,7 @@ function advWife(){
   return out.join("");
 }
 
-const PIE_COLS=["#4A90D9","#A55EC4","#5FBF6E","#F2A65A","#E36F8E","#3FB8AF","#C9A227","#8A7FBF","#9AA5B1"];
+const PIE_COLS=["#DEAE0B","#E07A9B","#97CC27","#8B5E34","#F2C27A","#7FB8A4","#C9844A","#B9A4D6","#CDBF9F"];
 function holdValues(h,o){
   const P=DATA.prices||{},S=DATA.stocks;
   return OWNER_STOCKS[o].map(sid=>{
@@ -1697,6 +1865,6 @@ addEventListener("resize",()=>{ clearTimeout(_rz); _rz=setTimeout(()=>{ if(DATA)
   catch(e){document.getElementById("meta").textContent=e.message;}
 })();
 </script>
-<script src="health.js?v=2026.10.11-0045"></script>
+<script src="health.js?v=2026.10.11-0900"></script>
 </body>
 </html>
