@@ -859,6 +859,26 @@
     color:var(--mut);padding:6px 10px;border-radius:999px;cursor:pointer;letter-spacing:.06em}
   .t-share svg{width:16px;height:16px}
   .t-share:active{background:var(--card2)}
+
+  /* ═══ 2026-10-11 導覽列：三個分頁後收成兩行，錨點跳轉依實際高度留空 ═══ */
+  html{scroll-padding-top:calc(var(--navh,100px) + 10px)}
+  [id^="sec"],#yrCard,#top{scroll-margin-top:calc(var(--navh,100px) + 10px)!important}
+  #healthApp .card{scroll-margin-top:calc(var(--navh,100px) + 10px)!important}
+  @media(max-width:560px){
+    .gin{column-gap:6px}
+    .domain{padding:3px;gap:1px}
+    .domain button{padding:6px 9px!important;font-size:12.5px!important;letter-spacing:.04em}
+    .gtools{gap:2px!important}
+    .gnav .traveler div{padding:6px 8px!important;font-size:11px!important}
+    .gicon{width:30px!important;height:30px!important}
+    .gicon svg{width:17px;height:17px}
+    .gadd{width:32px!important;height:32px!important}
+  }
+  @media(max-width:370px){
+    .domain button{padding:6px 7px!important;font-size:12px!important}
+    .gnav .traveler div{padding:6px 6px!important}
+    .gicon{width:26px!important}
+  }
 </style>
 </head>
 <body>
@@ -1119,7 +1139,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.11-1100";
+const APP_VERSION="2026.10.11-1115";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -1620,6 +1640,14 @@ function updateMini(pD,next){
   const yr=document.getElementById("yrCard"),ly=document.getElementById("lnkYr");
   if(yr&&ly)ly.style.display=yr.style.display==="none"?"none":"";
 }
+
+// 導覽列高度會因分頁數、螢幕寬度而變；量實際高度給錨點跳轉用，避免標題被蓋住
+(function(){
+  var nav=document.getElementById("gnav"); if(!nav) return;
+  function set(){ document.documentElement.style.setProperty("--navh", nav.offsetHeight+"px"); }
+  set(); window.addEventListener("resize", set);
+  if("ResizeObserver" in window) new ResizeObserver(set).observe(nav);
+})();
 document.getElementById("mAdd").onclick=()=>document.getElementById("addBtn").click();
 (()=>{
   const links=[...document.querySelectorAll("#glinks a")];
