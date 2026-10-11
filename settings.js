@@ -6,15 +6,17 @@
 "use strict";
 const $ = id => document.getElementById(id);
 const page = $("setPage"); if (!page) return;
+page.classList.add("gone");
 const NAME = { chang: "CHANG", wife: "老婆" };
 const TAB = { last: "記住上次", fin: "財務", health: "健康", travel: "旅遊" };
 const LS_START = "startTab";
 const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
-let stack = ["home"], conn = null;   // conn：最近一次測試連線結果 {ok, msg}
+let stack = ["home"], conn = null, goneT = null;   // conn：最近一次測試連線結果 {ok, msg}
 
 /* ── 開關整頁 ── */
 function open(){
   if (page.classList.contains("on")) return;
+  clearTimeout(goneT); page.classList.remove("gone");
   stack = ["home"]; showViews(false);
   refresh();
   page.classList.add("on"); page.setAttribute("aria-hidden", "false");
@@ -26,6 +28,7 @@ function close(){
   if (!page.classList.contains("on")) return;
   page.classList.remove("on"); page.setAttribute("aria-hidden", "true");
   document.body.classList.remove("set-open");
+  clearTimeout(goneT); goneT = setTimeout(() => { if (!page.classList.contains("on")) page.classList.add("gone"); }, 360);
   const ti = $("tokenInput"); if (ti) ti.type = "password";
 }
 /* ── 子頁推進／返回 ── */
