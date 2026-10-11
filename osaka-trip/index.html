@@ -652,7 +652,7 @@ refreshCode();
     try{localStorage.setItem('osaka2026_tab',tab.k);}catch(e){}
   }
   tabs.forEach(function(x){var b=document.createElement('button');b.className='dtab';b.dataset.k=x.k;b.innerHTML=x.t+'<small>'+x.d+'</small>';
-    b.onclick=function(){show(x.k,true);var nav=document.querySelector('nav.pages'),first=x.els[0];if(!first)return;var y=first.getBoundingClientRect().top+window.scrollY-(nav?nav.offsetHeight:0)-bar.offsetHeight-8;window.scrollTo({top:Math.max(0,y),behavior:'smooth'});};bar.appendChild(b);});
+    b.onclick=function(){show(x.k,true);var nav=document.querySelector('nav.pages'),first=x.els[0];if(!first)return;var top=0,el=first;while(el){top+=el.offsetTop;el=el.offsetParent;}var y=top-(nav?nav.offsetHeight:0)-bar.offsetHeight-14;window.scrollTo({top:Math.max(0,y),behavior:'smooth'});};bar.appendChild(b);});
   function fixTop(){var nav=document.querySelector('nav.pages');bar.style.top=(nav?nav.offsetHeight:0)+'px';}
   fixTop(); window.addEventListener('resize',fixTop);
   // 預設：旅途中顯示當天，出發前顯示「出發前」，回國後顯示全部
