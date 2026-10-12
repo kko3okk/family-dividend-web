@@ -30,7 +30,7 @@ const MOVES = [
     how:"臀部往後推、身體前傾，再用臀部爆發把壺鈴盪到胸口高度，手臂只當繩子。",
     tip:"是「推髖」不是「蹲」，也不要用手抬；圓背是最常見的受傷原因。" }
 ];
-const DEFAULT_TARGET = 80;
+const DEFAULT_TARGET = 20;   // 新手先從每個動作 20 下開始（影片原版 80 下），之後在「調整目標」往上加
 // 個人額外動作（不用壺鈴）：CHANG 原本每天的伏地挺身
 const EXTRA = {
   chang: [
@@ -476,7 +476,7 @@ function renderMoves(){
       <b>${m.name}</b><span class="tag">${m.goal}</span><span class="tick" style="margin-left:6px">× ${pl.targets[m.id]}</span>
       <div class="h-mus">${Object.entries(m.mus || {}).sort((a, b) => b[1] - a[1]).map(([k, w]) => `<i class="${w >= 1 ? "pri" : ""}">${MUSCLES[k]}</i>`).join("")}</div>
       <p>${m.how}<br><em>⚠ ${m.tip}</em></p>${vidLink(m, "h-vid2")}</div></div>`).join("") +
-    `<div class="note" style="margin-top:8px">影片說的效果每個人不一樣；剛開始可以拆成 4 組 × 20 下，覺得太重就先把目標調低，比較重要的是天天做。<br>「教學」會打開 YouTube 搜尋結果，挑一部有側面示範的看，特別注意壺鈴擺盪的推髖和背打直。</div>`;
+    `<div class="note" style="margin-top:8px">影片說的效果每個人不一樣；目前每個動作先從 20 下開始，專心做對姿勢；每組最後幾下還能維持正確姿勢，再到「調整目標」往上加（建議 20 → 30 → 50 → 80）。比較重要的是天天做。<br>「教學」會打開 YouTube 搜尋結果，挑一部有側面示範的看，特別注意壺鈴擺盪的推髖和背打直。</div>`;
 }
 function renderDay(){
   if (!dayOpen) return;
