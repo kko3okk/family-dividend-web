@@ -1,11 +1,17 @@
 /* 各趟旅遊頁共用：回「家的旅程」的浮動按鈕
    加入主畫面（PWA）時沒有瀏覽器的返回鍵，所以每頁固定放一顆。
-   從家的旅程點進來的，就用 history.back() 回到原位；否則直接開旅遊分頁。 */
+   - 行程範本（trip-template）一律回「設定 → 旅遊行程」，因為範本是從那裡點進來的。
+   - 其他旅程：直接從家的旅程首頁點進來的，用 history.back() 回到原位；
+     在同一趟的頁面之間切換過（上一頁是行程、地圖…）就直接開旅遊分頁，不會變成「上一步」。 */
 (function(){
-  var HOME = "../#travel";
+  var BASE = location.origin + "/family-dividend-web/";
+  var isTpl = /\/trip-template\//.test(location.pathname);
+  var HOME = isTpl ? "../#settings-travel" : "../#travel";
   function goHome(e){
-    var r = document.referrer || "";
-    var fromHome = r.indexOf(location.origin + "/family-dividend-web/") === 0 && !/-trip\//.test(r);
+    if (isTpl) return;                                   // 照 href 走，打開設定的旅遊行程頁
+    var r = (document.referrer || "").split("#")[0].split("?")[0];
+    var rest = r.indexOf(BASE) === 0 ? r.slice(BASE.length) : null;
+    var fromHome = rest !== null && rest.indexOf("/") === -1;   // 上一頁是首頁本身，不是任何旅程資料夾
     if (fromHome && history.length > 1){ e.preventDefault(); history.back(); }
   }
   // 導覽列裡原本的「‹ 家」也套同樣行為
@@ -28,8 +34,8 @@
     "@media print{#tripBar{display:none}}";
   document.head.appendChild(st);
   var a = document.createElement("a");
-  a.id = "tripHomeFab"; a.href = HOME; a.setAttribute("aria-label", "回家的旅程");
-  a.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><span>家的旅程</span>';
+  a.id = "tripHomeFab"; a.href = HOME; a.setAttribute("aria-label", isTpl ? "回設定" : "回家的旅程");
+  a.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><span>' + (isTpl ? '回設定' : '家的旅程') + '</span>';
   a.addEventListener("click", goHome);
   var bar = document.createElement("div"); bar.id = "tripBar"; bar.appendChild(a);
   document.body.appendChild(bar);

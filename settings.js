@@ -202,4 +202,8 @@ document.addEventListener("keydown", e => { if (e.key === "Escape" && page.class
 $("gearBtn").onclick = open;
 $("tokenInput").value = token();
 window.Settings = { open, close, isOpen: () => page.classList.contains("on"), refresh };
+// 從行程範本「回設定」回來：#settings-travel 直接打開設定的旅遊行程頁
+if (/^#settings-travel/.test(location.hash)){
+  setTimeout(() => { open(); go("travel"); try { history.replaceState(null, "", location.pathname + location.search); } catch(e){} }, 0);
+}
 })();
