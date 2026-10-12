@@ -415,6 +415,14 @@
   .pclosed td{padding:5px 4px;border-bottom:1px dashed var(--line)}
   .prule{font-size:12px;color:var(--mut);line-height:1.6;margin-top:10px}
   .pmiss{color:#D9534F;font-weight:800}
+  .pk{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:13px}
+  .pk .nm{flex:1;min-width:0}.pk .nm b{color:var(--ink)}.pk .nm small{display:block;color:var(--mut);font-size:11px}
+  .pk .v{font-family:var(--mono);text-align:right;font-size:12px;color:var(--ink)}
+  .pk .v small{display:block;color:var(--mut);font-size:10px}
+  .pkgate{font-size:12px;color:var(--mut);margin:2px 0 10px;line-height:1.6}
+  .pkh{font-size:13px;margin:12px 0 2px;color:var(--ink)}
+  .pkacc{font-size:12px;color:var(--mut);line-height:1.7}
+  #picksBox details summary{cursor:pointer;font-size:12px;color:var(--mut);font-weight:700;margin-top:10px}
 
   /* ═══ 2026-10-11 財務 / 健康 分區 ═══ */
   .domain{display:flex;flex:none;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:2px;gap:2px}
@@ -1189,7 +1197,7 @@
 <div class="pseg fin" id="poolSeg" role="tablist" aria-label="資金池">
   <button data-pool="div" class="on" role="tab">股息池</button><button data-pool="act" role="tab">主動池</button><button data-pool="short" role="tab">短線池</button>
 </div>
-<section class="cards fin pv" id="poolApp"><div class="card wide" id="poolBox"><div class="note">載入中…</div></div></section>
+<section class="cards fin pv" id="poolApp"><div class="card wide" id="poolBox"><div class="note">載入中…</div></div><div class="card wide" id="picksBox" style="display:none"></div></section>
 
 <div class="scene fin" id="secMap">
   <div id="sceneSvg"></div>
@@ -1491,7 +1499,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.12-1340";
+const APP_VERSION="2026.10.12-1350";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -1996,6 +2004,36 @@ function renderPool(){
   box.innerHTML=`<h3 data-en="${short?"SWING":"ACTIVE"}">${short?"短線池":"主動池"}<span class="tick" style="margin-left:auto;font-weight:600">報價 ${LIVE?LIVE.updated.slice(5,16).replace("T"," "):"收盤 "+(POOL.price_date||"—")} · 出場線依 ${POOL.price_date||"—"} 收盤</span></h3>
     <div class="pstats">${stats}</div>${ps.map(p=>posCard(p,short)).join("")||'<div class="note">目前沒有持股</div>'}${ctab}${rule}`;
 }
+let PICKS=null;
+async function loadPicks(){
+  for(const u of ["paper/picks.json?t="+Date.now(),"https://raw.githubusercontent.com/kko3okk/family-dividend-web/main/paper/picks.json?t="+Date.now()]){
+    try{const r=await fetch(u);if(r.ok){PICKS=await r.json();return PICKS;}}catch(e){}
+  }
+  return null;
+}
+function renderPicks(){
+  const box=document.getElementById("picksBox");
+  if(POOLV!=="act"||!PICKS){box.style.display="none";return;}
+  box.style.display="";
+  const K=PICKS,rows=K.rows||[],ok=rows.filter(r=>r.ok);
+  const near=rows.filter(r=>!r.ok&&r.h20&&r.dev<15&&(r.h20/r.px-1)<=0.02);
+  const free=Math.max(0,(POOL&&POOL.active?(POOL.active.slots||5)-(POOL.active.positions||[]).length:0));
+  const held=new Set(((POOL&&POOL.active&&POOL.active.positions)||[]).map(p=>p.code));
+  const open=K.gate5&&!K.lock11;
+  const row=(r,extra)=>`<div class="pk"><div class="nm"><b>${r.name}</b> <span class="tick">${r.code}</span>${held.has(r.code)?' <span class="ptag">已持有</span>':""}<small>${r.sub}｜當月 YoY ${Math.round(r.yoy)}%</small></div>
+    <div class="v">${r.px}<small>乖離 ${r.dev}%</small></div><div class="v">${extra}</div></div>`;
+  const okHtml=ok.length?ok.map((r,i)=>row(r,`出場線 ${r.lo55??"—"}<small>${r.lo55?((r.lo55/r.px-1)*100).toFixed(0)+"%":""}${free&&i<free?" · 規則會選":""}</small>`)).join(""):'<div class="note">今天沒有符合的標的</div>';
+  const nearHtml=near.length?near.map(r=>row(r,`突破線 ${r.h20}<small>還差 ${((r.h20/r.px-1)*100).toFixed(1)}%</small>`)).join(""):'<div class="note">無</div>';
+  const all=rows.map(r=>row(r,`${r.ok?"✓ 可買":"突破線 "+(r.h20??"—")}<small>出場 ${r.lo55??"—"}</small>`)).join("");
+  const acc=(K.accounts||[]).map(a=>`${a.name.split("（")[0]}：${(a.equity/1e4).toFixed(1)} 萬（${a.ret>=0?"+":""}${a.ret}%，回撤 ${a.mdd}%，持股 ${a.n}）${a.buy.length||a.sell.length?` · 明日買 ${a.buy.join("、")||"—"}／賣 ${a.sell.join("、")||"—"}`:""}`).join("<br>");
+  box.innerHTML=`<h3 data-en="PICKS">今日推薦清單<span class="tick" style="margin-left:auto;font-weight:600">${K.date} 收盤 · 名單 ${K.ym}</span></h3>
+    <div class="pkgate">大盤 ${Math.round(K.taiex).toLocaleString()} ／季線 ${Math.round(K.t60||0).toLocaleString()}（第 5 條${K.gate5?"通過":"<b>關閉</b>"}）· 自 60 日高 ${K.from_hi60}%（第 11 條${K.lock11?"<b>鎖定</b>":"未鎖定"}）${open?"":"<br><b>停止新進場</b>"}<br>主動池空格 ${free} 格${free?"：由上往下補「可買」者":"（5 格已滿，清單僅供參考）"}</div>
+    <div class="pkh"><b>現行規則可買</b>（收盤突破前 20 日高，${ok.length} 檔）</div>${okHtml}
+    <div class="pkh"><b>差一點突破</b>（距突破線 2% 內）</div>${nearHtml}
+    <details><summary>全部合格名單（${rows.length} 檔，依當月 YoY 排序）</summary>${all}</details>
+    <details><summary>新舊規則模擬帳戶</summary><div class="pkacc">${acc}</div></details>
+    <div class="prule">依收盤價判斷；盤中價格變動不影響當天名單。</div>`;
+}
 document.getElementById("poolSeg").addEventListener("click",async e=>{
   const b=e.target.closest("button[data-pool]");if(!b)return;
   POOLV=b.dataset.pool;
@@ -2005,6 +2043,8 @@ document.getElementById("poolSeg").addEventListener("click",async e=>{
   if(POOLV==="div")return;
   if(!POOL){renderPool();try{await loadPool();if(!LIVE)await loadLive().catch(()=>{});}catch(err){document.getElementById("poolBox").innerHTML=`<div class="note">${err.message}</div>`;return;}}
   renderPool();
+  if(POOLV==="act"&&!PICKS)await loadPicks();
+  renderPicks();
 });
 
 function renderYear(){

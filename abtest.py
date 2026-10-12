@@ -200,12 +200,13 @@ P_ = [f"# 推薦清單（{d} 收盤）", "",
       "**現行規則（C，10/11 起採用）只買標 ✓ 者**（收盤突破前 20 日最高）；未打勾者是舊進場條件會買、現行不買。出場一律看前 55 日低。", "",
       "| # | 標的 | 子產業 | 當月YoY | 收盤 | 乖離20MA | 出場線 前55日低（現行） | 60MA（舊 A） | 突破線 前20日高 | 現行可買 |",
       "|---|---|---|---|---|---|---|---|---|---|"]
-nC = 0; rank = 0
+nC = 0; rank = 0; PJ = []
 for y, c, nm in (cur[2] if cur else []):
     s = close[c]; px = s[i]; m20 = ma(s, i, 20); m60 = ma(s, i, 60); m20p = ma(s, i - 5, 20)
     if not (px and m20 and m60 and m20p): continue
     if not (px > m20 and m20 > m20p and px > m60 and (px - m20) / m20 < 0.15 and vol[c][i] >= 500_000): continue
     lo = prior(s, i, 55, min); h20 = prior(s, i, 20, max); okc = bool(h20 and px > h20); nC += okc; rank += 1
+    PJ.append(dict(rank=rank, code=c, name=nm, sub=code2sub.get(c, ''), yoy=round(y, 1), px=px, dev=round((px / m20 - 1) * 100, 1), lo55=round(lo, 2) if lo else None, ma60=round(m60, 2), h20=round(h20, 2) if h20 else None, ok=okc))
     P_.append(f"| {rank} | {nm} {c} | {code2sub.get(c, '')} | {y:.0f}% | {px} | {(px / m20 - 1) * 100:.1f}% | " + (f"{lo:.1f}（{(lo / px - 1) * 100:+.0f}%）" if lo else "—") + f" | {m60:.1f}（{(m60 / px - 1) * 100:+.0f}%） | " + (f"{h20:.1f}" if h20 else "—") + f" | {'✓' if okc else '—'} |")
 if rank == 0: P_.append("| — | 今日無符合者 | | | | | | | | |")
 P_ += ["", f"現行規則（C）可買 {nC} 檔；舊進場條件合格 {rank} 檔。排序依第 6 條（當月 YoY 由高到低），有空格時由上往下補。", "",
@@ -215,6 +216,11 @@ for k, r in res.items():
     P_.append(f"- {r['cfg']['name']}：買 {('、'.join(r['pending_buy']) or '—')}；賣 {('、'.join(r['pending_sell']) or '—')}　（持股 {len(r['positions'])}/5：{held}）")
 P_.append("\n實際帳戶照現行規則（C）：有空格時，由上往下補「✓」者；出場看前 55 日低。")
 open("paper/picks.md" if OUT == "paper/abtest" else OUT + "_picks.md", "w", encoding="utf-8").write("\n".join(P_) + "\n")
+json.dump(dict(date=d, ym=cur[1] if cur else None, eff=cur[0] if cur else None, taiex=taiex[i], t60=round(t60, 1) if t60 else None,
+               gate5=gate5, lock11=lk, from_hi60=round((taiex[i] / hi60 - 1) * 100, 1), rows=PJ,
+               accounts=[dict(key=k, name=r["cfg"]["name"], equity=stats(r)["equity"], ret=round(stats(r)["ret"] * 100, 2), mdd=round(stats(r)["mdd"] * 100, 1),
+                              n=len(r["positions"]), buy=r["pending_buy"], sell=r["pending_sell"]) for k, r in res.items()]),
+          open("paper/picks.json" if OUT == "paper/abtest" else OUT + "_picks.json", "w", encoding="utf-8"), ensure_ascii=False)
 L = P_ + ["", "---", ""] + L
 open(OUT + ".md", "w", encoding="utf-8").write("\n".join(L) + "\n")
 print("\n".join(L[:9]))
