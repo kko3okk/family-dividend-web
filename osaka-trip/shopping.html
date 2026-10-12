@@ -94,6 +94,11 @@ button{cursor:pointer}
 details summary{cursor:pointer;font-size:13px;color:var(--ink2,#8A7150)}
 .jx-mode{font-size:12px;border-radius:999px;padding:2px 10px;background:var(--waka-l,#EEF6D6)}
 .jx-mode.off{background:var(--yama-l,#FBEFC4)}
+.jx-gh{display:flex;align-items:center;gap:8px}
+.jx-ico{width:32px;height:32px;border-radius:12px;display:grid;place-items:center;background:var(--yama-l,#FBEFC4);color:var(--brown,#5D3713);flex:0 0 auto}
+.jx-ico svg{width:19px;height:19px}
+.jx-ico.all{background:var(--green,#97CC27);color:#fff}
+.jx-gc{font-size:12px;font-weight:500;color:var(--ink2,#8A7150);font-family:var(--num,inherit)}
 </style>
 <link rel="stylesheet" href="../trip-kit/trip.css?v=2">
 </head>
@@ -118,6 +123,7 @@ details summary{cursor:pointer;font-size:13px;color:var(--ink2,#8A7150)}
   <p class="jx-meta" style="margin-top:8px">💡 跟 Claude 說「購物清單加：…」就會加進來。點一下＝買到（只存在這支手機）；說「○○買到了」或傳收據記帳，兩支手機都會勾掉。</p>
 </section>
 
+<script src="../trip-kit/icons.js?v=1"></script>
 <script>
 (function(){
 const $=id=>document.getElementById(id);
@@ -143,7 +149,7 @@ function renderShop(){
   const groups={}; list.forEach(i=>{const g=i.cat||'其他';(groups[g]=groups[g]||[]).push(i);});
   box.innerHTML='';
   Object.keys(groups).forEach(g=>{
-    const sec=document.createElement('div');sec.className='jx-grp';const gl=shop.filter(x=>(x.cat||'其他')===g),gd=gl.filter(x=>isDone(x,t)).length;sec.innerHTML='<h3>'+esc(g)+' <span class="jx-sj">'+gd+'/'+gl.length+'</span></h3>';
+    const sec=document.createElement('div');sec.className='jx-grp';const gl=shop.filter(x=>(x.cat||'其他')===g),gd=gl.filter(x=>isDone(x,t)).length;sec.innerHTML='<h3 class="jx-gh"><span class="jx-ico'+(gd===gl.length?' all':'')+'">'+(window.tripIcon?tripIcon(g):'')+'</span><span>'+esc(window.tripLabel?tripLabel(g):g)+'</span><span class="jx-gc">'+gd+'/'+gl.length+'</span></h3>';
     const card=document.createElement('div');card.className='jx-shop';
     groups[g].forEach(i=>{
       const d=isDone(i,t); const b=document.createElement('button');b.type='button';b.className='jx-si'+(d?' done':'');b.setAttribute('aria-pressed',d);

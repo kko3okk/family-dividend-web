@@ -8,6 +8,7 @@
 | 檔案 | 用途 |
 |---|---|
 | `trip.css` | 四頁共用的配色與版面質感（各頁自己的 `<style>` 只放骨架） |
+| `icons.js` | 線條圖示（Tabler Icons，MIT）：`tripIcon('💊 藥品')` 依分類關鍵字回傳 SVG，清單頁的分類圖示用它 |
 | `trip.js` | 深色標籤自動轉淺色、頁尾留白 |
 | `../trip-home.js` | 左下「家的旅程」返回鈕（PWA 沒有返回鍵） |
 | `../trip-template/` | 公版：行程（index）、地圖（map）、美食（food）、購物清單（shopping）、刷卡（card）、手帳（journal） |
