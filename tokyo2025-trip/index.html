@@ -559,7 +559,7 @@ function addRec(card,who,yenAmt,day,cpn,note){
 function qlog(btn){
   const inp=btn.parentNode.querySelector('input');
   const lab=btn.closest('.content').querySelector('.label');
-  const note=lab ? lab.childNodes[0].textContent.trim() : '';
+  const note=lab ? Array.prototype.filter.call(lab.childNodes,function(n){return n.nodeType===3;}).map(function(n){return n.nodeValue;}).join('').trim() : '';
   const payl=btn.closest('.payl');
   if(addRec(btn.dataset.card,btn.dataset.who,inp.value,btn.dataset.day,btn.dataset.cpn,note)){
     payl.classList.add('open');
@@ -601,7 +601,7 @@ restore();
 updateProgress();
 refreshCode();
 </script>
-<script src="../trip-kit/trip.js?v=2"></script>
+<script src="../trip-kit/trip.js?v=3"></script>
 <script>
 /* ── 出發倒數 ── */
 (function(){
