@@ -14,19 +14,19 @@ const NAMES = { chang: "CHANG", wife: "老婆" };
 const CHAL_DAYS = 30;
 
 const MOVES = [
-  { id:"pull",   name:"壺鈴提拉", goal:"一字肩",
+  { id:"pull",   name:"壺鈴提拉", q:"壺鈴高拉 教學 正確姿勢", goal:"一字肩",
     how:"雙手握把，壺鈴貼著身體往上拉到胸口，手肘往外、高過手腕，再慢慢放下。",
     tip:"肩膀下沉不要聳肩，拉的時候吐氣。" },
-  { id:"around", name:"壺鈴環繞", goal:"腹部馬甲線",
+  { id:"around", name:"壺鈴環繞", q:"壺鈴繞身 around the body 教學", goal:"腹部馬甲線",
     how:"壺鈴在腰間繞著身體一圈，前面換手、背後換手；順時針 40、逆時針 40。",
     tip:"核心收緊、骨盆固定，身體不要跟著轉。" },
-  { id:"side",   name:"壺鈴側擺", goal:"側腰贅肉減少",
+  { id:"side",   name:"壺鈴側擺", q:"壺鈴 斜向擺盪 側擺 教學", goal:"側腰贅肉減少",
     how:"雙手握壺鈴，從一側髖部斜向擺到另一側肩膀高度，左右交替各 40。",
     tip:"靠腰腹轉動發力，手臂只是跟著走，不要甩背。" },
-  { id:"squat",  name:"壺鈴蹲舉", goal:"皮膚更緊致",
+  { id:"squat",  name:"壺鈴蹲舉", q:"壺鈴 深蹲推舉 thruster 教學", goal:"皮膚更緊致",
     how:"胸前握壺鈴下蹲到大腿約與地面平行，站起時順勢把壺鈴推過頭頂。",
     tip:"膝蓋對齊腳尖、背打直，推舉時不要拱腰。" },
-  { id:"swing",  name:"壺鈴搖擺", goal:"小腹平坦 · 臀部上翹",
+  { id:"swing",  name:"壺鈴搖擺", q:"壺鈴擺盪 kettlebell swing 教學 常見錯誤", goal:"小腹平坦 · 臀部上翹",
     how:"臀部往後推、身體前傾，再用臀部爆發把壺鈴盪到胸口高度，手臂只當繩子。",
     tip:"是「推髖」不是「蹲」，也不要用手抬；圓背是最常見的受傷原因。" }
 ];
@@ -34,13 +34,17 @@ const DEFAULT_TARGET = 80;
 // 個人額外動作（不用壺鈴）：CHANG 原本每天的伏地挺身
 const EXTRA = {
   chang: [
-    { id:"pushup", name:"伏地挺身", goal:"胸・肩・手臂", def:20, kb:false,
+    { id:"pushup", name:"伏地挺身", q:"伏地挺身 正確姿勢 教學", goal:"胸・肩・手臂", def:20, kb:false,
       how:"雙手略寬於肩，身體從頭到腳跟成一直線，下降到胸口接近地面再推起。",
       tip:"核心收緊、臀部不要塌或翹；太輕鬆時可以把腳墊高或放慢下降速度。" }
   ]
 };
 const MV = p => MOVES.concat(EXTRA[p] || []);
 const defOf = m => m.def || DEFAULT_TARGET;
+// 教學影片：連到 YouTube 搜尋結果（不綁死單一影片，不會因影片下架而失效）
+const vidURL = m => "https://www.youtube.com/results?search_query=" + encodeURIComponent(m.q || m.name + " 教學");
+const PLAY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="3.5"/><path d="m10.5 9.5 4 2.5-4 2.5Z" fill="currentColor"/></svg>';
+const vidLink = (m, cls) => `<a class="${cls}" href="${vidURL(m)}" target="_blank" rel="noopener" aria-label="${m.name} 教學影片">${PLAY}<span>教學</span></a>`;
 const PROGRAM_START = "2026-10-12";   // 兩人一起開始的日子；之前的日期不算缺席
 
 /* ── 狀態 ── */
@@ -254,7 +258,7 @@ function rowsHTML(p, date){
     return `<div class="h-row ${done ? "done" : ""}" data-date="${date}" data-id="${m.id}">
       <div class="h-r1">
         <div class="h-no">${done ? "✓" : i + 1}</div>
-        <div class="h-nm"><b>${m.name}</b><span>${m.goal}</span></div>
+        <div class="h-nm"><b>${m.name}${vidLink(m, "h-vid")}</b><span>${m.goal}</span></div>
         <button class="h-cnt" data-act="set" aria-label="輸入${m.name}次數">${c}<small>/${t}</small></button>
       </div>
       <div class="h-bar"><i style="width:${Math.min(100, c / t * 100)}%"></i></div>
@@ -356,8 +360,8 @@ function renderMoves(){
   const p = who(), pl = plan(p);
   $("hMoves").innerHTML = MV(p).map((m, i) => `<div class="h-mv"><div class="h-no">${i + 1}</div><div>
       <b>${m.name}</b><span class="tag">${m.goal}</span><span class="tick" style="margin-left:6px">× ${pl.targets[m.id]}</span>
-      <p>${m.how}<br><em>⚠ ${m.tip}</em></p></div></div>`).join("") +
-    `<div class="note" style="margin-top:8px">影片說的效果每個人不一樣；剛開始可以拆成 4 組 × 20 下，覺得太重就先把目標調低，比較重要的是天天做。</div>`;
+      <p>${m.how}<br><em>⚠ ${m.tip}</em></p>${vidLink(m, "h-vid2")}</div></div>`).join("") +
+    `<div class="note" style="margin-top:8px">影片說的效果每個人不一樣；剛開始可以拆成 4 組 × 20 下，覺得太重就先把目標調低，比較重要的是天天做。<br>「教學」會打開 YouTube 搜尋結果，挑一部有側面示範的看，特別注意壺鈴擺盪的推髖和背打直。</div>`;
 }
 function renderDay(){
   if (!dayOpen) return;
