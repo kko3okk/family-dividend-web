@@ -546,8 +546,8 @@
   .h-figs figure{margin:0;text-align:center}
   .h-figs svg{width:100%;height:auto;display:block}
   .h-figs figcaption{font-size:10.5px;color:var(--mut2);letter-spacing:.2em;margin-top:2px}
-  #hBody .bd{fill:var(--card2);stroke:var(--line);stroke-width:1}
-  #hBody .mu{stroke:var(--card);stroke-width:1.2;transition:fill-opacity .4s}
+  #hBody .bd{fill:var(--card2);stroke:var(--line);stroke-width:.5}
+  #hBody .mu{stroke:var(--card);stroke-width:.5;stroke-linejoin:round;transition:fill-opacity .4s}
   .h-bsum{font-size:13px;margin:10px 0 6px;color:var(--ink)}
   .h-bsum b{font-family:var(--mono);color:var(--pcol,var(--chang))}
   .h-chips{display:flex;flex-wrap:wrap;gap:6px}
@@ -557,7 +557,27 @@
   .h-chips span.on{border:1px solid transparent;background:color-mix(in srgb,var(--pcol,var(--chang)) calc(var(--lv) * 28%),var(--card))}
   .h-chips span.on small{color:var(--mut)}
   .h-lg-mu{background:var(--pcol,var(--chang))}
-  .h-bview{display:inline-flex;gap:2px;padding:3px;border-radius:999px;background:var(--card2);border:1px solid var(--line);margin-top:6px}
+  .h-bview{display:inline-flex;align-self:flex-start;gap:2px;padding:3px;border-radius:999px;background:var(--card2);border:1px solid var(--line)}
+  .hb-top{display:flex;flex-direction:column;gap:6px;margin:4px 0 8px}
+  .hb-sub{font-size:11.5px;color:var(--mut)}
+  .hb-main .h-figs{max-width:360px}
+  #hBody .mu{cursor:pointer;transition:fill-opacity .4s,opacity .25s}
+  .hb-stats{margin-top:4px}
+  .hb-tip{margin:10px 0 2px;padding:8px 11px;border-radius:12px;font-size:12px;line-height:1.5;
+    background:color-mix(in srgb,var(--pcol,var(--chang)) 10%,var(--card));border:1px solid color-mix(in srgb,var(--pcol,var(--chang)) 35%,var(--line))}
+  .hb-list{margin-top:8px}
+  .hb-row{display:grid;grid-template-columns:5.6em 1fr 2.8em;grid-template-rows:auto auto;align-items:center;column-gap:8px;width:100%;
+    padding:7px 4px;border:none;border-bottom:1px dashed var(--line);background:none;font:inherit;color:var(--ink);text-align:left;cursor:pointer}
+  .hb-row .n{display:flex;align-items:baseline;gap:4px;font-size:13px;white-space:nowrap}
+  .hb-row .n em{font-style:normal;font-size:9.5px;color:var(--mut2)}
+  .hb-row .hb-bar{height:8px;border-radius:999px;background:var(--card2);overflow:hidden;box-shadow:inset 0 0 0 1px var(--line)}
+  .hb-row .hb-bar i{display:block;height:100%;border-radius:999px;background:var(--pcol,var(--chang));transition:width .5s}
+  .hb-row .p{font-family:var(--mono);font-size:12px;font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+  .hb-row small{grid-column:1/-1;font-size:10.5px;color:var(--mut2);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .hb-row.zero .p{color:var(--mut2)}
+  .hb-row.sel{background:color-mix(in srgb,var(--pcol,var(--chang)) 12%,transparent);border-radius:10px}
+  .hb-none{font-size:11px;color:var(--mut2);margin-top:8px}
+  .hb-hint{margin-left:auto;color:var(--mut2)}
   .h-bview button{border:none;background:none;font:inherit;font-size:12px;font-weight:700;color:var(--mut);padding:5px 12px;border-radius:999px;cursor:pointer}
   .h-bview button.on{background:var(--pcol,var(--chang));color:#fff}
   .h-chips span.exp{border:1px dashed var(--pcol,var(--chang));background:var(--card)}
@@ -616,12 +636,14 @@
   .h-prow span{flex:1;font-size:13.5px;font-weight:700}
   .h-prow input{width:96px;text-align:right}
   @media(min-width:960px){
-    #healthApp{display:grid;grid-template-columns:1fr 1.1fr;gap:14px;align-items:start}
+    #healthApp{display:grid;grid-template-columns:1.1fr 1fr;gap:14px;align-items:start}
     #healthApp>.card{margin:0}
     #secHMoves{grid-column:1/-1}
     #secHBody{grid-column:1/-1}
-    #hBody{display:grid;grid-template-columns:360px 1fr;column-gap:28px;align-items:center}
-    #hBody .h-figs{margin:0}
+    .hb-main{display:grid;grid-template-columns:minmax(300px,400px) 1fr;gap:28px;align-items:start}
+    .hb-main .h-figs{margin:0;max-width:none}
+    .hb-list{display:grid;grid-template-columns:1fr 1fr;column-gap:18px}
+    .hb-none{grid-column:1/-1}
   }
 </style>
 <style id="theme-minowa">
@@ -1199,7 +1221,7 @@
     <div class="glinks" id="glinks">
       <a class="fin" href="#secMap">旅程</a><a class="fin" href="#secTodo">待辦<i class="gdot" id="dotTodo"></i></a><a class="fin" href="#secAdv">指引</a><a class="fin" href="#secHold">持股</a><a class="fin" href="#yrCard" id="lnkYr">年度</a>
       <a class="fin" href="#secEx">除權息</a><a class="fin" href="#secPay">入帳<i class="gdot" id="dotPay"></i></a><a class="fin" href="#secTx">交易</a>
-      <a class="hl" href="#secHCal">日曆回顧</a><a class="hl" href="#secHToday">今日清單</a><a class="hl" href="#secHBody">肌群</a><a class="hl" href="#secHMoves">動作說明</a>
+      <a class="hl" href="#secHBody">身體地圖</a><a class="hl" href="#secHToday">今日清單</a><a class="hl" href="#secHCal">日曆回顧</a><a class="hl" href="#secHMoves">動作說明</a>
       <a class="tv" href="#secTCal">日曆</a><a class="tv" href="#secTNext">下一趟</a><a class="tv" href="#secTLog">旅遊紀錄</a>
     </div>
     <div class="gtools">
@@ -1217,17 +1239,8 @@
 
 <!-- ═══ 健康管理 ═══ -->
 <section class="hl" id="healthApp">
-  <div class="card" id="secHCal"><h3 data-en="CALENDAR">日曆回顧</h3>
-    <div class="txnav">
-      <button class="mini" id="hCalPrev" aria-label="上個月">‹</button>
-      <div class="txlab" id="hCalLab">–</div>
-      <button class="mini" id="hCalNext" aria-label="下個月">›</button>
-    </div>
-    <div class="h-cal" id="hCal"></div>
-    <div class="h-legend">
-      <span><b class="h-lg-done"></b>全部達成</span><span><b class="h-lg-part"></b>做了一部分</span><span><b class="h-lg-other"></b><em id="hOtherName">老婆</em>也達成</span><span><b class="h-lg-trip"></b>旅遊休息</span>
-    </div>
-    <div class="h-stats" id="hStats"></div>
+  <div class="card hb-card" id="secHBody"><h3 data-en="BODY MAP">身體地圖</h3>
+    <div id="hBody"></div>
   </div>
 
   <div class="card h-today" id="secHToday">
@@ -1244,8 +1257,17 @@
     <div class="h-sync" id="hSync"></div>
   </div>
 
-  <div class="card" id="secHBody"><h3 data-en="MUSCLES">今天練到哪裡</h3>
-    <div id="hBody"></div>
+  <div class="card" id="secHCal"><h3 data-en="CALENDAR">日曆回顧</h3>
+    <div class="txnav">
+      <button class="mini" id="hCalPrev" aria-label="上個月">‹</button>
+      <div class="txlab" id="hCalLab">–</div>
+      <button class="mini" id="hCalNext" aria-label="下個月">›</button>
+    </div>
+    <div class="h-cal" id="hCal"></div>
+    <div class="h-legend">
+      <span><b class="h-lg-done"></b>全部達成</span><span><b class="h-lg-part"></b>做了一部分</span><span><b class="h-lg-other"></b><em id="hOtherName">老婆</em>也達成</span><span><b class="h-lg-trip"></b>旅遊休息</span>
+    </div>
+    <div class="h-stats" id="hStats"></div>
   </div>
 
   <div class="card" id="secHMoves"><h3 data-en="MOVES">動作說明<button class="mini h-edit" id="hPlanBtn">調整目標</button></h3>
@@ -1618,7 +1640,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.12-1510";
+const APP_VERSION="2026.10.12-1530";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -2755,7 +2777,7 @@ addEventListener("resize",()=>{ clearTimeout(_rz); _rz=setTimeout(()=>{ if(DATA)
 })();
 </script>
 <script src="travel.js?v=2026.10.11-1800"></script>
-<script src="health.js?v=2026.10.12-1510"></script>
+<script src="health.js?v=2026.10.12-1530"></script>
 <script src="trip-kit/icons.js?v=1"></script>
 <script src="settings.js?v=2026.10.12-1020"></script>
 </body>
