@@ -89,6 +89,7 @@ function dayStat(p, date){
 /* ── 旅遊休息日（與旅遊頁同一份 trips.json）── */
 const isTrip = d => TRIP.has(d);
 const PLANE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h18M14.5 5.5 21 12l-6.5 6.5"/><path d="M3 8.5v7"/></svg>';
+const FLAG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5" fill="currentColor"/></svg>';
 async function loadTrips(force){
   try {
     if (!window.Travel) return;
@@ -325,11 +326,11 @@ function renderCal(){
     if (s.all) full++; else if (s.any) part++;
     if (!fut && !pre) { if (tr && !s.any) trip++; else elapsed++; }
     reps += s.reps;
-    const cls = (pre ? "pre " : "") + (tr && !s.any ? "trip " : "") + (fut ? "fut" : s.all ? "done" : s.any ? "part" : "");
+    const cls = (ds === st0 ? "start " : "") + (pre ? "pre " : "") + (tr && !s.any ? "trip " : "") + (fut ? "fut" : s.all ? "done" : s.any ? "part" : "");
     const pc = s.goal ? Math.round(Math.min(1, s.reps / s.goal) * 100) : 0;
     h += `<button class="h-day ${cls} ${ds === d0 ? "today" : ""}" data-d="${ds}" ${fut ? "disabled" : ""}
         style="--pc:${pc}%" aria-label="${m} 月 ${i} 日${s.all ? " 全部達成" : s.any ? " 部分完成" : tr ? " 旅遊休息" : ""}" ${tr ? `title="${esc(TRIP.get(ds))}"` : ""}>
-      <div class="dot">${s.any && !s.all ? `<span>${i}</span>` : i}</div>${so.all && !fut ? `<i class="o" title="${NAMES[o]}也達成"></i>` : ""}</button>`;
+      <div class="dot">${s.any && !s.all ? `<span>${i}</span>` : i}</div>${ds === st0 ? `<em class="h-st">${FLAG}起點</em>` : ""}${so.all && !fut ? `<i class="o" title="${NAMES[o]}也達成"></i>` : ""}</button>`;
   }
   $("hCal").innerHTML = h;
   $("hOtherName").textContent = NAMES[o];
