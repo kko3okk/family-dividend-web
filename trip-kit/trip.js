@@ -3,7 +3,7 @@
    2) 頁尾預留空間，避免被「家的旅程」浮動鈕擋住 */
 (function(){
   // 全站 emoji → 線條圖示
-  if(!window.__tripIcons){ var cs=document.currentScript; var sc=document.createElement('script'); sc.src=(cs&&cs.src?cs.src.replace(/trip\.js(\?.*)?$/,'icons.js?v=1'):'../trip-kit/icons.js?v=1'); document.head.appendChild(sc); }
+  if(!window.__tripIcons){ var cs=document.currentScript; var sc=document.createElement('script'); sc.src=(cs&&cs.src?cs.src.replace(/trip\.js(\?.*)?$/,'icons.js?v=2'):'../trip-kit/icons.js?v=2'); document.head.appendChild(sc); }
   var PAPER=[253,247,225];
   function parse(c){var m=c&&c.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);return m?[+m[1],+m[2],+m[3]]:null;}
   function soften(el,k){

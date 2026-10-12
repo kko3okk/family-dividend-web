@@ -14,6 +14,7 @@
 - **購物清單**：Claude 維護 `shopping.json`，使用者在網站上打勾。依「東西本身是什麼」分類（不是依店家），類別需要時新開，名稱保持一致；規則細節在各趟的 `JOURNAL.md`。
 - **圖示**：全站不直接顯示 emoji，由 `trip-kit/icons.js` 自動換成 Tabler 線條圖示（MIT），風格對齊家的旅程首頁。資料和 HTML 裡照常寫 emoji 即可；→ ↗ ✓ ★ ① 這類一般符號保留。新的 emoji 要配圖示：改 `trip-kit/tools/build-icons.py` 的對照表再重新產生 `icons.js`（不要手改 icons.js）。
 - **範本同步**：旅程頁的結構或功能有改，`trip-template/` 也要一起改；新的一趟一律從範本複製。
+- **每日天氣**：存在各趟的 `weather.json`（每天的天氣、高低溫、降雨機率、一句穿衣／備案提醒），行程頁自動顯示在每天標題下方；更新天氣只改這個檔。
 - 共用樣式在 `trip-kit/`（`trip.css`、`trip.js`、`icons.js`），改了要更新各頁引用的 `?v=` 版本號；首頁有改就同步更新 `APP_VERSION` 和 `version.json`。
 
 ## 家（買房計畫）分頁

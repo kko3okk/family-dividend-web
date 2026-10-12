@@ -99,6 +99,14 @@ nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
 .pf select,.pf input{font-size:12.5px;padding:6px 7px;border:0.5px solid #ddd;border-radius:8px;background:#fff;width:100%;box-sizing:border-box}
 .rec{display:flex;justify-content:space-between;gap:8px;font-size:11.5px;padding:5px 0;border-top:0.5px solid #eee;color:#444}
 .rec .x{color:#BE123C;cursor:pointer;padding:0 4px}
+
+/* ── 每日天氣（weather.json） ── */
+.wxbar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;background:#fff;border-radius:16px;padding:8px 13px;margin:-2px 0 10px;font-size:13px;color:#5D3713;box-shadow:0 8px 20px -16px rgba(93,55,19,.5)}
+.wxbar .wxi{font-size:18px;color:#DEAE0B}.wxbar b{font-weight:700}
+.wxbar .wxt{font-family:var(--num,inherit);font-variant-numeric:tabular-nums}
+.wxbar .wxp{color:#5E8C14;font-family:var(--num,inherit)}
+.wxbar .wxtip{flex-basis:100%;font-size:12px;color:#8A7150;line-height:1.6}
+.wxnote{font-size:11.5px;color:#8A7150;margin:-4px 2px 12px}
 </style>
 <link rel="stylesheet" href="../trip-kit/trip.css?v=2">
 </head>
@@ -501,7 +509,24 @@ restore();
 updateProgress();
 refreshCode();
 </script>
-<script src="../trip-kit/trip.js?v=3"></script>
+<script>
+/* ── 每日天氣：讀 weather.json，貼在每天標題下方 ── */
+(function(){
+  function e(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  fetch('weather.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(w){
+    if(!w||!w.days) return; var n=0;
+    document.querySelectorAll('.day-block').forEach(function(b){
+      var badge=b.querySelector('.day-badge'); if(!badge) return; var d=w.days[badge.textContent.trim()]; if(!d) return;
+      var h=b.querySelector('.day-header'); if(!h||b.querySelector('.wxbar')) return;
+      var el=document.createElement('div'); el.className='wxbar';
+      el.innerHTML='<span class="wxi">'+e(d.icon)+'</span><b>'+e(d.w)+'</b><span class="wxt">'+e(d.hi)+'° / '+e(d.lo)+'°</span><span class="wxp">☔ '+e(d.pop)+'%</span>'+(d.tip?'<div class="wxtip">'+e(d.tip)+'</div>':'');
+      h.insertAdjacentElement('afterend',el); n++;
+    });
+    if(n&&w.updated){ var first=document.querySelector('.day-block .wxbar'); var t=document.createElement('div'); t.className='wxnote'; t.textContent='天氣預報更新於 '+w.updated+(w.source?'（'+w.source+'）':'')+(w.note?'｜'+w.note:''); var dt=document.getElementById('dayTabs'); (dt||first).insertAdjacentElement('afterend',t); }
+  }).catch(function(){});
+})();
+</script>
+<script src="../trip-kit/trip.js?v=4"></script>
 <script>
 /* ── 出發倒數 ── */
 (function(){

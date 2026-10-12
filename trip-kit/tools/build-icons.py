@@ -32,6 +32,8 @@ EMOJI = {
  '⭐':'star','✨':'sparkles','✅':'circle-check','⚠':'alert-triangle','💡':'bulb','🔥':'flame','🎉':'confetti','🎈':'balloon','🧨':'confetti',
  '🔄':'refresh','🔁':'repeat','☁':'cloud','🥇':'medal','🥈':'medal-2','🆕':'new-section','⚖':'scale','💤':'zzz','😴':'zzz',
  '🐻':'paw','🦢':'feather','🟠':'point',
+ # 天氣
+ '☀':'sun','🌤':'sun','⛅':'cloud','🌥':'cloud','🌦':'cloud-rain','🌧':'cloud-rain','☔':'umbrella','🌂':'umbrella','🌡':'temperature','💧':'droplet',
 }
 FALLBACK = 'point'
 CATS = [
