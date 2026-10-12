@@ -10,7 +10,7 @@
 | `trip.css` | 四頁共用的配色與版面質感（各頁自己的 `<style>` 只放骨架） |
 | `trip.js` | 深色標籤自動轉淺色、頁尾留白 |
 | `../trip-home.js` | 左下「家的旅程」返回鈕（PWA 沒有返回鍵） |
-| `../trip-template/` | 公版：行程（index）、地圖（map）、美食（food）、刷卡（card）、手帳（journal） |
+| `../trip-template/` | 公版：行程（index）、地圖（map）、美食（food）、購物清單（shopping）、刷卡（card）、手帳（journal） |
 
 ## 開新的一趟
 
@@ -23,7 +23,8 @@
    - 刷卡卡片清單在 script 裡的 `CARDS`、`CAP_NT`，依這趟要用的卡修改
 3. **map.html**：改 `HOTEL`、`AIRPORT`、`DAYS`（座標可在 Google 地圖長按複製）
 4. **food.html**、**card.html**：照範例填
-   **journal.html**：改最上面的 `const TRIP={...}`（`id` 跟 index.html 一樣、每天日期與行程摘要、時差與語言）；`JOURNAL.md` 把 D1、D2… 對應的日期改成這趟的；`journal-data.json` 保持空的。根目錄 `CLAUDE.md` 的「旅途手帳」段改指向這趟資料夾
+   **journal.html**：改最上面的 `const TRIP={...}`（`id` 跟 index.html 一樣、每天日期與行程摘要、時差與語言）；`JOURNAL.md` 把 D1、D2… 對應的日期改成這趟的；`journal-data.json`、`shopping.json` 保持空的。
+   **shopping.html**：改最上面的 `TRIP_ID`（跟 index.html 的 TRIP.id 一樣）。根目錄 `CLAUDE.md` 的「旅途手帳」段改指向這趟資料夾
 5. 在根目錄 `trips.json` 加一筆，「家的旅程 → 旅遊」的日曆與紀錄就會出現這趟
 
 > 注意：行程項目的「順序」就是打勾紀錄的對照；出發後要增刪項目，打勾狀態可能會錯位，盡量在出發前定稿。

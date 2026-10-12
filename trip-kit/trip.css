@@ -181,3 +181,9 @@ details summary{cursor:pointer}
 .sv-leaf.l2{animation-delay:-3s;animation-duration:11s}.sv-leaf.l3{animation-delay:-6s;animation-duration:10s}
 @keyframes leaf{0%{transform:translate(0,-30px) rotate(0);opacity:0}10%{opacity:1}100%{transform:translate(-40px,150px) rotate(320deg);opacity:0}}
 @media (max-width:420px){.froute b{font-size:19px}.flights{gap:8px}.fcard{padding:10px}}
+
+/* 頁籤六個時，窄螢幕縮一點避免擠出畫面 */
+@media (max-width:390px){
+  nav.pages, body>nav{gap:4px!important}
+  nav.pages a, body>nav a{font-size:12px!important;letter-spacing:.02em}
+}
