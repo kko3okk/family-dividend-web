@@ -77,22 +77,44 @@ function calcMoney(h){
 
 /* ── 首選戶別：配置示意（上＝北）＋原始成交價 ── */
 const SITE = [ // [戶, x, y, 房型]；依樂居配置圖轉成北方朝上
-  ["F",270,20,"2房"],["A",370,20,"3房"],["E",170,70,"3房"],["B",370,70,"3房"],["D",170,120,"3房"],["C",270,120,"2房"],
-  ["K",20,165,"3房"],["G",100,165,"3房"],["H",100,215,"2房"],["J",20,265,"3房"],["I",100,265,"3房"],
-  ["Q",270,235,"2房"],["P",170,265,"3房"],["L",370,265,"4房"],["O",170,315,"3房"],["M",370,315,"4房"],["N",270,365,"2房"]];
+  ["F",370,80,"2房"],["A",470,80,"3房"],["E",270,130,"3房"],["B",470,130,"3房"],["D",270,180,"3房"],["C",370,180,"2房"],
+  ["K",110,225,"3房"],["G",190,225,"3房"],["H",190,275,"2房"],["J",110,325,"3房"],["I",190,325,"3房"],
+  ["Q",370,295,"2房"],["P",270,325,"3房"],["L",470,325,"4房"],["O",270,375,"3房"],["M",470,375,"4房"],["N",370,425,"2房"]];
 const OK2 = ["E","P","K","I"];
 function siteSVG(top){
   const cell = ([u, x, y, r]) => {
     const c = top.includes(u) ? "top" : OK2.includes(u) ? "ok" : "no";
     return `<g class="k-u ${c}"><rect x="${x}" y="${y}" width="76" height="44" rx="9"/><text x="${x + 38}" y="${y + 21}" class="u">${u}</text><text x="${x + 38}" y="${y + 37}" class="r">${r}</text></g>`;
   };
-  return `<svg class="k-site" viewBox="0 0 520 420" role="img" aria-label="微丘森鄰戶別配置，北方朝上">
-    <rect x="455" y="8" width="26" height="404" rx="6" class="road"/><text transform="translate(473,150) rotate(90)" class="rd">屏西路（東側，30 米）</text>
-    <text x="8" y="410" class="rd">← 西：保成二街</text>
-    <g transform="translate(500,30)"><path d="M0,-14 L6,4 L0,0 L-6,4 Z" class="nn"/><text y="20" class="rd" text-anchor="middle">N</text></g>
+  return `<svg class="k-site" viewBox="0 0 640 530" role="img" aria-label="微丘森鄰戶別配置，北方朝上：東臨屏西路、西臨保成二街、南臨屏西路229巷">
+    <defs>${[["kWind","#4A80B8"],["kSun","#E8A33A"]].map(([id, c]) => `<marker id="${id}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="${c}"/></marker>`).join("")}</defs>
+    <!-- 道路 -->
+    <rect x="68" y="40" width="26" height="476" rx="5" class="road"/>
+    <text transform="translate(81,278) rotate(-90)" class="rdn">保成二街（西）</text>
+    <rect x="566" y="40" width="44" height="476" rx="5" class="road main"/>
+    <line x1="588" y1="48" x2="588" y2="508" class="lane"/>
+    <text transform="translate(588,278) rotate(90)" class="rdn">屏西路 30 米（東）</text>
+    <rect x="94" y="484" width="472" height="22" rx="5" class="road"/>
+    <text x="330" y="499" class="rdn">屏西路 229 巷（南）</text>
+    <!-- 棟別 -->
+    <text x="226" y="216" class="bld">後棟</text>
+    <text x="408" y="290" class="bld">南棟</text>
+    <text x="320" y="122" class="bld">北棟</text>
     ${SITE.map(cell).join("")}
+    <!-- 指北針 -->
+    <g transform="translate(180,92)" class="cmp">
+      <circle r="26"/><path d="M0,-19 L6,0 L0,-3 L-6,0 Z" class="nn"/><path d="M0,19 L6,0 L0,3 L-6,0 Z" class="ss"/>
+      <text y="-32" class="cd n">N 北</text><text y="44" class="cd">S</text><text x="-38" y="4" class="cd">W</text><text x="38" y="4" class="cd">E</text>
+    </g>
+    <!-- 冬季東北季風 -->
+    <line x1="630" y1="6" x2="560" y2="70" class="wind" marker-end="url(#kWind)"/>
+    <text x="552" y="22" class="wt">冬季東北季風</text>
+    <!-- 午後西曬 -->
+    <g transform="translate(34,296)" class="sun"><circle r="10"/>${[0,45,90,135,180,225,270,315].map(d => `<line x1="0" y1="-14" x2="0" y2="-19" transform="rotate(${d})"/>`).join("")}</g>
+    <line x1="14" y1="332" x2="62" y2="332" class="sunar" marker-end="url(#kSun)"/>
+    <text x="34" y="268" class="st">午後西曬</text>
   </svg>
-  <div class="h-legend"><span><b class="lg top"></b>首選：客廳朝西＋南側</span><span><b class="lg ok"></b>次選：朝西但一側迎北</span><span><b class="lg no"></b>不考慮</span></div>`;
+  <div class="h-legend"><span><b class="lg top"></b>首選：客廳朝西＋南側（背對季風）</span><span><b class="lg ok"></b>次選：朝西但一側迎北</span><span><b class="lg no"></b>不考慮</span></div>`;
 }
 function renderUnits(h){
   const t = h.target, fl = []; for (let i = t.floors[0]; i <= t.floors[1]; i++) fl.push(i);
