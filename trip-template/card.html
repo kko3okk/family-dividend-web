@@ -58,6 +58,12 @@ a.ext{color:#1a6fd4;text-decoration:none;font-weight:600}
 .dw{min-width:0}.dn{font-size:11px;color:#888;margin-top:1px}
 details{margin-top:22px}summary{font-size:14px;font-weight:700;cursor:pointer;padding:10px 14px;background:#fff;border:0.5px solid rgba(0,0,0,.09);border-radius:12px;list-style:none}
 summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom:4px}
+.dayd{margin-top:0}.dayd>summary.dh{list-style:none;padding:0;border:none;background:none;margin:0;display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;font-weight:700;border-radius:0}
+.dayd>summary.dh::-webkit-details-marker{display:none}.dayd>summary.dh::after{content:'▾';margin-left:auto;color:#AD9670;transition:transform .2s}.dayd[open]>summary.dh::after{transform:rotate(180deg)}
+.dayd:not([open]){padding-bottom:10px}.dayd[open]>summary.dh{margin-bottom:4px}
+.dayh{display:flex;align-items:center;gap:8px}.dtg{margin-left:auto;font:inherit;font-size:12px;font-weight:700;border:none;border-radius:999px;padding:4px 11px;background:#fff;color:#8A7150;cursor:pointer;box-shadow:0 4px 10px -8px rgba(93,55,19,.6)}
+details.grp{margin-top:10px}details.grp>summary{display:flex;flex-direction:column;gap:1px}.ghint{font-size:11.5px;font-weight:500;color:#8A7150}
+details.grp[open]>summary{margin-bottom:6px}.gh3{font-size:14px;font-weight:700;margin:16px 0 8px;color:#5D3713}
 </style>
 <link rel="stylesheet" href="../trip-kit/trip.css?v=2">
 </head>
@@ -79,16 +85,35 @@ summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom
 <div class="card" style="margin-top:8px;font-size:12px">
 <b>刷滿怎麼辦：</b>主卡刷滿 → 改用備用卡。到<a class="ext" href="index.html">行程頁</a>點每一項的「💳 刷卡」記帳，額度滿了會建議換卡。
 </div>
-<h2>📅 每天刷哪張</h2>
-<div class="dayb"><div class="dh"><span class="pill d1">D1</span>5/1（六）抵達</div>
+<h2 class="dayh">📅 每天刷哪張<button type="button" class="dtg" id="dayAll">全部展開</button></h2>
+<p class="muted" style="margin:-2px 0 8px">點日期展開；旅途中會自動打開當天。</p>
+<details class="dayb dayd" data-d="D1"><summary class="dh"><span class="pill d1">D1</span>5/1（六）抵達</summary>
 <div class="dr"><div class="dw">機場 → 市區交通<div class=dn>交通卡先加值</div></div><span class="cc" style="background:#2563EB">交通卡</span></div>
 <div class="dr"><div class="dw">晚餐 店名</div><span class="cc" style="background:#EA580C">主卡</span></div>
-</div>
-<div class="dayb"><div class="dh"><span class="pill d2">D2</span>5/2（日）今天的主題</div>
+</details>
+<details class="dayb dayd" data-d="D2"><summary class="dh"><span class="pill d2">D2</span>5/2（日）今天的主題</summary>
 <div class="dr"><div class="dw">景點門票</div><span class="cc" style="background:#EA580C">主卡</span></div>
 <div class="dr"><div class="dw">指定通路購物<div class=dn>先出示優惠券＋免稅</div></div><span class="cc" style="background:#1F2937">指定通路卡</span></div>
 <div class="dr"><div class="dw">小攤、扭蛋</div><span class="cc" style="background:#6B7280">現金</span></div>
-</div>
+</details>
+
+<h2>📚 細節（需要時再點開）</h2>
+<details class="grp"><summary><span class="gt">🏷️ 優惠券</span><span class="ghint">各店家優惠券、銀行活動券</span></summary>
+<div class="card">把這趟用得到的優惠券整理在這裡（店家、優惠、哪天用）。</div>
+</details>
+<details class="grp"><summary><span class="gt">💳 各卡規則</span><span class="ghint">回饋、上限、活動登記</span></summary>
+<div class="card">每張卡的回饋、上限與注意事項。</div>
+</details>
+<script>
+(function(){
+  var ds=[].slice.call(document.querySelectorAll('.dayd'));
+  var jst=new Date(Date.now()+9*3600e3), md=(jst.getUTCMonth()+1)+'/'+jst.getUTCDate(), hit=null;
+  ds.forEach(function(d){ var t=d.querySelector('summary').textContent; if(t.indexOf(md+'（')>=0) hit=d; });
+  (hit||ds[0]).open=true;
+  var b=document.getElementById('dayAll');
+  if(b) b.onclick=function(){ var all=ds.every(function(d){return d.open;}); ds.forEach(function(d){d.open=!all;}); b.textContent=all?'全部展開':'全部收合'; };
+})();
+</script>
 <script src="../trip-kit/trip.js?v=3"></script>
 <script src="../trip-home.js?v=7"></script>
 </body>

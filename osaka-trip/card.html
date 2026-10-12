@@ -58,6 +58,12 @@ a.ext{color:#1a6fd4;text-decoration:none;font-weight:600}
 .dw{min-width:0}.dn{font-size:11px;color:#888;margin-top:1px}
 details{margin-top:22px}summary{font-size:14px;font-weight:700;cursor:pointer;padding:10px 14px;background:#fff;border:0.5px solid rgba(0,0,0,.09);border-radius:12px;list-style:none}
 summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom:4px}
+.dayd{margin-top:0}.dayd>summary.dh{list-style:none;padding:0;border:none;background:none;margin:0;display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;font-weight:700;border-radius:0}
+.dayd>summary.dh::-webkit-details-marker{display:none}.dayd>summary.dh::after{content:'▾';margin-left:auto;color:#AD9670;transition:transform .2s}.dayd[open]>summary.dh::after{transform:rotate(180deg)}
+.dayd:not([open]){padding-bottom:10px}.dayd[open]>summary.dh{margin-bottom:4px}
+.dayh{display:flex;align-items:center;gap:8px}.dtg{margin-left:auto;font:inherit;font-size:12px;font-weight:700;border:none;border-radius:999px;padding:4px 11px;background:#fff;color:#8A7150;cursor:pointer;box-shadow:0 4px 10px -8px rgba(93,55,19,.6)}
+details.grp{margin-top:10px}details.grp>summary{display:flex;flex-direction:column;gap:1px}.ghint{font-size:11.5px;font-weight:500;color:#8A7150}
+details.grp[open]>summary{margin-bottom:6px}.gh3{font-size:14px;font-weight:700;margin:16px 0 8px;color:#5D3713}
 </style>
 <link rel="stylesheet" href="../trip-kit/trip.css?v=2">
 </head>
@@ -69,7 +75,7 @@ summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom
   <a href="card.html" class="on">💳 刷卡</a><a href="journal.html">📸 手帳</a>
 </nav>
 <h1>刷卡攻略</h1>
-<div class="sub">大阪・USJ・京都｜10/17–10/24, 2026｜資料整理於 9/28，出發前請再確認</div>
+<div class="sub">大阪・USJ・京都｜10/17–10/24, 2026｜先看上面兩區就夠：記 4 張卡、每天刷哪張；其他細節收在最下面</div>
 
 <h2>💳 這趟只要記 4 張＋現金</h2>
 <div class="leg">
@@ -85,14 +91,15 @@ summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom
 <span class="muted">CUBE 當最後備用：店家不能感應又不收上面的卡時再拿出來（秋日遊 3.5%）。</span>
 </div>
 
-<h2>📅 每天刷哪張</h2>
-<div class="dayb"><div class="dh"><span class="pill d1">D1</span>10/17（六）飛抵大阪</div>
+<h2 class="dayh">📅 每天刷哪張<button type="button" class="dtg" id="dayAll">全部展開</button></h2>
+<p class="muted" style="margin:-2px 0 8px">點日期展開；旅途中會自動打開當天。</p>
+<details class="dayb dayd" data-d="D1"><summary class="dh"><span class="pill d1">D1</span>10/17（六）飛抵大阪</summary>
 <div class="dr"><div class="dw">KIX → 難波 空港急行、地鐵<div class=dn>D1 在 KIX 買 ICOCA 時用現金加值 ¥3,000</div></div><span class="cc" style="background:#2563EB">ICOCA</span></div>
 <div class="dr"><div class="dw">晚餐 鮨ととぎん</div><span class="cc" style="background:#EA580C">uniopen</span></div>
 <div class="dr"><div class="dw">AEON Food Style 補水補糧<div class=dn>AEON（永旺）在吉鶴 7% 名單</div></div><span class="cc" style="background:#0F766E">吉鶴 Apple Pay</span></div>
 <div class="dr"><div class="dw">順路便利商店買明天早餐<div class=dn>🎟️ <b>便利商店券</b>：湊到 ¥1,000 再結帳</div></div><span class="cc" style="background:#E11D48">PayPay＋券</span></div>
-</div>
-<div class="dayb"><div class="dh"><span class="pill d2">D2</span>10/18（日）心齋橋 → 日本橋</div>
+</details>
+<details class="dayb dayd" data-d="D2"><summary class="dh"><span class="pill d2">D2</span>10/18（日）心齋橋 → 日本橋</summary>
 <div class="dr"><div class="dw">寶可夢中心 DX（大丸 9F）<div class=dn>大丸百貨裡，熊本熊、CUBE 都沒加碼</div></div><span class="cc" style="background:#EA580C">uniopen</span></div>
 <div class="dr"><div class="dw">大丸 B1 買點心、伴手禮<div class=dn>🎟️ <b>百貨店券</b>：結帳選得到才用，選不到就刷 uniopen</div></div><span class="cc" style="background:#E11D48">PayPay＋券</span></div>
 <div class="dr"><div class="dw">午餐 ニューベイブ</div><span class="cc" style="background:#EA580C">uniopen</span></div>
@@ -100,19 +107,19 @@ summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom
 <div class="dr"><div class="dw">Joshin、駿河屋、らしんばん<div class=dn>Joshin 先出示 8% 優惠券</div></div><span class="cc" style="background:#EA580C">uniopen</span></div>
 <div class="dr"><div class="dw">喫茶 松竹<div class=dn>小店不收卡就付現</div></div><span class="cc" style="background:#EA580C">uniopen</span></div>
 <div class="dr"><div class="dw">晚餐 炭火焼肉 力丸（19:00 已訂）<div class=dn>可刷卡、PayPay</div></div><span class="cc" style="background:#EA580C">uniopen</span></div>
-</div>
-<div class="dayb"><div class="dh"><span class="pill d3">D3</span>10/19（一）勝尾寺 → USJ</div>
+</details>
+<details class="dayb dayd" data-d="D3"><summary class="dh"><span class="pill d3">D3</span>10/19（一）勝尾寺 → USJ</summary>
 <div class="dr"><div class="dw">電車、阪急巴士</div><span class="cc" style="background:#2563EB">ICOCA</span></div>
 <div class="dr"><div class="dw">勝尾寺 入山費、達摩、御朱印</div><span class="cc" style="background:#6B7280">現金</span></div>
 <div class="dr"><div class="dw">天神橋筋 午餐（麺育ち／おさかな食堂／春駒）、可樂餅、蕨餅<div class=dn>小店多半只收現金</div></div><span class="cc" style="background:#EA580C">uniopen</span></div>
 <div class="dr"><div class="dw">晚餐 京都勝牛（CityWalk）<div class=dn>CityWalk 不算 USJ 園內</div></div><span class="cc" style="background:#EA580C">uniopen</span></div>
-</div>
-<div class="dayb"><div class="dh"><span class="pill d4">D4</span>10/20（二）USJ</div>
+</details>
+<details class="dayb dayd" data-d="D4"><summary class="dh"><span class="pill d4">D4</span>10/20（二）USJ</summary>
 <div class="dr"><div class="dw">園內：你的消費（瑪利歐周邊、パワーアップバンド）<div class=dn>JCB 20%＋指定店 8.5%，刷到 ¥10,000 以上</div></div><span class="cc" style="background:#1F2937">熊本熊卡</span></div>
 <div class="dr"><div class="dw">園內：老婆的消費（吃喝、芙莉蓮商品）<div class=dn>JCB 20%，刷到 ¥10,000 以上</div></div><span class="cc" style="background:#0369A1">老婆 JCB</span></div>
 <div class="dr"><div class="dw">園內小攤不收卡</div><span class="cc" style="background:#6B7280">現金</span></div>
-</div>
-<div class="dayb"><div class="dh"><span class="pill d5">D5</span>10/21（三）USJ → 梅田逛到晚上</div>
+</details>
+<details class="dayb dayd" data-d="D5"><summary class="dh"><span class="pill d5">D5</span>10/21（三）USJ → 梅田逛到晚上</summary>
 <div class="dr"><div class="dw">JR 環球城 → 大阪站</div><span class="cc" style="background:#2563EB">ICOCA</span></div>
 <div class="dr"><div class="dw">午餐 しゃぶ禅 梅田店</div><span class="cc" style="background:#EA580C">uniopen</span></div>
 <div class="dr"><div class="dw">大丸梅田 13F Nintendo・寶可夢中心<div class=dn>百貨裡，其他卡沒加碼</div></div><span class="cc" style="background:#EA580C">uniopen</span></div>
@@ -123,43 +130,33 @@ summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom
 <div class="dr"><div class="dw">晚餐 お好み焼き きじ<div class=dn>不收卡就付現</div></div><span class="cc" style="background:#EA580C">uniopen</span></div>
 <div class="dr"><div class="dw">（彈性）晚上 Sugi 藥妝<div class=dn>先出示 Sugi 券＋免稅（同店同日滿 ¥5,500）</div></div><span class="cc" style="background:#EA580C">uniopen</span></div>
 <div class="dr"><div class="dw">Datedachi 立飲</div><span class="cc" style="background:#6B7280">現金</span></div>
-</div>
-<div class="dayb"><div class="dh"><span class="pill d6">D6</span>10/22（四）京都</div>
+</details>
+<details class="dayb dayd" data-d="D6"><summary class="dh"><span class="pill d6">D6</span>10/22（四）京都</summary>
 <div class="dr"><div class="dw">阪急、京阪、地鐵<div class=dn>計程車也可刷 ICOCA</div></div><span class="cc" style="background:#2563EB">ICOCA</span></div>
 <div class="dr"><div class="dw">寶可夢中心 京都（SUINA）<div class=dn>第一站｜在商場裡，其他卡沒加碼</div></div><span class="cc" style="background:#EA580C">uniopen</span></div>
 <div class="dr"><div class="dw">清水寺、御朱印、二三年坂小吃</div><span class="cc" style="background:#6B7280">現金</span></div>
 <div class="dr"><div class="dw">午餐 しげもり／おかる／京めん／つるる<div class=dn>小店付現</div></div><span class="cc" style="background:#EA580C">uniopen</span></div>
 <div class="dr"><div class="dw">北川半兵衛 下午茶</div><span class="cc" style="background:#EA580C">uniopen</span></div>
 <div class="dr"><div class="dw">串かつだるま 道頓堀店<div class=dn>連鎖店一般可刷卡，現場確認；排太久改 Hayashida 拉麵（食券機付現金）</div></div><span class="cc" style="background:#EA580C">uniopen</span></div>
-</div>
-<div class="dayb"><div class="dh"><span class="pill d7">D7</span>10/23（五）購物總攻</div>
+</details>
+<details class="dayb dayd" data-d="D7"><summary class="dh"><span class="pill d7">D7</span>10/23（五）購物總攻</summary>
 <div class="dr"><div class="dw">午餐 大起水產／千とせ 肉吸い<div class=dn>千とせ小店可能只收現金，備好零錢</div></div><span class="cc" style="background:#EA580C">uniopen</span></div>
 <div class="dr"><div class="dw">GU 心齋橋<div class=dn>🎟️ <b>UNIQLO・GU 券</b>＋免稅（5F）；兩人分開結帳各折一次</div></div><span class="cc" style="background:#E11D48">PayPay＋券</span></div>
 <div class="dr"><div class="dw">The Roasters、PARCO、東急Hands</div><span class="cc" style="background:#EA580C">uniopen</span></div>
 <div class="dr"><div class="dw">晚餐 肉匠なか田（17:00 已訂）<div class=dn>另收10%服務費</div></div><span class="cc" style="background:#EA580C">uniopen</span></div>
 <div class="dr"><div class="dw">唐吉訶德 總補貨<div class=dn>先點網頁優惠券連結＋免稅；熊本熊刷滿就改吉鶴</div></div><span class="cc" style="background:#1F2937">熊本熊卡</span></div>
-</div>
-<div class="dayb"><div class="dh"><span class="pill d8">D8</span>10/24（六）回台</div>
+</details>
+<details class="dayb dayd" data-d="D8"><summary class="dh"><span class="pill d8">D8</span>10/24（六）回台</summary>
 <div class="dr"><div class="dw">（彈性）便利商店或珈琲館早餐</div><span class="cc" style="background:#EA580C">uniopen</span></div>
 <div class="dr"><div class="dw">最後補貨 Sugi<div class=dn>🎟️ <b>藥妝店券</b>：一筆 ¥1,000 出頭</div></div><span class="cc" style="background:#E11D48">PayPay＋券</span></div>
 <div class="dr"><div class="dw">最後補貨 唐吉訶德<div class=dn>刷滿就改吉鶴</div></div><span class="cc" style="background:#1F2937">熊本熊卡</span></div>
 <div class="dr"><div class="dw">送機包車 → KIX<div class=dn>出發前在 KKday／Klook 線上付款（台幣），用平常的卡</div></div><span class="cc" style="background:#9CA3AF">已預付</span></div>
 <div class="dr"><div class="dw">出境後 Onigiri Burger／免稅店<div class=dn>🎟️ <b>機場券</b>：湊 ¥1,000；其他免稅品刷 uniopen</div></div><span class="cc" style="background:#E11D48">PayPay＋券</span></div>
-</div>
+</details>
 
-<details><summary>📖 詳細說明（各卡條件、上限、店家優惠券、免稅規則）▾</summary>
-<h2>💰 PayPay 額度與回饋</h2>
-<div class="row2">
-  <div class="card"><div class="big">NT$3,500</div><div class="lbl">PayPay 可刷額度<br>≈ ¥16,000（依當日匯率）</div></div>
-  <div class="card"><div class="big">¥200 × 5</div><div class="lbl">每人樂享券<br>兩人共 10 張 = 折 ¥2,000</div></div>
-</div>
-<div class="card">
-<b>綁熊本熊卡：</b>回饋 3.5% ＋ 免 1.5% 手續費 ≈ <b>5%</b>，但每季回饋上限 NT$100 → 大約刷到 <b>NT$2,857 就封頂</b>，超過的部分只剩「免手續費」。<br>
-<b>其他玉山信用卡綁 Wallet：</b>海外 PayPay 除了熊本熊卡活動外沒有額外回饋，好處只剩免手續費＋可用樂享券。<br>
-<b>扣款幣別：</b>一律以台幣扣款；想扣日幣需另外綁玉山外幣帳戶。
-</div>
-
-<h2>🎟️ 玉山樂享券 × 行程對應</h2>
+<h2>📚 細節（需要時再點開）</h2>
+<details class="grp"><summary><span class="gt">🏷️ 優惠券</span><span class="ghint">樂享券怎麼用、各店家優惠券（唐吉、Sugi、大丸…）</span></summary>
+<h3 class="gh3">🎟️ 玉山樂享券 × 行程對應</h3>
 <div class="card" style="margin-bottom:8px">
 每張 ¥200，<b>單筆滿 ¥1,000 可折</b>（最高折 ¥200），使用期間 2026/8/7–12/31。<br>
 付款方式：信用卡、銀行／郵局帳戶、餘額付款皆可。付款畫面「<b>樂享券</b>」欄位記得選用。<br>
@@ -174,7 +171,7 @@ summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom
 <tr><td><b>👕 UNIQLO・GU 券</b></td><td><span class="pill d7">D7</span> GU 心齋橋店</td><td class="muted">5F 可辦退稅</td></tr>
 </table></div>
 
-<h2>🏷️ 店家優惠券（出示截圖／條碼）</h2>
+<h3 class="gh3">🏷️ 店家優惠券（出示截圖／條碼）</h3>
 <div class="tw"><table>
 <tr><th>店家</th><th>優惠</th><th>哪天</th></tr>
 <tr><td><b>Sugi 藥局</b></td><td>免稅＋最高 8%<br><span class="muted">至 2027/2/28</span></td><td><span class="pill d5">D5</span><span class="pill d8">D8</span></td></tr>
@@ -190,7 +187,9 @@ summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom
 <span class="muted">KIDDY LAND 不能退稅；一番くじ官方店不推；心齋橋的 Sun Drug／Cosmos 評價較差</span>
 </div>
 
-<h2>🚇 交通票：這趟用 ICOCA 就好</h2>
+</details>
+<details class="grp"><summary><span class="gt">🚇 交通票</span><span class="ghint">結論：用 ICOCA 就好，各天比較</span></summary>
+<h3 class="gh3">🚇 交通票：這趟用 ICOCA 就好</h3>
 <div class="card">行程多半走路、搭車次數少，<b>每天的一日券都打不平</b>，搭多少刷多少最划算。ICOCA 先加值 ¥3,000，勝尾寺巴士（D3）只收 IC 卡。</div>
 <div class="tw" style="margin-top:8px"><table>
 <tr><th>天</th><th>主要交通</th><th>考慮過的券</th><th>結論</th></tr>
@@ -202,7 +201,9 @@ summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom
 </table></div>
 <div class="card" style="margin-top:8px;font-size:12px"><span class="muted">票價與券價為 2026/10 查到的資料，出發前可再確認；勝尾寺巴士 10/1 起可能只收 IC 卡／信用卡買票。</span></div>
 
-<h2>🎢 USJ 園內：JCB 回饋 20%（✅ 兩人都已登記）</h2>
+</details>
+<details class="grp"><summary><span class="gt">💳 各卡規則</span><span class="ghint">USJ JCB、uniopen、熊本熊、吉鶴、CUBE、PayPay、同店怎麼選</span></summary>
+<h3 class="gh3">🎢 USJ 園內：JCB 回饋 20%（✅ 兩人都已登記）</h3>
 <div class="row2">
   <div class="card"><div class="big">¥10,000 × 2</div><div class="lbl">每張卡各自累計<br>可分多筆</div></div>
   <div class="card"><div class="big">回 ¥4,000</div><div class="lbl">兩張卡各 ¥2,000<br>約 11 月下旬入帳</div></div>
@@ -221,7 +222,7 @@ summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom
 </div>
 <div class="card" style="margin-top:8px">活動頁：<a class="ext" href="https://www.specialoffers.jcb/zh-tw/campaign/detail/usj/93849/" target="_blank" rel="noopener">JCB × 日本環球影城 最高 20% 回饋 ↗</a></div>
 
-<h2>🟠 中信 uniopen 卡：海外實體 11%（最高）</h2>
+<h3 class="gh3">🟠 中信 uniopen 卡：海外實體 11%（最高）</h3>
 <div class="row2">
   <div class="card"><div class="big">11%</div><div class="lbl">3% 基本＋8% 海外實體加碼<br>扣手續費淨 ≈ 9.5%</div></div>
   <div class="card"><div class="big">NT$6,250</div><div class="lbl">8% 加碼每月上限 500 點<br>≈ ¥29,000</div></div>
@@ -241,7 +242,7 @@ summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom
 <tr><td>肉匠なか田 燒肉</td><td><span class="pill d7">D7</span></td></tr>
 </table></div>
 
-<h2>🐻 熊本熊卡直接刷卡：指定店 8.5%</h2>
+<h3 class="gh3">🐻 熊本熊卡直接刷卡：指定店 8.5%</h3>
 <div class="card" style="margin-bottom:8px">
 跟 PayPay 的 5% 是<b>兩個不同活動</b>：透過玉山Wallet 付 PayPay <b>不算</b>這個，要<b>直接刷卡</b>。期間 2026/7/1–12/31，<b>要登錄一次</b>（<a class="ext" href="https://esun.co/Hppc9" target="_blank" rel="noopener">登錄 ↗</a>）。海外手續費 1.5% 照收。
 </div>
@@ -263,7 +264,7 @@ summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom
 ・老婆如果也有自己的熊本熊卡，她那張另外算一份上限，也要自己登錄
 </div>
 
-<h2>🦢 聯邦吉鶴卡：綁 Apple Pay 當主力卡</h2>
+<h3 class="gh3">🦢 聯邦吉鶴卡：綁 Apple Pay 當主力卡</h3>
 <div class="card" style="margin-bottom:8px">
 下半年方案 2026/7/1–12/31，整趟都適用。吉鶴卡是 <b>JCB</b>，<b>海外手續費 1.5% 照收</b>，下面都是扣掉前的回饋。
 </div>
@@ -286,7 +287,7 @@ summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom
 </div>
 <div class="card" style="margin-top:8px">活動頁：<a class="ext" href="https://activity.ubot.com.tw/2026JiHoCard/index.htm" target="_blank" rel="noopener">聯邦吉鶴卡 2026 日本回饋 ↗</a></div>
 
-<h2>💳 國泰 CUBE 卡：切「秋日遊」</h2>
+<h3 class="gh3">💳 國泰 CUBE 卡：切「秋日遊」</h3>
 <div class="card" style="margin-bottom:8px">
 <b>秋日遊</b> 期間 2026/10/1–11/30，整趟旅程都在範圍內。出發前在 CUBE App 把權益<b>切成「秋日遊」</b>（每天可切換一次，以消費當天的權益計算）。<br>
 回饋是小樹點，1 點 = NT$1，無上限。<b>海外手續費 1.5% 照收</b>，所以 3.5% 實際淨賺約 2%。
@@ -303,7 +304,18 @@ summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom
 ・iPhone 可在 Apple 錢包開 ICOCA，用 CUBE 加值拿 3.5%；加值失敗就照原計畫用現金加值實體 ICOCA
 </div>
 
-<h2>⚖️ 同一家店好幾種都能用，刷哪個？</h2>
+<h3 class="gh3">💰 PayPay 額度與回饋</h3>
+<div class="row2">
+  <div class="card"><div class="big">NT$3,500</div><div class="lbl">PayPay 可刷額度<br>≈ ¥16,000（依當日匯率）</div></div>
+  <div class="card"><div class="big">¥200 × 5</div><div class="lbl">每人樂享券<br>兩人共 10 張 = 折 ¥2,000</div></div>
+</div>
+<div class="card">
+<b>綁熊本熊卡：</b>回饋 3.5% ＋ 免 1.5% 手續費 ≈ <b>5%</b>，但每季回饋上限 NT$100 → 大約刷到 <b>NT$2,857 就封頂</b>，超過的部分只剩「免手續費」。<br>
+<b>其他玉山信用卡綁 Wallet：</b>海外 PayPay 除了熊本熊卡活動外沒有額外回饋，好處只剩免手續費＋可用樂享券。<br>
+<b>扣款幣別：</b>一律以台幣扣款；想扣日幣需另外綁玉山外幣帳戶。
+</div>
+
+<h3 class="gh3">⚖️ 同一家店好幾種都能用，刷哪個？</h3>
 <div class="tw"><table>
 <tr><th>情況</th><th>選擇</th><th>淨回饋</th></tr>
 <tr><td>單筆 ¥1,000 出頭，而且手上有對應樂享券</td><td><b>玉山Wallet PayPay</b></td><td>券約 17–20%＋5%</td></tr>
@@ -318,7 +330,9 @@ summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom
 </table></div>
 <div class="card" style="margin-top:8px"><span class="muted">店家優惠券、免稅 10% 跟付款方式無關，都能疊。每張卡的上限都是分開算的：uniopen 約 NT$6,250、熊本熊刷卡約 NT$8,300、熊本熊 PayPay 約 NT$2,857、吉鶴 3% 加碼約 NT$20,000，可以全部用滿。</span></div>
 
-<h2>🧾 免稅規則</h2>
+</details>
+<details class="grp"><summary><span class="gt">🧾 免稅與付款分工</span><span class="ghint">退稅門檻、密封袋、誰付哪些</span></summary>
+<h3 class="gh3">🧾 免稅規則</h3>
 <div class="card">
 ・同店、同一天，<b>稅前滿 ¥5,000</b>（約含稅 ¥5,500）才能免稅<br>
 ・<b>帶護照正本</b>（兩人各自帶，各自算）<br>
@@ -327,7 +341,7 @@ summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom
 ・2026/11/1 起改「先付後退」新制；我們 10/24 回台，<b>仍是現場直接免稅</b>
 </div>
 
-<h2>💴 付款分工</h2>
+<h3 class="gh3">💴 付款分工</h3>
 <div class="tw"><table>
 <tr><th>場景</th><th>用什麼付</th></tr>
 <tr><td>餐廳、Sugi／KoKuMiN 藥妝、大丸寶可夢 DX、KIDDY LAND、扭蛋店、京都寶可夢</td><td><b>中信 uniopen</b> 11%（刷滿約 NT$6,250 後：有 PayPay 用 PayPay，沒有就吉鶴 Apple Pay）</td></tr>
@@ -342,7 +356,9 @@ summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom
 </table></div>
 <div class="card" style="margin-top:8px"><span class="muted">⚠️ 標示「PayPay Money Only」的店家，台灣錢包不能用</span></div>
 
-<h2>⚠️ 活動到期提醒</h2>
+</details>
+<details class="grp"><summary><span class="gt">⚠️ 到期提醒與出發前清單</span><span class="ghint">活動到期日、出發前要做的事</span></summary>
+<h3 class="gh3">⚠️ 活動到期提醒</h3>
 <div class="warn">
 <b>9/30 到期：</b>全盈Pay、全支付、iPass Money、玉山「掃一夏」抽獎。第 4 季新活動通常 10 月初公布，<b>10/10 左右再查一次</b>。<br>
 <b>確定延續到年底：</b><br>
@@ -352,9 +368,7 @@ summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom
 ・街口綁台新街口卡（至 12/31）
 </div>
 
-</details>
-
-<h2>✅ 出發前清單</h2>
+<h3 class="gh3">✅ 出發前清單</h3>
 <div class="card"><ul class="chk">
 <li>玉山Wallet 開通電子支付＋實名認證（<b>兩人都要</b>）</li>
 <li>支付設定預設卡選熊本熊卡</li>
@@ -370,10 +384,21 @@ summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom
 <li>換日幣現金 ¥20,000–30,000</li>
 </ul></div>
 
+</details>
 <div class="foot">
 來源：<a href="https://www.beurlife.com/2025/09/ctbc_uniopen_credit_card.html" target="_blank" rel="noopener">這就是人生 uniopen 卡解析</a>｜<a href="https://event.esunbank.com.tw/credit/kumamon-card/japan-discount.html" target="_blank" rel="noopener">玉山熊本熊卡日本指定店</a>｜<a href="https://activity.ubot.com.tw/2026JiHoCard/index.htm" target="_blank" rel="noopener">聯邦吉鶴卡活動頁</a>｜<a href="https://www.cathay-cube.com.tw/cathaybk/personal/product/credit-card/cards/cube-list" target="_blank" rel="noopener">國泰 CUBE 權益方案</a>｜<a href="https://event.esunbank.com.tw/credit/1120928j_paypay/exclusive_offer.html" target="_blank" rel="noopener">玉山銀行 PayPay 專屬優惠</a>｜這就是人生 PayPay 攻略（2026/7/18）<br>
 回饋與優惠以銀行、店家公告為準。
 </div>
+<script>
+(function(){
+  var ds=[].slice.call(document.querySelectorAll('.dayd'));
+  var jst=new Date(Date.now()+9*3600e3), md=(jst.getUTCMonth()+1)+'/'+jst.getUTCDate(), hit=null;
+  ds.forEach(function(d){ var t=d.querySelector('summary').textContent; if(t.indexOf(md+'（')>=0) hit=d; });
+  (hit||ds[0]).open=true;
+  var b=document.getElementById('dayAll');
+  if(b) b.onclick=function(){ var all=ds.every(function(d){return d.open;}); ds.forEach(function(d){d.open=!all;}); b.textContent=all?'全部展開':'全部收合'; };
+})();
+</script>
 <script src="../trip-kit/trip.js?v=3"></script>
 <script src="../trip-home.js?v=7"></script>
 </body>
