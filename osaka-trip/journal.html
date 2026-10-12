@@ -93,10 +93,12 @@ details summary{cursor:pointer;font-size:13px;color:var(--ink2,#8A7150)}
   <button class="jx-btn" id="aiBtn">⚙️ AI 設定</button>
 </div>
 <div class="jx-panel hide" id="aiPanel">
-  <b>AI 翻譯與摘要（選用）</b>
-  <p style="margin-top:4px">貼上自己的 Anthropic API 金鑰，就會用 Claude 看照片：寫摘要、翻譯照片裡的日文、讀收據每個品項。金鑰<b>只存在這支手機的瀏覽器</b>，不會寫進網站或 GitHub。不設定也能用：收據改用網頁內建文字辨識＋常用詞翻譯＋Google 翻譯按鈕。</p>
-  <input id="aiKey" type="password" autocomplete="off" placeholder="sk-ant-...">
-  <div class="jx-row"><button class="jx-btn warm" id="aiSave">儲存</button><button class="jx-btn" id="aiTest">測試連線</button><button class="jx-btn danger" id="aiDel">清除金鑰</button><span id="aiMsg" class="jx-meta"></span></div>
+  <b>Claude 後端（翻譯、摘要、收據辨識）</b>
+  <p style="margin-top:4px">填入你自己部署的後端網址和通行碼，拍照後就交給 Claude 處理。Claude 的金鑰放在後端，不在網頁或 GitHub 上；網址和通行碼也只存在這支手機。沒設定時用網頁內建辨識＋Google 翻譯。</p>
+  <input id="beUrl" type="text" inputmode="url" autocomplete="off" placeholder="後端網址，例如 https://trip-claude.xxx.workers.dev">
+  <input id="bePass" type="password" autocomplete="off" placeholder="通行碼">
+  <details style="margin:4px 0 6px"><summary>進階：改用自己的 API 金鑰直連（不建議）</summary><input id="aiKey" type="password" autocomplete="off" placeholder="sk-ant-..."></details>
+  <div class="jx-row"><button class="jx-btn warm" id="aiSave">儲存</button><button class="jx-btn" id="aiTest">測試連線</button><button class="jx-btn danger" id="aiDel">全部清除</button><span id="aiMsg" class="jx-meta"></span></div>
 </div>
 
 <div class="jx-tabs" role="tablist">
@@ -175,18 +177,29 @@ function defaultDay(){const jst=new Date(Date.now()+9*3600e3).toISOString().slic
 const di=k=>DAYS.find(d=>d.k===k)||DAYS[0];
 
 /* ===== AI 設定 ===== */
-function aiKey(){return ls.get(KEYK)||'';}
-function paintMode(){const on=!!aiKey();$('aiMode').textContent=on?'🤖 AI 模式（Claude）':'基本模式（網頁內建辨識）';$('aiMode').classList.toggle('off',!on);$('aiKey').value=on?'••••••••（已儲存）':'';}
+const BEK='osaka2026_be', BPK='osaka2026_bepass';
+function aiKey(){return !!((ls.get(BEK)&&ls.get(BPK))||ls.get(KEYK));}
+function paintMode(){const be=ls.get(BEK),on=aiKey();$('aiMode').textContent=on?(be?'🤖 Claude 後端模式':'🤖 AI 直連模式'):'基本模式（網頁內建辨識）';$('aiMode').classList.toggle('off',!on);
+  $('beUrl').value=be||'';$('bePass').value=ls.get(BPK)?'••••••••':'';$('aiKey').value=ls.get(KEYK)?'••••••••（已儲存）':'';}
 $('aiBtn').onclick=()=>$('aiPanel').classList.toggle('hide');
-$('aiSave').onclick=()=>{const v=$('aiKey').value.trim();if(!v||v.startsWith('••')){$('aiMsg').textContent='請貼上金鑰';return;}ls.set(KEYK,v);paintMode();$('aiMsg').textContent='已儲存在這支手機 ✓';};
-$('aiDel').onclick=()=>{ls.del(KEYK);paintMode();$('aiMsg').textContent='已清除';};
+$('aiSave').onclick=()=>{const u=$('beUrl').value.trim().replace(/\/+$/,''),p=$('bePass').value.trim(),k=$('aiKey').value.trim();
+  if(u){if(!/^https:\/\//.test(u)){$('aiMsg').textContent='網址要以 https:// 開頭';return;}ls.set(BEK,u);}
+  if(p&&!p.startsWith('••'))ls.set(BPK,p);
+  if(k&&!k.startsWith('••'))ls.set(KEYK,k);
+  paintMode();$('aiMsg').textContent=aiKey()?'已儲存在這支手機 ✓':'請填後端網址和通行碼';};
+$('aiDel').onclick=()=>{[BEK,BPK,KEYK].forEach(k=>ls.del(k));paintMode();$('aiMsg').textContent='已清除';};
 $('aiTest').onclick=async()=>{$('aiMsg').textContent='測試中…';try{const t=await claude([{type:'text',text:'只回「OK」兩個字'}],20);$('aiMsg').textContent='連線成功：'+t.slice(0,20);}catch(e){$('aiMsg').textContent='失敗：'+e.message;}};
 paintMode();
 
 async function claude(content,maxTokens){
-  const key=aiKey(); if(!key) throw new Error('尚未設定金鑰');
-  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:MODEL,max_tokens:maxTokens||1500,messages:[{role:'user',content:content}]})});
+  const be=ls.get(BEK),bp=ls.get(BPK),key=ls.get(KEYK);
+  const body=JSON.stringify({model:MODEL,max_tokens:maxTokens||1500,messages:[{role:'user',content:content}]});
+  let r;
+  if(be&&bp) r=await fetch(be+'/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-trip-pass':bp},body});
+  else if(key) r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body});
+  else throw new Error('尚未設定 Claude 後端');
   const j=await r.json().catch(()=>({}));
+  if(r.status===401) throw new Error('通行碼不對');
   if(!r.ok) throw new Error((j.error&&j.error.message)||('HTTP '+r.status));
   return (j.content||[]).filter(c=>c.type==='text').map(c=>c.text).join('');
 }

@@ -1,0 +1,7 @@
+name = "trip-claude"
+main = "worker.js"
+compatibility_date = "2025-09-01"
+
+[vars]
+# 允許呼叫這個後端的網站（逗號分隔）
+ALLOWED_ORIGINS = "https://kko3okk.github.io"
