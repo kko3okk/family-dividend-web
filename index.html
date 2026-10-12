@@ -22,6 +22,7 @@
     --chang:#4A90D9; --chang-soft:#DBEAF9;
     --wife:#A55EC4; --wife-soft:#F0E1F7;
     --green:#5FBF6E; --green-soft:#DFF3E2;
+    --trip:#4F86B8; --trip-soft:#E3EEF8;
     --sky:#54447B;
     --mono:ui-monospace,"SF Mono",Menlo,monospace;
   }
@@ -461,6 +462,13 @@
   .h-day.fut{cursor:default}
   .h-day.fut .dot{background:none;color:var(--mut2);opacity:.6}
   .h-day.out{visibility:hidden}
+  .h-day.trip .dot{background:var(--trip-soft);color:var(--trip);box-shadow:inset 0 0 0 1.5px var(--trip)}
+  .h-day.trip.today .dot{box-shadow:inset 0 0 0 1.5px var(--trip),0 0 0 2px var(--card),0 0 0 4px var(--ink)}
+  .h-day.trip.fut .dot{opacity:.75}
+  .h-lg-trip{background:var(--trip-soft);box-shadow:inset 0 0 0 1.5px var(--trip)}
+  .h-trip-note{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:11.5px;color:var(--trip)}
+  .h-trip-note svg{width:14px;height:14px;flex:none}
+  .h-stats .k.h-tk{margin:4px 0 0;color:var(--trip);letter-spacing:0}
   .h-day .o{position:absolute;top:6%;right:8%;width:8px;height:8px;border-radius:50%;background:var(--ocol);border:1.5px solid var(--card)}
   .h-legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11px;color:var(--mut);margin:10px 0 2px}
   .h-legend span{display:flex;align-items:center;gap:5px}
@@ -1094,7 +1102,7 @@
     </div>
     <div class="h-cal" id="hCal"></div>
     <div class="h-legend">
-      <span><b class="h-lg-done"></b>全部達成</span><span><b class="h-lg-part"></b>做了一部分</span><span><b class="h-lg-other"></b><em id="hOtherName">老婆</em>也達成</span>
+      <span><b class="h-lg-done"></b>全部達成</span><span><b class="h-lg-part"></b>做了一部分</span><span><b class="h-lg-other"></b><em id="hOtherName">老婆</em>也達成</span><span><b class="h-lg-trip"></b>旅遊休息</span>
     </div>
     <div class="h-stats" id="hStats"></div>
   </div>
@@ -1438,7 +1446,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.12-1110";
+const APP_VERSION="2026.10.12-1200";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -2432,7 +2440,7 @@ addEventListener("resize",()=>{ clearTimeout(_rz); _rz=setTimeout(()=>{ if(DATA)
 })();
 </script>
 <script src="travel.js?v=2026.10.11-1800"></script>
-<script src="health.js?v=2026.10.11-1800"></script>
+<script src="health.js?v=2026.10.12-1200"></script>
 <script src="trip-kit/icons.js?v=1"></script>
 <script src="settings.js?v=2026.10.12-1020"></script>
 </body>

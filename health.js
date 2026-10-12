@@ -1,7 +1,9 @@
 /* ═══ 家的旅程 · 健康管理 ═══
    每日壺鈴清單（來源：bingbing.fitness 影片，6 公斤壺鈴、每個動作每天 80 下）
    資料存在私有 data repo 的 health.json，與財務的 data.json 分開，互不干擾。
-   依賴 index.html 主腳本的全域：token, b64e, b64d, OWNER, REPO, person, PCOL, toast, Snd, petalRain */
+   出國期間（trips.json 的每一趟，含出發與回程日）自動算「旅遊休息」：不算缺席、不中斷連續天數、
+   30 天挑戰順延；只從旅遊資料推算，不另存，行程改了日曆就跟著變。
+   依賴 index.html 主腳本的全域：token, b64e, b64d, OWNER, REPO, person, PCOL, toast, Snd, petalRain；旅遊資料來自 window.Travel */
 (function(){
 "use strict";
 
@@ -36,6 +38,7 @@ let dirty = {};             // key -> 版本號；key 例："log|wife|2026-10-11
 let calMonth = null;        // "YYYY-MM"
 let dayOpen = null;         // 對話框中正在編輯的日期
 let saveT = null, syncing = false, again = false, syncState = "idle", syncMsg = "";
+let TRIP = new Map();       // "YYYY-MM-DD" -> 旅程名稱（出國休息日）
 
 const $ = id => document.getElementById(id);
 const who = () => (typeof person !== "undefined" && person) || "chang";
@@ -47,6 +50,7 @@ const parse = s => { const [y,m,d] = s.split("-").map(Number); return new Date(y
 const addDays = (s, n) => { const d = parse(s); d.setDate(d.getDate()+n); return ymd(d); };
 const diffDays = (a, b) => Math.round((parse(b) - parse(a)) / 86400000);
 const WD = "日一二三四五六";
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const sfx = k => { try { Snd.fx(k); } catch(e){} };
 const say = (h, ms) => { try { toast(h, ms); } catch(e){} };
 
@@ -78,6 +82,22 @@ function dayStat(p, date){
     reps += c; goal += t; if (c >= t) done++;
   });
   return { done, reps, goal, all: done === MOVES.length, any: reps > 0 };
+}
+
+/* ── 旅遊休息日（與旅遊頁同一份 trips.json）── */
+const isTrip = d => TRIP.has(d);
+const PLANE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h18M14.5 5.5 21 12l-6.5 6.5"/><path d="M3 8.5v7"/></svg>';
+async function loadTrips(force){
+  try {
+    if (!window.Travel) return;
+    if (force && window.Travel.reload) { try { await window.Travel.reload(); } catch(e){} }
+    const list = await window.Travel.list(), m = new Map();
+    (list || []).forEach(t => {
+      if (!t.start || !t.end) return;
+      for (let d = t.start, n = 0; d <= t.end && n < 120; d = addDays(d, 1), n++) m.set(d, t.title || t.place || "旅遊");
+    });
+    TRIP = m; render();
+  } catch(e){}
 }
 
 /* ── 本機快取 ── */
@@ -240,9 +260,14 @@ function ring(st){
     <div class="c"><b>${st.done}/${MOVES.length}</b><span>${st.reps} 下</span></div>`;
 }
 function streak(p){
-  let d = today(), n = 0;
+  // 旅遊休息日直接跳過：不加天數、也不中斷
+  let d = today(), n = 0, g = 0;
   if (!dayStat(p, d).all) d = addDays(d, -1);
-  while (dayStat(p, d).all) { n++; d = addDays(d, -1); if (n > 3650) break; }
+  while (g++ < 3650) {
+    if (dayStat(p, d).all) n++;
+    else if (!isTrip(d)) break;
+    d = addDays(d, -1);
+  }
   return n;
 }
 function renderToday(){
@@ -255,21 +280,29 @@ function renderToday(){
   $("hRows").innerHTML = rowsHTML(p, d);
   $("hFill").style.width = (st.goal ? Math.min(100, st.reps / st.goal * 100) : 0) + "%";
 
-  // 30 天挑戰
-  const start = pl.start || d, dayN = diffDays(start, d) + 1, sk = streak(p);
-  let got = 0, cells = "";
-  for (let i = 0; i < CHAL_DAYS; i++) {
-    const di = addDays(start, i), s = dayStat(p, di);
+  // 30 天挑戰：數的是「訓練日」，旅遊休息日不算、挑戰自動順延
+  const start = pl.start || d, sk = streak(p);
+  let got = 0, cells = "", dayN = 0, skipped = 0, di = start, k = 0, g = 0;
+  while (k < CHAL_DAYS && g++ < 400) {
+    const s = dayStat(p, di);
+    if (isTrip(di) && !s.any) { if (di <= d) skipped++; di = addDays(di, 1); continue; }
     if (s.all) got++;
+    if (di <= d) dayN = k + 1;
     const cls = di > d ? "f" : s.all ? "d" : s.any ? "p" : "";
     cells += `<i class="${cls} ${di === d ? "now" : ""}" title="${di}"></i>`;
+    k++; di = addDays(di, 1);
   }
+  const lastDay = addDays(di, -1);
   const head = !pl.start ? `30 天挑戰 · 做完第一組就開始`
-    : dayN > CHAL_DAYS ? `30 天挑戰已結束 · 達成 ${got}/${CHAL_DAYS} 天`
+    : d > lastDay ? `30 天挑戰已結束 · 達成 ${got}/${CHAL_DAYS} 天`
+    : isTrip(d) && !st.any ? `30 天挑戰 · 旅遊休息中（已完成 ${dayN} 天）`
     : `30 天挑戰 · 第 ${dayN} 天`;
+  const tripNote = isTrip(d)
+    ? `<div class="h-trip-note">${PLANE}<span>${esc(TRIP.get(d))}期間 · 今天自動記為旅遊休息，不影響連續天數</span></div>`
+    : skipped ? `<div class="h-trip-note">${PLANE}<span>出國 ${skipped} 天不計入，挑戰往後順延</span></div>` : "";
   $("hChal").innerHTML = `<div class="t"><div>${head}</div>
     <span>達成 ${got} 天${sk ? ` · <b class="fire">🔥 連續 ${sk} 天</b>` : ""}</span></div>
-    <div class="h-strip">${cells}</div>`;
+    <div class="h-strip">${cells}</div>${tripNote}`;
 }
 function renderCal(){
   const p = who(), o = other(p), d0 = today();
@@ -282,23 +315,24 @@ function renderCal(){
   $("hCalNext").disabled = calMonth >= d0.slice(0, 7);
   let h = [...WD].map(w => `<div class="wd">${w}</div>`).join("");
   for (let i = 0; i < first.getDay(); i++) h += `<div class="h-day out"></div>`;
-  let full = 0, part = 0, reps = 0;
+  let full = 0, part = 0, reps = 0, trip = 0;
+  const isCur = calMonth === d0.slice(0, 7);
+  const elapsed = isCur ? +d0.slice(8) : days;
   for (let i = 1; i <= days; i++) {
-    const ds = `${calMonth}-${pad(i)}`, s = dayStat(p, ds), so = dayStat(o, ds), fut = ds > d0;
+    const ds = `${calMonth}-${pad(i)}`, s = dayStat(p, ds), so = dayStat(o, ds), fut = ds > d0, tr = isTrip(ds);
     if (s.all) full++; else if (s.any) part++;
+    if (tr && !s.any && i <= elapsed) trip++;
     reps += s.reps;
-    const cls = fut ? "fut" : s.all ? "done" : s.any ? "part" : "";
+    const cls = (tr && !s.any ? "trip " : "") + (fut ? "fut" : s.all ? "done" : s.any ? "part" : "");
     const pc = s.goal ? Math.round(Math.min(1, s.reps / s.goal) * 100) : 0;
     h += `<button class="h-day ${cls} ${ds === d0 ? "today" : ""}" data-d="${ds}" ${fut ? "disabled" : ""}
-        style="--pc:${pc}%" aria-label="${m} 月 ${i} 日${s.all ? " 全部達成" : s.any ? " 部分完成" : ""}">
+        style="--pc:${pc}%" aria-label="${m} 月 ${i} 日${s.all ? " 全部達成" : s.any ? " 部分完成" : tr ? " 旅遊休息" : ""}" ${tr ? `title="${esc(TRIP.get(ds))}"` : ""}>
       <div class="dot">${s.any && !s.all ? `<span>${i}</span>` : i}</div>${so.all && !fut ? `<i class="o" title="${NAMES[o]}也達成"></i>` : ""}</button>`;
   }
   $("hCal").innerHTML = h;
   $("hOtherName").textContent = NAMES[o];
-  const isCur = calMonth === d0.slice(0, 7);
-  const elapsed = isCur ? +d0.slice(8) : days;
   $("hStats").innerHTML = `
-    <div><div class="k">全部達成</div><div class="v">${full}<small> / ${elapsed} 天</small></div></div>
+    <div><div class="k">全部達成</div><div class="v">${full}<small> / ${elapsed - trip} 天</small></div>${trip ? `<div class="k h-tk">另有旅遊休息 ${trip} 天</div>` : ""}</div>
     <div><div class="k">做了一部分</div><div class="v">${part}<small> 天</small></div></div>
     <div><div class="k">本月總次數</div><div class="v">${reps.toLocaleString("zh-Hant")}</div></div>`;
 }
@@ -313,7 +347,7 @@ function renderDay(){
   if (!dayOpen) return;
   const p = who(), d = parse(dayOpen), s = dayStat(p, dayOpen);
   $("hDayTitle").textContent = `${d.getMonth() + 1}/${d.getDate()}（${WD[d.getDay()]}）${s.all ? " ✓ 全部達成" : ""}`;
-  $("hDaySub").textContent = `${NAMES[p]} · 完成 ${s.done}/${MOVES.length} 個動作 · ${s.reps} 下${dayOpen === today() ? "" : " · 可以補記或修改"}`;
+  $("hDaySub").textContent = `${NAMES[p]} · ${isTrip(dayOpen) ? `旅遊休息（${TRIP.get(dayOpen)}）· ` : ""}完成 ${s.done}/${MOVES.length} 個動作 · ${s.reps} 下${dayOpen === today() ? "" : " · 可以補記或修改"}`;
   $("hDayRows").innerHTML = rowsHTML(p, dayOpen);
   $("hDayClear").style.display = s.any ? "" : "none";
 }
@@ -334,7 +368,7 @@ function setMode(m, scroll){
   $("domain").querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.d === m));
   try { localStorage.setItem(LS_MODE, m); } catch(e){}
   const br = document.querySelector(".gbrand"); if (br) br.setAttribute("href", h ? "#secHCal" : t ? "#secTNext" : "#secMap");
-  if (h) { render(); if (!loaded && token()) pull(); }
+  if (h) { render(); if (!TRIP.size) loadTrips(); if (!loaded && token()) pull(); }
   else if (t) { try { window.Travel?.render(); } catch(e){} }
   else if (typeof DATA !== "undefined" && DATA && typeof window.render === "function") {
     try { window.render(); } catch(e){}                       // 財務畫面換人後要重繪
@@ -391,7 +425,7 @@ $("hPlanSave").onclick = () => {
 // 回到 App 時重新抓雲端、跨日時重繪
 document.addEventListener("visibilitychange", () => {
   if (document.visibilityState !== "visible") return;
-  if (document.body.classList.contains("mode-health")) { calMonth = null; pull(); }
+  if (document.body.classList.contains("mode-health")) { calMonth = null; loadTrips(true); pull(); }
 });
 // 設定 Token 後重新同步
 $("tokenSave").addEventListener("click", () => setTimeout(() => { loaded = false; pull(); }, 50));
@@ -407,6 +441,7 @@ let mode = "fin"; try {
 } catch(e){}
 setMode(hashH ? "health" : hashT ? "travel" : mode, false);
 if (!document.body.classList.contains("mode-health")) pull();   // 背景先載入，切過去就有資料
+loadTrips();
 window.Health = { render, pull, setMode,
   info(){                                                  // 給設定頁看的摘要
     const txt = { ok:"已同步", pending:"等待同步", syncing:"同步中", local:"只存在這支手機", err:"同步失敗", idle:token() ? (loaded ? "已同步" : "載入中") : "只存在這支手機" };
