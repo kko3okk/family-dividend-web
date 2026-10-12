@@ -31,6 +31,16 @@ const MOVES = [
     tip:"是「推髖」不是「蹲」，也不要用手抬；圓背是最常見的受傷原因。" }
 ];
 const DEFAULT_TARGET = 80;
+// 個人額外動作（不用壺鈴）：CHANG 原本每天的伏地挺身
+const EXTRA = {
+  chang: [
+    { id:"pushup", name:"伏地挺身", goal:"胸・肩・手臂", def:20, kb:false,
+      how:"雙手略寬於肩，身體從頭到腳跟成一直線，下降到胸口接近地面再推起。",
+      tip:"核心收緊、臀部不要塌或翹；太輕鬆時可以把腳墊高或放慢下降速度。" }
+  ]
+};
+const MV = p => MOVES.concat(EXTRA[p] || []);
+const defOf = m => m.def || DEFAULT_TARGET;
 const PROGRAM_START = "2026-10-12";   // 兩人一起開始的日子；之前的日期不算缺席
 
 /* ── 狀態 ── */
@@ -68,7 +78,7 @@ function plan(p){
   if (!pl.weight) pl.weight = 6;
   if (!pl.start) pl.start = PROGRAM_START;
   pl.targets = pl.targets || {};
-  MOVES.forEach(m => { if (!pl.targets[m.id]) pl.targets[m.id] = DEFAULT_TARGET; });
+  MV(p).forEach(m => { if (!pl.targets[m.id]) pl.targets[m.id] = defOf(m); });
   return pl;
 }
 function entry(p, date){ return HD.logs[p][date] || null; }
@@ -79,11 +89,12 @@ function targetsFor(p, date){
 function dayStat(p, date){
   const e = entry(p, date), tg = targetsFor(p, date);
   let done = 0, reps = 0, goal = 0;
-  MOVES.forEach(m => {
-    const c = e && e.c ? (e.c[m.id] || 0) : 0, t = tg[m.id] || DEFAULT_TARGET;
+  const mv = MV(p);
+  mv.forEach(m => {
+    const c = e && e.c ? (e.c[m.id] || 0) : 0, t = tg[m.id] || plan(p).targets[m.id] || defOf(m);
     reps += c; goal += t; if (c >= t) done++;
   });
-  return { done, reps, goal, all: done === MOVES.length, any: reps > 0 };
+  return { done, reps, goal, n: mv.length, all: done === mv.length, any: reps > 0 };
 }
 
 /* ── 旅遊休息日（與旅遊頁同一份 trips.json）── */
@@ -197,6 +208,7 @@ function setCount(p, date, id, n){
   const pl = plan(p);
   const e = HD.logs[p][date] = HD.logs[p][date] || { c:{}, tg:{ ...pl.targets } };
   e.c = e.c || {}; e.tg = e.tg || { ...pl.targets };
+  if (!e.tg[id]) e.tg[id] = pl.targets[id];               // 舊紀錄沒有這個動作的目標時補上
   const before = dayStat(p, date), t = e.tg[id] || DEFAULT_TARGET;
   const prev = e.c[id] || 0;
   n = Math.max(0, Math.min(999, Math.round(n)));
@@ -207,11 +219,11 @@ function setCount(p, date, id, n){
   const after = dayStat(p, date);
   if (after.all && !before.all) {
     sfx("fanfare"); try { petalRain(); } catch(e){}
-    say(date === today() ? "🎉 今天 5 個動作全部完成！" : `🎉 ${date.slice(5).replace("-","/")} 補記完成`, 3600);
+    say(date === today() ? `🎉 今天 ${after.n} 個動作全部完成！` : `🎉 ${date.slice(5).replace("-","/")} 補記完成`, 3600);
   } else if (prev < t && n >= t) {
     sfx("gem");
-    const m = MOVES.find(x => x.id === id);
-    say(`✓ ${m.name} 完成 · 今天 <b>${after.done}/${MOVES.length}</b>`);
+    const m = MV(p).find(x => x.id === id);
+    say(`✓ ${m.name} 完成 · 今天 <b>${after.done}/${after.n}</b>`);
   } else sfx("tap");
   render();
 }
@@ -219,10 +231,10 @@ function onAct(e){
   const b = e.target.closest("[data-act]"); if (!b) return;
   const row = b.closest(".h-row"), p = who(), date = row.dataset.date, id = row.dataset.id;
   const e0 = entry(p, date), cur = e0 && e0.c ? (e0.c[id] || 0) : 0;
-  const t = targetsFor(p, date)[id] || DEFAULT_TARGET;
+  const t = targetsFor(p, date)[id] || plan(p).targets[id] || DEFAULT_TARGET;
   const act = b.dataset.act;
   if (act === "set") {
-    const v = prompt(`${MOVES.find(m => m.id === id).name}：輸入次數（目標 ${t}）`, String(cur));
+    const v = prompt(`${MV(p).find(m => m.id === id).name}：輸入次數（目標 ${t}）`, String(cur));
     if (v === null) return; const n = parseInt(v, 10); if (isNaN(n)) return;
     setCount(p, date, id, n);
   } else if (act === "done") {
@@ -237,8 +249,8 @@ function onAct(e){
 /* ── 畫面 ── */
 function rowsHTML(p, date){
   const e = entry(p, date), tg = targetsFor(p, date);
-  return MOVES.map((m, i) => {
-    const c = e && e.c ? (e.c[m.id] || 0) : 0, t = tg[m.id] || DEFAULT_TARGET, done = c >= t;
+  return MV(p).map((m, i) => {
+    const c = e && e.c ? (e.c[m.id] || 0) : 0, t = tg[m.id] || plan(p).targets[m.id] || defOf(m), done = c >= t;
     return `<div class="h-row ${done ? "done" : ""}" data-date="${date}" data-id="${m.id}">
       <div class="h-r1">
         <div class="h-no">${done ? "✓" : i + 1}</div>
@@ -260,7 +272,7 @@ function ring(st){
   return `<svg viewBox="0 0 76 76"><circle cx="38" cy="38" r="${r}" fill="none" stroke="var(--line)" stroke-width="7"/>
     <circle cx="38" cy="38" r="${r}" fill="none" stroke="${col}" stroke-width="7" stroke-linecap="round"
       stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - f)}" style="transition:stroke-dashoffset .5s"/></svg>
-    <div class="c"><b>${st.done}/${MOVES.length}</b><span>${st.reps} 下</span></div>`;
+    <div class="c"><b>${st.done}/${st.n}</b><span>${st.reps} 下</span></div>`;
 }
 function streak(p){
   // 旅遊休息日直接跳過：不加天數、也不中斷
@@ -277,8 +289,9 @@ function renderToday(){
   const p = who(), d = today(), dt = new Date(), st = dayStat(p, d), pl = plan(p);
   const tgs = MOVES.map(m => pl.targets[m.id]);
   const same = tgs.every(x => x === tgs[0]);
+  const ex = (EXTRA[p] || []).map(m => `${m.name} ${pl.targets[m.id]} 下`).join("、");
   $("hDate").textContent = `${dt.getMonth() + 1}/${dt.getDate()}（${WD[dt.getDay()]}）· ${NAMES[p]}`;
-  $("hSub").textContent = `${pl.weight} 公斤壺鈴 · ${MOVES.length} 個動作 × ${same ? tgs[0] + " 下" : "各自目標"}`;
+  $("hSub").textContent = `${pl.weight} 公斤壺鈴 · ${MOVES.length} 個動作 × ${same ? tgs[0] + " 下" : "各自目標"}${ex ? "＋" + ex : ""}`;
   const rg = $("hRing"); rg.innerHTML = ring(st); rg.classList.toggle("full", st.all);
   $("hRows").innerHTML = rowsHTML(p, d);
   $("hFill").style.width = (st.goal ? Math.min(100, st.reps / st.goal * 100) : 0) + "%";
@@ -340,8 +353,8 @@ function renderCal(){
     <div><div class="k">本月總次數</div><div class="v">${reps.toLocaleString("zh-Hant")}</div></div>`;
 }
 function renderMoves(){
-  const pl = plan(who());
-  $("hMoves").innerHTML = MOVES.map((m, i) => `<div class="h-mv"><div class="h-no">${i + 1}</div><div>
+  const p = who(), pl = plan(p);
+  $("hMoves").innerHTML = MV(p).map((m, i) => `<div class="h-mv"><div class="h-no">${i + 1}</div><div>
       <b>${m.name}</b><span class="tag">${m.goal}</span><span class="tick" style="margin-left:6px">× ${pl.targets[m.id]}</span>
       <p>${m.how}<br><em>⚠ ${m.tip}</em></p></div></div>`).join("") +
     `<div class="note" style="margin-top:8px">影片說的效果每個人不一樣；剛開始可以拆成 4 組 × 20 下，覺得太重就先把目標調低，比較重要的是天天做。</div>`;
@@ -350,7 +363,7 @@ function renderDay(){
   if (!dayOpen) return;
   const p = who(), d = parse(dayOpen), s = dayStat(p, dayOpen);
   $("hDayTitle").textContent = `${d.getMonth() + 1}/${d.getDate()}（${WD[d.getDay()]}）${s.all ? " ✓ 全部達成" : ""}`;
-  $("hDaySub").textContent = `${NAMES[p]} · ${isTrip(dayOpen) ? `旅遊休息（${TRIP.get(dayOpen)}）· ` : ""}完成 ${s.done}/${MOVES.length} 個動作 · ${s.reps} 下${dayOpen === today() ? "" : " · 可以補記或修改"}`;
+  $("hDaySub").textContent = `${NAMES[p]} · ${isTrip(dayOpen) ? `旅遊休息（${TRIP.get(dayOpen)}）· ` : ""}完成 ${s.done}/${s.n} 個動作 · ${s.reps} 下${dayOpen === today() ? "" : " · 可以補記或修改"}`;
   $("hDayRows").innerHTML = rowsHTML(p, dayOpen);
   $("hDayClear").style.display = s.any ? "" : "none";
 }
@@ -404,7 +417,7 @@ $("hPlanBtn").onclick = () => {
   $("hPlanSub").textContent = `${NAMES[p]} 的目標 · 只影響之後新記的日子，過去的達成紀錄不變`;
   $("hWeight").value = pl.weight;
   $("hStart").value = pl.start || today();
-  $("hPlanRows").innerHTML = MOVES.map(m => `<div class="h-prow"><span>${m.name}</span>
+  $("hPlanRows").innerHTML = MV(p).map(m => `<div class="h-prow"><span>${m.name}</span>
     <input type="number" inputmode="numeric" min="1" max="999" data-id="${m.id}" value="${pl.targets[m.id]}"></div>`).join("");
   $("hPlanDlg").showModal();
 };
@@ -451,6 +464,6 @@ window.Health = { render, pull, setMode,
     if (!HD) return { ready:false, syncText: txt[syncState] || "–" };
     const p = who(), pl = plan(p);
     return { ready:true, name:NAMES[p], weight:pl.weight, start:pl.start || "",
-      moves: MOVES.map(m => ({ name:m.name, goal:m.goal, target:pl.targets[m.id] })), syncText: txt[syncState] || "–" };
+      moves: MV(p).map(m => ({ name:m.name, goal:m.goal, target:pl.targets[m.id] })), syncText: txt[syncState] || "–" };
   } };
 })();
