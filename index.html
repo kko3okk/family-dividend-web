@@ -1167,6 +1167,12 @@
   .sp-btn.ok{background:var(--green-ink);color:#fff}
   .sp-btn:active{transform:scale(.97)}
   .sp-btn:disabled{opacity:.6}
+  .sl{flex:none;width:11px;height:11px;border-radius:50%;margin-top:6px;background:var(--line);box-shadow:0 0 0 3px var(--card2)}
+  .sl.ok{background:#3FAE5A}.sl.wait{background:#E8A817}.sl.fail{background:#D9534F}.sl.na{background:#BDB6CC}
+  .sl-msg{display:block;margin-top:3px;font-size:11.5px;font-weight:700}
+  .sl-msg.ok{color:#2E8A45}.sl-msg.wait{color:#A86A00}.sl-msg.fail{color:#C23B32}.sl-msg.na{color:var(--mut2)}
+  .sched-sum i{background:var(--line)}
+  .sched-sum.ok i{background:#3FAE5A}.sched-sum.fail i{background:#D9534F}.sched-sum.wait i{background:#E8A817}
   .sp-t{flex:none;width:76px;font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--ink);line-height:1.35;align-self:flex-start;padding-top:2px}
   [data-v="sched"] .sp-row{align-items:flex-start}
   [data-v="sched"] .sp-l small{line-height:1.6;letter-spacing:.02em}
@@ -1439,7 +1445,7 @@
       <div class="sp-gl" data-en="DATA">資料</div>
       <div class="sp-group">
         <button class="sp-row nav" data-go="sync"><i class="sp-ic g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17.5a4.5 4.5 0 0 1-.6-9 5.5 5.5 0 0 1 10.6 1.4 3.8 3.8 0 0 1-.5 7.6Z"/><path d="M12 11v5M9.8 13.8 12 16l2.2-2.2"/></svg></i><span class="sp-l">雲端同步<small>GitHub Token、資料狀態</small></span><span class="sp-v" id="spSyncV">–</span></button>
-        <button class="sp-row nav" data-go="sched"><i class="sp-ic b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 2"/></svg></i><span class="sp-l">自動排程<small>每天幾點自動做什麼</small></span><span class="sp-v">16 項</span></button>
+        <button class="sp-row nav" data-go="sched"><i class="sp-ic b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 2"/></svg></i><span class="sp-l">自動排程<small>每天幾點自動做什麼、有沒有正常執行</small></span><span class="sp-v" id="spSchedV">16 項</span></button>
       </div>
 
       <div class="sp-gl" data-en="PREFERENCE">偏好</div>
@@ -1467,37 +1473,38 @@
   <div class="sp-view" data-v="sched">
     <header class="sp-hd sub"><button class="sp-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>設定</button><h2>自動排程</h2></header>
     <div class="sp-body">
-      <div class="sp-note" style="margin-top:0">以下時間都是台灣時間。GitHub 的排程常延遲 5–30 分鐘，凌晨那項可能晚到 1–2 小時。</div>
+      <div class="sp-hero sched-sum" id="schedSum"><i></i><div><b>讀取執行狀態中…</b><span></span></div></div>
+      <div class="sp-note">綠燈：最近一次已正常完成；黃燈：執行中或還在等待（GitHub 排程常延遲）；紅燈：失敗或過了寬限時間仍沒執行；灰燈：無法自動偵測。狀態每小時更新一次。以下時間都是台灣時間。GitHub 的排程常延遲 5–30 分鐘，凌晨那項可能晚到 1–2 小時。</div>
       <div class="sp-gl">每天</div>
       <div class="sp-group">
-        <div class="sp-row"><span class="sp-t">04:17</span><span class="sp-l">每日研究<small>抓產業新聞、資料健康檢查，Claude 自動查證追蹤項目與覆蓋率缺口</small></span></div>
-        <div class="sp-row"><span class="sp-t">07:07</span><span class="sp-l">持股檢查（早）<small>主動池出場線、短線停損、否證條件數字面、持股新聞、內部人申報、推薦清單；有紅燈就推播。也更新這裡的主動池／短線池頁</small></span></div>
-        <div class="sp-row"><span class="sp-t">08:51</span><span class="sp-l">早上回饋（Claude）<small>上網查核每檔否證條件的結構面，整理持股、推薦清單、題材觀察，傳到 Claude App；論點失效或紅燈另發推播</small></span></div>
-        <div class="sp-row"><span class="sp-t">18:20</span><span class="sp-l">除權息更新<small>更新所有持股的除息日、發放日；發放日一到自動產生「待確認」的股息入帳</small></span></div>
+        <div class="sp-row" data-k="research"><span class="sp-t">04:17</span><span class="sp-l">每日研究<small>抓產業新聞、資料健康檢查，Claude 自動查證追蹤項目與覆蓋率缺口</small></span><i class="sl" aria-hidden="true"></i></div>
+        <div class="sp-row" data-k="hold_am"><span class="sp-t">07:07</span><span class="sp-l">持股檢查（早）<small>主動池出場線、短線停損、否證條件數字面、持股新聞、內部人申報、推薦清單；有紅燈就推播。也更新這裡的主動池／短線池頁</small></span><i class="sl" aria-hidden="true"></i></div>
+        <div class="sp-row" data-k="feedback"><span class="sp-t">08:51</span><span class="sp-l">早上回饋（Claude）<small>上網查核每檔否證條件的結構面，整理持股、推薦清單、題材觀察，傳到 Claude App；論點失效或紅燈另發推播</small></span><i class="sl" aria-hidden="true"></i></div>
+        <div class="sp-row" data-k="exdiv"><span class="sp-t">18:20</span><span class="sp-l">除權息更新<small>更新所有持股的除息日、發放日；發放日一到自動產生「待確認」的股息入帳</small></span><i class="sl" aria-hidden="true"></i></div>
       </div>
       <div class="sp-gl">交易日</div>
       <div class="sp-group">
-        <div class="sp-row"><span class="sp-t">09:00–14:00<br>每 30 分</span><span class="sp-l">即時報價<small>股息池、主動池、短線池的現價（13:45、14:20 再抓收盤價），網站上的現價與市值用這份</small></span></div>
-        <div class="sp-row"><span class="sp-t">15:30</span><span class="sp-l">收盤更新<small>收盤價、月營收、候選名單、今日推薦清單、新舊規則模擬帳戶</small></span></div>
-        <div class="sp-row"><span class="sp-t">15:40</span><span class="sp-l">市場資料<small>全市場日資料（研究與回測用）</small></span></div>
-        <div class="sp-row"><span class="sp-t">16:45</span><span class="sp-l">籌碼<small>券商分點進出（研究用）</small></span></div>
-        <div class="sp-row"><span class="sp-t">17:10</span><span class="sp-l">內部人申報<small>內部人持股轉讓申報、董監持股與設質，持股有申報時列在持股檢查（21:40 再補抓一次）</small></span></div>
-        <div class="sp-row"><span class="sp-t">17:10</span><span class="sp-l">新舊策略對照（另一套）<small>舊 60MA／新前 55 日低／前 80 日低三帳戶，與收盤更新裡的模擬帳戶重複，待決定保留哪一套</small></span></div>
-        <div class="sp-row"><span class="sp-t">17:37</span><span class="sp-l">持股檢查（收盤後）<small>用當天收盤價再檢查一次出場線與停損</small></span></div>
+        <div class="sp-row" data-k="prices"><span class="sp-t">09:00–14:00<br>每 30 分</span><span class="sp-l">即時報價<small>股息池、主動池、短線池的現價（13:45、14:20 再抓收盤價），網站上的現價與市值用這份</small></span><i class="sl" aria-hidden="true"></i></div>
+        <div class="sp-row" data-k="paper"><span class="sp-t">15:30</span><span class="sp-l">收盤更新<small>收盤價、月營收、候選名單、今日推薦清單、新舊規則模擬帳戶</small></span><i class="sl" aria-hidden="true"></i></div>
+        <div class="sp-row" data-k="fm_d"><span class="sp-t">15:40</span><span class="sp-l">市場資料<small>全市場日資料（研究與回測用）</small></span><i class="sl" aria-hidden="true"></i></div>
+        <div class="sp-row" data-k="chips"><span class="sp-t">16:45</span><span class="sp-l">籌碼<small>券商分點進出（研究用）</small></span><i class="sl" aria-hidden="true"></i></div>
+        <div class="sp-row" data-k="insider,insider2"><span class="sp-t">17:10</span><span class="sp-l">內部人申報<small>內部人持股轉讓申報、董監持股與設質，持股有申報時列在持股檢查（21:40 再補抓一次）</small></span><i class="sl" aria-hidden="true"></i></div>
+        <div class="sp-row" data-k="shadow"><span class="sp-t">17:10</span><span class="sp-l">新舊策略對照（另一套）<small>舊 60MA／新前 55 日低／前 80 日低三帳戶，與收盤更新裡的模擬帳戶重複，待決定保留哪一套</small></span><i class="sl" aria-hidden="true"></i></div>
+        <div class="sp-row" data-k="hold_pm"><span class="sp-t">17:37</span><span class="sp-l">持股檢查（收盤後）<small>用當天收盤價再檢查一次出場線與停損</small></span><i class="sl" aria-hidden="true"></i></div>
       </div>
       <div class="sp-gl">每月 11 日</div>
       <div class="sp-group">
-        <div class="sp-row"><span class="sp-t">10:00</span><span class="sp-l">月營收篩選<small>上月營收公布完畢後，產生新一個月的候選名單</small></span></div>
-        <div class="sp-row"><span class="sp-t">16:10</span><span class="sp-l">市場月資料<small>全市場月營收等月資料（研究用）</small></span></div>
-        <div class="sp-row"><span class="sp-t">16:20</span><span class="sp-l">模擬帳戶月結<small>結算上月的研究用模擬帳戶</small></span></div>
+        <div class="sp-row" data-k="revscreen"><span class="sp-t">10:00</span><span class="sp-l">月營收篩選<small>上月營收公布完畢後，產生新一個月的候選名單</small></span><i class="sl" aria-hidden="true"></i></div>
+        <div class="sp-row" data-k="fm_m"><span class="sp-t">16:10</span><span class="sp-l">市場月資料<small>全市場月營收等月資料（研究用）</small></span><i class="sl" aria-hidden="true"></i></div>
+        <div class="sp-row" data-k="paper_m"><span class="sp-t">16:20</span><span class="sp-l">模擬帳戶月結<small>結算上月的研究用模擬帳戶</small></span><i class="sl" aria-hidden="true"></i></div>
       </div>
       <div class="sp-gl">每週日</div>
       <div class="sp-group">
-        <div class="sp-row"><span class="sp-t">10:30</span><span class="sp-l">市場靜態資料<small>股本、產業別等不常變的資料（研究用）</small></span></div>
+        <div class="sp-row" data-k="fm_w"><span class="sp-t">10:30</span><span class="sp-l">市場靜態資料<small>股本、產業別等不常變的資料（研究用）</small></span><i class="sl" aria-hidden="true"></i></div>
       </div>
       <div class="sp-gl">其他</div>
       <div class="sp-group">
-        <div class="sp-row"><span class="sp-t">09:00</span><span class="sp-l">微丘森鄰物件監控（Claude）<small>每天搜尋符合條件的三房物件，有新物件才推播</small></span></div>
+        <div class="sp-row" data-k="house"><span class="sp-t">09:00</span><span class="sp-l">微丘森鄰物件監控（Claude）<small>每天搜尋符合條件的三房物件，有新物件才推播</small></span><i class="sl" aria-hidden="true"></i></div>
       </div>
     </div>
   </div>
@@ -2210,6 +2217,33 @@ document.getElementById("poolSeg").addEventListener("click",async e=>{
   renderPicks();
 });
 
+/* ═══ 2026-10-12 自動排程紅綠燈（讀私有庫 holdings/sched_status.json，每小時由 GitHub Actions 更新）═══ */
+async function loadSched(){
+  const sum=document.getElementById("schedSum");
+  try{
+    const h={"Accept":"application/vnd.github+json"}; if(token())h.Authorization="Bearer "+token();
+    const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/holdings/sched_status.json?t=`+Date.now(),{headers:h});
+    if(!r.ok)throw new Error("讀不到執行狀態（HTTP "+r.status+"），請確認「雲端同步」的 Token");
+    const j=await r.json(),S=JSON.parse(b64d(j.content.replace(/\n/g,""))),I=S.items||{};
+    const rank={fail:3,wait:2,ok:1,na:0};let bad=0,wait=0;
+    document.querySelectorAll('[data-v="sched"] .sp-row[data-k]').forEach(row=>{
+      const ks=row.dataset.k.split(","),its=ks.map(k=>I[k]).filter(Boolean);
+      if(!its.length)return;
+      const w=its.reduce((a,b)=>rank[b.state]>rank[a.state]?b:a);
+      row.querySelector(".sl").className="sl "+w.state;
+      if(w.state==="fail")bad++;else if(w.state==="wait")wait++;
+      const txt=w.state==="ok"?`上次完成 ${w.at}`:(w.msg||"");
+      let m=row.querySelector(".sl-msg");if(!m){m=document.createElement("span");row.querySelector(".sp-l").appendChild(m);}
+      m.className="sl-msg "+w.state;m.textContent=txt;
+    });
+    sum.className="sp-hero sched-sum "+(bad?"fail":wait?"wait":"ok");
+    sum.querySelector("b").textContent=bad?`${bad} 項異常`:wait?`全部正常，${wait} 項等待中`:"全部正常";
+    sum.querySelector("span").textContent=`狀態更新 ${S.updated}`;
+    const v=document.getElementById("spSchedV");if(v){v.textContent=bad?`${bad} 項異常`:"正常";v.style.color=bad?"#C23B32":"";}
+  }catch(e){sum.className="sp-hero sched-sum";sum.querySelector("b").textContent=e.message;}
+}
+document.addEventListener("click",e=>{if(e.target.closest('[data-go="sched"]'))loadSched();});
+setTimeout(()=>{if(token())loadSched();},4000);   // 開啟網站時先更新入口上的「正常／N 項異常」
 function renderYear(){
   const card=document.getElementById("yrCard");
   const snaps=(DATA.snapshots||[]).slice().sort((a,b)=>a.year-b.year);
