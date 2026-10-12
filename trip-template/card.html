@@ -64,6 +64,22 @@ summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom
 .dayh{display:flex;align-items:center;gap:8px}.dtg{margin-left:auto;font:inherit;font-size:12px;font-weight:700;border:none;border-radius:999px;padding:4px 11px;background:#fff;color:#8A7150;cursor:pointer;box-shadow:0 4px 10px -8px rgba(93,55,19,.6)}
 details.grp{margin-top:10px}details.grp>summary{display:flex;flex-direction:column;gap:1px}.ghint{font-size:11.5px;font-weight:500;color:#8A7150}
 details.grp[open]>summary{margin-bottom:6px}.gh3{font-size:14px;font-weight:700;margin:16px 0 8px;color:#5D3713}
+
+/* ── 標題醒目＋展開時黏在頁籤下方 ── */
+:root{--navh:58px}
+.dayd[open]{box-shadow:0 14px 30px -18px rgba(93,55,19,.55)}
+.dayd[open]>summary.dh{position:sticky;top:var(--navh);z-index:6;background:#FBEFC4;margin:-10px -14px 8px;padding:11px 14px;border-radius:12px 12px 0 0;font-size:14.5px}
+details.grp{margin-top:12px}
+details.grp>summary{flex-direction:row;align-items:center;gap:10px;padding:13px 16px;font-size:16px}
+details.grp>summary .gt{font-size:16px;font-weight:700;color:#5D3713;flex:0 0 auto}
+details.grp>summary .ghint{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+details.grp>summary::after{content:'▾';color:#AD9670;transition:transform .2s}
+details.grp[open]>summary::after{transform:rotate(180deg)}
+details.grp[open]>summary{position:sticky;top:var(--navh);z-index:6;background:#DEAE0B;color:#fff;box-shadow:0 8px 18px -12px rgba(93,55,19,.7)}
+details.grp[open]>summary .gt,details.grp[open]>summary .ghint,details.grp[open]>summary::after{color:#fff}
+details.grp[open]{padding-bottom:6px}
+.gh3{display:block;line-height:1.5;font-size:15px;margin:26px 0 10px;padding:9px 12px;background:#FBEFC4;color:#5D3713;border-radius:14px}
+.gh3:first-of-type{margin-top:12px}
 </style>
 <link rel="stylesheet" href="../trip-kit/trip.css?v=2">
 </head>
@@ -112,6 +128,13 @@ details.grp[open]>summary{margin-bottom:6px}.gh3{font-size:14px;font-weight:700;
   (hit||ds[0]).open=true;
   var b=document.getElementById('dayAll');
   if(b) b.onclick=function(){ var all=ds.every(function(d){return d.open;}); ds.forEach(function(d){d.open=!all;}); b.textContent=all?'全部展開':'全部收合'; };
+})();
+</script>
+<script>
+(function(){ function setNav(){ var n=document.querySelector('nav'); if(n) document.documentElement.style.setProperty('--navh',n.offsetHeight+'px'); }
+  setNav(); addEventListener('resize',setNav);
+  // 點開一組時捲到它的標題，方便從頭看
+  document.querySelectorAll('details.grp').forEach(function(d){ d.addEventListener('toggle',function(){ if(d.open){ var y=d.getBoundingClientRect().top+scrollY-(parseInt(getComputedStyle(document.documentElement).getPropertyValue('--navh'))||58)-6; if(y<scrollY) scrollTo({top:y,behavior:'smooth'}); } }); });
 })();
 </script>
 <script src="../trip-kit/trip.js?v=3"></script>
