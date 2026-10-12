@@ -71,6 +71,7 @@ button{cursor:pointer}
 .jx-panel input[type=password],.jx-panel input[type=text]{width:100%;border:none;border-radius:12px;background:var(--card2,#FBF3DA);padding:8px 10px;font-size:13px;margin:6px 0}
 .jx-fx{font-size:12px;color:var(--ink2,#8A7150);display:flex;gap:6px;align-items:center;justify-content:flex-end;margin:-2px 0 10px}
 .jx-fx input{width:64px}
+.jx-how{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}.jx-how>div{background:var(--card2,#FBF3DA);border-radius:16px;padding:9px 11px;min-width:0}.jx-how ul{margin:4px 0 0 16px;font-size:12.5px;line-height:1.6}@media (max-width:420px){.jx-how{grid-template-columns:1fr}}
 details summary{cursor:pointer;font-size:13px;color:var(--ink2,#8A7150)}
 .jx-mode{font-size:12px;border-radius:999px;padding:2px 10px;background:var(--waka-l,#EEF6D6)}
 .jx-mode.off{background:var(--yama-l,#FBEFC4)}
@@ -103,6 +104,16 @@ details summary{cursor:pointer;font-size:13px;color:var(--ink2,#8A7150)}
   <div class="jx-row" style="margin-top:8px"><button class="jx-btn warm" id="cloudRe">🔄 重新整理</button><span id="aiMsg" class="jx-meta"></span></div>
 </div>
 
+<details class="jx-panel" id="howBox">
+  <summary><b>📖 兩種記錄方式差在哪？</b></summary>
+  <div class="jx-how">
+    <div><b>📷 這頁的拍照／拍收據</b>
+      <ul><li>照片只存在這支手機，不會上傳</li><li>收據自動抓合計金額，加進刷卡紀錄</li><li>日文用網頁內建辨識＋Google 翻譯</li><li>摘要是固定格式，不是 AI 寫的</li><li>免費、沒網路也能存</li></ul></div>
+    <div><b>☁️ 傳給 Claude（Claude App）</b>
+      <ul><li>品項逐條翻成中文、說明是什麼商品</li><li>照片有標題、日記式摘要、日文翻譯</li><li>晚上可寫成當天的旅遊日記</li><li>推上網站，兩支手機都看得到（標 ☁️）</li><li>照片本身不會放上網站</li></ul></div>
+  </div>
+  <p class="jx-meta" style="margin-top:6px">兩種可以混著用：隨手先拍在這頁，想要翻譯或日記時再把照片傳給 Claude。同一張收據不要兩邊都記，不然金額會重複。</p>
+</details>
 <div class="jx-tabs" role="tablist">
   <button class="jx-tab" id="tabJ" role="tab" aria-selected="true">📸 旅遊日記</button>
   <button class="jx-tab" id="tabR" role="tab" aria-selected="false">🧾 購物收據</button>
