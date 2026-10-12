@@ -75,6 +75,21 @@ Claude 依這份規則處理，把結果寫進 `osaka-trip/journal-data.json`，
 - 最後一行「今日關鍵字：」加 3 個詞。
 - 存成 `"diaries": {"D2": "全文"}`，同一天重寫就覆蓋。
 
+## 購物清單 → `shopping.json`
+
+使用者說「購物清單加：…」「○○買到了」「清單刪掉○○」時，更新同資料夾的 `shopping.json`：
+
+```json
+{"id": "s-rohto-eye", "name": "樂敦眼藥水", "ja": "ロートVアクティブ", "cat": "💊 藥妝", "where": "Sugi、松本清、唐吉訶德", "price": "約¥1,000", "qty": 2, "for": "送媽媽", "note": "", "bought": false}
+```
+
+- `name` 中文名、`ja` 在店裡找得到的日文名（給店員看用），不確定日文名就留空，不要編。
+- `cat` 用固定幾類並加 emoji：💊 藥妝、🍫 零食伴手禮、🃏 寶可夢、👕 服飾、🔌 電器、🏠 生活雜貨、🎁 其他。
+- `where` 寫這趟行程上順路、買得到的店；`price` 只寫大概價位，不確定就留空。
+- 「○○買到了」→ 把那一項 `bought` 改成 `true`；「記帳」時如果收據上有清單裡的東西，也順便改成 `true`，回覆時說勾掉了哪幾項。
+- 網頁上的打勾只存在那支手機；Claude 改 `bought` 才會兩支手機都看到。
+- 寫完一樣更新 `updated`、驗證 JSON、commit、push。
+
 ## 修改與刪除
 
 使用者說「那筆改刷熊本熊」「刪掉剛剛那張」時，找到對應的 `id` 直接改或刪，回覆時說改了哪一筆。
@@ -82,7 +97,7 @@ Claude 依這份規則處理，把結果寫進 `osaka-trip/journal-data.json`，
 ## 寫完之後
 
 1. 把 `updated` 改成現在的日本時間，例如 `"10/18 14:40"`。
-2. 驗證 JSON：`python3 -m json.tool osaka-trip/journal-data.json > /dev/null`
+2. 驗證 JSON（改了哪個檔就驗哪個）：`python3 -m json.tool osaka-trip/journal-data.json > /dev/null`
 3. 照 repo 慣例 commit，訊息例如「手帳：D2 松本清收據」，然後推上去：
    `git fetch -q origin main && git rebase -q origin/main && git push -q origin HEAD:main`
 4. 回覆整理結果，提醒在手帳頁按「☁️ 怎麼交給 Claude？→ 🔄 重新整理」就會看到。

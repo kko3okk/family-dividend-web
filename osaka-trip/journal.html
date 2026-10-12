@@ -18,7 +18,25 @@ h1{font-size:18px}
 button,input,select,textarea{font-family:inherit;color:inherit}
 button{cursor:pointer}
 .hide{display:none!important}
-.jx-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.jx-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:8px}
+.jx-tabs .jx-tab{font-size:14px;padding:10px 0}
+.jx-shop-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.jx-prog{flex:1;min-width:140px;height:12px;border-radius:999px;background:var(--card,#fff);overflow:hidden;box-shadow:inset 0 0 0 1px var(--line-c,#EFE2BD)}
+.jx-prog i{display:block;height:100%;background:var(--green,#97CC27);border-radius:999px;transition:width .3s}
+.jx-filters{display:flex;gap:6px}
+.jx-filters .jx-btn[aria-pressed="true"]{background:var(--mustard,#DEAE0B);color:#fff}
+.jx-grp{margin-bottom:12px}
+.jx-grp h3{font-size:14px;margin:0 0 6px 4px;color:var(--brown,#5D3713)}
+.jx-shop{background:var(--card,#fff);border-radius:22px;overflow:hidden;box-shadow:0 12px 30px -20px rgba(93,55,19,.45)}
+.jx-si{display:flex;gap:11px;align-items:flex-start;padding:11px 14px;border-top:2px dotted var(--line-c,#EFE2BD);cursor:pointer;width:100%;background:none;border-left:0;border-right:0;border-bottom:0;text-align:left;font:inherit;color:inherit}
+.jx-si:first-child{border-top:none}
+.jx-ck{flex:0 0 auto;width:24px;height:24px;border-radius:50%;border:2.5px solid var(--ink3,#AD9670);margin-top:1px;display:grid;place-items:center;font-size:13px;color:#fff}
+.jx-si.done .jx-ck{background:var(--green,#97CC27);border-color:var(--green,#97CC27)}
+.jx-si.done .jx-sn{text-decoration:line-through;color:var(--ink3,#AD9670)}
+.jx-sn{font-weight:700;color:var(--brown,#5D3713)}
+.jx-sj{font-size:12px;color:var(--ink2,#8A7150)}
+.jx-sd{font-size:12px;color:var(--ink2,#8A7150);margin-top:2px}
+.jx-sq{margin-left:auto;flex:0 0 auto;font-size:12px;color:var(--ink2,#8A7150);font-family:var(--num,inherit);padding-top:3px}
 .jx-tab{border:none;border-radius:999px;background:var(--card,#fff);padding:10px 0;font-size:15px;font-weight:700;color:var(--ink2,#8A7150);box-shadow:0 4px 12px -8px rgba(93,55,19,.5)}
 .jx-tab[aria-selected="true"]{background:var(--mustard,#DEAE0B);color:#fff}
 .jx-days{display:flex;gap:6px;overflow-x:auto;padding:6px 2px 12px;scrollbar-width:none}
@@ -115,8 +133,9 @@ details summary{cursor:pointer;font-size:13px;color:var(--ink2,#8A7150)}
   <p class="jx-meta" style="margin-top:6px">兩種可以混著用：隨手先拍在這頁，想要翻譯或日記時再把照片傳給 Claude。同一張收據不要兩邊都記，不然金額會重複。</p>
 </details>
 <div class="jx-tabs" role="tablist">
-  <button class="jx-tab" id="tabJ" role="tab" aria-selected="true">📸 旅遊日記</button>
-  <button class="jx-tab" id="tabR" role="tab" aria-selected="false">🧾 購物收據</button>
+  <button class="jx-tab" id="tabJ" role="tab" aria-selected="true">📸 日記</button>
+  <button class="jx-tab" id="tabR" role="tab" aria-selected="false">🧾 收據</button>
+  <button class="jx-tab" id="tabS" role="tab" aria-selected="false">🛒 清單</button>
 </div>
 <div class="jx-days" id="days"></div>
 
@@ -131,6 +150,15 @@ details summary{cursor:pointer;font-size:13px;color:var(--ink2,#8A7150)}
   <div class="jx-list" id="listJ"></div>
 </section>
 
+<section id="paneS" class="hide">
+  <div class="jx-shop-top"><div class="jx-prog" aria-hidden="true"><i id="shopBar" style="width:0%"></i></div><span class="jx-meta" id="shopCnt">0 / 0 買到</span></div>
+  <div class="jx-row" style="justify-content:space-between;margin-bottom:12px">
+    <div class="jx-filters" id="shopF"><button class="jx-btn" data-f="todo" aria-pressed="true">還沒買</button><button class="jx-btn" data-f="all" aria-pressed="false">全部</button><button class="jx-btn" data-f="done" aria-pressed="false">已買到</button></div>
+    <button class="jx-btn" id="shopRe">🔄</button>
+  </div>
+  <div id="shopList"></div>
+  <p class="jx-meta" style="margin-top:12px">💡 清單由 Claude 維護：在 Claude App 的 Claude Code 對話說「購物清單加：…」就會加進來。點一下打勾＝已買到（存在這支手機）；想讓兩支手機都打勾，跟 Claude 說「○○買到了」，或傳收據說「記帳」，Claude 會順便把清單上買到的勾掉。</p>
+</section>
 <section id="paneR" class="hide">
   <div class="jx-tots">
     <div class="jx-tot"><div class="k" id="totDayK">今天合計</div><div class="v" id="totDay">¥0</div><div class="k" id="totDayNT">≈ NT$0</div></div>
@@ -236,8 +264,45 @@ async function shrink(file,max,q){
 }
 
 /* ===== 分頁與日期 ===== */
-function setPane(p){pane=p;$('tabJ').setAttribute('aria-selected',p==='J');$('tabR').setAttribute('aria-selected',p==='R');$('paneJ').classList.toggle('hide',p!=='J');$('paneR').classList.toggle('hide',p!=='R');if(p==='J'&&day==='ALL')day=defaultDay();renderDays();renderAll();}
-$('tabJ').onclick=()=>setPane('J');$('tabR').onclick=()=>setPane('R');
+function setPane(p){pane=p;$('tabJ').setAttribute('aria-selected',p==='J');$('tabR').setAttribute('aria-selected',p==='R');$('tabS').setAttribute('aria-selected',p==='S');$('paneJ').classList.toggle('hide',p!=='J');$('paneR').classList.toggle('hide',p!=='R');$('paneS').classList.toggle('hide',p!=='S');$('days').classList.toggle('hide',p==='S');if(p==='S'){renderShop();ls.set(SHOPKEY+'_tab','S');}else ls.set(SHOPKEY+'_tab',p);if(p==='J'&&day==='ALL')day=defaultDay();renderDays();renderAll();}
+$('tabJ').onclick=()=>setPane('J');$('tabR').onclick=()=>setPane('R');$('tabS').onclick=()=>setPane('S');
+/* ===== 🛒 購物清單（shopping.json 由 Claude 維護；打勾存在這支手機） ===== */
+const SHOPKEY='osaka2026_shop';
+let shop=[], shopF='todo';
+function ticks(){try{return JSON.parse(ls.get(SHOPKEY)||'{}')||{};}catch(e){return {};}}
+function isDone(it,t){return (it.id in t)?!!t[it.id]:!!it.bought;}
+async function loadShop(){
+  try{const r=await fetch('shopping.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;const j=await r.json();shop=Array.isArray(j.items)?j.items:[];}
+  catch(e){shop=[];}
+  renderShop();
+}
+function renderShop(){
+  const t=ticks(); const done=shop.filter(i=>isDone(i,t)).length;
+  $('shopCnt').textContent=done+' / '+shop.length+' 買到'; $('shopBar').style.width=(shop.length?Math.round(done/shop.length*100):0)+'%';
+  const list=shop.filter(i=>shopF==='all'||(shopF==='done')===isDone(i,t));
+  const box=$('shopList');
+  if(!shop.length){box.innerHTML='<div class="jx-empty">購物清單還是空的。<br>在 Claude App 的 Claude Code 對話說「購物清單加：寶可夢卡、樂敦眼藥水、白色戀人」，Claude 會分好類、寫上日文和建議在哪買。</div>';return;}
+  if(!list.length){box.innerHTML='<div class="jx-empty">'+(shopF==='todo'?'全部買到了 🎉':'還沒有打勾的項目')+'</div>';return;}
+  const groups={}; list.forEach(i=>{const g=i.cat||'其他';(groups[g]=groups[g]||[]).push(i);});
+  box.innerHTML='';
+  Object.keys(groups).forEach(g=>{
+    const sec=document.createElement('div');sec.className='jx-grp';sec.innerHTML='<h3>'+esc(g)+'</h3>';
+    const card=document.createElement('div');card.className='jx-shop';
+    groups[g].forEach(i=>{
+      const d=isDone(i,t); const b=document.createElement('button');b.type='button';b.className='jx-si'+(d?' done':'');b.setAttribute('aria-pressed',d);
+      b.innerHTML='<span class="jx-ck">'+(d?'✓':'')+'</span><span style="min-width:0;flex:1"><span class="jx-sn">'+esc(i.name)+'</span>'+(i.ja?' <span class="jx-sj">'+esc(i.ja)+'</span>':'')+
+        ((i.where||i.price||i.for)?'<div class="jx-sd">'+[i.where?'📍 '+esc(i.where):'',i.price?'💴 '+esc(i.price):'',i.for?'🎁 '+esc(i.for):''].filter(Boolean).join('｜')+'</div>':'')+
+        (i.note?'<div class="jx-sd">'+esc(i.note)+'</div>':'')+'</span>'+(i.qty?'<span class="jx-sq">×'+esc(i.qty)+'</span>':'');
+      b.onclick=()=>{const tt=ticks();tt[i.id]=!isDone(i,tt);ls.set(SHOPKEY,JSON.stringify(tt));renderShop();};
+      card.appendChild(b);
+    });
+    sec.appendChild(card);box.appendChild(sec);
+  });
+}
+$('shopF').querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{shopF=b.dataset.f;$('shopF').querySelectorAll('[data-f]').forEach(x=>x.setAttribute('aria-pressed',x===b));renderShop();});
+$('shopRe').onclick=()=>loadShop();
+loadShop();
+if(ls.get(SHOPKEY+'_tab')==='S') setTimeout(()=>setPane('S'),0);
 function renderDays(){const box=$('days');box.innerHTML='';const list=pane==='R'?[{k:'ALL',d:'一覽'}].concat(DAYS):DAYS;
   list.forEach(d=>{const b=document.createElement('button');b.className='jx-day';b.setAttribute('aria-pressed',d.k===day);b.innerHTML=(d.k==='ALL'?'全部':d.k)+'<small>'+d.d+'</small>';b.onclick=()=>{day=d.k;if(d.k!=='ALL')ls.set('osaka2026_jday',d.k);renderDays();renderAll();};box.appendChild(b);});
   const on=box.querySelector('[aria-pressed="true"]');if(on)box.scrollLeft=on.offsetLeft-box.clientWidth/2+on.offsetWidth/2;}
