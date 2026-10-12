@@ -62,24 +62,27 @@ summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom
 .dayd>summary.dh::-webkit-details-marker{display:none}.dayd>summary.dh::after{content:'▾';margin-left:auto;color:#AD9670;transition:transform .2s}.dayd[open]>summary.dh::after{transform:rotate(180deg)}
 .dayd:not([open]){padding-bottom:10px}.dayd[open]>summary.dh{margin-bottom:4px}
 .dayh{display:flex;align-items:center;gap:8px}.dtg{margin-left:auto;font:inherit;font-size:12px;font-weight:700;border:none;border-radius:999px;padding:4px 11px;background:#fff;color:#8A7150;cursor:pointer;box-shadow:0 4px 10px -8px rgba(93,55,19,.6)}
-details.grp{margin-top:10px}details.grp>summary{display:flex;flex-direction:column;gap:1px}.ghint{font-size:11.5px;font-weight:500;color:#8A7150}
-details.grp[open]>summary{margin-bottom:6px}.gh3{font-size:14px;font-weight:700;margin:16px 0 8px;color:#5D3713}
 
-/* ── 標題醒目＋展開時黏在頁籤下方 ── */
+/* ── 標題與分組（みのわ風：白卡、柔影、展開時標題黏在頁籤下方） ── */
 :root{--navh:58px}
-.dayd[open]{box-shadow:0 14px 30px -18px rgba(93,55,19,.55)}
-.dayd[open]>summary.dh{position:sticky;top:var(--navh);z-index:6;background:#FBEFC4;margin:-10px -14px 8px;padding:11px 14px;border-radius:12px 12px 0 0;font-size:14.5px}
-details.grp{margin-top:12px}
-details.grp>summary{flex-direction:row;align-items:center;gap:10px;padding:13px 16px;font-size:16px}
-details.grp>summary .gt{font-size:16px;font-weight:700;color:#5D3713;flex:0 0 auto}
-details.grp>summary .ghint{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-details.grp>summary::after{content:'▾';color:#AD9670;transition:transform .2s}
+.dayd{transition:box-shadow .2s}
+.dayd[open]{box-shadow:0 16px 32px -20px rgba(93,55,19,.55)}
+.dayd[open]>summary.dh{position:sticky;top:var(--navh);z-index:6;margin:-10px -14px 6px;padding:12px 14px 10px;background:rgba(255,255,255,.95);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-radius:24px 24px 0 0;border-bottom:2px dotted #EFE2BD;font-size:14.5px}
+details.grp{margin-top:12px;background:#fff;border-radius:24px;box-shadow:0 12px 30px -20px rgba(93,55,19,.45)}
+details.grp>summary{display:flex;flex-direction:row;align-items:center;text-align:left;gap:12px;padding:13px 14px 13px 13px;background:transparent;border:none;border-radius:24px;margin:0;box-shadow:none}
+details.grp[open]>summary{position:sticky;top:var(--navh);z-index:6;background:rgba(255,255,255,.95);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-radius:24px 24px 0 0;box-shadow:0 12px 16px -16px rgba(93,55,19,.55)}
+.gi{flex:0 0 auto;width:38px;height:38px;border-radius:14px;display:grid;place-items:center;background:#FBEFC4;color:#5D3713;font-size:18px;transition:background .2s,color .2s}
+details.grp[open] .gi{background:#DEAE0B;color:#fff}
+.gtx{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.gtx b{font-size:15.5px;color:#5D3713;letter-spacing:.06em}
+.gtx small{font-size:12px;color:#8A7150;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+details.grp>summary::after{content:'';flex:0 0 auto;width:28px;height:28px;border-radius:50%;background:#FBF3DA url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238A7150' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center/15px no-repeat;transition:transform .25s}
 details.grp[open]>summary::after{transform:rotate(180deg)}
-details.grp[open]>summary{position:sticky;top:var(--navh);z-index:6;background:#DEAE0B;color:#fff;box-shadow:0 8px 18px -12px rgba(93,55,19,.7)}
-details.grp[open]>summary .gt,details.grp[open]>summary .ghint,details.grp[open]>summary::after{color:#fff}
-details.grp[open]{padding-bottom:6px}
-.gh3{display:block;line-height:1.5;font-size:15px;margin:26px 0 10px;padding:9px 12px;background:#FBEFC4;color:#5D3713;border-radius:14px}
-.gh3:first-of-type{margin-top:12px}
+.grpb{padding:4px 14px 16px}
+.grpb .card,.grpb .leg,.grpb .warn,.grpb .row2 .card{background:#FBF3DA!important;box-shadow:none!important}
+.grpb .tw{box-shadow:none!important;border:2px solid #FBF3DA!important}
+.gh3{display:block;font-size:14.5px;font-weight:700;color:#5D3713;margin:22px 2px 10px;padding:0 0 7px;border-bottom:2px dotted #E8D6A2;line-height:1.5;background:none}
+.grpb>.gh3:first-child{margin-top:8px}
 </style>
 <link rel="stylesheet" href="../trip-kit/trip.css?v=2">
 </head>
@@ -114,11 +117,15 @@ details.grp[open]{padding-bottom:6px}
 </details>
 
 <h2>📚 細節（需要時再點開）</h2>
-<details class="grp"><summary><span class="gt">🏷️ 優惠券</span><span class="ghint">各店家優惠券、銀行活動券</span></summary>
+<details class="grp"><summary><span class="gi">🏷️</span><span class="gtx"><b>優惠券</b><small>各店家優惠券、銀行活動券</small></span></summary>
+<div class="grpb">
 <div class="card">把這趟用得到的優惠券整理在這裡（店家、優惠、哪天用）。</div>
+</div>
 </details>
-<details class="grp"><summary><span class="gt">💳 各卡規則</span><span class="ghint">回饋、上限、活動登記</span></summary>
+<details class="grp"><summary><span class="gi">💳</span><span class="gtx"><b>各卡規則</b><small>回饋、上限、活動登記</small></span></summary>
+<div class="grpb">
 <div class="card">每張卡的回饋、上限與注意事項。</div>
+</div>
 </details>
 <script>
 (function(){
