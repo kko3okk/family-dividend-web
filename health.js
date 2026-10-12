@@ -285,9 +285,10 @@ const BODY_BACK = `<svg viewBox="0 0 120 250" aria-hidden="true">
   <circle class="bd" cx="27" cy="128" r="4.5"/><circle class="bd" cx="93" cy="128" r="4.5"/>
   <path class="bd" d="M44 232h9v6h-11Z M76 232h-9v6h11Z"/>
 </svg>`;
+let bodyView = "now";   // "now" 今天進度 | "plan" 預期會練到
 function muscleLevels(p, date){
-  // 實際練到：每個動作的完成度 × 權重，取最大；計畫中：今天清單會練到的部位
-  const e = entry(p, date), tg = targetsFor(p, date), done = {}, plan_ = {}, by = {};
+  // done：完成度 × 權重取最大；plan：清單預期練到（1 主要、.5 輔助）
+  const e = entry(p, date), tg = targetsFor(p, date), done = {}, plan_ = {}, by = {}, pby = {};
   MV(p).forEach(m => {
     const c = e && e.c ? (e.c[m.id] || 0) : 0, t = tg[m.id] || plan(p).targets[m.id] || defOf(m);
     const f = Math.min(1, c / t);
@@ -295,28 +296,59 @@ function muscleLevels(p, date){
       plan_[k] = Math.max(plan_[k] || 0, w);
       done[k] = Math.max(done[k] || 0, f * w);
       if (f > 0) (by[k] = by[k] || []).push(m.name);
+      (pby[k] = pby[k] || []).push({ n: m.name, w });
     });
   });
-  return { done, plan: plan_, by };
+  Object.values(pby).forEach(a => a.sort((x, y) => y.w - x.w));
+  return { done, plan: plan_, by, pby };
 }
+const PAT = `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <pattern id="hpPri" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill="var(--pcol,var(--chang))" fill-opacity=".14"/><rect width="2.2" height="5" fill="var(--pcol,var(--chang))" fill-opacity=".55"/></pattern>
+  <pattern id="hpSec" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill="var(--pcol,var(--chang))" fill-opacity=".06"/><rect width="1.4" height="5" fill="var(--pcol,var(--chang))" fill-opacity=".35"/></pattern>
+</defs></svg>`;
 function renderBody(){
   const box = $("hBody"); if (!box) return;
-  const p = who(), { done, plan: pl, by } = muscleLevels(p, today());
+  const p = who(), { done, plan: pl, by, pby } = muscleLevels(p, today());
+  const K = Object.keys(MUSCLES);
   let css = "";
-  Object.keys(MUSCLES).forEach(k => {
-    const d = done[k] || 0, w = pl[k] || 0;
-    const op = d > 0 ? (0.35 + 0.65 * d).toFixed(2) : w ? "0.13" : "0";
-    css += `#hBody .mu-${k}{fill:${d > 0 ? "var(--pcol,var(--chang))" : w ? "var(--pcol,var(--chang))" : "var(--line)"};fill-opacity:${d > 0 || w ? op : 1}}`;
+  K.forEach(k => {
+    const d = done[k] || 0, w = pl[k] || 0, sel = `#hBody .mu-${k}`;
+    if (bodyView === "plan") {
+      css += w ? `${sel}{fill:var(--pcol,var(--chang));fill-opacity:${w >= 1 ? 1 : .45}}` : `${sel}{fill:var(--line);fill-opacity:.6}`;
+    } else if (d >= w && d > 0) {
+      css += `${sel}{fill:var(--pcol,var(--chang));fill-opacity:${(0.35 + 0.65 * d).toFixed(2)}}`;
+    } else if (w) {                                           // 預期會練到、還沒做完：斜線＋虛線框
+      css += `${sel}{fill:url(#${w >= 1 ? "hpPri" : "hpSec"});stroke:var(--pcol,var(--chang));stroke-dasharray:2.5 2;stroke-opacity:${w >= 1 ? .9 : .55}}`;
+      if (d > 0) css += `${sel}{fill:var(--pcol,var(--chang));fill-opacity:${(0.35 + 0.65 * d).toFixed(2)};stroke-dasharray:2.5 2}`;
+    } else css += `${sel}{fill:var(--line);fill-opacity:.6}`;
   });
-  const hit = Object.keys(MUSCLES).filter(k => (done[k] || 0) > 0).sort((a, b) => done[b] - done[a]);
-  const left = Object.keys(MUSCLES).filter(k => pl[k] && !(done[k] > 0));
-  box.innerHTML = `<style>${css}</style>
+  const exp = K.filter(k => pl[k]).sort((a, b) => pl[b] - pl[a]);
+  const hit = K.filter(k => (done[k] || 0) > 0).sort((a, b) => done[b] - done[a]);
+  const left = exp.filter(k => !(done[k] > 0));
+  const nPri = exp.filter(k => pl[k] >= 1).length;
+  const chip = (k, on) => `<span class="${on ? "on" : pl[k] >= 1 ? "exp" : "exp sec"}" ${on ? `style="--lv:${(0.35 + 0.65 * done[k]).toFixed(2)}"` : ""}>
+      <b>${MUSCLES[k]}${pl[k] >= 1 ? "" : "<em>輔助</em>"}</b><small>${esc((on ? by[k] : pby[k].map(x => x.n)).join("・"))}</small></span>`;
+  const sum = bodyView === "plan"
+    ? `今天的清單預期練到 <b>${exp.length}</b> 個部位，其中 <b>${nPri}</b> 個是主要訓練`
+    : hit.length ? `已練到 <b>${hit.length}</b> / ${exp.length} 個部位${left.length ? `，還有 ${left.length} 個待練` : "，全部到位"}`
+    : `還沒開始，斜線是今天預期會練到的 <b>${exp.length}</b> 個部位`;
+  const chips = bodyView === "plan" ? exp.map(k => chip(k, false)).join("")
+    : hit.map(k => chip(k, true)).join("") + left.map(k => chip(k, false)).join("");
+  const legend = bodyView === "plan"
+    ? `<span><b class="h-lg-mu"></b>主要訓練</span><span><b class="h-lg-mu3"></b>輔助用到</span><span><b class="h-lg-no"></b>這份清單練不到</span>`
+    : `<span><b class="h-lg-mu"></b>已練到（越深越完整）</span><span><b class="h-lg-pri"></b>預期（主要）</span><span><b class="h-lg-sec"></b>預期（輔助）</span>`;
+  box.innerHTML = `<style>${css}</style>${PAT}
     <div class="h-figs"><figure>${BODY_FRONT}<figcaption>正面</figcaption></figure><figure>${BODY_BACK}<figcaption>背面</figcaption></figure></div>
-    <div class="h-bright"><div class="h-bsum">${hit.length ? `今天練到 <b>${hit.length}</b> 個部位` : "還沒開始，淡色是今天清單會練到的部位"}</div>
-    <div class="h-chips">${hit.map(k => `<span class="on" title="${esc(by[k].join("、"))}" style="--lv:${(0.35 + 0.65 * done[k]).toFixed(2)}"><b>${MUSCLES[k]}</b><small>${esc(by[k].join("・"))}</small></span>`).join("")}
-      ${left.map(k => `<span><b>${MUSCLES[k]}</b><small>待練</small></span>`).join("")}</div>
-    <div class="h-legend"><span><b class="h-lg-mu"></b>已練到（越深越完整）</span><span><b class="h-lg-mu2"></b>今天清單會練到</span></div></div>`;
+    <div class="h-bright">
+      <div class="h-bview" role="tablist"><button data-v="now" class="${bodyView === "now" ? "on" : ""}">今天進度</button><button data-v="plan" class="${bodyView === "plan" ? "on" : ""}">預期會練到</button></div>
+      <div class="h-bsum">${sum}</div>
+      <div class="h-chips">${chips}</div>
+      <div class="h-legend">${legend}</div></div>`;
 }
+$("hBody") && $("hBody").addEventListener("click", e => {
+  const b = e.target.closest(".h-bview button"); if (!b) return;
+  bodyView = b.dataset.v; sfx("tap"); renderBody();
+});
 
 /* ── 畫面 ── */
 function rowsHTML(p, date){
