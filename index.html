@@ -1751,7 +1751,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.12-2200";
+const APP_VERSION="2026.10.12-1725";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -2237,6 +2237,22 @@ function posCard(p,short){
     <div class="pg"><div><small>股數</small>${fmt(sh)}</div><div><small>成本</small>${+(+cost).toFixed(2)}</div><div><small>現價</small>${px}</div>
     <div><small>損益</small><span class="${pnl>=0?"up":"dn"}">${pct(r)}</span><br><span class="tick">${wan(pnl)}</span></div></div>${line}${fal}</div>`;
 }
+/* 主動池圓餅：各檔現價市值＋現金（灰），中間顯示總資產 */
+function poolPie(ps,cash){
+  const xs=ps.map(p=>({name:p.name||p.code,v:(livePx(p)||p.cost||0)*p.shares})).filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
+  if(cash>0)xs.push({name:"現金",v:cash,cash:1});
+  const tot=xs.reduce((a,x)=>a+x.v,0);if(!tot)return "";
+  const col=(x,i)=>x.cash?"var(--line)":PIE_COLS[i%PIE_COLS.length];
+  const R=60,C=2*Math.PI*R;let off=0;
+  const arcs=xs.map((x,i)=>{const len=x.v/tot*C;
+    const a=`<circle r="${R}" cx="70" cy="70" fill="none" stroke="${col(x,i)}" stroke-width="20"
+      stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-off}" transform="rotate(-90 70 70)"/>`;off+=len;return a;}).join("");
+  const lg=xs.map((x,i)=>`<div><b style="background:${col(x,i)}"></b>${x.name}<span class="pct">${(x.v/tot*100).toFixed(1)}%</span></div>`).join("");
+  return `<div class="pie" style="margin-top:12px"><svg viewBox="0 0 140 140">${arcs}
+    <text x="70" y="66" text-anchor="middle" font-size="10" fill="var(--mut)">總資產</text>
+    <text x="70" y="82" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink)">${tot>=1e6?(tot/1e6).toFixed(2)+"M":fmt(Math.round(tot))}</text></svg>
+    <div class="lg">${lg}</div></div>`;
+}
 function renderPool(){
   const box=document.getElementById("poolBox");if(!POOL){box.innerHTML='<div class="note">載入中…</div>';return;}
   const short=POOLV==="short",P=short?POOL.short:POOL.active,ps=P.positions||[];
@@ -2263,7 +2279,7 @@ function renderPool(){
   const rule=short?`<div class="prule">${P.desc||""}</div>`
     :`<div class="prule">規則（方案 C）：${POOL.rule}。</div>`;
   box.innerHTML=`<h3 data-en="${short?"SWING":"ACTIVE"}">${short?"短線池":"主動池"}<span class="tick" style="margin-left:auto;font-weight:600">報價 ${LIVE?LIVE.updated.slice(5,16).replace("T"," "):"收盤 "+(POOL.price_date||"—")} · 出場線依 ${POOL.price_date||"—"} 收盤</span></h3>
-    <div class="pstats">${stats}</div>${ps.map(p=>posCard(p,short)).join("")||'<div class="note">目前沒有持股</div>'}${ctab}${rule}`;
+    <div class="pstats">${stats}</div>${short?"":poolPie(ps,P.cash||0)}${ps.map(p=>posCard(p,short)).join("")||'<div class="note">目前沒有持股</div>'}${ctab}${rule}`;
 }
 let PICKS=null;
 async function loadPicks(){
