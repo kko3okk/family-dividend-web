@@ -1491,7 +1491,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.12-1325";
+const APP_VERSION="2026.10.12-1340";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -1513,8 +1513,23 @@ async function load(){
   if(!r.ok)throw new Error("讀取失敗 HTTP "+r.status+"（請到「設定 → 雲端同步」填入 Token）");
   const j=await r.json();SHA=j.sha;DATA=JSON.parse(b64d(j.content.replace(/\n/g,"")));
 }
+let LIVE=null;   // 2026-10-12：私有庫 holdings/prices.json（交易時段每 30 分鐘由 GitHub Actions 更新）
+async function loadLive(){
+  const h={"Accept":"application/vnd.github+json"}; if(token())h.Authorization="Bearer "+token();
+  const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/holdings/prices.json?t=`+Date.now(),{headers:h});
+  if(!r.ok)return null;
+  const j=await r.json();LIVE=JSON.parse(b64d(j.content.replace(/\n/g,"")));return LIVE;
+}
 async function ensurePrices(){
   DATA.prices=DATA.prices||{};
+  try{
+    await loadLive();
+    if(LIVE&&LIVE.prices&&(Date.now()-new Date(LIVE.updated).getTime())<4*24*3600*1000){
+      Object.assign(DATA.prices,LIVE.prices);
+      document.getElementById("pxMeta").textContent="報價 "+LIVE.updated.slice(5,16).replace("T"," ");
+      document.getElementById("pxBlk").style.display="none";return;
+    }
+  }catch(e){}
   const ts=DATA.prices_updated?new Date(DATA.prices_updated):null;
   const fresh=ts&&(Date.now()-ts.getTime())<36*3600*1000;
   if(fresh){document.getElementById("pxMeta").textContent="回寫 "+DATA.prices_updated.slice(5,16).replace("T"," ");document.getElementById("pxBlk").style.display="none";return;}
@@ -1934,8 +1949,9 @@ async function loadPool(){
 }
 const wan=n=>(n>=0?"+":"−")+(Math.abs(n)/1e4).toFixed(1)+"萬";
 const pct=x=>(x>=0?"+":"")+(x*100).toFixed(1)+"%";
+function livePx(p){return (LIVE&&LIVE.prices&&LIVE.prices[p.code])||p.px;}
 function posCard(p,short){
-  const px=p.px,cost=p.cost,sh=p.shares;
+  const px=livePx(p),cost=p.cost,sh=p.shares;
   if(!px)return `<div class="pcard"><div class="ph"><b>${p.name}</b><span class="tick">${p.code}</span><span class="pst warn">無價格</span></div></div>`;
   const pnl=(px-cost)*sh,r=px/cost-1;
   let st=["ok","續抱"];
@@ -1958,13 +1974,13 @@ function posCard(p,short){
   }
   const fal=(!short&&p.falsify)?`<details><summary>否證條件</summary>${p.falsify}</details>`:"";
   return `<div class="pcard"><div class="ph"><b>${p.name}</b><span class="tick">${p.code}</span><span class="ptag">${tag}</span><span class="pst ${st[0]}">${st[1]}</span></div>
-    <div class="pg"><div><small>股數</small>${fmt(sh)}</div><div><small>成本</small>${+(+cost).toFixed(2)}</div><div><small>收盤</small>${px}</div>
+    <div class="pg"><div><small>股數</small>${fmt(sh)}</div><div><small>成本</small>${+(+cost).toFixed(2)}</div><div><small>現價</small>${px}</div>
     <div><small>損益</small><span class="${pnl>=0?"up":"dn"}">${pct(r)}</span><br><span class="tick">${wan(pnl)}</span></div></div>${line}${fal}</div>`;
 }
 function renderPool(){
   const box=document.getElementById("poolBox");if(!POOL){box.innerHTML='<div class="note">載入中…</div>';return;}
   const short=POOLV==="short",P=short?POOL.short:POOL.active,ps=P.positions||[];
-  const mv=ps.reduce((a,p)=>a+(p.px||0)*p.shares,0),un=ps.reduce((a,p)=>a+((p.px||p.cost)-p.cost)*p.shares,0);
+  const mv=ps.reduce((a,p)=>a+(livePx(p)||0)*p.shares,0),un=ps.reduce((a,p)=>a+((livePx(p)||p.cost)-p.cost)*p.shares,0);
   let stats;
   if(short){
     const used=ps.reduce((a,p)=>a+(p.cost_total||p.cost*p.shares),0),cap=P.budget_cap||200000;
@@ -1977,7 +1993,7 @@ function renderPool(){
   const ctab=closed.length?`<h4 style="margin:14px 0 6px">${short?"已出場":"2026 已出場"}</h4><table class="pclosed">${closed.slice().reverse().map(c=>`<tr><td>${c.date||"—"}</td><td>${c.name}</td><td class="num">${c.price??"—"}</td><td class="num ${c.pnl>=0?"up":"dn"}">${c.pnl!=null?fmt(c.pnl):"—"}</td></tr>`).join("")}</table>`:"";
   const rule=short?`<div class="prule">${P.desc||""}</div>`
     :`<div class="prule">規則（方案 C）：${POOL.rule}。<br><a href="https://github.com/kko3okk/family-dividend-web/blob/main/paper/picks.md" target="_blank" rel="noopener">今日推薦清單 ↗</a></div>`;
-  box.innerHTML=`<h3 data-en="${short?"SWING":"ACTIVE"}">${short?"短線池":"主動池"}<span class="tick" style="margin-left:auto;font-weight:600">收盤 ${POOL.price_date||"—"} · 更新 ${(POOL.updated||"").slice(5)}</span></h3>
+  box.innerHTML=`<h3 data-en="${short?"SWING":"ACTIVE"}">${short?"短線池":"主動池"}<span class="tick" style="margin-left:auto;font-weight:600">報價 ${LIVE?LIVE.updated.slice(5,16).replace("T"," "):"收盤 "+(POOL.price_date||"—")} · 出場線依 ${POOL.price_date||"—"} 收盤</span></h3>
     <div class="pstats">${stats}</div>${ps.map(p=>posCard(p,short)).join("")||'<div class="note">目前沒有持股</div>'}${ctab}${rule}`;
 }
 document.getElementById("poolSeg").addEventListener("click",async e=>{
@@ -1987,7 +2003,7 @@ document.getElementById("poolSeg").addEventListener("click",async e=>{
   document.body.classList.toggle("pool-act",POOLV==="act");document.body.classList.toggle("pool-short",POOLV==="short");
   window.scrollTo({top:0});
   if(POOLV==="div")return;
-  if(!POOL){renderPool();try{await loadPool();}catch(err){document.getElementById("poolBox").innerHTML=`<div class="note">${err.message}</div>`;return;}}
+  if(!POOL){renderPool();try{await loadPool();if(!LIVE)await loadLive().catch(()=>{});}catch(err){document.getElementById("poolBox").innerHTML=`<div class="note">${err.message}</div>`;return;}}
   renderPool();
 });
 
