@@ -14,19 +14,19 @@ const NAMES = { chang: "CHANG", wife: "老婆" };
 const CHAL_DAYS = 30;
 
 const MOVES = [
-  { id:"pull",   name:"壺鈴提拉", q:"壺鈴高拉 教學 正確姿勢", goal:"一字肩",
+  { id:"pull",   name:"壺鈴提拉", mus:{traps:1,delts:1,biceps:.5,forearms:.5,upback:.5}, q:"壺鈴高拉 教學 正確姿勢", goal:"一字肩",
     how:"雙手握把，壺鈴貼著身體往上拉到胸口，手肘往外、高過手腕，再慢慢放下。",
     tip:"肩膀下沉不要聳肩，拉的時候吐氣。" },
-  { id:"around", name:"壺鈴環繞", q:"壺鈴繞身 around the body 教學", goal:"腹部馬甲線",
+  { id:"around", name:"壺鈴環繞", mus:{abs:1,obliques:1,delts:.5,forearms:.5}, q:"壺鈴繞身 around the body 教學", goal:"腹部馬甲線",
     how:"壺鈴在腰間繞著身體一圈，前面換手、背後換手；順時針 40、逆時針 40。",
     tip:"核心收緊、骨盆固定，身體不要跟著轉。" },
-  { id:"side",   name:"壺鈴側擺", q:"壺鈴 斜向擺盪 側擺 教學", goal:"側腰贅肉減少",
+  { id:"side",   name:"壺鈴側擺", mus:{obliques:1,abs:.5,delts:.5,glutes:.5}, q:"壺鈴 斜向擺盪 側擺 教學", goal:"側腰贅肉減少",
     how:"雙手握壺鈴，從一側髖部斜向擺到另一側肩膀高度，左右交替各 40。",
     tip:"靠腰腹轉動發力，手臂只是跟著走，不要甩背。" },
-  { id:"squat",  name:"壺鈴蹲舉", q:"壺鈴 深蹲推舉 thruster 教學", goal:"皮膚更緊致",
+  { id:"squat",  name:"壺鈴蹲舉", mus:{quads:1,glutes:1,delts:1,triceps:.5,abs:.5,calves:.5}, q:"壺鈴 深蹲推舉 thruster 教學", goal:"皮膚更緊致",
     how:"胸前握壺鈴下蹲到大腿約與地面平行，站起時順勢把壺鈴推過頭頂。",
     tip:"膝蓋對齊腳尖、背打直，推舉時不要拱腰。" },
-  { id:"swing",  name:"壺鈴搖擺", q:"壺鈴擺盪 kettlebell swing 教學 常見錯誤", goal:"小腹平坦 · 臀部上翹",
+  { id:"swing",  name:"壺鈴搖擺", mus:{glutes:1,hams:1,lowback:1,abs:.5,forearms:.5,traps:.5}, q:"壺鈴擺盪 kettlebell swing 教學 常見錯誤", goal:"小腹平坦 · 臀部上翹",
     how:"臀部往後推、身體前傾，再用臀部爆發把壺鈴盪到胸口高度，手臂只當繩子。",
     tip:"是「推髖」不是「蹲」，也不要用手抬；圓背是最常見的受傷原因。" }
 ];
@@ -34,7 +34,7 @@ const DEFAULT_TARGET = 80;
 // 個人額外動作（不用壺鈴）：CHANG 原本每天的伏地挺身
 const EXTRA = {
   chang: [
-    { id:"pushup", name:"伏地挺身", q:"伏地挺身 正確姿勢 教學", goal:"胸・肩・手臂", def:20, kb:false,
+    { id:"pushup", name:"伏地挺身", mus:{chest:1,triceps:1,delts:.5,abs:.5}, q:"伏地挺身 正確姿勢 教學", goal:"胸・肩・手臂", def:20, kb:false,
       how:"雙手略寬於肩，身體從頭到腳跟成一直線，下降到胸口接近地面再推起。",
       tip:"核心收緊、臀部不要塌或翹；太輕鬆時可以把腳墊高或放慢下降速度。" }
   ]
@@ -250,6 +250,74 @@ function onAct(e){
   }
 }
 
+/* ── 肌群示意圖（自繪 SVG：正面＋背面）── 1 = 主要、.5 = 輔助 */
+const MUSCLES = {
+  traps:"斜方肌", delts:"肩膀", chest:"胸", biceps:"二頭肌", triceps:"三頭肌", forearms:"前臂",
+  abs:"腹肌", obliques:"側腹", upback:"上背", lowback:"下背", glutes:"臀部", quads:"大腿前側",
+  hams:"大腿後側", calves:"小腿"
+};
+const sym = (id, d) => `<path class="mu mu-${id}" d="${d}"/><path class="mu mu-${id}" d="${d}" transform="translate(120 0) scale(-1 1)"/>`;
+const BODY_FRONT = `<svg viewBox="0 0 120 250" aria-hidden="true">
+  <circle class="bd" cx="60" cy="18" r="12"/><path class="bd" d="M54 29h12v8H54Z"/>
+  ${sym("traps", "M53 37 L44 42 L52 44 Z")}
+  ${sym("delts", "M44 41 C34 41 28 48 28 58 C33 56 38 54 43 55 C44 50 45 45 44 41Z")}
+  ${sym("chest", "M45 44 C50 42 56 42 59 44 L59 66 C53 70 46 68 43 62 C43 55 43 49 45 44Z")}
+  ${sym("biceps", "M28 60 C33 58 38 58 42 60 C42 72 40 82 37 88 C32 88 29 86 27 82 C26 74 26 66 28 60Z")}
+  ${sym("forearms", "M27 90 C31 92 35 92 37 90 C37 102 34 114 31 122 C28 122 25 121 23 119 C22 108 24 98 27 90Z")}
+  ${sym("abs", "M50 70 L59 70 L59 116 C55 118 52 117 50 115 Z")}
+  ${sym("obliques", "M44 66 C46 70 48 72 49 72 L49 114 C46 110 43 104 42 98 C42 88 42 76 44 66Z")}
+  ${sym("quads", "M43 124 C49 122 55 122 59 124 C59 146 57 168 55 182 C51 184 47 184 44 182 C41 166 40 144 43 124Z")}
+  ${sym("calves", "M45 192 C48 190 52 190 55 192 C55 206 54 220 52 232 C50 233 48 233 46 232 C44 220 44 206 45 192Z")}
+  <circle class="bd" cx="27" cy="128" r="4.5"/><circle class="bd" cx="93" cy="128" r="4.5"/>
+  <path class="bd" d="M44 236h9v6h-11Z M76 236h-9v6h11Z"/>
+</svg>`;
+const BODY_BACK = `<svg viewBox="0 0 120 250" aria-hidden="true">
+  <circle class="bd" cx="60" cy="18" r="12"/><path class="bd" d="M54 29h12v6H54Z"/>
+  ${sym("traps", "M59 34 L46 40 L44 44 L52 50 L59 62Z")}
+  ${sym("delts", "M44 41 C34 41 28 48 28 58 C33 56 38 54 43 55 C44 50 45 45 44 41Z")}
+  ${sym("upback", "M44 46 L52 52 L59 64 L59 76 C52 80 46 82 43 80 C42 70 42 56 44 46Z")}
+  ${sym("triceps", "M28 60 C33 58 38 58 42 60 C42 72 40 82 37 88 C32 88 29 86 27 82 C26 74 26 66 28 60Z")}
+  ${sym("forearms", "M27 90 C31 92 35 92 37 90 C37 102 34 114 31 122 C28 122 25 121 23 119 C22 108 24 98 27 90Z")}
+  ${sym("lowback", "M44 84 C49 84 55 80 59 78 L59 106 C54 108 48 108 45 106 C44 98 43 90 44 84Z")}
+  ${sym("glutes", "M44 110 C50 108 56 108 59 110 L59 132 C54 136 47 136 43 130 C42 124 42 116 44 110Z")}
+  ${sym("hams", "M43 138 C49 138 55 138 59 140 C59 156 57 170 55 182 C51 184 47 184 44 182 C41 168 41 152 43 138Z")}
+  ${sym("calves", "M44 190 C48 188 52 188 56 190 C57 202 55 216 52 228 C50 229 48 229 46 228 C43 216 42 202 44 190Z")}
+  <circle class="bd" cx="27" cy="128" r="4.5"/><circle class="bd" cx="93" cy="128" r="4.5"/>
+  <path class="bd" d="M44 232h9v6h-11Z M76 232h-9v6h11Z"/>
+</svg>`;
+function muscleLevels(p, date){
+  // 實際練到：每個動作的完成度 × 權重，取最大；計畫中：今天清單會練到的部位
+  const e = entry(p, date), tg = targetsFor(p, date), done = {}, plan_ = {}, by = {};
+  MV(p).forEach(m => {
+    const c = e && e.c ? (e.c[m.id] || 0) : 0, t = tg[m.id] || plan(p).targets[m.id] || defOf(m);
+    const f = Math.min(1, c / t);
+    Object.entries(m.mus || {}).forEach(([k, w]) => {
+      plan_[k] = Math.max(plan_[k] || 0, w);
+      done[k] = Math.max(done[k] || 0, f * w);
+      if (f > 0) (by[k] = by[k] || []).push(m.name);
+    });
+  });
+  return { done, plan: plan_, by };
+}
+function renderBody(){
+  const box = $("hBody"); if (!box) return;
+  const p = who(), { done, plan: pl, by } = muscleLevels(p, today());
+  let css = "";
+  Object.keys(MUSCLES).forEach(k => {
+    const d = done[k] || 0, w = pl[k] || 0;
+    const op = d > 0 ? (0.35 + 0.65 * d).toFixed(2) : w ? "0.13" : "0";
+    css += `#hBody .mu-${k}{fill:${d > 0 ? "var(--pcol,var(--chang))" : w ? "var(--pcol,var(--chang))" : "var(--line)"};fill-opacity:${d > 0 || w ? op : 1}}`;
+  });
+  const hit = Object.keys(MUSCLES).filter(k => (done[k] || 0) > 0).sort((a, b) => done[b] - done[a]);
+  const left = Object.keys(MUSCLES).filter(k => pl[k] && !(done[k] > 0));
+  box.innerHTML = `<style>${css}</style>
+    <div class="h-figs"><figure>${BODY_FRONT}<figcaption>正面</figcaption></figure><figure>${BODY_BACK}<figcaption>背面</figcaption></figure></div>
+    <div class="h-bright"><div class="h-bsum">${hit.length ? `今天練到 <b>${hit.length}</b> 個部位` : "還沒開始，淡色是今天清單會練到的部位"}</div>
+    <div class="h-chips">${hit.map(k => `<span class="on" title="${esc(by[k].join("、"))}" style="--lv:${(0.35 + 0.65 * done[k]).toFixed(2)}"><b>${MUSCLES[k]}</b><small>${esc(by[k].join("・"))}</small></span>`).join("")}
+      ${left.map(k => `<span><b>${MUSCLES[k]}</b><small>待練</small></span>`).join("")}</div>
+    <div class="h-legend"><span><b class="h-lg-mu"></b>已練到（越深越完整）</span><span><b class="h-lg-mu2"></b>今天清單會練到</span></div></div>`;
+}
+
 /* ── 畫面 ── */
 function rowsHTML(p, date){
   const e = entry(p, date), tg = targetsFor(p, date);
@@ -360,6 +428,7 @@ function renderMoves(){
   const p = who(), pl = plan(p);
   $("hMoves").innerHTML = MV(p).map((m, i) => `<div class="h-mv"><div class="h-no">${i + 1}</div><div>
       <b>${m.name}</b><span class="tag">${m.goal}</span><span class="tick" style="margin-left:6px">× ${pl.targets[m.id]}</span>
+      <div class="h-mus">${Object.entries(m.mus || {}).sort((a, b) => b[1] - a[1]).map(([k, w]) => `<i class="${w >= 1 ? "pri" : ""}">${MUSCLES[k]}</i>`).join("")}</div>
       <p>${m.how}<br><em>⚠ ${m.tip}</em></p>${vidLink(m, "h-vid2")}</div></div>`).join("") +
     `<div class="note" style="margin-top:8px">影片說的效果每個人不一樣；剛開始可以拆成 4 組 × 20 下，覺得太重就先把目標調低，比較重要的是天天做。<br>「教學」會打開 YouTube 搜尋結果，挑一部有側面示範的看，特別注意壺鈴擺盪的推髖和背打直。</div>`;
 }
@@ -376,7 +445,7 @@ function render(){
   const p = who();
   document.body.style.setProperty("--pcol", PCOL[p]);
   document.body.style.setProperty("--ocol", PCOL[other(p)]);
-  renderToday(); renderCal(); renderMoves(); renderDay();
+  renderToday(); renderCal(); renderBody(); renderMoves(); renderDay();
   if (syncState === "idle") setSync(token() ? (loaded ? "ok" : "syncing") : "local");
 }
 
