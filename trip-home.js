@@ -5,6 +5,20 @@
      在同一趟的頁面之間切換過（上一頁是行程、地圖…）就直接開旅遊分頁，不會變成「上一步」。 */
 (function(){
   var BASE = location.origin + "/family-dividend-web/";
+  // 訪客模式：從分享連結（?guest=1）打開的人只能看這一趟，不顯示回「家的旅程」的入口。
+  // 本機有 GitHub 金鑰（Chang 自己的裝置）不算訪客。
+  var GUEST = false;
+  try {
+    var owner = !!localStorage.getItem("gh_token");
+    if (!owner && new URLSearchParams(location.search).get("guest") === "1") sessionStorage.setItem("tripGuest", "1");
+    GUEST = !owner && sessionStorage.getItem("tripGuest") === "1";
+  } catch (e) { GUEST = /[?&]guest=1/.test(location.search); }
+  if (GUEST) {
+    document.documentElement.classList.add("trip-guest");
+    var gs = document.createElement("style");
+    gs.textContent = 'html.trip-guest a[href^="../#"],html.trip-guest a[href="../"],html.trip-guest a[href="../index.html"]{display:none!important}';
+    document.head.appendChild(gs);
+  }
   var isTpl = /\/trip-template\//.test(location.pathname);
   var HOME = isTpl ? "../#settings-travel" : "../#travel";
   function goHome(e){
@@ -37,7 +51,7 @@
   a.id = "tripHomeFab"; a.href = HOME; a.setAttribute("aria-label", isTpl ? "回設定" : "回家的旅程");
   a.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><span>' + (isTpl ? '回設定' : '家的旅程') + '</span>';
   a.addEventListener("click", goHome);
-  var bar = document.createElement("div"); bar.id = "tripBar"; bar.appendChild(a);
+  var bar = document.createElement("div"); bar.id = "tripBar"; if (!GUEST) bar.appendChild(a);
   document.body.appendChild(bar);
 
   // 分享這趟：手機叫出系統分享選單，電腦則複製連結
@@ -45,7 +59,7 @@
   sh.id = "tripShareFab"; sh.type = "button"; sh.setAttribute("aria-label", "分享這趟行程");
   sh.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 8.5 12 4l4.5 4.5"/><path d="M5 12.5V18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5.5"/></svg>';
   sh.addEventListener("click", function(){
-    var url = location.origin + location.pathname.replace(/[^/]*$/, "index.html");
+    var url = location.origin + location.pathname.replace(/[^/]*$/, "index.html") + "?guest=1";
     var title = (document.querySelector("h1") || {}).textContent || document.title;
     var sub = (document.querySelector(".subtitle,.sub") || {}).textContent || "";
     if (navigator.share){ navigator.share({ title: title, text: title + (sub ? "｜" + sub : ""), url: url }).catch(function(){}); return; }

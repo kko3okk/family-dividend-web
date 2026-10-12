@@ -48,7 +48,8 @@ function flash(msg){
 }
 async function shareTrip(id){
   const t = (TRIPS || []).find(x => x.id === id); if (!t) return;
-  const url = new URL(t.path + ((t.pages || [])[0]?.href || ""), location.href).href;
+  const u = new URL(t.path + ((t.pages || [])[0]?.href || ""), location.href); u.searchParams.set("guest", "1");  // 訪客連結：不能回首頁
+  const url = u.href;
   const n = nights(t);
   const text = `${t.title}｜${md(t.start)}–${md(t.end)}（${n + 1} 天 ${n} 夜）`;
   if (navigator.share){ try { await navigator.share({ title: t.title, text, url }); } catch (e) {} return; }
