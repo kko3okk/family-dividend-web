@@ -144,7 +144,7 @@ function renderShop(){
   const groups={}; list.forEach(i=>{const g=i.cat||'其他';(groups[g]=groups[g]||[]).push(i);});
   box.innerHTML='';
   Object.keys(groups).forEach(g=>{
-    const sec=document.createElement('div');sec.className='jx-grp';sec.innerHTML='<h3>'+esc(g)+'</h3>';
+    const sec=document.createElement('div');sec.className='jx-grp';const gl=shop.filter(x=>(x.cat||'其他')===g),gd=gl.filter(x=>isDone(x,t)).length;sec.innerHTML='<h3>'+esc(g)+' <span class="jx-sj">'+gd+'/'+gl.length+'</span></h3>';
     const card=document.createElement('div');card.className='jx-shop';
     groups[g].forEach(i=>{
       const d=isDone(i,t); const b=document.createElement('button');b.type='button';b.className='jx-si'+(d?' done':'');b.setAttribute('aria-pressed',d);
