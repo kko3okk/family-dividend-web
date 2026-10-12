@@ -5,14 +5,14 @@
      在同一趟的頁面之間切換過（上一頁是行程、地圖…）就直接開旅遊分頁，不會變成「上一步」。 */
 (function(){
   var BASE = location.origin + "/family-dividend-web/";
-  // 訪客模式：從分享連結（?guest=1）打開的人只能看這一趟，不顯示回「家的旅程」的入口。
-  // 本機有 GitHub 金鑰（Chang 自己的裝置）不算訪客。
-  var GUEST = false;
+  // 訪客模式：不是家人裝置（有 GitHub 金鑰，或打開過「家的旅程」首頁）的人，一律當訪客，
+  // 只能看這一趟的 行程／地圖／美食，看不到回首頁的入口。
+  var GUEST = true;
   try {
-    var owner = !!localStorage.getItem("gh_token");
-    if (!owner && new URLSearchParams(location.search).get("guest") === "1") sessionStorage.setItem("tripGuest", "1");
-    GUEST = !owner && sessionStorage.getItem("tripGuest") === "1";
-  } catch (e) { GUEST = /[?&]guest=1/.test(location.search); }
+    var family = !!localStorage.getItem("gh_token") || localStorage.getItem("familyDevice") === "1";
+    GUEST = !family;
+    if (GUEST) sessionStorage.setItem("tripGuest", "1");
+  } catch (e) { GUEST = true; }
   if (GUEST) {
     // 訪客只能看 行程／地圖／美食；清單、刷卡、手帳直接導回行程頁，入口也藏起來
     var page = (location.pathname.split("/").pop() || "index.html");
