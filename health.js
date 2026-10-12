@@ -31,6 +31,7 @@ const MOVES = [
     tip:"是「推髖」不是「蹲」，也不要用手抬；圓背是最常見的受傷原因。" }
 ];
 const DEFAULT_TARGET = 80;
+const PROGRAM_START = "2026-10-12";   // 兩人一起開始的日子；之前的日期不算缺席
 
 /* ── 狀態 ── */
 let HD = null, HSHA = null, loaded = false;
@@ -65,6 +66,7 @@ function plan(p){
   HD.plans[p] = HD.plans[p] || {};
   const pl = HD.plans[p];
   if (!pl.weight) pl.weight = 6;
+  if (!pl.start) pl.start = PROGRAM_START;
   pl.targets = pl.targets || {};
   MOVES.forEach(m => { if (!pl.targets[m.id]) pl.targets[m.id] = DEFAULT_TARGET; });
   return pl;
@@ -199,7 +201,7 @@ function setCount(p, date, id, n){
   n = Math.max(0, Math.min(999, Math.round(n)));
   if (n) e.c[id] = n; else delete e.c[id];
   if (!Object.keys(e.c).length) delete HD.logs[p][date];
-  if (n > 0 && (!pl.start || date < pl.start)) { pl.start = date; mark("plan|" + p); }
+  if (n > 0 && date < pl.start) { pl.start = date; mark("plan|" + p); }   // 補記更早的日子才往前調
   mark(`log|${p}|${date}`);
   const after = dayStat(p, date);
   if (after.all && !before.all) {
@@ -315,15 +317,15 @@ function renderCal(){
   $("hCalNext").disabled = calMonth >= d0.slice(0, 7);
   let h = [...WD].map(w => `<div class="wd">${w}</div>`).join("");
   for (let i = 0; i < first.getDay(); i++) h += `<div class="h-day out"></div>`;
-  let full = 0, part = 0, reps = 0, trip = 0;
-  const isCur = calMonth === d0.slice(0, 7);
-  const elapsed = isCur ? +d0.slice(8) : days;
+  let full = 0, part = 0, reps = 0, trip = 0, elapsed = 0;
+  const st0 = plan(p).start || PROGRAM_START;
   for (let i = 1; i <= days; i++) {
     const ds = `${calMonth}-${pad(i)}`, s = dayStat(p, ds), so = dayStat(o, ds), fut = ds > d0, tr = isTrip(ds);
+    const pre = ds < st0 && !s.any;                         // 開始日之前：不算缺席
     if (s.all) full++; else if (s.any) part++;
-    if (tr && !s.any && i <= elapsed) trip++;
+    if (!fut && !pre) { if (tr && !s.any) trip++; else elapsed++; }
     reps += s.reps;
-    const cls = (tr && !s.any ? "trip " : "") + (fut ? "fut" : s.all ? "done" : s.any ? "part" : "");
+    const cls = (pre ? "pre " : "") + (tr && !s.any ? "trip " : "") + (fut ? "fut" : s.all ? "done" : s.any ? "part" : "");
     const pc = s.goal ? Math.round(Math.min(1, s.reps / s.goal) * 100) : 0;
     h += `<button class="h-day ${cls} ${ds === d0 ? "today" : ""}" data-d="${ds}" ${fut ? "disabled" : ""}
         style="--pc:${pc}%" aria-label="${m} 月 ${i} 日${s.all ? " 全部達成" : s.any ? " 部分完成" : tr ? " 旅遊休息" : ""}" ${tr ? `title="${esc(TRIP.get(ds))}"` : ""}>
@@ -332,7 +334,7 @@ function renderCal(){
   $("hCal").innerHTML = h;
   $("hOtherName").textContent = NAMES[o];
   $("hStats").innerHTML = `
-    <div><div class="k">全部達成</div><div class="v">${full}<small> / ${elapsed - trip} 天</small></div>${trip ? `<div class="k h-tk">另有旅遊休息 ${trip} 天</div>` : ""}</div>
+    <div><div class="k">全部達成</div><div class="v">${full}<small> / ${elapsed} 天</small></div>${trip ? `<div class="k h-tk">另有旅遊休息 ${trip} 天</div>` : ""}</div>
     <div><div class="k">做了一部分</div><div class="v">${part}<small> 天</small></div></div>
     <div><div class="k">本月總次數</div><div class="v">${reps.toLocaleString("zh-Hant")}</div></div>`;
 }
