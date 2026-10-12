@@ -86,19 +86,21 @@ details summary{cursor:pointer;font-size:13px;color:var(--ink2,#8A7150)}
   <a href="journal.html" class="on">📸 手帳</a>
 </nav>
 <h1>旅途手帳</h1>
-<div class="sub">拍照記錄每一天、拍收據自動記帳｜照片只存在這支手機</div>
+<div class="sub">拍照記錄每一天、拍收據記帳｜傳給 Claude 就會翻譯、寫摘要</div>
 
 <div class="jx-row" style="margin-bottom:10px;justify-content:space-between">
-  <span id="aiMode" class="jx-mode off">基本模式</span>
-  <button class="jx-btn" id="aiBtn">⚙️ AI 設定</button>
+  <span id="aiMode" class="jx-mode off">☁️ Claude 整理：讀取中…</span>
+  <button class="jx-btn" id="aiBtn">☁️ 怎麼交給 Claude？</button>
 </div>
 <div class="jx-panel hide" id="aiPanel">
-  <b>Claude 後端（翻譯、摘要、收據辨識）</b>
-  <p style="margin-top:4px">填入你自己部署的後端網址和通行碼，拍照後就交給 Claude 處理。Claude 的金鑰放在後端，不在網頁或 GitHub 上；網址和通行碼也只存在這支手機。沒設定時用網頁內建辨識＋Google 翻譯。</p>
-  <input id="beUrl" type="text" inputmode="url" autocomplete="off" placeholder="後端網址，例如 https://trip-claude.xxx.workers.dev">
-  <input id="bePass" type="password" autocomplete="off" placeholder="通行碼">
-  <details style="margin:4px 0 6px"><summary>進階：改用自己的 API 金鑰直連（不建議）</summary><input id="aiKey" type="password" autocomplete="off" placeholder="sk-ant-..."></details>
-  <div class="jx-row"><button class="jx-btn warm" id="aiSave">儲存</button><button class="jx-btn" id="aiTest">測試連線</button><button class="jx-btn danger" id="aiDel">全部清除</button><span id="aiMsg" class="jx-meta"></span></div>
+  <b>交給 Claude 翻譯、寫摘要、讀收據</b>
+  <ol style="margin:6px 0 0 18px;display:flex;flex-direction:column;gap:3px">
+    <li>打開 Claude App →「旅遊」專案 → Claude Code（family-dividend-web）。</li>
+    <li>傳照片，說「記帳」（收據）或「日記」（風景、餐點、招牌），可以加一句心得、哪天、誰刷哪張卡。</li>
+    <li>Claude 處理完會推上網站，這裡按「重新整理」就會出現，標 ☁️。收據也會自動加進刷卡紀錄。</li>
+  </ol>
+  <p style="margin-top:6px">用的是你的 Claude 訂閱，不需要 API。照片不會放上網站，只放 Claude 整理好的文字。晚上說「整理今天的日記」，就會寫成當天的旅遊摘要。</p>
+  <div class="jx-row" style="margin-top:8px"><button class="jx-btn warm" id="cloudRe">🔄 重新整理</button><span id="aiMsg" class="jx-meta"></span></div>
 </div>
 
 <div class="jx-tabs" role="tablist">
@@ -148,7 +150,7 @@ const DAYS=[
 ];
 const CARDS=[['U','uniopen'],['K','熊本熊卡'],['KP','玉山Wallet PayPay'],['J','吉鶴 Apple Pay'],['W','老婆 JCB'],['CUBE','CUBE'],['C','現金']];
 const cardName=k=>(CARDS.find(c=>c[0]===k)||['','未選'])[1];
-const PAYKEY='osaka2026_pay', KEYK='osaka2026_aikey', MODEL='claude-sonnet-5';
+const PAYKEY='osaka2026_pay';
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const yen=n=>'¥'+Math.round(+n||0).toLocaleString('en-US');
@@ -177,35 +179,28 @@ function defaultDay(){const jst=new Date(Date.now()+9*3600e3).toISOString().slic
 const di=k=>DAYS.find(d=>d.k===k)||DAYS[0];
 
 /* ===== AI 設定 ===== */
-const BEK='osaka2026_be', BPK='osaka2026_bepass';
-function aiKey(){return !!((ls.get(BEK)&&ls.get(BPK))||ls.get(KEYK));}
-function paintMode(){const be=ls.get(BEK),on=aiKey();$('aiMode').textContent=on?(be?'🤖 Claude 後端模式':'🤖 AI 直連模式'):'基本模式（網頁內建辨識）';$('aiMode').classList.toggle('off',!on);
-  $('beUrl').value=be||'';$('bePass').value=ls.get(BPK)?'••••••••':'';$('aiKey').value=ls.get(KEYK)?'••••••••（已儲存）':'';}
 $('aiBtn').onclick=()=>$('aiPanel').classList.toggle('hide');
-$('aiSave').onclick=()=>{const u=$('beUrl').value.trim().replace(/\/+$/,''),p=$('bePass').value.trim(),k=$('aiKey').value.trim();
-  if(u){if(!/^https:\/\//.test(u)){$('aiMsg').textContent='網址要以 https:// 開頭';return;}ls.set(BEK,u);}
-  if(p&&!p.startsWith('••'))ls.set(BPK,p);
-  if(k&&!k.startsWith('••'))ls.set(KEYK,k);
-  paintMode();$('aiMsg').textContent=aiKey()?'已儲存在這支手機 ✓':'請填後端網址和通行碼';};
-$('aiDel').onclick=()=>{[BEK,BPK,KEYK].forEach(k=>ls.del(k));paintMode();$('aiMsg').textContent='已清除';};
-$('aiTest').onclick=async()=>{$('aiMsg').textContent='測試中…';try{const t=await claude([{type:'text',text:'只回「OK」兩個字'}],20);$('aiMsg').textContent='連線成功：'+t.slice(0,20);}catch(e){$('aiMsg').textContent='失敗：'+e.message;}};
-paintMode();
-
-async function claude(content,maxTokens){
-  const be=ls.get(BEK),bp=ls.get(BPK),key=ls.get(KEYK);
-  const body=JSON.stringify({model:MODEL,max_tokens:maxTokens||1500,messages:[{role:'user',content:content}]});
-  let r;
-  if(be&&bp) r=await fetch(be+'/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-trip-pass':bp},body});
-  else if(key) r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body});
-  else throw new Error('尚未設定 Claude 後端');
-  const j=await r.json().catch(()=>({}));
-  if(r.status===401) throw new Error('通行碼不對');
-  if(!r.ok) throw new Error((j.error&&j.error.message)||('HTTP '+r.status));
-  return (j.content||[]).filter(c=>c.type==='text').map(c=>c.text).join('');
+/* ===== ☁️ Claude 整理的紀錄（journal-data.json，由 Claude Code 寫入） ===== */
+let cloud=[];
+function cts(o){const d=di(o.day);const t=/^\d{1,2}:\d{2}$/.test(o.time||'')?o.time.padStart(5,'0'):'12:00';return Date.parse(d.iso+'T'+t+':00+09:00')||Date.now();}
+async function loadCloud(){
+  try{
+    const r=await fetch('journal-data.json?t='+Date.now(),{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status);
+    const j=await r.json(); cloud=[];
+    (j.moments||[]).forEach(m=>cloud.push(Object.assign({},m,{kind:'m',cloud:true,id:'c'+m.id,ts:cts(m)})));
+    (j.receipts||[]).forEach(m=>cloud.push(Object.assign({},m,{kind:'r',cloud:true,id:'c'+m.id,ts:cts(m),card:m.card||'U',who:m.who||'me'})));
+    Object.entries(j.diaries||{}).forEach(([k,t])=>cloud.push({kind:'d',cloud:true,id:'cd'+k,day:k,text:String(t)}));
+    // 收據同步到行程頁的刷卡紀錄（id 以 cj 開頭，雲端刪掉的也一起移除）
+    let pay=payLoad().filter(x=>!String(x.i).startsWith('cj'));
+    cloud.filter(c=>c.kind==='r'&&+c.total>0).forEach(c=>pay.push({i:'cj'+c.id,c:c.card,w:c.who,y:Math.round(+c.total),d:c.day,p:'',n:('☁️'+(c.store_zh||c.store||'收據')).slice(0,30)}));
+    ls.set(PAYKEY,JSON.stringify(pay));
+    const n=cloud.filter(c=>c.kind!=='d').length;
+    $('aiMode').textContent='☁️ Claude 已整理 '+n+' 筆'+(j.updated?'｜更新 '+j.updated:''); $('aiMode').classList.toggle('off',!n);
+    $('aiMsg').textContent='已更新 ✓';
+  }catch(e){$('aiMode').textContent='☁️ 還沒有 Claude 整理的紀錄';$('aiMsg').textContent='';}
+  renderAll();
 }
-function parseJSON(t){const m=t.match(/```(?:json)?\s*([\s\S]*?)```/);const s=m?m[1]:t.slice(t.indexOf('{'),t.lastIndexOf('}')+1);return JSON.parse(s);}
-async function b64(blob){return await new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>res(String(fr.result).split(',')[1]);fr.onerror=rej;fr.readAsDataURL(blob);});}
-async function claudeImage(blob,prompt,max){return parseJSON(await claude([{type:'image',source:{type:'base64',media_type:'image/jpeg',data:await b64(blob)}},{type:'text',text:prompt}],max));}
+$('cloudRe').onclick=()=>{$('aiMsg').textContent='讀取中…';loadCloud();};
 
 /* ===== 基本模式：內建文字辨識（Tesseract，日文） ===== */
 let tessP=null;
@@ -256,35 +251,34 @@ async function addMoments(files){
     const id=uid(),pid='p'+id;
     $('statJ').textContent='儲存照片…';
     const blob=await shrink(f,1600,.82); await putBlob(pid,blob);
-    const r={id,kind:'m',day:dk,ts:Date.now(),photo:pid,title:'',summary:'',place:'',ja:[],note:'',status:aiKey()?'analyzing':'done'};
+    const r={id,kind:'m',day:dk,ts:Date.now(),photo:pid,title:'',summary:'',place:'',ja:[],note:'',status:'done'};
     await putRec(r); recs.unshift(r); renderJ();
-    if(aiKey()) await aiMoment(r,blob); else $('statJ').textContent='已存好 ✓（可在照片下方寫一句心得）';
+    $('statJ').textContent='已存好 ✓（可在照片下方寫一句心得，或傳給 Claude 整理）';
   }
-}
-async function aiMoment(r,blob){
-  $('statJ').textContent='Claude 正在看照片…';
-  const d=di(r.day);
-  try{
-    const o=await claudeImage(blob,'你是一對台灣夫妻的旅遊日記助手。這張照片拍於日本關西旅行 '+d.d+'（'+d.k+'），當天行程：'+d.p+'。只回一個 JSON：{"title":"8到16字繁體中文標題","summary":"2到3句繁體中文，像旅遊日記，具體描述照片裡看得到的東西","place":"推測地點，看不出來給空字串","ja":[{"ja":"照片裡的日文原文","zh":"繁體中文翻譯"}]}。ja 最多 8 條，只列照片裡真的有的日文，沒有就給 []。不要捏造看不到的細節。',900);
-    Object.assign(r,{title:String(o.title||''),summary:String(o.summary||''),place:String(o.place||''),ja:Array.isArray(o.ja)?o.ja.slice(0,8):[],status:'done',err:''});
-    $('statJ').textContent='已整理好 ✓';
-  }catch(e){Object.assign(r,{status:'error',err:e.message});$('statJ').textContent='AI 失敗：'+e.message;}
-  await putRec(r); renderJ();
 }
 async function ocrMoment(r){
   $('statJ').textContent='辨識照片裡的文字…（第一次要下載辨識資料，約 10–30 秒）';
   try{const t=await ocr(await getBlob(r.photo),p=>$('statJ').textContent='辨識中 '+p+'%');r.ocr=t;await putRec(r);$('statJ').textContent=t?'辨識完成，可按「Google 翻譯」看中文':'照片裡沒有辨識到文字';renderJ();}
   catch(e){$('statJ').textContent=e.message;}
 }
+function cloudMoment(m){
+  let h='<div class="jx-body"><div class="jx-ttl">'+esc(m.title||'旅遊紀錄')+'</div>';
+  h+='<div class="jx-meta"><span class="jx-pill">☁️ Claude 整理</span>'+esc(tTime(m.ts))+(m.place?' ・📍'+esc(m.place):'')+'</div>';
+  if(m.summary)h+='<div>'+esc(m.summary)+'</div>';
+  if(m.ja&&m.ja.length)h+='<div class="jx-ja"><b>照片裡的日文</b>'+m.ja.map(x=>'<div>'+esc(x.ja)+' → '+esc(x.zh)+'</div>').join('')+'</div>';
+  if(m.note)h+='<div class="jx-meta">💬 '+esc(m.note)+'</div>';
+  return h+'</div>';
+}
 async function renderJ(){
-  const box=$('listJ'); const items=recs.filter(r=>r.kind==='m'&&r.day===day).sort((a,b)=>b.ts-a.ts);
-  const d=di(day); const dia=recs.find(r=>r.kind==='d'&&r.day===day);
-  $('diaryBox').classList.toggle('hide',!dia); if(dia){$('diaryH').textContent='✨ '+d.k+' '+d.d+' 摘要';$('diaryP').textContent=dia.text;}
+  const box=$('listJ'); const items=recs.concat(cloud).filter(r=>r.kind==='m'&&r.day===day).sort((a,b)=>b.ts-a.ts);
+  const d=di(day); const dia=cloud.find(r=>r.kind==='d'&&r.day===day)||recs.find(r=>r.kind==='d'&&r.day===day);
+  $('diaryBox').classList.toggle('hide',!dia); if(dia){$('diaryH').textContent=(dia.cloud?'☁️ ':'✨ ')+d.k+' '+d.d+' 摘要';$('diaryP').textContent=dia.text;}
   $('cpDiary').classList.toggle('hide',!dia);
   if(!items.length){box.innerHTML='<div class="jx-empty">'+esc(d.k+' '+d.d)+' 還沒有照片。<br>按「📷 拍照記錄」，在照片下面寫一句心得；晚上按「✨ 整理今日摘要」就會整理成當天的旅遊紀錄。</div>';return;}
   box.innerHTML='';
   for(const m of items){
     const c=document.createElement('article');c.className='jx-card';
+    if(m.cloud){c.innerHTML=cloudMoment(m);box.appendChild(c);continue;}
     let h='<img class="jx-ph" alt="'+esc(m.title||'旅遊照片')+'" src="'+esc(await photoURL(m.photo))+'"><div class="jx-body">';
     h+='<div class="jx-ttl">'+esc(m.title||(m.status==='analyzing'?'Claude 整理中…':tTime(m.ts)+' 的照片'))+'</div>';
     h+='<div class="jx-meta">'+esc(tTime(m.ts))+(m.place?' ・📍'+esc(m.place):'')+'</div>';
@@ -293,10 +287,9 @@ async function renderJ(){
     if(m.ocr)h+='<details><summary>辨識到的日文</summary><div class="jx-ocr">'+esc(m.ocr)+'</div></details><a class="jx-btn" href="'+esc(gtLink(m.ocr))+'" target="_blank" rel="noopener">🌐 Google 翻譯</a>';
     if(m.status==='error')h+='<div class="jx-meta">⚠️ '+esc(m.err)+'</div>';
     h+='<textarea class="jx-note" placeholder="寫一句心得（自動儲存）">'+esc(m.note||'')+'</textarea>';
-    h+='<div class="jx-row">'+(aiKey()?'<button class="jx-btn" data-a="ai">🤖 AI 摘要</button>':'<button class="jx-btn" data-a="ocr">🔤 辨識日文</button>')+'<button class="jx-btn danger" data-a="del">刪除</button></div></div>';
+    h+='<div class="jx-row">'+'<button class="jx-btn" data-a="ocr">🔤 辨識日文</button>'+'<button class="jx-btn danger" data-a="del">刪除</button></div></div>';
     c.innerHTML=h;
     const ta=c.querySelector('textarea');ta.onchange=()=>{m.note=ta.value;putRec(m);};
-    const ai=c.querySelector('[data-a="ai"]');if(ai)ai.onclick=async()=>{m.status='analyzing';renderJ();await aiMoment(m,await getBlob(m.photo));};
     const oc=c.querySelector('[data-a="ocr"]');if(oc)oc.onclick=()=>ocrMoment(m);
     armDel(c.querySelector('[data-a="del"]'),async()=>{await delRec(m.id);await delBlob(m.photo);recs=recs.filter(x=>x.id!==m.id);renderJ();});
     box.appendChild(c);
@@ -308,18 +301,12 @@ $('mkDiary').onclick=async()=>{
   const d=di(day); const ms=recs.filter(r=>r.kind==='m'&&r.day===day).sort((a,b)=>a.ts-b.ts);
   const rs=recs.filter(r=>r.kind==='r'&&r.day===day); const spend=rs.reduce((s,r)=>s+(+r.total||0),0);
   let text='';
-  if(aiKey()&&ms.length){
-    $('diaryMsg').textContent='Claude 正在寫…';
-    const lines=ms.map(m=>'- '+tTime(m.ts)+' '+(m.place?'['+m.place+'] ':'')+(m.title||'照片')+(m.summary?'：'+m.summary:'')+(m.note?'（心得：'+m.note+'）':'')).join('\n');
-    try{text=await claude([{type:'text',text:'你是一對台灣夫妻的旅遊日記作者。根據以下 '+d.d+' 在日本關西的照片紀錄（依時間排序），寫一篇 150 到 250 字的繁體中文旅遊摘要，用「我們」的口吻、依時間順序，只寫紀錄裡有的內容。最後一行寫「今日關鍵字：」加 3 個詞。\n'+(spend?'當天購物合計 '+yen(spend)+'。\n':'')+'\n'+lines}],900);}
-    catch(e){$('diaryMsg').textContent='AI 失敗，改用基本摘要：'+e.message;}
-  }
   if(!text){
     text=d.k+' '+d.d+'｜'+d.p+'\n\n'+(ms.length?ms.map(m=>'・'+tTime(m.ts)+' '+(m.title||(m.place||'拍了一張照片'))+(m.note?'：'+m.note:'')).join('\n'):'今天還沒有照片紀錄。')+
       '\n\n📷 照片 '+ms.length+' 張'+(rs.length?'｜🧾 收據 '+rs.length+' 張，合計 '+yen(spend)+'（≈ NT$'+Math.round(spend/fx).toLocaleString('en-US')+'）':'');
   }
   let dia=recs.find(r=>r.kind==='d'&&r.day===day); if(!dia){dia={id:'d'+day,kind:'d',day:day};recs.push(dia);}
-  dia.text=text;dia.ts=Date.now();await putRec(dia);$('diaryMsg').textContent=$('diaryMsg').textContent.startsWith('AI 失敗')?$('diaryMsg').textContent:'已儲存 ✓';renderJ();
+  dia.text=text;dia.ts=Date.now();await putRec(dia);$('diaryMsg').textContent='已儲存 ✓';renderJ();
 };
 $('cpDiary').onclick=async()=>{const t=$('diaryP').textContent;try{await navigator.clipboard.writeText(t);$('diaryMsg').textContent='已複製 ✓';}catch(e){const r=document.createRange();r.selectNodeContents($('diaryP'));const s=getSelection();s.removeAllRanges();s.addRange(r);$('diaryMsg').textContent='已選取，長按複製';}};
 
@@ -336,15 +323,7 @@ async function addReceipts(files){
   }
 }
 async function readReceipt(r,blob){
-  if(aiKey()){
-    $('statR').textContent='Claude 正在讀收據、翻譯品項…';
-    try{
-      const o=await claudeImage(blob,'這是一張日本收據或購物明細。讀出內容並翻成繁體中文，只回一個 JSON：{"store":"店名原文","store_zh":"店名繁中說明","items":[{"ja":"品名原文","zh":"繁中品名，說明是什麼商品","qty":數量整數或null,"price":這行金額日圓整數或null}],"tax":消費稅日圓整數或null,"total":合計日圓整數或null,"tax_free":true或false,"payment":"付款方式中文","notes":"退稅、折扣、點數等重點中文，沒有給空字串"}。看不清楚的數字給 null，不要猜；折扣列成負數；items 最多 40 條。',2500);
-      const n=v=>(v==null||v===''||isNaN(+v))?null:Math.round(+v);
-      Object.assign(r,{store:String(o.store||''),store_zh:String(o.store_zh||''),items:(Array.isArray(o.items)?o.items:[]).slice(0,40).map(x=>({ja:String(x.ja||''),zh:String(x.zh||''),qty:n(x.qty),price:n(x.price)})),tax:n(o.tax),total:n(o.total),tax_free:!!o.tax_free,payment:String(o.payment||''),notes:String(o.notes||''),status:'done',err:''});
-      $('statR').textContent='已翻譯並記帳 ✓';
-    }catch(e){r.status='error';r.err='AI 失敗：'+e.message+'，改用內建辨識';await basicReceipt(r,blob);}
-  } else await basicReceipt(r,blob);
+  await basicReceipt(r,blob);
   if(r.total>0) paySync(r);
   await putRec(r); renderR();
 }
@@ -354,19 +333,29 @@ async function basicReceipt(r,blob){
     $('statR').textContent=r.total?'已辨識，合計 '+yen(r.total)+'，請確認金額':'辨識完成，沒抓到合計，請手動輸入金額';}
   catch(e){r.status='done';$('statR').textContent=e.message+'，請手動輸入金額';}
 }
+function cloudReceipt(r){
+  let h='<div class="jx-body"><div class="jx-row" style="justify-content:space-between;align-items:flex-start;flex-wrap:nowrap"><div style="min-width:0;flex:1"><div class="jx-ttl">'+esc(r.store_zh||r.store||'收據')+'</div>'+(r.store&&r.store_zh?'<div class="jx-meta">'+esc(r.store)+'</div>':'')+'</div><div class="jx-amt">'+(r.total!=null?esc(yen(r.total)):'—')+'<br><small>≈ NT$'+Math.round((+r.total||0)/fx).toLocaleString('en-US')+'</small></div></div>';
+  h+='<div class="jx-meta"><span class="jx-pill">☁️ Claude 整理</span>'+esc(di(r.day).k+' '+di(r.day).d+' '+tTime(r.ts))+'・'+esc(cardName(r.card))+(r.who==='wife'?'（老婆刷）':'')+(r.tax_free?' <span class="jx-pill">免稅</span>':'')+'</div>';
+  if(r.items&&r.items.length)h+='<details'+(day!=='ALL'?' open':'')+'><summary>品項明細（'+r.items.length+'）</summary><div class="jx-tw"><table><thead><tr><th>品項</th><th class="n">數量</th><th class="n">金額</th></tr></thead><tbody>'+
+    r.items.map(x=>'<tr><td>'+esc(x.zh||x.ja)+(x.ja&&x.zh?'<span class="jp">'+esc(x.ja)+'</span>':'')+'</td><td class="n">'+(x.qty!=null?esc(x.qty):'')+'</td><td class="n">'+(x.price!=null?esc(yen(x.price)):'')+'</td></tr>').join('')+
+    (r.tax!=null?'<tr><td>消費稅</td><td></td><td class="n">'+esc(yen(r.tax))+'</td></tr>':'')+'</tbody></table></div></details>';
+  if(r.notes)h+='<div class="jx-meta">💡 '+esc(r.notes)+'</div>';
+  return h+'<div class="jx-meta">✓ 已記入刷卡紀錄｜要修改請跟 Claude 說</div></div>';
+}
 async function renderR(){
-  const sel=day==='ALL'?recs.filter(r=>r.kind==='r'):recs.filter(r=>r.kind==='r'&&r.day===day);
-  const all=recs.filter(r=>r.kind==='r'); const sum=a=>a.reduce((s,r)=>s+(+r.total||0),0);
+  const both=recs.concat(cloud); const sel=day==='ALL'?both.filter(r=>r.kind==='r'):both.filter(r=>r.kind==='r'&&r.day===day);
+  const all=both.filter(r=>r.kind==='r'); const sum=a=>a.reduce((s,r)=>s+(+r.total||0),0);
   $('totDayK').textContent=day==='ALL'?'全部收據':di(day).k+' '+di(day).d+' 合計';
   $('totDay').innerHTML=esc(yen(sum(sel)))+' <small>'+sel.length+' 張</small>';$('totDayNT').textContent='≈ NT$'+Math.round(sum(sel)/fx).toLocaleString('en-US');
   $('totAll').innerHTML=esc(yen(sum(all)))+' <small>'+all.length+' 張</small>';$('totAllNT').textContent='≈ NT$'+Math.round(sum(all)/fx).toLocaleString('en-US');
   const by={};all.forEach(r=>{if(+r.total)by[r.card]=(by[r.card]||0)+(+r.total);});
   $('byCard').innerHTML=Object.entries(by).map(([k,v])=>'<span class="jx-pill">'+esc(cardName(k))+' '+esc(yen(v))+'</span>').join('');
   const box=$('listR'); const items=sel.sort((a,b)=>b.ts-a.ts);
-  if(!items.length){box.innerHTML='<div class="jx-empty">'+(day==='ALL'?'還沒有收據。':esc(di(day).k+' '+di(day).d)+' 還沒有收據。')+'<br>按「📷 拍收據」會自動抓合計金額，並加進刷卡紀錄；開啟 AI 設定後還會逐項翻譯品名。</div>';return;}
+  if(!items.length){box.innerHTML='<div class="jx-empty">'+(day==='ALL'?'還沒有收據。':esc(di(day).k+' '+di(day).d)+' 還沒有收據。')+'<br>按「📷 拍收據」會自動抓合計金額，並加進刷卡紀錄；想要逐項翻譯，把收據傳給 Claude 說「記帳」。</div>';return;}
   box.innerHTML='';
   for(const r of items){
     const c=document.createElement('article');c.className='jx-card';
+    if(r.cloud){c.innerHTML=cloudReceipt(r);box.appendChild(c);continue;}
     let h='<div class="jx-body">';
     h+='<div class="jx-row" style="justify-content:space-between;align-items:flex-start;flex-wrap:nowrap"><div style="min-width:0;flex:1"><div class="jx-ttl">'+esc(r.store_zh||r.store||(r.status==='analyzing'?'讀取中…':'收據 '+tTime(r.ts)))+'</div>'+(r.store&&r.store_zh?'<div class="jx-meta">'+esc(r.store)+'</div>':'')+'</div><div class="jx-amt">'+(r.total!=null?esc(yen(r.total)):'—')+'<br><small>≈ NT$'+Math.round((+r.total||0)/fx).toLocaleString('en-US')+'</small></div></div>';
     h+='<div class="jx-meta">'+esc(di(r.day).k+' '+di(r.day).d+' '+tTime(r.ts))+(r.tax_free?' <span class="jx-pill">免稅</span>':'')+(r.payment?' ・收據上：'+esc(r.payment):'')+'</div>';
@@ -393,8 +382,8 @@ $('inR2').onchange=e=>{addReceipts([...e.target.files]);e.target.value='';};
 
 /* ===== 啟動 ===== */
 renderDays();
-openDB().then(async d=>{idb=d;recs=await allRecs();renderAll();if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});})
- .catch(()=>{$('statJ').textContent=$('statR').textContent='這個瀏覽器無法儲存照片（可能是無痕模式），請改用一般模式開啟。';});
+openDB().then(async d=>{idb=d;recs=await allRecs();renderAll();loadCloud();if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});})
+ .catch(()=>{$('statJ').textContent=$('statR').textContent='這個瀏覽器無法儲存照片（可能是無痕模式），請改用一般模式開啟。';loadCloud();});
 })();
 </script>
 <script src="../trip-kit/trip.js?v=2"></script>
