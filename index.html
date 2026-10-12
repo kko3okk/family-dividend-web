@@ -1098,6 +1098,9 @@
   .sp-btn.ok{background:var(--green-ink);color:#fff}
   .sp-btn:active{transform:scale(.97)}
   .sp-btn:disabled{opacity:.6}
+  .sp-t{flex:none;width:76px;font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--ink);line-height:1.35;align-self:flex-start;padding-top:2px}
+  [data-v="sched"] .sp-row{align-items:flex-start}
+  [data-v="sched"] .sp-l small{line-height:1.6;letter-spacing:.02em}
   .sp-note{margin:12px 8px 0;font-size:12px;line-height:1.75;color:var(--mut);letter-spacing:.04em}
   .sp-note b{color:var(--brown)}
   .sp-foot{margin:26px 0 0;text-align:center;font-size:11.5px;color:var(--mut2);letter-spacing:.2em}
@@ -1363,6 +1366,7 @@
       <div class="sp-gl" data-en="DATA">資料</div>
       <div class="sp-group">
         <button class="sp-row nav" data-go="sync"><i class="sp-ic g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17.5a4.5 4.5 0 0 1-.6-9 5.5 5.5 0 0 1 10.6 1.4 3.8 3.8 0 0 1-.5 7.6Z"/><path d="M12 11v5M9.8 13.8 12 16l2.2-2.2"/></svg></i><span class="sp-l">雲端同步<small>GitHub Token、資料狀態</small></span><span class="sp-v" id="spSyncV">–</span></button>
+        <button class="sp-row nav" data-go="sched"><i class="sp-ic b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 2"/></svg></i><span class="sp-l">自動排程<small>每天幾點自動做什麼</small></span><span class="sp-v">16 項</span></button>
       </div>
 
       <div class="sp-gl" data-en="PREFERENCE">偏好</div>
@@ -1383,6 +1387,45 @@
         <button class="sp-row nav" data-go="about"><i class="sp-ic g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 11v5M12 8h.01"/></svg></i><span class="sp-l">關於與更新</span><span class="sp-v" id="spVerV">–</span></button>
       </div>
       <div class="sp-foot">家的旅程 · 我們一起慢慢走</div>
+    </div>
+  </div>
+
+  <!-- 自動排程（2026-10-12；排程有增減時一起更新這裡）-->
+  <div class="sp-view" data-v="sched">
+    <header class="sp-hd sub"><button class="sp-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>設定</button><h2>自動排程</h2></header>
+    <div class="sp-body">
+      <div class="sp-note" style="margin-top:0">以下時間都是台灣時間。GitHub 的排程常延遲 5–30 分鐘，凌晨那項可能晚到 1–2 小時。</div>
+      <div class="sp-gl">每天</div>
+      <div class="sp-group">
+        <div class="sp-row"><span class="sp-t">04:17</span><span class="sp-l">每日研究<small>抓產業新聞、資料健康檢查，Claude 自動查證追蹤項目與覆蓋率缺口</small></span></div>
+        <div class="sp-row"><span class="sp-t">07:07</span><span class="sp-l">持股檢查（早）<small>主動池出場線、短線停損、否證條件數字面、持股新聞、內部人申報、推薦清單；有紅燈就推播。也更新這裡的主動池／短線池頁</small></span></div>
+        <div class="sp-row"><span class="sp-t">08:51</span><span class="sp-l">早上回饋（Claude）<small>上網查核每檔否證條件的結構面，整理持股、推薦清單、題材觀察，傳到 Claude App；論點失效或紅燈另發推播</small></span></div>
+        <div class="sp-row"><span class="sp-t">18:20</span><span class="sp-l">除權息更新<small>更新所有持股的除息日、發放日；發放日一到自動產生「待確認」的股息入帳</small></span></div>
+      </div>
+      <div class="sp-gl">交易日</div>
+      <div class="sp-group">
+        <div class="sp-row"><span class="sp-t">09:00–14:00<br>每 30 分</span><span class="sp-l">即時報價<small>股息池、主動池、短線池的現價（13:45、14:20 再抓收盤價），網站上的現價與市值用這份</small></span></div>
+        <div class="sp-row"><span class="sp-t">15:30</span><span class="sp-l">收盤更新<small>收盤價、月營收、候選名單、今日推薦清單、新舊規則模擬帳戶</small></span></div>
+        <div class="sp-row"><span class="sp-t">15:40</span><span class="sp-l">市場資料<small>全市場日資料（研究與回測用）</small></span></div>
+        <div class="sp-row"><span class="sp-t">16:45</span><span class="sp-l">籌碼<small>券商分點進出（研究用）</small></span></div>
+        <div class="sp-row"><span class="sp-t">17:10</span><span class="sp-l">內部人申報<small>內部人持股轉讓申報、董監持股與設質，持股有申報時列在持股檢查（21:40 再補抓一次）</small></span></div>
+        <div class="sp-row"><span class="sp-t">17:10</span><span class="sp-l">新舊策略對照（另一套）<small>舊 60MA／新前 55 日低／前 80 日低三帳戶，與收盤更新裡的模擬帳戶重複，待決定保留哪一套</small></span></div>
+        <div class="sp-row"><span class="sp-t">17:37</span><span class="sp-l">持股檢查（收盤後）<small>用當天收盤價再檢查一次出場線與停損</small></span></div>
+      </div>
+      <div class="sp-gl">每月 11 日</div>
+      <div class="sp-group">
+        <div class="sp-row"><span class="sp-t">10:00</span><span class="sp-l">月營收篩選<small>上月營收公布完畢後，產生新一個月的候選名單</small></span></div>
+        <div class="sp-row"><span class="sp-t">16:10</span><span class="sp-l">市場月資料<small>全市場月營收等月資料（研究用）</small></span></div>
+        <div class="sp-row"><span class="sp-t">16:20</span><span class="sp-l">模擬帳戶月結<small>結算上月的研究用模擬帳戶</small></span></div>
+      </div>
+      <div class="sp-gl">每週日</div>
+      <div class="sp-group">
+        <div class="sp-row"><span class="sp-t">10:30</span><span class="sp-l">市場靜態資料<small>股本、產業別等不常變的資料（研究用）</small></span></div>
+      </div>
+      <div class="sp-gl">其他</div>
+      <div class="sp-group">
+        <div class="sp-row"><span class="sp-t">09:00</span><span class="sp-l">微丘森鄰物件監控（Claude）<small>每天搜尋符合條件的三房物件，有新物件才推播</small></span></div>
+      </div>
     </div>
   </div>
 
@@ -1524,7 +1567,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.12-1415";
+const APP_VERSION="2026.10.12-1425";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
