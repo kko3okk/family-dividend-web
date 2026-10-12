@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#FDF7E1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@400;500;600;700&family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+<title>旅途手帳｜大阪・USJ・京都 2026</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;background:#FDF7E1;color:#4E3418;padding:18px 16px 60px;max-width:760px;margin:0 auto;font-size:15px;line-height:1.6}
+nav{display:flex;gap:6px;margin-bottom:16px}
+nav a{flex:1;text-align:center;font-size:12.5px;white-space:nowrap;font-weight:600;padding:9px 0;border-radius:10px;background:#fff;text-decoration:none}
+h1{font-size:18px}
+.sub{font-size:12px;margin:2px 0 14px}
+button,input,select,textarea{font-family:inherit;color:inherit}
+button{cursor:pointer}
+.hide{display:none!important}
+.jx-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.jx-tab{border:none;border-radius:999px;background:var(--card,#fff);padding:10px 0;font-size:15px;font-weight:700;color:var(--ink2,#8A7150);box-shadow:0 4px 12px -8px rgba(93,55,19,.5)}
+.jx-tab[aria-selected="true"]{background:var(--mustard,#DEAE0B);color:#fff}
+.jx-days{display:flex;gap:6px;overflow-x:auto;padding:6px 2px 12px;scrollbar-width:none}
+.jx-days::-webkit-scrollbar{display:none}
+.jx-day{flex:0 0 auto;border:none;border-radius:16px;background:var(--card,#fff);padding:4px 11px;font-size:13px;font-weight:700;line-height:1.25;text-align:center;color:var(--ink2,#8A7150);box-shadow:0 4px 10px -8px rgba(93,55,19,.5)}
+.jx-day small{display:block;font-size:10.5px;font-weight:500;font-family:var(--num,inherit)}
+.jx-day[aria-pressed="true"]{background:var(--green,#97CC27);color:#fff}
+.jx-acts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.jx-big{display:flex;align-items:center;justify-content:center;gap:6px;border-radius:22px;padding:15px 8px;font-size:16px;font-weight:700;background:var(--mustard,#DEAE0B);color:#fff;box-shadow:0 10px 22px -14px rgba(93,55,19,.7);cursor:pointer}
+.jx-big.alt{background:var(--card,#fff);color:var(--brown,#5D3713)}
+.jx-big:active,.jx-btn:active{transform:scale(.97)}
+.jx-btn{border:none;border-radius:999px;background:var(--card,#fff);padding:6px 13px;font-size:13px;font-weight:700;color:var(--brown,#5D3713);box-shadow:0 4px 10px -8px rgba(93,55,19,.6)}
+.jx-btn.warm{background:var(--yama-l,#FBEFC4)}
+.jx-btn.danger{background:var(--coral-l,#FBE3EA)}
+.jx-btn[disabled]{opacity:.45}
+.jx-stat{font-size:13px;color:var(--ink2,#8A7150);min-height:1.4em;margin:-2px 0 10px}
+.jx-list{display:flex;flex-direction:column;gap:14px}
+.jx-card{background:var(--card,#fff);border-radius:24px;overflow:hidden;box-shadow:0 12px 30px -20px rgba(93,55,19,.45)}
+.jx-ph{display:block;width:100%;max-height:340px;object-fit:cover;background:var(--card2,#FBF3DA)}
+.jx-body{padding:12px 15px 14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.jx-ttl{font-size:16.5px;font-weight:700;color:var(--brown,#5D3713);line-height:1.4}
+.jx-meta{font-size:12px;color:var(--ink2,#8A7150);display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.jx-pill{border-radius:999px;padding:0 9px;font-size:12px;background:var(--waka-l,#EEF6D6)}
+.jx-ja{background:var(--mizu-l,#E2F1F3);border-radius:16px;padding:9px 12px;font-size:13px;display:flex;flex-direction:column;gap:3px}
+.jx-ja b{font-weight:700;color:var(--ink2,#8A7150);font-size:12px}
+.jx-note{width:100%;border:none;border-radius:14px;padding:8px 11px;font-size:14px;resize:vertical;min-height:42px;background:var(--card2,#FBF3DA)}
+.jx-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.jx-empty{border:2px dashed var(--line-c,#EFE2BD);border-radius:24px;padding:22px 16px;text-align:center;color:var(--ink2,#8A7150);font-size:14px}
+.jx-diary{background:var(--yama-l,#FBEFC4);border-radius:24px;padding:13px 15px;margin-bottom:12px}
+.jx-diary h2{font-size:15px;margin-bottom:6px}
+.jx-diary p{white-space:pre-wrap;font-size:14.5px}
+.jx-tots{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.jx-tot{background:var(--card,#fff);border-radius:22px;padding:11px 14px;box-shadow:0 12px 30px -20px rgba(93,55,19,.45)}
+.jx-tot .k{font-size:12px;color:var(--ink2,#8A7150)}
+.jx-tot .v{font-size:23px;font-family:var(--num,inherit);font-weight:600;color:var(--brown,#5D3713);font-variant-numeric:tabular-nums;line-height:1.25}
+.jx-tot .v small{font-size:12px;color:var(--ink2,#8A7150);font-weight:500}
+.jx-bycard{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;font-size:12.5px}
+.jx-amt{font-size:22px;font-family:var(--num,inherit);font-weight:600;color:var(--brown,#5D3713);text-align:right;font-variant-numeric:tabular-nums;line-height:1.2}
+.jx-amt small{font-size:12px;color:var(--ink2,#8A7150);font-weight:500}
+.jx-tw{overflow-x:auto;border-radius:14px;background:var(--card2,#FBF3DA)}
+.jx-tw table{border-collapse:collapse;width:100%;font-size:13px;background:transparent!important;box-shadow:none!important}
+.jx-tw th,.jx-tw td{padding:6px 9px;text-align:left;vertical-align:top;border-top:1.5px dotted var(--line-c,#EFE2BD)}
+.jx-tw th{border-top:none;font-weight:700;white-space:nowrap;background:transparent!important}
+.jx-tw .n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.jx-tw .jp{display:block;font-size:11.5px;color:var(--ink2,#8A7150)}
+.jx-sel,.jx-in{border:none;border-radius:12px;background:var(--card2,#FBF3DA);padding:5px 9px;font-size:13px}
+.jx-in{width:100px}
+.jx-ocr{font-size:12px;white-space:pre-wrap;background:var(--card2,#FBF3DA);border-radius:12px;padding:8px 10px;max-height:220px;overflow:auto;font-family:ui-monospace,Menlo,monospace}
+.jx-panel{background:var(--card,#fff);border-radius:22px;padding:13px 15px;margin-bottom:12px;font-size:13px;box-shadow:0 12px 30px -20px rgba(93,55,19,.45)}
+.jx-panel input[type=password],.jx-panel input[type=text]{width:100%;border:none;border-radius:12px;background:var(--card2,#FBF3DA);padding:8px 10px;font-size:13px;margin:6px 0}
+.jx-fx{font-size:12px;color:var(--ink2,#8A7150);display:flex;gap:6px;align-items:center;justify-content:flex-end;margin:-2px 0 10px}
+.jx-fx input{width:64px}
+details summary{cursor:pointer;font-size:13px;color:var(--ink2,#8A7150)}
+.jx-mode{font-size:12px;border-radius:999px;padding:2px 10px;background:var(--waka-l,#EEF6D6)}
+.jx-mode.off{background:var(--yama-l,#FBEFC4)}
+</style>
+<link rel="stylesheet" href="../trip-kit/trip.css?v=1">
+</head>
+<body>
+<nav>
+  <a href="index.html">📋 行程</a>
+  <a href="map.html">🗺️ 地圖</a>
+  <a href="food.html">🍜 美食</a>
+  <a href="card.html">💳 刷卡</a>
+  <a href="journal.html" class="on">📸 手帳</a>
+</nav>
+<h1>旅途手帳</h1>
+<div class="sub">拍照記錄每一天、拍收據自動記帳｜照片只存在這支手機</div>
+
+<div class="jx-row" style="margin-bottom:10px;justify-content:space-between">
+  <span id="aiMode" class="jx-mode off">基本模式</span>
+  <button class="jx-btn" id="aiBtn">⚙️ AI 設定</button>
+</div>
+<div class="jx-panel hide" id="aiPanel">
+  <b>AI 翻譯與摘要（選用）</b>
+  <p style="margin-top:4px">貼上自己的 Anthropic API 金鑰，就會用 Claude 看照片：寫摘要、翻譯照片裡的日文、讀收據每個品項。金鑰<b>只存在這支手機的瀏覽器</b>，不會寫進網站或 GitHub。不設定也能用：收據改用網頁內建文字辨識＋常用詞翻譯＋Google 翻譯按鈕。</p>
+  <input id="aiKey" type="password" autocomplete="off" placeholder="sk-ant-...">
+  <div class="jx-row"><button class="jx-btn warm" id="aiSave">儲存</button><button class="jx-btn" id="aiTest">測試連線</button><button class="jx-btn danger" id="aiDel">清除金鑰</button><span id="aiMsg" class="jx-meta"></span></div>
+</div>
+
+<div class="jx-tabs" role="tablist">
+  <button class="jx-tab" id="tabJ" role="tab" aria-selected="true">📸 旅遊日記</button>
+  <button class="jx-tab" id="tabR" role="tab" aria-selected="false">🧾 購物收據</button>
+</div>
+<div class="jx-days" id="days"></div>
+
+<section id="paneJ">
+  <div class="jx-acts">
+    <label class="jx-big">📷 拍照記錄<input id="inJ" type="file" accept="image/*" capture="environment" class="hide"></label>
+    <label class="jx-big alt">🖼️ 從相簿選<input id="inJ2" type="file" accept="image/*" multiple class="hide"></label>
+  </div>
+  <div class="jx-stat" id="statJ" aria-live="polite"></div>
+  <div class="jx-diary hide" id="diaryBox"><h2 id="diaryH"></h2><p id="diaryP"></p></div>
+  <div class="jx-row" style="margin-bottom:12px"><button class="jx-btn warm" id="mkDiary">✨ 整理今日摘要</button><button class="jx-btn" id="cpDiary">複製</button><span class="jx-meta" id="diaryMsg"></span></div>
+  <div class="jx-list" id="listJ"></div>
+</section>
+
+<section id="paneR" class="hide">
+  <div class="jx-tots">
+    <div class="jx-tot"><div class="k" id="totDayK">今天合計</div><div class="v" id="totDay">¥0</div><div class="k" id="totDayNT">≈ NT$0</div></div>
+    <div class="jx-tot"><div class="k">全程合計</div><div class="v" id="totAll">¥0</div><div class="k" id="totAllNT">≈ NT$0</div></div>
+    <div class="jx-bycard" id="byCard"></div>
+  </div>
+  <div class="jx-fx"><label for="fx">匯率 1 NT$ =</label><input id="fx" class="jx-in" type="number" step="0.01" inputmode="decimal"><span>¥</span></div>
+  <div class="jx-acts">
+    <label class="jx-big">📷 拍收據<input id="inR" type="file" accept="image/*" capture="environment" class="hide"></label>
+    <label class="jx-big alt">🖼️ 從相簿選<input id="inR2" type="file" accept="image/*" multiple class="hide"></label>
+  </div>
+  <div class="jx-stat" id="statR" aria-live="polite"></div>
+  <div class="jx-list" id="listR"></div>
+  <p class="jx-meta" style="margin-top:14px">💡 收據存好後會自動加進「行程頁 → 💳 刷卡紀錄」，額度建議會一起更新；改金額、換卡或刪除也會同步。</p>
+</section>
+
+<script>
+(function(){
+const DAYS=[
+ {k:'D1',d:'10/17',iso:'2026-10-17',p:'抵達關西機場、心齋橋入住、壽司晚餐、道頓堀夜景'},
+ {k:'D2',d:'10/18',iso:'2026-10-18',p:'心齋橋寶可夢中心DX、難波豬排、難波八阪神社、日本橋扭蛋動漫、力丸燒肉'},
+ {k:'D3',d:'10/19',iso:'2026-10-19',p:'箕面勝尾寺（達摩不倒翁）、天神橋筋商店街、大阪天滿宮、環球影城飯店、京都勝牛'},
+ {k:'D4',d:'10/20',iso:'2026-10-20',p:'日本環球影城：超級任天堂世界、芙莉蓮聯名、哈利波特、小小兵、萬聖節驚魂夜'},
+ {k:'D5',d:'10/21',iso:'2026-10-21',p:'梅田：しゃぶ禅壽喜燒、大丸梅田任天堂與寶可夢中心、友都八喜、茶屋町、空中庭園夕陽、きじ大阪燒'},
+ {k:'D6',d:'10/22',iso:'2026-10-22',p:'京都：寶可夢中心京都、清水寺、二年坂三年坂、八坂神社、北川半兵衛、花見小路、道頓堀串炸'},
+ {k:'D7',d:'10/23',iso:'2026-10-23',p:'心齋橋購物日：迴轉壽司或肉吸い、心齋橋筋、GU、PARCO、肉匠なか田燒肉、唐吉訶德'},
+ {k:'D8',d:'10/24',iso:'2026-10-24',p:'最後補貨、退房、關西機場、回台灣'}
+];
+const CARDS=[['U','uniopen'],['K','熊本熊卡'],['KP','玉山Wallet PayPay'],['J','吉鶴 Apple Pay'],['W','老婆 JCB'],['CUBE','CUBE'],['C','現金']];
+const cardName=k=>(CARDS.find(c=>c[0]===k)||['','未選'])[1];
+const PAYKEY='osaka2026_pay', KEYK='osaka2026_aikey', MODEL='claude-sonnet-5';
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const yen=n=>'¥'+Math.round(+n||0).toLocaleString('en-US');
+const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
+const tTime=ts=>new Date(ts).toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Tokyo'});
+
+/* ===== IndexedDB：照片 blob 與紀錄 ===== */
+let idb=null;
+function openDB(){return new Promise((res,rej)=>{const r=indexedDB.open('osaka2026_journal',1);r.onupgradeneeded=()=>{const d=r.result;d.createObjectStore('blobs');d.createObjectStore('recs',{keyPath:'id'});};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
+function tx(store,mode,fn){return new Promise((res,rej)=>{const t=idb.transaction(store,mode);const s=t.objectStore(store);const out=fn(s);t.oncomplete=()=>res(out&&out.result!==undefined?out.result:out);t.onerror=()=>rej(t.error);});}
+const putBlob=(id,b)=>tx('blobs','readwrite',s=>s.put(b,id));
+const getBlob=id=>tx('blobs','readonly',s=>s.get(id));
+const delBlob=id=>tx('blobs','readwrite',s=>s.delete(id));
+const putRec=r=>tx('recs','readwrite',s=>s.put(r));
+const delRec=id=>tx('recs','readwrite',s=>s.delete(id));
+const allRecs=()=>tx('recs','readonly',s=>s.getAll());
+const urls={};
+async function photoURL(id){if(urls[id])return urls[id];const b=await getBlob(id);if(!b)return '';return urls[id]=URL.createObjectURL(b);}
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+
+/* ===== 狀態 ===== */
+let pane='J', day=defaultDay(), recs=[];
+let fx=parseFloat(ls.get('osaka2026_fx'))||4.65; $('fx').value=fx;
+$('fx').onchange=()=>{const v=parseFloat($('fx').value);if(v>0){fx=v;ls.set('osaka2026_fx',String(v));renderR();}};
+function defaultDay(){const jst=new Date(Date.now()+9*3600e3).toISOString().slice(0,10);const h=DAYS.find(d=>d.iso===jst);if(h)return h.k;return ls.get('osaka2026_jday')||'D1';}
+const di=k=>DAYS.find(d=>d.k===k)||DAYS[0];
+
+/* ===== AI 設定 ===== */
+function aiKey(){return ls.get(KEYK)||'';}
+function paintMode(){const on=!!aiKey();$('aiMode').textContent=on?'🤖 AI 模式（Claude）':'基本模式（網頁內建辨識）';$('aiMode').classList.toggle('off',!on);$('aiKey').value=on?'••••••••（已儲存）':'';}
+$('aiBtn').onclick=()=>$('aiPanel').classList.toggle('hide');
+$('aiSave').onclick=()=>{const v=$('aiKey').value.trim();if(!v||v.startsWith('••')){$('aiMsg').textContent='請貼上金鑰';return;}ls.set(KEYK,v);paintMode();$('aiMsg').textContent='已儲存在這支手機 ✓';};
+$('aiDel').onclick=()=>{ls.del(KEYK);paintMode();$('aiMsg').textContent='已清除';};
+$('aiTest').onclick=async()=>{$('aiMsg').textContent='測試中…';try{const t=await claude([{type:'text',text:'只回「OK」兩個字'}],20);$('aiMsg').textContent='連線成功：'+t.slice(0,20);}catch(e){$('aiMsg').textContent='失敗：'+e.message;}};
+paintMode();
+
+async function claude(content,maxTokens){
+  const key=aiKey(); if(!key) throw new Error('尚未設定金鑰');
+  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:MODEL,max_tokens:maxTokens||1500,messages:[{role:'user',content:content}]})});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok) throw new Error((j.error&&j.error.message)||('HTTP '+r.status));
+  return (j.content||[]).filter(c=>c.type==='text').map(c=>c.text).join('');
+}
+function parseJSON(t){const m=t.match(/```(?:json)?\s*([\s\S]*?)```/);const s=m?m[1]:t.slice(t.indexOf('{'),t.lastIndexOf('}')+1);return JSON.parse(s);}
+async function b64(blob){return await new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>res(String(fr.result).split(',')[1]);fr.onerror=rej;fr.readAsDataURL(blob);});}
+async function claudeImage(blob,prompt,max){return parseJSON(await claude([{type:'image',source:{type:'base64',media_type:'image/jpeg',data:await b64(blob)}},{type:'text',text:prompt}],max));}
+
+/* ===== 基本模式：內建文字辨識（Tesseract，日文） ===== */
+let tessP=null;
+function loadTess(){if(tessP)return tessP;tessP=new Promise((res,rej)=>{if(window.Tesseract)return res(window.Tesseract);const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';s.onload=()=>res(window.Tesseract);s.onerror=()=>{tessP=null;rej(new Error('辨識程式載入失敗，請確認網路'));};document.head.appendChild(s);});return tessP;}
+async function ocr(blob,onp){const T=await loadTess();const r=await T.recognize(blob,'jpn',{logger:m=>{if(m.status==='recognizing text'&&onp)onp(Math.round(m.progress*100));}});return (r.data.text||'').replace(/[ \t]+/g,' ').replace(/(\S) (?=\S)/g,(m,a)=>/[　-鿿＀-￯]/.test(a)?a:m).trim();}
+const GLOSS=[['合計','合計'],['小計','小計'],['お買上','購買金額'],['総額','總額'],['消費税','消費稅'],['内税','內含稅'],['外税','外加稅'],['税込','含稅'],['税抜','未稅'],['免税','免稅'],['お預り','收款'],['お預かり','收款'],['お釣り','找零'],['おつり','找零'],['釣銭','找零'],['クレジット','信用卡'],['カード','卡'],['現金','現金'],['値引','折扣'],['割引','折扣'],['ポイント','點數'],['領収書','收據'],['領収証','收據'],['レシート','收據'],['点数','件數'],['点','件'],['個','個'],['袋','袋'],['電子マネー','電子錢包'],['交通系','交通IC卡'],['軽減税率','輕減稅率(食品8%)'],['対象','適用'],['返品','退貨'],['担当','經手人'],['店','店'],['菓子','點心'],['飲料','飲料'],['医薬品','藥品'],['化粧品','化妝品'],['目薬','眼藥水'],['チョコ','巧克力'],['抹茶','抹茶'],['ガチャ','扭蛋'],['カプセル','扭蛋'],['トレカ','集換式卡牌'],['ポケモン','寶可夢']];
+function gloss(text){const hit=[];GLOSS.forEach(([j,z])=>{if(j.length>1&&text.includes(j)&&!hit.find(h=>h[0]===j))hit.push([j,z]);});return hit;}
+function guessTotal(text){
+  const lines=text.split(/\n/); let best=null;
+  const num=s=>{const m=s.replace(/[，,]/g,'').match(/[¥￥\\]?\s*(\d{2,7})(?!\d)/g);if(!m)return null;return Math.max(...m.map(x=>+x.replace(/\D/g,'')));};
+  for(const re of [/合\s*計|お買上|総\s*額|ご請求/, /計/]){for(const l of lines){if(re.test(l)&&!/小\s*計|税/.test(l)){const n=num(l);if(n&&(!best||n>best))best=n;}}if(best)return best;}
+  return null;
+}
+const gtLink=t=>'https://translate.google.com/?sl=ja&tl=zh-TW&op=translate&text='+encodeURIComponent(t.slice(0,4500));
+
+/* ===== 照片壓縮 ===== */
+async function shrink(file,max,q){
+  try{const url=URL.createObjectURL(file);const img=await new Promise((res,rej)=>{const im=new Image();im.onload=()=>res(im);im.onerror=rej;im.src=url;});
+    let w=img.naturalWidth,h=img.naturalHeight;const s=Math.min(1,max/Math.max(w,h));w=Math.round(w*s);h=Math.round(h*s);
+    const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);URL.revokeObjectURL(url);
+    return await new Promise(r=>c.toBlob(b=>r(b||file),'image/jpeg',q));}catch(e){return file;}
+}
+
+/* ===== 分頁與日期 ===== */
+function setPane(p){pane=p;$('tabJ').setAttribute('aria-selected',p==='J');$('tabR').setAttribute('aria-selected',p==='R');$('paneJ').classList.toggle('hide',p!=='J');$('paneR').classList.toggle('hide',p!=='R');if(p==='J'&&day==='ALL')day=defaultDay();renderDays();renderAll();}
+$('tabJ').onclick=()=>setPane('J');$('tabR').onclick=()=>setPane('R');
+function renderDays(){const box=$('days');box.innerHTML='';const list=pane==='R'?[{k:'ALL',d:'一覽'}].concat(DAYS):DAYS;
+  list.forEach(d=>{const b=document.createElement('button');b.className='jx-day';b.setAttribute('aria-pressed',d.k===day);b.innerHTML=(d.k==='ALL'?'全部':d.k)+'<small>'+d.d+'</small>';b.onclick=()=>{day=d.k;if(d.k!=='ALL')ls.set('osaka2026_jday',d.k);renderDays();renderAll();};box.appendChild(b);});
+  const on=box.querySelector('[aria-pressed="true"]');if(on)box.scrollLeft=on.offsetLeft-box.clientWidth/2+on.offsetWidth/2;}
+function renderAll(){renderJ();renderR();}
+
+/* ===== 刷卡紀錄同步（與行程頁共用） ===== */
+function payLoad(){try{return JSON.parse(ls.get(PAYKEY)||'[]')||[];}catch(e){return[];}}
+function paySync(r){
+  let p=payLoad().filter(x=>x.i!==r.payId);
+  if(r.total>0){r.payId=r.payId||('rc'+r.id);p.push({i:r.payId,c:r.card||'U',w:r.who||'me',y:Math.round(r.total),d:r.day,p:'',n:('🧾'+(r.store_zh||r.store||'收據')).slice(0,30)});}
+  ls.set(PAYKEY,JSON.stringify(p));
+}
+function payDel(r){if(!r.payId)return;ls.set(PAYKEY,JSON.stringify(payLoad().filter(x=>x.i!==r.payId)));}
+
+/* ===== 刪除確認（頁內，兩次點擊） ===== */
+function armDel(btn,fn){let armed=false,t;btn.onclick=()=>{if(armed){clearTimeout(t);fn();return;}armed=true;btn.textContent='再按一次刪除';t=setTimeout(()=>{armed=false;btn.textContent='刪除';},3500);};}
+
+/* ===== 旅遊日記 ===== */
+async function addMoments(files){
+  const dk=day;
+  for(const f of files){
+    const id=uid(),pid='p'+id;
+    $('statJ').textContent='儲存照片…';
+    const blob=await shrink(f,1600,.82); await putBlob(pid,blob);
+    const r={id,kind:'m',day:dk,ts:Date.now(),photo:pid,title:'',summary:'',place:'',ja:[],note:'',status:aiKey()?'analyzing':'done'};
+    await putRec(r); recs.unshift(r); renderJ();
+    if(aiKey()) await aiMoment(r,blob); else $('statJ').textContent='已存好 ✓（可在照片下方寫一句心得）';
+  }
+}
+async function aiMoment(r,blob){
+  $('statJ').textContent='Claude 正在看照片…';
+  const d=di(r.day);
+  try{
+    const o=await claudeImage(blob,'你是一對台灣夫妻的旅遊日記助手。這張照片拍於日本關西旅行 '+d.d+'（'+d.k+'），當天行程：'+d.p+'。只回一個 JSON：{"title":"8到16字繁體中文標題","summary":"2到3句繁體中文，像旅遊日記，具體描述照片裡看得到的東西","place":"推測地點，看不出來給空字串","ja":[{"ja":"照片裡的日文原文","zh":"繁體中文翻譯"}]}。ja 最多 8 條，只列照片裡真的有的日文，沒有就給 []。不要捏造看不到的細節。',900);
+    Object.assign(r,{title:String(o.title||''),summary:String(o.summary||''),place:String(o.place||''),ja:Array.isArray(o.ja)?o.ja.slice(0,8):[],status:'done',err:''});
+    $('statJ').textContent='已整理好 ✓';
+  }catch(e){Object.assign(r,{status:'error',err:e.message});$('statJ').textContent='AI 失敗：'+e.message;}
+  await putRec(r); renderJ();
+}
+async function ocrMoment(r){
+  $('statJ').textContent='辨識照片裡的文字…（第一次要下載辨識資料，約 10–30 秒）';
+  try{const t=await ocr(await getBlob(r.photo),p=>$('statJ').textContent='辨識中 '+p+'%');r.ocr=t;await putRec(r);$('statJ').textContent=t?'辨識完成，可按「Google 翻譯」看中文':'照片裡沒有辨識到文字';renderJ();}
+  catch(e){$('statJ').textContent=e.message;}
+}
+async function renderJ(){
+  const box=$('listJ'); const items=recs.filter(r=>r.kind==='m'&&r.day===day).sort((a,b)=>b.ts-a.ts);
+  const d=di(day); const dia=recs.find(r=>r.kind==='d'&&r.day===day);
+  $('diaryBox').classList.toggle('hide',!dia); if(dia){$('diaryH').textContent='✨ '+d.k+' '+d.d+' 摘要';$('diaryP').textContent=dia.text;}
+  $('cpDiary').classList.toggle('hide',!dia);
+  if(!items.length){box.innerHTML='<div class="jx-empty">'+esc(d.k+' '+d.d)+' 還沒有照片。<br>按「📷 拍照記錄」，在照片下面寫一句心得；晚上按「✨ 整理今日摘要」就會整理成當天的旅遊紀錄。</div>';return;}
+  box.innerHTML='';
+  for(const m of items){
+    const c=document.createElement('article');c.className='jx-card';
+    let h='<img class="jx-ph" alt="'+esc(m.title||'旅遊照片')+'" src="'+esc(await photoURL(m.photo))+'"><div class="jx-body">';
+    h+='<div class="jx-ttl">'+esc(m.title||(m.status==='analyzing'?'Claude 整理中…':tTime(m.ts)+' 的照片'))+'</div>';
+    h+='<div class="jx-meta">'+esc(tTime(m.ts))+(m.place?' ・📍'+esc(m.place):'')+'</div>';
+    if(m.summary)h+='<div>'+esc(m.summary)+'</div>';
+    if(m.ja&&m.ja.length)h+='<div class="jx-ja"><b>照片裡的日文</b>'+m.ja.map(x=>'<div>'+esc(x.ja)+' → '+esc(x.zh)+'</div>').join('')+'</div>';
+    if(m.ocr)h+='<details><summary>辨識到的日文</summary><div class="jx-ocr">'+esc(m.ocr)+'</div></details><a class="jx-btn" href="'+esc(gtLink(m.ocr))+'" target="_blank" rel="noopener">🌐 Google 翻譯</a>';
+    if(m.status==='error')h+='<div class="jx-meta">⚠️ '+esc(m.err)+'</div>';
+    h+='<textarea class="jx-note" placeholder="寫一句心得（自動儲存）">'+esc(m.note||'')+'</textarea>';
+    h+='<div class="jx-row">'+(aiKey()?'<button class="jx-btn" data-a="ai">🤖 AI 摘要</button>':'<button class="jx-btn" data-a="ocr">🔤 辨識日文</button>')+'<button class="jx-btn danger" data-a="del">刪除</button></div></div>';
+    c.innerHTML=h;
+    const ta=c.querySelector('textarea');ta.onchange=()=>{m.note=ta.value;putRec(m);};
+    const ai=c.querySelector('[data-a="ai"]');if(ai)ai.onclick=async()=>{m.status='analyzing';renderJ();await aiMoment(m,await getBlob(m.photo));};
+    const oc=c.querySelector('[data-a="ocr"]');if(oc)oc.onclick=()=>ocrMoment(m);
+    armDel(c.querySelector('[data-a="del"]'),async()=>{await delRec(m.id);await delBlob(m.photo);recs=recs.filter(x=>x.id!==m.id);renderJ();});
+    box.appendChild(c);
+  }
+}
+$('inJ').onchange=e=>{addMoments([...e.target.files]);e.target.value='';};
+$('inJ2').onchange=e=>{addMoments([...e.target.files]);e.target.value='';};
+$('mkDiary').onclick=async()=>{
+  const d=di(day); const ms=recs.filter(r=>r.kind==='m'&&r.day===day).sort((a,b)=>a.ts-b.ts);
+  const rs=recs.filter(r=>r.kind==='r'&&r.day===day); const spend=rs.reduce((s,r)=>s+(+r.total||0),0);
+  let text='';
+  if(aiKey()&&ms.length){
+    $('diaryMsg').textContent='Claude 正在寫…';
+    const lines=ms.map(m=>'- '+tTime(m.ts)+' '+(m.place?'['+m.place+'] ':'')+(m.title||'照片')+(m.summary?'：'+m.summary:'')+(m.note?'（心得：'+m.note+'）':'')).join('\n');
+    try{text=await claude([{type:'text',text:'你是一對台灣夫妻的旅遊日記作者。根據以下 '+d.d+' 在日本關西的照片紀錄（依時間排序），寫一篇 150 到 250 字的繁體中文旅遊摘要，用「我們」的口吻、依時間順序，只寫紀錄裡有的內容。最後一行寫「今日關鍵字：」加 3 個詞。\n'+(spend?'當天購物合計 '+yen(spend)+'。\n':'')+'\n'+lines}],900);}
+    catch(e){$('diaryMsg').textContent='AI 失敗，改用基本摘要：'+e.message;}
+  }
+  if(!text){
+    text=d.k+' '+d.d+'｜'+d.p+'\n\n'+(ms.length?ms.map(m=>'・'+tTime(m.ts)+' '+(m.title||(m.place||'拍了一張照片'))+(m.note?'：'+m.note:'')).join('\n'):'今天還沒有照片紀錄。')+
+      '\n\n📷 照片 '+ms.length+' 張'+(rs.length?'｜🧾 收據 '+rs.length+' 張，合計 '+yen(spend)+'（≈ NT$'+Math.round(spend/fx).toLocaleString('en-US')+'）':'');
+  }
+  let dia=recs.find(r=>r.kind==='d'&&r.day===day); if(!dia){dia={id:'d'+day,kind:'d',day:day};recs.push(dia);}
+  dia.text=text;dia.ts=Date.now();await putRec(dia);$('diaryMsg').textContent=$('diaryMsg').textContent.startsWith('AI 失敗')?$('diaryMsg').textContent:'已儲存 ✓';renderJ();
+};
+$('cpDiary').onclick=async()=>{const t=$('diaryP').textContent;try{await navigator.clipboard.writeText(t);$('diaryMsg').textContent='已複製 ✓';}catch(e){const r=document.createRange();r.selectNodeContents($('diaryP'));const s=getSelection();s.removeAllRanges();s.addRange(r);$('diaryMsg').textContent='已選取，長按複製';}};
+
+/* ===== 購物收據 ===== */
+async function addReceipts(files){
+  const dk=day==='ALL'?defaultDay():day;
+  for(const f of files){
+    const id=uid(),pid='p'+id;
+    $('statR').textContent='儲存收據照片…';
+    const blob=await shrink(f,2000,.86); await putBlob(pid,blob);
+    const r={id,kind:'r',day:dk,ts:Date.now(),photo:pid,store:'',store_zh:'',items:[],total:null,tax:null,tax_free:false,card:'U',who:'me',notes:'',ocr:'',status:'analyzing'};
+    await putRec(r); recs.unshift(r); renderR();
+    await readReceipt(r,blob);
+  }
+}
+async function readReceipt(r,blob){
+  if(aiKey()){
+    $('statR').textContent='Claude 正在讀收據、翻譯品項…';
+    try{
+      const o=await claudeImage(blob,'這是一張日本收據或購物明細。讀出內容並翻成繁體中文，只回一個 JSON：{"store":"店名原文","store_zh":"店名繁中說明","items":[{"ja":"品名原文","zh":"繁中品名，說明是什麼商品","qty":數量整數或null,"price":這行金額日圓整數或null}],"tax":消費稅日圓整數或null,"total":合計日圓整數或null,"tax_free":true或false,"payment":"付款方式中文","notes":"退稅、折扣、點數等重點中文，沒有給空字串"}。看不清楚的數字給 null，不要猜；折扣列成負數；items 最多 40 條。',2500);
+      const n=v=>(v==null||v===''||isNaN(+v))?null:Math.round(+v);
+      Object.assign(r,{store:String(o.store||''),store_zh:String(o.store_zh||''),items:(Array.isArray(o.items)?o.items:[]).slice(0,40).map(x=>({ja:String(x.ja||''),zh:String(x.zh||''),qty:n(x.qty),price:n(x.price)})),tax:n(o.tax),total:n(o.total),tax_free:!!o.tax_free,payment:String(o.payment||''),notes:String(o.notes||''),status:'done',err:''});
+      $('statR').textContent='已翻譯並記帳 ✓';
+    }catch(e){r.status='error';r.err='AI 失敗：'+e.message+'，改用內建辨識';await basicReceipt(r,blob);}
+  } else await basicReceipt(r,blob);
+  if(r.total>0) paySync(r);
+  await putRec(r); renderR();
+}
+async function basicReceipt(r,blob){
+  $('statR').textContent='辨識收據文字…（第一次要下載辨識資料，約 10–30 秒）';
+  try{const t=await ocr(blob,p=>$('statR').textContent='辨識中 '+p+'%');r.ocr=t;r.total=r.total||guessTotal(t);r.status='done';
+    $('statR').textContent=r.total?'已辨識，合計 '+yen(r.total)+'，請確認金額':'辨識完成，沒抓到合計，請手動輸入金額';}
+  catch(e){r.status='done';$('statR').textContent=e.message+'，請手動輸入金額';}
+}
+async function renderR(){
+  const sel=day==='ALL'?recs.filter(r=>r.kind==='r'):recs.filter(r=>r.kind==='r'&&r.day===day);
+  const all=recs.filter(r=>r.kind==='r'); const sum=a=>a.reduce((s,r)=>s+(+r.total||0),0);
+  $('totDayK').textContent=day==='ALL'?'全部收據':di(day).k+' '+di(day).d+' 合計';
+  $('totDay').innerHTML=esc(yen(sum(sel)))+' <small>'+sel.length+' 張</small>';$('totDayNT').textContent='≈ NT$'+Math.round(sum(sel)/fx).toLocaleString('en-US');
+  $('totAll').innerHTML=esc(yen(sum(all)))+' <small>'+all.length+' 張</small>';$('totAllNT').textContent='≈ NT$'+Math.round(sum(all)/fx).toLocaleString('en-US');
+  const by={};all.forEach(r=>{if(+r.total)by[r.card]=(by[r.card]||0)+(+r.total);});
+  $('byCard').innerHTML=Object.entries(by).map(([k,v])=>'<span class="jx-pill">'+esc(cardName(k))+' '+esc(yen(v))+'</span>').join('');
+  const box=$('listR'); const items=sel.sort((a,b)=>b.ts-a.ts);
+  if(!items.length){box.innerHTML='<div class="jx-empty">'+(day==='ALL'?'還沒有收據。':esc(di(day).k+' '+di(day).d)+' 還沒有收據。')+'<br>按「📷 拍收據」會自動抓合計金額，並加進刷卡紀錄；開啟 AI 設定後還會逐項翻譯品名。</div>';return;}
+  box.innerHTML='';
+  for(const r of items){
+    const c=document.createElement('article');c.className='jx-card';
+    let h='<div class="jx-body">';
+    h+='<div class="jx-row" style="justify-content:space-between;align-items:flex-start;flex-wrap:nowrap"><div style="min-width:0;flex:1"><div class="jx-ttl">'+esc(r.store_zh||r.store||(r.status==='analyzing'?'讀取中…':'收據 '+tTime(r.ts)))+'</div>'+(r.store&&r.store_zh?'<div class="jx-meta">'+esc(r.store)+'</div>':'')+'</div><div class="jx-amt">'+(r.total!=null?esc(yen(r.total)):'—')+'<br><small>≈ NT$'+Math.round((+r.total||0)/fx).toLocaleString('en-US')+'</small></div></div>';
+    h+='<div class="jx-meta">'+esc(di(r.day).k+' '+di(r.day).d+' '+tTime(r.ts))+(r.tax_free?' <span class="jx-pill">免稅</span>':'')+(r.payment?' ・收據上：'+esc(r.payment):'')+'</div>';
+    h+='<div class="jx-row"><select class="jx-sel" data-f="card" aria-label="刷哪張卡">'+CARDS.map(([k,n])=>'<option value="'+k+'"'+(k===r.card?' selected':'')+'>'+n+'</option>').join('')+'</select>'+
+       '<select class="jx-sel" data-f="who" aria-label="誰刷的"><option value="me"'+(r.who!=='wife'?' selected':'')+'>我刷的</option><option value="wife"'+(r.who==='wife'?' selected':'')+'>老婆刷的</option></select>'+
+       '<input class="jx-in" data-f="total" type="number" inputmode="numeric" placeholder="金額 ¥" aria-label="金額" value="'+(r.total!=null?esc(r.total):'')+'"></div>';
+    if(r.items&&r.items.length){h+='<details'+(day!=='ALL'?' open':'')+'><summary>品項明細（'+r.items.length+'）</summary><div class="jx-tw"><table><thead><tr><th>品項</th><th class="n">數量</th><th class="n">金額</th></tr></thead><tbody>'+
+      r.items.map(x=>'<tr><td>'+esc(x.zh||x.ja)+(x.ja&&x.zh?'<span class="jp">'+esc(x.ja)+'</span>':'')+'</td><td class="n">'+(x.qty!=null?esc(x.qty):'')+'</td><td class="n">'+(x.price!=null?esc(yen(x.price)):'')+'</td></tr>').join('')+
+      (r.tax!=null?'<tr><td>消費稅</td><td></td><td class="n">'+esc(yen(r.tax))+'</td></tr>':'')+'</tbody></table></div></details>';}
+    if(r.ocr){const g=gloss(r.ocr);h+='<details><summary>辨識到的文字'+(g.length?'（常用詞：'+esc(g.slice(0,6).map(x=>x[0]+'='+x[1]).join('、'))+'）':'')+'</summary><div class="jx-ocr">'+esc(r.ocr)+'</div></details><div class="jx-row"><a class="jx-btn" href="'+esc(gtLink(r.ocr))+'" target="_blank" rel="noopener">🌐 Google 翻譯整張</a></div>';}
+    if(r.notes)h+='<div class="jx-meta">💡 '+esc(r.notes)+'</div>';
+    if(r.err)h+='<div class="jx-meta">⚠️ '+esc(r.err)+'</div>';
+    h+='<details><summary>看收據照片</summary><img class="jx-ph" style="border-radius:14px;margin-top:6px" alt="收據照片" src="'+esc(await photoURL(r.photo))+'"></details>';
+    h+='<div class="jx-row"><button class="jx-btn" data-a="re">🔄 重新辨識</button><button class="jx-btn danger" data-a="del">刪除</button>'+(r.payId&&r.total>0?'<span class="jx-meta">✓ 已記入刷卡紀錄</span>':'')+'</div></div>';
+    c.innerHTML=h;
+    c.querySelectorAll('[data-f]').forEach(el=>el.onchange=async()=>{const f=el.dataset.f;r[f]=f==='total'?(el.value===''?null:Math.round(+el.value)):el.value;paySync(r);await putRec(r);renderR();});
+    c.querySelector('[data-a="re"]').onclick=async()=>{r.status='analyzing';r.err='';await readReceipt(r,await getBlob(r.photo));};
+    armDel(c.querySelector('[data-a="del"]'),async()=>{payDel(r);await delRec(r.id);await delBlob(r.photo);recs=recs.filter(x=>x.id!==r.id);renderR();});
+    box.appendChild(c);
+  }
+}
+$('inR').onchange=e=>{addReceipts([...e.target.files]);e.target.value='';};
+$('inR2').onchange=e=>{addReceipts([...e.target.files]);e.target.value='';};
+
+/* ===== 啟動 ===== */
+renderDays();
+openDB().then(async d=>{idb=d;recs=await allRecs();renderAll();if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});})
+ .catch(()=>{$('statJ').textContent=$('statR').textContent='這個瀏覽器無法儲存照片（可能是無痕模式），請改用一般模式開啟。';});
+})();
+</script>
+<script src="../trip-kit/trip.js?v=2"></script>
+</body>
+</html>
