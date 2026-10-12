@@ -1524,7 +1524,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.12-1405";
+const APP_VERSION="2026.10.12-1415";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -2025,7 +2025,7 @@ function renderPool(){
   const closed=(short?P.closed:P.closed_2026)||[];
   const ctab=closed.length?`<h4 style="margin:14px 0 6px">${short?"已出場":"2026 已出場"}</h4><table class="pclosed">${closed.slice().reverse().map(c=>`<tr><td>${c.date||"—"}</td><td>${c.name}</td><td class="num">${c.price??"—"}</td><td class="num ${c.pnl>=0?"up":"dn"}">${c.pnl!=null?fmt(c.pnl):"—"}</td></tr>`).join("")}</table>`:"";
   const rule=short?`<div class="prule">${P.desc||""}</div>`
-    :`<div class="prule">規則（方案 C）：${POOL.rule}。<br><a href="https://github.com/kko3okk/family-dividend-web/blob/main/paper/picks.md" target="_blank" rel="noopener">今日推薦清單 ↗</a></div>`;
+    :`<div class="prule">規則（方案 C）：${POOL.rule}。</div>`;
   box.innerHTML=`<h3 data-en="${short?"SWING":"ACTIVE"}">${short?"短線池":"主動池"}<span class="tick" style="margin-left:auto;font-weight:600">報價 ${LIVE?LIVE.updated.slice(5,16).replace("T"," "):"收盤 "+(POOL.price_date||"—")} · 出場線依 ${POOL.price_date||"—"} 收盤</span></h3>
     <div class="pstats">${stats}</div>${ps.map(p=>posCard(p,short)).join("")||'<div class="note">目前沒有持股</div>'}${ctab}${rule}`;
 }
