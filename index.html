@@ -384,6 +384,37 @@
     .cards>.wide{grid-column:1/-1}
   }
 
+  /* ═══ 2026-10-12 財務細分：股息池／主動池／短線池 ═══ */
+  .pseg{display:flex;gap:3px;margin:12px auto 4px;width:calc(100% - 32px);max-width:520px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:3px}
+  .pseg button{flex:1;border:none;background:none;font:inherit;font-size:13px;font-weight:800;color:var(--mut);padding:8px 6px;border-radius:9px;cursor:pointer;letter-spacing:.04em}
+  .pseg button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 0 var(--line),0 1px 3px rgba(59,51,87,.12)}
+  body.pool-act .fin:not(.pv):not(.pseg),body.pool-short .fin:not(.pv):not(.pseg){display:none!important}
+  body:not(.pool-act):not(.pool-short) .pv{display:none!important}
+  .pstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:4px 0 14px}
+  .pstats div{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:9px 11px}
+  .pstats small{display:block;font-size:11px;color:var(--mut);font-weight:700}
+  .pstats b{font-family:var(--mono);font-size:16px;color:var(--ink)}
+  .pcard{border:1.5px solid var(--line);border-radius:14px;padding:11px 12px;margin:0 0 10px;background:var(--card)}
+  .pcard .ph{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .pcard .ph b{font-size:15px;color:var(--ink)}
+  .ptag{font-size:10px;font-weight:800;padding:2px 6px;border-radius:6px;background:var(--card2);color:var(--mut);border:1px solid var(--line)}
+  .pst{margin-left:auto;font-size:11px;font-weight:800;padding:3px 8px;border-radius:999px}
+  .pst.ok{background:var(--green-soft);color:var(--green-ink,var(--green))}
+  .pst.warn{background:#FFF1D6;color:#A86A00}
+  .pst.bad{background:#FCE3E1;color:#C23B32}
+  .pg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:9px 0 6px;font-family:var(--mono);font-size:13px;color:var(--ink)}
+  .pg small{display:block;font-family:inherit;font-size:10px;color:var(--mut);font-weight:700}
+  .up{color:var(--green-ink,var(--green))}.dn{color:#D9534F}
+  .pline{font-size:12px;color:var(--mut);margin-top:4px}
+  .pbar{height:6px;border-radius:4px;background:var(--card2);overflow:hidden;margin-top:5px}
+  .pbar i{display:block;height:100%;background:var(--pcol,var(--chang));border-radius:4px}
+  .pcard details{margin-top:7px;font-size:12px;color:var(--mut)}
+  .pcard details summary{cursor:pointer;font-weight:700}
+  .pclosed{width:100%;font-size:12px}
+  .pclosed td{padding:5px 4px;border-bottom:1px dashed var(--line)}
+  .prule{font-size:12px;color:var(--mut);line-height:1.6;margin-top:10px}
+  .pmiss{color:#D9534F;font-weight:800}
+
   /* ═══ 2026-10-11 財務 / 健康 分區 ═══ */
   .domain{display:flex;flex:none;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:2px;gap:2px}
   .domain button{border:none;background:none;font:inherit;font-size:12px;font-weight:800;color:var(--mut);
@@ -1154,6 +1185,11 @@
   </div>
 </section>
 
+<div class="pseg fin" id="poolSeg" role="tablist" aria-label="資金池">
+  <button data-pool="div" class="on" role="tab">股息池</button><button data-pool="act" role="tab">主動池</button><button data-pool="short" role="tab">短線池</button>
+</div>
+<section class="cards fin pv" id="poolApp"><div class="card wide" id="poolBox"><div class="note">載入中…</div></div></section>
+
 <div class="scene fin" id="secMap">
   <div id="sceneSvg"></div>
   <div class="strip">
@@ -1454,7 +1490,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.12-1255";
+const APP_VERSION="2026.10.12-1320";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -1886,6 +1922,73 @@ const CHECKS={
        "股息已全數再投入長榮／崇友",
        "0050 月扣未中斷",
        "除權息季買點窗口已把握"]};
+
+/* ═══ 2026-10-12 主動池／短線池（讀私有庫 holdings/status.json，由每日持股檢查產生）═══ */
+let POOL=null,POOLV="div";
+async function loadPool(){
+  const h={"Accept":"application/vnd.github+json"}; if(token())h.Authorization="Bearer "+token();
+  const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/holdings/status.json?t=`+Date.now(),{headers:h});
+  if(!r.ok)throw new Error("讀取失敗 HTTP "+r.status+"（請到「設定 → 雲端同步」填入 Token）");
+  const j=await r.json();POOL=JSON.parse(b64d(j.content.replace(/\n/g,"")));
+}
+const wan=n=>(n>=0?"+":"−")+(Math.abs(n)/1e4).toFixed(1)+"萬";
+const pct=x=>(x>=0?"+":"")+(x*100).toFixed(1)+"%";
+function posCard(p,short){
+  const px=p.px,cost=p.cost,sh=p.shares;
+  if(!px)return `<div class="pcard"><div class="ph"><b>${p.name}</b><span class="tick">${p.code}</span><span class="pst warn">無價格</span></div></div>`;
+  const pnl=(px-cost)*sh,r=px/cost-1;
+  let st=["ok","續抱"];
+  const dbl=p.hi_since&&p.hi_since>=2*cost, t4=dbl&&px<=p.hi_since*0.75;
+  if(short){
+    if(p.stop&&px<=p.stop)st=["bad","觸停損"];else if(p.target&&px>=p.target)st=["bad","達目標"];
+    else if(!p.stop||!p.time_stop_days)st=["warn","條件未設"];
+  }else{
+    if(p.lo55&&px<p.lo55)st=["bad","跌破出場線"];else if(t4)st=["bad","T4 出場"];
+    else if(p.lo55&&(px/p.lo55-1)<0.05)st=["warn","接近出場線"];
+  }
+  const tag=short?"短線":(p.type==="discretionary"?"主觀格":"規則格");
+  let line="";
+  if(short){
+    const m=v=>v?v:'<span class="pmiss">未設</span>';
+    line=`<div class="pline">停損 ${m(p.stop)}　目標 ${m(p.target)}　時間停損 ${p.time_stop_days?p.time_stop_days+" 交易日":'<span class="pmiss">未設</span>'}　進場 ${p.opened||"—"}</div>`;
+  }else if(p.lo55){
+    const d=(p.lo55/px-1);const room=Math.min(100,Math.max(0,-d*100*1.6));
+    line=`<div class="pline">出場線（前 55 日最低收盤）<b>${p.lo55}</b>，距現價 ${pct(d)}${dbl?"　已翻倍，T4 線 "+(p.hi_since*0.75).toFixed(1):""}</div><div class="pbar"><i style="width:${room}%"></i></div>`;
+  }
+  const fal=(!short&&p.falsify)?`<details><summary>否證條件</summary>${p.falsify}</details>`:"";
+  return `<div class="pcard"><div class="ph"><b>${p.name}</b><span class="tick">${p.code}</span><span class="ptag">${tag}</span><span class="pst ${st[0]}">${st[1]}</span></div>
+    <div class="pg"><div><small>股數</small>${fmt(sh)}</div><div><small>成本</small>${+(+cost).toFixed(2)}</div><div><small>收盤</small>${px}</div>
+    <div><small>損益</small><span class="${pnl>=0?"up":"dn"}">${pct(r)}</span><br><span class="tick">${wan(pnl)}</span></div></div>${line}${fal}</div>`;
+}
+function renderPool(){
+  const box=document.getElementById("poolBox");if(!POOL){box.innerHTML='<div class="note">載入中…</div>';return;}
+  const short=POOLV==="short",P=short?POOL.short:POOL.active,ps=P.positions||[];
+  const mv=ps.reduce((a,p)=>a+(p.px||0)*p.shares,0),un=ps.reduce((a,p)=>a+((p.px||p.cost)-p.cost)*p.shares,0);
+  let stats;
+  if(short){
+    const used=ps.reduce((a,p)=>a+(p.cost_total||p.cost*p.shares),0),cap=P.budget_cap||200000;
+    const rz=(P.closed||[]).reduce((a,c)=>a+(c.pnl||0),0);
+    stats=`<div><small>上限</small><b>${fmt(cap)}</b></div><div><small>已用</small><b>${fmt(used)}</b></div><div><small>剩餘額度</small><b>${fmt(cap-used)}</b></div><div><small>未實現</small><b class="${un>=0?"up":"dn"}">${wan(un)}</b></div><div><small>已實現</small><b class="${rz>=0?"up":"dn"}">${fmt(rz)}</b></div>`;
+  }else{
+    stats=`<div><small>持股市值</small><b>${(mv/1e4).toFixed(1)}萬</b></div><div><small>未實現</small><b class="${un>=0?"up":"dn"}">${wan(un)}</b></div><div><small>現金</small><b>${fmt(P.cash||0)}</b></div><div><small>2026 已實現</small><b class="${(P.realized_2026||0)>=0?"up":"dn"}">${wan(P.realized_2026||0)}</b></div><div><small>格數</small><b>${ps.length} / ${P.slots||5}</b></div>`;
+  }
+  const closed=(short?P.closed:P.closed_2026)||[];
+  const ctab=closed.length?`<h4 style="margin:14px 0 6px">${short?"已出場":"2026 已出場"}</h4><table class="pclosed">${closed.slice().reverse().map(c=>`<tr><td>${c.date||"—"}</td><td>${c.name}</td><td class="num">${c.price??"—"}</td><td class="num ${c.pnl>=0?"up":"dn"}">${c.pnl!=null?fmt(c.pnl):"—"}</td></tr>`).join("")}</table>`:"";
+  const rule=short?`<div class="prule">${P.desc||""}</div>`
+    :`<div class="prule">規則（方案 C）：${POOL.rule}。<br><a href="https://github.com/kko3okk/family-dividend-web/blob/main/paper/picks.md" target="_blank" rel="noopener">今日推薦清單 ↗</a></div>`;
+  box.innerHTML=`<h3 data-en="${short?"SWING":"ACTIVE"}">${short?"短線池":"主動池"}<span class="tick" style="margin-left:auto;font-weight:600">收盤 ${POOL.price_date||"—"} · 更新 ${(POOL.updated||"").slice(5)}</span></h3>
+    <div class="pstats">${stats}</div>${ps.map(p=>posCard(p,short)).join("")||'<div class="note">目前沒有持股</div>'}${ctab}${rule}`;
+}
+document.getElementById("poolSeg").addEventListener("click",async e=>{
+  const b=e.target.closest("button[data-pool]");if(!b)return;
+  POOLV=b.dataset.pool;
+  document.querySelectorAll("#poolSeg button").forEach(x=>x.classList.toggle("on",x===b));
+  document.body.classList.toggle("pool-act",POOLV==="act");document.body.classList.toggle("pool-short",POOLV==="short");
+  window.scrollTo({top:0});
+  if(POOLV==="div")return;
+  if(!POOL){renderPool();try{await loadPool();}catch(err){document.getElementById("poolBox").innerHTML=`<div class="note">${err.message}</div>`;return;}}
+  renderPool();
+});
 
 function renderYear(){
   const card=document.getElementById("yrCard");
