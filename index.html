@@ -413,6 +413,15 @@
   .pcard details summary{cursor:pointer;font-weight:700}
   .pclosed{width:100%;font-size:12px}
   .pclosed td{padding:5px 4px;border-bottom:1px dashed var(--line)}
+  .tr{padding:10px 2px;border-bottom:1px dashed var(--line)}
+  .tr:last-of-type{border-bottom:none}
+  .tr .hd{display:flex;align-items:baseline;gap:6px;margin-bottom:4px}
+  .tr .hd b{font-size:15px;color:var(--ink)}
+  .tr .pl{margin-left:auto;font-family:var(--mono);font-weight:700;font-size:14px;text-align:right}
+  .tr .pl small{display:block;font-size:11px;font-weight:600}
+  .leg{display:grid;grid-template-columns:34px 1fr auto;gap:6px;font-size:12.5px;color:var(--ink);line-height:1.7}
+  .leg .k{color:var(--mut);font-weight:700;font-size:11.5px}
+  .leg small{color:var(--mut)}
   .prule{font-size:12px;color:var(--mut);line-height:1.6;margin-top:10px}
   .pmiss{color:#D9534F;font-weight:800}
   .pkchips{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 14px}
@@ -2107,8 +2116,17 @@ function renderPool(){
   }else{
     stats=`<div><small>持股市值</small><b>${(mv/1e4).toFixed(1)}萬</b></div><div><small>未實現</small><b class="${un>=0?"up":"dn"}">${wan(un)}</b></div><div><small>現金</small><b>${fmt(P.cash||0)}</b></div><div><small>2026 已實現</small><b class="${(P.realized_2026||0)>=0?"up":"dn"}">${wan(P.realized_2026||0)}</b></div><div><small>格數</small><b>${ps.length} / ${P.slots||5}</b></div>`;
   }
-  const closed=(short?P.closed:P.closed_2026)||[];
-  const ctab=closed.length?`<h4 style="margin:14px 0 6px">${short?"已出場":"2026 已出場"}</h4><table class="pclosed">${closed.slice().reverse().map(c=>`<tr><td>${c.date||"—"}</td><td>${c.name}</td><td class="num">${c.price??"—"}</td><td class="num ${c.pnl>=0?"up":"dn"}">${c.pnl!=null?fmt(c.pnl):"—"}</td></tr>`).join("")}</table>`:"";
+  const closed=((short?P.closed:P.closed_2026)||[]).slice().sort((x,y)=>(y.date||"").localeCompare(x.date||""));
+  const md=d=>d&&/^\d{4}-\d{2}-\d{2}$/.test(d)?(+d.slice(5,7))+"/"+(+d.slice(8,10)):(d&&/^\d{4}-\d{2}$/.test(d)?(+d.slice(5,7))+" 月":d);
+  const trade=c=>{
+    const cost=c.avg_cost,ret=cost?((c.exits&&c.exits.length?c.exits.reduce((a,x)=>a+x.price*x.shares,0)/c.exits.reduce((a,x)=>a+x.shares,0):c.price)/cost-1):null;
+    const ins=(c.entries&&c.entries.length?c.entries:[{date:null,when:"未記",shares:null,price:cost}]).map(e=>`<div class="leg"><span class="k">${e===c.entries?.[0]||!c.entries?.length?"進場":""}</span><span>${e.date?md(e.date):(e.when||"未記")}${e.shares?`　${fmt(e.shares)} 股`:""}　@${e.price}${e.est&&e.date?'<small>（推估）</small>':""}</span><span></span></div>`).join("");
+    const outs=(c.exits&&c.exits.length?c.exits:[{date:c.date,price:c.price}]).map((x,i)=>{const r=cost?x.price/cost-1:null;
+      return `<div class="leg"><span class="k">${i?"":"出場"}</span><span>${md(x.date)||"—"}${x.shares?`　${fmt(x.shares)} 股`:""}　@${x.price}</span><span class="${r>=0?"up":"dn"}">${r!=null?pct(r):""}</span></div>`;}).join("");
+    return `<div class="tr"><div class="hd"><b>${c.name}</b><span class="tick">${c.code}</span><span class="pl ${c.pnl>=0?"up":"dn"}">${c.pnl!=null?(c.pnl>=0?"+":"")+fmt(c.pnl):"—"}${ret!=null?`<small>${pct(ret)}</small>`:""}</span></div>${ins}${outs}${cost&&c.entries&&c.entries.length>1?`<div class="leg"><span class="k"></span><span class="tick">均價 ${cost}</span><span></span></div>`:""}</div>`;
+  };
+  const ctab=closed.length?`<h4 style="margin:16px 0 6px">${short?"已出場":"2026 已出場"}</h4>${closed.map(trade).join("")}
+    ${closed.some(c=>(c.entries||[]).some(e=>e.est||!e.date))?'<div class="prule">進場日標「推估」或「未記」的，是依過去對話補登，沒有券商成交紀錄可對。</div>':""}`:"";
   const rule=short?`<div class="prule">${P.desc||""}</div>`
     :`<div class="prule">規則（方案 C）：${POOL.rule}。</div>`;
   box.innerHTML=`<h3 data-en="${short?"SWING":"ACTIVE"}">${short?"短線池":"主動池"}<span class="tick" style="margin-left:auto;font-weight:600">報價 ${LIVE?LIVE.updated.slice(5,16).replace("T"," "):"收盤 "+(POOL.price_date||"—")} · 出場線依 ${POOL.price_date||"—"} 收盤</span></h3>
