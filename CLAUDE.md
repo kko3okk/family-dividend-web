@@ -16,6 +16,12 @@
 - **範本同步**：旅程頁的結構或功能有改，`trip-template/` 也要一起改；新的一趟一律從範本複製。
 - 共用樣式在 `trip-kit/`（`trip.css`、`trip.js`、`icons.js`），改了要更新各頁引用的 `?v=` 版本號；首頁有改就同步更新 `APP_VERSION` 和 `version.json`。
 
+## 家（買房計畫）分頁
+
+- 畫面在 `home.js`，資料在**私有庫** `family-dividend-data/home.json`（金額、分工、仲介電話都只放私有庫，這裡不要寫任何數字）。
+- 使用者說「更新買房計畫」或監控有新物件時，改 `home.json` 的 `market`／`monitor`／`todo`／`timeline` 再推上私有庫；畫面不用動。
+- 結構有改（新增卡片、欄位）才改 `home.js`，並更新 `index.html` 的 `?v=`、`APP_VERSION` 和 `version.json`。
+
 ## 自動排程說明頁
 
 網站「設定 → 自動排程」列出所有定期執行的工作（GitHub Actions 兩個庫＋Claude 排程任務）。新增、刪除或改時間時，同步更新 `index.html` 的 `data-v="sched"` 區塊（每列的 `data-k`）與入口上的項目數，以及私有庫 `scripts/sched_status.py` 的 `ITEMS`（紅綠燈依此判定，每小時由 sched-status 工作流程更新 `holdings/sched_status.json`）。

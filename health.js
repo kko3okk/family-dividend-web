@@ -497,14 +497,16 @@ function render(){
 
 /* ── 財務 / 健康 切換 ── */
 function setMode(m, scroll){
-  const h = m === "health", t = m === "travel";
+  const h = m === "health", t = m === "travel", k = m === "home";
   document.body.classList.toggle("mode-health", h);
   document.body.classList.toggle("mode-travel", t);
+  document.body.classList.toggle("mode-home", k);
   $("domain").querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.d === m));
   try { localStorage.setItem(LS_MODE, m); } catch(e){}
-  const br = document.querySelector(".gbrand"); if (br) br.setAttribute("href", h ? "#secHBody" : t ? "#secTNext" : "#secMap");
+  const br = document.querySelector(".gbrand"); if (br) br.setAttribute("href", h ? "#secHBody" : t ? "#secTNext" : k ? "#secKPlan" : "#secMap");
   if (h) { render(); if (!TRIP.size) loadTrips(); if (!loaded && token()) pull(); }
   else if (t) { try { window.Travel?.render(); } catch(e){} }
+  else if (k) { try { window.Home?.render(); } catch(e){} }
   else if (typeof DATA !== "undefined" && DATA && typeof window.render === "function") {
     try { window.render(); } catch(e){}                       // 財務畫面換人後要重繪
   }
@@ -570,11 +572,12 @@ try { if (typeof person !== "undefined") person = localStorage.getItem("person")
 loadLocal();
 const hashH = /^#(secH|health)/.test(location.hash);
 const hashT = /^#(secT|travel)/.test(location.hash);
+const hashK = /^#(secK|home)/.test(location.hash);
 let mode = "fin"; try {
   const st = localStorage.getItem("startTab");            // 設定頁「打開時先看」
   mode = st && st !== "last" ? st : (localStorage.getItem(LS_MODE) || "fin");
 } catch(e){}
-setMode(hashH ? "health" : hashT ? "travel" : mode, false);
+setMode(hashH ? "health" : hashT ? "travel" : hashK ? "home" : mode, false);
 if (!document.body.classList.contains("mode-health")) pull();   // 背景先載入，切過去就有資料
 loadTrips();
 window.Health = { render, pull, setMode,

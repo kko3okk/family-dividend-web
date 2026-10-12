@@ -8,7 +8,7 @@ const $ = id => document.getElementById(id);
 const page = $("setPage"); if (!page) return;
 page.classList.add("gone");
 const NAME = { chang: "CHANG", wife: "老婆" };
-const TAB = { last: "記住上次", fin: "財務", health: "健康", travel: "旅遊" };
+const TAB = { last: "記住上次", home: "家", fin: "財務", health: "健康", travel: "旅遊" };
 const LS_START = "startTab";
 const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
 let stack = ["home"], conn = null, goneT = null;   // conn：最近一次測試連線結果 {ok, msg}
