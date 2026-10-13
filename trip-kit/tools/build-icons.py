@@ -32,7 +32,7 @@ EMOJI = {
  # 狀態・提示
  '⭐':'star','✨':'sparkles','✅':'circle-check','⚠':'alert-triangle','💡':'bulb','🔥':'flame','🎉':'confetti','🎈':'balloon','🧨':'confetti',
  '🔄':'refresh','🔁':'repeat','☁':'cloud','🥇':'medal','🥈':'medal-2','🆕':'new-section','⚖':'scale','💤':'zzz','😴':'zzz',
- '📶':'antenna-bars-5','🛡':'shield-check','🔒':'lock',
+ '🏘':'building-community','👗':'hanger','🥞':'cake','🍰':'cake','📶':'antenna-bars-5','🛡':'shield-check','🔒':'lock',
  '🐻':'paw','🦢':'feather','🟠':'point',
  # 天氣
  '☀':'sun','🌤':'sun','⛅':'cloud','🌥':'cloud','🌦':'cloud-rain','🌧':'cloud-rain','☔':'umbrella','🌂':'umbrella','🌡':'temperature','💧':'droplet',
