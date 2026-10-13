@@ -27,10 +27,27 @@ _MA = _Roll(lambda n: cl.rolling(n, min_periods=int(n * 0.8)).mean().values)
 SURGE = _Roll(lambda w: (cl / cl.rolling(w, min_periods=int(w * 0.8)).min() - 1).values)
 VMA20 = pd.DataFrame(V).rolling(20, min_periods=15).mean().values
 MA60_5 = np.vstack([np.full((5, C.shape[1]), np.nan), MA[60][:-5]])
+HL_PATH = "/home/claude/family-dividend-data/hist/hl/hl.json"
+LOWA = HIGHA = None
+def load_hl():
+    """每日最高／最低價（FinMind，hl 工作流程）對齊 C 的 (日期×代號) 陣列"""
+    global LOWA, HIGHA
+    if LOWA is not None: return
+    import json as _j, os as _o
+    LOWA = np.full(C.shape, np.nan); HIGHA = np.full(C.shape, np.nan)
+    if not _o.path.exists(HL_PATH): return
+    hl = _j.load(open(HL_PATH)); di_ = {d: i for i, d in enumerate(dates)}
+    for c, s_ in hl.items():
+        k = ci.get(c)
+        if k is None: continue
+        for d, (h, l) in s_.items():
+            i = di_.get(d)
+            if i is not None and h and l: HIGHA[i, k] = h; LOWA[i, k] = l
 NN = cl.diff().abs().rolling(20, min_periods=15).mean().values
 
-def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, start=None, trim=None, frac=0.5, rebuy=False, rearm=False, sup=None, surge=None, pt=None, late=None, topn=None, late_cap=None, volx=None, fresh=None, ma60_up=False, acc_min=None, rank_by=None, entry_fn=None, **kw):
+def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, start=None, trim=None, frac=0.5, rebuy=False, rearm=False, sup=None, surge=None, pt=None, late=None, topn=None, late_cap=None, volx=None, fresh=None, ma60_up=False, acc_min=None, rank_by=None, entry_fn=None, touch=None, **kw):
     p = dict(BASE); p.update(kw)
+    if touch: load_hl()
     lists = build_lists(p)
     cash = START_CASH; pos = {}; eq = []; trades = []; pend_buy = []; pend_sell = []; pend_add = []; pend_trim = []; pend_rebuy = []; ntrim = [0, 0]
     li = -1; bought = set(); lock = False; above = 0; was_under = False; slip = p["slip"]; S = p["slots"]
@@ -102,7 +119,10 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
             out = False
             for e in exit.split("|"):
                 if e.startswith("ma"): m = _MA[int(e[2:])][i, k]; out |= (not np.isnan(m) and px < m)
-                elif e.startswith("lo"): m = LO[int(e[2:])][i, k]; out |= (not np.isnan(m) and px < m)
+                elif e.startswith("lo"):
+                    m = LO[int(e[2:])][i, k]; o_ = (not np.isnan(m) and px < m)
+                    if touch and not o_ and not np.isnan(m) and not np.isnan(LOWA[i, k]) and LOWA[i, k] < m: o_ = True; q["fill"] = m if touch == "line" else None
+                    out |= o_
             if p["t4"] and q["dbl"] and px <= q["hi"] * 0.75: out = True
             for pt_ in (pt if isinstance(pt, list) else ([pt] if pt else [])):   # 可多條，任一觸發即執行。(觸發漲幅, 值, 模式) floor／trail／pts／roll／atr
                 trg, v, mode = pt_[:3]
@@ -113,11 +133,24 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
                         h_ = HI[pt_[4]][i, k]; hit = (not np.isnan(h_)) and px <= h_ * (1 - v) and (len(pt_) < 6 or q["hi"] >= q["cost"] * (1 + pt_[5]))
                     if mode == "atr":    # 持有期最高收盤 − v × 20 日平均每日絕對變動
                         n_ = NN[i, k]; hit = (not np.isnan(n_)) and px <= q["hi"] - v * n_
+                    if touch and not hit:   # 盤中碰線：最低價 ≤ 線（trail／roll 線）
+                        lo_i = LOWA[i, k]
+                        if not np.isnan(lo_i):
+                            if mode == "trail": hit_t = lo_i <= q["hi"] * (1 - v); ln_t = q["hi"] * (1 - v)
+                            elif mode == "roll": hit_t = (not np.isnan(h_)) and lo_i <= h_ * (1 - v) and (len(pt_) < 6 or q["hi"] >= q["cost"] * (1 + pt_[5])); ln_t = (h_ * (1 - v)) if not np.isnan(h_) else None
+                            else: hit_t = False; ln_t = None
+                            if hit_t: hit = True; q["fill"] = ln_t if touch == "line" else None
                     if hit:
                         if z_ >= 1: out = True
                         else: pend_trim.append((c, z_)); q["pt_done"] = True
             if stop2n and not np.isnan(q["N"]) and px < q["lastadd"] - 2 * q["N"]: out = True
-            if out: pend_sell.append(c); continue
+            if out:
+                if touch == "line" and q.get("fill"):
+                    fpx = min(q["fill"], px if not np.isnan(px) else q["fill"])   # 以線價成交（跳空開低則以收盤近似）
+                    proceeds = fpx * (1 - slip) * q["sh"] * (1 - FEE_S); cash += proceeds; got = proceeds + q.get("cin", 0)
+                    trades.append(dict(c=c, ed=q["ed"], xd=d, pnl=got - q["paid"], ret=got / q["paid"] - 1, units=q["u"])); q["gone"] = True
+                else: pend_sell.append(c)
+                continue
             if trim:
                 m = _MA[int(trim[2:])][i, k]
                 if not np.isnan(m):
@@ -164,6 +197,7 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
                         elif rearm: q["trimmed"] = False
             if pyr and q["u"] < 4 and not np.isnan(q["N"]) and px >= q["lastadd"] + 0.5 * q["N"]:
                 pend_add.append(c)
+        for c_ in [c_ for c_, q_ in pos.items() if q_.get("gone")]: pos.pop(c_)
         if p["r11"]:
             hi60 = np.nanmax(TX[max(0, i - 59):i + 1]); under = TX[i] < hi60 * (1 - p["r11"])
             if under and (p["r11_mode"] == "level" or not was_under): lock = True; above = 0
