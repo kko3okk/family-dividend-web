@@ -82,7 +82,7 @@ async function load(){
   }
   if(!D){$("meta").textContent="讀不到模擬資料。";return;}
   const keys=Object.keys(D.accounts);
-  CUR=localStorage.getItem("simAcct")&&keys.includes(localStorage.getItem("simAcct"))?localStorage.getItem("simAcct"):(keys.includes("G")?"G":keys[0]);
+  CUR=localStorage.getItem("simAcct")&&keys.includes(localStorage.getItem("simAcct"))?localStorage.getItem("simAcct"):(keys.includes("H2")?"H2":keys[0]);
   render();
 }
 function stats(a){
