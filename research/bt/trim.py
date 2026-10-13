@@ -45,11 +45,15 @@ def load_hl():
             if i is not None and h and l: HIGHA[i, k] = h; LOWA[i, k] = l
 NN = cl.diff().abs().rolling(20, min_periods=15).mean().values
 
-def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, start=None, trim=None, frac=0.5, rebuy=False, rearm=False, sup=None, surge=None, pt=None, late=None, topn=None, late_cap=None, volx=None, fresh=None, ma60_up=False, acc_min=None, rank_by=None, entry_fn=None, lists_fn=None, touch=None, hstop=None, target=None, tstop=None, dyn_slots=None, **kw):
+def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, start=None, trim=None, frac=0.5, rebuy=False, rearm=False, sup=None, surge=None, pt=None, late=None, topn=None, late_cap=None, volx=None, fresh=None, ma60_up=False, acc_min=None, rank_by=None, entry_fn=None, lists_fn=None, touch=None, hstop=None, target=None, tstop=None, dyn_slots=None, addc=None, max_pos=None, init_frac=None, **kw):
+    """addc（2026-10-13 加碼機制研究）：dict(trig, x, amt, max, cool, cap, prio)
+      trig: gain（自上次買價漲 x 且收在 20MA 上）| brk（收盤創前 20 日新高且自上次買價漲 ≥ x）| reclaim（跌破 20MA 後站回且仍獲利）| gaincost（自成本漲 x×第 n 次）
+      amt : 每次加碼金額＝amt × 一格；max：最多加碼次數；cool：距上次買進至少幾個交易日；cap：該檔總投入上限（× 一格）；prio：new＝同日新進場優先用現金，add＝加碼優先
+      加碼只用帳上閒置現金；init_frac：首次進場只用一格的這個比例（格內分批）；max_pos：最多持股檔數（格數 S 仍用於算一格金額，例如 4＋1 加碼格）"""
     p = dict(BASE); p.update(kw)
     if touch: load_hl()
     lists = lists_fn(p) if lists_fn else build_lists(p)
-    cash = START_CASH; pos = {}; eq = []; trades = []; pend_buy = []; pend_sell = []; pend_add = []; pend_trim = []; pend_rebuy = []; ntrim = [0, 0]
+    cash = START_CASH; pos = {}; eq = []; trades = []; pend_buy = []; pend_sell = []; pend_add = []; pend_trim = []; pend_rebuy = []; ntrim = [0, 0]; util = []
     li = -1; bought = set(); lock = False; above = 0; was_under = False; slip = p["slip"]; S = p["slots"]
     def buy(i, c, amt):
         nonlocal cash
@@ -67,7 +71,7 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
             if np.isnan(px): continue
             q = pos.pop(c); proceeds = px * (1 - slip) * q["sh"] * (1 - FEE_S); cash += proceeds
             got = proceeds + q.get("cin", 0)
-            trades.append(dict(c=c, ed=q["ed"], xd=d, pnl=got - q["paid"], ret=got / q["paid"] - 1, units=q["u"]))
+            trades.append(dict(c=c, ed=q["ed"], xd=d, pnl=got - q["paid"], ret=got / q["paid"] - 1, units=q["u"], add_rets=[px * (1 - slip) * (1 - FEE_S) / (a["px"] * (1 + slip) * (1 + FEE_B)) - 1 for a in q.get("adds", [])], base_ret=px * (1 - slip) * (1 - FEE_S) / (q["cost"] * (1 + slip) * (1 + FEE_B)) - 1))
         pend_sell = [c for c in pend_sell if c in pos]
         for c in pend_trim:
             c, f_ = c if isinstance(c, tuple) else (c, frac)
@@ -92,27 +96,32 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
         pend_rebuy = []
         equity = cash + sum((C[i, ci[c]] if not np.isnan(C[i, ci[c]]) else q["last"]) * q["sh"] for c, q in pos.items())
         if dyn_slots: S = dyn_slots(equity)   # 格數隨權益調整（2026-10-13 測試）
-        for c in pend_add:
-            q = pos.get(c)
-            if not q: continue
-            sh, paid = buy(i, c, q["unit_amt"])
-            if sh: q["sh"] += sh; q["paid"] += paid; q["u"] += 1; q["lastadd"] = C[i, ci[c]]
-        pend_add = []
+        def do_adds():
+            for it in pend_add:
+                c, amt = it if isinstance(it, tuple) else (it, None)
+                q = pos.get(c)
+                if not q or c in pend_sell: continue
+                sh, paid = buy(i, c, q["unit_amt"] if amt is None else amt)
+                if sh: q["sh"] += sh; q["paid"] += paid; q["u"] += 1; q["lastadd"] = C[i, ci[c]]; q["lastadd_i"] = i; q.setdefault("adds", []).append(dict(px=C[i, ci[c]], sh=sh, paid=paid, d=d))
+        if not (addc and addc.get("prio") == "new"): do_adds(); pend_add = []
         for c, _ in pend_buy:
-            if c in pos or len(pos) >= S: continue
+            if c in pos or len(pos) >= (max_pos or S): continue
             k = ci[c]; n_ = NN[i, k]; px = C[i, k]
             slot = equity / S
             if size == "risk" and not np.isnan(n_) and n_ > 0:
                 slot = min(slot, equity * 0.01 / (2 * n_) * px)
-            unit = slot / 4 if pyr else slot
+            unit = slot / 4 if pyr else (slot * init_frac if init_frac else slot)
             sh, paid = buy(i, c, unit)
-            if sh: pos[c] = dict(ei=i, late=bool(late and not np.isnan(LO[55][i, k]) and px / LO[55][i, k] - 1 >= late), sh0=sh, trimmed=False, sh=sh, paid=paid, cost=px, last=px, hi=px, ed=d, dbl=False, u=1, unit_amt=unit, lastadd=px, N=n_)
+            if sh: pos[c] = dict(ei=i, late=bool(late and not np.isnan(LO[55][i, k]) and px / LO[55][i, k] - 1 >= late), sh0=sh, trimmed=False, sh=sh, paid=paid, cost=px, last=px, hi=px, ed=d, dbl=False, u=1, unit_amt=unit, lastadd=px, lastadd_i=i, N=n_, slot0=slot)
         pend_buy = []
+        if addc and addc.get("prio") == "new": do_adds()
+        pend_add = []
         # 收盤評價
         for c, q in pos.items():
             px = C[i, ci[c]]
             if not np.isnan(px): q["last"] = px; q["hi"] = max(q["hi"], px)
-        if d >= (start or T0): eq.append((d, cash + sum(q["last"] * q["sh"] for q in pos.values())))
+        if d >= (start or T0):
+            ev_ = cash + sum(q["last"] * q["sh"] for q in pos.values()); eq.append((d, ev_)); util.append(cash / ev_ if ev_ > 0 else 0)
         for c, q in pos.items():
             k = ci[c]; px = C[i, k]
             if np.isnan(px): continue
@@ -152,7 +161,7 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
                 if touch == "line" and q.get("fill"):
                     fpx = min(q["fill"], px if not np.isnan(px) else q["fill"])   # 以線價成交（跳空開低則以收盤近似）
                     proceeds = fpx * (1 - slip) * q["sh"] * (1 - FEE_S); cash += proceeds; got = proceeds + q.get("cin", 0)
-                    trades.append(dict(c=c, ed=q["ed"], xd=d, pnl=got - q["paid"], ret=got / q["paid"] - 1, units=q["u"])); q["gone"] = True
+                    trades.append(dict(c=c, ed=q["ed"], xd=d, pnl=got - q["paid"], ret=got / q["paid"] - 1, units=q["u"], add_rets=[fpx * (1 - slip) * (1 - FEE_S) / (a["px"] * (1 + slip) * (1 + FEE_B)) - 1 for a in q.get("adds", [])], base_ret=fpx * (1 - slip) * (1 - FEE_S) / (q["cost"] * (1 + slip) * (1 + FEE_B)) - 1)); q["gone"] = True
                 else: pend_sell.append(c)
                 continue
             if trim:
@@ -201,6 +210,15 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
                         elif rearm: q["trimmed"] = False
             if pyr and q["u"] < 4 and not np.isnan(q["N"]) and px >= q["lastadd"] + 0.5 * q["N"]:
                 pend_add.append(c)
+            if addc and q["u"] - 1 < addc.get("max", 1) and (i - q.get("lastadd_i", q["ei"])) >= addc.get("cool", 0):
+                tg = addc["trig"]; x_ = addc.get("x", 0); m20 = MA[20][i, k]; ok_ = False
+                if tg == "gain": ok_ = px >= q["lastadd"] * (1 + x_) and not np.isnan(m20) and px > m20
+                elif tg == "brk": h_ = HI[20][i, k]; ok_ = (not np.isnan(h_)) and px > h_ and px >= q["lastadd"] * (1 + x_)
+                elif tg == "reclaim": ok_ = (not np.isnan(m20)) and px > m20 and i > 0 and (not np.isnan(MA[20][i - 1, k])) and C[i - 1, k] <= MA[20][i - 1, k] and px > q["cost"] * (1 + x_)
+                elif tg == "gaincost": ok_ = px >= q["cost"] * (1 + x_ * q["u"]) and not np.isnan(m20) and px > m20
+                elif tg == "days": ok_ = (i - q["ei"]) >= addc.get("n", 10) and px > q["cost"] * (1 + x_)
+                slot_ = equity / S
+                if ok_ and (not addc.get("cap") or q["paid"] + 1 < addc["cap"] * slot_): pend_add.append((c, addc["amt"] * slot_))
         for c_ in [c_ for c_, q_ in pos.items() if q_.get("gone")]: pos.pop(c_)
         if p["r11"]:
             hi60 = np.nanmax(TX[max(0, i - 59):i + 1]); under = TX[i] < hi60 * (1 - p["r11"])
@@ -212,7 +230,7 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
         while li + 1 < len(lists) and lists[li + 1][0] <= d: li += 1; bought = set()
         if d < (start or T0) or li < 0 or lock: continue
         if p["mkt_ma"] and not (TX[i] >= TXMA[p["mkt_ma"]][i]): continue
-        free = S - (len(pos) - len(pend_sell))
+        free = (max_pos or S) - (len(pos) - len(pend_sell))
         if free <= 0: continue
         cands = []
         for r in lists[li][2]:
@@ -242,7 +260,7 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
             cands = [x for x in cands if rk[x[1]] < topn]
         for _, c in cands[:free]: pend_buy.append((c, 1 / S)); bought.add(c)
     if raw: return dict(eq=eq, trades=trades, pos=pos, pend_sell=pend_sell, pend_buy=pend_buy, lock=lock, li=lists[li][1] if li >= 0 else None)
-    r = summarize(eq, trades, p); r["ntrim"] = ntrim; return r
+    r = summarize(eq, trades, p); r["ntrim"] = ntrim; r["trades"] = trades; r["eq"] = eq; r["cash_util"] = float(np.mean(util)) if util else 0.0; return r
 
 if __name__ == "__main__" and len(sys.argv) > 1 and sys.argv[1] == "pt":
     from bt6 import dates
