@@ -7,8 +7,7 @@
   var BASE = location.origin + "/family-dividend-web/";
   // 訪客模式：沒有用 GitHub Token 驗證過的人（gate.js 判定），一律當訪客，
   // 只能看這一趟的 行程／地圖／美食，看不到回首頁的入口。
-  var GUEST = window.__tripAuthOK !== true;
-  if (GUEST) { try { sessionStorage.setItem("tripGuest", "1"); } catch (e) {} }
+  var GUEST = window.__tripAuthOK !== true;   // 訪客標記（tripGuest）只由 gate.js 依分享連結設定
   if (GUEST) {
     // 訪客只能看 行程／地圖／美食；清單、刷卡、手帳直接導回行程頁，入口也藏起來
     var page = (location.pathname.split("/").pop() || "index.html");
