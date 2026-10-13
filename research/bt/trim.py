@@ -45,7 +45,7 @@ def load_hl():
             if i is not None and h and l: HIGHA[i, k] = h; LOWA[i, k] = l
 NN = cl.diff().abs().rolling(20, min_periods=15).mean().values
 
-def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, start=None, trim=None, frac=0.5, rebuy=False, rearm=False, sup=None, surge=None, pt=None, late=None, topn=None, late_cap=None, volx=None, fresh=None, ma60_up=False, acc_min=None, rank_by=None, entry_fn=None, touch=None, hstop=None, target=None, tstop=None, **kw):
+def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, start=None, trim=None, frac=0.5, rebuy=False, rearm=False, sup=None, surge=None, pt=None, late=None, topn=None, late_cap=None, volx=None, fresh=None, ma60_up=False, acc_min=None, rank_by=None, entry_fn=None, touch=None, hstop=None, target=None, tstop=None, dyn_slots=None, **kw):
     p = dict(BASE); p.update(kw)
     if touch: load_hl()
     lists = build_lists(p)
@@ -91,6 +91,7 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
             cash -= n_ * bpx; q["sh"] += n_; q["paid"] += n_ * bpx; q["trimmed"] = False; q["zone"] = None; ntrim[1] += 1
         pend_rebuy = []
         equity = cash + sum((C[i, ci[c]] if not np.isnan(C[i, ci[c]]) else q["last"]) * q["sh"] for c, q in pos.items())
+        if dyn_slots: S = dyn_slots(equity)   # 格數隨權益調整（2026-10-13 測試）
         for c in pend_add:
             q = pos.get(c)
             if not q: continue
