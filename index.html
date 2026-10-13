@@ -1771,7 +1771,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.13-1250";
+const APP_VERSION="2026.10.13-1310";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -2264,10 +2264,28 @@ function posCard(p,short){
   const tag=short?"短線":(p.type==="discretionary"?"主觀格":"規則格");
   let line="";
   if(short){
-    if(p.stop&&px<=p.stop)st=["bad","觸停損"];else if(p.target&&px>=p.target)st=["bad","達目標"];
-    else if(!p.stop||!p.time_stop_days)st=["warn","條件未設"];
-    const m=v=>v?v:'<span class="pmiss">未設</span>';
-    line=`<div class="pline">停損 ${m(p.stop)}　目標 ${m(p.target)}　時間停損 ${p.time_stop_days?p.time_stop_days+" 交易日":'<span class="pmiss">未設</span>'}　進場 ${p.opened||"—"}</div>`;
+    /* 短線格規則（2026-10-13）：未設者套預設（停損 −10%、時間停損 30 交易日）；第 7 條三條線同樣適用 */
+    const stop=p.stop||p.eff_stop||+(cost*0.9).toFixed(2),sdef=!p.stop,lim=p.time_stop_days||p.eff_time||30,ldef=!p.time_stop_days,held=p.held;
+    const hi=Math.max(p.hi_since||0,px),gain=hi/cost-1,h55=p.exit&&p.exit.h55;
+    const hits=[];
+    if(px<=stop)hits.push("停損 "+stop+(sdef?"（預設）":""));
+    if(p.target&&px>=p.target)hits.push("達目標 "+p.target);
+    if(held!=null&&held>=lim)hits.push("時間停損到期");
+    if(p.lo55&&px<p.lo55)hits.push("前 55 日低");
+    if(gain>=0.2&&px<=hi*0.85)hits.push("賺 20% 後回落 15%");
+    if(gain>=0.05&&h55&&px<=h55*0.82)hits.push("近 55 日高回落 18%");
+    if(hits.length)st=["bad","出場："+hits.join("、")];
+    else if(held==null)st=["warn","進場日未記"];
+    else if(held>=lim-2)st=["warn",`時間停損剩 ${lim-held} 日`];
+    else if(px/stop-1<0.03)st=["warn",`距停損 ${pct(px/stop-1)}`];
+    line=`<div class="pexit">
+      <div class="pex on"><span class="k">停損${sdef?"（預設 −10%）":""}</span><b>${stop}</b><span class="d">${pct(px/stop-1)}</span></div>
+      <div class="pex ${p.target?"on":"off"}"><span class="k">目標</span><b>${p.target||"無"}</b><span class="d">${p.target?pct(px/p.target-1):"未設"}</span></div>
+      <div class="pex on"><span class="k">時間停損${ldef?"（預設）":""}</span><b>${lim} 交易日</b><span class="d">${held!=null?"已 "+held+" 日":"進場日未記"}</span></div>
+      ${p.lo55?`<div class="pex on"><span class="k">第 7 條 (a) 前 55 日低</span><b>${p.lo55}</b><span class="d">${pct(px/p.lo55-1)}</span></div>`:""}
+      <div class="pex ${gain>=0.2?"on":"off"}"><span class="k">第 7 條 (b) 賺 20% 後高點回落 15%</span><b>${(hi*0.85).toFixed(1)}</b><span class="d">${gain>=0.2?pct(px/(hi*0.85)-1):"未生效"}</span></div>
+      ${h55?`<div class="pex ${gain>=0.05?"on":"off"}"><span class="k">第 7 條 (c) 曾賺 5% 後近 55 日高回落 18%</span><b>${(h55*0.82).toFixed(1)}</b><span class="d">${gain>=0.05?pct(px/(h55*0.82)-1):"未生效"}</span></div>`:""}
+    </div><div class="pline">進場 ${p.opened||"—"}${p.cost_total?`　成本 ${fmt(p.cost_total)}`:""}</div>`;
   }else if(p.lo55){
     /* 第 7 條（G 規則，2026-10-13）：三條出場線用現價即時重算，任一觸發即出場 */
     const hi=Math.max(p.hi_since||0,px),gain=hi/cost-1,h55=p.exit&&p.exit.h55;

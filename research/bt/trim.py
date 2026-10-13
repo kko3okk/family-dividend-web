@@ -45,7 +45,7 @@ def load_hl():
             if i is not None and h and l: HIGHA[i, k] = h; LOWA[i, k] = l
 NN = cl.diff().abs().rolling(20, min_periods=15).mean().values
 
-def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, start=None, trim=None, frac=0.5, rebuy=False, rearm=False, sup=None, surge=None, pt=None, late=None, topn=None, late_cap=None, volx=None, fresh=None, ma60_up=False, acc_min=None, rank_by=None, entry_fn=None, touch=None, **kw):
+def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, start=None, trim=None, frac=0.5, rebuy=False, rearm=False, sup=None, surge=None, pt=None, late=None, topn=None, late_cap=None, volx=None, fresh=None, ma60_up=False, acc_min=None, rank_by=None, entry_fn=None, touch=None, hstop=None, target=None, tstop=None, **kw):
     p = dict(BASE); p.update(kw)
     if touch: load_hl()
     lists = build_lists(p)
@@ -105,7 +105,7 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
                 slot = min(slot, equity * 0.01 / (2 * n_) * px)
             unit = slot / 4 if pyr else slot
             sh, paid = buy(i, c, unit)
-            if sh: pos[c] = dict(late=bool(late and not np.isnan(LO[55][i, k]) and px / LO[55][i, k] - 1 >= late), sh0=sh, trimmed=False, sh=sh, paid=paid, cost=px, last=px, hi=px, ed=d, dbl=False, u=1, unit_amt=unit, lastadd=px, N=n_)
+            if sh: pos[c] = dict(ei=i, late=bool(late and not np.isnan(LO[55][i, k]) and px / LO[55][i, k] - 1 >= late), sh0=sh, trimmed=False, sh=sh, paid=paid, cost=px, last=px, hi=px, ed=d, dbl=False, u=1, unit_amt=unit, lastadd=px, N=n_)
         pend_buy = []
         # 收盤評價
         for c, q in pos.items():
@@ -144,6 +144,9 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
                         if z_ >= 1: out = True
                         else: pend_trim.append((c, z_)); q["pt_done"] = True
             if stop2n and not np.isnan(q["N"]) and px < q["lastadd"] - 2 * q["N"]: out = True
+            if hstop and px <= q["cost"] * (1 - hstop): out = True          # 固定停損
+            if target and px >= q["cost"] * (1 + target): out = True        # 固定停利
+            if tstop and (i - dates.index(q["ed"]) if False else (i - q.get("ei", i))) >= tstop: out = True   # 時間停損（交易日）
             if out:
                 if touch == "line" and q.get("fill"):
                     fpx = min(q["fill"], px if not np.isnan(px) else q["fill"])   # 以線價成交（跳空開低則以收盤近似）
