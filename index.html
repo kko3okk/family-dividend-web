@@ -428,8 +428,8 @@
   .pxbtn:active{transform:scale(.96)}
   .eqc{margin:10px 0 4px;padding:10px 10px 6px;border-radius:12px;background:var(--card2)}
   .eqh{display:flex;align-items:baseline;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px} .eqh small{font-weight:400;color:var(--mut);margin-left:4px}
-  .eqw{position:relative} .eqc svg{width:100%;height:150px;display:block;touch-action:pan-y}
-  .eqr{display:flex;gap:6px;margin:4px 0 6px} .eqr button{flex:1;font:inherit;font-size:12.5px;font-weight:700;padding:5px 0;border-radius:9px;border:1px solid var(--line);background:var(--card);color:var(--mut);cursor:pointer}
+  .eqw{position:relative;min-height:170px} .eqc svg{display:block;touch-action:pan-y;max-width:100%}
+  .eqr{display:flex;gap:6px;margin:4px 0 8px} .eqr button{flex:1;max-width:96px;font:inherit;font-size:12.5px;font-weight:700;padding:5px 0;border-radius:9px;border:1px solid var(--line);background:var(--card);color:var(--mut);cursor:pointer}
   .eqr button.on{background:var(--chang);border-color:var(--chang);color:#fff}
   .eqtip{position:absolute;top:0;padding:4px 8px;border-radius:8px;background:var(--card);border:1px solid var(--line);box-shadow:0 4px 12px -6px rgba(0,0,0,.3);font-size:12px;white-space:nowrap;pointer-events:none}
   .eqtip b{display:block;font-variant-numeric:tabular-nums} .eqtip small{color:var(--mut)}
@@ -1794,7 +1794,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.13-1800";
+const APP_VERSION="2026.10.13-1810";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -2285,48 +2285,60 @@ async function loadEq(){
   return EQ;
 }
 let EQR="all";   // 資產曲線區間：1m／3m／6m／1y／all
-function eqChart(ps,cash,shortCost){
-  if(!EQ||!EQ.series||!EQ.series.length)return "";
+function eqData(ps,cash,shortCost){
   let S=EQ.series.map(x=>({d:x.date,v:x.equity}));
   const nowV=cash+shortCost+ps.reduce((a,p)=>a+(livePx(p)||0)*p.shares,0);
   const today=new Date(Date.now()+8*3600*1000).toISOString().slice(0,10);
   if(S[S.length-1].d<today)S.push({d:today,v:Math.round(nowV),live:true});
   const days={"1m":31,"3m":92,"6m":183,"1y":366}[EQR];
   if(days){const cut=new Date(Date.now()-days*86400e3).toISOString().slice(0,10);const f=S.filter(x=>x.d>=cut);if(f.length>=2)S=f;}
-  const W=340,H=150,L=8,R=8,T=12,B=22,vs=S.map(x=>x.v),mn=Math.min(...vs),mx=Math.max(...vs),pad=(mx-mn)*0.15||1,lo=mn-pad,hi=mx+pad;
-  const y=v=>T+(H-T-B)*(1-(v-lo)/(hi-lo)),x=i=>L+(W-L-R)*i/Math.max(1,S.length-1);
-  const pts=S.map((p,i)=>`${x(i).toFixed(1)},${y(p.v).toFixed(1)}`).join(" ");
-  const first=S[0].v,last=S[S.length-1].v,chg=last/first-1,up=chg>=0,col=up?"#5E8F2B":"#D9534F";
-  window.__EQS=S.map(p=>[p.d,p.v,!!p.live]);
-  const area=`M${x(0).toFixed(1)},${(H-B).toFixed(1)} L${pts.replace(/ /g," L")} L${x(S.length-1).toFixed(1)},${(H-B).toFixed(1)} Z`;
+  return S;
+}
+function eqChart(ps,cash,shortCost){
+  if(!EQ||!EQ.series||!EQ.series.length)return "";
+  const S=eqData(ps,cash,shortCost);window.__EQS=S.map(p=>[p.d,p.v,!!p.live]);
+  const vs=S.map(x=>x.v),mn=Math.min(...vs),mx=Math.max(...vs),first=S[0].v,last=S[S.length-1].v,chg=last/first-1,up=chg>=0,n=S.length;
   const md=d=>(+d.slice(5,7))+"/"+(+d.slice(8,10));
-  const ticks=[mn,(mn+mx)/2,mx].map(v=>`<line x1="${L}" x2="${W-R}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}" stroke="var(--line)" stroke-dasharray="3 3"/><text x="${W-R}" y="${(y(v)-3).toFixed(1)}" text-anchor="end" font-size="9" fill="var(--mut)">${(v/1e4).toFixed(0)}萬</text>`).join("");
-  const n=S.length,xi=n>4?[0,Math.round((n-1)/3),Math.round(2*(n-1)/3),n-1]:[0,n-1];
-  const xl=xi.map(i=>`<text x="${x(i).toFixed(1)}" y="${H-6}" text-anchor="${i===0?"start":i===n-1?"end":"middle"}" font-size="9" fill="var(--mut)">${md(S[i].d)}</text>`).join("");
   const rng=[["1m","1月"],["3m","3月"],["6m","6月"],["1y","1年"],["all","全部"]].map(([k,t])=>`<button type="button" class="${EQR===k?"on":""}" data-eqr="${k}">${t}</button>`).join("");
-  const avail=EQ.series[0].date;
-  return `<div class="eqc" data-n="${n}"><div class="eqh"><span>資產曲線<small>（含現金與短線格，資料自 ${md(avail)}）</small></span><b class="${up?"up":"dn"}">${pct(chg)}</b></div>
+  return `<div class="eqc"><div class="eqh"><span>資產曲線<small>（含現金與短線格，資料自 ${md(EQ.series[0].date)}）</small></span><b class="${up?"up":"dn"}">${pct(chg)}</b></div>
     <div class="eqr">${rng}</div>
-    <div class="eqw"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" id="eqSvg">
-      <defs><linearGradient id="eqg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".35"/><stop offset="1" stop-color="${col}" stop-opacity=".04"/></linearGradient></defs>
-      ${ticks}<path d="${area}" fill="url(#eqg)"/><polyline points="${pts}" fill="none" stroke="${col}" stroke-width="2" stroke-linejoin="round"/>
-      <circle cx="${x(n-1).toFixed(1)}" cy="${y(last).toFixed(1)}" r="3" fill="${col}"/>
-      <g id="eqCur" style="display:none"><line id="eqCl" y1="${T}" y2="${H-B}" stroke="var(--ink)" stroke-width="1" stroke-dasharray="2 2"/><circle id="eqCd" r="4" fill="#fff" stroke="${col}" stroke-width="2"/></g>${xl}</svg>
-      <div class="eqtip" id="eqTip" style="display:none"></div></div>
+    <div class="eqw" id="eqW"><div class="eqtip" id="eqTip" style="display:none"></div></div>
     <div class="eqf"><span>起點 ${(first/1e4).toFixed(1)} 萬</span><span>最高 ${(mx/1e4).toFixed(1)} 萬</span><span>最低 ${(mn/1e4).toFixed(1)} 萬</span><span>現在 ${(last/1e4).toFixed(1)} 萬${S[n-1].live?"（盤中）":""}</span></div></div>`;
 }
+/* 依容器實際寬度畫 SVG（不拉伸，桌機與手機比例一致） */
+function drawEq(){
+  const w=document.getElementById("eqW"),S=window.__EQS;if(!w||!S)return;
+  const W=Math.max(280,Math.round(w.getBoundingClientRect().width)),H=W>600?220:170,L=10,R=52,T=14,B=24;
+  const vs=S.map(p=>p[1]),mn=Math.min(...vs),mx=Math.max(...vs),pad=(mx-mn)*0.15||1,lo=mn-pad,hi=mx+pad,n=S.length;
+  const y=v=>T+(H-T-B)*(1-(v-lo)/(hi-lo)),x=i=>L+(W-L-R)*i/Math.max(1,n-1);
+  const last=S[n-1][1],up=last>=S[0][1],col=up?"#5E8F2B":"#D9534F";
+  const pts=S.map((p,i)=>`${x(i).toFixed(1)},${y(p[1]).toFixed(1)}`).join(" ");
+  const area=`M${x(0).toFixed(1)},${(H-B).toFixed(1)} L${pts.replace(/ /g," L")} L${x(n-1).toFixed(1)},${(H-B).toFixed(1)} Z`;
+  const md=d=>(+d.slice(5,7))+"/"+(+d.slice(8,10));
+  const nt=W>600?5:3,tv=[...Array(nt)].map((_,i)=>mn+(mx-mn)*i/(nt-1));
+  const ticks=tv.map(v=>`<line x1="${L}" x2="${W-R}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}" stroke="var(--line)" stroke-dasharray="3 3"/><text x="${W-R+6}" y="${(y(v)+3.5).toFixed(1)}" font-size="11" fill="var(--mut)">${(v/1e4).toFixed(0)}萬</text>`).join("");
+  const nx=Math.min(n,W>600?7:4),xi=[...new Set([...Array(nx)].map((_,i)=>Math.round((n-1)*i/(nx-1))))];
+  const xl=xi.map(i=>`<text x="${x(i).toFixed(1)}" y="${H-7}" text-anchor="${i===0?"start":i===n-1?"end":"middle"}" font-size="11" fill="var(--mut)">${md(S[i][0])}</text>`).join("");
+  w.querySelector("svg")?.remove();
+  w.insertAdjacentHTML("afterbegin",`<svg id="eqSvg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" data-w="${W}" data-h="${H}" data-l="${L}" data-r="${R}" data-t="${T}" data-b="${B}">
+    <defs><linearGradient id="eqg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".32"/><stop offset="1" stop-color="${col}" stop-opacity=".03"/></linearGradient></defs>
+    ${ticks}<path d="${area}" fill="url(#eqg)"/><polyline points="${pts}" fill="none" stroke="${col}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="${x(n-1).toFixed(1)}" cy="${y(last).toFixed(1)}" r="3.5" fill="${col}"/>
+    <g id="eqCur" style="display:none"><line id="eqCl" y1="${T}" y2="${H-B}" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3 3"/><circle id="eqCd" r="4.5" fill="#fff" stroke="${col}" stroke-width="2"/></g>${xl}</svg>`);
+}
+window.addEventListener("resize",()=>{clearTimeout(window.__eqT);window.__eqT=setTimeout(drawEq,120);});
 /* 觸控／滑鼠：十字線＋數值 */
 (function(){
   const box=document.getElementById("poolBox");
   box.addEventListener("click",e=>{const b=e.target.closest("[data-eqr]");if(!b)return;EQR=b.dataset.eqr;renderPool();});
   const move=e=>{const svg=e.target.closest("#eqSvg");if(!svg||!window.__EQS)return;
     const S=window.__EQS,r=svg.getBoundingClientRect(),px=(e.touches?e.touches[0].clientX:e.clientX)-r.left;
-    const W=340,L=8,R=8,T=12,H=150,B=22,n=S.length,fx=px/r.width*W,i=Math.max(0,Math.min(n-1,Math.round((fx-L)/(W-L-R)*(n-1))));
+    const W=+svg.dataset.w,L=+svg.dataset.l,R=+svg.dataset.r,T=+svg.dataset.t,H=+svg.dataset.h,B=+svg.dataset.b,n=S.length,i=Math.max(0,Math.min(n-1,Math.round((px-L)/(W-L-R)*(n-1))));
     const vs=S.map(p=>p[1]),mn=Math.min(...vs),mx=Math.max(...vs),pad=(mx-mn)*0.15||1,lo=mn-pad,hi=mx+pad;
     const cx=L+(W-L-R)*i/Math.max(1,n-1),cy=T+(H-T-B)*(1-(S[i][1]-lo)/(hi-lo));
     const g=svg.querySelector("#eqCur");g.style.display="";const l=svg.querySelector("#eqCl");l.setAttribute("x1",cx);l.setAttribute("x2",cx);const d=svg.querySelector("#eqCd");d.setAttribute("cx",cx);d.setAttribute("cy",cy);
     const tip=document.getElementById("eqTip");tip.style.display="";tip.innerHTML=`<b>${S[i][1].toLocaleString("zh-Hant")} 元</b><small>${S[i][0].slice(5).replace("-","/")}${S[i][2]?" 盤中":""}</small>`;
-    const tw=tip.offsetWidth,left=Math.max(0,Math.min(r.width-tw,cx/W*r.width-tw/2));tip.style.left=left+"px";
+    const tw=tip.offsetWidth,left=Math.max(0,Math.min(r.width-tw,cx-tw/2));tip.style.left=left+"px";
     if(e.cancelable&&e.touches)e.preventDefault();};
   const end=()=>{const g=document.getElementById("eqCur"),t=document.getElementById("eqTip");if(g)g.style.display="none";if(t)t.style.display="none";};
   box.addEventListener("mousemove",move);box.addEventListener("touchstart",move,{passive:false});box.addEventListener("touchmove",move,{passive:false});
@@ -2449,6 +2461,7 @@ function renderPool(){
     :`<div class="prule">規則（G，10/13 起）：${POOL.rule}。</div>`;
   box.innerHTML=`<h3 data-en="${short?"SWING":"ACTIVE"}">${short?"短線池":"主動池"}<span class="tick" style="margin-left:auto;font-weight:600">報價 ${LIVE?LIVE.updated.slice(5,16).replace("T"," "):"收盤 "+(POOL.price_date||"—")}${marketOpen()?"":" · 非交易時段"}</span><button type="button" id="pxBtn" class="pxbtn" onclick="refreshPrices(true)">更新報價</button></h3>
     <div class="pstats">${stats}</div>${short?"":eqChart(ps,P.cash||0,(POOL.short&&POOL.short.positions||[]).reduce((a,p)=>a+(p.cost_total||0),0))+poolPie(ps,P.cash||0)}${ps.map(p=>posCard(p,short)).join("")||'<div class="note">目前沒有持股</div>'}${ctab}${rule}`;
+  if(!short)drawEq();
 }
 let PICKS=null;
 async function loadPicks(){
