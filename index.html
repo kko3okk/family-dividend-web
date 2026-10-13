@@ -438,6 +438,19 @@
   .pcard details summary{cursor:pointer;font-weight:700}
   .pclosed{width:100%;font-size:12px}
   .pclosed td{padding:5px 4px;border-bottom:1px dashed var(--line)}
+  .cfilt{display:flex;align-items:center;gap:8px;margin:0 0 8px}
+  .csel{font:inherit;font-size:13px;padding:5px 8px;border-radius:9px;border:1px solid var(--line);background:var(--card2);color:var(--ink)}
+  .cseg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin-left:auto}
+  .cseg button{font:inherit;font-size:12.5px;font-weight:700;padding:5px 12px;border:none;background:transparent;color:var(--mut);cursor:pointer}
+  .cseg button.on{background:var(--chang);color:#fff}
+  .ctbl{width:100%;border-collapse:collapse;font-size:12.5px;line-height:1.5}
+  .ctbl th{font-weight:600;color:var(--mut);text-align:left;padding:4px 4px;border-bottom:1px solid var(--line);white-space:nowrap}
+  .ctbl td{padding:6px 4px;border-bottom:1px dashed var(--line);vertical-align:top}
+  .ctbl td small{display:block;color:var(--mut);font-size:11px} .ctbl td .est{font-style:normal;margin-left:4px;color:#A86A00;font-size:11px}
+  .ctbl .io{display:inline-block;width:1.4em;color:var(--mut);font-size:11px}
+  .ctbl .n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .ctbl tfoot td{border-bottom:none;font-weight:700;padding-top:8px}
+  .ctbl .up{color:var(--green-ink,var(--green))} .ctbl .dn{color:#D9534F}
   .tr{padding:10px 2px;border-bottom:1px dashed var(--line)}
   .tr:last-of-type{border-bottom:none}
   .tr .hd{display:flex;align-items:baseline;gap:6px;margin-bottom:4px}
@@ -1772,7 +1785,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.13-1325";
+const APP_VERSION="2026.10.13-1400";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -2345,7 +2358,27 @@ function renderPool(){
       return `<div class="leg"><span class="k">${i?"":"出場"}</span><span>${md(x.date)||"—"}${x.shares?`　${fmt(x.shares)} 股`:""}　@${x.price}</span><span class="${r>=0?"up":"dn"}">${r!=null?pct(r):""}</span></div>`;}).join("");
     return `<div class="tr"><div class="hd"><b>${c.name}</b><span class="tick">${c.code}</span><span class="pl ${c.pnl>=0?"up":"dn"}">${c.pnl!=null?(c.pnl>=0?"+":"")+fmt(c.pnl):"—"}${ret!=null?`<small>${pct(ret)}</small>`:""}</span></div>${ins}${outs}${cost&&c.entries&&c.entries.length>1?`<div class="leg"><span class="k"></span><span class="tick">均價 ${cost}</span><span></span></div>`:""}</div>`;
   };
-  const ctab=closed.length?`<h4 style="margin:16px 0 6px">${short?"已出場":"2026 已出場"}</h4>${closed.map(trade).join("")}
+  /* 2026-10-13：已出場區改版——年月篩選 ＋ 表格／明細兩種檢視，篩選後顯示小計 */
+  const ymOf=c=>{const d=(c.exits&&c.exits.length?c.exits[c.exits.length-1].date:c.date)||"";return /^\d{4}-\d{2}/.test(d)?d.slice(0,7):"未記";};
+  const yms=[...new Set(closed.map(ymOf))].sort().reverse();
+  const key=short?"short":"act";if(!window.CLF)window.CLF={};const F=CLF[key]||(CLF[key]={ym:"all",view:"table"});
+  if(F.ym!=="all"&&!yms.includes(F.ym))F.ym="all";
+  const shown=closed.filter(c=>F.ym==="all"||ymOf(c)===F.ym);
+  const sumP=shown.reduce((a,c)=>a+(c.pnl||0),0),wins=shown.filter(c=>(c.pnl||0)>0).length;
+  const retOf=c=>{const cost=c.avg_cost;if(!cost)return null;const ex=c.exits&&c.exits.length?c.exits:[{price:c.price,shares:c.shares||1}];const sh=ex.reduce((a,x)=>a+(x.shares||1),0);return ex.reduce((a,x)=>a+x.price*(x.shares||1),0)/sh/cost-1;};
+  const fdate=d=>d?(/^\d{4}-\d{2}-\d{2}$/.test(d)?d.slice(5).replace("-","/"):md(d)):"—";
+  const rng=(arr,get)=>{const ds=arr.map(get).filter(Boolean);if(!ds.length)return null;const a=ds[0],z=ds[ds.length-1];return a===z?fdate(a):`${fdate(a)}～${fdate(z)}`;};
+  const table=`<table class="ctbl"><thead><tr><th>標的</th><th>進場 → 出場</th><th class="n">成本 → 出場價</th><th class="n">股數</th><th class="n">損益</th></tr></thead><tbody>${shown.map(c=>{
+    const ins=c.entries&&c.entries.length?c.entries:[{date:null,when:"未記",price:c.avg_cost}],ex=c.exits&&c.exits.length?c.exits:[{date:c.date,price:c.price,shares:c.shares}];
+    const r=retOf(c),sh=ex.reduce((a,x)=>a+(x.shares||0),0)||c.shares,avgx=ex.reduce((a,x)=>a+x.price*(x.shares||1),0)/ex.reduce((a,x)=>a+(x.shares||1),0);
+    const inD=rng(ins,e=>e.date)||(ins[0].when||"未記"),exD=rng(ex,x=>x.date)||"—",est=ins.some(e=>e.est||!e.date);
+    return `<tr><td><b>${c.name}</b><small>${c.code}</small></td><td><span class="io">進</span>${inD}${est?'<em class="est">推估</em>':""}<br><span class="io">出</span>${exD}</td><td class="n">${c.avg_cost??"—"}<br>→ ${ex.length>1?avgx.toFixed(1):ex[0].price}</td><td class="n">${sh?fmt(sh):"—"}</td><td class="n"><b class="${c.pnl>=0?"up":"dn"}">${c.pnl!=null?(c.pnl>=0?"+":"")+fmt(c.pnl):"—"}</b><br><small class="${r>=0?"up":"dn"}">${r!=null?pct(r):"—"}</small></td></tr>`;}).join("")}</tbody>
+    <tfoot><tr><td colspan="4">小計 ${shown.length} 筆，勝 ${wins}</td><td class="n ${sumP>=0?"up":"dn"}">${(sumP>=0?"+":"")+fmt(sumP)}</td></tr></tfoot></table>`;
+  const listHtml=(shown.map(trade).join("")||'<div class="note">這個月沒有出場紀錄</div>')+`<div class="prule">小計 ${shown.length} 筆，勝 ${wins}，損益 <b class="${sumP>=0?"up":"dn"}">${(sumP>=0?"+":"")+fmt(sumP)}</b></div>`;
+  const ctab=closed.length?`<h4 style="margin:16px 0 6px">${short?"已出場":"2026 已出場"}</h4>
+    <div class="cfilt"><select class="csel" data-k="${key}" data-f="ym"><option value="all"${F.ym==="all"?" selected":""}>全部（${closed.length} 筆）</option>${yms.map(y=>`<option value="${y}"${F.ym===y?" selected":""}>${y==="未記"?"未記月份":y.replace("-","/")}（${closed.filter(c=>ymOf(c)===y).length}）</option>`).join("")}</select>
+      <span class="cseg"><button type="button" class="${F.view==="table"?"on":""}" data-k="${key}" data-f="view" data-v="table">表格</button><button type="button" class="${F.view==="list"?"on":""}" data-k="${key}" data-f="view" data-v="list">明細</button></span></div>
+    ${F.view==="table"?table:listHtml}
     ${closed.some(c=>(c.entries||[]).some(e=>e.est||!e.date))?'<div class="prule">進場日標「推估」或「未記」的，是依過去對話補登，沒有券商成交紀錄可對。</div>':""}`:"";
   const rule=short?`<div class="prule">${P.desc||""}</div>`
     :`<div class="prule">規則（G，10/13 起）：${POOL.rule}。</div>`;
@@ -2407,6 +2440,8 @@ function renderPicks(){
     <details><summary>新舊規則模擬帳戶</summary><div class="pkacc">${acc}</div></details>
     <div class="prule">名單依收盤價判斷；盤中價只是預覽，「暫站上突破線」要等收盤確認才算突破。${free?"有空格時由上往下買「現在可買」的標的。":"5 格已滿，這份清單在有持股出場後才用得到。"}</div>`;
 }
+document.getElementById("poolBox").addEventListener("change",e=>{const el=e.target.closest(".csel");if(!el)return;CLF[el.dataset.k][el.dataset.f]=el.value;renderPool();});
+document.getElementById("poolBox").addEventListener("click",e=>{const b=e.target.closest(".cseg button");if(!b)return;CLF[b.dataset.k][b.dataset.f]=b.dataset.v;renderPool();});
 document.getElementById("poolSeg").addEventListener("click",async e=>{
   const b=e.target.closest("button[data-pool]");if(!b)return;
   POOLV=b.dataset.pool;
