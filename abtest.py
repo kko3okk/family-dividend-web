@@ -20,7 +20,10 @@ ACCTS = {
     # 2026-10-13 Chang：停利保護試運行（RESEARCH §二十 網格：曾賺 X% 後自最高收盤回落 Y% 全出）
     "D": dict(name="D C＋只有 (b)（賺20%後自高點回落15%全出）", exit="lo55", brk=20, pt=(0.20, 0.15)),
     # 2026-10-13 檢視後定案的候選版本：D 的看成本條 ＋ 近 55 日最高收盤回落 18%（曾賺 ≥5% 後才生效，避免進場即賣）
-    "G": dict(name="G 現行規則（10/13 起：前55日低／賺20%後回落15%／曾賺5%後近55日高回落18%）", exit="lo55", brk=20, pt=(0.20, 0.15), roll=(55, 0.18, 0.05)),
+    "G": dict(name="G 前規則（10/13：前55日低／賺20%後回落15%／曾賺5%後近55日高回落18%，不加碼）", exit="lo55", brk=20, pt=(0.20, 0.15), roll=(55, 0.18, 0.05)),
+    # 2026-10-13 Chang 決定：H2 為正規策略（RESEARCH §二十之六）。加碼：收盤再創前 20 日新高、距上次買價 ≥5%、距上次買進 ≥3 個交易日、只用閒置現金，每次一格、最多 2 次、單檔上限 3 格。
+    "H1": dict(name="H1 對照（G＋閒置現金加碼：再創20日高加半格×2，上限2格，冷卻5日）", exit="lo55", brk=20, pt=(0.20, 0.15), roll=(55, 0.18, 0.05), addc=dict(x=0.05, amt=0.5, max=2, cap=2.0, cool=5)),
+    "H2": dict(name="H2 現行規則（10/13 起：G 出場＋再創20日高加一格×2，上限3格，冷卻3日）", exit="lo55", brk=20, pt=(0.20, 0.15), roll=(55, 0.18, 0.05), addc=dict(x=0.05, amt=1.0, max=2, cap=3.0, cool=3)),
 }
 
 # ---------- 資料 ----------
@@ -95,7 +98,7 @@ for k in range(2, len(seq)):
 
 # ---------- 模擬 ----------
 def run(cfg):
-    cash = CASH0; pos = {}; trades = []; eq = []; pend_buy = []; pend_sell = []
+    cash = CASH0; pos = {}; trades = []; eq = []; pend_buy = []; pend_sell = []; pend_add = []
     li = -1; bought = set(); lock = False; above = 0
     for i, d in enumerate(dates):
         if d < START: continue
@@ -105,9 +108,17 @@ def run(cfg):
             if not q or not px: continue
             pr = px * (1 - SLIP) * q["sh"] * (1 - FEE_S); cash += pr; pos.pop(c)
             trades.append(dict(code=c, name=q["name"], entry=q["entry"], entry_px=q["px"], exit=d, exit_px=px, why=why,
-                               pnl=round(pr - q["paid"]), ret=round((pr / q["paid"] - 1) * 100, 1)))
+                               pnl=round(pr - q["paid"]), ret=round((pr / q["paid"] - 1) * 100, 1), adds=q.get("adds", [])))
         pend_sell = [(c, w) for c, w in pend_sell if c in pos]
         equity = cash + sum((close[c][i] or q["last"]) * q["sh"] for c, q in pos.items())
+        for c in pend_add:   # 加碼（前一日訊號，今日收盤成交；只用閒置現金，加碼優先於新進場）
+            q = pos.get(c); px = close[c][i]
+            if not q or not px or c in [x for x, _ in pend_sell]: continue
+            bpx = px * (1 + SLIP) * (1 + FEE_B); sh = int(min(equity / SLOTS * cfg["addc"]["amt"], cash) / bpx)
+            if sh < 1: continue
+            cash -= sh * bpx; q["sh"] += sh; q["paid"] += sh * bpx; q["u"] += 1; q["lastadd"] = px; q["lastadd_i"] = i
+            q.setdefault("adds", []).append(dict(date=d, shares=sh, price=px))
+        pend_add = []
         for c, nm in pend_buy:
             if c in pos or len(pos) >= SLOTS: continue
             px = close[c][i]
@@ -115,7 +126,7 @@ def run(cfg):
             bpx = px * (1 + SLIP) * (1 + FEE_B); sh = int(min(equity / SLOTS, cash) / bpx)
             if sh < 1: continue
             cash -= sh * bpx
-            pos[c] = dict(name=nm, sh=sh, px=px, paid=sh * bpx, entry=d, hi=px, last=px, dbl=False)
+            pos[c] = dict(name=nm, sh=sh, px=px, paid=sh * bpx, entry=d, hi=px, last=px, dbl=False, u=1, lastadd=px, lastadd_i=i, adds=[])
         pend_buy = []
         # 2) 收盤評價與出場訊號
         for c, q in pos.items():
@@ -134,6 +145,10 @@ def run(cfg):
                 pend_sell.append((c, "停利：近%d日最高收盤 %.1f 回落%.0f%%" % (cfg["roll"][0], h55, cfg["roll"][1] * 100)))
             elif cfg.get("pt") and q["hi"] >= q["px"] * (1 + cfg["pt"][0]) and px <= q["hi"] * (1 - cfg["pt"][1]):
                 pend_sell.append((c, "停利：曾賺%.0f%%後自高點 %.1f 回落%.0f%%" % (cfg["pt"][0] * 100, q["hi"], cfg["pt"][1] * 100)))
+            elif cfg.get("addc") and q["u"] - 1 < cfg["addc"]["max"] and (i - q["lastadd_i"]) >= cfg["addc"]["cool"]:
+                h20 = prior(close[c], i, 20, max)
+                if h20 and px > h20 and px >= q["lastadd"] * (1 + cfg["addc"]["x"]) and q["paid"] + 1 < cfg["addc"]["cap"] * equity / SLOTS:
+                    pend_add.append(c)
         # 3) 第 11 條、第 5 條
         hi60 = max(t for t in taiex[max(0, i - 59):i + 1] if t)
         t20 = ma(taiex, i, 20); t60 = ma(taiex, i, 60)
@@ -157,9 +172,10 @@ def run(cfg):
             pend_buy.append((c, nm)); bought.add(c); free -= 1
     last = len(dates) - 1
     held = [dict(code=c, name=q["name"], shares=q["sh"], entry=q["entry"], entry_px=q["px"], px=close[c][last] or q["last"],
-                 ret=round(((close[c][last] or q["last"]) / q["px"] - 1) * 100, 1), line=round(q.get("line") or 0, 1)) for c, q in pos.items()]
+                 ret=round(((close[c][last] or q["last"]) / q["px"] - 1) * 100, 1), line=round(q.get("line") or 0, 1),
+                 avg_cost=round(q["paid"] / q["sh"], 2), adds=q.get("adds", []), paid=round(q["paid"])) for c, q in pos.items()]
     return dict(cfg=cfg, cash=round(cash), equity=eq, trades=trades, positions=held,
-                pending_buy=[c for c, _ in pend_buy], pending_sell=[c for c, _ in pend_sell])
+                pending_buy=[c for c, _ in pend_buy], pending_sell=[c for c, _ in pend_sell], pending_add=list(pend_add))
 
 def stats(r):
     e = [x[1] for x in r["equity"]] or [CASH0]
@@ -182,8 +198,8 @@ for k, r in res.items():
 for k, r in res.items():
     L += ["", f"## {r['cfg']['name']}", "", "| 持股 | 進場日 | 進場價 | 現價 | 報酬 | 出場線 |", "|---|---|---|---|---|---|"]
     L += [f"| {p['name']} {p['code']} | {p['entry']} | {p['entry_px']} | {p['px']} | {p['ret']:+.1f}% | {p['line']} |" for p in r["positions"]] or ["| 無 | | | | | |"]
-    if r["pending_buy"] or r["pending_sell"]:
-        L.append(f"\n明日收盤待執行：買 {('、'.join(r['pending_buy']) or '—')}；賣 {('、'.join(r['pending_sell']) or '—')}")
+    if r["pending_buy"] or r["pending_sell"] or r.get("pending_add"):
+        L.append(f"\n明日收盤待執行：買 {('、'.join(r['pending_buy']) or '—')}；賣 {('、'.join(r['pending_sell']) or '—')}；加碼 {('、'.join(r.get('pending_add', [])) or '—')}")
     if r["trades"]:
         L += ["", "| 已出場 | 進場 | 出場 | 原因 | 報酬 |", "|---|---|---|---|---|"]
         L += [f"| {t['name']} {t['code']} | {t['entry']} @{t['entry_px']} | {t['exit']} @{t['exit_px']} | {t['why']} | {t['ret']:+.1f}% |" for t in r["trades"]]
@@ -211,7 +227,7 @@ for k in range(max(0, i - 120), i + 1):
 P_ = [f"# 推薦清單（{d} 收盤）", "",
       f"名單：資料月 {cur[1] if cur else '—'}（{cur[0] if cur else ''} 生效）　大盤 {taiex[i]:,.0f}／季線 {t60:,.0f} → 第5條 {'通過' if gate5 else '**關閉，停止新進場**'}　"
       f"自60日高 {(taiex[i] / hi60 - 1) * 100:+.1f}% → 第11條 {'**鎖定中，停止新進場**' if lk else '未鎖定'}", "",
-      "**現行規則（G，10/13 起）只買標 ✓ 者**（收盤突破前 20 日最高）；未打勾者是舊進場條件會買、現行不買。出場看三條線：前 55 日低／賺 20% 後高點回落 15%／曾賺 5% 後近 55 日高回落 18%，任一成立隔日全出。", "",
+      "**現行規則（H2，10/13 起）只買標 ✓ 者**（收盤突破前 20 日最高）；未打勾者是舊進場條件會買、現行不買。出場看三條線：前 55 日低／賺 20% 後高點回落 15%／曾賺 5% 後近 55 日高回落 18%，任一成立隔日全出。**加碼**：持股收盤再創前 20 日新高、比上次買價高 ≥5%、距上次買進 ≥3 個交易日 → 隔日收盤用閒置現金加一格（最多 2 次、單檔上限 3 格）。", "",
       "| # | 標的 | 子產業 | AI 關聯 | 當月YoY | 收盤 | 乖離20MA | 出場線 前55日低（現行） | 60MA（舊 A） | 突破線 前20日高 | 現行可買 |",
       "|---|---|---|---|---|---|---|---|---|---|---|"]
 nC = 0; rank = 0; PJ = []
@@ -225,18 +241,18 @@ for y, c, nm in (cur[2] if cur else []):
     P_.append(f"| {rank} | {nm} {c} | {code2sub.get(c, '')} | {AIT['tags'].get(at, at)}{('：' + aw) if aw else ''} | {y:.0f}% | {px} | {(px / m20 - 1) * 100:.1f}% | " + (f"{lo:.1f}（{(lo / px - 1) * 100:+.0f}%）" if lo else "—") + f" | {m60:.1f}（{(m60 / px - 1) * 100:+.0f}%） | " + (f"{h20:.1f}" if h20 else "—") + f" | {'✓' if okc else '—'} |")
 if rank == 0: P_.append("| — | 今日無符合者 | | | | | | | | | |")
 _cnt = collections.Counter(r["ai"] for r in PJ)
-P_ += ["", f"現行規則（G，進場同 C）可買 {nC} 檔；舊進場條件合格 {rank} 檔。排序依第 6 條（當月 YoY 由高到低），有空格時由上往下補。",
+P_ += ["", f"現行規則（H2，進場同 C／G）可買 {nC} 檔；舊進場條件合格 {rank} 檔。排序依第 6 條（當月 YoY 由高到低），有空格時由上往下補。",
        "AI 關聯（分類資訊，不影響排序）：" + "、".join(f"{AIT['tags'].get(k, k)} {_cnt.get(k, 0)} 檔" for k in ("ai", "aix", "mix", "non")) + "。", "",
        "**模擬帳戶明日收盤待執行**"]
 for k, r in res.items():
     held = "、".join(f"{p['name']}" for p in r["positions"]) or "空手"
-    P_.append(f"- {r['cfg']['name']}：買 {('、'.join(r['pending_buy']) or '—')}；賣 {('、'.join(r['pending_sell']) or '—')}　（持股 {len(r['positions'])}/5：{held}）")
-P_.append("\n實際帳戶照現行規則（G）：有空格時，由上往下補「✓」者；出場看三條出場線（網站持股卡片與 CHECK.md 每日自動判定）。")
+    P_.append(f"- {r['cfg']['name']}：買 {('、'.join(r['pending_buy']) or '—')}；賣 {('、'.join(r['pending_sell']) or '—')}" + (f"；加碼 {'、'.join(r['pending_add'])}" if r.get("pending_add") else "") + f"　（持股 {len(r['positions'])}/5：{held}）")
+P_.append("\n實際帳戶照現行規則（H2）：有空格時，由上往下補「✓」者；加碼與三條出場線由網站持股卡片與 CHECK.md 每日自動判定。")
 open("paper/picks.md" if OUT == "paper/abtest" else OUT + "_picks.md", "w", encoding="utf-8").write("\n".join(P_) + "\n")
 json.dump(dict(date=d, ym=cur[1] if cur else None, eff=cur[0] if cur else None, taiex=taiex[i], t60=round(t60, 1) if t60 else None,
                gate5=gate5, lock11=lk, from_hi60=round((taiex[i] / hi60 - 1) * 100, 1), rows=PJ, ai_tags=AIT.get("tags", {}),
                accounts=[dict(key=k, name=r["cfg"]["name"], equity=stats(r)["equity"], ret=round(stats(r)["ret"] * 100, 2), mdd=round(stats(r)["mdd"] * 100, 1),
-                              n=len(r["positions"]), buy=r["pending_buy"], sell=r["pending_sell"]) for k, r in res.items()]),
+                              n=len(r["positions"]), buy=r["pending_buy"], sell=r["pending_sell"], add=r.get("pending_add", [])) for k, r in res.items()]),
           open("paper/picks.json" if OUT == "paper/abtest" else OUT + "_picks.json", "w", encoding="utf-8"), ensure_ascii=False)
 L = P_ + ["", "---", ""] + L
 open(OUT + ".md", "w", encoding="utf-8").write("\n".join(L) + "\n")

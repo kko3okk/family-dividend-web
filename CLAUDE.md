@@ -28,6 +28,8 @@
 
 第 7 條（2026-10-13 G 規則）三條出場線由私有庫 `holdings_check.py` 的 `exit_eval()` 每日計算，寫進 `holdings/status.json` 每檔的 `exit`（lines／hits／nearest／h55）；網站 `posCard()` 再用即時價重算並顯示「觸發出場：原因」。規則文字以 `RULES.md` 第 7 條為準；兩邊的算法要跟 `research/bt/trim.py` 一致（前 55 日不含當日、持有高點含當日）。改規則時三處一起改。
 
+加碼（H2，2026-10-13 Chang 定案）同樣由 `holdings_check.py` 的 `add_eval()` 判定（再創前 20 日高／比上次買價 ≥5%／距上次買進 ≥3 個交易日／≤2 次／≤3 格），寫進每檔的 `add`，網站 `posCard()` 用即時價重算顯示「觸發加碼：明日收盤加一格 N 張」。使用者說「○○加碼 N 張 @價」時，把那筆寫進 `active.json` 該檔的 `adds`（date／shares／price）、更新 shares／avg_cost／cash／cash_log；`abtest.py` 帳戶 H2 的 `addc` 參數要跟 RULES.md 一致。
+
 ## 推薦清單的 AI 關聯標籤
 
 `data/ai_tag.json` 給每檔推薦標的一個 AI 關聯標籤（ai 直接鏈／aix 擴產間接／mix 部分 AI／non 非 AI），先查 `by_code` 再查 `by_sub` 子產業預設；`abtest.py` 寫進 `paper/picks.json`（`ai`、`ai_why`）與 `picks.md`，網站推薦清單顯示標籤並可篩選。這只是分類資訊，不影響第 6 條排序與進出場。新標的或看法改變時只改 `ai_tag.json`（`why` 一句話，屬推估）。
