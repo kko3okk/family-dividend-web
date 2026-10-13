@@ -57,7 +57,12 @@
   svg{display:block;width:100%;height:120px}
   .note{font-size:12px;color:var(--mut2);line-height:1.7}
   .why{font-size:11px;color:var(--mut2)}
-  @media(max-width:480px){.kpis{grid-template-columns:repeat(2,1fr)} td,th{padding:6px 3px} .card{padding:18px 15px 16px;border-radius:24px}}
+  .tbl{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px}
+  .tbl table{min-width:100%}
+  table.ov{font-size:13px}
+  table.ov td{white-space:nowrap}
+  table.ov td:first-child b{font-size:13.5px}
+  @media(max-width:480px){.kpis{grid-template-columns:repeat(2,1fr)} td,th{padding:6px 3px} .card{padding:18px 15px 16px;border-radius:24px} .hs{display:none} table.ov{font-size:12.5px} .tag{margin-left:2px;padding:2px 6px}}
 </style>
 </head>
 <body>
@@ -105,16 +110,17 @@ function render(){
   const A=D.accounts,keys=Object.keys(A);
   $("meta").innerHTML=`自 ${D.start} 起，各 500 萬　·　最後更新 ${D.updated} 收盤　·　${keys.length} 個帳戶`;
   // 比較表
-  $("cmp").innerHTML=`<h2 data-en="OVERVIEW">總覽 <small>點帳戶看明細</small></h2><table><tr><th>帳戶</th><th class="n">權益(萬)</th><th class="n">報酬</th><th class="n">MDD</th><th class="n">持股</th><th class="n">已出場</th><th class="n">勝率</th><th class="n">明日</th></tr>
-  ${keys.map(k=>{const a=A[k],s=stats(a);return`<tr class="${k===CUR?"cur":""}" data-k="${k}" style="cursor:pointer"><td><b>${esc(a.cfg.name.split("（")[0])}</b><div class="why">${esc((a.cfg.name.match(/（(.*)）/)||[,""])[1])}</div></td><td class="n">${n(s.equity/1e4,1)}</td><td class="n">${pct(s.ret*100)}</td><td class="n">${(s.mdd*100).toFixed(1)}%</td><td class="n">${a.positions.length}/5</td><td class="n">${s.n}</td><td class="n">${s.win==null?"—":Math.round(s.win*100)+"%"}</td><td class="n">${a.pending_buy.length?`<span class="tag buy">買${a.pending_buy.length}</span>`:""}${a.pending_sell.length?`<span class="tag sell">賣${a.pending_sell.length}</span>`:""}${!a.pending_buy.length&&!a.pending_sell.length?"—":""}</td></tr>`;}).join("")}</table>`;
+  $("cmp").innerHTML=`<h2 data-en="OVERVIEW">總覽 <small>點帳戶看明細</small></h2><div class="tbl"><table class="ov"><tr><th>帳戶</th><th class="n">權益(萬)</th><th class="n">報酬</th><th class="n">MDD</th><th class="n">持股</th><th class="n hs">已出場</th><th class="n hs">勝率</th><th class="n">明日</th></tr>
+  ${keys.map(k=>{const a=A[k],s=stats(a);return`<tr class="${k===CUR?"cur":""}" data-k="${k}" style="cursor:pointer"><td><b>${esc(a.cfg.name.split("（")[0])}</b></td><td class="n">${n(s.equity/1e4,1)}</td><td class="n">${pct(s.ret*100)}</td><td class="n">${(s.mdd*100).toFixed(1)}%</td><td class="n">${a.positions.length}</td><td class="n hs">${s.n}</td><td class="n hs">${s.win==null?"—":Math.round(s.win*100)+"%"}</td><td class="n">${a.pending_buy.length?`<span class="tag buy">買${a.pending_buy.length}</span>`:""}${(a.pending_add||[]).length?`<span class="tag buy">加${a.pending_add.length}</span>`:""}${a.pending_sell.length?`<span class="tag sell">賣${a.pending_sell.length}</span>`:""}${!a.pending_buy.length&&!a.pending_sell.length&&!(a.pending_add||[]).length?"—":""}</td></tr>`;}).join("")}</table></div>
+  <div class="note" style="margin-top:8px">${esc(A[CUR].cfg.name)}</div>`;
   $("cmp").querySelectorAll("tr[data-k]").forEach(tr=>tr.onclick=()=>{CUR=tr.dataset.k;try{localStorage.setItem("simAcct",CUR)}catch(e){}render();});
   $("seg").innerHTML=keys.map(k=>`<button data-k="${k}" class="${k===CUR?"on":""}">${esc(A[k].cfg.name.split(" ")[0])}</button>`).join("");
   $("seg").querySelectorAll("button").forEach(b=>b.onclick=()=>{CUR=b.dataset.k;try{localStorage.setItem("simAcct",CUR)}catch(e){}render();});
   const a=A[CUR],s=stats(a),cfg=a.cfg;
   const rule=[`進場：第 1–6、10、11 條${cfg.brk?`＋收盤突破前 ${cfg.brk} 日最高收盤`:""}`,
     `出場：${cfg.exit==="ma60"?"收盤跌破 60MA":"收盤跌破前 55 日最低收盤"}；T4 翻倍後自高點回落 25%${cfg.pt?`；曾賺 ${Math.round(cfg.pt[0]*100)}% 後自最高收盤回落 ${Math.round(cfg.pt[1]*100)}%`:""}${cfg.roll?`；曾賺 ${Math.round(cfg.roll[2]*100)}% 後、近 ${cfg.roll[0]} 日最高收盤回落 ${Math.round(cfg.roll[1]*100)}%`:""}`,
-    cfg.addc?`加碼：${esc(JSON.stringify(cfg.addc))}`:"不加碼",`5 格 × 20%，訊號日收盤判斷、次日收盤成交`].join("　·　");
-  const posRows=a.positions.length?a.positions.map(p=>`<tr><td><b>${esc(p.name)}</b> <span class="why">${p.code}</span>${a.pending_sell.includes(p.code)?'<span class="tag sell">明日賣</span>':""}</td><td class="n">${p.entry.slice(5)}</td><td class="n">${n(p.entry_px,1)}</td><td class="n">${n(p.px,1)}</td><td class="n">${pct(p.ret)}</td><td class="n">${n(p.shares)}</td><td class="n">${n(p.px*p.shares/1e4,1)}</td><td class="n">${p.line?n(p.line,1)+`<div class="why">${((p.line/p.px-1)*100).toFixed(0)}%</div>`:"—"}</td></tr>`).join("")
+    cfg.addc?`加碼：收盤再創前 20 日新高、比上次買價高 ≥${Math.round(cfg.addc.x*100)}%、距上次買進 ≥${cfg.addc.cool} 日 → 隔日收盤用閒置現金加 ${cfg.addc.amt} 格，最多 ${cfg.addc.max} 次、單檔上限 ${cfg.addc.cap} 格`:"不加碼",`5 格 × 20%，訊號日收盤判斷、次日收盤成交`].join("　·　");
+  const posRows=a.positions.length?a.positions.map(p=>`<tr><td><b>${esc(p.name)}</b> <span class="why">${p.code}</span>${a.pending_sell.includes(p.code)?'<span class="tag sell">明日賣</span>':""}${(a.pending_add||[]).includes(p.code)?'<span class="tag buy">明日加碼</span>':""}${(p.adds||[]).length?`<div class="why">已加碼 ${p.adds.length} 次，均價 ${n(p.avg_cost,1)}</div>`:""}</td><td class="n">${p.entry.slice(5)}</td><td class="n">${n(p.entry_px,1)}</td><td class="n">${n(p.px,1)}</td><td class="n">${pct(p.ret)}</td><td class="n hs">${n(p.shares)}</td><td class="n">${n(p.px*p.shares/1e4,1)}</td><td class="n">${p.line?n(p.line,1)+`<div class="why">${((p.line/p.px-1)*100).toFixed(0)}%</div>`:"—"}</td></tr>`).join("")
     :`<tr><td colspan="8" class="note">目前空手${a.pending_buy.length?"，明日收盤買進："+a.pending_buy.join("、"):""}</td></tr>`;
   const T=[...a.trades].reverse();
   const trRows=T.length?T.map(t=>`<tr><td><b>${esc(t.name)}</b> <span class="why">${t.code}</span><div class="why">${esc(t.why)}</div></td><td class="n">${t.entry.slice(5)}<div class="why">${n(t.entry_px,1)}</div></td><td class="n">${t.exit.slice(5)}<div class="why">${n(t.exit_px,1)}</div></td><td class="n">${pct(t.ret)}</td><td class="n ${t.pnl>0?"up":t.pnl<0?"dn":""}">${t.pnl>0?"+":""}${n(t.pnl/1e4,1)}</td></tr>`).join("")
@@ -122,11 +128,11 @@ function render(){
   const eqRows=[...a.equity].reverse().slice(0,60).map((e,i,arr)=>{const prev=arr[i+1];const chg=prev?(e[1]/prev[1]-1)*100:null;return`<tr><td class="n" style="text-align:left">${e[0]}</td><td class="n">${n(e[1]/1e4,1)}</td><td class="n">${chg==null?"—":pct(chg)}</td><td class="n">${e[2]}</td></tr>`;}).join("");
   $("acct").innerHTML=`<div class="card"><h2 data-en="ACCOUNT ${esc(CUR)}">${esc(cfg.name)}</h2><div class="rule">${rule}</div>
     <div class="kpis"><div class="kpi"><div class="l">權益</div><div class="v">${n(s.equity/1e4,1)} 萬</div></div><div class="kpi"><div class="l">報酬</div><div class="v">${pct(s.ret*100)}</div></div><div class="kpi"><div class="l">最大回撤</div><div class="v">${(s.mdd*100).toFixed(1)}%</div></div><div class="kpi"><div class="l">已出場 / 勝率</div><div class="v">${s.n} 筆${s.win==null?"":" / "+Math.round(s.win*100)+"%"}</div></div>
-    <div class="kpi"><div class="l">持股市值</div><div class="v">${n(s.mv/1e4,1)} 萬</div></div><div class="kpi"><div class="l">現金</div><div class="v">${n(s.cash/1e4,1)} 萬</div></div><div class="kpi"><div class="l">已實現損益</div><div class="v">${s.pnl>0?"+":""}${n(s.pnl/1e4,1)} 萬</div></div><div class="kpi"><div class="l">明日收盤待執行</div><div class="v" style="font-size:13px">${a.pending_buy.length?"買 "+a.pending_buy.join("、"):""}${a.pending_buy.length&&a.pending_sell.length?"<br>":""}${a.pending_sell.length?"賣 "+a.pending_sell.join("、"):""}${!a.pending_buy.length&&!a.pending_sell.length?"—":""}</div></div></div>
+    <div class="kpi"><div class="l">持股市值</div><div class="v">${n(s.mv/1e4,1)} 萬</div></div><div class="kpi"><div class="l">現金</div><div class="v">${n(s.cash/1e4,1)} 萬</div></div><div class="kpi"><div class="l">已實現損益</div><div class="v">${s.pnl>0?"+":""}${n(s.pnl/1e4,1)} 萬</div></div><div class="kpi"><div class="l">明日收盤待執行</div><div class="v" style="font-size:13px">${[a.pending_add&&a.pending_add.length?"加碼 "+a.pending_add.join("、"):"",a.pending_buy.length?"買 "+a.pending_buy.join("、"):"",a.pending_sell.length?"賣 "+a.pending_sell.join("、"):""].filter(Boolean).join("<br>")||"—"}</div></div></div>
     <div class="eqwrap">${spark(a)}</div></div>
-    <div class="card"><h2 data-en="POSITIONS">持股 <small>${a.positions.length}/5 格</small></h2><table><tr><th>標的</th><th class="n">進場</th><th class="n">成本</th><th class="n">現價</th><th class="n">報酬</th><th class="n">股數</th><th class="n">市值(萬)</th><th class="n">出場線</th></tr>${posRows}</table></div>
-    <div class="card"><h2 data-en="CLOSED">已出場 <small>${s.n} 筆，新的在上</small></h2><table><tr><th>標的／出場原因</th><th class="n">進場</th><th class="n">出場</th><th class="n">報酬</th><th class="n">損益(萬)</th></tr>${trRows}</table></div>
-    <div class="card"><h2 data-en="EQUITY">每日權益 <small>最近 60 個交易日</small></h2><table><tr><th>日期</th><th class="n">權益(萬)</th><th class="n">日變動</th><th class="n">持股數</th></tr>${eqRows}</table></div>`;
+    <div class="card"><h2 data-en="POSITIONS">持股 <small>${a.positions.length}/5 格</small></h2><div class="tbl"><table><tr><th>標的</th><th class="n">進場</th><th class="n">成本</th><th class="n">現價</th><th class="n">報酬</th><th class="n hs">股數</th><th class="n">市值(萬)</th><th class="n">出場線</th></tr>${posRows}</table></div></div>
+    <div class="card"><h2 data-en="CLOSED">已出場 <small>${s.n} 筆，新的在上</small></h2><div class="tbl"><table><tr><th>標的／出場原因</th><th class="n">進場</th><th class="n">出場</th><th class="n">報酬</th><th class="n">損益(萬)</th></tr>${trRows}</table></div></div>
+    <div class="card"><h2 data-en="EQUITY">每日權益 <small>最近 60 個交易日</small></h2><div class="tbl"><table><tr><th>日期</th><th class="n">權益(萬)</th><th class="n">日變動</th><th class="n">持股數</th></tr>${eqRows}</table></div></div>`;
 }
 load();
 })();
