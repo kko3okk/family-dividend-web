@@ -4,46 +4,60 @@
 <meta charset="UTF-8">
 <script src="gate.js?v=1"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#EDEBF5">
+<meta name="theme-color" content="#FDF7E1">
 <title>模擬帳戶｜家的旅程</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@400;500;600;700;800&family=Fredoka:wght@400;500;600;700&display=swap">
 <style>
+  /* みのわ風格（同首頁 theme-minowa）：奶油米底、無框白卡、大圓角、芥末黃、點線分隔 */
   :root{
-    --paper:#EDEBF5; --card:#FFFFFF; --card2:#F2F0FA; --line:#DAD5EC;
-    --ink:#3B3357; --mut:#655D82; --mut2:#7A7295;
-    --chang:#4A90D9; --chang-soft:#DBEAF9; --green:#5FBF6E; --green-soft:#DFF3E2; --red:#D9534F; --red-soft:#FCE3E1;
-    --mono:ui-monospace,"SF Mono",Menlo,monospace;
+    --paper:#FDF7E1; --card:#FFFFFF; --card2:#FBF3DA; --line:#EFE2BD;
+    --ink:#4E3418; --brown:#5D3713; --mut:#8A7150; --mut2:#AD9670;
+    --chang:#DEAE0B; --chang-soft:#FBEFC4;
+    --green:#97CC27; --green-soft:#EEF6D6; --green-ink:#5E8C14;
+    --red:#C23B32; --red-soft:#FCE3E1;
+    --font-round:"Chiron GoRound TC","jf-openhuninn-2.1","PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+    --mono:"Fredoka","Chiron GoRound TC",ui-rounded,sans-serif;
+    --dot:2px dotted #E8D6A2;
+    --soft:0 12px 32px -20px rgba(93,55,19,.45);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--paper);color:var(--ink);font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;max-width:820px;margin:0 auto;padding:18px 16px 70px;-webkit-font-smoothing:antialiased}
-  .top{display:flex;align-items:center;gap:10px;margin-bottom:4px}
-  .back{text-decoration:none;color:var(--mut);font-size:13px;font-weight:700;border:1.5px solid var(--line);background:var(--card);border-radius:10px;padding:6px 10px}
-  .eyebrow{font-size:11px;letter-spacing:.35em;color:var(--mut2)}
-  h1{font-size:22px;font-weight:900;margin:4px 0 2px;letter-spacing:.06em}
-  .meta{font-size:12px;color:var(--mut);margin-bottom:12px;line-height:1.6}
-  .card{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 3px 0 var(--line)}
-  h2{font-size:14px;font-weight:900;letter-spacing:.06em;margin-bottom:8px;display:flex;align-items:baseline;gap:8px}
-  h2 small{font-weight:600;color:var(--mut);font-size:11px;letter-spacing:0}
-  table{width:100%;border-collapse:collapse;font-size:12px}
-  th{font-size:10.5px;color:var(--mut2);font-weight:700;text-align:left;padding:4px 4px;border-bottom:1.5px solid var(--line);white-space:nowrap}
-  td{padding:6px 4px;border-bottom:1px dashed var(--line);vertical-align:top}
+  body{background:var(--paper);color:var(--ink);font-family:var(--font-round);letter-spacing:.04em;max-width:820px;margin:0 auto;padding:14px 16px 70px;-webkit-font-smoothing:antialiased}
+  .top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .back{text-decoration:none;color:var(--mut);font-size:13px;font-weight:700;background:var(--card2);border-radius:999px;padding:7px 13px}
+  .eyebrow{font-family:"Fredoka",sans-serif;font-size:11px;font-weight:600;letter-spacing:.28em;color:color-mix(in srgb,var(--chang) 80%,#5D3713)}
+  h1{font-size:22px;font-weight:800;color:var(--brown);margin:2px 0 2px;letter-spacing:.1em}
+  .meta{font-size:12px;color:var(--mut2);margin-bottom:14px;line-height:1.6}
+  .card{background:var(--card);border:none;border-radius:28px;padding:20px 18px 18px;margin-bottom:18px;box-shadow:var(--soft)}
+  h2{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;row-gap:2px;font-size:18px;font-weight:700;color:var(--brown);letter-spacing:.14em;margin-bottom:12px}
+  h2::before{content:attr(data-en);flex:0 0 100%;font-family:"Fredoka",sans-serif;font-size:11px;font-weight:600;letter-spacing:.28em;color:color-mix(in srgb,var(--chang) 80%,#5D3713)}
+  h2 small{font-weight:600;color:var(--mut2);font-size:11px;letter-spacing:0}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th{font-size:11px;color:var(--mut2);font-weight:700;text-align:left;padding:5px 4px;border-bottom:var(--dot);white-space:nowrap}
+  td{padding:7px 4px;border-bottom:var(--dot);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td:first-child b{white-space:nowrap;color:var(--brown)}
   td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
   tr.cur td{background:var(--chang-soft)}
-  .up{color:#2E8B47;font-weight:700}.dn{color:var(--red);font-weight:700}
-  .seg{display:flex;gap:3px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:3px;margin:0 0 12px;overflow-x:auto}
-  .seg button{flex:1;border:none;background:none;font:inherit;font-size:13px;font-weight:800;color:var(--mut);padding:8px 8px;border-radius:9px;cursor:pointer;white-space:nowrap}
-  .seg button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 0 var(--line),0 1px 3px rgba(59,51,87,.12)}
-  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:6px 0 10px}
-  .kpi{background:var(--card2);border-radius:12px;padding:8px 10px}
-  .kpi .l{font-size:10.5px;color:var(--mut2);font-weight:700}
-  .kpi .v{font-family:var(--mono);font-size:16px;font-weight:700;margin-top:2px}
-  .rule{font-size:12px;color:var(--mut);line-height:1.6;background:var(--card2);border-radius:12px;padding:9px 11px;margin-bottom:10px}
-  .tag{display:inline-block;font-size:10px;font-weight:800;padding:1px 6px;border-radius:6px;background:var(--card2);color:var(--mut);border:1px solid var(--line);margin-left:4px;vertical-align:middle}
-  .tag.buy{background:var(--green-soft);color:#2E8B47;border-color:transparent}.tag.sell{background:var(--red-soft);color:var(--red);border-color:transparent}
-  .eqwrap{margin:4px 0 10px}
+  tr.cur td:first-child{border-radius:12px 0 0 12px} tr.cur td:last-child{border-radius:0 12px 12px 0}
+  .up{color:var(--green-ink);font-weight:700}.dn{color:var(--red);font-weight:700}
+  .seg{display:flex;gap:3px;background:var(--card2);border:none;border-radius:999px;padding:3px;margin:0 0 16px;overflow-x:auto;scrollbar-width:none}
+  .seg::-webkit-scrollbar{display:none}
+  .seg button{flex:1;border:none;background:none;font:inherit;font-size:13px;font-weight:800;color:var(--mut);padding:9px 10px;border-radius:999px;cursor:pointer;white-space:nowrap}
+  .seg button.on{background:var(--card);color:var(--brown);box-shadow:0 2px 8px -3px rgba(93,55,19,.35)}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:6px 0 12px}
+  .kpi{background:var(--card2);border-radius:18px;padding:10px 12px}
+  .kpi .l{font-size:11px;color:var(--mut2);font-weight:700}
+  .kpi .v{font-family:var(--mono);font-size:17px;font-weight:600;margin-top:2px;color:var(--brown);font-variant-numeric:tabular-nums}
+  .rule{font-size:12px;color:var(--mut);line-height:1.7;background:var(--card2);border-radius:20px;padding:11px 14px;margin-bottom:12px}
+  .tag{display:inline-block;font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px;background:var(--card2);color:var(--mut);margin-left:4px;vertical-align:middle}
+  .tag.buy{background:var(--green-soft);color:var(--green-ink)}.tag.sell{background:var(--red-soft);color:var(--red)}
+  .eqwrap{margin:4px 0 6px}
   svg{display:block;width:100%;height:120px}
-  .note{font-size:12px;color:var(--mut);line-height:1.6}
-  .why{font-size:11px;color:var(--mut)}
-  @media(max-width:480px){.kpis{grid-template-columns:repeat(2,1fr)} td,th{padding:5px 3px}}
+  .note{font-size:12px;color:var(--mut2);line-height:1.7}
+  .why{font-size:11px;color:var(--mut2)}
+  @media(max-width:480px){.kpis{grid-template-columns:repeat(2,1fr)} td,th{padding:6px 3px} .card{padding:18px 15px 16px;border-radius:24px}}
 </style>
 </head>
 <body>
@@ -84,14 +98,14 @@ function spark(a){
   const x=i=>P+i*(W-2*P)/(e.length-1),y=v=>H-P-(v-mn)/((mx-mn)||1)*(H-2*P);
   const d=vs.map((v,i)=>(i?"L":"M")+x(i).toFixed(1)+" "+y(v).toFixed(1)).join(" ");
   const y0=y(CASH0).toFixed(1);
-  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-label="權益曲線"><line x1="${P}" x2="${W-P}" y1="${y0}" y2="${y0}" stroke="#DAD5EC" stroke-dasharray="4 4"/><path d="${d}" fill="none" stroke="#4A90D9" stroke-width="2"/></svg>
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-label="權益曲線"><line x1="${P}" x2="${W-P}" y1="${y0}" y2="${y0}" stroke="#E8D6A2" stroke-dasharray="3 4"/><path d="${d}" fill="none" stroke="#DEAE0B" stroke-width="2.5" stroke-linecap="round"/></svg>
   <div class="why" style="display:flex;justify-content:space-between"><span>${e[0][0]}</span><span>虛線＝起始 500 萬　最高 ${n(mx/1e4)} 萬／最低 ${n(mn/1e4)} 萬</span><span>${e[e.length-1][0]}</span></div>`;
 }
 function render(){
   const A=D.accounts,keys=Object.keys(A);
   $("meta").innerHTML=`自 ${D.start} 起，各 500 萬　·　最後更新 ${D.updated} 收盤　·　${keys.length} 個帳戶`;
   // 比較表
-  $("cmp").innerHTML=`<h2>總覽 <small>點帳戶看明細</small></h2><table><tr><th>帳戶</th><th class="n">權益(萬)</th><th class="n">報酬</th><th class="n">MDD</th><th class="n">持股</th><th class="n">已出場</th><th class="n">勝率</th><th class="n">明日</th></tr>
+  $("cmp").innerHTML=`<h2 data-en="OVERVIEW">總覽 <small>點帳戶看明細</small></h2><table><tr><th>帳戶</th><th class="n">權益(萬)</th><th class="n">報酬</th><th class="n">MDD</th><th class="n">持股</th><th class="n">已出場</th><th class="n">勝率</th><th class="n">明日</th></tr>
   ${keys.map(k=>{const a=A[k],s=stats(a);return`<tr class="${k===CUR?"cur":""}" data-k="${k}" style="cursor:pointer"><td><b>${esc(a.cfg.name.split("（")[0])}</b><div class="why">${esc((a.cfg.name.match(/（(.*)）/)||[,""])[1])}</div></td><td class="n">${n(s.equity/1e4,1)}</td><td class="n">${pct(s.ret*100)}</td><td class="n">${(s.mdd*100).toFixed(1)}%</td><td class="n">${a.positions.length}/5</td><td class="n">${s.n}</td><td class="n">${s.win==null?"—":Math.round(s.win*100)+"%"}</td><td class="n">${a.pending_buy.length?`<span class="tag buy">買${a.pending_buy.length}</span>`:""}${a.pending_sell.length?`<span class="tag sell">賣${a.pending_sell.length}</span>`:""}${!a.pending_buy.length&&!a.pending_sell.length?"—":""}</td></tr>`;}).join("")}</table>`;
   $("cmp").querySelectorAll("tr[data-k]").forEach(tr=>tr.onclick=()=>{CUR=tr.dataset.k;try{localStorage.setItem("simAcct",CUR)}catch(e){}render();});
   $("seg").innerHTML=keys.map(k=>`<button data-k="${k}" class="${k===CUR?"on":""}">${esc(A[k].cfg.name.split(" ")[0])}</button>`).join("");
@@ -106,13 +120,13 @@ function render(){
   const trRows=T.length?T.map(t=>`<tr><td><b>${esc(t.name)}</b> <span class="why">${t.code}</span><div class="why">${esc(t.why)}</div></td><td class="n">${t.entry.slice(5)}<div class="why">${n(t.entry_px,1)}</div></td><td class="n">${t.exit.slice(5)}<div class="why">${n(t.exit_px,1)}</div></td><td class="n">${pct(t.ret)}</td><td class="n ${t.pnl>0?"up":t.pnl<0?"dn":""}">${t.pnl>0?"+":""}${n(t.pnl/1e4,1)}</td></tr>`).join("")
     :`<tr><td colspan="5" class="note">還沒有出場紀錄。</td></tr>`;
   const eqRows=[...a.equity].reverse().slice(0,60).map((e,i,arr)=>{const prev=arr[i+1];const chg=prev?(e[1]/prev[1]-1)*100:null;return`<tr><td class="n" style="text-align:left">${e[0]}</td><td class="n">${n(e[1]/1e4,1)}</td><td class="n">${chg==null?"—":pct(chg)}</td><td class="n">${e[2]}</td></tr>`;}).join("");
-  $("acct").innerHTML=`<div class="card"><h2>${esc(cfg.name)}</h2><div class="rule">${rule}</div>
+  $("acct").innerHTML=`<div class="card"><h2 data-en="ACCOUNT ${esc(CUR)}">${esc(cfg.name)}</h2><div class="rule">${rule}</div>
     <div class="kpis"><div class="kpi"><div class="l">權益</div><div class="v">${n(s.equity/1e4,1)} 萬</div></div><div class="kpi"><div class="l">報酬</div><div class="v">${pct(s.ret*100)}</div></div><div class="kpi"><div class="l">最大回撤</div><div class="v">${(s.mdd*100).toFixed(1)}%</div></div><div class="kpi"><div class="l">已出場 / 勝率</div><div class="v">${s.n} 筆${s.win==null?"":" / "+Math.round(s.win*100)+"%"}</div></div>
     <div class="kpi"><div class="l">持股市值</div><div class="v">${n(s.mv/1e4,1)} 萬</div></div><div class="kpi"><div class="l">現金</div><div class="v">${n(s.cash/1e4,1)} 萬</div></div><div class="kpi"><div class="l">已實現損益</div><div class="v">${s.pnl>0?"+":""}${n(s.pnl/1e4,1)} 萬</div></div><div class="kpi"><div class="l">明日收盤待執行</div><div class="v" style="font-size:13px">${a.pending_buy.length?"買 "+a.pending_buy.join("、"):""}${a.pending_buy.length&&a.pending_sell.length?"<br>":""}${a.pending_sell.length?"賣 "+a.pending_sell.join("、"):""}${!a.pending_buy.length&&!a.pending_sell.length?"—":""}</div></div></div>
     <div class="eqwrap">${spark(a)}</div></div>
-    <div class="card"><h2>持股 <small>${a.positions.length}/5 格</small></h2><table><tr><th>標的</th><th class="n">進場</th><th class="n">成本</th><th class="n">現價</th><th class="n">報酬</th><th class="n">股數</th><th class="n">市值(萬)</th><th class="n">出場線</th></tr>${posRows}</table></div>
-    <div class="card"><h2>已出場 <small>${s.n} 筆，新的在上</small></h2><table><tr><th>標的／出場原因</th><th class="n">進場</th><th class="n">出場</th><th class="n">報酬</th><th class="n">損益(萬)</th></tr>${trRows}</table></div>
-    <div class="card"><h2>每日權益 <small>最近 60 個交易日</small></h2><table><tr><th>日期</th><th class="n">權益(萬)</th><th class="n">日變動</th><th class="n">持股數</th></tr>${eqRows}</table></div>`;
+    <div class="card"><h2 data-en="POSITIONS">持股 <small>${a.positions.length}/5 格</small></h2><table><tr><th>標的</th><th class="n">進場</th><th class="n">成本</th><th class="n">現價</th><th class="n">報酬</th><th class="n">股數</th><th class="n">市值(萬)</th><th class="n">出場線</th></tr>${posRows}</table></div>
+    <div class="card"><h2 data-en="CLOSED">已出場 <small>${s.n} 筆，新的在上</small></h2><table><tr><th>標的／出場原因</th><th class="n">進場</th><th class="n">出場</th><th class="n">報酬</th><th class="n">損益(萬)</th></tr>${trRows}</table></div>
+    <div class="card"><h2 data-en="EQUITY">每日權益 <small>最近 60 個交易日</small></h2><table><tr><th>日期</th><th class="n">權益(萬)</th><th class="n">日變動</th><th class="n">持股數</th></tr>${eqRows}</table></div>`;
 }
 load();
 })();
