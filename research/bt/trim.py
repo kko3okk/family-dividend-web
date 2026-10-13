@@ -2,6 +2,7 @@
 trim  : None | ma5 | ma10 | ma20   收盤跌破 N 日均線 → 隔日收盤賣出 frac 比例（每段上漲只減一次）
 rebuy : True → 減碼後收盤站回該均線，隔日買回原股數（現金足夠的部分）
 rearm : True → 站回均線後重新武裝，下次再跌破再減（不買回）
+surge : (W, X, L) → 只有「近 L 日內曾出現 W 日漲幅 ≥ X（收盤 / 前 W 日最低收盤）」才啟動減碼（短線急漲後回落）
 sup   : vp60（減碼當日前 60 日成交量最集中的價位帶，收盤跌到帶上緣以下即買回）| vp60in（只在帶內買回；跌破帶下緣視為支撐失守，不買）| vwap20（20 日量加權均價以下買回）；買回後重新武裝
 減碼釋出的現金留在帳上，不另開新格（格數仍算該檔）。
 原說明：海龜交易法元素套進十一行（bt6 基礎）：
@@ -23,9 +24,10 @@ class _Roll(dict):
 HI = _Roll(lambda n: cl.shift(1).rolling(n, min_periods=n).max().values)   # 前 n 日最高收盤（不含當日）
 LO = _Roll(lambda n: cl.shift(1).rolling(n, min_periods=n).min().values)   # 前 n 日最低收盤
 _MA = _Roll(lambda n: cl.rolling(n, min_periods=int(n * 0.8)).mean().values)
+SURGE = _Roll(lambda w: (cl / cl.rolling(w, min_periods=int(w * 0.8)).min() - 1).values)
 NN = cl.diff().abs().rolling(20, min_periods=15).mean().values
 
-def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, start=None, trim=None, frac=0.5, rebuy=False, rearm=False, sup=None, **kw):
+def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, start=None, trim=None, frac=0.5, rebuy=False, rearm=False, sup=None, surge=None, **kw):
     p = dict(BASE); p.update(kw)
     lists = build_lists(p)
     cash = START_CASH; pos = {}; eq = []; trades = []; pend_buy = []; pend_sell = []; pend_add = []; pend_trim = []; pend_rebuy = []; ntrim = [0, 0]
@@ -104,7 +106,12 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
             if trim:
                 m = _MA[int(trim[2:])][i, k]
                 if not np.isnan(m):
-                    if not q["trimmed"] and px < m:
+                    if not q["trimmed"] and px < m and surge:
+                        W_, X_, L_ = surge; rr = SURGE[(W_)][max(0, i - L_ + 1):i + 1, k]
+                        if not (np.nanmax(rr) >= X_ if np.isfinite(rr).any() else False): m = np.nan
+                    if not np.isnan(m) and not q["trimmed"] and px < m and frac >= 1:
+                        pend_sell.append(c); continue
+                    if not np.isnan(m) and not q["trimmed"] and px < m:
                         pend_trim.append(c); q["trimmed"] = True
                         if sup:
                             a0 = max(0, i - (19 if sup == "vwap20" else 59)); cc = C[a0:i + 1, k]; vv = V[a0:i + 1, k]; ok = ~np.isnan(cc)
@@ -172,6 +179,30 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
     if raw: return dict(eq=eq, trades=trades, pos=pos, pend_sell=pend_sell, pend_buy=pend_buy, lock=lock, li=lists[li][1] if li >= 0 else None)
     r = summarize(eq, trades, p); r["ntrim"] = ntrim; return r
 
+if __name__ == "__main__" and len(sys.argv) > 1 and sys.argv[1] == "surge":
+    def seg2(r, a, b):
+        e = [(d, v) for d, v in r["eq"] if a <= d <= b]
+        x = np.array([v for _, v in e]); pk = np.maximum.accumulate(x)
+        return x[-1] / x[0] - 1, (x / pk - 1).min()
+    V_ = [("C 現行（不減碼）", {}),
+          ("破10MA減5成（無條件，前次）", dict(trim="ma10", frac=0.5)),
+          ("40日漲50%後破10MA 減5成", dict(trim="ma10", frac=0.5, surge=(40, 0.5, 15))),
+          ("40日漲50%後破10MA 減3成", dict(trim="ma10", frac=0.3, surge=(40, 0.5, 15))),
+          ("40日漲50%後破10MA 全出", dict(trim="ma10", frac=1.0, surge=(40, 0.5, 15))),
+          ("20日漲50%後破10MA 減5成", dict(trim="ma10", frac=0.5, surge=(20, 0.5, 15))),
+          ("40日漲30%後破10MA 減5成", dict(trim="ma10", frac=0.5, surge=(40, 0.3, 15))),
+          ("40日漲80%後破10MA 減5成", dict(trim="ma10", frac=0.5, surge=(40, 0.8, 15))),
+          ("40日漲50%後破10MA 減5成＋突破20日高補", dict(trim="ma10", frac=0.5, surge=(40, 0.5, 15), sup="brk")),
+          ("40日漲50%後破20MA 減5成", dict(trim="ma20", frac=0.5, surge=(40, 0.5, 20)))]
+    print(f"{'做法':<30}{'總報酬':>9}{'MDD':>8}{'CAGR':>8}{'20-21':>8}{'22-26':>8}{'勝率':>6}{'減/買':>8}{'CAGR/MDD':>9}")
+    for nm, kw in V_:
+        k = dict(entry="brk20", exit="lo55"); k.update(kw)
+        if kw.get("sup") == "brk":
+            pass
+        r = run(**k)
+        t, m = seg2(r, "2020-01-01", "2099"); a, _ = seg2(r, "2020-01-01", "2021-12-31"); b, _ = seg2(r, "2021-12-31", "2099")
+        print(f"{nm:<30}{t*100:+8.0f}%{m*100:7.1f}%{r['all']['cagr']*100:+7.1f}%{a*100:+7.0f}%{b*100:+7.0f}%{r['win']*100:5.0f}%{str(r['ntrim'][0])+'/'+str(r['ntrim'][1]):>8}{r['all']['cagr']/-m:9.2f}", flush=True)
+    raise SystemExit
 if __name__ == "__main__" and len(sys.argv) > 1 and sys.argv[1] == "rebuy":
     def seg2(r, a, b):
         e = [(d, v) for d, v in r["eq"] if a <= d <= b]
