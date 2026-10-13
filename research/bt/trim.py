@@ -2,6 +2,7 @@
 trim  : None | ma5 | ma10 | ma20   收盤跌破 N 日均線 → 隔日收盤賣出 frac 比例（每段上漲只減一次）
 rebuy : True → 減碼後收盤站回該均線，隔日買回原股數（現金足夠的部分）
 rearm : True → 站回均線後重新武裝，下次再跌破再減（不買回）
+sup   : vp60（減碼當日前 60 日成交量最集中的價位帶，收盤跌到帶上緣以下即買回）| vp60in（只在帶內買回；跌破帶下緣視為支撐失守，不買）| vwap20（20 日量加權均價以下買回）；買回後重新武裝
 減碼釋出的現金留在帳上，不另開新格（格數仍算該檔）。
 原說明：海龜交易法元素套進十一行（bt6 基礎）：
 entry  : None | brk20 | brk55   收盤 > 前 N 日最高收盤（突破）才進
@@ -14,6 +15,7 @@ import numpy as np, pandas as pd, sys
 sys.path.insert(0, ".")
 import bt6
 from bt6 import *
+from bt6 import V
 cl = pd.DataFrame(C)
 class _Roll(dict):
     def __init__(self, f): super().__init__(); self.f = f
@@ -23,7 +25,7 @@ LO = _Roll(lambda n: cl.shift(1).rolling(n, min_periods=n).min().values)   # 前
 _MA = _Roll(lambda n: cl.rolling(n, min_periods=int(n * 0.8)).mean().values)
 NN = cl.diff().abs().rolling(20, min_periods=15).mean().values
 
-def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, start=None, trim=None, frac=0.5, rebuy=False, rearm=False, **kw):
+def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, start=None, trim=None, frac=0.5, rebuy=False, rearm=False, sup=None, **kw):
     p = dict(BASE); p.update(kw)
     lists = build_lists(p)
     cash = START_CASH; pos = {}; eq = []; trades = []; pend_buy = []; pend_sell = []; pend_add = []; pend_trim = []; pend_rebuy = []; ntrim = [0, 0]
@@ -64,7 +66,7 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
             if need < 1: continue
             bpx = px * (1 + slip) * (1 + FEE_B); n_ = int(min(need, cash / bpx))
             if n_ < 1: continue
-            cash -= n_ * bpx; q["sh"] += n_; q["paid"] += n_ * bpx; q["trimmed"] = False; ntrim[1] += 1
+            cash -= n_ * bpx; q["sh"] += n_; q["paid"] += n_ * bpx; q["trimmed"] = False; q["zone"] = None; ntrim[1] += 1
         pend_rebuy = []
         equity = cash + sum((C[i, ci[c]] if not np.isnan(C[i, ci[c]]) else q["last"]) * q["sh"] for c, q in pos.items())
         for c in pend_add:
@@ -102,7 +104,20 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
             if trim:
                 m = _MA[int(trim[2:])][i, k]
                 if not np.isnan(m):
-                    if not q["trimmed"] and px < m: pend_trim.append(c); q["trimmed"] = True
+                    if not q["trimmed"] and px < m:
+                        pend_trim.append(c); q["trimmed"] = True
+                        if sup:
+                            a0 = max(0, i - (19 if sup == "vwap20" else 59)); cc = C[a0:i + 1, k]; vv = V[a0:i + 1, k]; ok = ~np.isnan(cc)
+                            cc, vv = cc[ok], vv[ok]
+                            if sup == "vwap20": q["zone"] = (0, (cc * vv).sum() / vv.sum() if vv.sum() > 0 else np.nan)
+                            else:
+                                edges = np.linspace(cc.min(), cc.max(), 13); b = np.clip(np.digitize(cc, edges) - 1, 0, 11)
+                                vol = np.bincount(b, weights=vv, minlength=12); j = int(vol.argmax()); q["zone"] = (edges[j], edges[j + 1])
+                        continue
+                    if sup and q["trimmed"] and q.get("zone"):
+                        zl, zh = q["zone"]
+                        if px <= zh and (sup != "vp60in" or px >= zl): pend_rebuy.append(c)
+                        continue
                     elif q["trimmed"] and px > m:
                         if rebuy: pend_rebuy.append(c)
                         elif rearm: q["trimmed"] = False
@@ -152,7 +167,11 @@ if __name__ == "__main__":
           ("C＋破10MA減5成＋每次破都減", dict(trim="ma10", frac=0.5, rearm=True)),
           ("C＋破20MA減5成", dict(trim="ma20", frac=0.5)),
           ("C＋破5MA減5成", dict(trim="ma5", frac=0.5)),
-          ("參考：破10MA全出", dict(exit="lo55|ma10"))]
+          ("參考：破10MA全出", dict(exit="lo55|ma10")),
+          ("參考：破20MA全出", dict(exit="lo55|ma20")),
+          ("破10MA減5成＋回落量集中帶補回", dict(trim="ma10", frac=0.5, sup="vp60")),
+          ("破10MA減5成＋只在量集中帶內補", dict(trim="ma10", frac=0.5, sup="vp60in")),
+          ("破10MA減5成＋回落20日VWAP補回", dict(trim="ma10", frac=0.5, sup="vwap20"))]
     print(f"{'做法':<28}{'總報酬':>9}{'MDD':>8}{'CAGR':>8}{'20-21':>8}{'MDD':>7}{'22-26':>8}{'MDD':>7}{'勝率':>6}{'筆':>5}{'減/買':>8}  年度")
     for nm, kw in V_:
         k = dict(C_); k.update(kw); r = run(**k)
