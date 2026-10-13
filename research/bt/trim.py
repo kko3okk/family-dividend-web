@@ -45,10 +45,10 @@ def load_hl():
             if i is not None and h and l: HIGHA[i, k] = h; LOWA[i, k] = l
 NN = cl.diff().abs().rolling(20, min_periods=15).mean().values
 
-def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, start=None, trim=None, frac=0.5, rebuy=False, rearm=False, sup=None, surge=None, pt=None, late=None, topn=None, late_cap=None, volx=None, fresh=None, ma60_up=False, acc_min=None, rank_by=None, entry_fn=None, touch=None, hstop=None, target=None, tstop=None, dyn_slots=None, **kw):
+def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, start=None, trim=None, frac=0.5, rebuy=False, rearm=False, sup=None, surge=None, pt=None, late=None, topn=None, late_cap=None, volx=None, fresh=None, ma60_up=False, acc_min=None, rank_by=None, entry_fn=None, lists_fn=None, touch=None, hstop=None, target=None, tstop=None, dyn_slots=None, **kw):
     p = dict(BASE); p.update(kw)
     if touch: load_hl()
-    lists = build_lists(p)
+    lists = lists_fn(p) if lists_fn else build_lists(p)
     cash = START_CASH; pos = {}; eq = []; trades = []; pend_buy = []; pend_sell = []; pend_add = []; pend_trim = []; pend_rebuy = []; ntrim = [0, 0]
     li = -1; bought = set(); lock = False; above = 0; was_under = False; slip = p["slip"]; S = p["slots"]
     def buy(i, c, amt):
@@ -233,7 +233,8 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
             if ma60_up and not (not np.isnan(MA60_5[i, k]) and m60 > MA60_5[i, k]): continue               # 60MA 上揚
             if acc_min is not None and r.get("acc", 0) < acc_min: continue
             if entry_fn and not entry_fn(c, d, i, k, lists[li][0]): continue                                # 自訂進場條件                                  # YoY 加速（本月−上月）≥ acc_min
-            key = -r["yoy"] if rank_by in (None, "yoy") else (-r.get("acc", 0) if rank_by == "acc" else -(px / LO[55][i, k] if not np.isnan(LO[55][i, k]) else 0))
+            if rank_by == "mom20": key = -(px / C[i - 20, k] if i >= 20 and not np.isnan(C[i - 20, k]) else 0)
+            else: key = -r["yoy"] if rank_by in (None, "yoy") else (-r.get("acc", 0) if rank_by == "acc" else -(px / LO[55][i, k] if not np.isnan(LO[55][i, k]) else 0))
             cands.append((key, c))
         cands.sort()
         if topn:
