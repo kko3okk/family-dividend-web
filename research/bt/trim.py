@@ -27,7 +27,7 @@ _MA = _Roll(lambda n: cl.rolling(n, min_periods=int(n * 0.8)).mean().values)
 SURGE = _Roll(lambda w: (cl / cl.rolling(w, min_periods=int(w * 0.8)).min() - 1).values)
 NN = cl.diff().abs().rolling(20, min_periods=15).mean().values
 
-def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, start=None, trim=None, frac=0.5, rebuy=False, rearm=False, sup=None, surge=None, pt=None, **kw):
+def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, start=None, trim=None, frac=0.5, rebuy=False, rearm=False, sup=None, surge=None, pt=None, late=None, **kw):
     p = dict(BASE); p.update(kw)
     lists = build_lists(p)
     cash = START_CASH; pos = {}; eq = []; trades = []; pend_buy = []; pend_sell = []; pend_add = []; pend_trim = []; pend_rebuy = []; ntrim = [0, 0]
@@ -86,7 +86,7 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
                 slot = min(slot, equity * 0.01 / (2 * n_) * px)
             unit = slot / 4 if pyr else slot
             sh, paid = buy(i, c, unit)
-            if sh: pos[c] = dict(sh0=sh, trimmed=False, sh=sh, paid=paid, cost=px, last=px, hi=px, ed=d, dbl=False, u=1, unit_amt=unit, lastadd=px, N=n_)
+            if sh: pos[c] = dict(late=bool(late and not np.isnan(LO[55][i, k]) and px / LO[55][i, k] - 1 >= late), sh0=sh, trimmed=False, sh=sh, paid=paid, cost=px, last=px, hi=px, ed=d, dbl=False, u=1, unit_amt=unit, lastadd=px, N=n_)
         pend_buy = []
         # 收盤評價
         for c, q in pos.items():
@@ -105,10 +105,10 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
             for pt_ in (pt if isinstance(pt, list) else ([pt] if pt else [])):   # 可多條，任一觸發即執行。(觸發漲幅, 值, 模式) floor／trail／pts／roll／atr
                 trg, v, mode = pt_[:3]
                 z_ = pt_[3] if len(pt_) > 3 else 1.0
-                if q["hi"] >= q["cost"] * (1 + trg) and not q.get("pt_done"):
+                if (q["hi"] >= q["cost"] * (1 + trg) or (q.get("late") and mode == "trail")) and not q.get("pt_done"):   # late：進場時已自前55日低漲 ≥ late 者，trail 自進場日即生效
                     hit = (mode == "floor" and px <= q["cost"] * (1 + v)) or (mode == "trail" and px <= q["hi"] * (1 - v)) or (mode == "pts" and px <= q["hi"] - v * q["cost"])
-                    if mode == "roll":   # 近 N 日（不含當日）最高收盤回落 v；N＝pt[4]
-                        h_ = HI[pt_[4]][i, k]; hit = (not np.isnan(h_)) and px <= h_ * (1 - v)
+                    if mode == "roll":   # 近 N 日（不含當日）最高收盤回落 v；N＝pt[4]；pt[5]＝需曾獲利 ≥ 該比例才生效（避免進場即賣）
+                        h_ = HI[pt_[4]][i, k]; hit = (not np.isnan(h_)) and px <= h_ * (1 - v) and (len(pt_) < 6 or q["hi"] >= q["cost"] * (1 + pt_[5]))
                     if mode == "atr":    # 持有期最高收盤 − v × 20 日平均每日絕對變動
                         n_ = NN[i, k]; hit = (not np.isnan(n_)) and px <= q["hi"] - v * n_
                     if hit:
