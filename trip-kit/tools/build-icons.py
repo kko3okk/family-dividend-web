@@ -20,6 +20,7 @@ EMOJI = {
  # 吃
  '🍜':'bowl-chopsticks','🍲':'soup','🍛':'bowl','🍱':'bowl','🍣':'fish','🐟':'fish','🦑':'fish','🥩':'meat','🍢':'grill-fork',
  '🍽':'tools-kitchen-2','🔪':'tools-kitchen','☕':'coffee','🍵':'mug','🍰':'cake','🍮':'cake','🥞':'cake','🍡':'candy','🍦':'ice-cream-2',
+ '🍔':'burger','🐙':'fish','🥧':'cake',
  '🍑':'apple','🍈':'lemon-2','🍄':'mushroom','🧀':'cheese','🥚':'egg','🎃':'pumpkin-scary',
  # 購物・錢
  '💳':'credit-card','🛒':'shopping-cart','🛍':'shopping-bag','🧾':'receipt','💴':'currency-yen','💰':'coin','🪙':'coin',
@@ -31,6 +32,7 @@ EMOJI = {
  # 狀態・提示
  '⭐':'star','✨':'sparkles','✅':'circle-check','⚠':'alert-triangle','💡':'bulb','🔥':'flame','🎉':'confetti','🎈':'balloon','🧨':'confetti',
  '🔄':'refresh','🔁':'repeat','☁':'cloud','🥇':'medal','🥈':'medal-2','🆕':'new-section','⚖':'scale','💤':'zzz','😴':'zzz',
+ '📶':'antenna-bars-5','🛡':'shield-check',
  '🐻':'paw','🦢':'feather','🟠':'point',
  # 天氣
  '☀':'sun','🌤':'sun','⛅':'cloud','🌥':'cloud','🌦':'cloud-rain','🌧':'cloud-rain','☔':'umbrella','🌂':'umbrella','🌡':'temperature','💧':'droplet',

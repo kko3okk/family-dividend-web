@@ -435,7 +435,7 @@ details.grp[open]>summary::after{transform:rotate(180deg)}
   document.querySelectorAll('details.grp').forEach(function(d){ d.addEventListener('toggle',function(){ if(d.open){ var y=d.getBoundingClientRect().top+scrollY-(parseInt(getComputedStyle(document.documentElement).getPropertyValue('--navh'))||58)-6; if(y<scrollY) scrollTo({top:y,behavior:'smooth'}); } }); });
 })();
 </script>
-<script src="../trip-kit/trip.js?v=4"></script>
+<script src="../trip-kit/trip.js?v=5"></script>
 <script src="../trip-home.js?v=7"></script>
 </body>
 </html>
