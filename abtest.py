@@ -26,6 +26,12 @@ ACCTS = {
 # ---------- 資料 ----------
 FULL = json.load(open("data/industry_full.json", encoding="utf-8"))
 code2sub = {c: s for s, cs in FULL.items() for c in cs}
+# 2026-10-13 Chang：推薦清單加 AI 關聯標籤（data/ai_tag.json；只是分類，不影響排序與進出場）
+AIT = json.load(open("data/ai_tag.json", encoding="utf-8")) if os.path.exists("data/ai_tag.json") else {"tags": {}, "by_sub": {}, "by_code": {}}
+def ai_tag(c):
+    o = AIT["by_code"].get(c)
+    t = o["t"] if o else AIT["by_sub"].get(code2sub.get(c, ""), "mix")
+    return t, (o or {}).get("why", "")
 OTC_EXEMPT = {"3081"}
 days = {}
 for f in sorted(glob.glob("data/prices/*.json")): days.update(json.load(open(f, encoding="utf-8")))
@@ -206,18 +212,21 @@ P_ = [f"# 推薦清單（{d} 收盤）", "",
       f"名單：資料月 {cur[1] if cur else '—'}（{cur[0] if cur else ''} 生效）　大盤 {taiex[i]:,.0f}／季線 {t60:,.0f} → 第5條 {'通過' if gate5 else '**關閉，停止新進場**'}　"
       f"自60日高 {(taiex[i] / hi60 - 1) * 100:+.1f}% → 第11條 {'**鎖定中，停止新進場**' if lk else '未鎖定'}", "",
       "**現行規則（G，10/13 起）只買標 ✓ 者**（收盤突破前 20 日最高）；未打勾者是舊進場條件會買、現行不買。出場看三條線：前 55 日低／賺 20% 後高點回落 15%／曾賺 5% 後近 55 日高回落 18%，任一成立隔日全出。", "",
-      "| # | 標的 | 子產業 | 當月YoY | 收盤 | 乖離20MA | 出場線 前55日低（現行） | 60MA（舊 A） | 突破線 前20日高 | 現行可買 |",
-      "|---|---|---|---|---|---|---|---|---|---|"]
+      "| # | 標的 | 子產業 | AI 關聯 | 當月YoY | 收盤 | 乖離20MA | 出場線 前55日低（現行） | 60MA（舊 A） | 突破線 前20日高 | 現行可買 |",
+      "|---|---|---|---|---|---|---|---|---|---|---|"]
 nC = 0; rank = 0; PJ = []
 for y, c, nm in (cur[2] if cur else []):
     s = close[c]; px = s[i]; m20 = ma(s, i, 20); m60 = ma(s, i, 60); m20p = ma(s, i - 5, 20)
     if not (px and m20 and m60 and m20p): continue
     if not (px > m20 and m20 > m20p and px > m60 and (px - m20) / m20 < 0.15 and vol[c][i] >= 500_000): continue
     lo = prior(s, i, 55, min); h20 = prior(s, i, 20, max); okc = bool(h20 and px > h20); nC += okc; rank += 1
-    PJ.append(dict(rank=rank, code=c, name=nm, sub=code2sub.get(c, ''), yoy=round(y, 1), px=px, dev=round((px / m20 - 1) * 100, 1), lo55=round(lo, 2) if lo else None, ma60=round(m60, 2), h20=round(h20, 2) if h20 else None, ok=okc))
-    P_.append(f"| {rank} | {nm} {c} | {code2sub.get(c, '')} | {y:.0f}% | {px} | {(px / m20 - 1) * 100:.1f}% | " + (f"{lo:.1f}（{(lo / px - 1) * 100:+.0f}%）" if lo else "—") + f" | {m60:.1f}（{(m60 / px - 1) * 100:+.0f}%） | " + (f"{h20:.1f}" if h20 else "—") + f" | {'✓' if okc else '—'} |")
-if rank == 0: P_.append("| — | 今日無符合者 | | | | | | | | |")
-P_ += ["", f"現行規則（G，進場同 C）可買 {nC} 檔；舊進場條件合格 {rank} 檔。排序依第 6 條（當月 YoY 由高到低），有空格時由上往下補。", "",
+    at, aw = ai_tag(c)
+    PJ.append(dict(rank=rank, code=c, name=nm, sub=code2sub.get(c, ''), ai=at, ai_why=aw, yoy=round(y, 1), px=px, dev=round((px / m20 - 1) * 100, 1), lo55=round(lo, 2) if lo else None, ma60=round(m60, 2), h20=round(h20, 2) if h20 else None, ok=okc))
+    P_.append(f"| {rank} | {nm} {c} | {code2sub.get(c, '')} | {AIT['tags'].get(at, at)}{('：' + aw) if aw else ''} | {y:.0f}% | {px} | {(px / m20 - 1) * 100:.1f}% | " + (f"{lo:.1f}（{(lo / px - 1) * 100:+.0f}%）" if lo else "—") + f" | {m60:.1f}（{(m60 / px - 1) * 100:+.0f}%） | " + (f"{h20:.1f}" if h20 else "—") + f" | {'✓' if okc else '—'} |")
+if rank == 0: P_.append("| — | 今日無符合者 | | | | | | | | | |")
+_cnt = collections.Counter(r["ai"] for r in PJ)
+P_ += ["", f"現行規則（G，進場同 C）可買 {nC} 檔；舊進場條件合格 {rank} 檔。排序依第 6 條（當月 YoY 由高到低），有空格時由上往下補。",
+       "AI 關聯（分類資訊，不影響排序）：" + "、".join(f"{AIT['tags'].get(k, k)} {_cnt.get(k, 0)} 檔" for k in ("ai", "aix", "mix", "non")) + "。", "",
        "**模擬帳戶明日收盤待執行**"]
 for k, r in res.items():
     held = "、".join(f"{p['name']}" for p in r["positions"]) or "空手"
@@ -225,7 +234,7 @@ for k, r in res.items():
 P_.append("\n實際帳戶照現行規則（G）：有空格時，由上往下補「✓」者；出場看三條出場線（網站持股卡片與 CHECK.md 每日自動判定）。")
 open("paper/picks.md" if OUT == "paper/abtest" else OUT + "_picks.md", "w", encoding="utf-8").write("\n".join(P_) + "\n")
 json.dump(dict(date=d, ym=cur[1] if cur else None, eff=cur[0] if cur else None, taiex=taiex[i], t60=round(t60, 1) if t60 else None,
-               gate5=gate5, lock11=lk, from_hi60=round((taiex[i] / hi60 - 1) * 100, 1), rows=PJ,
+               gate5=gate5, lock11=lk, from_hi60=round((taiex[i] / hi60 - 1) * 100, 1), rows=PJ, ai_tags=AIT.get("tags", {}),
                accounts=[dict(key=k, name=r["cfg"]["name"], equity=stats(r)["equity"], ret=round(stats(r)["ret"] * 100, 2), mdd=round(stats(r)["mdd"] * 100, 1),
                               n=len(r["positions"]), buy=r["pending_buy"], sell=r["pending_sell"]) for k, r in res.items()]),
           open("paper/picks.json" if OUT == "paper/abtest" else OUT + "_picks.json", "w", encoding="utf-8"), ensure_ascii=False)

@@ -27,6 +27,10 @@
 
 第 7 條（2026-10-13 G 規則）三條出場線由私有庫 `holdings_check.py` 的 `exit_eval()` 每日計算，寫進 `holdings/status.json` 每檔的 `exit`（lines／hits／nearest／h55）；網站 `posCard()` 再用即時價重算並顯示「觸發出場：原因」。規則文字以 `RULES.md` 第 7 條為準；兩邊的算法要跟 `research/bt/trim.py` 一致（前 55 日不含當日、持有高點含當日）。改規則時三處一起改。
 
+## 推薦清單的 AI 關聯標籤
+
+`data/ai_tag.json` 給每檔推薦標的一個 AI 關聯標籤（ai 直接鏈／aix 擴產間接／mix 部分 AI／non 非 AI），先查 `by_code` 再查 `by_sub` 子產業預設；`abtest.py` 寫進 `paper/picks.json`（`ai`、`ai_why`）與 `picks.md`，網站推薦清單顯示標籤並可篩選。這只是分類資訊，不影響第 6 條排序與進出場。新標的或看法改變時只改 `ai_tag.json`（`why` 一句話，屬推估）。
+
 ## 自動排程說明頁
 
 網站「設定 → 自動排程」列出所有定期執行的工作（GitHub Actions 兩個庫＋Claude 排程任務）。新增、刪除或改時間時，同步更新 `index.html` 的 `data-v="sched"` 區塊（每列的 `data-k`）與入口上的項目數，以及私有庫 `scripts/sched_status.py` 的 `ITEMS`（紅綠燈依此判定，每小時由 sched-status 工作流程更新 `holdings/sched_status.json`）。
