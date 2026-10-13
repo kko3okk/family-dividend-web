@@ -421,6 +421,8 @@
   .pg small{display:block;font-family:inherit;font-size:10px;color:var(--mut);font-weight:700}
   .up{color:var(--green-ink,var(--green))}.dn{color:#D9534F}
   .pline{font-size:12px;color:var(--mut);margin-top:4px}
+  .lv{font-size:12px;color:var(--mut)} .lv.up{color:var(--green-ink,var(--green));font-weight:700}
+  .pknear .lvs{grid-column:1/-1;font-size:11.5px}
   .pxbtn{margin-left:8px;font:inherit;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--card2);color:var(--ink);cursor:pointer;white-space:nowrap}
   .pxbtn:active{transform:scale(.96)}
   .pexit{display:grid;gap:3px;margin:6px 0 4px}
@@ -1769,7 +1771,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.13-1235";
+const APP_VERSION="2026.10.13-1250";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -1813,7 +1815,7 @@ async function refreshPrices(manual){
     const before=LIVE&&LIVE.updated;
     for(let i=0;i<24;i++){await new Promise(x=>setTimeout(x,5000));say(`抓取中… ${(i+1)*5}s`);
       try{await loadLive();}catch(e){}
-      if(LIVE&&LIVE.updated!==before){Object.assign(DATA.prices,LIVE.prices);document.getElementById("pxMeta").textContent="報價 "+LIVE.updated.slice(5,16).replace("T"," ");render();if(typeof renderPool==="function"&&POOL)renderPool();say("更新報價");PX_BUSY=false;return;}
+      if(LIVE&&LIVE.updated!==before){Object.assign(DATA.prices,LIVE.prices);document.getElementById("pxMeta").textContent="報價 "+LIVE.updated.slice(5,16).replace("T"," ");render();if(typeof renderPool==="function"&&POOL)renderPool();if(typeof renderPicks==="function")renderPicks();say("更新報價");PX_BUSY=false;return;}
     }
     say("逾時，稍後再試");
   }catch(e){say("更新失敗");}
@@ -2343,7 +2345,13 @@ function renderPicks(){
   if(POOLV!=="act"||!PICKS){box.style.display="none";return;}
   box.style.display="";
   const K=PICKS,rows=K.rows||[],ok=rows.filter(r=>r.ok);
-  const gapOf=r=>r.h20?(r.h20/r.px-1)*100:99;
+  /* 盤中（2026-10-13）：報價檔比名單日新時，顯示盤中價與「今日突破線」（前 20 日高含昨收）的距離。規則仍以收盤判定。 */
+  const liveDay=LIVE&&LIVE.updated&&LIVE.updated.slice(0,10)>K.date;
+  const lp=r=>liveDay&&LIVE.prices[r.code]||null;
+  const h20t=r=>r.h20?Math.max(r.h20,r.px):null;                 // 今日的突破線
+  const gapOf=r=>{const l=lp(r);return l&&h20t(r)?(h20t(r)/l-1)*100:(r.h20?(r.h20/r.px-1)*100:99);};   // 有盤中價就用盤中價
+  const liveTag=r=>{const l=lp(r);if(!l)return"";const chg=(l/r.px-1)*100,up=h20t(r)&&l>h20t(r);
+    return `<span class="lv ${up?"up":""}">盤中 ${n(l)}（${chg>=0?"+":""}${chg.toFixed(1)}%）${h20t(r)?(up?"暫站上突破線":"低於突破線 "+n(h20t(r))):""}</span>`;};
   const near=rows.filter(r=>!r.ok&&r.h20&&r.dev<15&&gapOf(r)<=2).sort((a,b)=>gapOf(a)-gapOf(b));
   const pos=(POOL&&POOL.active&&POOL.active.positions)||[],slots=(POOL&&POOL.active&&POOL.active.slots)||5,free=Math.max(0,slots-pos.length);
   const held=new Set(pos.map(p=>p.code)),open=K.gate5&&!K.lock11;
@@ -2355,24 +2363,24 @@ function renderPicks(){
   const buy=ok.length?ok.map((r,i)=>{
     const room=(15-r.dev);
     return `<div class="pkbuy"><div class="top"><b>${r.name}</b><span class="tick">${r.code}</span>${held.has(r.code)?'<span class="ptag">已持有</span>':""}${open&&free&&i<free?'<span class="pick">規則會買</span>':""}<span class="px">${n(r.px)}</span></div>
-      <div class="sub">${r.sub}，9 月營收年增 ${Math.round(r.yoy)}%</div>
+      <div class="sub">${r.sub}，9 月營收年增 ${Math.round(r.yoy)}%</div>${lp(r)?`<div class="sub">${liveTag(r)}　昨收突破，規則在今天收盤買進，不看盤中漲跌</div>`:""}
       <div class="facts"><span>突破線 <b>${n(r.h20)}</b></span><span>初始出場線（前55日低） <b>${r.lo55?n(r.lo55):"—"}</b>${r.lo55?`（${((r.lo55/r.px-1)*100).toFixed(0)}%）`:""}</span>
       <span class="${room<1.5?"warn":""}">乖離 <b>${r.dev}%</b>${room<1.5?`，再漲 ${room.toFixed(1)}% 就超過上限`:""}</span></div></div>`;}).join("")
     :'<div class="note">今天沒有收盤突破的標的。</div>';
   const nearHtml=near.length?near.map(r=>{const g=gapOf(r),fill=Math.max(6,100-g/2*100);
     return `<div class="pknear"><div class="nm">${r.name}<small>${r.code}${held.has(r.code)?"，已持有":""}</small></div>
       <div class="gauge" title="收盤 ${r.px}／突破線 ${r.h20}"><i style="width:${fill}%"></i></div>
-      <div class="gap ${g<=0.5?"hot":""}">${g<=0.05?"持平":"差 "+g.toFixed(1)+"%"}</div></div>`;}).join("")
+      <div class="gap ${g<=0?"hot":""}">${g<=0?"盤中站上":g<=0.05?"持平":"差 "+g.toFixed(1)+"%"}</div>${lp(r)?`<div class="lvs">${liveTag(r)}</div>`:""}</div>`;}).join("")
     :'<div class="note">沒有接近突破的標的。</div>';
-  const all=`<table class="pkall">${rows.map(r=>`<tr><td>${r.name} <small>${r.code}</small></td><td class="n">${Math.round(r.yoy)}%</td><td class="n">${n(r.px)}</td>${r.ok?'<td class="ok">可買</td>':`<td class="n"><small>差 ${gapOf(r).toFixed(1)}%</small></td>`}</tr>`).join("")}</table>`;
+  const all=`<table class="pkall">${rows.map(r=>`<tr><td>${r.name} <small>${r.code}</small></td><td class="n">${Math.round(r.yoy)}%</td><td class="n">${lp(r)?n(lp(r))+"<small> 盤中</small>":n(r.px)}</td>${r.ok?'<td class="ok">可買</td>':`<td class="n"><small>${gapOf(r)<=0?"盤中站上":"差 "+gapOf(r).toFixed(1)+"%"}</small></td>`}</tr>`).join("")}</table>`;
   const acc=(K.accounts||[]).map(a=>`<div><b>${a.name.split("（")[0]}</b>　${(a.equity/1e4).toFixed(1)} 萬，${a.ret>=0?"+":""}${a.ret}%，持股 ${a.n} 檔${a.buy.length||a.sell.length?`；明天買 ${a.buy.join("、")||"—"}、賣 ${a.sell.join("、")||"—"}`:""}</div>`).join("");
-  box.innerHTML=`<h3 data-en="PICKS">今日推薦清單<span class="tick" style="margin-left:auto;font-weight:600">${K.date.slice(5).replace("-","/")} 收盤</span></h3>
+  box.innerHTML=`<h3 data-en="PICKS">今日推薦清單<span class="tick" style="margin-left:auto;font-weight:600">${K.date.slice(5).replace("-","/")} 收盤${liveDay?" · 盤中 "+LIVE.updated.slice(11,16):""}</span></h3>
     ${chips}${open?"":'<div class="note"><b>停止新進場</b>：大盤條件未通過。</div>'}
     <div class="pkh">現在可買<em>收盤突破前 20 日高，${ok.length} 檔</em></div>${buy}
     <div class="pkh">快要突破<em>距突破線 2% 內，越近排越前面</em></div>${nearHtml}
     <details><summary>全部合格名單（${rows.length} 檔）</summary>${all}</details>
     <details><summary>新舊規則模擬帳戶</summary><div class="pkacc">${acc}</div></details>
-    <div class="prule">名單依收盤價判斷，盤中漲跌不改變當天的名單。${free?"有空格時由上往下買「現在可買」的標的。":"5 格已滿，這份清單在有持股出場後才用得到。"}</div>`;
+    <div class="prule">名單依收盤價判斷；盤中價只是預覽，「暫站上突破線」要等收盤確認才算突破。${free?"有空格時由上往下買「現在可買」的標的。":"5 格已滿，這份清單在有持股出場後才用得到。"}</div>`;
 }
 document.getElementById("poolSeg").addEventListener("click",async e=>{
   const b=e.target.closest("button[data-pool]");if(!b)return;
