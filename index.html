@@ -426,6 +426,11 @@
   .pknear .lvs{grid-column:1/-1;font-size:11.5px}
   .pxbtn{margin-left:8px;font:inherit;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--card2);color:var(--ink);cursor:pointer;white-space:nowrap}
   .pxbtn:active{transform:scale(.96)}
+  .eqc{margin:10px 0 4px;padding:10px 10px 6px;border-radius:12px;background:var(--card2)}
+  .eqh{display:flex;align-items:baseline;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px} .eqh small{font-weight:400;color:var(--mut);margin-left:4px}
+  .eqc svg{width:100%;height:120px;display:block}
+  .eqf{display:flex;justify-content:space-between;font-size:11.5px;color:var(--mut);margin-top:2px}
+  .eqh .up{color:var(--green-ink,var(--green))} .eqh .dn{color:#D9534F}
   .pexit{display:grid;gap:3px;margin:6px 0 4px}
   .pex{display:grid;grid-template-columns:1fr auto auto;gap:4px 10px;align-items:baseline;font-size:12.5px;padding:4px 8px;border-radius:8px;background:var(--card2)}
   .pex .k{color:var(--mut)} .pex b{font-variant-numeric:tabular-nums} .pex .d{font-variant-numeric:tabular-nums;min-width:4.5em;text-align:right}
@@ -1785,7 +1790,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.13-1400";
+const APP_VERSION="2026.10.13-1745";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -2267,6 +2272,32 @@ async function loadPool(){
   if(!r.ok)throw new Error("讀取失敗 HTTP "+r.status+"（請到「設定 → 雲端同步」填入 Token）");
   const j=await r.json();POOL=JSON.parse(b64d(j.content.replace(/\n/g,"")));
 }
+/* 2026-10-13：主動池資產曲線（私有庫 holdings/equity.json，每日持股檢查重建；最後一點用盤中價即時加上） */
+let EQ=null;
+async function loadEq(){
+  try{const h={"Accept":"application/vnd.github+json"}; if(token())h.Authorization="Bearer "+token();
+    const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/holdings/equity.json?t=`+Date.now(),{headers:h});
+    if(!r.ok)return null;const j=await r.json();EQ=JSON.parse(b64d(j.content.replace(/\n/g,"")));}catch(e){EQ=null;}
+  return EQ;
+}
+function eqChart(ps,cash,shortCost){
+  if(!EQ||!EQ.series||!EQ.series.length)return "";
+  const S=EQ.series.map(x=>({d:x.date,v:x.equity}));
+  const nowV=cash+shortCost+ps.reduce((a,p)=>a+(livePx(p)||0)*p.shares,0);
+  const today=new Date(Date.now()+8*3600*1000).toISOString().slice(0,10);
+  if(S[S.length-1].d<today)S.push({d:today,v:Math.round(nowV),live:true});
+  const W=340,H=120,L=8,R=8,T=10,B=22,vs=S.map(x=>x.v),mn=Math.min(...vs),mx=Math.max(...vs),pad=(mx-mn)*0.12||1;
+  const y=v=>T+(H-T-B)*(1-(v-(mn-pad))/((mx+pad)-(mn-pad))),x=i=>L+(W-L-R)*i/Math.max(1,S.length-1);
+  const pts=S.map((p,i)=>`${x(i).toFixed(1)},${y(p.v).toFixed(1)}`).join(" ");
+  const first=S[0].v,last=S[S.length-1].v,chg=last/first-1,up=chg>=0;
+  const grid=[mn,mx].map(v=>`<line x1="${L}" x2="${W-R}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}" stroke="var(--line)" stroke-dasharray="3 3"/><text x="${W-R}" y="${(y(v)-3).toFixed(1)}" text-anchor="end" font-size="9" fill="var(--mut)">${(v/1e4).toFixed(0)}萬</text>`).join("");
+  const md=d=>(+d.slice(5,7))+"/"+(+d.slice(8,10));
+  const xl=[0,Math.floor((S.length-1)/2),S.length-1].map(i=>`<text x="${x(i).toFixed(1)}" y="${H-6}" text-anchor="${i===0?"start":i===S.length-1?"end":"middle"}" font-size="9" fill="var(--mut)">${md(S[i].d)}</text>`).join("");
+  const col=up?"var(--green-ink,var(--green))":"#D9534F";
+  return `<div class="eqc"><div class="eqh"><span>資產曲線<small>（${md(S[0].d)} 起，含現金與短線格）</small></span><b class="${up?"up":"dn"}">${pct(chg)}</b></div>
+    <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${grid}<polyline points="${pts}" fill="none" stroke="${col}" stroke-width="2" stroke-linejoin="round"/><circle cx="${x(S.length-1).toFixed(1)}" cy="${y(last).toFixed(1)}" r="3" fill="${col}"/>${xl}</svg>
+    <div class="eqf"><span>起點 ${(first/1e4).toFixed(1)} 萬</span><span>最高 ${(mx/1e4).toFixed(1)} 萬</span><span>現在 ${(last/1e4).toFixed(1)} 萬${S[S.length-1].live?"（盤中）":""}</span></div></div>`;
+}
 const wan=n=>(n>=0?"+":"−")+(Math.abs(n)/1e4).toFixed(1)+"萬";
 const pct=x=>(x>=0?"+":"")+(x*100).toFixed(1)+"%";
 function livePx(p){return (LIVE&&LIVE.prices&&LIVE.prices[p.code])||p.px;}
@@ -2383,7 +2414,7 @@ function renderPool(){
   const rule=short?`<div class="prule">${P.desc||""}</div>`
     :`<div class="prule">規則（G，10/13 起）：${POOL.rule}。</div>`;
   box.innerHTML=`<h3 data-en="${short?"SWING":"ACTIVE"}">${short?"短線池":"主動池"}<span class="tick" style="margin-left:auto;font-weight:600">報價 ${LIVE?LIVE.updated.slice(5,16).replace("T"," "):"收盤 "+(POOL.price_date||"—")}${marketOpen()?"":" · 非交易時段"}</span><button type="button" id="pxBtn" class="pxbtn" onclick="refreshPrices(true)">更新報價</button></h3>
-    <div class="pstats">${stats}</div>${short?"":poolPie(ps,P.cash||0)}${ps.map(p=>posCard(p,short)).join("")||'<div class="note">目前沒有持股</div>'}${ctab}${rule}`;
+    <div class="pstats">${stats}</div>${short?"":eqChart(ps,P.cash||0,(POOL.short&&POOL.short.positions||[]).reduce((a,p)=>a+(p.cost_total||0),0))+poolPie(ps,P.cash||0)}${ps.map(p=>posCard(p,short)).join("")||'<div class="note">目前沒有持股</div>'}${ctab}${rule}`;
 }
 let PICKS=null;
 async function loadPicks(){
@@ -2449,7 +2480,7 @@ document.getElementById("poolSeg").addEventListener("click",async e=>{
   document.body.classList.toggle("pool-act",POOLV==="act");document.body.classList.toggle("pool-short",POOLV==="short");
   window.scrollTo({top:0});
   if(POOLV==="div")return;
-  if(!POOL){renderPool();try{await loadPool();if(!LIVE)await loadLive().catch(()=>{});}catch(err){document.getElementById("poolBox").innerHTML=`<div class="note">${err.message}</div>`;return;}}
+  if(!POOL){renderPool();try{await loadPool();if(!LIVE)await loadLive().catch(()=>{});if(!EQ)await loadEq();}catch(err){document.getElementById("poolBox").innerHTML=`<div class="note">${err.message}</div>`;return;}}
   renderPool();
   if(POOLV==="act"&&!PICKS)await loadPicks();
   renderPicks();
