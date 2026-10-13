@@ -28,7 +28,7 @@ EMOJI = {
  # 票券・行程
  '🎟':'ticket','🎫':'ticket','📋':'clipboard-list','📅':'calendar','🕘':'clock','⏰':'alarm','⏱':'stopwatch','🔖':'bookmark',
  '📝':'notes','📖':'book','📚':'books','🔗':'link','🌐':'world','🔤':'language','💬':'message-circle','📞':'phone','📱':'device-mobile',
- '📷':'camera','📸':'camera','🖼':'photo','🎙':'microphone','🛋':'armchair',
+ '📷':'camera','📸':'camera','🖼':'photo','🔍':'search','🗣':'language','🔗':'external-link','🎙':'microphone','🛋':'armchair',
  # 狀態・提示
  '⭐':'star','✨':'sparkles','✅':'circle-check','⚠':'alert-triangle','💡':'bulb','🔥':'flame','🎉':'confetti','🎈':'balloon','🧨':'confetti',
  '🔄':'refresh','🔁':'repeat','☁':'cloud','🥇':'medal','🥈':'medal-2','🆕':'new-section','⚖':'scale','💤':'zzz','😴':'zzz',

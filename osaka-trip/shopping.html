@@ -100,6 +100,22 @@ details summary{cursor:pointer;font-size:13px;color:var(--ink2,#8A7150)}
 .jx-ico svg{width:19px;height:19px}
 .jx-ico.all{background:var(--green,#97CC27);color:#fff}
 .jx-gc{font-size:12px;font-weight:500;color:var(--ink2,#8A7150);font-family:var(--num,inherit)}
+/* 圖片／給店員看（2026-10-13）：item.img 有圖就顯示縮圖，沒圖顯示搜尋鈕；點了開大卡片，不會動到打勾 */
+.jx-si{position:relative}
+.jx-th{flex:0 0 auto;width:52px;height:52px;border-radius:12px;object-fit:cover;background:var(--yama-l,#FBEFC4);border:1.5px solid var(--line-c,#EFE2BD);margin-left:4px}
+.jx-see{flex:0 0 auto;width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:var(--mizu-l,#E2F1F3);color:var(--ink2,#8A7150);border:none;margin-left:4px;margin-top:1px;cursor:pointer}
+.jx-see svg{width:18px;height:18px}
+.jx-lb{position:fixed;inset:0;background:rgba(40,25,10,.78);display:none;align-items:center;justify-content:center;padding:18px;z-index:60}
+.jx-lb.on{display:flex}
+.jx-lbc{background:var(--card,#fff);border-radius:26px;padding:18px 18px 14px;width:min(100%,420px);max-height:92vh;overflow:auto;text-align:center;box-shadow:0 20px 50px -20px rgba(0,0,0,.6)}
+.jx-lbc img{width:100%;max-height:46vh;object-fit:contain;border-radius:16px;background:var(--yama-l,#FBEFC4)}
+.jx-lbja{font-size:26px;font-weight:800;line-height:1.3;color:var(--brown,#5D3713);margin:12px 0 2px;word-break:break-all}
+.jx-lbzh{font-size:14px;color:var(--ink2,#8A7150)}
+.jx-lbask{margin:12px 0 4px;background:var(--mizu-l,#E2F1F3);border-radius:14px;padding:10px;font-size:18px;font-weight:700;color:var(--brown,#5D3713)}
+.jx-lbask small{display:block;font-size:12px;font-weight:500;color:var(--ink2,#8A7150);margin-top:2px}
+.jx-lbrow{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+.jx-lbrow a,.jx-lbrow button{border:none;border-radius:999px;padding:9px 14px;font:inherit;font-size:13px;font-weight:700;background:var(--yama-l,#FBEFC4);color:var(--brown,#5D3713);text-decoration:none;display:inline-flex;align-items:center;gap:5px;cursor:pointer}
+.jx-lbrow .x{background:var(--mustard,#DEAE0B);color:#fff}
 </style>
 <link rel="stylesheet" href="../trip-kit/trip.css?v=2">
 </head>
@@ -121,10 +137,11 @@ details summary{cursor:pointer;font-size:13px;color:var(--ink2,#8A7150)}
     <button class="jx-btn" id="shopRe">🔄</button>
   </div>
   <div id="shopList"></div>
+  <div class="jx-lb" id="shopLb" role="dialog" aria-modal="true"><div class="jx-lbc" id="shopLbc"></div></div>
   <p class="jx-meta" style="margin-top:8px">💡 跟 Claude 說「購物清單加：…」就會加進來。點一下＝買到（只存在這支手機）；說「○○買到了」或傳收據記帳，兩支手機都會勾掉。</p>
 </section>
 
-<script src="../trip-kit/icons.js?v=4"></script>
+<script src="../trip-kit/icons.js?v=5"></script>
 <script>
 (function(){
 const $=id=>document.getElementById(id);
@@ -156,13 +173,24 @@ function renderShop(){
       const d=isDone(i,t); const b=document.createElement('button');b.type='button';b.className='jx-si'+(d?' done':'');b.setAttribute('aria-pressed',d);
       b.innerHTML='<span class="jx-ck">'+(d?'✓':'')+'</span><span style="min-width:0;flex:1"><span class="jx-sn">'+esc(i.name)+'</span>'+(i.ja?' <span class="jx-sj">'+esc(i.ja)+'</span>':'')+
         ((i.where||i.price||i.for)?'<div class="jx-sd">'+[i.where?'📍 '+esc(i.where):'',i.price?'💴 '+esc(i.price):'',i.for?'🎁 '+esc(i.for):''].filter(Boolean).join('｜')+'</div>':'')+
-        (i.note?'<div class="jx-sd">'+esc(i.note)+'</div>':'')+'</span>'+(i.qty?'<span class="jx-sq">×'+esc(i.qty)+'</span>':'');
-      b.onclick=()=>{const tt=ticks();tt[i.id]=!isDone(i,tt);ls.set(SHOPKEY,JSON.stringify(tt));renderShop();};
+        (i.note?'<div class="jx-sd">'+esc(i.note)+'</div>':'')+'</span>'+(i.qty?'<span class="jx-sq">×'+esc(i.qty)+'</span>':'')+
+        (i.img?'<img class="jx-th" data-see="1" alt="" loading="lazy" src="'+esc(i.img)+'" onerror="this.remove()">':'<span class="jx-see" data-see="1" title="看圖／給店員看">🔍</span>');
+      b.onclick=e=>{if(e.target.closest('[data-see]')){e.stopPropagation();showItem(i);return;}const tt=ticks();tt[i.id]=!isDone(i,tt);ls.set(SHOPKEY,JSON.stringify(tt));renderShop();};
       card.appendChild(b);
     });
     sec.appendChild(card);box.appendChild(sec);
   });
 }
+/* 給店員看的大卡片：圖片（有的話）＋日文名大字＋一句日文；沒圖可開 Google 圖片搜尋 */
+function showItem(i){
+  const q=encodeURIComponent(i.ja||i.name);
+  $('shopLbc').innerHTML=(i.img?'<img src="'+esc(i.img)+'" alt="" onerror="this.remove()">':'')+
+    '<div class="jx-lbja">'+esc(i.ja||i.name)+'</div>'+(i.ja?'<div class="jx-lbzh">'+esc(i.name)+(i.qty?'　×'+esc(i.qty):'')+'</div>':'')+
+    '<div class="jx-lbask">これはありますか？<small>這個有嗎？</small></div>'+
+    '<div class="jx-lbrow"><a href="https://www.google.com/search?tbm=isch&q='+q+'" target="_blank" rel="noopener">🔍 Google 圖片</a>'+(i.url?'<a href="'+esc(i.url)+'" target="_blank" rel="noopener">🔗 商品頁</a>':'')+'<button type="button" class="x" id="shopLbX">關閉</button></div>';
+  $('shopLb').classList.add('on');$('shopLbX').onclick=()=>$('shopLb').classList.remove('on');
+}
+$('shopLb').onclick=e=>{if(e.target===$('shopLb'))$('shopLb').classList.remove('on');};
 $('shopF').querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{shopF=b.dataset.f;$('shopF').querySelectorAll('[data-f]').forEach(x=>x.setAttribute('aria-pressed',x===b));renderShop();});
 $('shopRe').onclick=()=>loadShop();
 loadShop();
