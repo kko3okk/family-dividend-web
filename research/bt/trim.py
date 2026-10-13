@@ -25,9 +25,11 @@ HI = _Roll(lambda n: cl.shift(1).rolling(n, min_periods=n).max().values)   # 前
 LO = _Roll(lambda n: cl.shift(1).rolling(n, min_periods=n).min().values)   # 前 n 日最低收盤
 _MA = _Roll(lambda n: cl.rolling(n, min_periods=int(n * 0.8)).mean().values)
 SURGE = _Roll(lambda w: (cl / cl.rolling(w, min_periods=int(w * 0.8)).min() - 1).values)
+VMA20 = pd.DataFrame(V).rolling(20, min_periods=15).mean().values
+MA60_5 = np.vstack([np.full((5, C.shape[1]), np.nan), MA[60][:-5]])
 NN = cl.diff().abs().rolling(20, min_periods=15).mean().values
 
-def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, start=None, trim=None, frac=0.5, rebuy=False, rearm=False, sup=None, surge=None, pt=None, late=None, **kw):
+def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, start=None, trim=None, frac=0.5, rebuy=False, rearm=False, sup=None, surge=None, pt=None, late=None, topn=None, late_cap=None, volx=None, fresh=None, ma60_up=False, acc_min=None, rank_by=None, entry_fn=None, **kw):
     p = dict(BASE); p.update(kw)
     lists = build_lists(p)
     cash = START_CASH; pos = {}; eq = []; trades = []; pend_buy = []; pend_sell = []; pend_add = []; pend_trim = []; pend_rebuy = []; ntrim = [0, 0]
@@ -186,8 +188,19 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
             if p["dev_cap"] and dev >= p["dev_cap"]: continue
             if V[i, k] < p["vol_min"]: continue
             if entry and not px > HI[int(entry[3:])][i, k]: continue
-            cands.append((-r["yoy"], c))
+            # ---- 進場優化候選（2026-10-13）----
+            if late_cap and not np.isnan(LO[55][i, k]) and px / LO[55][i, k] - 1 > late_cap: continue      # 進場前自前55日低已漲超過 late_cap → 不追
+            if volx and not (VMA20[i, k] > 0 and V[i, k] >= volx * VMA20[i, k]): continue                   # 突破日量 ≥ volx × 20日均量
+            if fresh and not (i >= fresh and np.all(C[i - fresh:i, k] <= HI[20][i - fresh:i, k])): continue  # 前 fresh 日內未曾突破（首次突破）
+            if ma60_up and not (not np.isnan(MA60_5[i, k]) and m60 > MA60_5[i, k]): continue               # 60MA 上揚
+            if acc_min is not None and r.get("acc", 0) < acc_min: continue
+            if entry_fn and not entry_fn(c, d, i, k, lists[li][0]): continue                                # 自訂進場條件                                  # YoY 加速（本月−上月）≥ acc_min
+            key = -r["yoy"] if rank_by in (None, "yoy") else (-r.get("acc", 0) if rank_by == "acc" else -(px / LO[55][i, k] if not np.isnan(LO[55][i, k]) else 0))
+            cands.append((key, c))
         cands.sort()
+        if topn:
+            rk = {r["c"]: j for j, r in enumerate(sorted(lists[li][2], key=lambda r: -r["yoy"]))}
+            cands = [x for x in cands if rk[x[1]] < topn]
         for _, c in cands[:free]: pend_buy.append((c, 1 / S)); bought.add(c)
     if raw: return dict(eq=eq, trades=trades, pos=pos, pend_sell=pend_sell, pend_buy=pend_buy, lock=lock, li=lists[li][1] if li >= 0 else None)
     r = summarize(eq, trades, p); r["ntrim"] = ntrim; return r
