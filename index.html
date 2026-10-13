@@ -421,6 +421,8 @@
   .pg small{display:block;font-family:inherit;font-size:10px;color:var(--mut);font-weight:700}
   .up{color:var(--green-ink,var(--green))}.dn{color:#D9534F}
   .pline{font-size:12px;color:var(--mut);margin-top:4px}
+  .pxbtn{margin-left:8px;font:inherit;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--card2);color:var(--ink);cursor:pointer;white-space:nowrap}
+  .pxbtn:active{transform:scale(.96)}
   .pexit{display:grid;gap:3px;margin:6px 0 4px}
   .pex{display:grid;grid-template-columns:1fr auto auto;gap:4px 10px;align-items:baseline;font-size:12.5px;padding:4px 8px;border-radius:8px;background:var(--card2)}
   .pex .k{color:var(--mut)} .pex b{font-variant-numeric:tabular-nums} .pex .d{font-variant-numeric:tabular-nums;min-width:4.5em;text-align:right}
@@ -1767,7 +1769,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.13-1240";
+const APP_VERSION="2026.10.13-1235";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -1795,6 +1797,32 @@ async function loadLive(){
   const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/holdings/prices.json?t=`+Date.now(),{headers:h});
   if(!r.ok)return null;
   const j=await r.json();LIVE=JSON.parse(b64d(j.content.replace(/\n/g,"")));return LIVE;
+}
+/* 2026-10-13：盤中即時更新。GitHub 定時器常漏跑，改由網站用使用者的 token 直接觸發 prices 工作流程，再輪詢 prices.json。
+   交易時段（週一～五 09:00–14:30）進入主動池頁、且報價超過 20 分鐘沒更新時自動觸發；也可按「更新報價」。 */
+let PX_BUSY=false;
+function marketOpen(){const d=new Date(Date.now()+8*3600*1000);const wd=d.getUTCDay(),m=d.getUTCHours()*60+d.getUTCMinutes();return wd>=1&&wd<=5&&m>=9*60&&m<=14*60+30;}
+async function refreshPrices(manual){
+  if(PX_BUSY||!token())return;
+  const btn=document.getElementById("pxBtn");const say=t=>{if(btn)btn.textContent=t;};
+  PX_BUSY=true;say("觸發中…");
+  try{
+    const h={"Accept":"application/vnd.github+json","Authorization":"Bearer "+token(),"Content-Type":"application/json"};
+    const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/actions/workflows/prices.yml/dispatches`,{method:"POST",headers:h,body:JSON.stringify({ref:"main"})});
+    if(r.status!==204){say(r.status===403||r.status===404?"token 無 Actions 權限":"觸發失敗 "+r.status);PX_BUSY=false;setTimeout(()=>say("更新報價"),4000);return;}
+    const before=LIVE&&LIVE.updated;
+    for(let i=0;i<24;i++){await new Promise(x=>setTimeout(x,5000));say(`抓取中… ${(i+1)*5}s`);
+      try{await loadLive();}catch(e){}
+      if(LIVE&&LIVE.updated!==before){Object.assign(DATA.prices,LIVE.prices);document.getElementById("pxMeta").textContent="報價 "+LIVE.updated.slice(5,16).replace("T"," ");render();if(typeof renderPool==="function"&&POOL)renderPool();say("更新報價");PX_BUSY=false;return;}
+    }
+    say("逾時，稍後再試");
+  }catch(e){say("更新失敗");}
+  PX_BUSY=false;setTimeout(()=>say("更新報價"),4000);
+}
+function autoRefreshPrices(){
+  if(!marketOpen()||!token())return;
+  const age=LIVE&&LIVE.updated?Date.now()-new Date(LIVE.updated).getTime():Infinity;
+  if(age>20*60*1000)refreshPrices(false);
 }
 async function ensurePrices(){
   DATA.prices=DATA.prices||{};
@@ -2300,7 +2328,7 @@ function renderPool(){
     ${closed.some(c=>(c.entries||[]).some(e=>e.est||!e.date))?'<div class="prule">進場日標「推估」或「未記」的，是依過去對話補登，沒有券商成交紀錄可對。</div>':""}`:"";
   const rule=short?`<div class="prule">${P.desc||""}</div>`
     :`<div class="prule">規則（G，10/13 起）：${POOL.rule}。</div>`;
-  box.innerHTML=`<h3 data-en="${short?"SWING":"ACTIVE"}">${short?"短線池":"主動池"}<span class="tick" style="margin-left:auto;font-weight:600">報價 ${LIVE?LIVE.updated.slice(5,16).replace("T"," "):"收盤 "+(POOL.price_date||"—")} · 出場線依 ${POOL.price_date||"—"} 收盤</span></h3>
+  box.innerHTML=`<h3 data-en="${short?"SWING":"ACTIVE"}">${short?"短線池":"主動池"}<span class="tick" style="margin-left:auto;font-weight:600">報價 ${LIVE?LIVE.updated.slice(5,16).replace("T"," "):"收盤 "+(POOL.price_date||"—")}${marketOpen()?"":" · 非交易時段"}</span><button type="button" id="pxBtn" class="pxbtn" onclick="refreshPrices(true)">更新報價</button></h3>
     <div class="pstats">${stats}</div>${short?"":poolPie(ps,P.cash||0)}${ps.map(p=>posCard(p,short)).join("")||'<div class="note">目前沒有持股</div>'}${ctab}${rule}`;
 }
 let PICKS=null;
@@ -2357,6 +2385,7 @@ document.getElementById("poolSeg").addEventListener("click",async e=>{
   renderPool();
   if(POOLV==="act"&&!PICKS)await loadPicks();
   renderPicks();
+  autoRefreshPrices();   // 交易時段且報價舊於 20 分鐘 → 自動觸發 prices 工作流程
 });
 
 /* ═══ 2026-10-12 自動排程紅綠燈（讀私有庫 holdings/sched_status.json，每小時由 GitHub Actions 更新）═══ */
