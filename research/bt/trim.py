@@ -102,13 +102,13 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
                 if e.startswith("ma"): m = _MA[int(e[2:])][i, k]; out |= (not np.isnan(m) and px < m)
                 elif e.startswith("lo"): m = LO[int(e[2:])][i, k]; out |= (not np.isnan(m) and px < m)
             if p["t4"] and q["dbl"] and px <= q["hi"] * 0.75: out = True
-            if pt:   # (觸發漲幅, 值, 模式) floor：獲利跌回 ≤ 值 全出；trail：自最高收盤回落 ≥ 值 全出
-                trg, v, mode = pt[:3]
-                z_ = pt[3] if len(pt) > 3 else 1.0
+            for pt_ in (pt if isinstance(pt, list) else ([pt] if pt else [])):   # 可多條，任一觸發即執行。(觸發漲幅, 值, 模式) floor／trail／pts／roll／atr
+                trg, v, mode = pt_[:3]
+                z_ = pt_[3] if len(pt_) > 3 else 1.0
                 if q["hi"] >= q["cost"] * (1 + trg) and not q.get("pt_done"):
                     hit = (mode == "floor" and px <= q["cost"] * (1 + v)) or (mode == "trail" and px <= q["hi"] * (1 - v)) or (mode == "pts" and px <= q["hi"] - v * q["cost"])
                     if mode == "roll":   # 近 N 日（不含當日）最高收盤回落 v；N＝pt[4]
-                        h_ = HI[pt[4]][i, k]; hit = (not np.isnan(h_)) and px <= h_ * (1 - v)
+                        h_ = HI[pt_[4]][i, k]; hit = (not np.isnan(h_)) and px <= h_ * (1 - v)
                     if mode == "atr":    # 持有期最高收盤 − v × 20 日平均每日絕對變動
                         n_ = NN[i, k]; hit = (not np.isnan(n_)) and px <= q["hi"] - v * n_
                     if hit:
