@@ -17,6 +17,9 @@ ACCTS = {
     "A": dict(name="A 舊規則（跌破60MA出場）", exit="ma60", brk=None),
     "B": dict(name="B 對照（跌破前55日低，不加突破）", exit="lo55", brk=None),
     "C": dict(name="C 現行規則（突破20日高進＋跌破前55日低出，10/11 起採用）", exit="lo55", brk=20),
+    # 2026-10-13 Chang：停利保護試運行（RESEARCH §二十 網格：曾賺 X% 後自最高收盤回落 Y% 全出）
+    "D": dict(name="D C＋停利（賺20%後回落15%出，網格總報酬最高）", exit="lo55", brk=20, pt=(0.20, 0.15)),
+    "E": dict(name="E C＋停利（賺20%後回落17%出，網格鄰近最穩）", exit="lo55", brk=20, pt=(0.20, 0.17)),
 }
 
 # ---------- 資料 ----------
@@ -120,6 +123,8 @@ def run(cfg):
             q["line"] = line
             if line and px < line: pend_sell.append((c, ("跌破60MA %.1f" if cfg["exit"] == "ma60" else "跌破前55日低 %.1f") % line))
             elif q["dbl"] and px <= q["hi"] * 0.75: pend_sell.append((c, "T4 翻倍後回落25%"))
+            elif cfg.get("pt") and q["hi"] >= q["px"] * (1 + cfg["pt"][0]) and px <= q["hi"] * (1 - cfg["pt"][1]):
+                pend_sell.append((c, "停利：曾賺%.0f%%後自高點 %.1f 回落%.0f%%" % (cfg["pt"][0] * 100, q["hi"], cfg["pt"][1] * 100)))
         # 3) 第 11 條、第 5 條
         hi60 = max(t for t in taiex[max(0, i - 59):i + 1] if t)
         t20 = ma(taiex, i, 20); t60 = ma(taiex, i, 60)
