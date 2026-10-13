@@ -1,6 +1,28 @@
 {
-  "updated": "10/12",
+  "updated": "10/13 22:10",
   "items": [
-    {"id": "s-poke30", "name": "寶可夢卡 30th CELEBRATION BOX", "ja": "ポケモンカード 30th CELEBRATION", "cat": "🃏 寶可夢", "where": "寶可夢中心 DX、友都八喜梅田、寶可夢中心京都", "price": "¥7,200／盒", "qty": 1, "note": "熱門商品常限購，先到卡牌櫃台問", "bought": false}
+    {
+      "id": "s-poke30",
+      "name": "寶可夢卡 30th CELEBRATION BOX",
+      "ja": "ポケモンカード 30th CELEBRATION",
+      "cat": "🃏 寶可夢",
+      "where": "寶可夢中心 DX、友都八喜梅田、寶可夢中心京都",
+      "price": "¥7,200／盒",
+      "qty": 1,
+      "note": "熱門商品常限購，先到卡牌櫃台問",
+      "bought": false
+    },
+    {
+      "id": "s-suisai-enzyme",
+      "name": "suisai 酵素洗面乳",
+      "ja": "suisai 酵素洗顔",
+      "cat": "💄 美妝保養",
+      "where": "松本清、Sugi、唐吉訶德（D2 心齋橋、D7 購物日都順路）",
+      "price": "",
+      "qty": 1,
+      "for": "",
+      "note": "佳麗寶 Kanebo 的洗面乳，主打清毛孔黑頭｜現在有蠟筆小新「小白」聯名包裝，看到可以挑這款",
+      "bought": false
+    }
   ]
 }
