@@ -109,14 +109,33 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
                         if sup:
                             a0 = max(0, i - (19 if sup == "vwap20" else 59)); cc = C[a0:i + 1, k]; vv = V[a0:i + 1, k]; ok = ~np.isnan(cc)
                             cc, vv = cc[ok], vv[ok]
+                            q["hi_pre"] = q["hi"]; q["touched"] = False; q["broken"] = False
                             if sup == "vwap20": q["zone"] = (0, (cc * vv).sum() / vv.sum() if vv.sum() > 0 else np.nan)
-                            else:
+                            if sup != "vwap20":
                                 edges = np.linspace(cc.min(), cc.max(), 13); b = np.clip(np.digitize(cc, edges) - 1, 0, 11)
                                 vol = np.bincount(b, weights=vv, minlength=12); j = int(vol.argmax()); q["zone"] = (edges[j], edges[j + 1])
                         continue
                     if sup and q["trimmed"] and q.get("zone"):
                         zl, zh = q["zone"]
-                        if px <= zh and (sup != "vp60in" or px >= zl): pend_rebuy.append(c)
+                        if sup in ("vp60", "vp60in", "vwap20"):
+                            if px <= zh and (sup != "vp60in" or px >= zl): pend_rebuy.append(c)
+                            continue
+                        # 組合規則：hi＝收盤創減碼前高點；brk＝收盤突破前 20 日高；conf＝跌進量集中帶後收盤站回 5MA（跌破帶下緣則放棄支撐）
+                        go = False
+                        if "hi" in sup and px > q["hi_pre"]: go = True
+                        if "brk" in sup:
+                            h = HI[20][i, k]
+                            if not np.isnan(h) and px > h: go = True
+                        if "conf" in sup and not q.get("broken"):
+                            if px < zl: q["broken"] = True
+                            elif px <= zh: q["touched"] = True
+                            elif q.get("touched"):
+                                m5 = _MA[5][i, k]
+                                if not np.isnan(m5) and px > m5: go = True
+                            if q.get("touched") and zl <= px <= zh:
+                                m5 = _MA[5][i, k]
+                                if not np.isnan(m5) and px > m5 and px > C[i - 1, k]: go = True
+                        if go: pend_rebuy.append(c)
                         continue
                     elif q["trimmed"] and px > m:
                         if rebuy: pend_rebuy.append(c)
@@ -153,6 +172,26 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
     if raw: return dict(eq=eq, trades=trades, pos=pos, pend_sell=pend_sell, pend_buy=pend_buy, lock=lock, li=lists[li][1] if li >= 0 else None)
     r = summarize(eq, trades, p); r["ntrim"] = ntrim; return r
 
+if __name__ == "__main__" and len(sys.argv) > 1 and sys.argv[1] == "rebuy":
+    def seg2(r, a, b):
+        e = [(d, v) for d, v in r["eq"] if a <= d <= b]
+        x = np.array([v for _, v in e]); pk = np.maximum.accumulate(x)
+        return x[-1] / x[0] - 1, (x / pk - 1).min()
+    V_ = [("C 現行（不減碼）", {}),
+          ("減5成不補", dict(trim="ma10", frac=0.5)),
+          ("減5成＋回落量集中帶補（前次）", dict(trim="ma10", frac=0.5, sup="vp60")),
+          ("減5成＋創減碼前高點補", dict(trim="ma10", frac=0.5, sup="hi")),
+          ("減5成＋突破前20日高補", dict(trim="ma10", frac=0.5, sup="brk")),
+          ("減5成＋支撐確認補", dict(trim="ma10", frac=0.5, sup="conf")),
+          ("減5成＋支撐確認或創高", dict(trim="ma10", frac=0.5, sup="conf+hi")),
+          ("減5成＋支撐確認或突破20日高", dict(trim="ma10", frac=0.5, sup="conf+brk")),
+          ("減3成＋支撐確認或突破20日高", dict(trim="ma10", frac=0.3, sup="conf+brk"))]
+    print(f"{'做法':<26}{'總報酬':>9}{'MDD':>8}{'CAGR':>8}{'20-21':>8}{'22-26':>8}{'勝率':>6}{'減/買':>9}{'CAGR/MDD':>9}")
+    for nm, kw in V_:
+        k = dict(entry="brk20", exit="lo55"); k.update(kw); r = run(**k)
+        t, m = seg2(r, "2020-01-01", "2099"); a, _ = seg2(r, "2020-01-01", "2021-12-31"); b, _ = seg2(r, "2021-12-31", "2099")
+        print(f"{nm:<26}{t*100:+8.0f}%{m*100:7.1f}%{r['all']['cagr']*100:+7.1f}%{a*100:+7.0f}%{b*100:+7.0f}%{r['win']*100:5.0f}%{str(r['ntrim'][0])+'/'+str(r['ntrim'][1]):>9}{r['all']['cagr']/-m:9.2f}", flush=True)
+    raise SystemExit
 if __name__ == "__main__":
     def seg2(r, a, b):
         e = [(d, v) for d, v in r["eq"] if a <= d <= b]
