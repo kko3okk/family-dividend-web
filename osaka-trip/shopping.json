@@ -1,5 +1,5 @@
 {
-  "updated": "10/13 23:20",
+  "updated": "10/13 23:35",
   "items": [
     {
       "id": "s-poke30",
@@ -11,7 +11,13 @@
       "qty": 1,
       "note": "熱門商品常限購，先到卡牌櫃台問",
       "bought": false,
-      "url": "https://www.30th.pokemon-card.com/product/m6a"
+      "url": "https://www.30th.pokemon-card.com/product/m6a",
+      "at": [
+        "D2-poke",
+        "D5-poke",
+        "D5-yodo",
+        "D6-poke"
+      ]
     },
     {
       "id": "s-suisai-enzyme",
@@ -23,7 +29,11 @@
       "qty": 1,
       "for": "",
       "note": "佳麗寶 Kanebo 的洗面乳，主打清毛孔黑頭｜現在有蠟筆小新「小白」聯名包裝，看到可以挑這款",
-      "bought": false
+      "bought": false,
+      "at": [
+        "D5-drug",
+        "D7-sbs"
+      ]
     },
     {
       "id": "s-morinaga-salt-caramel",
@@ -35,7 +45,11 @@
       "qty": 1,
       "for": "",
       "note": "83g 袋裝，藍紅包裝；用法國洛林岩鹽",
-      "bought": false
+      "bought": false,
+      "at": [
+        "D5-drug",
+        "D7-donki"
+      ]
     },
     {
       "id": "s-ottotto-poke",
@@ -47,7 +61,10 @@
       "qty": 1,
       "for": "",
       "note": "一條 5 小包串在一起，鹽味；餅乾是寶可夢造型（全68種）",
-      "bought": false
+      "bought": false,
+      "at": [
+        "D7-donki"
+      ]
     },
     {
       "id": "s-ginso-castella",
@@ -59,7 +76,10 @@
       "qty": 1,
       "for": "",
       "note": "大阪老字號長崎蛋糕，評論說很濕潤｜11:00–19:30｜也有單片小包裝、奶油蛋糕、費南雪，適合當伴手禮｜店內有咖啡座可以坐著吃",
-      "bought": false
+      "bought": false,
+      "at": [
+        "D7-sbs"
+      ]
     },
     {
       "id": "s-uha-cororo",
@@ -71,7 +91,10 @@
       "qty": 1,
       "for": "",
       "note": "口感像真的水果果肉的軟糖｜專賣店只有這一家｜11:00–20:00（週六日 10:00 開）｜一般口味便利商店也買得到，專賣店有比較特別的禮盒和口味",
-      "bought": false
+      "bought": false,
+      "at": [
+        "D5-chaya"
+      ]
     },
     {
       "id": "s-muhi-baby",
@@ -83,7 +106,11 @@
       "qty": 1,
       "for": "",
       "note": "蚊蟲叮咬、痱子止癢，紅白盒 40ml｜3 個月以上才能用｜第3類醫藥品，藥妝店一般架上就有",
-      "bought": false
+      "bought": false,
+      "at": [
+        "D5-drug",
+        "D7-sbs"
+      ]
     },
     {
       "id": "s-gacha-shimajiro",
@@ -95,31 +122,41 @@
       "qty": 1,
       "for": "",
       "note": "全 4 種：巧虎、咪咪琳（兔）、托利皮（鳥）、妮可琪（貓）｜約 6cm 絨毛吊飾｜機台只收 100 円硬幣，先換好零錢",
-      "bought": false
+      "bought": false,
+      "at": [
+        "D2-gacha",
+        "D5-chaya"
+      ]
     },
     {
       "id": "s-otonamuse-11",
       "name": "otona MUSE 2026年11月號（附 Hello Kitty × CITEN 托特包）",
       "ja": "otona MUSE（オトナミューズ）2026年11月号",
       "cat": "📚 書籍雜誌",
-      "where": "書店（紀伊國屋 梅田本店、淳久堂 難波）、便利商店雜誌架",
+      "where": "紀伊國屋書店 梅田本店（阪急梅田站 1F，D5 茶屋町旁）、淳久堂 難波、便利商店雜誌架",
       "price": "¥1,950",
       "qty": 1,
       "for": "",
       "note": "附錄是黑色鋪棉 Hello Kitty 壓紋托特包｜有兩種封面（通常版／增刊），附錄可能不同，買前看封面右上角｜熱門附錄常賣完，看到就買",
-      "bought": false
+      "bought": false,
+      "at": [
+        "D5-chaya"
+      ]
     },
     {
       "id": "s-babybook-anpanman",
       "name": "ベビーブック（附 麵包超人 會說話的剪票機）",
       "ja": "ベビーブック 8・9月号",
       "cat": "📚 書籍雜誌",
-      "where": "書店（紀伊國屋、淳久堂）、玩具反斗城、阿卡將",
+      "where": "紀伊國屋書店 梅田本店（阪急梅田站 1F，D5 茶屋町旁）、淳久堂 難波、玩具反斗城、阿卡將",
       "price": "¥1,590",
       "qty": 1,
       "for": "",
       "note": "附錄是麵包超人剪票機，拿卡感應會發聲｜這是 8・9 月號，10 月可能已換成下一期（附錄不同），到書店先問「ベビーブック 8・9月号 ありますか」",
-      "bought": false
+      "bought": false,
+      "at": [
+        "D5-chaya"
+      ]
     }
   ]
 }
