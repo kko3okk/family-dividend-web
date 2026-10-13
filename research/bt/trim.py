@@ -51,11 +51,12 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
             trades.append(dict(c=c, ed=q["ed"], xd=d, pnl=got - q["paid"], ret=got / q["paid"] - 1, units=q["u"]))
         pend_sell = [c for c in pend_sell if c in pos]
         for c in pend_trim:
+            c, f_ = c if isinstance(c, tuple) else (c, frac)
             q = pos.get(c)
             if not q or c in pend_sell: continue
             px = C[i, ci[c]]
             if np.isnan(px): continue
-            n_ = int(q["sh"] * frac)
+            n_ = int(q["sh"] * f_)
             if n_ < 1: continue
             pr = px * (1 - slip) * n_ * (1 - FEE_S); cash += pr; q["sh"] -= n_; q["cin"] = q.get("cin", 0) + pr; ntrim[0] += 1
         pend_trim = []
@@ -102,10 +103,13 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
                 elif e.startswith("lo"): m = LO[int(e[2:])][i, k]; out |= (not np.isnan(m) and px < m)
             if p["t4"] and q["dbl"] and px <= q["hi"] * 0.75: out = True
             if pt:   # (觸發漲幅, 值, 模式) floor：獲利跌回 ≤ 值 全出；trail：自最高收盤回落 ≥ 值 全出
-                trg, v, mode = pt
-                if q["hi"] >= q["cost"] * (1 + trg):
-                    if mode == "floor" and px <= q["cost"] * (1 + v): out = True
-                    if mode == "trail" and px <= q["hi"] * (1 - v): out = True
+                trg, v, mode = pt[:3]
+                z_ = pt[3] if len(pt) > 3 else 1.0
+                if q["hi"] >= q["cost"] * (1 + trg) and not q.get("pt_done"):
+                    hit = (mode == "floor" and px <= q["cost"] * (1 + v)) or (mode == "trail" and px <= q["hi"] * (1 - v))
+                    if hit:
+                        if z_ >= 1: out = True
+                        else: pend_trim.append((c, z_)); q["pt_done"] = True
             if stop2n and not np.isnan(q["N"]) and px < q["lastadd"] - 2 * q["N"]: out = True
             if out: pend_sell.append(c); continue
             if trim:
