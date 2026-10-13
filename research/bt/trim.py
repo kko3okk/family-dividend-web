@@ -107,6 +107,10 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
                 z_ = pt[3] if len(pt) > 3 else 1.0
                 if q["hi"] >= q["cost"] * (1 + trg) and not q.get("pt_done"):
                     hit = (mode == "floor" and px <= q["cost"] * (1 + v)) or (mode == "trail" and px <= q["hi"] * (1 - v)) or (mode == "pts" and px <= q["hi"] - v * q["cost"])
+                    if mode == "roll":   # 近 N 日（不含當日）最高收盤回落 v；N＝pt[4]
+                        h_ = HI[pt[4]][i, k]; hit = (not np.isnan(h_)) and px <= h_ * (1 - v)
+                    if mode == "atr":    # 持有期最高收盤 − v × 20 日平均每日絕對變動
+                        n_ = NN[i, k]; hit = (not np.isnan(n_)) and px <= q["hi"] - v * n_
                     if hit:
                         if z_ >= 1: out = True
                         else: pend_trim.append((c, z_)); q["pt_done"] = True

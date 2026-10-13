@@ -20,6 +20,8 @@ ACCTS = {
     # 2026-10-13 Chang：停利保護試運行（RESEARCH §二十 網格：曾賺 X% 後自最高收盤回落 Y% 全出）
     "D": dict(name="D C＋停利（賺20%後自高點回落15%全出，網格最佳）", exit="lo55", brk=20, pt=(0.20, 0.15)),
     "E": dict(name="E C＋停利（賺20%後自高點回落17%全出，網格鄰近最穩）", exit="lo55", brk=20, pt=(0.20, 0.17)),
+    # 2026-10-13：不看進場成本的對照（RESEARCH §二十：近 55 日最高收盤回落 15～19% 為平台，取 18%）
+    "F": dict(name="F C＋停利（近55日最高收盤回落18%全出，不看成本）", exit="lo55", brk=20, roll=(55, 0.18)),
 }
 
 # ---------- 資料 ----------
@@ -123,6 +125,8 @@ def run(cfg):
             q["line"] = line
             if line and px < line: pend_sell.append((c, ("跌破60MA %.1f" if cfg["exit"] == "ma60" else "跌破前55日低 %.1f") % line))
             elif q["dbl"] and px <= q["hi"] * 0.75: pend_sell.append((c, "T4 翻倍後回落25%"))
+            elif cfg.get("roll") and (h55 := prior(close[c], i, cfg["roll"][0], max)) and px <= h55 * (1 - cfg["roll"][1]):
+                pend_sell.append((c, "停利：近%d日最高收盤 %.1f 回落%.0f%%" % (cfg["roll"][0], h55, cfg["roll"][1] * 100)))
             elif cfg.get("pt") and q["hi"] >= q["px"] * (1 + cfg["pt"][0]) and px <= q["hi"] * (1 - cfg["pt"][1]):
                 pend_sell.append((c, "停利：曾賺%.0f%%後自高點 %.1f 回落%.0f%%" % (cfg["pt"][0] * 100, q["hi"], cfg["pt"][1] * 100)))
         # 3) 第 11 條、第 5 條
