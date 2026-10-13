@@ -121,7 +121,7 @@ async function saveToken(){
   localStorage.setItem("gh_token", v);
   conn = null; refresh();
   flash($("tokenSave"), v ? "已儲存，同步中…" : "已清除");
-  try { await load(); await ensurePrices(); render(); if (v) await test(true); }
+  try { await load(); await ensurePrices(); render(); if (v) await test(true); if (v && conn && conn.ok && window.tripGate) window.tripGate.markOK(v); }
   catch(e){ conn = { ok:false, msg:e.message }; refresh(); }
 }
 async function test(quiet){
