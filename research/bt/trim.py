@@ -27,7 +27,7 @@ _MA = _Roll(lambda n: cl.rolling(n, min_periods=int(n * 0.8)).mean().values)
 SURGE = _Roll(lambda w: (cl / cl.rolling(w, min_periods=int(w * 0.8)).min() - 1).values)
 NN = cl.diff().abs().rolling(20, min_periods=15).mean().values
 
-def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, start=None, trim=None, frac=0.5, rebuy=False, rearm=False, sup=None, surge=None, **kw):
+def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, start=None, trim=None, frac=0.5, rebuy=False, rearm=False, sup=None, surge=None, pt=None, **kw):
     p = dict(BASE); p.update(kw)
     lists = build_lists(p)
     cash = START_CASH; pos = {}; eq = []; trades = []; pend_buy = []; pend_sell = []; pend_add = []; pend_trim = []; pend_rebuy = []; ntrim = [0, 0]
@@ -101,6 +101,11 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
                 if e.startswith("ma"): m = _MA[int(e[2:])][i, k]; out |= (not np.isnan(m) and px < m)
                 elif e.startswith("lo"): m = LO[int(e[2:])][i, k]; out |= (not np.isnan(m) and px < m)
             if p["t4"] and q["dbl"] and px <= q["hi"] * 0.75: out = True
+            if pt:   # (觸發漲幅, 值, 模式) floor：獲利跌回 ≤ 值 全出；trail：自最高收盤回落 ≥ 值 全出
+                trg, v, mode = pt
+                if q["hi"] >= q["cost"] * (1 + trg):
+                    if mode == "floor" and px <= q["cost"] * (1 + v): out = True
+                    if mode == "trail" and px <= q["hi"] * (1 - v): out = True
             if stop2n and not np.isnan(q["N"]) and px < q["lastadd"] - 2 * q["N"]: out = True
             if out: pend_sell.append(c); continue
             if trim:
@@ -179,6 +184,35 @@ def run(entry=None, exit="ma60", size="eq", pyr=False, stop2n=False, raw=False, 
     if raw: return dict(eq=eq, trades=trades, pos=pos, pend_sell=pend_sell, pend_buy=pend_buy, lock=lock, li=lists[li][1] if li >= 0 else None)
     r = summarize(eq, trades, p); r["ntrim"] = ntrim; return r
 
+if __name__ == "__main__" and len(sys.argv) > 1 and sys.argv[1] == "pt":
+    from bt6 import dates
+    di = {d: j for j, d in enumerate(dates)}
+    def seg2(r, a, b):
+        e = [(d, v) for d, v in r["eq"] if a <= d <= b]
+        x = np.array([v for _, v in e]); pk = np.maximum.accumulate(x)
+        return x[-1] / x[0] - 1, (x / pk - 1).min()
+    def giveback(r):   # 最高曾賺 ≥20% 最後虧損筆數、最高 ≥20% 者保留比例中位
+        R = []
+        for t in r["trades"]:
+            k = ci[t["c"]]; a = di[t["ed"]]; b = di[t["xd"]]; pk = np.nanmax(C[a:b + 1, k]) / C[a, k] - 1; R.append((pk, t["ret"]))
+        R = np.array(R); m = R[:, 0] >= 0.2
+        return int((m & (R[:, 1] <= 0)).sum()), float(np.median(R[m, 1] / R[m, 0])) if m.any() else float("nan"), int(m.sum())
+    V_ = [("C 現行", {}),
+          ("A 賺50%後 獲利跌回≤30% 全出", dict(pt=(0.5, 0.3, "floor"))),
+          ("A 賺50%後 獲利跌回≤20% 全出", dict(pt=(0.5, 0.2, "floor"))),
+          ("A 賺30%後 獲利跌回≤10% 全出", dict(pt=(0.3, 0.1, "floor"))),
+          ("A 賺20%後 獲利跌回≤0% 全出（保本）", dict(pt=(0.2, 0.0, "floor"))),
+          ("B 賺50%後 高點回落30% 全出", dict(pt=(0.5, 0.3, "trail"))),
+          ("B 賺50%後 高點回落25% 全出", dict(pt=(0.5, 0.25, "trail"))),
+          ("B 賺50%後 高點回落20% 全出", dict(pt=(0.5, 0.2, "trail"))),
+          ("B 賺30%後 高點回落25% 全出", dict(pt=(0.3, 0.25, "trail")))]
+    print(f"{'做法':<30}{'總報酬':>9}{'MDD':>8}{'20-21':>8}{'22-26':>8}{'勝率':>6}{'筆':>5}{'CAGR/MDD':>9}  曾賺20%後虧損/保留中位")
+    for nm, kw in V_:
+        k = dict(entry="brk20", exit="lo55"); k.update(kw); r = run(**k)
+        t, m = seg2(r, "2020-01-01", "2099"); a, _ = seg2(r, "2020-01-01", "2021-12-31"); b, _ = seg2(r, "2021-12-31", "2099")
+        g = giveback(r)
+        print(f"{nm:<30}{t*100:+8.0f}%{m*100:7.1f}%{a*100:+7.0f}%{b*100:+7.0f}%{r['win']*100:5.0f}%{r['n']:5d}{r['all']['cagr']/-m:9.2f}  {g[0]}/{g[2]}筆 保留{g[1]*100:.0f}%", flush=True)
+    raise SystemExit
 if __name__ == "__main__" and len(sys.argv) > 1 and sys.argv[1] == "surge":
     def seg2(r, a, b):
         e = [(d, v) for d, v in r["eq"] if a <= d <= b]
