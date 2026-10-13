@@ -421,6 +421,12 @@
   .pg small{display:block;font-family:inherit;font-size:10px;color:var(--mut);font-weight:700}
   .up{color:var(--green-ink,var(--green))}.dn{color:#D9534F}
   .pline{font-size:12px;color:var(--mut);margin-top:4px}
+  .pexit{display:grid;gap:3px;margin:6px 0 4px}
+  .pex{display:grid;grid-template-columns:1fr auto auto;gap:4px 10px;align-items:baseline;font-size:12.5px;padding:4px 8px;border-radius:8px;background:var(--card2)}
+  .pex .k{color:var(--mut)} .pex b{font-variant-numeric:tabular-nums} .pex .d{font-variant-numeric:tabular-nums;min-width:4.5em;text-align:right}
+  .pex small{grid-column:1/-1;color:var(--mut);font-size:11px}
+  .pex.off{opacity:.55} .pex.on .d{color:var(--green-ink,var(--green));font-weight:700}
+  .pex.hit{background:#FBE9E7;border:1px solid #D9534F} .pex.hit .d,.pex.hit b{color:#D9534F;font-weight:700}
   .pbar{height:6px;border-radius:4px;background:var(--card2);overflow:hidden;margin-top:5px}
   .pbar i{display:block;height:100%;background:var(--pcol,var(--chang));border-radius:4px}
   .pcard details{margin-top:7px;font-size:12px;color:var(--mut)}
@@ -1761,7 +1767,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.12-2210";
+const APP_VERSION="2026.10.13-1240";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -2225,22 +2231,28 @@ function posCard(p,short){
   if(!px)return `<div class="pcard"><div class="ph"><b>${p.name}</b><span class="tick">${p.code}</span><span class="pst warn">無價格</span></div></div>`;
   const pnl=(px-cost)*sh,r=px/cost-1;
   let st=["ok","續抱"];
-  const dbl=p.hi_since&&p.hi_since>=2*cost, t4=dbl&&px<=p.hi_since*0.75;
-  if(short){
-    if(p.stop&&px<=p.stop)st=["bad","觸停損"];else if(p.target&&px>=p.target)st=["bad","達目標"];
-    else if(!p.stop||!p.time_stop_days)st=["warn","條件未設"];
-  }else{
-    if(p.lo55&&px<p.lo55)st=["bad","跌破出場線"];else if(t4)st=["bad","T4 出場"];
-    else if(p.lo55&&(px/p.lo55-1)<0.05)st=["warn","接近出場線"];
-  }
   const tag=short?"短線":(p.type==="discretionary"?"主觀格":"規則格");
   let line="";
   if(short){
+    if(p.stop&&px<=p.stop)st=["bad","觸停損"];else if(p.target&&px>=p.target)st=["bad","達目標"];
+    else if(!p.stop||!p.time_stop_days)st=["warn","條件未設"];
     const m=v=>v?v:'<span class="pmiss">未設</span>';
     line=`<div class="pline">停損 ${m(p.stop)}　目標 ${m(p.target)}　時間停損 ${p.time_stop_days?p.time_stop_days+" 交易日":'<span class="pmiss">未設</span>'}　進場 ${p.opened||"—"}</div>`;
   }else if(p.lo55){
-    const d=(p.lo55/px-1);const room=Math.min(100,Math.max(0,-d*100*1.6));
-    line=`<div class="pline">出場線（前 55 日最低收盤）<b>${p.lo55}</b>，距現價 ${pct(d)}${dbl?"　已翻倍，T4 線 "+(p.hi_since*0.75).toFixed(1):""}</div><div class="pbar"><i style="width:${room}%"></i></div>`;
+    /* 第 7 條（G 規則，2026-10-13）：三條出場線用現價即時重算，任一觸發即出場 */
+    const hi=Math.max(p.hi_since||0,px),gain=hi/cost-1,h55=p.exit&&p.exit.h55;
+    const L=[
+      {k:"a",n:"前 55 日最低收盤",v:p.lo55,on:true,hit:px<p.lo55},
+      {k:"b",n:"賺 20% 後高點回落 15%",v:+(hi*0.85).toFixed(2),on:gain>=0.20,hit:gain>=0.20&&px<=hi*0.85,note:gain<0.20?`持有高點 ${hi} 需達 ${(cost*1.2).toFixed(1)} 才生效`:`持有高點 ${hi}`},
+      {k:"c",n:"曾賺 5% 後近 55 日高回落 18%",v:h55?+(h55*0.82).toFixed(2):null,on:gain>=0.05&&!!h55,hit:gain>=0.05&&!!h55&&px<=h55*0.82,note:gain<0.05?`需曾賺 5%（${(cost*1.05).toFixed(1)}）才生效`:(h55?`近 55 日高 ${h55}`:"")}
+    ];
+    const hits=L.filter(x=>x.hit),act=L.filter(x=>x.on&&x.v);
+    const near=act.length?act.reduce((m,x)=>x.v>m.v?x:m):null;
+    if(hits.length)st=["bad","觸發出場："+hits.map(x=>x.n).join("、")];
+    else if(near&&px/near.v-1<0.05)st=["warn",`距出場線 ${pct(px/near.v-1)}`];
+    const room=near?Math.min(100,Math.max(0,(px/near.v-1)*100*1.6)):100;
+    line=`<div class="pexit">${L.map(x=>`<div class="pex ${x.hit?"hit":x.on?"on":"off"}"><span class="k">(${x.k}) ${x.n}</span><b>${x.v!=null?x.v:"—"}</b><span class="d">${x.on&&x.v?(x.hit?"已觸發":pct(px/x.v-1)):"未生效"}</span>${x.note?`<small>${x.note}</small>`:""}</div>`).join("")}</div>
+      <div class="pline">最接近的出場線：${near?`<b>${near.v}</b>（${near.n}），距現價 ${pct(px/near.v-1)}`:"—"}</div><div class="pbar"><i style="width:${room}%"></i></div>`;
   }
   const fal=(!short&&p.falsify)?`<details><summary>否證條件</summary>${p.falsify}</details>`:"";
   return `<div class="pcard"><div class="ph"><b>${p.name}</b><span class="tick">${p.code}</span><span class="ptag">${tag}</span><span class="pst ${st[0]}">${st[1]}</span></div>
@@ -2287,7 +2299,7 @@ function renderPool(){
   const ctab=closed.length?`<h4 style="margin:16px 0 6px">${short?"已出場":"2026 已出場"}</h4>${closed.map(trade).join("")}
     ${closed.some(c=>(c.entries||[]).some(e=>e.est||!e.date))?'<div class="prule">進場日標「推估」或「未記」的，是依過去對話補登，沒有券商成交紀錄可對。</div>':""}`:"";
   const rule=short?`<div class="prule">${P.desc||""}</div>`
-    :`<div class="prule">規則（方案 C）：${POOL.rule}。</div>`;
+    :`<div class="prule">規則（G，10/13 起）：${POOL.rule}。</div>`;
   box.innerHTML=`<h3 data-en="${short?"SWING":"ACTIVE"}">${short?"短線池":"主動池"}<span class="tick" style="margin-left:auto;font-weight:600">報價 ${LIVE?LIVE.updated.slice(5,16).replace("T"," "):"收盤 "+(POOL.price_date||"—")} · 出場線依 ${POOL.price_date||"—"} 收盤</span></h3>
     <div class="pstats">${stats}</div>${short?"":poolPie(ps,P.cash||0)}${ps.map(p=>posCard(p,short)).join("")||'<div class="note">目前沒有持股</div>'}${ctab}${rule}`;
 }
@@ -2316,7 +2328,7 @@ function renderPicks(){
     const room=(15-r.dev);
     return `<div class="pkbuy"><div class="top"><b>${r.name}</b><span class="tick">${r.code}</span>${held.has(r.code)?'<span class="ptag">已持有</span>':""}${open&&free&&i<free?'<span class="pick">規則會買</span>':""}<span class="px">${n(r.px)}</span></div>
       <div class="sub">${r.sub}，9 月營收年增 ${Math.round(r.yoy)}%</div>
-      <div class="facts"><span>突破線 <b>${n(r.h20)}</b></span><span>出場線 <b>${r.lo55?n(r.lo55):"—"}</b>${r.lo55?`（${((r.lo55/r.px-1)*100).toFixed(0)}%）`:""}</span>
+      <div class="facts"><span>突破線 <b>${n(r.h20)}</b></span><span>初始出場線（前55日低） <b>${r.lo55?n(r.lo55):"—"}</b>${r.lo55?`（${((r.lo55/r.px-1)*100).toFixed(0)}%）`:""}</span>
       <span class="${room<1.5?"warn":""}">乖離 <b>${r.dev}%</b>${room<1.5?`，再漲 ${room.toFixed(1)}% 就超過上限`:""}</span></div></div>`;}).join("")
     :'<div class="note">今天沒有收盤突破的標的。</div>';
   const nearHtml=near.length?near.map(r=>{const g=gapOf(r),fill=Math.max(6,100-g/2*100);

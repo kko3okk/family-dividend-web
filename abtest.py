@@ -16,11 +16,11 @@ CASH0 = 5_000_000; SLOTS = 5; FEE_B = 0.001425; FEE_S = 0.004425; SLIP = 0.001
 ACCTS = {
     "A": dict(name="A 舊規則（跌破60MA出場）", exit="ma60", brk=None),
     "B": dict(name="B 對照（跌破前55日低，不加突破）", exit="lo55", brk=None),
-    "C": dict(name="C 現行規則（突破20日高進＋跌破前55日低出，10/11 起採用）", exit="lo55", brk=20),
+    "C": dict(name="C 前規則（突破20日高進＋跌破前55日低出，10/11–10/13）", exit="lo55", brk=20),
     # 2026-10-13 Chang：停利保護試運行（RESEARCH §二十 網格：曾賺 X% 後自最高收盤回落 Y% 全出）
-    "D": dict(name="D C＋停利（賺20%後自高點回落15%全出）", exit="lo55", brk=20, pt=(0.20, 0.15)),
+    "D": dict(name="D C＋只有 (b)（賺20%後自高點回落15%全出）", exit="lo55", brk=20, pt=(0.20, 0.15)),
     # 2026-10-13 檢視後定案的候選版本：D 的看成本條 ＋ 近 55 日最高收盤回落 18%（曾賺 ≥5% 後才生效，避免進場即賣）
-    "G": dict(name="G C＋停利合併（賺20%後自高點回落15%；或曾賺5%後近55日最高收盤回落18%）", exit="lo55", brk=20, pt=(0.20, 0.15), roll=(55, 0.18, 0.05)),
+    "G": dict(name="G 現行規則（10/13 起：前55日低／賺20%後回落15%／曾賺5%後近55日高回落18%）", exit="lo55", brk=20, pt=(0.20, 0.15), roll=(55, 0.18, 0.05)),
 }
 
 # ---------- 資料 ----------
@@ -205,7 +205,7 @@ for k in range(max(0, i - 120), i + 1):
 P_ = [f"# 推薦清單（{d} 收盤）", "",
       f"名單：資料月 {cur[1] if cur else '—'}（{cur[0] if cur else ''} 生效）　大盤 {taiex[i]:,.0f}／季線 {t60:,.0f} → 第5條 {'通過' if gate5 else '**關閉，停止新進場**'}　"
       f"自60日高 {(taiex[i] / hi60 - 1) * 100:+.1f}% → 第11條 {'**鎖定中，停止新進場**' if lk else '未鎖定'}", "",
-      "**現行規則（C，10/11 起採用）只買標 ✓ 者**（收盤突破前 20 日最高）；未打勾者是舊進場條件會買、現行不買。出場一律看前 55 日低。", "",
+      "**現行規則（G，10/13 起）只買標 ✓ 者**（收盤突破前 20 日最高）；未打勾者是舊進場條件會買、現行不買。出場看三條線：前 55 日低／賺 20% 後高點回落 15%／曾賺 5% 後近 55 日高回落 18%，任一成立隔日全出。", "",
       "| # | 標的 | 子產業 | 當月YoY | 收盤 | 乖離20MA | 出場線 前55日低（現行） | 60MA（舊 A） | 突破線 前20日高 | 現行可買 |",
       "|---|---|---|---|---|---|---|---|---|---|"]
 nC = 0; rank = 0; PJ = []
@@ -217,12 +217,12 @@ for y, c, nm in (cur[2] if cur else []):
     PJ.append(dict(rank=rank, code=c, name=nm, sub=code2sub.get(c, ''), yoy=round(y, 1), px=px, dev=round((px / m20 - 1) * 100, 1), lo55=round(lo, 2) if lo else None, ma60=round(m60, 2), h20=round(h20, 2) if h20 else None, ok=okc))
     P_.append(f"| {rank} | {nm} {c} | {code2sub.get(c, '')} | {y:.0f}% | {px} | {(px / m20 - 1) * 100:.1f}% | " + (f"{lo:.1f}（{(lo / px - 1) * 100:+.0f}%）" if lo else "—") + f" | {m60:.1f}（{(m60 / px - 1) * 100:+.0f}%） | " + (f"{h20:.1f}" if h20 else "—") + f" | {'✓' if okc else '—'} |")
 if rank == 0: P_.append("| — | 今日無符合者 | | | | | | | | |")
-P_ += ["", f"現行規則（C）可買 {nC} 檔；舊進場條件合格 {rank} 檔。排序依第 6 條（當月 YoY 由高到低），有空格時由上往下補。", "",
+P_ += ["", f"現行規則（G，進場同 C）可買 {nC} 檔；舊進場條件合格 {rank} 檔。排序依第 6 條（當月 YoY 由高到低），有空格時由上往下補。", "",
        "**模擬帳戶明日收盤待執行**"]
 for k, r in res.items():
     held = "、".join(f"{p['name']}" for p in r["positions"]) or "空手"
     P_.append(f"- {r['cfg']['name']}：買 {('、'.join(r['pending_buy']) or '—')}；賣 {('、'.join(r['pending_sell']) or '—')}　（持股 {len(r['positions'])}/5：{held}）")
-P_.append("\n實際帳戶照現行規則（C）：有空格時，由上往下補「✓」者；出場看前 55 日低。")
+P_.append("\n實際帳戶照現行規則（G）：有空格時，由上往下補「✓」者；出場看三條出場線（網站持股卡片與 CHECK.md 每日自動判定）。")
 open("paper/picks.md" if OUT == "paper/abtest" else OUT + "_picks.md", "w", encoding="utf-8").write("\n".join(P_) + "\n")
 json.dump(dict(date=d, ym=cur[1] if cur else None, eff=cur[0] if cur else None, taiex=taiex[i], t60=round(t60, 1) if t60 else None,
                gate5=gate5, lock11=lk, from_hi60=round((taiex[i] / hi60 - 1) * 100, 1), rows=PJ,

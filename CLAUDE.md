@@ -23,6 +23,10 @@
 - 使用者說「更新買房計畫」或監控有新物件時，改 `home.json` 的 `market`／`monitor`／`todo`／`timeline` 再推上私有庫；畫面不用動。
 - 結構有改（新增卡片、欄位）才改 `home.js`，並更新 `index.html` 的 `?v=`、`APP_VERSION` 和 `version.json`。
 
+## 主動池出場判定
+
+第 7 條（2026-10-13 G 規則）三條出場線由私有庫 `holdings_check.py` 的 `exit_eval()` 每日計算，寫進 `holdings/status.json` 每檔的 `exit`（lines／hits／nearest／h55）；網站 `posCard()` 再用即時價重算並顯示「觸發出場：原因」。規則文字以 `RULES.md` 第 7 條為準；兩邊的算法要跟 `research/bt/trim.py` 一致（前 55 日不含當日、持有高點含當日）。改規則時三處一起改。
+
 ## 自動排程說明頁
 
 網站「設定 → 自動排程」列出所有定期執行的工作（GitHub Actions 兩個庫＋Claude 排程任務）。新增、刪除或改時間時，同步更新 `index.html` 的 `data-v="sched"` 區塊（每列的 `data-k`）與入口上的項目數，以及私有庫 `scripts/sched_status.py` 的 `ITEMS`（紅綠燈依此判定，每小時由 sched-status 工作流程更新 `holdings/sched_status.json`）。
