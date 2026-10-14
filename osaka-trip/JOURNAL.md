@@ -106,3 +106,8 @@ Claude 依這份規則處理，把結果寫進 `osaka-trip/journal-data.json`，
 3. 照 repo 慣例 commit，訊息例如「手帳：D2 松本清收據」，然後推上去：
    `git fetch -q origin main && git rebase -q origin/main && git push -q origin HEAD:main`
 4. 回覆整理結果，提醒在手帳頁按「☁️ 怎麼交給 Claude？→ 🔄 重新整理」就會看到。
+
+## 攜帶物品清單（packing.json）
+
+- 使用者說「行李清單加○○」→ 在 `packing.json` 的 `items` 加一筆（`id` 英文小寫不重複、`name`、`cat` 沿用現有類別、`note` 一句提醒、`qty` 數量可省略），推上 GitHub。
+- 打勾由網頁同步（私有庫 `trips/<趟>/pack-ticks.json`），不要手改。

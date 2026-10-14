@@ -34,6 +34,7 @@ EMOJI = {
  '🔄':'refresh','🔁':'repeat','☁':'cloud','🥇':'medal','🥈':'medal-2','🆕':'new-section','⚖':'scale','💤':'zzz','😴':'zzz',
  '🏘':'building-community','👗':'hanger','🥞':'cake','🍰':'cake','📶':'antenna-bars-5','🛡':'shield-check','🔒':'lock',
  '🐻':'paw','🦢':'feather','🟠':'point',
+ '🛂':'id','🧴':'bottle','🐱':'cat','⏳':'hourglass','🔌':'plug','🔋':'battery-charging','👟':'shoe','🩹':'first-aid-kit',
  # 天氣
  '☀':'sun','🌤':'sun','⛅':'cloud','🌥':'cloud','🌦':'cloud-rain','🌧':'cloud-rain','☔':'umbrella','🌂':'umbrella','🌡':'temperature','💧':'droplet',
 }

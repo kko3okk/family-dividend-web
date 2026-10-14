@@ -5,7 +5,8 @@
      Token 沒有網站庫的寫入權限就略過，不影響家人之間的同步。
    - 訪客：只讀公開副本，自己打的勾只存在自己的手機。
    - 每一筆打勾都帶時間，兩支手機同時改時以「最後改的」為準。
-   用法：var s = ShopSync('osaka2026'); s.pull().then(changed => ...); s.map(); s.set(id, true/false) */
+   用法：var s = ShopSync('osaka2026'); s.pull().then(changed => ...); s.map(); s.set(id, true/false)
+   其他清單（例如行李）：ShopSync('osaka2026', {name: 'pack', mirror: false}) → 私有庫 trips/<趟>/pack-ticks.json，不寫公開副本 */
 (function () {
   var OWNER = "kko3okk", DATA = "family-dividend-data", WEB = "family-dividend-web";
   function tok() { try { return localStorage.getItem("gh_token") || ""; } catch (e) { return ""; } }
@@ -21,17 +22,21 @@
     return fetch("https://api.github.com/repos/" + OWNER + "/" + repo + "/contents/" + path, opt);
   }
 
-  function Sync(id) {
+  function Sync(id, opt) {
+    opt = opt || {};
+    var name = opt.name || "shop";
     this.id = id;
-    this.key = id + "_shopsync";
-    this.path = "trips/" + id + "/shop-ticks.json";
-    this.pub = folder() + "/shop-ticks.json";
+    this.name = name;
+    this.key = id + "_" + name + "sync";
+    this.path = "trips/" + id + "/" + name + "-ticks.json";
+    this.pub = folder() + "/" + name + "-ticks.json";
+    this.mirrorOn = opt.mirror !== false;
     this.q = Promise.resolve();
     var s = jget(this.key);
     if (!s || !s.ticks) {
       // 舊版只存在這支手機的打勾（id_shop: {id: true}）搬過來
       s = { ticks: {}, dirty: false };
-      var old = jget(id + "_shop") || {}, now = Date.now();
+      var old = (name === "shop" ? jget(id + "_shop") : null) || {}, now = Date.now();
       for (var k in old) { s.ticks[k] = { v: !!old[k], t: now }; s.dirty = true; }
     }
     this.s = s;
@@ -66,7 +71,8 @@
         return ch;
       }).catch(function () { me.status = "offline"; return false; });
     }
-    return fetch("shop-ticks.json?t=" + Date.now(), { cache: "no-store" })
+    if (!me.mirrorOn) { me.status = "local"; return Promise.resolve(false); }
+    return fetch(me.name + "-ticks.json?t=" + Date.now(), { cache: "no-store" })
       .then(function (r) { return r.ok ? r.json() : { ticks: {} }; })
       .then(function (j) { var ch = me.merge(j.ticks || {}); me.save(); me.status = "guest"; return ch; })
       .catch(function () { me.status = "guest"; return false; });
@@ -85,7 +91,7 @@
   Sync.prototype.push = function (tries) {
     var me = this;
     var body = JSON.stringify({ updated: new Date().toISOString(), ticks: me.s.ticks });
-    var req = { message: "清單打勾同步 " + me.id, content: b64(body) };
+    var req = { message: "清單打勾同步 " + me.id + (me.name === "shop" ? "" : "（" + me.name + "）"), content: b64(body) };
     if (me.sha) req.sha = me.sha;
     return api(DATA, me.path, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(req) })
       .then(function (r) {
@@ -96,7 +102,7 @@
         if (!r.ok) throw new Error("HTTP " + r.status);
         return r.json().then(function (j) {
           me.sha = j.content && j.content.sha; me.s.dirty = false; me.save(); me.status = "synced";
-          me.mirrorSoon(); return "synced";
+          if (me.mirrorOn) me.mirrorSoon(); return "synced";
         });
       });
   };
@@ -119,5 +125,5 @@
         .then(function (r) { me.mirrorOK = r.ok; });
     }).catch(function () { me.mirrorOK = false; });
   };
-  window.ShopSync = function (id) { return new Sync(id); };
+  window.ShopSync = function (id, opt) { return new Sync(id, opt); };
 })();

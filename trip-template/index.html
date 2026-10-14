@@ -218,6 +218,7 @@ nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
     <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">🛡️ 旅平險／不便險<span class="tag t-warn">出發前</span></div><div class="note">固定組合：<b>機票刷滙豐旅人無限卡</b>＋<b>國泰產險 海外「豪華定額型」</b>（兩人都要保）<br>💳 <b>滙豐旅人無限卡</b>（機票含稅<b>全額</b>刷這張，兩人機票都要；配偶同樣保障；實支實付、要留收據）：公共運輸旅平險 2,000 萬、意外醫療 10 萬｜班機延誤 ≥4 小時最高 2 萬（延誤期間餐費、住宿、交通）｜行李延誤 6 小時以上最高 2 萬（買內衣、盥洗用品）｜行李遺失最高 6 萬｜延誤跟航空公司要<b>延誤證明</b>、行李向櫃台開 <b>PIR</b>，30 天內申請<br>🛡️ <b>國泰產險 豪華定額型</b>（國泰官網或 App 投保；定額給付，跟卡可以兩邊都申請）：海外突發疾病含法定傳染病（日韓住院可代墊）、班機延誤每 4 小時 6,000／最高 12,000、行李延誤／損失各 6,000、海外急難救助 300 萬｜投保時：期間從出門前到回到家、<b>班機延誤快速理賠</b>填去回程航班編號（延誤自動匯款）｜颱風形成前就要買好<br>📞 國泰海外急難救助（24 小時）：<a href="tel:+886227551258">+886-2-2755-1258</a>｜台灣客服 0800-212-880（國外打不通，用網路電話）｜保單與電話截圖存相簿，就醫留收據和診斷書</div></div></div>
     <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">交通卡／外幣</div></div></div>
   </div>
+  <div id="packList" data-trip=""></div>
 </div>
 
 <!-- D1 -->
@@ -529,7 +530,8 @@ refreshCode();
   }).catch(function(){});
 })();
 </script>
-<script src="../trip-kit/shopsync.js?v=1"></script>
+<script src="../trip-kit/shopsync.js?v=2"></script>
+<script src="../trip-kit/predep.js?v=1"></script>
 <script>
 /* 🛒 購物清單 → 行程：shopping.json 每項的 at（例 ["D5-drug"]）對應行程項目的 data-shop，
    在那一項下面列出「這裡要買」，已買的劃掉；點了開清單頁。分享出去的訪客也看得到。 */
@@ -562,7 +564,7 @@ refreshCode();
   }).catch(function(){});
 })();
 </script>
-<script src="../trip-kit/trip.js?v=9"></script>
+<script src="../trip-kit/trip.js?v=10"></script>
 <script>
 /* ── 出發倒數 ── */
 (function(){
