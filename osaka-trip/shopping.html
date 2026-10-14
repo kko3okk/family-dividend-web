@@ -143,7 +143,7 @@ details summary{cursor:pointer;font-size:13px;color:var(--ink2,#8A7150)}
 </section>
 
 <script src="../trip-kit/icons.js?v=8"></script>
-<script src="../trip-kit/shopsync.js?v=2"></script>
+<script src="../trip-kit/shopsync.js?v=3"></script>
 <script>
 (function(){
 const $=id=>document.getElementById(id);
@@ -154,7 +154,7 @@ const SHOPKEY='osaka2026_shop';
 let shop=[], shopF='todo';
 const sync=window.ShopSync?ShopSync('osaka2026'):null;
 function ticks(){if(sync)return sync.map();try{return JSON.parse(ls.get(SHOPKEY)||'{}')||{};}catch(e){return {};}}
-function syncMsg(){const el=$('shopSync');if(!el||!sync)return;el.textContent={synced:'☁️ 兩支手機同步',offline:'⚠️ 暫時離線，有網路會自動補傳',guest:'👀 分享檢視：打勾只存在這支手機',local:''}[sync.status]||'';}
+function syncMsg(){const el=$('shopSync');if(!el||!sync)return;el.textContent={synced:'☁️ 兩支手機同步',offline:sync.describe?sync.describe():'⚠️ 暫時離線，有網路會自動補傳',guest:'👀 分享檢視：打勾只存在這支手機',local:''}[sync.status]||'';}
 function isDone(it,t){return (it.id in t)?!!t[it.id]:!!it.bought;}
 async function loadShop(){
   try{const r=await fetch('shopping.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;const j=await r.json();shop=Array.isArray(j.items)?j.items:[];}

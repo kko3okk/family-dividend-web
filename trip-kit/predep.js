@@ -109,7 +109,7 @@
     btn.addEventListener("click", function () { var on = box.classList.toggle("left"); btn.classList.toggle("on", on); lsSet(leftKey, on ? "1" : "0"); });
     function meta() {
       var m = box.querySelector("#pkMeta"), st = sync ? sync.status : "local";
-      m.textContent = st === "synced" ? "☁️ 兩支手機同步｜點項目打勾" : st === "offline" ? "⚠️ 暫時連不上，打勾先存在這支手機，連上會自動同步" : "點項目打勾（存在這支手機）";
+      m.textContent = sync ? sync.describe() : "點項目打勾（存在這支手機）";
     }
     function render() {
       var t = ticks(), cats = [], body = box.querySelector("#pkBody"), done = 0;
@@ -150,7 +150,13 @@
      有 data-k 的項目，驗證過的手機寫進私有庫 trips/<趟>/plan-ticks.json；本機原本依順序記的打勾照舊。 */
   function initTickSync() {
     var keyed = [].slice.call(document.querySelectorAll(".item[data-k]")).filter(function (it) { return it.querySelector(".cb"); });
-    if (!keyed.length || !window.ShopSync || window.__tripAuthOK !== true) return;
+    if (!keyed.length || !window.ShopSync) return;
+    if (window.__tripAuthOK !== true) {
+      if (document.documentElement.classList.contains("trip-guest")) return;
+      var nb = document.querySelector(".section .section-title");
+      if (nb) { var w = document.createElement("div"); w.style.cssText = "margin:0 0 10px;padding:8px 12px;border-radius:12px;background:#fff;font-size:12.5px;color:#BE123C"; w.textContent = "這支手機還沒驗證 Token，打勾只存在這支、不會同步"; nb.parentNode.insertBefore(w, nb.nextSibling); }
+      return;
+    }
     var trip = tripId(), sync = ShopSync(trip, { name: "plan", mirror: false });
     // 10/14 試用版（只同步出發前）存在 _prepsync，併進來
     try { var old = JSON.parse(localStorage.getItem(trip + "_prepsync") || "null"); if (old && old.ticks) { sync.merge(old.ticks); sync.s.dirty = true; localStorage.removeItem(trip + "_prepsync"); } } catch (e) {}
@@ -162,7 +168,19 @@
     sync.save();
     var pt = document.getElementById("progressText"), tag = null;
     if (pt) { tag = document.createElement("span"); tag.className = "tk-sync"; tag.style.cssText = "margin-left:8px;font-size:11.5px;color:#A88B66"; pt.appendChild(tag); }
-    function stat() { if (tag) tag.textContent = sync.status === "synced" ? "☁️ 兩支手機同步" : sync.status === "offline" ? "⚠️ 暫時沒同步，連上會自動補" : ""; }
+    var bar = document.createElement("div");
+    bar.className = "tk-bar";
+    bar.style.cssText = "margin:0 0 10px;padding:8px 12px;border-radius:12px;background:#fff;font-size:12.5px;color:#8A6A45;box-shadow:0 6px 16px -12px rgba(93,55,19,.45);cursor:pointer";
+    var sec = document.querySelector(".section .section-title");
+    if (sec) sec.parentNode.insertBefore(bar, sec.nextSibling);
+    bar.addEventListener("click", function () { bar.textContent = "同步中…"; (sync.s.dirty ? sync.queuePush() : Promise.resolve()).then(function () { return sync.pull(); }).then(apply); });
+    function stat() {
+      var d = sync.describe();
+      if (tag) tag.textContent = sync.status === "synced" ? "☁️ 兩支手機同步" : sync.status === "offline" ? "⚠️ 沒同步" : "";
+      bar.textContent = d + "｜點這裡立即同步";
+      bar.style.color = sync.status === "offline" ? "#BE123C" : "#8A6A45";
+    }
+    stat();
     function apply() {
       var m = sync.map(), ch = false;
       keyed.forEach(function (it) {

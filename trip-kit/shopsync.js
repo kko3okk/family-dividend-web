@@ -57,7 +57,7 @@
     var me = this;
     return api(DATA, me.path).then(function (r) {
       if (r.status === 404) { me.sha = null; return {}; }
-      if (!r.ok) throw new Error("HTTP " + r.status);
+      if (!r.ok) { me.err = r.status; throw new Error("HTTP " + r.status); }
       return r.json().then(function (j) { me.sha = j.sha; return (JSON.parse(unb64(j.content)) || {}).ticks || {}; });
     });
   };
@@ -66,7 +66,7 @@
     var me = this;
     if (me.family()) {
       return me.read().then(function (remote) {
-        var ch = me.merge(remote); me.save(); me.status = "synced";
+        var ch = me.merge(remote); me.save(); me.status = me.errW ? "offline" : "synced"; if (!me.errW) me.at = Date.now();
         if (me.s.dirty) me.queuePush();
         return ch;
       }).catch(function () { me.status = "offline"; return false; });
@@ -99,9 +99,9 @@
           // 別支手機剛好也改了：重讀、合併、再寫一次
           return me.read().then(function (remote) { me.merge(remote); return me.push(tries + 1); });
         }
-        if (!r.ok) throw new Error("HTTP " + r.status);
+        if (!r.ok) { me.err = r.status; me.errW = true; throw new Error("HTTP " + r.status); }
         return r.json().then(function (j) {
-          me.sha = j.content && j.content.sha; me.s.dirty = false; me.save(); me.status = "synced";
+          me.sha = j.content && j.content.sha; me.s.dirty = false; me.save(); me.status = "synced"; me.err = 0; me.errW = false; me.at = Date.now();
           if (me.mirrorOn) me.mirrorSoon(); return "synced";
         });
       });
@@ -124,6 +124,17 @@
       return api(WEB, me.pub, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(req) })
         .then(function (r) { me.mirrorOK = r.ok; });
     }).catch(function () { me.mirrorOK = false; });
+  };
+  /* 給畫面顯示的一句話狀態 */
+  Sync.prototype.describe = function () {
+    if (window.__tripAuthOK !== true) return "這支手機還沒驗證 Token，打勾只存在這支";
+    if (this.status === "synced") return "☁️ 兩支手機同步" + (this.s.dirty ? "（上傳中…）" : "");
+    if (this.status === "offline") {
+      if (this.err === 401) return "⚠️ 沒同步：這支手機的 Token 失效，請到設定重貼";
+      if (this.errW && (this.err === 403 || this.err === 404)) return "⚠️ 沒同步：這支手機的 Token 只能讀、不能寫（GitHub Token 的 Contents 權限要開 Read and write）";
+      return "⚠️ 暫時連不上，打勾先存在這支手機，連上會自動補";
+    }
+    return "同步中…";
   };
   window.ShopSync = function (id, opt) { return new Sync(id, opt); };
 })();
