@@ -4,7 +4,7 @@
    3) 私有圖片按鈕（.pimg）：從私有庫讀圖，只給驗證過的手機看 */
 (function(){
   // 全站 emoji → 線條圖示
-  if(!window.__tripIcons){ var cs=document.currentScript; var sc=document.createElement('script'); sc.src=(cs&&cs.src?cs.src.replace(/trip\.js(\?.*)?$/,'icons.js?v=6'):'../trip-kit/icons.js?v=2'); document.head.appendChild(sc); }
+  if(!window.__tripIcons){ var cs=document.currentScript; var sc=document.createElement('script'); sc.src=(cs&&cs.src?cs.src.replace(/trip\.js(\?.*)?$/,'icons.js?v=7'):'../trip-kit/icons.js?v=2'); document.head.appendChild(sc); }
   var PAPER=[253,247,225];
   function parse(c){var m=c&&c.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);return m?[+m[1],+m[2],+m[3]]:null;}
   function soften(el,k){

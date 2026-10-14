@@ -1,5 +1,5 @@
 {
-  "updated": "10/14 00:15",
+  "updated": "10/14 12:10",
   "items": [
     {
       "id": "s-poke30",
@@ -162,6 +162,52 @@
       ]
     },
     {
+      "id": "s-100-wanwanshop",
+      "name": "百元店 小狗寵物店玩具組",
+      "ja": "わたしのワンワンショップ",
+      "cat": "🧸 玩具扭蛋",
+      "where": "百元店：Seria（セリア）、DAISO（大創）",
+      "price": "約¥110",
+      "qty": 1,
+      "for": "",
+      "note": "粉紫色卡片包裝，有小狗、狗屋、提籠、碗｜全 3 種，款式隨機上架",
+      "bought": false,
+      "at": [
+        "D7-sbs"
+      ]
+    },
+    {
+      "id": "s-100-mayo-toy",
+      "name": "百元店 家家酒美乃滋／番茄醬玩具",
+      "ja": "ままごと マヨネーズ ケチャップ",
+      "cat": "🧸 玩具扭蛋",
+      "where": "百元店：Seria（セリア）、DAISO（大創）",
+      "price": "約¥110",
+      "qty": 1,
+      "for": "",
+      "note": "跟小狗寵物店掛在同一區（玩具／家家酒區）",
+      "bought": false,
+      "at": [
+        "D7-sbs"
+      ]
+    },
+    {
+      "id": "s-gacha-megastar",
+      "name": "MEGA STAR FARM 植絨吊飾扭蛋（山魈款）",
+      "ja": "メガスタファーム フロッキーマスコットコレクション",
+      "cat": "🧸 玩具扭蛋",
+      "where": "扭蛋專賣店：扭蛋之森（D2）、C-pla 茶屋町（D3）",
+      "price": "¥400／次",
+      "qty": 1,
+      "for": "",
+      "note": "全 5 種、約 5.5cm、附登山扣｜想要的是「マンドリルくん」（灰色山魈）｜其他：メガスタくん（星星）、チキンくん（雞）、チーピー、粉紅那隻｜機台收 100 円硬幣，先換零錢",
+      "bought": false,
+      "at": [
+        "D2-gacha",
+        "D3-umeda"
+      ]
+    },
+    {
       "id": "s-otonamuse-11",
       "name": "otona MUSE 2026年11月號（附 Hello Kitty × CITEN 托特包）",
       "ja": "otona MUSE（オトナミューズ）2026年11月号",
@@ -219,6 +265,22 @@
       "bought": false,
       "at": [
         "D1-konbini"
+      ]
+    },
+    {
+      "id": "s-3coins-oonotaro",
+      "name": "3COINS × OONOTARO 聯名（粉紅臉款、氣球組）",
+      "ja": "OONOTARO × 3COINS",
+      "cat": "👶 寶寶用品",
+      "where": "3COINS（心齋橋、梅田的商場裡都有分店）",
+      "price": "¥150（含稅¥165）",
+      "qty": 1,
+      "for": "",
+      "note": "OONOTARO 是畫胖胖嬰兒臉的插畫家｜粉紅色臉的小物，旁邊有拍寶寶週歲照用的氣球組（皇冠、小熊）也是同系列｜聯名款賣完就沒了，看到就買",
+      "bought": false,
+      "at": [
+        "D7-sbs",
+        "D5-loft"
       ]
     }
   ]
