@@ -1,13 +1,13 @@
 /* 全站門禁：要先用 GitHub Token 驗證過才能看（分享出去的旅程連結除外）。
    - 驗證方式：用這支手機存的 Token 讀私有庫 family-dividend-data，讀得到就算家人。
      驗證過會記在這支手機（只記 Token 的雜湊），之後離線也能開；Token 換了會重新驗證。
-   - 分享連結：旅程頁加 ?guest=1 打開的人是訪客，只能看那一趟的 行程／地圖／美食。
+   - 分享連結：旅程頁加 ?guest=1 打開的人是訪客，只能看那一趟的 行程／地圖／美食／清單。
    - 這是「前門的鎖」：網站檔案本身仍在公開的 GitHub 上，真正敏感的資料只放私有庫。
    每頁 <head> 一開始同步載入：<script src="../gate.js?v=1"></script> */
 (function () {
   var OWNER = "kko3okk", REPO = "family-dividend-data";
   var API = "https://api.github.com/repos/" + OWNER + "/" + REPO;
-  var GUEST_PAGES = ["index.html", "map.html", "food.html"];
+  var GUEST_PAGES = ["index.html", "map.html", "food.html", "shopping.html"];
   var RECHECK_MS = 12 * 3600e3;
 
   function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }

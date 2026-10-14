@@ -9,12 +9,12 @@
   // 只能看這一趟的 行程／地圖／美食，看不到回首頁的入口。
   var GUEST = window.__tripAuthOK !== true;   // 訪客標記（tripGuest）只由 gate.js 依分享連結設定
   if (GUEST) {
-    // 訪客只能看 行程／地圖／美食；清單、刷卡、手帳直接導回行程頁，入口也藏起來
+    // 訪客只能看 行程／地圖／美食／清單；刷卡、手帳直接導回行程頁，入口也藏起來
     var page = (location.pathname.split("/").pop() || "index.html");
-    if (["index.html", "map.html", "food.html"].indexOf(page) === -1) { location.replace("index.html"); return; }
+    if (["index.html", "map.html", "food.html", "shopping.html"].indexOf(page) === -1) { location.replace("index.html"); return; }
     document.documentElement.classList.add("trip-guest");
     var gs = document.createElement("style");
-    gs.textContent = 'html.trip-guest a[href^="../#"],html.trip-guest a[href="../"],html.trip-guest a[href="../index.html"],html.trip-guest a[href^="shopping.html"],html.trip-guest a[href^="card.html"],html.trip-guest a[href^="journal.html"]{display:none!important}';
+    gs.textContent = 'html.trip-guest a[href^="../#"],html.trip-guest a[href="../"],html.trip-guest a[href="../index.html"],html.trip-guest a[href^="card.html"],html.trip-guest a[href^="journal.html"]{display:none!important}';
     document.head.appendChild(gs);
   }
   var isTpl = /\/trip-template\//.test(location.pathname);
