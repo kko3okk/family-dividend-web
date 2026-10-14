@@ -177,10 +177,14 @@ page.addEventListener("click", async e => {
   }
   if (t.closest("#spReload")){ const b = t.closest("#spReload"); b.querySelector(".sp-v").textContent = "重新整理中…";
     try { await refreshData(); } catch(err){} b.querySelector(".sp-v").textContent = "完成"; refresh(); return; }
-  if (t.closest("#spHard")){
-    if (!confirm("清除快取並重新開啟？（不會刪除 Token 與紀錄）")) return;
+  if (t.closest("#spHard, #spHard2")){
+    if (!confirm("清除快取並重新開啟？\n旅程頁也會一起換成最新版。（不會刪除 Token、打勾與紀錄）")) return;
+    const r = String(Date.now());
+    // 旅程頁（trip-home.js）看到這個記號會自己用新網址重抓一次，繞過 Safari 的網頁快取
+    try { localStorage.setItem("tripBust", r); } catch(err){}
     try { if (window.caches){ const ks = await caches.keys(); await Promise.all(ks.map(k => caches.delete(k))); } } catch(err){}
-    location.replace(location.pathname + "?r=" + Date.now()); return;
+    try { if (navigator.serviceWorker){ const rs = await navigator.serviceWorker.getRegistrations(); await Promise.all(rs.map(x => x.unregister())); } } catch(err){}
+    location.replace(location.pathname + "?r=" + r); return;
   }
   if (t.closest("#spCopy")){
     const url = location.origin + location.pathname, b = t.closest("#spCopy");

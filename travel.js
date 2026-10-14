@@ -37,9 +37,15 @@ function status(t, today){
 }
 const nights = t => dnum(t.end) - dnum(t.start);
 
+/* 旅程頁網址帶上首頁版本（和清快取記號），首頁更新後點進去一定拿到新版旅程頁 */
+function fresh(href){
+  let b = ""; try { b = localStorage.getItem("tripBust") || ""; } catch(e){}
+  const v = (typeof APP_VERSION !== "undefined" ? APP_VERSION : "") + (b ? "." + b : "");
+  return v ? href + (href.indexOf("?") < 0 ? "?" : "&") + "r=" + encodeURIComponent(v) : href;
+}
 function links(t){
   return `<div class="t-links">${(t.pages || []).map(p =>
-    `<a href="${esc(t.path + p.href)}">${IC[p.icon] || ""}<span>${esc(p.label)}</span></a>`).join("")}<button class="t-share" data-share="${esc(t.id)}" aria-label="分享這趟">${IC.share}<span>分享</span></button></div>`;
+    `<a href="${esc(fresh(t.path + p.href))}">${IC[p.icon] || ""}<span>${esc(p.label)}</span></a>`).join("")}<button class="t-share" data-share="${esc(t.id)}" aria-label="分享這趟">${IC.share}<span>分享</span></button></div>`;
 }
 /* ── 分享：手機叫出系統分享選單；不支援就複製連結 ── */
 function flash(msg){
@@ -191,7 +197,7 @@ function renderCal(list, today){
   det.innerHTML = `<div class="tv-det" style="--tc:${colorOf(t, i)}">
       <div class="tv-dh"><b>D${k + 1}</b><span>${head}</span><em>${esc(t.title)}</em></div>
       ${plan ? `<div class="tv-dp">${esc(plan)}</div>` : ""}
-      ${(t.pages || [])[0] ? `<a class="tv-go" href="${esc(t.path + t.pages[0].href)}">看這天的行程 ›</a>` : ""}
+      ${(t.pages || [])[0] ? `<a class="tv-go" href="${esc(fresh(t.path + t.pages[0].href))}">看這天的行程 ›</a>` : ""}
     </div>`;
 }
 function renderYear(list, today){

@@ -3,6 +3,34 @@
    - 行程範本（trip-template）一律回「設定 → 旅遊行程」，因為範本是從那裡點進來的。
    - 其他旅程：直接從家的旅程首頁點進來的，用 history.back() 回到原位；
      在同一趟的頁面之間切換過（上一頁是行程、地圖…）就直接開旅遊分頁，不會變成「上一步」。 */
+/* 旅程頁自動換新版：
+   1. 首頁「清除快取並重新開啟」會留下 tripBust 記號，旅程頁看到就用新網址重抓一次。
+   2. 每次打開／切回來，問 GitHub 這頁的最後修改時間；比手上這份新就重新載入（同一個新版只重載一次）。 */
+(function(){
+  function sget(k){ try { return sessionStorage.getItem(k); } catch(e){ return null; } }
+  function sset(k, v){ try { sessionStorage.setItem(k, v); } catch(e){} }
+  function go(tag){
+    if (sget("tripReloadFor:" + location.pathname) === tag) return false;
+    sset("tripReloadFor:" + location.pathname, tag);
+    var u = new URL(location.href); u.searchParams.set("r", tag); location.replace(u.href); return true;
+  }
+  var bust = ""; try { bust = localStorage.getItem("tripBust") || ""; } catch(e){}
+  if (bust && sget("tripBustSeen:" + location.pathname) !== bust) {
+    sset("tripBustSeen:" + location.pathname, bust);
+    if (new URL(location.href).searchParams.get("r") !== bust && go("b" + bust)) return;
+  }
+  function check(){
+    var mine = Date.parse(document.lastModified);
+    if (!mine) return;
+    fetch(location.pathname + "?lm=" + Date.now(), { method: "HEAD", cache: "no-store" }).then(function(r){
+      var lm = Date.parse(r.headers.get("last-modified") || "");
+      if (lm && lm - mine > 2000) go("m" + lm);
+    }).catch(function(){});
+  }
+  check();
+  document.addEventListener("visibilitychange", function(){ if (!document.hidden) check(); });
+})();
+
 (function(){
   var BASE = location.origin + "/family-dividend-web/";
   // 訪客模式：沒有用 GitHub Token 驗證過的人（gate.js 判定），一律當訪客，
