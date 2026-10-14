@@ -72,52 +72,13 @@
         it.style.order = on ? 3 : 1;
         if (on) done++; else todo++;
       });
-      var st = sync ? (sync.status === "synced" ? "☁️ 兩支手機同步・" : sync.status === "offline" ? "⚠️ 暫時沒同步・" : "") : "";
-      h1.innerHTML = "⏳ 還要做<span class=\"pd-n\">" + st + todo + " 項</span>";
+      h1.innerHTML = "⏳ 還要做<span class=\"pd-n\">" + todo + " 項</span>";
       h2.innerHTML = "<span class=\"pd-arrow\">▾</span>✅ 已完成<span class=\"pd-n\">" + done + " 項・點一下" + "展開／收合</span>";
       empty.style.display = todo ? "none" : "";
       h2.style.display = done ? "" : "none";
     }
-    /* 打勾同步：有 data-k 的項目，驗證過的手機寫進私有庫 trips/<趟>/prep-ticks.json */
-    var sync = null;
-    var keyed = items.filter(function (it) { return it.getAttribute("data-k") && it.querySelector(".cb"); });
-    if (keyed.length && window.ShopSync && window.__tripAuthOK === true) {
-      sync = ShopSync(tripId(), { name: "prep", mirror: false });
-      // 第一次用：把這支手機原本的打勾當成舊資料（時間 1），別支手機有新的就以新的為準
-      keyed.forEach(function (it) {
-        var k = it.getAttribute("data-k");
-        if (!(k in sync.s.ticks) && it.querySelector(".cb").classList.contains("checked")) { sync.s.ticks[k] = { v: true, t: 1 }; sync.s.dirty = true; }
-      });
-      sync.save();
-    }
-    function apply() {
-      if (!sync) return;
-      var m = sync.map(), ch = false;
-      keyed.forEach(function (it) {
-        var k = it.getAttribute("data-k"), cb = it.querySelector(".cb");
-        if (!(k in m) || cb.classList.contains("checked") === m[k]) return;
-        if (typeof window.setChecked === "function") window.setChecked(cb, m[k]);
-        else { cb.classList.toggle("checked", m[k]); var lb = it.querySelector(".label"); if (lb) lb.classList.toggle("checked", m[k]); }
-        ch = true;
-      });
-      if (ch) { if (typeof window.updateProgress === "function") window.updateProgress(); if (typeof window.refreshCode === "function") try { window.refreshCode(); } catch (e) {} }
-      paint();
-    }
-    function onChange() {
-      paint();
-      if (!sync) return;
-      var m = sync.map();
-      keyed.forEach(function (it) {
-        var k = it.getAttribute("data-k"), on = it.querySelector(".cb").classList.contains("checked");
-        if (m[k] !== on && !(!(k in m) && !on)) sync.set(k, on).then(paint);
-      });
-    }
-    if (sync) {
-      sync.pull().then(apply);
-      document.addEventListener("visibilitychange", function () { if (!document.hidden) sync.pull().then(apply); });
-    }
     paint();
-    var mo = new MutationObserver(onChange);
+    var mo = new MutationObserver(paint);
     items.forEach(function (it) { var cb = it.querySelector(".cb"); if (cb) mo.observe(cb, { attributes: true, attributeFilter: ["class"] }); });
   }
 
@@ -184,6 +145,53 @@
     document.addEventListener("visibilitychange", function () { if (!document.hidden && sync && items.length) sync.pull().then(function (ch) { if (ch) render(); else meta(); }); });
   }
 
-  function init() { initTodo(); initPack(); }
+
+  /* ── 3. 行程打勾同步（出發前＋每天）──
+     有 data-k 的項目，驗證過的手機寫進私有庫 trips/<趟>/plan-ticks.json；本機原本依順序記的打勾照舊。 */
+  function initTickSync() {
+    var keyed = [].slice.call(document.querySelectorAll(".item[data-k]")).filter(function (it) { return it.querySelector(".cb"); });
+    if (!keyed.length || !window.ShopSync || window.__tripAuthOK !== true) return;
+    var trip = tripId(), sync = ShopSync(trip, { name: "plan", mirror: false });
+    // 10/14 試用版（只同步出發前）存在 _prepsync，併進來
+    try { var old = JSON.parse(localStorage.getItem(trip + "_prepsync") || "null"); if (old && old.ticks) { sync.merge(old.ticks); sync.s.dirty = true; localStorage.removeItem(trip + "_prepsync"); } } catch (e) {}
+    // 第一次用：把這支手機原本的打勾當成舊資料（時間 1），別支手機有新的就以新的為準
+    keyed.forEach(function (it) {
+      var k = it.getAttribute("data-k");
+      if (!(k in sync.s.ticks) && it.querySelector(".cb").classList.contains("checked")) { sync.s.ticks[k] = { v: true, t: 1 }; sync.s.dirty = true; }
+    });
+    sync.save();
+    var pt = document.getElementById("progressText"), tag = null;
+    if (pt) { tag = document.createElement("span"); tag.className = "tk-sync"; tag.style.cssText = "margin-left:8px;font-size:11.5px;color:#A88B66"; pt.appendChild(tag); }
+    function stat() { if (tag) tag.textContent = sync.status === "synced" ? "☁️ 兩支手機同步" : sync.status === "offline" ? "⚠️ 暫時沒同步，連上會自動補" : ""; }
+    function apply() {
+      var m = sync.map(), ch = false;
+      keyed.forEach(function (it) {
+        var k = it.getAttribute("data-k"), cb = it.querySelector(".cb");
+        if (!(k in m) || cb.classList.contains("checked") === m[k]) return;
+        if (typeof window.setChecked === "function") window.setChecked(cb, m[k]);
+        else { cb.classList.toggle("checked", m[k]); var lb = it.querySelector(".label"); if (lb) lb.classList.toggle("checked", m[k]); }
+        ch = true;
+      });
+      if (ch) {
+        if (typeof window.updateProgress === "function") window.updateProgress();
+        if (typeof window.refreshCode === "function") try { window.refreshCode(); } catch (e) {}
+        if (pt && tag && !tag.parentNode) pt.appendChild(tag);
+      }
+      stat();
+    }
+    var mo = new MutationObserver(function () {
+      var m = sync.map();
+      keyed.forEach(function (it) {
+        var k = it.getAttribute("data-k"), on = it.querySelector(".cb").classList.contains("checked");
+        if ((k in m) ? m[k] !== on : on) sync.set(k, on).then(stat);
+      });
+      if (pt && tag && !tag.parentNode) pt.appendChild(tag);
+    });
+    keyed.forEach(function (it) { mo.observe(it.querySelector(".cb"), { attributes: true, attributeFilter: ["class"] }); });
+    sync.pull().then(apply);
+    document.addEventListener("visibilitychange", function () { if (!document.hidden) sync.pull().then(apply); });
+  }
+
+  function init() { initTodo(); initPack(); initTickSync(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
 })();

@@ -175,7 +175,6 @@ nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
 <p class="progress-text" id="progressText">0 / 0 完成</p>
 <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
 <div class="syncbar">
-  <button class="sbtn" onclick="openSync()">🔄 跨裝置同步</button>
   <button class="sbtn" style="background:#EA580C" onclick="openPay()">💳 刷卡紀錄</button>
   <button class="sbtn ghost" onclick="resetAll()">清除打勾</button>
 </div>
@@ -194,16 +193,7 @@ nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
   <div class="sp-row"><button class="sbtn" onclick="addFromForm()">新增</button><button class="sbtn ghost" onclick="closePay()">關閉</button><span id="pfMsg" class="sp-msg"></span></div>
   <div class="sp-t" style="margin-top:12px">紀錄</div>
   <div id="recBox"></div>
-  <div class="sp-note">💡 行程每一項的「💳 刷卡」點開也能直接記帳，建議會依額度自動換卡。<br>匯率 1 NT$ = <input id="fxIn" type="number" step="0.01" style="width:58px;font-size:11px" onchange="setFx(this.value)"> ¥（換算上限用）<br>紀錄存在這台手機；用「🔄 跨裝置同步」代碼可以一起帶到另一台（兩台紀錄會合併）。</div>
-</div>
-<div id="syncPanel" class="syncpanel">
-  <div class="sp-t">① 把這串代碼複製到另一台裝置</div>
-  <textarea id="syncCode" readonly rows="2"></textarea>
-  <div class="sp-row"><button class="sbtn" onclick="copyCode()">複製代碼</button><span id="copyMsg" class="sp-msg"></span></div>
-  <div class="sp-t" style="margin-top:12px">② 或在這裡貼上另一台的代碼</div>
-  <textarea id="pasteCode" rows="2" placeholder="貼上代碼後按套用"></textarea>
-  <div class="sp-row"><button class="sbtn" onclick="applyCode()">套用</button><button class="sbtn ghost" onclick="closeSync()">關閉</button><span id="applyMsg" class="sp-msg"></span></div>
-  <div class="sp-note">💡 代碼包含「哪些項目打勾了」和「💳 刷卡紀錄」。換手機、或跟同行的人同步進度都用這個。⚠️ 行程項目增減後舊代碼會對不上。</div>
+  <div class="sp-note">💡 行程每一項的「💳 刷卡」點開也能直接記帳，建議會依額度自動換卡。<br>匯率 1 NT$ = <input id="fxIn" type="number" step="0.01" style="width:58px;font-size:11px" onchange="setFx(this.value)"> ¥（換算上限用）<br>紀錄存在這台手機。</div>
 </div>
 
 <div class="daytabs" id="dayTabs"></div>
@@ -225,9 +215,9 @@ nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
 <div class="day-block">
   <div class="day-header"><span class="day-badge bo">D1</span><span class="day-title">抵達（純移動）</span><span class="day-date">5/1（六）</span></div>
   <div class="card">
-    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">XXX 12:00 落地 → 通關提行李<span class="tag t-move">約1小時</span></div></div></div>
-    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">機場 → 飯店<span class="tag t-move">約50分</span><span class="trbtn" onclick="tr(this)">🚇 交通</span></div><div class="transit"><span class="r"><b>推薦</b>：路線、時間、票價</span><span class="r"><b>趕時間</b>：替代路線</span></div><div class="note">落地＋通關約1小時 → 搭車 → 到飯店</div></div></div>
-    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">晚餐：店名<span class="tag t-food">料理類型</span><span class="trbtn" onclick="tr(this)">🚇 交通</span><span class="paybtn" onclick="pb(this)">💳 刷卡</span></div><div class="payl" data-day="D1" data-rules='[["U", ""]]'></div><div class="transit"><span class="r"><b>從飯店</b>：徒步約5分</span></div><div class="note">⭐評分｜地址｜營業時間｜推薦菜色</div></div></div>
+    <div class="item" data-k="d1-1"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">XXX 12:00 落地 → 通關提行李<span class="tag t-move">約1小時</span></div></div></div>
+    <div class="item" data-k="d1-2"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">機場 → 飯店<span class="tag t-move">約50分</span><span class="trbtn" onclick="tr(this)">🚇 交通</span></div><div class="transit"><span class="r"><b>推薦</b>：路線、時間、票價</span><span class="r"><b>趕時間</b>：替代路線</span></div><div class="note">落地＋通關約1小時 → 搭車 → 到飯店</div></div></div>
+    <div class="item" data-k="d1-3"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">晚餐：店名<span class="tag t-food">料理類型</span><span class="trbtn" onclick="tr(this)">🚇 交通</span><span class="paybtn" onclick="pb(this)">💳 刷卡</span></div><div class="payl" data-day="D1" data-rules='[["U", ""]]'></div><div class="transit"><span class="r"><b>從飯店</b>：徒步約5分</span></div><div class="note">⭐評分｜地址｜營業時間｜推薦菜色</div></div></div>
   </div>
 </div>
 
@@ -235,9 +225,9 @@ nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
 <div class="day-block">
   <div class="day-header"><span class="day-badge bu">D2</span><span class="day-title">今天的主題</span><span class="day-date">5/2（日）</span></div>
   <div class="card">
-    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">⏰ 今天的時間底線<span class="tag t-warn">提醒</span></div><div class="note">幾點前要到哪裡</div></div></div>
-    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">景點名稱<span class="tag t-sight">景點</span><span class="tag t-must">必去</span><span class="trbtn" onclick="tr(this)">🚇 交通</span><span class="altbtn" onclick="altT(this)">🔁 備案</span></div><div class="altbox"><span class="r"><b>🔁 下雨／排太久的備案</b></span><span class="r">☕ 備案A：地點、時間、距離</span></div><div class="transit"><span class="r"><b>前往</b>：路線、時間、票價</span></div><div class="note">開放時間｜門票｜停留多久</div></div></div>
-    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">🛍️ 購物<span class="tag t-shop">採買</span><span class="paybtn" onclick="pb(this)">💳 刷卡</span></div><div class="payl" data-day="D2" data-rules='[["U", ""]]'></div><div class="note">想買的清單</div></div></div>
+    <div class="item" data-k="d2-1"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">⏰ 今天的時間底線<span class="tag t-warn">提醒</span></div><div class="note">幾點前要到哪裡</div></div></div>
+    <div class="item" data-k="d2-2"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">景點名稱<span class="tag t-sight">景點</span><span class="tag t-must">必去</span><span class="trbtn" onclick="tr(this)">🚇 交通</span><span class="altbtn" onclick="altT(this)">🔁 備案</span></div><div class="altbox"><span class="r"><b>🔁 下雨／排太久的備案</b></span><span class="r">☕ 備案A：地點、時間、距離</span></div><div class="transit"><span class="r"><b>前往</b>：路線、時間、票價</span></div><div class="note">開放時間｜門票｜停留多久</div></div></div>
+    <div class="item" data-k="d2-3"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">🛍️ 購物<span class="tag t-shop">採買</span><span class="paybtn" onclick="pb(this)">💳 刷卡</span></div><div class="payl" data-day="D2" data-rules='[["U", ""]]'></div><div class="note">想買的清單</div></div></div>
   </div>
 </div>
 
@@ -245,9 +235,9 @@ nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
 <div class="day-block">
   <div class="day-header"><span class="day-badge bt">D3</span><span class="day-title">回台</span><span class="day-date">5/5（三）</span></div>
   <div class="card">
-    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">早上退房<span class="tag t-warn">退房時間</span></div></div></div>
-    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">🚗 飯店 → 機場<span class="tag t-move">約1小時</span></div></div></div>
-    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">XXX 14:00 起飛 → TPE 16:00<span class="tag t-move">回家</span></div></div></div>
+    <div class="item" data-k="d3-1"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">早上退房<span class="tag t-warn">退房時間</span></div></div></div>
+    <div class="item" data-k="d3-2"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">🚗 飯店 → 機場<span class="tag t-move">約1小時</span></div></div></div>
+    <div class="item" data-k="d3-3"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">XXX 14:00 起飛 → TPE 16:00<span class="tag t-move">回家</span></div></div></div>
   </div>
 </div>
 
@@ -305,63 +295,8 @@ function resetAll(){
   updateProgress(); refreshCode();
 }
 
-/* ── 跨裝置同步：把勾選狀態壓成 base64 代碼 ── */
-function encodeState(){
-  const cbs = allCb();
-  const bytes = new Uint8Array(Math.ceil(cbs.length/8));
-  cbs.forEach(function(cb,i){ if(cb.classList.contains('checked')) bytes[i>>3] |= (1 << (i&7)); });
-  let bin=''; bytes.forEach(function(b){ bin += String.fromCharCode(b); });
-  let code = 'OSK' + cbs.length + '-' + btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
-  if(typeof recs!=='undefined' && recs.length) code += '~' + b64uEnc(JSON.stringify(recs));
-  return code;
-}
-function decodeState(code){
-  code = (code||'').trim().replace(/\s+/g,'');
-  let recPart=null;
-  const t = code.indexOf('~');
-  if(t>=0){ recPart = code.slice(t+1); code = code.slice(0,t); }
-  const m = code.match(/^OSK(\d+)-(.+)$/);
-  if(!m) return null;
-  const n = parseInt(m[1],10);
-  if(n !== allCb().length) return {mismatch:n};
-  let b64 = m[2].replace(/-/g,'+').replace(/_/g,'/');
-  while(b64.length % 4) b64 += '=';
-  let bin;
-  try { bin = atob(b64); } catch(e){ return null; }
-  const bytes = new Uint8Array(bin.length);
-  for(let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
-  const out=[];
-  for(let i=0;i<n;i++) out.push(!!(bytes[i>>3] & (1 << (i&7))));
-  let inc=null;
-  if(recPart){ try{ inc=JSON.parse(b64uDec(recPart)); }catch(e){ inc=null; } }
-  return {bits:out, recs:inc};
-}
-function refreshCode(){
-  const el=document.getElementById('syncCode');
-  if(el) el.value = encodeState();
-}
-function openSync(){ document.getElementById('syncPanel').classList.add('open'); refreshCode(); }
-function closeSync(){ document.getElementById('syncPanel').classList.remove('open'); }
-function copyCode(){
-  const el=document.getElementById('syncCode'); el.select(); el.setSelectionRange(0,99999);
-  const msg=document.getElementById('copyMsg');
-  try {
-    if(navigator.clipboard) navigator.clipboard.writeText(el.value); else document.execCommand('copy');
-    msg.textContent='已複製 ✓';
-  } catch(e){ msg.textContent='請長按手動複製'; }
-  setTimeout(function(){ msg.textContent=''; }, 2500);
-}
-function applyCode(){
-  const msg=document.getElementById('applyMsg');
-  const r = decodeState(document.getElementById('pasteCode').value);
-  if(!r){ msg.style.color='#BE123C'; msg.textContent='代碼格式不對'; return; }
-  if(r.mismatch){ msg.style.color='#BE123C'; msg.textContent='行程已更新，舊代碼不適用（'+r.mismatch+'≠'+allCb().length+'）'; return; }
-  allCb().forEach(function(cb,i){ setChecked(cb, r.bits[i]); });
-  let added=0; if(r.recs && r.recs.length) added=mergeRecs(r.recs);
-  renderAll(); updateProgress(); refreshCode();
-  msg.style.color='#0E9F6E'; msg.textContent='已套用 ✓'+(added?'（合併 '+added+' 筆刷卡紀錄）':'');
-  setTimeout(function(){ msg.textContent=''; }, 2500);
-}
+/* 打勾已改成自動同步（trip-kit/predep.js），舊的代碼功能移除；refreshCode 保留空殼給既有呼叫 */
+function refreshCode(){}
 function updateProgress() {
   const all = document.querySelectorAll('.cb');
   const done = document.querySelectorAll('.cb.checked');
@@ -531,7 +466,7 @@ refreshCode();
 })();
 </script>
 <script src="../trip-kit/shopsync.js?v=2"></script>
-<script src="../trip-kit/predep.js?v=2"></script>
+<script src="../trip-kit/predep.js?v=3"></script>
 <script>
 /* 🛒 購物清單 → 行程：shopping.json 每項的 at（例 ["D5-drug"]）對應行程項目的 data-shop，
    在那一項下面列出「這裡要買」，已買的劃掉；點了開清單頁。分享出去的訪客也看得到。 */
