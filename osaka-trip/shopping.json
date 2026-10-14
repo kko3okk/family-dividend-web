@@ -1,287 +1,303 @@
 {
-  "updated": "10/14 12:10",
-  "items": [
-    {
-      "id": "s-poke30",
-      "name": "寶可夢卡 30th CELEBRATION BOX",
-      "ja": "ポケモンカードゲーム 拡張パック「30th CELEBRATION」BOX",
-      "cat": "🃏 寶可夢",
-      "where": "寶可夢中心 DX、友都八喜梅田、寶可夢中心京都",
-      "price": "¥7,200／盒",
-      "qty": 1,
-      "note": "熱門商品常限購，先到卡牌櫃台問",
-      "bought": false,
-      "url": "https://www.30th.pokemon-card.com/product/m6a",
-      "at": [
-        "D2-poke",
-        "D5-poke",
-        "D5-yodo",
-        "D6-poke"
-      ]
-    },
-    {
-      "id": "s-suisai-enzyme",
-      "name": "suisai 酵素洗面乳",
-      "ja": "suisai 酵素洗顔",
-      "cat": "💄 美妝保養",
-      "where": "松本清、Sugi、唐吉訶德（D2 心齋橋、D7 購物日都順路）",
-      "price": "",
-      "qty": 1,
-      "for": "",
-      "note": "佳麗寶 Kanebo 的洗面乳，主打清毛孔黑頭｜現在有蠟筆小新「小白」聯名包裝，看到可以挑這款",
-      "bought": false,
-      "at": [
-        "D5-drug",
-        "D7-sbs"
-      ]
-    },
-    {
-      "id": "s-morinaga-salt-caramel",
-      "name": "森永 鹽味焦糖牛奶糖",
-      "ja": "森永 塩キャラメル",
-      "cat": "🍫 零食甜點",
-      "where": "唐吉訶德、超市、藥妝店零食區、便利商店",
-      "price": "",
-      "qty": 1,
-      "for": "",
-      "note": "83g 袋裝，藍紅包裝；用法國洛林岩鹽",
-      "bought": false,
-      "at": [
-        "D5-drug",
-        "D7-donki"
-      ]
-    },
-    {
-      "id": "s-ottotto-poke",
-      "name": "森永 寶可夢 おっとっと 小魚餅乾（一條5包）",
-      "ja": "おっとっと ポケモン 5パック うすしお味",
-      "cat": "🍫 零食甜點",
-      "where": "超市、唐吉訶德、便利商店",
-      "price": "",
-      "qty": 1,
-      "for": "",
-      "note": "一條 5 小包串在一起，鹽味；餅乾是寶可夢造型（全68種）",
-      "bought": false,
-      "at": [
-        "D7-donki"
-      ]
-    },
-    {
-      "id": "s-ginso-castella",
-      "name": "銀裝 蜂蜜蛋糕",
-      "ja": "カステラ銀装 カステラ",
-      "cat": "🍫 零食甜點",
-      "where": "カステラ銀装 心斎橋本店（心齋橋筋1-4-24，大丸旁邊，D2／D7 順路）",
-      "price": "",
-      "qty": 1,
-      "for": "",
-      "note": "大阪老字號長崎蛋糕，評論說很濕潤｜11:00–19:30｜也有單片小包裝、奶油蛋糕、費南雪，適合當伴手禮｜店內有咖啡座可以坐著吃",
-      "bought": false,
-      "at": [
-        "D7-sbs"
-      ]
-    },
-    {
-      "id": "s-uha-cororo",
-      "name": "UHA味覺糖 Cororo 軟糖（專賣店限定）",
-      "ja": "UHA味覚糖 コロロ",
-      "cat": "🍫 零食甜點",
-      "where": "阪急梅田本店 B1F（大阪市北區角田町8-7）｜D3 下午逛梅田順路",
-      "price": "約¥648／盒",
-      "qty": 1,
-      "for": "",
-      "note": "口感像真的水果果肉的軟糖｜專賣店只有這一家｜11:00–20:00（週六日 10:00 開）｜一般口味便利商店也買得到，專賣店有比較特別的禮盒和口味",
-      "bought": false,
-      "at": [
-        "D3-umeda"
-      ]
-    },
-    {
-      "id": "s-lawson-kenpi",
-      "name": "LAWSON 國產地瓜條（芋けんぴ）",
-      "ja": "ローソン さつま芋けんぴ",
-      "cat": "🍫 零食甜點",
-      "where": "LAWSON 便利商店（LAWSON 自有品牌「L★★★」，只有 LAWSON 有）",
-      "price": "",
-      "qty": 1,
-      "for": "",
-      "note": "米色袋子、酒紅色邊，61g｜國產地瓜做的炸地瓜條，甜度不高｜CityWalk、心齋橋、梅田的 LAWSON 都可以找",
-      "bought": false,
-      "at": [
-        "D1-konbini",
-        "D4-lawson",
-        "D7-donki"
-      ]
-    },
-    {
-      "id": "s-muhi-baby",
-      "name": "液體無比滴 嬰兒用（止癢）",
-      "ja": "液体ムヒベビー",
-      "cat": "💊 藥品",
-      "where": "松本清、Sugi、唐吉訶德藥妝區",
-      "price": "",
-      "qty": 1,
-      "for": "",
-      "note": "蚊蟲叮咬、痱子止癢，紅白盒 40ml｜3 個月以上才能用｜第3類醫藥品，藥妝店一般架上就有",
-      "bought": false,
-      "at": [
-        "D5-drug",
-        "D7-sbs"
-      ]
-    },
-    {
-      "id": "s-eve-quick",
-      "name": "EVE QUICK 頭痛藥（白銀盒）",
-      "ja": "イブクイック頭痛薬",
-      "cat": "💊 藥品",
-      "where": "松本清、Sugi、唐吉訶德藥妝區",
-      "price": "",
-      "qty": 1,
-      "for": "",
-      "note": "白銀色盒、紅字「イブクイック頭痛薬」｜主打頭痛快速見效｜旁邊有金盒 DX、粉紅 A錠EX（生理痛）、金色 THREE SHOT 等很多款，認明白銀盒這款｜指定第2類醫藥品，有的店放在櫃台後面，給店員看日文名就好",
-      "bought": false,
-      "at": [
-        "D5-drug",
-        "D7-sbs"
-      ]
-    },
-    {
-      "id": "s-gacha-shimajiro",
-      "name": "巧虎 臉臉吊飾扭蛋",
-      "ja": "しまじろう フェイスマスコット",
-      "cat": "🧸 玩具扭蛋",
-      "where": "扭蛋之森 日本橋（D2）、C-pla 茶屋町／HEP FIVE 8F（D3 下午）",
-      "price": "¥500／次",
-      "qty": 1,
-      "for": "",
-      "note": "全 4 種：巧虎、咪咪琳（兔）、托利皮（鳥）、妮可琪（貓）｜約 6cm 絨毛吊飾｜機台只收 100 円硬幣，先換好零錢",
-      "bought": false,
-      "at": [
-        "D2-gacha",
-        "D3-umeda"
-      ]
-    },
-    {
-      "id": "s-100-wanwanshop",
-      "name": "百元店 小狗寵物店玩具組",
-      "ja": "わたしのワンワンショップ",
-      "cat": "🧸 玩具扭蛋",
-      "where": "百元店：Seria（セリア）、DAISO（大創）",
-      "price": "約¥110",
-      "qty": 1,
-      "for": "",
-      "note": "粉紫色卡片包裝，有小狗、狗屋、提籠、碗｜全 3 種，款式隨機上架",
-      "bought": false,
-      "at": [
-        "D7-sbs"
-      ]
-    },
-    {
-      "id": "s-100-mayo-toy",
-      "name": "百元店 家家酒美乃滋／番茄醬玩具",
-      "ja": "ままごと マヨネーズ ケチャップ",
-      "cat": "🧸 玩具扭蛋",
-      "where": "百元店：Seria（セリア）、DAISO（大創）",
-      "price": "約¥110",
-      "qty": 1,
-      "for": "",
-      "note": "跟小狗寵物店掛在同一區（玩具／家家酒區）",
-      "bought": false,
-      "at": [
-        "D7-sbs"
-      ]
-    },
-    {
-      "id": "s-gacha-megastar",
-      "name": "MEGA STAR FARM 植絨吊飾扭蛋（山魈款）",
-      "ja": "メガスタファーム フロッキーマスコットコレクション",
-      "cat": "🧸 玩具扭蛋",
-      "where": "扭蛋專賣店：扭蛋之森（D2）、C-pla 茶屋町（D3）",
-      "price": "¥400／次",
-      "qty": 1,
-      "for": "",
-      "note": "全 5 種、約 5.5cm、附登山扣｜想要的是「マンドリルくん」（灰色山魈）｜其他：メガスタくん（星星）、チキンくん（雞）、チーピー、粉紅那隻｜機台收 100 円硬幣，先換零錢",
-      "bought": false,
-      "at": [
-        "D2-gacha",
-        "D3-umeda"
-      ]
-    },
-    {
-      "id": "s-otonamuse-11",
-      "name": "otona MUSE 2026年11月號（附 Hello Kitty × CITEN 托特包）",
-      "ja": "otona MUSE（オトナミューズ）2026年11月号",
-      "cat": "📚 書籍雜誌",
-      "where": "紀伊國屋書店 梅田本店（阪急梅田站 1F，D3 下午茶屋町旁）、淳久堂 難波、便利商店雜誌架",
-      "price": "¥1,950",
-      "qty": 1,
-      "for": "",
-      "note": "附錄是黑色鋪棉 Hello Kitty 壓紋托特包｜有兩種封面（通常版／增刊），附錄可能不同，買前看封面右上角｜熱門附錄常賣完，看到就買",
-      "bought": false,
-      "at": [
-        "D3-umeda"
-      ]
-    },
-    {
-      "id": "s-babybook-anpanman",
-      "name": "ベビーブック（附 麵包超人 會說話的剪票機）",
-      "ja": "ベビーブック 8・9月号",
-      "cat": "📚 書籍雜誌",
-      "where": "紀伊國屋書店 梅田本店（阪急梅田站 1F，D3 下午茶屋町旁）、淳久堂 難波、玩具反斗城、阿卡將",
-      "price": "¥1,590",
-      "qty": 1,
-      "for": "",
-      "note": "附錄是麵包超人剪票機，拿卡感應會發聲｜這是 8・9 月號，10 月可能已換成下一期（附錄不同），到書店先問「ベビーブック 8・9月号 ありますか」",
-      "bought": false,
-      "at": [
-        "D3-umeda"
-      ]
-    },
-    {
-      "id": "s-earth-mushiyoke",
-      "name": "EARTH 防蚊蟲吊掛片 EX 200日（玄關色限定版）",
-      "ja": "アース 虫よけネットEX 200日用 玄関に合うカラー",
-      "cat": "🏠 生活雜貨",
-      "where": "唐吉訶德（限定款：只在 ドンキ／アピタ／ピアゴ 賣）",
-      "price": "",
-      "qty": 1,
-      "for": "",
-      "note": "掛在玄關或陽台，防蚊子、蒼蠅、小飛蟲，淋到雨也沒關係，可用約 200 天｜這款是酒紅色外殼的「玄関に合うカラー」限定版，盒子右下角寫「限定発売 ドンキ」｜體積大，最後一天再買比較好塞行李",
-      "bought": false,
-      "at": [
-        "D7-donki"
-      ]
-    },
-    {
-      "id": "s-topvalu-shiokombu",
-      "name": "AEON 北海道鹽昆布（TOPVALU BESTPRICE）",
-      "ja": "トップバリュ ベストプライス 塩昆布",
-      "cat": "🍜 食材調味",
-      "where": "AEON 集團的超市：イオン、ダイエー、KOHYO（コーヨー）、マックスバリュ，MINISTOP 便利商店也可能有",
-      "price": "",
-      "qty": 1,
-      "for": "",
-      "note": "黃色袋子 65g，有夾鏈｜北海道昆布＋醬油調味的細絲鹽昆布｜拌高麗菜、黃瓜做淺漬，或包飯糰、配茶泡飯都好吃｜是 AEON 自有品牌，唐吉訶德和一般藥妝店買不到｜住處附近用 Google 地圖搜「ダイエー」「コーヨー」找最近的一家",
-      "bought": false,
-      "at": [
-        "D1-konbini"
-      ]
-    },
-    {
-      "id": "s-3coins-oonotaro",
-      "name": "3COINS × OONOTARO 聯名（粉紅臉款、氣球組）",
-      "ja": "OONOTARO × 3COINS",
-      "cat": "👶 寶寶用品",
-      "where": "3COINS（心齋橋、梅田的商場裡都有分店）",
-      "price": "¥150（含稅¥165）",
-      "qty": 1,
-      "for": "",
-      "note": "OONOTARO 是畫胖胖嬰兒臉的插畫家｜粉紅色臉的小物，旁邊有拍寶寶週歲照用的氣球組（皇冠、小熊）也是同系列｜聯名款賣完就沒了，看到就買",
-      "bought": false,
-      "at": [
-        "D7-sbs",
-        "D5-loft"
-      ]
-    }
-  ]
+ "updated": "2026-10-14",
+ "items": [
+  {
+   "id": "s-poke30",
+   "name": "寶可夢卡 30th CELEBRATION BOX",
+   "ja": "ポケモンカードゲーム 拡張パック「30th CELEBRATION」BOX",
+   "cat": "🃏 寶可夢",
+   "where": "寶可夢中心 DX、友都八喜梅田、寶可夢中心京都",
+   "price": "¥7,200／盒",
+   "qty": 1,
+   "note": "熱門商品常限購，先到卡牌櫃台問",
+   "bought": false,
+   "url": "https://www.30th.pokemon-card.com/product/m6a",
+   "at": [
+    "D2-poke",
+    "D5-poke",
+    "D5-yodo",
+    "D6-poke"
+   ]
+  },
+  {
+   "id": "s-suisai-enzyme",
+   "name": "suisai 酵素洗面乳",
+   "ja": "suisai 酵素洗顔",
+   "cat": "💄 美妝保養",
+   "where": "松本清、Sugi、唐吉訶德（D2 心齋橋、D7 購物日都順路）",
+   "price": "",
+   "qty": 1,
+   "for": "",
+   "note": "佳麗寶 Kanebo 的洗面乳，主打清毛孔黑頭｜現在有蠟筆小新「小白」聯名包裝，看到可以挑這款",
+   "bought": false,
+   "at": [
+    "D5-drug",
+    "D7-sbs"
+   ]
+  },
+  {
+   "id": "s-morinaga-salt-caramel",
+   "name": "森永 鹽味焦糖牛奶糖",
+   "ja": "森永 塩キャラメル",
+   "cat": "🍫 零食甜點",
+   "where": "唐吉訶德、超市、藥妝店零食區、便利商店",
+   "price": "",
+   "qty": 1,
+   "for": "",
+   "note": "83g 袋裝，藍紅包裝；用法國洛林岩鹽",
+   "bought": false,
+   "at": [
+    "D5-drug",
+    "D7-donki"
+   ]
+  },
+  {
+   "id": "s-ottotto-poke",
+   "name": "森永 寶可夢 おっとっと 小魚餅乾（一條5包）",
+   "ja": "おっとっと ポケモン 5パック うすしお味",
+   "cat": "🍫 零食甜點",
+   "where": "超市、唐吉訶德、便利商店",
+   "price": "",
+   "qty": 1,
+   "for": "",
+   "note": "一條 5 小包串在一起，鹽味；餅乾是寶可夢造型（全68種）",
+   "bought": false,
+   "at": [
+    "D7-donki"
+   ]
+  },
+  {
+   "id": "s-ginso-castella",
+   "name": "銀裝 蜂蜜蛋糕",
+   "ja": "カステラ銀装 カステラ",
+   "cat": "🍫 零食甜點",
+   "where": "カステラ銀装 心斎橋本店（心齋橋筋1-4-24，大丸旁邊，D2／D7 順路）",
+   "price": "",
+   "qty": 1,
+   "for": "",
+   "note": "大阪老字號長崎蛋糕，評論說很濕潤｜11:00–19:30｜也有單片小包裝、奶油蛋糕、費南雪，適合當伴手禮｜店內有咖啡座可以坐著吃",
+   "bought": false,
+   "at": [
+    "D7-sbs"
+   ]
+  },
+  {
+   "id": "s-uha-cororo",
+   "name": "UHA味覺糖 Cororo 軟糖（專賣店限定）",
+   "ja": "UHA味覚糖 コロロ",
+   "cat": "🍫 零食甜點",
+   "where": "阪急梅田本店 B1F（大阪市北區角田町8-7）｜D3 下午逛梅田順路",
+   "price": "約¥648／盒",
+   "qty": 1,
+   "for": "",
+   "note": "口感像真的水果果肉的軟糖｜專賣店只有這一家｜11:00–20:00（週六日 10:00 開）｜一般口味便利商店也買得到，專賣店有比較特別的禮盒和口味",
+   "bought": false,
+   "at": [
+    "D3-umeda"
+   ]
+  },
+  {
+   "id": "s-lawson-kenpi",
+   "name": "LAWSON 國產地瓜條（芋けんぴ）",
+   "ja": "ローソン さつま芋けんぴ",
+   "cat": "🍫 零食甜點",
+   "where": "LAWSON 便利商店（LAWSON 自有品牌「L★★★」，只有 LAWSON 有）",
+   "price": "",
+   "qty": 1,
+   "for": "",
+   "note": "米色袋子、酒紅色邊，61g｜國產地瓜做的炸地瓜條，甜度不高｜CityWalk、心齋橋、梅田的 LAWSON 都可以找",
+   "bought": false,
+   "at": [
+    "D1-konbini",
+    "D4-lawson",
+    "D7-donki"
+   ]
+  },
+  {
+   "id": "s-muhi-baby",
+   "name": "液體無比滴 嬰兒用（止癢）",
+   "ja": "液体ムヒベビー",
+   "cat": "💊 藥品",
+   "where": "松本清、Sugi、唐吉訶德藥妝區",
+   "price": "",
+   "qty": 1,
+   "for": "",
+   "note": "蚊蟲叮咬、痱子止癢，紅白盒 40ml｜3 個月以上才能用｜第3類醫藥品，藥妝店一般架上就有",
+   "bought": false,
+   "at": [
+    "D5-drug",
+    "D7-sbs"
+   ]
+  },
+  {
+   "id": "s-eve-quick",
+   "name": "EVE QUICK 頭痛藥（白銀盒）",
+   "ja": "イブクイック頭痛薬",
+   "cat": "💊 藥品",
+   "where": "松本清、Sugi、唐吉訶德藥妝區",
+   "price": "",
+   "qty": 1,
+   "for": "",
+   "note": "白銀色盒、紅字「イブクイック頭痛薬」｜主打頭痛快速見效｜旁邊有金盒 DX、粉紅 A錠EX（生理痛）、金色 THREE SHOT 等很多款，認明白銀盒這款｜指定第2類醫藥品，有的店放在櫃台後面，給店員看日文名就好",
+   "bought": false,
+   "at": [
+    "D5-drug",
+    "D7-sbs"
+   ]
+  },
+  {
+   "id": "s-rohto-gold40",
+   "name": "樂敦 Gold 40 眼藥水（金盒 20mL）",
+   "ja": "ロートゴールド40",
+   "cat": "💊 藥品",
+   "where": "松本清、Sugi、唐吉訶德藥妝區",
+   "price": "",
+   "qty": 1,
+   "for": "",
+   "note": "金色盒、金色八角瓶，黑字「ロートゴールド40」，20mL｜台灣賣的「樂敦舒視齡40」就是這款｜主打眼睛模糊、疲勞｜旁邊有「マイルド」（溫和不涼）版，照片是清涼款，買沒寫マイルド的那盒",
+   "bought": false,
+   "at": [
+    "D5-drug",
+    "D7-sbs"
+   ]
+  },
+  {
+   "id": "s-gacha-shimajiro",
+   "name": "巧虎 臉臉吊飾扭蛋",
+   "ja": "しまじろう フェイスマスコット",
+   "cat": "🧸 玩具扭蛋",
+   "where": "扭蛋之森 日本橋（D2）、C-pla 茶屋町／HEP FIVE 8F（D3 下午）",
+   "price": "¥500／次",
+   "qty": 1,
+   "for": "",
+   "note": "全 4 種：巧虎、咪咪琳（兔）、托利皮（鳥）、妮可琪（貓）｜約 6cm 絨毛吊飾｜機台只收 100 円硬幣，先換好零錢",
+   "bought": false,
+   "at": [
+    "D2-gacha",
+    "D3-umeda"
+   ]
+  },
+  {
+   "id": "s-100-wanwanshop",
+   "name": "百元店 小狗寵物店玩具組",
+   "ja": "わたしのワンワンショップ",
+   "cat": "🧸 玩具扭蛋",
+   "where": "百元店：Seria（セリア）、DAISO（大創）",
+   "price": "約¥110",
+   "qty": 1,
+   "for": "",
+   "note": "粉紫色卡片包裝，有小狗、狗屋、提籠、碗｜全 3 種，款式隨機上架",
+   "bought": false,
+   "at": [
+    "D7-sbs"
+   ]
+  },
+  {
+   "id": "s-100-mayo-toy",
+   "name": "百元店 家家酒美乃滋／番茄醬玩具",
+   "ja": "ままごと マヨネーズ ケチャップ",
+   "cat": "🧸 玩具扭蛋",
+   "where": "百元店：Seria（セリア）、DAISO（大創）",
+   "price": "約¥110",
+   "qty": 1,
+   "for": "",
+   "note": "跟小狗寵物店掛在同一區（玩具／家家酒區）",
+   "bought": false,
+   "at": [
+    "D7-sbs"
+   ]
+  },
+  {
+   "id": "s-gacha-megastar",
+   "name": "MEGA STAR FARM 植絨吊飾扭蛋（山魈款）",
+   "ja": "メガスタファーム フロッキーマスコットコレクション",
+   "cat": "🧸 玩具扭蛋",
+   "where": "扭蛋專賣店：扭蛋之森（D2）、C-pla 茶屋町（D3）",
+   "price": "¥400／次",
+   "qty": 1,
+   "for": "",
+   "note": "全 5 種、約 5.5cm、附登山扣｜想要的是「マンドリルくん」（灰色山魈）｜其他：メガスタくん（星星）、チキンくん（雞）、チーピー、粉紅那隻｜機台收 100 円硬幣，先換零錢",
+   "bought": false,
+   "at": [
+    "D2-gacha",
+    "D3-umeda"
+   ]
+  },
+  {
+   "id": "s-otonamuse-11",
+   "name": "otona MUSE 2026年11月號（附 Hello Kitty × CITEN 托特包）",
+   "ja": "otona MUSE（オトナミューズ）2026年11月号",
+   "cat": "📚 書籍雜誌",
+   "where": "紀伊國屋書店 梅田本店（阪急梅田站 1F，D3 下午茶屋町旁）、淳久堂 難波、便利商店雜誌架",
+   "price": "¥1,950",
+   "qty": 1,
+   "for": "",
+   "note": "附錄是黑色鋪棉 Hello Kitty 壓紋托特包｜有兩種封面（通常版／增刊），附錄可能不同，買前看封面右上角｜熱門附錄常賣完，看到就買",
+   "bought": false,
+   "at": [
+    "D3-umeda"
+   ]
+  },
+  {
+   "id": "s-babybook-anpanman",
+   "name": "ベビーブック（附 麵包超人 會說話的剪票機）",
+   "ja": "ベビーブック 8・9月号",
+   "cat": "📚 書籍雜誌",
+   "where": "紀伊國屋書店 梅田本店（阪急梅田站 1F，D3 下午茶屋町旁）、淳久堂 難波、玩具反斗城、阿卡將",
+   "price": "¥1,590",
+   "qty": 1,
+   "for": "",
+   "note": "附錄是麵包超人剪票機，拿卡感應會發聲｜這是 8・9 月號，10 月可能已換成下一期（附錄不同），到書店先問「ベビーブック 8・9月号 ありますか」",
+   "bought": false,
+   "at": [
+    "D3-umeda"
+   ]
+  },
+  {
+   "id": "s-earth-mushiyoke",
+   "name": "EARTH 防蚊蟲吊掛片 EX 200日（玄關色限定版）",
+   "ja": "アース 虫よけネットEX 200日用 玄関に合うカラー",
+   "cat": "🏠 生活雜貨",
+   "where": "唐吉訶德（限定款：只在 ドンキ／アピタ／ピアゴ 賣）",
+   "price": "",
+   "qty": 1,
+   "for": "",
+   "note": "掛在玄關或陽台，防蚊子、蒼蠅、小飛蟲，淋到雨也沒關係，可用約 200 天｜這款是酒紅色外殼的「玄関に合うカラー」限定版，盒子右下角寫「限定発売 ドンキ」｜體積大，最後一天再買比較好塞行李",
+   "bought": false,
+   "at": [
+    "D7-donki"
+   ]
+  },
+  {
+   "id": "s-topvalu-shiokombu",
+   "name": "AEON 北海道鹽昆布（TOPVALU BESTPRICE）",
+   "ja": "トップバリュ ベストプライス 塩昆布",
+   "cat": "🍜 食材調味",
+   "where": "AEON 集團的超市：イオン、ダイエー、KOHYO（コーヨー）、マックスバリュ，MINISTOP 便利商店也可能有",
+   "price": "",
+   "qty": 1,
+   "for": "",
+   "note": "黃色袋子 65g，有夾鏈｜北海道昆布＋醬油調味的細絲鹽昆布｜拌高麗菜、黃瓜做淺漬，或包飯糰、配茶泡飯都好吃｜是 AEON 自有品牌，唐吉訶德和一般藥妝店買不到｜住處附近用 Google 地圖搜「ダイエー」「コーヨー」找最近的一家",
+   "bought": false,
+   "at": [
+    "D1-konbini"
+   ]
+  },
+  {
+   "id": "s-3coins-oonotaro",
+   "name": "3COINS × OONOTARO 聯名（粉紅臉款、氣球組）",
+   "ja": "OONOTARO × 3COINS",
+   "cat": "👶 寶寶用品",
+   "where": "3COINS（心齋橋、梅田的商場裡都有分店）",
+   "price": "¥150（含稅¥165）",
+   "qty": 1,
+   "for": "",
+   "note": "OONOTARO 是畫胖胖嬰兒臉的插畫家｜粉紅色臉的小物，旁邊有拍寶寶週歲照用的氣球組（皇冠、小熊）也是同系列｜聯名款賣完就沒了，看到就買",
+   "bought": false,
+   "at": [
+    "D7-sbs",
+    "D5-loft"
+   ]
+  }
+ ]
 }
