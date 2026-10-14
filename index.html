@@ -430,6 +430,15 @@
   .pex.off{opacity:.55} .pex.on .d{color:var(--green-ink,var(--green));font-weight:700}
   .pex.hit{background:#FBE9E7;border:1px solid #D9534F} .pex.hit .d,.pex.hit b{color:#D9534F;font-weight:700}
   .padd.go .pline b{color:#2E8B47}
+  /* 2026-10-14 股息池「轉入額度」（40% 規則） */
+  .trq{margin-top:12px;background:var(--card2);border-radius:20px;padding:12px 14px}
+  .trq .t{font-size:13px;font-weight:800;color:var(--brown,var(--ink));display:flex;align-items:baseline;gap:8px}
+  .trq .t small{font-weight:600;color:var(--mut2);font-size:11px}
+  .trq .big{font-family:var(--mono);font-size:22px;font-weight:700;margin:4px 0 2px}
+  .trq .big.ok{color:var(--green-ink,var(--green))} .trq .big.over{color:var(--mut)}
+  .trq .rows{display:grid;grid-template-columns:1fr auto;gap:3px 12px;font-size:12px;color:var(--mut);margin-top:6px}
+  .trq .rows b{font-family:var(--mono);color:var(--ink);font-weight:600;text-align:right}
+  .trq .note{font-size:11px;color:var(--mut2);margin-top:6px;line-height:1.6}
   .pbar{height:6px;border-radius:4px;background:var(--card2);overflow:hidden;margin-top:5px}
   .pbar i{display:block;height:100%;background:var(--pcol,var(--chang));border-radius:4px}
   .pcard details{margin-top:7px;font-size:12px;color:var(--mut)}
@@ -1464,7 +1473,8 @@
 
 <div class="card" id="secAdv"><h3 data-en="GUIDE">買入指引<button class="info" data-more="advMore">ⓘ</button></h3>
   <div class="more" id="advMore"><div id="ruleNote"></div></div>
-  <div id="advBox"></div></div>
+  <div id="advBox"></div>
+  <div id="trBox"></div></div>
 
 <div class="card" id="secHold"><h3 data-en="HOLDINGS">持股</h3>
   <div class="pie" id="holdPie"></div>
@@ -1790,7 +1800,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.14-0915";
+const APP_VERSION="2026.10.14-0950";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -2725,6 +2735,28 @@ function showMilestone(idx,divNow){const m=MILES[idx-1];if(!m)return;
   document.getElementById("msSub").innerHTML=`年股息 <b>${fmt(divNow)}</b> 元，跨過 ${fmt(m.amt)} 元。<br>${MILES[idx]?`下一站：${MILES[idx].name}（${fmt(MILES[idx].amt)} 元）`:"已抵達終點 🏯"}`;
   document.getElementById("msOverlay").classList.add("on");}
 
+/* 2026-10-14 Chang：股息池頁顯示「轉入額度」——主動池已實現獲利 40%（每年至少 50 萬）扣掉已轉入＝可動用；多賺可多轉（額外轉入，上限＝主動池現金）。來源：私有庫 status.json 的 transfer（每日持股檢查算） */
+let TRX=null,TR_LOADING=false;
+async function loadTransfer(){
+  if(TRX||TR_LOADING)return;TR_LOADING=true;
+  try{if(!POOL)await loadPool();TRX=POOL&&POOL.transfer||null;}catch(e){TRX={error:e.message};}
+  TR_LOADING=false;renderTransfer();
+}
+function renderTransfer(){
+  const box=document.getElementById("trBox");if(!box)return;
+  if(person!=="chang"){box.innerHTML="";return;}
+  if(!TRX){box.innerHTML='<div class="trq"><div class="t">轉入額度</div><div class="note">載入中…</div></div>';loadTransfer();return;}
+  if(TRX.error){box.innerHTML=`<div class="trq"><div class="t">轉入額度</div><div class="note">${TRX.error}</div></div>`;return;}
+  const bal=TRX.balance,avail=Math.max(0,bal),over=Math.max(0,-bal);
+  const cashA=TRX.active_cash||0;
+  box.innerHTML=`<div class="trq"><div class="t">轉入額度 <small>${TRX.year} 年 · 主動池獲利 40%，至少 ${fmt(TRX.floor)}</small></div>
+    <div class="big ${avail>0?"ok":"over"}">${avail>0?"可動用 "+fmt(avail)+" 元":"已超轉 "+fmt(over)+" 元"}</div>
+    <div class="rows"><span>主動池已實現（含短線格加回）</span><b>${fmt(TRX.realized_base)}</b>
+      <span>40% 應轉入${TRX.due>TRX.due40?"（不足 50 萬，以下限計）":""}</span><b>${fmt(TRX.due)}</b>
+      <span>已轉入（9/22 三筆＋沖抵 ${fmt(TRX.prepaid_offset)}＋額外 ${fmt((TRX.extra_2026||[]).reduce((a,x)=>a+x.amount,0))}）</span><b>${fmt(TRX.paid)}</b>
+      <span>額外轉入上限（主動池現金）</span><b>${fmt(Math.round(cashA))}</b></div>
+    <div class="note">${avail>0?"可動用的部分依轉入分配（長榮 50／崑鼎 25／南寶 25）與觸發價買進。":"40% 額度已用完；要再買是「多賺就多買」的額外轉入，上限看主動池現金。下一筆額度＝下次獲利出場淨賺 × 40%。"}</div></div>`;
+}
 function render(){
   // 主動池／短線池只屬於 Chang：選老婆時隱藏切換鈕並回到股息池
   document.body.classList.toggle("who-wife",person!=="chang");
@@ -2738,6 +2770,7 @@ function render(){
   document.getElementById("famDiv").textContent=fmt(pD+oD)+" 元";
   document.getElementById("trCount").textContent=(holdValues(h,person).reduce((a,x)=>a+x.v,0)/10000).toFixed(1)+" 萬";
   document.getElementById("advBox").innerHTML=person==="chang"?advChang():advWife();
+  renderTransfer();
   document.getElementById("holdBody").innerHTML=holdRows(h,person);
   document.getElementById("holdPie").innerHTML=holdPie(h,person);
   document.getElementById("exBox").innerHTML=exRows(person);
