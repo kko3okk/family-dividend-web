@@ -92,7 +92,7 @@ Claude 依這份規則處理，把結果寫進這趟資料夾的 `journal-data.j
 - `where` 寫這趟行程上順路、買得到的店；`price` 只寫大概價位，不確定就留空。
 - `img`（選填）商品圖片網址：只放官方或商店的圖片連結，不要把圖片檔 commit 進 repo（公開庫）；圖片載不出來網頁會自動隱藏。`url`（選填）官方商品頁。沒圖也沒關係，網頁每一項都有「🔍」可以開大卡片（日文名大字＋「これはありますか？」＋ Google 圖片搜尋）給店員看。
 - 「○○買到了」→ 把那一項 `bought` 改成 `true`；「記帳」時如果收據上有清單裡的東西，也順便改成 `true`，回覆時說勾掉了哪幾項。
-- 清單顯示在網站的「🛒 清單」分頁（`shopping.html`）。網頁上的打勾只存在那支手機；Claude 改 `bought` 才會兩支手機都看到。
+- 清單顯示在網站的「🛒 清單」分頁（`shopping.html`）。網頁上的打勾會自動同步：驗證過 Token 的手機寫進私有庫 `family-dividend-data/trips/<趟>/shop-ticks.json`（`trip-kit/shopsync.js`），再盡量寫一份公開副本 `<旅程資料夾>/shop-ticks.json` 給分享連結看（Token 要有網站庫寫入權限）。`shop-ticks.json` 不要手改；Claude 改 `bought` 仍然有效（兩邊任一打勾就算買到）。
 - 寫完一樣更新 `updated`、驗證 JSON、commit、push。
 
 ## 修改與刪除
