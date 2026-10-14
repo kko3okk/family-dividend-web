@@ -184,6 +184,36 @@
    "note": "日本塑膠袋要錢；購物清單東西很多"
   },
   {
+   "id": "w-mirror",
+   "name": "鏡子、梳子",
+   "cat": "🧴 盥洗・保養",
+   "note": "老婆"
+  },
+  {
+   "id": "w-remover",
+   "name": "卸妝棉",
+   "cat": "🧴 盥洗・保養",
+   "note": "老婆｜卸妝液要放 100ml 以內小瓶或托運"
+  },
+  {
+   "id": "w-glasscase",
+   "name": "眼鏡盒",
+   "cat": "🧴 盥洗・保養",
+   "note": "老婆"
+  },
+  {
+   "id": "w-retainer",
+   "name": "牙套盒",
+   "cat": "🧴 盥洗・保養",
+   "note": "老婆"
+  },
+  {
+   "id": "sunscreen",
+   "name": "防曬",
+   "cat": "🧴 盥洗・保養",
+   "note": "老婆｜USJ、京都整天在戶外"
+  },
+  {
    "id": "usjclothes",
    "name": "2 天換洗衣物",
    "cat": "🎒 USJ 小包（10/19–21）",
