@@ -132,10 +132,8 @@ details summary{cursor:pointer;font-size:13px;color:var(--ink2,#8A7150)}
 <div class="sub">這趟要買的東西｜跟 Claude 說「購物清單加：…」就會加進來</div>
 <section id="paneS">
   <div class="jx-shop-top"><div class="jx-prog" aria-hidden="true"><i id="shopBar" style="width:0%"></i></div><span class="jx-meta" id="shopCnt">0 / 0 買到</span></div>
-  <div class="jx-meta" id="shopSync" style="margin:-4px 0 10px"></div>
   <div class="jx-row" style="justify-content:space-between;margin-bottom:12px">
     <div class="jx-filters" id="shopF"><button class="jx-btn" data-f="todo" aria-pressed="true">還沒買</button><button class="jx-btn" data-f="all" aria-pressed="false">全部</button><button class="jx-btn" data-f="done" aria-pressed="false">已買到</button></div>
-    <button class="jx-btn" id="shopRe">🔄</button>
   </div>
   <div id="shopList"></div>
   <div class="jx-lb" id="shopLb" role="dialog" aria-modal="true"><div class="jx-lbc" id="shopLbc"></div></div>
@@ -143,7 +141,7 @@ details summary{cursor:pointer;font-size:13px;color:var(--ink2,#8A7150)}
 </section>
 
 <script src="../trip-kit/icons.js?v=8"></script>
-<script src="../trip-kit/shopsync.js?v=3"></script>
+<script src="../trip-kit/shopsync.js?v=4"></script>
 <script>
 (function(){
 const $=id=>document.getElementById(id);
@@ -197,7 +195,7 @@ function showItem(i){
 }
 $('shopLb').onclick=e=>{if(e.target===$('shopLb'))$('shopLb').classList.remove('on');};
 $('shopF').querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{shopF=b.dataset.f;$('shopF').querySelectorAll('[data-f]').forEach(x=>x.setAttribute('aria-pressed',x===b));renderShop();});
-$('shopRe').onclick=()=>loadShop();
+document.addEventListener('tripsync',()=>renderShop());
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&sync)sync.pull().then(ch=>{syncMsg();if(ch)renderShop();});});
 loadShop();
 })();

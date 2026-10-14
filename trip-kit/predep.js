@@ -103,14 +103,11 @@
     box.classList.add("card", "pk-card");
     if (lsGet(leftKey) === "1") box.classList.add("left");
     box.innerHTML = '<div class="pk-top"><b>🧳 攜帶物品清單</b><span class="pk-c" id="pkCount"></span><button type="button" id="pkLeft">只看還沒裝</button></div>' +
-      '<div class="pk-bar"><i id="pkBar"></i></div><div class="pk-meta" id="pkMeta"></div><div id="pkBody"></div>';
+      '<div class="pk-bar"><i id="pkBar"></i></div><div id="pkBody"></div>';
     var btn = box.querySelector("#pkLeft");
     btn.classList.toggle("on", box.classList.contains("left"));
     btn.addEventListener("click", function () { var on = box.classList.toggle("left"); btn.classList.toggle("on", on); lsSet(leftKey, on ? "1" : "0"); });
-    function meta() {
-      var m = box.querySelector("#pkMeta"), st = sync ? sync.status : "local";
-      m.textContent = sync ? sync.describe() : "點項目打勾（存在這支手機）";
-    }
+    function meta() {}
     function render() {
       var t = ticks(), cats = [], body = box.querySelector("#pkBody"), done = 0;
       items.forEach(function (x) { if (cats.indexOf(x.cat) < 0) cats.push(x.cat); if (t[x.id]) done++; });
@@ -141,6 +138,7 @@
       if (!items.length) { box.style.display = "none"; return; }
       render();
       if (sync) sync.pull().then(function () { render(); });
+      document.addEventListener("tripsync", function () { render(); });
     }).catch(function () { box.style.display = "none"; });
     document.addEventListener("visibilitychange", function () { if (!document.hidden && sync && items.length) sync.pull().then(function (ch) { if (ch) render(); else meta(); }); });
   }
@@ -151,12 +149,7 @@
   function initTickSync() {
     var keyed = [].slice.call(document.querySelectorAll(".item[data-k]")).filter(function (it) { return it.querySelector(".cb"); });
     if (!keyed.length || !window.ShopSync) return;
-    if (window.__tripAuthOK !== true) {
-      if (document.documentElement.classList.contains("trip-guest")) return;
-      var nb = document.querySelector(".section .section-title");
-      if (nb) { var w = document.createElement("div"); w.style.cssText = "margin:0 0 10px;padding:8px 12px;border-radius:12px;background:#fff;font-size:12.5px;color:#BE123C"; w.textContent = "這支手機還沒驗證 Token，打勾只存在這支、不會同步"; nb.parentNode.insertBefore(w, nb.nextSibling); }
-      return;
-    }
+    if (window.__tripAuthOK !== true) return;
     var trip = tripId(), sync = ShopSync(trip, { name: "plan", mirror: false });
     // 10/14 試用版（只同步出發前）存在 _prepsync，併進來
     try { var old = JSON.parse(localStorage.getItem(trip + "_prepsync") || "null"); if (old && old.ticks) { sync.merge(old.ticks); sync.s.dirty = true; localStorage.removeItem(trip + "_prepsync"); } } catch (e) {}
@@ -166,21 +159,7 @@
       if (!(k in sync.s.ticks) && it.querySelector(".cb").classList.contains("checked")) { sync.s.ticks[k] = { v: true, t: 1 }; sync.s.dirty = true; }
     });
     sync.save();
-    var pt = document.getElementById("progressText"), tag = null;
-    if (pt) { tag = document.createElement("span"); tag.className = "tk-sync"; tag.style.cssText = "margin-left:8px;font-size:11.5px;color:#A88B66"; pt.appendChild(tag); }
-    var bar = document.createElement("div");
-    bar.className = "tk-bar";
-    bar.style.cssText = "margin:0 0 10px;padding:8px 12px;border-radius:12px;background:#fff;font-size:12.5px;color:#8A6A45;box-shadow:0 6px 16px -12px rgba(93,55,19,.45);cursor:pointer";
-    var sec = document.querySelector(".section .section-title");
-    if (sec) sec.parentNode.insertBefore(bar, sec.nextSibling);
-    bar.addEventListener("click", function () { bar.textContent = "同步中…"; (sync.s.dirty ? sync.queuePush() : Promise.resolve()).then(function () { return sync.pull(); }).then(apply); });
-    function stat() {
-      var d = sync.describe();
-      if (tag) tag.textContent = sync.status === "synced" ? "☁️ 兩支手機同步" : sync.status === "offline" ? "⚠️ 沒同步" : "";
-      bar.textContent = d + "｜點這裡立即同步";
-      bar.style.color = sync.status === "offline" ? "#BE123C" : "#8A6A45";
-    }
-    stat();
+    function stat() {}   // 同步狀態統一顯示在左下的同步按鈕（shopsync.js）
     function apply() {
       var m = sync.map(), ch = false;
       keyed.forEach(function (it) {
@@ -193,7 +172,6 @@
       if (ch) {
         if (typeof window.updateProgress === "function") window.updateProgress();
         if (typeof window.refreshCode === "function") try { window.refreshCode(); } catch (e) {}
-        if (pt && tag && !tag.parentNode) pt.appendChild(tag);
       }
       stat();
     }
@@ -203,10 +181,10 @@
         var k = it.getAttribute("data-k"), on = it.querySelector(".cb").classList.contains("checked");
         if ((k in m) ? m[k] !== on : on) sync.set(k, on).then(stat);
       });
-      if (pt && tag && !tag.parentNode) pt.appendChild(tag);
     });
     keyed.forEach(function (it) { mo.observe(it.querySelector(".cb"), { attributes: true, attributeFilter: ["class"] }); });
     sync.pull().then(apply);
+    document.addEventListener("tripsync", apply);
     document.addEventListener("visibilitychange", function () { if (!document.hidden) sync.pull().then(apply); });
   }
 
