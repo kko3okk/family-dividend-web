@@ -14,7 +14,7 @@
 - **購物清單**：Claude 維護 `shopping.json`，使用者在網站上打勾。依「東西本身是什麼」分類（不是依店家），類別需要時新開，名稱保持一致；規則細節在各趟的 `JOURNAL.md`。
 - **圖示**：全站不直接顯示 emoji，由 `trip-kit/icons.js` 自動換成 Tabler 線條圖示（MIT），風格對齊家的旅程首頁。資料和 HTML 裡照常寫 emoji 即可；→ ↗ ✓ ★ ① 這類一般符號保留。新的 emoji 要配圖示：改 `trip-kit/tools/build-icons.py` 的對照表再重新產生 `icons.js`（不要手改 icons.js）。
 - **範本同步**：旅程頁的結構或功能有改，`trip-template/` 也要一起改；新的一趟一律從範本複製。
-- **出發前分頁**：行程頁「出發前」的待辦自動分成「還要做／已完成」（`trip-kit/predep.js`，用 CSS order，不搬 DOM）；下面是**攜帶物品清單**，資料在各趟的 `packing.json`（id／name／cat／note／qty），打勾用 ShopSync 同步到私有庫 `trips/<趟>/pack-ticks.json`，訪客看不到。要加帶的東西只改 `packing.json`；**行程頁的打勾依順序記，增減 `.cb` 項目要在 `restore()` 寫搬移**。
+- **出發前分頁**：行程頁「出發前」的待辦自動分成「還要做／已完成」（`trip-kit/predep.js`，用 CSS order，不搬 DOM），有 `data-k` 的待辦打勾會同步到私有庫 `trips/<趟>/prep-ticks.json`（新增出發前項目要給一個不重複的 `data-k`）；下面是**攜帶物品清單**，資料在各趟的 `packing.json`（id／name／cat／note／qty），打勾用 ShopSync 同步到私有庫 `trips/<趟>/pack-ticks.json`，訪客看不到。要加帶的東西只改 `packing.json`；**行程頁的打勾依順序記，增減 `.cb` 項目要在 `restore()` 寫搬移**。
 - **每日天氣**：存在各趟的 `weather.json`（每天的天氣、高低溫、降雨機率、一句穿衣／備案提醒），行程頁自動顯示在每天標題下方；更新天氣只改這個檔。
 - **門禁（10/13）**：全站要先用 GitHub Token 驗證（能讀私有庫 `family-dividend-data`）才能看，由根目錄 `gate.js` 處理；分享連結（旅程頁 `?guest=1`）免驗證，只能看 行程／地圖／美食／清單（10/14 起清單也開放）。**新增任何 HTML 頁都要在 `<meta charset>` 後面同步載入 `gate.js`**（旅程頁是 `../gate.js?v=N`），改了 gate.js 要更新各頁的 `?v=`。
 - 共用樣式在 `trip-kit/`（`trip.css`、`trip.js`、`icons.js`），改了要更新各頁引用的 `?v=` 版本號；首頁有改就同步更新 `APP_VERSION` 和 `version.json`。

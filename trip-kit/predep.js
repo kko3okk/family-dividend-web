@@ -72,14 +72,59 @@
         it.style.order = on ? 3 : 1;
         if (on) done++; else todo++;
       });
-      h1.innerHTML = "⏳ 還要做<span class=\"pd-n\">" + todo + " 項</span>";
+      var st = sync ? (sync.status === "synced" ? "☁️ 兩支手機同步・" : sync.status === "offline" ? "⚠️ 暫時沒同步・" : "") : "";
+      h1.innerHTML = "⏳ 還要做<span class=\"pd-n\">" + st + todo + " 項</span>";
       h2.innerHTML = "<span class=\"pd-arrow\">▾</span>✅ 已完成<span class=\"pd-n\">" + done + " 項・點一下" + "展開／收合</span>";
       empty.style.display = todo ? "none" : "";
       h2.style.display = done ? "" : "none";
     }
+    /* 打勾同步：有 data-k 的項目，驗證過的手機寫進私有庫 trips/<趟>/prep-ticks.json */
+    var sync = null;
+    var keyed = items.filter(function (it) { return it.getAttribute("data-k") && it.querySelector(".cb"); });
+    if (keyed.length && window.ShopSync && window.__tripAuthOK === true) {
+      sync = ShopSync(tripId(), { name: "prep", mirror: false });
+      // 第一次用：把這支手機原本的打勾當成舊資料（時間 1），別支手機有新的就以新的為準
+      keyed.forEach(function (it) {
+        var k = it.getAttribute("data-k");
+        if (!(k in sync.s.ticks) && it.querySelector(".cb").classList.contains("checked")) { sync.s.ticks[k] = { v: true, t: 1 }; sync.s.dirty = true; }
+      });
+      sync.save();
+    }
+    function apply() {
+      if (!sync) return;
+      var m = sync.map(), ch = false;
+      keyed.forEach(function (it) {
+        var k = it.getAttribute("data-k"), cb = it.querySelector(".cb");
+        if (!(k in m) || cb.classList.contains("checked") === m[k]) return;
+        if (typeof window.setChecked === "function") window.setChecked(cb, m[k]);
+        else { cb.classList.toggle("checked", m[k]); var lb = it.querySelector(".label"); if (lb) lb.classList.toggle("checked", m[k]); }
+        ch = true;
+      });
+      if (ch) { if (typeof window.updateProgress === "function") window.updateProgress(); if (typeof window.refreshCode === "function") try { window.refreshCode(); } catch (e) {} }
+      paint();
+    }
+    function onChange() {
+      paint();
+      if (!sync) return;
+      var m = sync.map();
+      keyed.forEach(function (it) {
+        var k = it.getAttribute("data-k"), on = it.querySelector(".cb").classList.contains("checked");
+        if (m[k] !== on && !(!(k in m) && !on)) sync.set(k, on).then(paint);
+      });
+    }
+    if (sync) {
+      sync.pull().then(apply);
+      document.addEventListener("visibilitychange", function () { if (!document.hidden) sync.pull().then(apply); });
+    }
     paint();
-    var mo = new MutationObserver(paint);
+    var mo = new MutationObserver(onChange);
     items.forEach(function (it) { var cb = it.querySelector(".cb"); if (cb) mo.observe(cb, { attributes: true, attributeFilter: ["class"] }); });
+  }
+
+  function tripId() {
+    var b = document.getElementById("packList"), t = b ? b.getAttribute("data-trip") : "";
+    if (!t) { try { t = TRIP.id; } catch (e) {} }
+    return t || "trip";
   }
 
   /* ── 2. 攜帶物品清單 ── */

@@ -211,12 +211,12 @@ nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
 <div class="section">
   <div class="section-title">✈️ 出發前準備</div>
   <div class="card">
-    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">✅ 機票已訂<span class="tag t-move">5/1去 5/5回</span></div><div class="note">票價／人數｜進出機場｜接送、貴賓室</div></div></div>
-    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">✅ 住宿已訂<span class="tag t-stay">已完成</span></div><div class="note">飯店名稱、日期、房型</div></div></div>
-    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">門票／餐廳訂位<span class="tag t-warn">開賣日</span></div><div class="note">幾號幾點開放預約、要準備什麼</div></div></div>
-    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">📶 網卡購買（eSIM，每人一張）<span class="tag t-warn">出發前</span></div><div class="note"><b>選當地「原生」線路</b>（日本：docomo／SoftBank／KDDI 本地卡），出口才是當地 IP；香港／中國漫遊卡便宜但慢，<b>Claude App 可能不能用</b>（手帳要靠它）｜淘寶買要找標「原生eSIM」、寫明電信商與 APN 的，下單前問客服「是否原生、出口 IP 是哪裡、能不能用 Claude/ChatGPT」｜想全程不降速就選標「全程高速／不降速」的方案｜備案：台灣通路的原生 eSIM（DJB、SIM88）或電信漫遊（繞回台灣、台灣 IP）<br>⚠️ 每人分開下單｜eSIM 只能下載一次，裝好別刪｜撥 *#06# 有 EID 才支援｜在台灣先安裝，落地開「數據漫遊」並指定行動數據｜落地打開 ipinfo.io 確認是當地國家，再用 Claude 傳照片測試</div></div></div>
-    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">🛡️ 旅平險／不便險<span class="tag t-warn">出發前</span></div><div class="note">固定組合：<b>機票刷滙豐旅人無限卡</b>＋<b>國泰產險 海外「豪華定額型」</b>（兩人都要保）<br>💳 <b>滙豐旅人無限卡</b>（機票含稅<b>全額</b>刷這張，兩人機票都要；配偶同樣保障；實支實付、要留收據）：公共運輸旅平險 2,000 萬、意外醫療 10 萬｜班機延誤 ≥4 小時最高 2 萬（延誤期間餐費、住宿、交通）｜行李延誤 6 小時以上最高 2 萬（買內衣、盥洗用品）｜行李遺失最高 6 萬｜延誤跟航空公司要<b>延誤證明</b>、行李向櫃台開 <b>PIR</b>，30 天內申請<br>🛡️ <b>國泰產險 豪華定額型</b>（國泰官網或 App 投保；定額給付，跟卡可以兩邊都申請）：海外突發疾病含法定傳染病（日韓住院可代墊）、班機延誤每 4 小時 6,000／最高 12,000、行李延誤／損失各 6,000、海外急難救助 300 萬｜投保時：期間從出門前到回到家、<b>班機延誤快速理賠</b>填去回程航班編號（延誤自動匯款）｜颱風形成前就要買好<br>📞 國泰海外急難救助（24 小時）：<a href="tel:+886227551258">+886-2-2755-1258</a>｜台灣客服 0800-212-880（國外打不通，用網路電話）｜保單與電話截圖存相簿，就醫留收據和診斷書</div></div></div>
-    <div class="item"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">交通卡／外幣</div></div></div>
+    <div class="item" data-k="flight"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">✅ 機票已訂<span class="tag t-move">5/1去 5/5回</span></div><div class="note">票價／人數｜進出機場｜接送、貴賓室</div></div></div>
+    <div class="item" data-k="hotel"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">✅ 住宿已訂<span class="tag t-stay">已完成</span></div><div class="note">飯店名稱、日期、房型</div></div></div>
+    <div class="item" data-k="booking"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">門票／餐廳訂位<span class="tag t-warn">開賣日</span></div><div class="note">幾號幾點開放預約、要準備什麼</div></div></div>
+    <div class="item" data-k="esim"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">📶 網卡購買（eSIM，每人一張）<span class="tag t-warn">出發前</span></div><div class="note"><b>選當地「原生」線路</b>（日本：docomo／SoftBank／KDDI 本地卡），出口才是當地 IP；香港／中國漫遊卡便宜但慢，<b>Claude App 可能不能用</b>（手帳要靠它）｜淘寶買要找標「原生eSIM」、寫明電信商與 APN 的，下單前問客服「是否原生、出口 IP 是哪裡、能不能用 Claude/ChatGPT」｜想全程不降速就選標「全程高速／不降速」的方案｜備案：台灣通路的原生 eSIM（DJB、SIM88）或電信漫遊（繞回台灣、台灣 IP）<br>⚠️ 每人分開下單｜eSIM 只能下載一次，裝好別刪｜撥 *#06# 有 EID 才支援｜在台灣先安裝，落地開「數據漫遊」並指定行動數據｜落地打開 ipinfo.io 確認是當地國家，再用 Claude 傳照片測試</div></div></div>
+    <div class="item" data-k="insurance"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">🛡️ 旅平險／不便險<span class="tag t-warn">出發前</span></div><div class="note">固定組合：<b>機票刷滙豐旅人無限卡</b>＋<b>國泰產險 海外「豪華定額型」</b>（兩人都要保）<br>💳 <b>滙豐旅人無限卡</b>（機票含稅<b>全額</b>刷這張，兩人機票都要；配偶同樣保障；實支實付、要留收據）：公共運輸旅平險 2,000 萬、意外醫療 10 萬｜班機延誤 ≥4 小時最高 2 萬（延誤期間餐費、住宿、交通）｜行李延誤 6 小時以上最高 2 萬（買內衣、盥洗用品）｜行李遺失最高 6 萬｜延誤跟航空公司要<b>延誤證明</b>、行李向櫃台開 <b>PIR</b>，30 天內申請<br>🛡️ <b>國泰產險 豪華定額型</b>（國泰官網或 App 投保；定額給付，跟卡可以兩邊都申請）：海外突發疾病含法定傳染病（日韓住院可代墊）、班機延誤每 4 小時 6,000／最高 12,000、行李延誤／損失各 6,000、海外急難救助 300 萬｜投保時：期間從出門前到回到家、<b>班機延誤快速理賠</b>填去回程航班編號（延誤自動匯款）｜颱風形成前就要買好<br>📞 國泰海外急難救助（24 小時）：<a href="tel:+886227551258">+886-2-2755-1258</a>｜台灣客服 0800-212-880（國外打不通，用網路電話）｜保單與電話截圖存相簿，就醫留收據和診斷書</div></div></div>
+    <div class="item" data-k="transitcard"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">交通卡／外幣</div></div></div>
   </div>
   <div id="packList" data-trip=""></div>
 </div>
@@ -531,7 +531,7 @@ refreshCode();
 })();
 </script>
 <script src="../trip-kit/shopsync.js?v=2"></script>
-<script src="../trip-kit/predep.js?v=1"></script>
+<script src="../trip-kit/predep.js?v=2"></script>
 <script>
 /* 🛒 購物清單 → 行程：shopping.json 每項的 at（例 ["D5-drug"]）對應行程項目的 data-shop，
    在那一項下面列出「這裡要買」，已買的劃掉；點了開清單頁。分享出去的訪客也看得到。 */
