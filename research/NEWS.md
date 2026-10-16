@@ -1,6 +1,6 @@
 # 每日新聞追蹤（自動）
 
-**更新：2026-10-16 07:07　涵蓋：近 2 日**
+**更新：2026-10-17 06:54　涵蓋：近 2 日**
 
 標題與連結來自 Google News RSS，僅供索引；判讀段落由 Claude API 依標題產生，**只看標題、未讀全文**，重大事項請點原文確認。
 
@@ -13,30 +13,33 @@
 ### 800V電源鏈
 
 **NVIDIA 800V 夥伴名單是否新增台廠**　（搜尋：NVIDIA 800V 合作夥伴 台廠）
+- 10/16 [光寶科攜手輝達亮相OCP 展出800 VDC關鍵電源技術 - 鉅亨網](https://news.google.com/rss/articles/CBMiS0FVX3lxTE5ienVSbFJESUhMeXRFS1lmQzZ0eVF5N3R2aFJ4QWs3VVdYYW9hOThkTDlrM2pwdGlwMlpHeHg0U1NLYUpyeUV5eUVvZw?oc=5)
+- 10/16 [光寶科OCP秀800 VDC機櫃，展示新世代AI基建實力 - 台視全球資訊網](https://news.google.com/rss/articles/CBMinAFBVV95cUxQTWNFTU9DelZicTVZYVNWaUhVaVB0ZDNYUzRzTHVBTkVmNGdicDBqU19GRVhKc0cwVzJMWTA4RHJnb2RucXNCcktPWTlsbm96ZFBuNzFaN2QtU2Vub1FIMUVkTmNyY0dqMFVxdGFTVG5vZ0ZBSUlJMDdZcWZUMjkyN1Rxcm1sYmpCSmdWWnVqRTJaaDM3dXpKdEkyR3g?oc=5)
+- 10/16 [輝達AI代理筆電RTX Spark上市！華碩等台廠同寫新篇章 - TVBS新聞網](https://news.google.com/rss/articles/CBMiTkFVX3lxTE1YSXFwU3JLRFBMWjJrRllhb3Q2cVlBZmU2RU1HaGxEUTRjY2dxR2ZMM0ZVZ0hKdXJVb1Z1dE4xdFA0OEpVWDNRZERudVNMZw?oc=5)
 - 10/15 [熱門股》入列輝達供應鏈 台虹跳空漲停 - 自由時報](https://news.google.com/rss/articles/CBMiWEFVX3lxTE8yXzlZUVlQSGxlMmN2aUZfeHRtODlrZDZGUnhzRDQ4VzFJb3JFa2VBSnpjMFlJWDJrbndSUjkwOE1rejlqZXdRaGtrenMxbmlaWkpPN1FnOGc?oc=5)
-- 10/14 [輝達峰會：點名合作PTFE供應商 2家台廠股價狂歡！秒漲停鎖死 - Yahoo新聞](https://news.google.com/rss/articles/CBMi8gJBVV95cUxQNWFhZF9yNWJfN1VoUERhcFBUNGVoY1dvdVZuRzhlTUl5elJkeVY2R3Y0a3VqTHRfLVFlU29LakJLejhRM2dMNzVNWmJOdGhSSjQyQ2pTd2RFaDYxTFBKOVQ5MVdQQWJmdl9qeEx1WVlvdmRDLXpGWnJhUDc1Ui1RUGhHcG02YjdkSnZzN3doaXhEcWI5Rmd3TEVZc3VrOVkxU1R2SnpqcTVhTC0tNklIODUzTUZCWGpVLTc4TFBTUUVCTU9aUzluTldRQmV4WlJXMlpqWlhzV2xPNmlGQWJ6SGNsQk10UmE3WlA5Q2M1VkoxWjdPeHhfbGVwWmN5MElTd2lUbDNLVWlyUF81UGxuaXlCT2k5UzRjbGhWN1RkVU9NdlJFLU5LVkctZjhOWXZGXzJsM2g0djRkb2kySHZBa1BoM3dfU2J1LTRua3hSdjQ3ckhQVTRaWlYxWEhkdGZhbGQ2WFA2SmpiNFVtQklfR0VR?oc=5)
 - 10/15 [直擊 OCP 輝達 PTFE 供應鏈名單！分析師點名 CCL 兩廠「將迎記憶體時刻」 - 鏈新聞 ABMedia](https://news.google.com/rss/articles/CBMiW0FVX3lxTE1jclNTN0x0N3R2cThyS05hcXIwTnNMMWUxMlRxd2owUkQ2M3lacUdnQkZBMmwxUFc0ODdKNlBaWXltVUFMUVBnNmxNQUhCTTFGb1NDYkR6SUJuTEk?oc=5)
-- 10/14 [蘇姿丰vs.黃仁勳 AI 機櫃戰台鏈受惠股 - 理財周刊](https://news.google.com/rss/articles/CBMikgFBVV95cUxPY3FZS1VwRGNmZlczTzVHc3pnbkhfMXZSRWFUTWpIOFRhY0dlald4N0I2eDJBX3JnVlZYZURnWGdnOExLa1EyUUo3VS1rRTlMa0dLVmNaTXl6aUp0RzRHN0lTQnczX2tMSktGWlpvdVZCRzdyT1E5STIxbXc3MndWYVotX0NEOWNVdnU2dWNHY2JPQQ?oc=5)
-- 10/14 [焦點股》台虹：入列輝達PTFE交換器供應商！開盤急奔漲停 - 自由時報](https://news.google.com/rss/articles/CBMiWEFVX3lxTE9CY0JHbk8wUHpaTTlVTzR2QTNaSWpTU3hUb2dFVkdXeEloVGpHOXJBU3VxUGJTUHdPdUE5QmUwbUNSZFdJYjlzRDdWTV9YUGgtR3FZQ3k0Vkc?oc=5)
 
 **漢磊 8吋 SiC 驗證**　（搜尋：漢磊 SiC 驗證）
-- 10/14 [GaN、SiC雙引擎點火！「晶圓代工廠」Q3營收創近15季新高 明年6吋碳化矽營收拚翻倍 - FTNN 新聞網](https://news.google.com/rss/articles/CBMiS0FVX3lxTE9oYmdUOG0tTU90blgxSm5tdWFqaU9rSEUxWmpvU1BEbWRBOHEwZVpnbmVGQV9uaEd5TTdEWExVZGY4QjZuUTNfekFfRQ?oc=5)
+- 近兩日無相關新聞
 
 **台達電 800V 電源櫃出貨**　（搜尋：台達電 800V）
 - 10/15 [台達電鄭平：三因素限制電力設施建置 供電缺口成AI發展關鍵挑戰 - 鉅亨網](https://news.google.com/rss/articles/CBMiT0FVX3lxTE5UR1Zyb1pFR25mMEpPRy1Bb1lYT0tMQUNVS2VPdjIwZjh5ZjJ3Z1FjY0s0TXlMOGgwemJlcHVRZUVqZWljaUxCUXdvSlhreXM?oc=5)
-- 10/14 [台達電攜手X LABS 布局北美AI基建供電 - 自由時報](https://news.google.com/rss/articles/CBMiWEFVX3lxTE9md1k2X3VRT3k5LWMxUUZoYld3XzE2LWIwTHZlT2dqUXlGUkprMzhxNU5kdk1LTFFxam1jeWU5MWNmZFR1U09Dc1FJb1g4cF9HLVg0blhhM18?oc=5)
-- 10/14 [台達電 800VDC SST 實機首度亮相！SOFC 年底啟動試量產 - TechNews 科技新報](https://news.google.com/rss/articles/CBMiqAFBVV95cUxOaE5SMUxhTFZrQXZ5MGN5blRoMHJJZ2tPWHVuQ25oYk5ZZmVNbGxTcVhVOE5IaEFTVVdoVkNMVmFuZTB6MTJXUWlEZ3Y1U1NIcVMzZEZfM0N3TnJQMHplREZsY3BrLXRlWFpkMi1oMkxyeVZ0MmxWQUxscjNiNmFpMUxqeXZMek9nSDFBWFhHaWlCVEMtYlp5WC01WFJaOVpKNC02dGZZVDc?oc=5)
-- 10/15 [輝達OCP揭新布局AIDC電力升級德微等功率元件廠搶攻商機- 日報 - 工商時報](https://news.google.com/rss/articles/CBMiX0FVX3lxTFB2RGZnYnNtc01QSmJfQ3l5a3k0WnYxT2N2VWI1YVVhNy1kSml4bTFvR3pzZmQwQTl6TURHVmJjN1IwQU93c0pvVWVVT1FzbERNVkk3ZmVRRHoyUVdYa2tr?oc=5)
-- 10/14 [OCP峰會》德州儀器發表奈秒級遙測ADC、800V電源控制器 | 信傳媒 - LINE TODAY](https://news.google.com/rss/articles/CBMiVkFVX3lxTFBNei0yVHFfYk1yWDJnb3dGYlF6R0g0Q0pXaGk5RTVSVUV1VlhkQk1kdklsUHhkd2thdEpSODJHcFhGUlFZdllRbmxsck4tY3BNMmVzdnpB?oc=5)
+- 10/16 [格斯科技推800V LTO高壓電池系統- 財經要聞- 工商時報 - 中時新聞網](https://news.google.com/rss/articles/CBMic0FVX3lxTE42Q0JLRkFiSFRIN0JhdEN0dmpGNUoxWVVyQURPMmNMeDV3NVBzRUFKd1RKRmlqVkNRNElhei0yRGNaS2tadHcwelB1a3YxMnFTUlM1TjBhLWxIcFNMSkg4Q0RrWm5tLWNqMTlrQlVULV91TVE?oc=5)
+- 10/15 [台達電鄭平：三因素限制電力設施建置 供電缺口成AI發展關鍵挑戰 - 鉅亨網](https://news.google.com/rss/articles/CBMiT0FVX3lxTE9NeG1YYzd0blkzR09ycTg5TkZxSGQ2RTE5WXluSDVGd3dZQWFIQzBXOHR5cTJmX0VhZFUyQVhLVGl5QWxxOVB0LWh2VGNvRkU?oc=5)
+- 10/16 [AI概念股怎麼挑？台積電領軍 法人最新布局名單曝光 | Newtalk - LINE TODAY](https://news.google.com/rss/articles/CBMiVkFVX3lxTFBvemVHMm9tUEltUXI4M1ZlMVJQQzl1SHo4SDZTa080dW55bXpjY096VUNrN0tUcThraTJ4am1jcmxPSXN6T19YenN5QzZsVVRwT09CTkpB?oc=5)
+- 10/15 [8255 朋程- 新聞分享‼️‼️🫰 - 股市爆料同學會 - CMoney](https://news.google.com/rss/articles/CBMiWEFVX3lxTE5UbHZTQklNTVpDMXQ1MDYxXzNJcXU2NGVpYXZldkpJUUQ3N0g5OElESlZHZDhVQjk4VjJvM29nM0VtaFZJblJiUGc3dE80eEVITTc5NHJnanE?oc=5)
 - 10/15 [熱門股》入列輝達供應鏈 台虹跳空漲停 - 自由時報](https://news.google.com/rss/articles/CBMiWEFVX3lxTE8yXzlZUVlQSGxlMmN2aUZfeHRtODlrZDZGUnhzRDQ4VzFJb3JFa2VBSnpjMFlJWDJrbndSUjkwOE1rejlqZXdRaGtrenMxbmlaWkpPN1FnOGc?oc=5)
 
 **光寶科 Vera Rubin 驗證**　（搜尋：光寶科 800V Power Rack）
-- 10/14 [光寶科前進2026 OCP 聚焦NVIDIA 800 VDC架構、液冷散熱核心布局 - 鉅亨網](https://news.google.com/rss/articles/CBMiT0FVX3lxTE91QV9qblJZaGhYOHVZaFpFZTRDTW0xYUw1N2JWX0pxYVRQdEs5Z1NMM0RfRmpBSUFNU2U0bzNIUk45M2lvM0c4VnVSZF94NEE?oc=5)
-- 10/15 [光寶科亮相 OCP，秀 800 VDC 電源與 2.6MW 液冷系統 - TechNews 科技新報](https://news.google.com/rss/articles/CBMinAFBVV95cUxNV2FMVGlidXp2bEUyV2s3enlsdWMzYTNOTnpFVGNmcVowcTdoX1BieVp0VmlJSExmejlndzRIaFBiTUQ5Y25SZHAxT0JOZnpNUUVZWlRiZFpqd1k4RWd1bnZjSDBmNUpseHFjSE1PaG1wMnVzcGpNRVZqTHVYY09CSDk3VXY5RmhRdS1YNTZURmR6WTN2SHFiajNWdWE?oc=5)
-- 10/14 [光寶科前進OCP峰會，聚焦800 VDC/液冷散熱布局 - 台視全球資訊網](https://news.google.com/rss/articles/CBMikgFBVV95cUxPN3duZUcyTEtSQ21JXzJtd09lYlZ1dTFpQ1RnTGxaZmNFSVd2NFdRb3FhR2dySzEwQjFxbDhTRkswUmVMZnNERkctMzVsM19VQ1NUblRUREFpMHF3cjV5a29UcXNtcEh1S21tc0VpUHNRRkExbE5rSUZhYjl0dHBGZUI2RGNHb2YtSkdzMlJnUnlWQQ?oc=5)
+- 10/16 [光寶科攜手輝達亮相OCP 展出800 VDC關鍵電源技術 - 鉅亨網](https://news.google.com/rss/articles/CBMiT0FVX3lxTE81WXp2Q2g2YldYNDE2N2RCNlg1MVkwaWpfVzdKdWE2WENIcUItQnFTckpUMGEwVno3UDBPVFdTdzFjRkhwcDBOVVU5TW5KMUk?oc=5)
+- 10/16 [AI 電源功率一路飆升！光寶科 OCP 秀 1.2 MW 供電配置 - TechNews 科技新報](https://news.google.com/rss/articles/CBMilgFBVV95cUxQMGVaV1JJTWtWRjE3WGcyTm9QUzR2QTRlMUFqVFBvcjRITWdqN2xlQ2IyaS1XMlJwNnBRc202cV9ac2JDV05PU2xrQWtZX3prU29sU2VfN2Z4UjhBZmh1VnEtMGNZTzRaUjFpU2N5VmMySHo5QUFSbDU4ZDNVbUN0eTQxSkhHSUphcmdhaHRsdzI4N2g1bUE?oc=5)
+- 10/16 [光寶科OCP秀800 VDC機櫃，展示新世代AI基建實力 - 台視全球資訊網](https://news.google.com/rss/articles/CBMinAFBVV95cUxQTWNFTU9DelZicTVZYVNWaUhVaVB0ZDNYUzRzTHVBTkVmNGdicDBqU19GRVhKc0cwVzJMWTA4RHJnb2RucXNCcktPWTlsbm96ZFBuNzFaN2QtU2Vub1FIMUVkTmNyY0dqMFVxdGFTVG5vZ0ZBSUlJMDdZcWZUMjkyN1Rxcm1sYmpCSmdWWnVqRTJaaDM3dXpKdEkyR3g?oc=5)
+- 10/16 [光寶受邀參與NVIDIA MGX平台生態系展示 聚焦800 VDC 關鍵電源技術 - 經濟日報](https://news.google.com/rss/articles/CBMiX0FVX3lxTFBfeUhGTy12VWFzQWc5QnE4T0tGZmVwVTNEYndGZXBEcW5vY09iN0NTcUJ2bmptdWVGcU84S3JiNUJkNVhpTEhNSU1UaTZILWxPLXZDeWZ6NHVBRlphU19V0gFfQVVfeXFMUF95SEZPLXZVYXNBZzlCcThPS0ZmZXBVM0Rid0ZlcERxbm9jT2I3Q1NxQnZuam11ZUZxTzhLcmI1QmQ1WGlMSE1JTVRpNkgtbE8tdkN5Zno0dUFGWmFTX1U?oc=5)
+- 10/16 [《電週邊》光寶科參與NVIDIA MGX生態系 大秀800 VDC電源機櫃 - 富聯網](https://news.google.com/rss/articles/CBMiiAFBVV95cUxOMlR0S3I1WGZBZmhJZVFJQWNVNkR6ekZCX2lvVDNZRjlIM3BfOWJMNVoxdUhudnZSRi1IazhGbTZxYkZNZkpsRTRibmVONXJacVdRWkxTNWRGYVBqS0gzak9VNG4xQkRYYlVCUkVKcEZ0SmxDQjZ0ZHBvcVJaWWhTNlZ3SzNfLVV3?oc=5)
 
 **800V HVDC 採用時程**　（搜尋：800V HVDC 資料中心 時程）
-- 10/14 [8255 朋程- 新聞分享‼️‼️🫰 - 股市爆料同學會 - CMoney](https://news.google.com/rss/articles/CBMiWEFVX3lxTE5UbHZTQklNTVpDMXQ1MDYxXzNJcXU2NGVpYXZldkpJUUQ3N0g5OElESlZHZDhVQjk4VjJvM29nM0VtaFZJblJiUGc3dE80eEVITTc5NHJnanE?oc=5)
+- 10/15 [8255 朋程- 新聞分享+心得👋👋👋 - 股市爆料同學會 - CMoney](https://news.google.com/rss/articles/CBMiWEFVX3lxTE1VYW16em50NkpZTm5JTE1BNlNDZ0NOb3RXb2lGVkRLNGlVZ05FYU1hTXZCdTNQY2FoSVJBU3dyemh4TGF1Z1VCbXdMYnkxeXRxOFRwblczM2E?oc=5)
+- 10/15 [8255 朋程- 新聞分享‼️‼️🫰 - 股市爆料同學會 - CMoney](https://news.google.com/rss/articles/CBMiWEFVX3lxTE5UbHZTQklNTVpDMXQ1MDYxXzNJcXU2NGVpYXZldkpJUUQ3N0g5OElESlZHZDhVQjk4VjJvM29nM0VtaFZJblJiUGc3dE80eEVITTc5NHJnanE?oc=5)
 
 **Kyber 機櫃時程**　（搜尋：Kyber 機櫃 Rubin Ultra 量產）
 - 近兩日無相關新聞
@@ -51,91 +54,90 @@
 - 近兩日無相關新聞
 
 **EFB 封裝營收貢獻**　（搜尋：EFB 封裝 日月光 力成 面板級）
-- 10/14 [蘇姿丰vs.黃仁勳 AI機櫃戰 台鏈受惠股 - 台灣好新聞](https://news.google.com/rss/articles/CBMigwJBVV95cUxONUV0X2t5bmJFTEhlSUl3YkRZXzkwTXZNREZQaXBDenFmMS1mOXpPd3I4R04xalBDdE9KZlhKcHlfTkxwUzBxbWxNb3hIMlExR3RLVEI3NVFkMlFXaGxIcDQ5NXpvMmR1LWVHdldTeUk5M3pIU0QzZTJsWGItUENmQ2NmWWtPRnlndm1DUnc3dXFvem9CTEVwSkdJM1dYRWRkdDVCQkc5aFhLSmZ3YlViUkZ6UlNsZTQ1YlJWOUtDRTl1NGZTVjZ0cDcxUzVGSkVtTmxTZ0F0S2hoY1lpclhPTWdzY000U2tsa3FmLW1GdlpCdWNyMW54ZEN3aEhUVEd0Wnc4?oc=5)
+- 10/16 [AMD攜AAOI台廠受惠有哪些？環宇、全新、台積電供應鏈一次看懂 - 口袋證券](https://news.google.com/rss/articles/CBMiVkFVX3lxTE9UYy16V0NoM3BRTTJRRDQ1Sy1UZmYzWTY5UzgxS2pMS1ZMLTFCR3hBQVdnSElDYTN4bGdCNEdmMzk1aWFEVU5DYXJZTXhSQnp2MEhITV9n?oc=5)
+- 10/17 [蘇姿丰vs.黃仁勳！人工智慧機櫃戰10檔台鏈受惠股一次看- 財經 - 中時新聞網](https://news.google.com/rss/articles/CBMibkFVX3lxTE5nX1psR1cyNXNTbEJjdXRXcUtZMHVSYW5rX3JEVmRoTFBvQW8xNDh1WGhiSkRHZ0xqc3BlY2ZUSWZ1SzRSX1NRb2JYZHFHRU1kaXEtaktOQWxGdjhvaE5xZkJzVF9PRjFHZ2hlRERR?oc=5)
 
 **ABF 載板報價與擴產**　（搜尋：ABF 載板 漲價 欣興 南電 景碩）
-- 10/16 [外資送暖欣興、南電目標價調升- 日報 - 工商時報](https://news.google.com/rss/articles/CBMiX0FVX3lxTFA0a25sZS1wRkNldE04c3dSODlOZmVqcUhCekpPd3gzWEJIZnFKNWtWS2hfTUl2bm02YU1YY0ozQ3B2SUVUZVM2SzBqMDRMWnptVlY4MWdHbll2dDhlcFJv?oc=5)
-- 10/15 [欣興閃見跌停1070元，景碩、南電、台光電…載板股全被壓扁先挑誰？9檔PCB概念股前景、目標價盤點 - 今周刊](https://news.google.com/rss/articles/CBMigAFBVV95cUxPNE1QVDVjdGl4SmhNYlYwZjdhdjRIenVrLWlCRU1aTzFtVHAta0R0RkJsaHhiby1XLXRpRXpjY1VRMks4RVI3THZ3cHlxbHJlNDdicDZ2c0NTSGo1RVZwMmZMb0hUQVEwOHR6dUJTdmRwdHlvUGRwWDRkTnRxbTlCRg?oc=5)
-- 10/15 [景氣循環股遇AI 記憶體與ABF搶擴產 誰會先步入景氣反轉？ - 理財周刊](https://news.google.com/rss/articles/CBMib0FVX3lxTE9TMDB3YkNicF9wQXhNWXpmd1QzSk1UMGIwRG0tb0dKWjlaUVFIakdzTXg0MjVmZW1xa2Z5MXBVSFZKclJ6NlVoY0tVNnU3T2EzNkhHUklIbEVERkhkQ2VLVTFaVm1zZE1IcldkdGJNaw?oc=5)
-- 10/15 [台光電(2383) 高階材料布局解析：切入ABF載板CCL，挑戰日系材料供應鏈！ - 優分析UAnalyze](https://news.google.com/rss/articles/CBMiVkFVX3lxTFA3SzNuT0lPc2VmcWVPR05LeE4xazFKWTBUeGp5YjlObE5hcU5rUXhKYVJBbzVrRUhvUmJkRmxjc1NOTC15UXpJbi1yTEZTNk81UFA5UHJR?oc=5)
-- 10/14 [目標價、EPS 1表看》不是欣興、南電！它ABF產能一路擴到2030 兩投顧2028年EPS竟差逾4成 - 上市櫃 - 旺得富理財網](https://news.google.com/rss/articles/CBMiakFVX3lxTFBaNXZQcldESGVUU1NtUExKS25yeGlLZVFkSFZCN2dZdnBxQkM2ek9keGExV1NiVU9MWlE1NV9tc0k3bFNMeFJrOHNnYWdzQkFHUU9faDhCOG5EcUYyeXpuRm1FTDlBVTNCUEE?oc=5)
-- 10/14 [目標價1280元！「載板大廠」EPS上看至36元 ABF載板Q4有望再漲15%＋需求一路看到2028年 - FTNN 新聞網](https://news.google.com/rss/articles/CBMiS0FVX3lxTE10d2EtTk03VTJpdWhoZ1oybW0zV0t3eDdwMFVnRG5fekhLYzQzdkF6LVNaS0hDNllQTmRQRzhER0pxcGdFLW9QVXNzMA?oc=5)
+- 10/17 [載板4雄全成千金股？高盛喊買：南電、景碩、欣興、臻鼎目標價一次看 - 三立新聞](https://news.google.com/rss/articles/CBMiS0FVX3lxTE1RUzFPbDdXZWVybTliT1ZudlJhNXBEVUVFMG9xVVFFQzM2YkotUVBSMW5jVFluVVNyTUllR3lyVGt4SFl2d0g2SEN4WQ?oc=5)
+- 10/16 [ABF載板供不應求至2030年？大摩上調欣興、南電目標價至1,775元、2,000元 - 工商時報](https://news.google.com/rss/articles/CBMiX0FVX3lxTFA0a25sZS1wRkNldE04c3dSODlOZmVqcUhCekpPd3gzWEJIZnFKNWtWS2hfTUl2bm02YU1YY0ozQ3B2SUVUZVM2SzBqMDRMWnptVlY4MWdHbll2dDhlcFJv?oc=5)
+- 10/16 [高盛全力作多？載板4雄目標價全升了臻鼎、景碩、南電、欣興...喊買原因曝：竟跟ABF無關 - 上市櫃 - 旺得富理財網](https://news.google.com/rss/articles/CBMiakFVX3lxTFBNRlFnNXF6ZjdmYVc2Vk5GRzV6c1dZMHN2cVFuODZFTTNFSENWbzM0OTk5aWg4eGNxNy13Ukx1bFBLWEZQOWhIcFJVUFU2SUhQalpWbUl5d2VUWDV5UzR4ZGllcGwxa09PdFE?oc=5)
+- 10/16 [漲價循環確立！這「載板廠」新產能開出 全年獲利估飆267%、目標價挑戰1085元 - FTNN 新聞網](https://news.google.com/rss/articles/CBMiS0FVX3lxTE9KR1Rnd3BWTUE2MVI3STVDNE1Pbi1ZOHh6cDVyNjUyejZ1SmZHRTlocVl0TEJtYWpuV2gxWFhETFpzbUFQQ0xTMHlQMA?oc=5)
+- 10/16 [BT載板供需炸裂！高盛調升4台廠目標價 - 東森電視](https://news.google.com/rss/articles/CBMiWkFVX3lxTE4zRm5CUGQzekswNEIxSndUMnBTME5HeXFNWE9TcVdGdVIyWVhOZDlDVjdlY3QwMkFmNmE5NnprWkYtUEhUMnU2NUpWbGFZX3VPRjNMSnpXeG1Pdw?oc=5)
+- 10/16 [新一檔千金股要出現？「載板大廠」獲美系外資目標價上修：看準漲價潮到2028 | 下班經濟學| 財經 - 風傳媒](https://news.google.com/rss/articles/CBMiTkFVX3lxTE9LTUMzd1d3X0Q4eHNKcEpfay01Z3BEYWxSQmRXLXoxUDhONmZpMlpGcGlOMkE2OGkzVURoVk5hTktfY080bDNUUmRZYWppQQ?oc=5)
 
 
 ### 第9條觸發
 
 **DRAM 大廠漲價**　（搜尋：三星 SK海力士 美光 漲價 DRAM 合約價）
-- 10/15 [美光今年爆漲190%、SK海力士近期暴跌逾一成！南亞科還有的跌? - 台灣好新聞](https://news.google.com/rss/articles/CBMiyANBVV95cUxPZVpxWUloTlhsT280c1J4Qk1HSEQ4M2lDOFlWWGo1WjBnaFB2dU9XaUJJblZkZHpLTE5PRnpEYXppUUFwdEl2czNmSFFDRDR1c2dGT0J6UUFHeEVfT0dKRWtFNGJVNHBXZnVJeXZhVnF5TDFET2ViSzlFa0lDelJJUEY5UGdsTEVZajRQZDN1Z09IRl9HVW5JQ0dmYzU2aUlwWGhiM1d3T1VXMk0xeDNQQlpLbEtQVUNfR0xLNXhCZkdVV0hRaUwtdjlWLTdVNVBWYlFWRWFCaTYzMWJtMERGb1Q2a29MLUpZNWVUYWJqaDREcHVIcVZkV0Y0ckd1OHU0aHY4Szd2YkVOVjM1TjZyWVBOdTgtU21qUjBsM2F5c1dWRHhjblJuQWFHVmx6NjNLbnkxemU0NlNLaVRNX1pRaW1Xcmp5NWJVbjJKRldDVnBlQ2ZVTWhDNUR4Tkp1Y0V3UU5oTjNvMjBGc0ZlRW5jSzRoYVlDY1dReWx2NWJQOV9Temw4RWVkSVVkYnJOajBOVHpVRWlVTWZsR2JIY3JxUXI1TkdpZDFHQjQzYW1ENFh6YTJYcFc2aEs0TW42a1ZabndBbWNNdy0?oc=5)
-- 10/14 [記憶體LTA協議—鎖住利潤還是鎖住未來？ - 鉅亨號](https://news.google.com/rss/articles/CBMiSEFVX3lxTE8xaDltNURRODFUdXdRSnJQNDJKbmRteEF1NDBqaEtOWGl1OGphZjZWeDlhWGFaTFdXQ0JaN0FhbWNKdm91VE5IcQ?oc=5)
-- 10/14 [馬斯克譙記憶體「趁火打劫」嗆給我記住！獨讚美光定價合理 - 蕃新聞](https://news.google.com/rss/articles/CBMiUkFVX3lxTFBhSVBFemNMUUhXX3JJNFhNbkRPLTA2aG1JalplZ0Njd3pQNVJfNkRmaHF0ckUtQ3E2Q2RDQ0lWZmNrYjFVYzR6VVlwUnBHLWptbnc?oc=5)
-- 10/14 [馬斯克力挺美光記憶體定價，批評競爭對手報價過高：這對MU股價意味著什麼？ - TradingKey](https://news.google.com/rss/articles/CBMiwwFBVV95cUxNaU1vSjNtcnhjMko0R003OFR1MWtVajgwNV95RWtWdjgzenZCaXFveURoTXhoYy1hR0IybW8yV3BQS05IYjQ2bW02UTdyY0JqR1h2MjRzTHBWU1ROVDlZS3pWM0pzYzN2c1BZeWJQb0tFNEI2aFhmM3EyNDktY0pMei1UWk1laEdiRzliVEVWTF9ENy1kVVFINVJmejlnMzFyWm9xaDg0VzJXRDVTYXdIVlQ0YlhNc2dwU05VVnh6QmV5UzA?oc=5)
-- 10/14 [記憶體越賺越要小心 大摩提醒股價往往比獲利先見頂 - Yahoo 財經](https://news.google.com/rss/articles/CBMi8wJBVV95cUxPQXdCT1NZbVo0SFRtVFRJSlJNZE54UlIzb0FZM1NEa3F2bkNrenFHT3VnZHB5THB0enpwa1pnYi1kYnlzSG9hNnVrYmxoRkZlTXlPVm9fMGt2QzkwNWhqdk1WRGRnVXBLa295bDA3bzhQMVhVdHZJQTFONTVpLVBDTGhYZGhkOTBscjl2VGdQcDRhTEQ2a25DMzUzSGxDM0tGWmZWRWhHRmZYN0lLdVpUYUpMODJsU2RZVTJKWXNJelF0bHRWb3l4M2xmQ0p5M21Ga1Y0cDlGWDU3enE1aFE0V2hIRzNvZWRMVnczT3RlZjlrX0ozcTBVaHFvWEZFUnM5MlVxcnhYajBuMmRYUElPUm1DWV81UFV0Mi1haG92Zk5PQWZPQUxDWGRqNldNbkJZRkFfem5oSDVSSEZGek1CeGh3d1JlNnZlSlg0TXlLclhjOExlWHYzVXdLZV8xWW1GMnMwS2pJSG53akh0QmdPU1d2cw?oc=5)
-- 10/14 [馬斯克譙韓國記憶體漫天要價 嗆「給我記住」趁火打劫將失去客戶 - 知新聞](https://news.google.com/rss/articles/CBMib0FVX3lxTE5nYWxmbHgteFFoQmhKYlFVZUw4MzdWTnpHTzlBMEU4OWRNdDV3SFMyRGlCSkN1VnF4dXF6U0ZoRU4tWlVlY09NZ0FIcGFpbGRjUi1na3kySHJoV0NhX2pVU3dkaEgweXJPdlFpYnJCWQ?oc=5)
+- 10/15 [美光今年爆漲190%、SK海力士近期暴跌逾一成！南亞科還有的跌? - 理財周刊](https://news.google.com/rss/articles/CBMib0FVX3lxTE1SYk5UcGROMGVibzlCNmNUNGppc1FNdWJnc3MzWEFSS1RkUzdUSU1qUG14NTR1dDdsWTd5bjh0ZjM0QUlnWldjRkg3cHBsZlFxakxWVFJmV2FINW5iUnZiS2pwTEhXRmdFT3ZnYzhpdw?oc=5)
+- 10/16 [記憶體巨頭SK海力士赴美上市在即，你需要了解的一些關鍵資訊 - TradingKey](https://news.google.com/rss/articles/CBMivAFBVV95cUxNdGcwZEUwbFIwbFVWTXZ3ampvMUZuX205NzN2RnNIUzg0QmhMZGlfb3AzenRPa3dUSmdmTUIzZHBHM2NCWUFOeXNtX19wSXRXbE9HMDBfTkcxSDNjb29qakJlT1BIN1Zhem9kbDVwcm1lRWg3NXNhUWFQbkdDc1luWlYxdURvc1pUWi1qZW5Ib1lqYTl4c2pBWlJiX3RZYUE1NldJT1l5NC1GQS1oM2VHWjhtUEFUWXUzLVNOcA?oc=5)
+- 10/16 [摩根士丹利發出最新警告：記憶體股低本益比恐為周期頂峰「估值陷阱」 - 鉅亨網](https://news.google.com/rss/articles/CBMiS0FVX3lxTE56ZWF3dnpkQjFfeFdoWHZwZ1Z2MFc0dS1UUDFsVFV2azZJX2pvdV8xZGJvYS1xTmVDWHc0Wl9ocUU5SVBMT3JLVGJ2RQ?oc=5)
+- 10/16 [楊倚歌：美光靠「傳統DRAM漲價潮」反超海力士，但真正的考驗在HBM4E - BigGo 財經](https://news.google.com/rss/articles/CBMiX0FVX3lxTE00N2paeDhkd2Z3VkcyVWIwS1lzS2ZDMFhFTmZlWDg0VGUyaWRBRThGdFZnOG1DaHRnQUlXWEUxaGlKWjFtczJTNmJBeWI3c2tlQXBUWGVnLXlLTnRnZVFR?oc=5)
+- 10/15 [馬斯克大讚美光記憶體價格合理！暗批其他廠商敲竹槓，是指韓系雙雄？ - 加密城市CryptoCity](https://news.google.com/rss/articles/CBMigwFBVV95cUxOal9OYll2TDdUZjlfTXQ5M3hUaTMxa1pWamdxQVNxZUhfckVHQmxybVlSQzA3NHlwR1ZrN1h1ckhJRjl4Xzc5QUtWQ3oyN0tCaVRLMzVVdm9OaUlnNUp6YllfVUNZSDN3MklQa1NqZHJ1R1FiZ1pOUk5rSXo5UGduTXFWQQ?oc=5)
+- 10/15 [馬斯克大讚美光價格合理 嗆其他記憶體廠「簡直敲詐」 - 世界新聞網](https://news.google.com/rss/articles/CBMiZ0FVX3lxTE80Sjh5M2FZTEZ6OU8zOXBHWHdtMjQ5S2cxTTA3MnppelcyTnFqbXFyYWhhTXg3UFloUnlsZkg0UUZyY1V3OHpDa1BuSk1WelBoWmd6ZlowTEVJZnFuUFlQaVB6VGI5SEnSAWdBVV95cUxPNEo4eTNhWUxGejlPMzlwR1h3bTI0OUtnMU0wNzJ6aXpXMk5xam1xcmFoYU14N1BZaFJ5bGZINFFGcmNVdzh6Q2tQbkpNVnpQaFpnemZaMExFSWZxblBZUGlQelRiOUhJ?oc=5)
 
 **MLCC 大廠漲價**　（搜尋：村田 三星電機 國巨 MLCC 漲價）
-- 10/14 [村田 MLCC 接單爆滿擬追加投資！被動元件3檔漲停 國巨、華新科強彈 - UDN](https://news.google.com/rss/articles/CBMiUEFVX3lxTE5uSE8yQ3U5TlFHaWlQRGkxWTZEUHFXelNqcG91MF8xcng5TzM5QkFnNDNqaDR6WDl5Q0I5WVpJVTJNS0w1WGVma2ZOUHE5di1M0gFWQVVfeXFMTW14d3RfQmdEd29iQ3BwVWQzNlFRNzQ4M0F5Z1B6WnRPcXJEbm1TS2UyZldZZmlKcEZBV1NVNTU1ZHRMSF9MVUxueEZ0RE9NZzJ3enV0T3c?oc=5)
-- 10/15 [國巨驚驚漲！法人驚爆「看7字頭太小看它」被動元件低基期優勢大爆發中小型就看這3檔 - 上市櫃 - 旺得富理財網](https://news.google.com/rss/articles/CBMiakFVX3lxTE45VE9pWWpYMTVOaVFGVmJEaXBJdEt4LXpySmpxRUtBZ2lDNktpRXBzNk1VTE9tM3BsRWJQZk5zeF9hT3hFX0NqZHM0MFM5eEFiUUY1XzNxR1REUm44a2N4OXZocVlTMkNrWlE?oc=5)
-- 10/15 [14倍本益比的被動元件：國巨 - UDN](https://news.google.com/rss/articles/CBMiUEFVX3lxTE1RdGlreWJZUzZoc0VGcG1GVGhRUmVJUElDS21sX0F6bWlwSHRfOW9rbTAwOW1CUGNBcUQ3M1JsY2hNM1VRLWFkVWZNbW5KSi1m?oc=5)
+- 10/15 [AI伺服器一櫃要吃60萬顆被動元件 國巨明年EPS挑戰45元 14倍本益比能布局嗎？ - 經濟日報](https://news.google.com/rss/articles/CBMiWkFVX3lxTFBLMzhXVmV4c3pFOGpzZnNyX2dSb0R1amVFN3UtazB1U3FDdUJncmxDTFY4SXZpSkZSSXM0OHE0YVV2VmR2bi1DaG1tSUt6V0JWMFV2TnN4clN2UdIBX0FVX3lxTE5vbTdXa2VlbkJ6THMzRHo0UE1ReXhnYnJIZXVKUEY0Y2pLdDNYcmtxbHlnTUVrTWRZZU9ZWWYzeW9aQnJlTnFjWmNRNnFocE1EaWxPRW1URG5iZzM5aExF?oc=5)
+- 10/15 [14倍本益比的被動元件：國巨 - UDN](https://news.google.com/rss/articles/CBMidEFVX3lxTE12M3VkV1p5Nm9vSmNPVHVlaUpRd3RtRHdTTC1lMGVXYmYzLVBXUVlHb1Q1ZWkwNmtVOW9WTEhjLUxNaF9rYnJ6a2lBWEdGcTRSOVZCdkJldDkyTDRFSzBkQ3ZKWmxUeDZpQXQ4UzgzQTl6NTRl?oc=5)
 
 **功率元件與 SiC 漲價**　（搜尋：英飛凌 安森美 意法 功率半導體 漲價）
-- 10/14 [功率元件股價漲聲再起　新一輪的漲價潮即將到來！ - ETtoday財經雲](https://news.google.com/rss/articles/CBMiUkFVX3lxTE1vLXlMN3F5R2FNOWJhWEdsNXV0Z1J0UWRyVGNWWG10ZWNRYTEzS3U2a3hZX2E1YXJmR2xmbzZYcEtXalgxZVFYcF9sM0RZNnNtZnfSAVBBVV95cUxOY0ZYVGNwNm1lM0RaQ2pzVUNxVlp6c0JRX1JxYnJjUjBPYmNraVF3Y3Vac0tibUExekN3bzRza19NVXhGT3ZQTXc1YXNQcDY4Zg?oc=5)
+- 近兩日無相關新聞
 
 **成熟製程代工漲價**　（搜尋：聯電 力積電 世界先進 漲價 成熟製程）
-- 10/14 [〈財經週報-台股熱點〉晶圓代工族齊發光 台積電營收衝高標 - 自由時報](https://news.google.com/rss/articles/CBMiWEFVX3lxTE9HN2JHWDREMWZrYmd0alVYd0lzYW9YWk9RaUV0TmxYYkJEOVBKaXVxZ2NZaHhaUXBCdTBTOGpWX0xGYWc0VmY2MlVhZnhxZWxnMXctcEJxWVE?oc=5)
-- 10/16 [6天慘跌3000點「大戶偷吃貨」！杜金龍點名5檔籌碼集中股 南電目標價喊上2500元 - 旺得富理財網](https://news.google.com/rss/articles/CBMiakFVX3lxTFBacjFMMmR2TnRHTzhFS1Z2VUVjazQzTHU2a09jakItSDZ0ejlHRWlzYVJPdXpHRW50TlFaMEdzXzNsQndSaW5hVEg1N0FlLVVtOHpsSFlNeVFLU1p3T1p3WHFxcDhWWGtLRHc?oc=5)
+- 10/16 [聯電 (2303) 創進29年來新高，帶你認識聯電ADR 是什麼、怎麼買一次看懂 - 口袋證券](https://news.google.com/rss/articles/CBMiVkFVX3lxTFBhOElFQV9ubTAzRXgtZGkzaGRNWDUwUWhYUXFRbm5yd2Z6OUwzazhzSGNsV2RJR0M1RHc0T1F5eUpJbDJlVUhGWFI5ZEdtSkVsY3NIRU9n?oc=5)
 - 10/15 [8吋晶圓產能連兩年縮減，代工漲價潮醞釀！聯電稼動率回升，2027年報價漲幅上看雙位數 - 優分析UAnalyze](https://news.google.com/rss/articles/CBMiVkFVX3lxTE5xZFNabWxYWlc5QnhCZmpzVnBTVEJ5dDR3amhTcDlhemJNeldzNTJtcnp6NFo1dUdfZjh4c3VZeGdKM180bkxXSDRIRnZtOTQ4dGFWVmhB?oc=5)
+- 10/16 [6天慘跌3000點「大戶偷吃貨」！杜金龍點名5檔籌碼集中股南電目標價喊上2500元 - 上市櫃 - 旺得富理財網](https://news.google.com/rss/articles/CBMiakFVX3lxTFBacjFMMmR2TnRHTzhFS1Z2VUVjazQzTHU2a09jakItSDZ0ejlHRWlzYVJPdXpHRW50TlFaMEdzXzNsQndSaW5hVEg1N0FlLVVtOHpsSFlNeVFLU1p3T1p3WHFxcDhWWGtLRHc?oc=5)
+- 10/15 [台股大跌1800點真正元凶曝光，現在能買？杜金龍：跌2000我就買！台積電聯發科、聯電台達電…權值股教怎麼買 - 今周刊](https://news.google.com/rss/articles/CBMigAFBVV95cUxNVjBROHVjZ1ZMVjIxQ1ViazZxVVBTM1hBRU94QWtpVTBzVlJ0WnF2U0hNMTBsbm12T1ZVdlZ0NkZHNGxMUEZrNUxfaXZleDk3Uk1lcWcweHBQRl80NDItNEwteUc3Sy1KWjlsZmk0TkhwR2tpRWs2S3UzQ0FjSmVZWA?oc=5)
 
 **貨櫃運價 SCFI**　（搜尋：SCFI 運價指數 貨櫃）
+- 10/17 [運價連2漲 美國線獨跌 - 自由財經](https://news.google.com/rss/articles/CBMiVkFVX3lxTE4wekdWQ21PQVJhNWdTVzBuSXhBZVFpeG9iY2tldzUzemZmck1YcDFIYkpCRkh5RzE2dlgwRTVwemtNNlZXWkFIUDF0X2xrYlROdFRDWldn0gFbQVVfeXFMTkNBYzM5NnFkLTlHd2lVaEo3RGxSM0FHRkJhakg4cjl4c3cwbk5pY3Jrd0pTYnlsTHFaT19KT0Y0QlQzelI4RnRPc2JiRGZCNUVSeXNUMW5qZ3hKcw?oc=5)
+- 10/16 [SCFI 運價指數連兩漲 周漲幅0.42% - 經濟日報](https://news.google.com/rss/articles/CBMiWkFVX3lxTE83MFFubEJnZmttVWRraXRZeVl5U3QzVmFTNTBfTWx4VkpxWlA0cXY5cUxtcnc2WXdLTVRWeGQ4bnVkbFhheEhXSm1oeDNtTndtUXg1c21IakRJZ9IBX0FVX3lxTE5LMEx0c0VlNGZHeWRfM01rMFduRTZaR1ZHT2hROGpSSFpFTDAtSlpzVDE4NmtNeEZtWnAwOWJIV0NZU2VBU0x4dDQ4NDNVaU5rTUhtR0RxdW1xc195RDYw?oc=5)
+- 10/17 [SCFI連2紅 美西線轉跌、歐線小漲- 財經要聞- 工商時報 - 中時新聞網](https://news.google.com/rss/articles/CBMia0FVX3lxTFBfSER6eEgxTVdjbk90ZlhHRUtzR0lXb0FrS0JNejYwSXM3U0NRN2dKNUllSHJ5dlJYZ2U2a2ZVNnRrelVPcU8tUTIyYTJJN2JFNzAxRlZtZWxIUUhhWHo4ci1uemg4Q2MzQU5B?oc=5)
+- 10/16 [歐地線19日漲價每家漲幅不同、有協商空間　SCFI微漲0.42% - ETtoday財經雲](https://news.google.com/rss/articles/CBMiUkFVX3lxTE1HQmdwbTFUSVNMYkVmUGVvT2RHSDFnRk5TOHlmR2Mtck9Gdlp3YURyVnVRdFVYVV9PeU50Zm5Jdk8yQXpIRW1YWUktWUZPOGVHT1HSAVBBVV95cUxOZ0F2bzgtQzJ1emNyVG1pck9YN3pVM0lxUlFzQkJyRjdUdXNWdHV4WDFvaUc5RDBlUk5CcmZOOXdyLTR5cHFOWWdlUXZ3enpvTg?oc=5)
+- 10/16 [產業：SCFI運價指數連二漲，週漲幅0.42%，歐洲與地中海線雙雙走揚 - 富聯網](https://news.google.com/rss/articles/CBMiiAFBVV95cUxPc3k5cFF5R2JjckVBTFV2V1phU1JwRk1mcXE1NmMtazdrM3RGOGlQOUhkZmptN2pBY3N1Ry13T19fdjZYWWdiUFlWemdzcE5KNW11SVBfeVl3VmNkUHVnM0JYcUlaLWRrTG5OVFRLbDBUVTZFcmFHd21aU1RGcXdoQXhJZXFwZlNQ?oc=5)
 - 10/15 [波斯灣線運價跌 美伊開戰來首見 - 自由時報](https://news.google.com/rss/articles/CBMiWEFVX3lxTE5vZU5yVDBpVlo1Z2g4a2NrUjMwRmtiY2NENkhGOEdPcHNFWXdKVnRvQUNyUm8tcHZIS1RVR2c2V0ZqelppZ0NqQ0ZwRllKSnhvYTdJWlVSSEk?oc=5)
-- 10/14 [進口商提前拉貨 運價連4漲 - 自由時報](https://news.google.com/rss/articles/CBMiWEFVX3lxTFBnWEF0MUVValNwdDVTVEVLWndiM3VQektCY1Y5bHJ4bzNfTEtPOW9fUkRjWXRjSVp1OF90b2FfZEI0QzE5OHh4V3N5Z1pHbnBRSnh6blJQVjg?oc=5)
-- 10/14 [歐美亞航線滿載 陽明：Q3會更旺 - 自由時報](https://news.google.com/rss/articles/CBMiWEFVX3lxTE9vc2tNOGdSNmhpYlFRN3VyNTQ3UWwxS1lnaHozbnZEWDFRVFpLRW5vLUY1WkZIT3FxR2xiZ0R6MkdYS0t1a0JleW1jX0VScFJPMXFFamVEQks?oc=5)
-- 10/14 [長榮漲停原因是什麼？9月營收年增63.75%，還要看運價與貨量-實習大人-林序安 - CMoney投資網誌](https://news.google.com/rss/articles/CBMihwFBVV95cUxQaldGNHdHOEtWTGR3UFlEZENqSTZ4SW5KanpVVm9odW00TXVlbG9jX2Y5ZTcyYTNEYjFCTXQ1YTVHM21vSFB6X0Ryc0hUcXEwbzlaQ3JWOEJyYXFUdVVweDY0OTctNENhM2xWUmlDNzd2UUNwQXB5TUZnWkw4RG4xLVlSUjB3dWs?oc=5)
-- 10/14 [貨櫃三雄飆漲這次不是塞港？這檔EPS直逼45元卻被低估「最新法人目標價打臉外行」網淚推：買這檔當高股息定存 - 旺得富理財網](https://news.google.com/rss/articles/CBMiakFVX3lxTE9RVGY2Y1VVTGd5YkEwbXJKWUhCcTJGU00yVkhWaFR6Q0lCVS1RVk9NdmJDN0hHUUppa3VOemFiZTBTeWVJU3RvTEdOMDJ3a05ieUZodTdMRl9fUWZaRUYwMy0tWHd6ME5sRmc?oc=5)
-- 10/15 [波羅的海指數｜BDI下試2600點 BDTI暫受阻8000點 - 香港經濟日報HKET](https://news.google.com/rss/articles/CBMi2AFBVV95cUxQdjBQWGpGbWViQU9reng2MTQyNWRNYWVFLTdjZTc2YU9ldXYxUkU0RHZlSHU1Mm1SNkdIRDl2UllhVTlwQTllMjVOdlRmaDNjaUdEZ243ZXE1Ql9ka1k3QjBrQ0szYWdPSDE5ZzZHemx6dkxTMEtVempjT2hCYnRZU2ttQW96SkVuaGQxRzlYZzlMRWkxek1yejdnVF9Uc2hqSlIwNU1hWG1MMHBVYVdWY1lwRGlvbEdXS3Y4V0U5dExuU3YxUENMUXFVVW9vdkhzbGV4OVU5aVk?oc=5)
 
 
 ### 瓶頸監控
 
 **T-glass 供給**　（搜尋：T-glass 玻纖布 擴產）
-- 10/14 [台光電(2383)、聯茂(6213)、台燿(6274) 誰最會賺？高階CCL漲價與獲利動能一次看！ - 鉅亨網](https://news.google.com/rss/articles/CBMiS0FVX3lxTFA2NjdTN3N3OVFUT1lsOGlTUWJHMml2QUU5YVliWE00VXF4RlZCQ1IwTVBEcWdrMDgwNV90X1JJQmwzcy1GWlhjc3pLQQ?oc=5)
-- 10/14 [台玻(1802) - 富聯網](https://news.google.com/rss/articles/CBMihgFBVV95cUxOVjhNbzFlX3lfNG9qbTB6RjNyRWFqbGc5Um54WkxHbldnYXVNdGpaSXRsS09JbkpUZVM1dF9MOHR6UFpnZVAtWkQ3c1VyODhTeXl2VjEtczUzRGUyejhHSzllMERxSnNWcUVyTGNvb2hyN2tSSF9kTjBHc01UNm52ZHVjZVloQQ?oc=5)
+- 10/15 [台光電(2383) 高階材料布局解析：切入ABF載板CCL，挑戰日系材料供應鏈！ - 鉅亨網](https://news.google.com/rss/articles/CBMiT0FVX3lxTFBncFQweUJGY0podXJ4VldoenlPSXd5d0lKTTNELXhQOEIxQkFZSVRIbVJpUzgxSC1ES3VjMHRxWDc2Mmx2WTg2UzV5TlZDZ2c?oc=5)
 - 10/16 [明年EPS飆4.3元！「這大廠」挾AI高階材料缺貨　目標價上看80元 - 三立新聞](https://news.google.com/rss/articles/CBMiSEFVX3lxTE1oWnZsLWYxMnQyb1Ayc3ktQkZma1hMWi1lWlBVU1hsa2Q2X2hkV05CQjk3UmhzRG56Yk00YTZQMlVFeDlVZDFhddIBTEFVX3lxTFBmYy1pQUxuelY5RkpBUEphc3hMQm5RcE41VXlqcjlvaThUUnk0bTlod24zeGI3d014YmxPWXBjNURnbFhRYnM1T1RKTU8?oc=5)
-- 10/14 [玻纖布供不應求 台玻股價強勢，挑戰前高75元。 - 台灣好新聞](https://news.google.com/rss/articles/CBMi6gJBVV95cUxQR2k2a0ctbUN5b2Z5UVFIRHBvRmkxX2dORXl1eGliaDhnYkVCbUNLdVRDLUpiZEl5Z21Kd1pDOGtKSEstYy1lZzJaUmdOOUoxQktuSjQ3Z2tUd1lxWk5CTVlWWm1SWXZRZTBnQVFqMEE1QW9XZUE4c2pTUmFBSkYtUEZnY3BrWE10QkRPbHV3LXlyNmpSazFQdG5tbzFzVlBkLTBlazZxd2FtSG1jcTJYZDZRZ2htUzRIOE85bkc1cXJzTXREbW1HU1pjcVh6akJURmlxVG5ma251SjFZbzV0ME94V2ZiZGQxOG9KME5fb1Rtekk3SUF1ZFpDWVNEcllwVVNPOXRLWlR3RDI2eGdrWTcycXJCcF9wSXRvWTgyWEI3U0NrOWZqTUVZZVljVU5jRmt0SExxeENNOURpQkl4UDNucEZMb0ZWbHZCOEhENi1pTE9VZEF2UlRuYUV6enNIUlV6b2o1REZVUQ?oc=5)
-- 10/14 [玻纖布供不應求 台玻股價強勢 挑戰前高75元。 - 蕃新聞](https://news.google.com/rss/articles/CBMiUkFVX3lxTE9xaW1MdmJiY3pPS0FUaGJROEJBZDk4dHR5aHpQUUNJZlZQaG55Wmt1MFpHMVlpY0M0cEtvcExRM01OOTZmU3VyT3FiVEI0MVpnZlE?oc=5)
-- 10/14 [CCL大廠松下調漲200%　台廠3雄受惠 - 鏡週刊Mirror Media](https://news.google.com/rss/articles/CBMiYkFVX3lxTE5HbS01cEkxYU1uR0JBcGpDdUpBUy1QdU12ZlJlSGJPa2JrMHFMeVhldjRKV05Xb3haTVRjSWp6UEc5Zk11aENJZXY4dXRIb3lSRnRDMjJPVW1KT3JhLVNtR0FB0gFiQVVfeXFMTkdtLTVwSTFhTW5HQkFwakN1SkFTLVB1TXZmUmVIYk9rYmswcUx5WGV2NEpXTldveFpNVGNJanpQRzlmTXVoQ0lldjh1dEhveVJGdEMyMk9VbUpPcmEtU21HQUE?oc=5)
+- 10/15 [台光電(2383) 高階材料布局解析：切入ABF載板CCL，挑戰日系材料供應鏈！ - 優分析UAnalyze](https://news.google.com/rss/articles/CBMiVkFVX3lxTFA3SzNuT0lPc2VmcWVPR05LeE4xazFKWTBUeGp5YjlObE5hcU5rUXhKYVJBbzVrRUhvUmJkRmxjc1NOTC15UXpJbi1yTEZTNk81UFA5UHJR?oc=5)
+- 10/16 [《熱門族群》台玻、富喬領軍反攻 玻纖布股強勢吸金 - 富聯網](https://news.google.com/rss/articles/CBMiiAFBVV95cUxQMEJSc21IT0ttbVVIR1ZEQWdiY3hfczZFT0paQW5YbXk0dWdRUTJqTXduNDZlSGRKUnlSU1BnTVZrVlFFOXV4NXI3X0ozQjNnTWpTdGpKNWF4WlN1U2lacGlpUGE4SFV0SnFSbm9YQ2xqbGJNZGZNYnItOGx1akZGQmQ3cGNKd04t?oc=5)
 
 **三星 DDR4 產能**　（搜尋：三星 DDR4 停產）
 - 近兩日無相關新聞
 
 **DDR4 現貨價**　（搜尋：DDR4 現貨價）
-- 10/14 [產業：DRAM報價週二普遍上漲，其中DDR5 16Gb均價為59.9美元，漲幅0.79% - 富聯網](https://news.google.com/rss/articles/CBMiiAFBVV95cUxPdUQ3Y0FDbzJtZnpEaktnLUNxNGo1N08xUVRCU1ViVHMzbHBuRU9YMzVIQmVldUE4U1NtUi05SWV5OG9JNWRiOTFfYnR6M0JvRVhWeWNUYWRmZzVtR01KN0tvS3RfTGx4c2pFNUI5bkNEa1piZ3FoNC1LMEdGZHZsTEtTMkp3blFZ?oc=5)
-- 10/14 [記憶體股先跌、現貨價還在漲，長鑫量產會加快嗎？-思齊波段操盤手 - CMoney投資網誌](https://news.google.com/rss/articles/CBMif0FVX3lxTE1zNkx3TDNyYkx0Y1hKYllCemotbkpTVHJZblJtZXhpU0hPVEFOSFVXNWQzX2dwN1ROOEE3Z3pTNThUU0Y5dTRtNXIwVUFRN0NyeVg3REh1RlNEZnU2Y2tzd0tHX1RLb3V0ZkJYRTd1aGtfS244NmJjRlFaODdrN0E?oc=5)
-- 10/14 [長鑫4F²技術突破，DRAM單元縮小1/3，南亞科會被搶單？威剛反而有機會？8檔記憶體股一次看| 數位時代 - LINE TODAY](https://news.google.com/rss/articles/CBMiVkFVX3lxTE9mNmpfODhRNGV2TWxNZk9hUnZkZDJuMXJBWTlkdHZ6MXlzYW9UWmVCb3dtWjBlenFkSEpGOWxvdHRjZjBDZEhRaVM0cjRFeVJJckg4TlVR?oc=5)
+- 10/16 [產業：DRAM盤中報價普遍持平，其中DDR5 16Gb均價為60.6美元，漲幅0.28% - 富聯網](https://news.google.com/rss/articles/CBMiiAFBVV95cUxQU0V0T1FDb3hFMzJNa1RCM19Rcjg3dVVjc19hbXFpRFp0SkloQzVwYldrNUFKRDAwaU1mOTVIM3ZDaTh1M3BFWVdfZE92ZHI2RzBNdWoyTFJkXy1FVVdlX0RLQ1dxSWw3X3JOMEc5T1FpamZxc0NBUnpMdzhPZURTcHVreGdOcTdD?oc=5)
+- 10/15 [記憶體漲價潮下，DDR4 主機板逆勢回歸：舊電腦還能再戰幾年 - 動區動趨](https://news.google.com/rss/articles/CBMimAFBVV95cUxPZkdCcV9yTG80YTB4dzNLSUUwTy1VWGtuRjlnUnRRT3hicXI2dkFmSUJmMDNCa3owU0Q1WGZ3a19WNDN0QUJkT05QdXNLRTBZaDc2YVFNbnllR1l0WGgxSFkwS1N5dWRSVUIySjdHUmlXb2E3eGRaZlRIV2tRSzN4ZlIzYV9NSEhvaHNKWEJQSGp5YXZUczZ6WQ?oc=5)
+- 10/16 [產業：DRAM報價週四普遍上漲，其中DDR5 16Gb均價為60.433美元，漲幅0.55% - 富聯網](https://news.google.com/rss/articles/CBMiiAFBVV95cUxON0lnMXJqYkw2ZENIbHktOVItbkhIcGlZNVBsVTZDVUhRMDBPc2oyemU1MTZMdVU3SWlWbzhvcjVOMUdRVXZTOW9WaUNOcXFKVlZNTHpiMllWYUFZb2pVX0xWWTlyZ3VfRmhnLXFxYzJjYm15M1VIeUZSZWVnV3RHSVNXWnJBZ2Nq?oc=5)
 - 10/15 [吳金潮~非凡錢線百分百固定來賓(2011~2017)~兩岸證期雙分析師(共4張) - 鉅亨號](https://news.google.com/rss/articles/CBMiSEFVX3lxTFAydXI1N3o4NWx1QThfR0cyNG5kLWlQWmllenpKUzlaTjExVkNPbkZkOVhUclhMSG50NjZrdVhuNDVHMmF0SmFTUA?oc=5)
-- 10/15 [產業：DRAM盤中報價普遍上漲，其中DDR5 16Gb均價為60.433美元，漲幅0.55% - 富聯網](https://news.google.com/rss/articles/CBMiiAFBVV95cUxQdjRLRm43WEw5LVVvUWZZYkJkMmV0ZGJENjJrWXlPV2diOEh1eTB2ZDdNUU40RlczTkdsVGF6dXRoLXZjQXhGUGM1ZDJBLW5NV0xYbjRoRHpEUHFLMkdjUFloSVh5bFNlSVdLR0dDcFNmaDV1Vk5ySWNXUXdKRU9VWU5FMWxFRXE1?oc=5)
+- 10/15 [台股盤中重挫逾1,400點臻鼎-KY營收創高仍難擋賣壓｜多空因素與股票期貨雙向避險試算| 思儀李的貼文| 鉅亨號| Anue鉅亨 - 鉅亨號](https://news.google.com/rss/articles/CBMiSEFVX3lxTFBWSVNmeDhWTWxVUU9aLVhjWkY1RU95Mkx3YzJaYnRmVmJDYUplM24zSlZ3MmJ2MUJ1SDA4eTlSeWVNMm1LaWZDNw?oc=5)
 - 10/15 [產業：DRAM報價週三普遍下跌，其中DDR5 16Gb均價為60.1美元，漲幅0.33% - 富聯網](https://news.google.com/rss/articles/CBMiiAFBVV95cUxNNTQwem1FWmZ1dFdOUGlBYXI5dXZmUXdxb3dXRTBBREhHdW4zR0llcVd5bjhQd1VzT1pWQk1UY1RUMzlNQ20ya0ZjcEZSTktwU2NYdUxGZ0kzTVRBYmJfRHNQMldEb29tTTljdG9rbi1qNlB5U0pnXzB2NjI4Y2Z3SlRFemxhWWd4?oc=5)
 
 **InP 雷射缺貨**　（搜尋：InP 磷化銦 雷射 缺貨）
 - 近兩日無相關新聞
 
 **光通訊交期與 DSP 價格**　（搜尋：光通訊 交期 DSP 漲價 光模組）
-- 近兩日無相關新聞
+- 10/16 [毅嘉搶攻光通訊：營收拚放量，毛利改善還有時差 - 口袋證券](https://news.google.com/rss/articles/CBMiZkFVX3lxTFB1Q2RWMWdkcUIxd0lab3k2NE5CQ1J5ZnljNkhEV3FSdS04MFZHZVBpYUR3NGpGcHNwcTFWTTNXQVdSakNnUUdPQmRGdWhRVWJvTlUtRzhGLXJVV0xnWnVyLXpjREozZw?oc=5)
 
 **1.6T 導入時程**　（搜尋：1.6T 光模組 量產 2027）
+- 10/16 [AI光通訊需求強勁，大眾控馬來西亞產線擬擴至30條，搶攻800G、1.6T商機 - 鉅亨網](https://news.google.com/rss/articles/CBMiT0FVX3lxTE5vMlZzdXZWYVktZnVTWFJnRlBYenVRSlVoN3gzVmlpNHpKcjk0OWhWNFd5X0FQeHRLdjZMMHpyVVlFR19JZUZieUtrazNNTlE?oc=5)
+- 10/16 [富驊2027年AI新品放量，泰國廠加入成長動能- 新聞 - MoneyDJ](https://news.google.com/rss/articles/CBMikgFBVV95cUxPTFdhS1EzRGp4SVIwcWlldi1aTjJfWUhJTFd3V0xVQXJpeWRGT2R5aUNyQktpUjFVZGRnRHc1OFVyWmZuVEJGZXhsSEZHSm1TNjBFNTFCX3hDOUU2aUFLZ3hCbHdNcV9GODBWQUdDZDFGVTlCZllRWVZKdEhTakRQcHBRVkV1SFNDZl9mWlhxZEZ5Zw?oc=5)
+- 10/16 [毅嘉 2402 2026Q3 法說會重點：前三季營收年增17%！AI 光通訊2027年衝40%！ - StockFeel 股感](https://news.google.com/rss/articles/CBMikgFBVV95cUxNalNGZlBZb0V1N0lveS00eEhMMGlLRmlkbWw0VGtCQ3ZXSmo5VzNBVU1KaGZSWVJ1OEtxV1RBTWdIZURZNlBjWWtJSGZpSmVTUzJ0SUx6MC10RXFBSTFIRDBtR0pkSDFybUpwbU9kQmVmU3FJdkxGUE01SC03eVpxRUxXYzEwUzduYmVYZWF2bEpCUQ?oc=5)
+- 10/15 [9月營收連5月年月雙增 法人看好華星光明年EPS年增率可達100%以上 - 台灣好新聞](https://news.google.com/rss/articles/CBMiywNBVV95cUxPTktudFROUjd3VC0xb1hpa3lKLVU5Yl9EV01sblJJc3QwREwtSVk5SFNpczlpZWJpRzlYNTZCSGRfQU9JbHlmSUNGcTNrX2ZsYVNjQ3RQZDh2d1g2MmhTR2FFQUlmWG1INFJ4SVl4TWE0ZlpvR0pkZWNUY3l0b1c2Z21DMEpLazJSVWxsR3FTdDZ3OGdYSkRJZW1Ca2xINnZkZTdibFMxRkRjWWtKVHV3WUgtWThycjVvNzVUak02dXJjZVZfS0NGLXRxa3c2TVlVY0UtM3FaVUY0U0ZJTEtzT2h3MzBuS3lJUTZ5UllMOE0xUTB2SjVDdXM1T3Vhd0pSSEM1dDk5b2xSbTBRdnRwRDYyVWFZdWRrblM3U0FESEZLeDctMjhrNmFOOHVlZmR2clV5dEhUTzFseUdvTjJscWdjYTlPbjA5akVVYk5uaDVPamw0Zm1YQzdGbzllLVdUWm1ZMzlRcWlQT2NvVkNNWXhXRktha1M5Qnk5eXp5bGxkRkpRVGZLUFhYSjFzMWJaRkcyWUZWdUgwUEo5NGhZSXB3Zk9ZTDZFUS1TQWR4RmFxeXhsQ3ZueW5pZ0RWRldoSUNhZk1DOXR4ZGc?oc=5)
 - 10/15 [〈毅嘉法說〉明年AI營收比重成長逾6倍衝上4成 光通訊打件、mSAP載板接力放量 - 鉅亨網](https://news.google.com/rss/articles/CBMiT0FVX3lxTE1hY1NXS2l5MHh1dVF5U21tLWtQZ3Voa1Z1UC1kYnFweVNFMkg2M3lhWGhMSXpMUmY4VEcxQzhISHlNNFdhYjZtdnhoUHljb0U?oc=5)
 - 10/15 [毅嘉明年光通訊占比衝40% mSAP製程明年Q3量產- 新聞 - MoneyDJ](https://news.google.com/rss/articles/CBMikgFBVV95cUxOWmYtT01BaGo3aEowTHJQUTlKNnIzX3VFVFB1QlhGNThzUVVQNXRNMlJ6eXA5ajFzMWxTQUpmeXVSQW1rRnRpdUk4Yi1wUjE1aFduTzR6QlpveTRiRmZvLTF6M2piS3dMTlNxcDZMdHZUMWRzZFQ1RzgzbUlZdHJZZ1pGMHVOVXhoeEpCVFpnaVhGdw?oc=5)
-- 10/15 [高盛點讚大立光　台光學供應鏈21強 - 鏡週刊Mirror Media](https://news.google.com/rss/articles/CBMiYkFVX3lxTFB2dVFOUlJnWkp6Q1RmbUFzT3ZhVkd1YzQ0cmhpU01nZkV3bnVaRFZkWmJ1VVNiOThEWl8xRHBrVlotdlk4TWdjeWZQNXB5RzZ2UmZTdHRJaUxQbWltaVoxaEdn0gFiQVVfeXFMUHZ1UU5SUmdaSnpDVGZtQXNPdmFWR3VjNDRyaGlTTWdmRXdudVpEVmRaYnVVU2I5OERaXzFEcGtWWi12WThNZ2N5ZlA1cHlHNnZSZlN0dElpTFBtaW1pWjFoR2c?oc=5)
-- 10/14 [明年營收跳躍式成長 華星光訂單能見度看到2028年 - 自由時報](https://news.google.com/rss/articles/CBMiWEFVX3lxTE9DODBud0RzMTNwQU1rSzNmaXpjZVRqMlZReHMxVzZhNXJLRjl0d3pmbVFvcjRvaG5DWW45THBYUnVuZHBwOWg5SFBaLTZ2d1pCNl9hc0EyNUE?oc=5)
-- 10/15 [台亞攻光通訊原料InP預計2027貢獻營收 血糖監測步入收割期 - 鉅亨網](https://news.google.com/rss/articles/CBMiS0FVX3lxTE9CcEo5X3ZTV1FDSGdrczR1RGFDMnpkQ0F5NnVZLWN6TzF1S19adURwMEgzNlQzT0pydzFmTGhqSEJudmx2Y3RPU0lDbw?oc=5)
-- 10/15 [個股：華星光(4979)Q3獲利季增77%，EPS 2.28元 - 富聯網](https://news.google.com/rss/articles/CBMikgFBVV95cUxQaEljelpuekhfOTdEX3g2MG5YSGxvd2ZHYXJHcmpOLWNUU3dmNGhJejdaU21UZnVwOWhYLV82a3NVb25QR1U3ak1kWVpZV3NQc1NjbUF0c3pvVFJfcnU4dUVVc1MtTnlxdFM5cVdiMEpsTW5zSWRPTV9TZFBJclNKVUYzTUx6M3NTcEtrTFFkeV96UQ?oc=5)
 
 **CoWoS 產能**　（搜尋：CoWoS 產能 台積電）
+- 10/16 [台積電CoWoS封裝尺寸從5.5倍邁向14倍！AI晶片升級，產能需求比出貨成長更快 - 鉅亨網](https://news.google.com/rss/articles/CBMiT0FVX3lxTE5IZzh6RDVoYTdyWHJjY2xQTUtlWFhYN2NWVUp4TFJqd2xLQzg3dXJaZmxfUzlCUmxWSGNaMGNGb2c1anh1dDZGb0V5bjFLV00?oc=5)
+- 10/16 [台積電CoWoS助力輝達RTX Spark電腦強攻高階市場| 產經 - 中央社 CNA](https://news.google.com/rss/articles/CBMiXkFVX3lxTE92cUkydXR1X0FfbGMwbW1hcHVNSHpKdGM4VVA5d2U0QkJYeC0wN0xMdDctcUtZcXVxSHJCZWRrWWxJY1JRSmV3MEhJS0ZyNkJtZS10U3Z1WGZXSDJCQXc?oc=5)
+- 10/15 [AI需求有多強？台積電獲利拚連6季創新高，CoWoS產能與資本支出成法說焦點 - 優分析UAnalyze](https://news.google.com/rss/articles/CBMiVkFVX3lxTFB5bFptU0RjZDFiZWhGNWg5ZDIwNkk0VFZBRGxQQVFTRWhyZkFPdnM1ZjYxS0xZb0NGandJUWt5Um9TNjJxSHBLb09NYmVpQ0wzVnVMeEpn?oc=5)
+- 10/16 [台積電法說揭AI新訊號！解讀44％成長目標背後關鍵布局 - 遠見雜誌](https://news.google.com/rss/articles/CBMiTkFVX3lxTE1FQzdtaG1scjFhZk1iZ0l6R2szaHFOZzkydl9YTmJEWDBUcEVESzVrb0VEUV9JMEJzSHVhSEEwaUtnQ0cyNG1rMUtTYUxmUQ?oc=5)
 - 10/15 [台積電上調展望4》英特爾EMIB來勢洶洶 魏哲家暗示願當備援 - 民報](https://news.google.com/rss/articles/CBMiZEFVX3lxTE5wcDhhbF9qV0lFNERaR096djVWbGtIN0FWc2k5WTh6RHNqTXEwMDg5ZnZqRVE1Q3ZpdFlZbUhKZjRwS0dYWU9OTnpfeTJPd01BZjJMZUJsSTR0eFZSSkR0aF84X24?oc=5)
-- 10/15 [AI需求有多強？台積電獲利拚連6季創新高，CoWoS產能與資本支出成法說焦點 - 鉅亨網](https://news.google.com/rss/articles/CBMiU0FVX3lxTFBlMVNMblhKR2s5SU1oN2RfMkYzV2tGdGpmSU05Z1g0UG1ucTc0MGhHZTVjZjJmUVRybEVhdXdWWnNScG91enN5Um1FWEpNQ2dtRGFB?oc=5)
-- 10/15 [英特爾EMIB若交貨卡關？魏哲家暗示台積電可救援：重點是要讓客戶出貨 - 鏡報](https://news.google.com/rss/articles/CBMiUkFVX3lxTE9XQVJtSGxJZUw1Q0JmOVU1STRsM09XVDkzTXYtQi1TRHRjSThqejlhQ1NTRllZQ1RvakplQlJ0dnlyb0J6OThNc3Fwdy0yX1lVWkE?oc=5)
-- 10/15 [台積電Q3獲利或創紀錄，聯手格羅方德擴大CoWoS矽中介層供應 - TradingKey](https://news.google.com/rss/articles/CBMi5AFBVV95cUxOQzVEWkRwaU5HUGZaZ2hfSlIyMmtKSndwaFlKTlFINEZ0c3AxRHBBVmpPSkpnak1aeWJOaHlxNzltUGEwN1dlV2NBNEhnVUhCd2ExdlI2Wkd4TWFNSEUxbVA0dFZqWjhmVGJ4Z2VLb0hwMlFYMm1acUpocnNaUkFIMWFFQjZ1ZW1PUjRlWjNHR1JrUFNHS0dFdDY1SVBEbDVCcU94LWVUS2NTYTNyWWVVZkx0d0t4Rzh5cFBRYTFKNGE1d2ZLbHBtQ1ZXYnlZaUVLVTBSTXc2Qnh5SU9aMTlzS3Z4YnA?oc=5)
-- 10/15 [〈台積電法說〉攜手格羅方德生產中介層 魏哲家：後段產能確實有些短缺 - Yahoo 財經](https://news.google.com/rss/articles/CBMivgNBVV95cUxOTVQzcnh5ZG55SmQ5OVRnaDBmWWJnR0JlYkJVUGxjWkRFVC05RWV0WkpPZnBfOUlGODRNQ3A4Z0o0OTJkbS1rVzFja1JHRHo4UWY2NVFGSGNwM2U3OFpGZHh6QmdUU0o0UFNGUG9nUHMyVWxCNno0aUNsb1p4S2NtOUF2R1N6MVh2bVhYOTFLa3k4VS1sWk52Z1ZENE9PWk9mei1tOUxlcExmeE4yb3dsMU56WG8tOGlRMm9oQmp1a3BQc1NBc0hfOFBCendLZVY2ajVNMm45UWJsVHdXOTEyYUhyZjctQ0ViRVNzVjRwRXZ1Q0FONjluOWtlc3F2Q3ZNQU91aFd1OGx3V1ROUWRoQ1RSNDJNN19nV1BScVhQRHAwTVROOUJCQS1fWENUZzh0NVlfRWd1T2NvTHdURWx0M3dvc0lfaG51cVhtU0I1aTlJTUExVm85UHRPbzhNRzdUUThrVmhlaFFCOTlreGNVY3ZzV25MSTlfM2FhMkxCMHhkRUNhUUV2ekJ1bjFWVFFKUVB5YS1KZWt3ZmlVNk96cHlKbWhDckVzanZBNTBlaV83TFp3bmR1bG12WDBpZw?oc=5)
-- 10/15 [蘋果、AMD卡位先進製程！台積電2奈米明年產能增逾一倍，A14熱度更旺 - 遠見雜誌](https://news.google.com/rss/articles/CBMiTkFVX3lxTE80SDhnX3VfMjN4LU9ud1g3aTUyV1hjTUNWS0tnaXhiUlpTeE9RVF9KX2EzLTlvTE5OYl81WFhpcFVKZWU0aFF4d21Vem1udw?oc=5)
+- 10/15 [台積電法說會今登場！2027年營收拚增4成、CoWoS擴產受矚 - 財訊](https://news.google.com/rss/articles/CBMie0FVX3lxTFBFSzRubXJNbWtSQ2R2ZFZrZzJVWTQ4X0ZYQmt5OGhGcXg4NjNJNHBBVjZxdTVwR3Y1dUhHX1NPdkI1UVZTcHFRcVhUR01DV3VBYTlGZ293UU12VzNzb29tdURTbnhJUXNJNGdKSmc0SHZZSzhWb0Fad3VNVQ?oc=5)
 
 **CPU 伺服器與 DDR5 需求**　（搜尋：AI CPU 伺服器 需求 DDR5 RDIMM 報價）
 - 10/15 [記憶體比以前貴 5 倍！32GB DDR5 狂飆至 450 美元，玩家組電腦越來越難 - XFastest News](https://news.google.com/rss/articles/CBMiVkFVX3lxTE9nVk1BN2t5dDVSSWZSRFZMd1NhdElIekJPN1RUdU5seC1PM01qckJtOWgwQU81S2dVRmRIWndITzVaaTJGQWhMV1Y2WWtQWWlEbmxmZGR3?oc=5)
@@ -145,12 +147,10 @@
 ### 風險監控
 
 **長鑫 DRAM 擴產與價格戰**　（搜尋：長鑫 CXMT DDR4 DDR5 擴產 價格）
-- 10/14 [長鑫4F2架構是什麼？DDR5技術突破，南亞科、華邦電受衝擊？ - 數位時代](https://news.google.com/rss/articles/CBMihAFBVV95cUxNVE82azZ5Sy1HenZRT0w5LVQwdlU5TnliT0t5SXN0bUxoc3I0VW9NWmxuSFlmZXB3QUN4Q1ZUcVJTb3lNOU8xSDFXRkVublphY2FRMXNOU21MdlZDSS1OZXEyWktLd2tHT2x5ZlhvamRuRnowTHFGVlNST3NTYWEzS0h1dVA?oc=5)
-- 10/14 [長鑫4F²技術突破，DRAM單元縮小1/3，南亞科會被搶單？威剛反而有機會？8檔記憶體股一次看| 數位時代 - LINE TODAY](https://news.google.com/rss/articles/CBMiVkFVX3lxTE9mNmpfODhRNGV2TWxNZk9hUnZkZDJuMXJBWTlkdHZ6MXlzYW9UWmVCb3dtWjBlenFkSEpGOWxvdHRjZjBDZEhRaVM0cjRFeVJJckg4TlVR?oc=5)
-- 10/14 [長鑫新一代架構衝擊三大廠？ 分析師：短線影響有限 - Rti 中央廣播電臺](https://news.google.com/rss/articles/CBMiV0FVX3lxTE4waVVlNTVkb1oteVZQbk9vNzEtWWhJU0NmNUpiU1BTbU9SUTBXb25rUWNheXNQNldYNXdwYkYwY3EwU0NoUjR3dWFrYkRRQjBRaHAxQkFhTQ?oc=5)
+- 近兩日無相關新聞
 
 **AI 資本支出風向**　（搜尋：超大型雲端 資本支出 下修 AI capex）
-- 近兩日無相關新聞
+- 10/16 [Adobe Inc. | ADBE 股價走勢與即時報價 - BigGo 財經](https://news.google.com/rss/articles/CBMiUEFVX3lxTE9VSWI2ZGFqQW5HTEhtTkN3Ylc1RFZvU0std3BCX0IydkVmaXBxb1RtTjlGV0xYb3VyWkpsSEo0TW1sSHFPNnNrRGVTLUpmSTE0?oc=5)
 
 
 ### 研究追蹤
@@ -159,26 +159,28 @@
 - 近兩日無相關新聞
 
 **Bloom Energy 出貨與 GW 目標**　（搜尋：Bloom Energy SOFC 資料中心）
-- 10/15 [燃料電池需求火 康舒蓄勢揚 - 中時新聞網](https://news.google.com/rss/articles/CBMia0FVX3lxTE5Mb1MxWkJkb3M1TExKMWRMTWtGOVdEb3VNM2dyU0JVcGJkZ2ZuTDk2cV9TSXNfdlZ4ektiN0tpeVdPMVp6ZGp5YkRBNlEwQXc4WGk2d0JjR0tKT05BY20zY2liaUxhZ1YtRlJF?oc=5)
-- 10/15 [AEP投資40億美元（約1,300億新台幣）打造Google專用電源，燃料電池容量702MW - BigGo 財經](https://news.google.com/rss/articles/CBMiekFVX3lxTE5PZml2R0ZydU5EVWVjUjNjaEN3dHJuNGNxaUhPcDVpZ3k0dWRFbmc0djFBN1FlLW4tNDhBRE1MOE14U1V0WkJMcThJOG9BUXZxS0pYN1M5NVRsV1ZncFhsUFVmVTB2QWVIakJ5NkxITVZ0bEVEME14Mi13?oc=5)
-- 10/14 [Google簽20年燃料電池供電合約AEP砸40億美元建702MW電廠，Bloom Energy受惠 - 鉅亨網](https://news.google.com/rss/articles/CBMiT0FVX3lxTE5DdktFX1hmVVVNWnB5YnYzMG5wR0dSeEF6VkgydUJFZmRjdE9uNHlkMDM5TzZqcHcyaEZUcDVkN1VZdHNMeGVkN1Zpa2JXYkU?oc=5)
-- 10/14 [Al算力中心 拉動SOFC全球瘋建潮 | 產業動態 | 商情 - 經濟日報](https://news.google.com/rss/articles/CBMiW0FVX3lxTFBwZnZvQmJ2aC1Lc18yTWE2cVlwSnlYbEJKX3FjU01BTnhoVGpTZ3RGWVRuUUJZRThjblhWc0NpRmN2WVMxSk9vSU1JQV9aeEpUOThpNktwSHd3T3M?oc=5)
+- 10/16 [AI融資疑慮風險升溫 BE/GEV等能源股承壓 - 台視全球資訊網](https://news.google.com/rss/articles/CBMinAFBVV95cUxQX3dPT0xWWC1DSEZEZ2MxazFSb3JWamgyOE5EQlh1WGNfOGFrai1qdHJ2S1d2UFI5dXBHMVBneXJ3VjgtTVRISjlMNWtRaHRLRDJqWXBhY1FZc2YzLXdGeVg5WTVqYnRlLU1CMlNxdmhsRHEtVWdPa2tXMkFhMnNreTgwb2RZam9Mc3QtQ2JmQm1IOWItUlY0UFlhSFo?oc=5)
+- 10/15 [《電零組》燃料電池需求火 康舒蓄勢揚 - 富聯網](https://news.google.com/rss/articles/CBMiiAFBVV95cUxPV0lkUkE3VC13YmhnX2gyQkZhZmU0WWNoYkltNXhnLXE0enBocmxIZHpuODVQVERZS3ZzZG9mWThRcGZuYVF6aF9mZ2pnUWZqZVU5R3FadG8xQm5CaWd6U2t2dE9aczJNT3h1eEJhVEIwV29DbUt6QVBYa3dlcndReWpNMkFZMm9t?oc=5)
+- 10/16 [AI融資疑慮風險升溫 BE/GEV等能源股承壓 - 國際股市 - 新聞 - MoneyDJ](https://news.google.com/rss/articles/CBMiggFBVV95cUxNVi1xYzFXR2U2WndHUGdGU1hVcGJzLVdvNWIxbTVseXZMdWNRd1cyWkNqc3RaaVJfaE84M0Rad2FOU2VCVkVIS0tGY0c1VDFsaE5RcnF3S2w1TUtfeWlzZGxOOTBfbUQ5Nm9lWXVjX2NGZVBSZ01KNURwUFYweTdVaHhB?oc=5)
+- 10/16 [CoreWeave債務風暴引爆AI電力股殺盤！債券殖利率飆破16% - 台灣好新聞](https://news.google.com/rss/articles/CBMiygJBVV95cUxQZjdXaDQ2RGo1bExwYnFvOWlpU0Z1TndSQXpDdzZDaHdnR21KSVI4S0hkSDRXMV9kTDE2Ni1La0xScXoweUk0QXBmVWxTLUJjeUdZbkE1V2R1NVVUTklZYV93bUNhYzQ1MzZTR2hGd2kzZWFfVTZJZF9abHdvMGcwX2ZxeWVzc2VYZnVsU2tLMGhUcC04bmhkeFp2MUtEMFU2WklMNG5iTTZmZzVURm1mdWVUSHl0QWdPN0otU21DVUR2SFBfTTdfSi1PY28wS0duV2F1Sy1sVGRjSC12Z3ZkMnBXX0I5ZTBzaXBQUVNHMW1yblNILWF6Z0Z1QTJMMnNFalc1RDhhWjAwOFdiRFhYY1phWW5DREotMlBfU19ZUjRnWXM5b2p1WGxCSWltUDB3WDNfMG9RdVdUYTVINEw1MmNpSHJMLUpURXc?oc=5)
 
 **宏致 AI 占比與毛利率**　（搜尋：宏致 3605）
+- 10/16 [《電零組》注意股：宏致 近5日漲4.79% - 富聯網](https://news.google.com/rss/articles/CBMiiAFBVV95cUxPdGdzWURBbWdsVy1SNE81V2NTclF4XzVrYzlLWkVpbXVsSk1SdzVLRG9MamE4ejJ5VDRrUWdOWGU1TUVtUVBWZ3dfazRId2UzZ0p6SHkweFM0N05mdnF1X2JzM0ZaZ0d0c2c2UUw4TUxGY2hGZk5qNkRxTHBTcEM3VmZDQnhwQ1FC?oc=5)
+- 10/16 [【個股分析】宏致：從消費性轉型 AI 與新能源，高速連接器與大電流線束開啟成長新篇章 - 富果直送](https://news.google.com/rss/articles/CBMiVEFVX3lxTE1KQkt2YmlkWk5RQVI1QnBnNHNOV2RlOC1HWDZhSVltYzZXX19jVjRlWVNTdUxHZjh4LWhhSzAycG53d2NMdjdfeHoxZnYyZ2NtSUZXRA?oc=5)
+- 10/16 [33檔注意股名單出爐！台達電、川湖、緯穎等33檔上榜2檔今起關禁閉| 財經 - Newtalk新聞](https://news.google.com/rss/articles/CBMiW0FVX3lxTE5ta1BxUXVYLVJCdzRkZDF2dmR5Z0hNbGRadWw3czNTNy1DOWF6RVBEdnMtVS1GaGhySHp0Z2FzMHJaQ3M3Uzk4bUZOY3Z5WXpNc2p0dVZjWWFDV2M?oc=5)
 - 10/15 [隴華、立碁10/16打入處置股 台達電等37檔列注意股 - 自由財經](https://news.google.com/rss/articles/CBMiX0FVX3lxTE1PemNwem5vMXFsOFljbHFacVJrSnpBLUFza3ltN1hUMHNIWXVGcGpURE9EMFVhRE42T2lmSlBSVi1VUEotZzVabzNSUW96X0ItcjhNYmhJTl9Zb3ZqNUhN0gFkQVVfeXFMTzNYV1cwbzRIazJnbVVEa3BKbkI4N2pIUjNZajZBX3RPeUJ5dGVzNUNUbzRlQ0RlRlo3RTBJdUlXZGV0eFhMMVNYZ0pkNW1leElHblRjQ1NpZWhhWkVrUXNfWXRfRg?oc=5)
-- 10/14 [個股：AI拉貨暢旺，良維、宏致、瀚荃Q3營收齊創單季歷史新高，H2動能續旺 - 富聯網](https://news.google.com/rss/articles/CBMiiAFBVV95cUxQQkttOE50dG84OHhRVEpVUmVWeVZJTlhVUGlGalprVmhMRmZIeFNrQXpBVmtGM05NOXVjRk53TThiMERfVDMxQ0NsWWJzMnEyRUs1azg1TGJzZ2ZEQmhjdWdwdks3NDg2T3RrNjRLMEZud1JVOXdKejg1d3NTNGQ0aVBoS1hnWFpm?oc=5)
-- 10/15 [TWA00 加權指數- 今天盤面熱點，簡單說就是「內盤賣壓全面壓境」。宏致跌6.42... - 股市爆料同學會 - CMoney](https://news.google.com/rss/articles/CBMiWEFVX3lxTFBKOHVsOWF6Q2ZjbUFwUmthcVloMk9GenVKVFhrQ3ZsNlZEQTBCTHRMUWpzbHowUmQ0dDRiMm41Yjg2TWdESzYxNnlkblBSZEt5N2RsTUFnSXQ?oc=5)
-- 10/14 [AI伺服器產值最新看增90%，零組件動能強勁，南亞科等記憶體卻陷逆風-財經焦點情報站 - CMoney投資網誌](https://news.google.com/rss/articles/CBMiggFBVV95cUxPM3lyV0dBdHktRGRqazZfMXdpVTYtQkNFVmpSbDFmQndqVFNhMTlHVS11ekhBdVlkZ1dUWXdOT3A1Zm1yUVFPZkF6ZFJPaUYzZFFxN1k3X2oxcXBCYXhhTlN2NGRCM09zUjNWVWZINDZickg0azZjeFJQdndtSUtRX0xR?oc=5)
+- 10/16 [萬元大關掰掰！「伺服器滑軌巨頭」跌幅過大再被盯上 「電源龍頭」與緯穎重挫一同被列注意股 - FTNN 新聞網](https://news.google.com/rss/articles/CBMiS0FVX3lxTE5Lam13R2U3M3JMMTJ2anVYWGxOT2ZmRl9WU0NrQURzM2t0YTBRTnUtVndOOGcxZEJxaXFLUmZlcE5YdUYyRDlPVW96dw?oc=5)
 - 10/15 [《台北股市》投信14日買超股：台塑化、遠東新、華新 - 富聯網](https://news.google.com/rss/articles/CBMiiAFBVV95cUxPczMzTXBtUXVpYnZzWXRteklTR2ZFOGFUdHVrWnNPbzNjbDgwS09nNWZkcEZjRlZuS0k2VjdSLXNCeXpmT0VIaVJkZ0JXUDZjaUcwVzBwcENtSGJsbEl5R3pqQkFkNHlhYk9wcm9xemg3UmlRVnNqLXhCblNEMS1CTGQ0MG83U2ox?oc=5)
-- 10/14 [AI伺服器產值最新看增90%，零組件動能強勁，南亞科等記憶體卻陷逆風-財經焦點情報站 - CMoney投資網誌](https://news.google.com/rss/articles/CBMiwwFBVV95cUxNOVlzUHVES2MxTndGczE5NC1PRUtRUnZLbGNsd0xvWkF6ZUREWURod3dyc3kzZTFHa0pSYmF4bG1sNE5JNVFzTTdkWVZja1Nra0w0XzVpZWNaQVFwQTkyZ21Cb3ZJUEZ1aWl5cFZqWHY3aGZZNVlZU3NVcXNwRFZNY1l5VlZGVHp1Wlk4UF9KaDNqRmpFZjN6aXNrS2E0ak1DMWVfcVNWRndwbnVhem1EY3FsVTNYT0xKajF0MmU1VUEwUWs?oc=5)
 
 
 ### 太空
 
 **SpaceX 對台下單**　（搜尋：SpaceX 台廠 昇達科 華通）
+- 10/16 [特斯拉飛天車帶旺？低軌族群全噴出昇達科華通漲停領軍 分析師：拉回再布局 - Yahoo股市](https://news.google.com/rss/articles/CBMi9ANBVV95cUxQZUJrdEpybW56cE1wQnF1QmQ3cmwyLUZEU0NzZU1MNlN1dllqYU1SZUYybEhYbkRSTXE5M04zNU42WjRjVk9fUHdwUHR0S2pZWUU0QTIxaWMtNmFCa2xpMnFNYW5VRnFLUVpVWmU0UVlpREVUNm1mNWpnYjNnWktfNUhwTEhwUWhrU3ZpenlaS2pUekRaMmVoYmhHOEduaVBJQ0t3b3pVUDg1VGpuai1USUF0bHVnMnNCYWhUSjJ1N0Q2Yk1ETG9iaUZhRjZFZHBNZmh6SlpHRHJaVlZoZ3VnbWxQTWlXdmZyMFBvTnlDVndWYmlWSVR3eC10R2JjUGk1Nmo3NWZTUFZmMmdicGdUSFpKVnJQUjViTVg5ei1hcnNDZ3JudG9nUWhQRnFQUGh3b0Vna0xjekVkM3B1WWlDaFVTaDc1V1U1UUY4MVU3OHdGRHV5UHFjdklhN0lnZ3NPVHYtYjNuaUw5ZWtDd0pJLVNBRlhnc0NFU05fTmFjWTBWMmRISTcxUWRjcmZlTHlzWlNza1cxc3hJcEQ4REFKaWhqVDZaR3FybmZNMk9JYkRKZ1NNRU1CLWF3M2NiMmNRcGJCQkJEV1d5Ri1mc21kcnQwR0lJVzVKQTY2b0lGVXFFQ3NsdXZrR2tMZEx1dUo5dXVIYw?oc=5)
+- 10/16 [昇達科、啟碁 選逾 90 天 - 經濟日報](https://news.google.com/rss/articles/CBMiWkFVX3lxTE1va3doRkxjaHpUMlpPalg3SXFlYjBtMTBiNzI3eG1LMjltRFI0WERJOTZVMlVHcVpsZ0dkX3FIV0JuaUh6VVlzRHY3WldlTFFhTUJ6WVF0SmY0Z9IBX0FVX3lxTE5FOXA2SkVBd09nWktGNG5KRzVxaktucVhqT3R1eEdGZjFGeURFZUZCVXZmam9WYzA5RElhaEdCX3lrWXBLa1NqNmttb2FaVzdIc3l0cndPVlRIVjZDVnl3?oc=5)
 - 10/15 [〈財經週報-台股熱點〉低軌衛星產業發燒 太空板PCB前景看俏 - 自由時報](https://news.google.com/rss/articles/CBMiWEFVX3lxTE12NHcwSEgzY0wtdXpwd3dncXJLVncwMloxYzZYVGpKWEhQbFlaQkVPaGgyUm92Qk00NS1Gc3JVTnpIV1h3VnVzR1A2eHp0NXRNckVtem45TFQ?oc=5)
-- 10/14 [SpaceX上市後台灣太空新創商機：SATELYX在軌驗證、IZUMI SPACE月土建材 - 數位時代](https://news.google.com/rss/articles/CBMihwFBVV95cUxQejF5VTlJM0dHMXd4NWl5TzJaNm00OVVaWWJQNlpuNFdBVXZVY0hXb0V2TjFZc0k1V3NVcVFaMWtYbHA3aURNNzZRaVMyUEpQUHRHdUVwcTh3U1IzUWRqbXpia0l4Y0dXOFRLeVVnbGFLOTJMSHY1Z1dLYUJ4elVNVFJhdkh4bms?oc=5)
-- 10/14 [SpaceX突然限制星鏈移動速度烏克蘭無人機攻擊受阻，凸顯軍事通訊依賴風險 - 鉅亨網](https://news.google.com/rss/articles/CBMiT0FVX3lxTE11eFNxbzkwZm9mSDYxY0w5U1RXWEpLR3B3MTB5WDFseG5paC1JZVQtdkJLdXZ2NGNmZDJMaGUydEs0dktiR25DNktnVldQblE?oc=5)
+- 10/16 [低軌衛星飛高高！昇達科、華通攜「這3檔」拉出漲停 奇鋐、精測都衝7% - Yahoo股市](https://news.google.com/rss/articles/CBMixgJBVV95cUxQX2x3VHExU2R6SXdwdktPS3NzcXlnRlNVZjBMZ3BXSm4zUVRneGpNZXg4YWRkOWFUYnpxV0prdGwyUGo2MG5uM3JoSVVvazJ3ajJZc1B3dF85cWpDM1pTclBxbWpNZDhaVm01YXZMZFJIYmZ0R2ZzazJWb0hkSVotV2NiN2pmdVJDNzB6MHd5ajJIUjJYWFlDcVluUXlpUXl2TFNmdV84N3FMZmtCMEJEWWo5MFBCdlY4YlZCeVU0WUN6UlBZQk40aHcyU2N1R0cyWG1PaWV5OHF4R2JxNGJOM0JfVlFsSVdpaUx3cm9TRjZuX2tpNFhJYTU3ckhXdkh0Z2VkX2JtRVFUS2ZtcWVfYWF1Zkl6ZlZZazRocU5FanZXWkRBanRESWNvemdtbEpVNmQzYlEtNnk5aXhjOEFGUi1jLVVWdw?oc=5)
+- 10/16 [大甲跌停打開，台郡、和碩齊強攻，聯電破季線，華通、時碩隨特斯拉飛天，下周盤勢重點 - 玩股網](https://news.google.com/rss/articles/CBMiV0FVX3lxTE9DQVphRjVnU3NlakpUSWxXNnp0WnQ0MWxvZmE2LWZpZGdqTnpLQVBOQnRyY1NKUUkxR0wyYXcxR1pjQ1FNLWtjek1PLU0weGxLVjBfSGN3SQ?oc=5)
 
 
 ### 瓶頸監控
@@ -196,9 +198,7 @@
 ### 第9條觸發
 
 **台積電全面漲價與訂單能見度**　（搜尋：台積電 全面漲價 訂單能見度 2030）
-- 10/14 [供需吃緊、漲價效應發酵！這「PCB廠」目標價喊上605元 訂單能見度直達2030年 - FTNN 新聞網](https://news.google.com/rss/articles/CBMiS0FVX3lxTE9WLUpOeEZHaDJablhhM3hvNmlVb2xSX29WaUhBOF9tMFB0SnZSTS0ya1dTSlc1eEVFc1h3M1VvY0k2aFc4bHhEcUdmYw?oc=5)
-- 10/15 [目標價1表看》台光電、欣興、南電、臻鼎、華通等9檔PCB 法人一口氣全評了：它訂單看到2030年 - 上市櫃 - 旺得富理財網](https://news.google.com/rss/articles/CBMiakFVX3lxTE96ZFdwc3RUUnNtR1UtbTByVm9MZ3UtaWVOZUFkYWt6TXRyTnczRG9TUWVtcVhOQjJ3eW1mNHZva2libXdsek42MmI4NDgwcFZzazdoc092SjEwZS1TOF9VWGpYZ0o5eHdLaHc?oc=5)
-- 10/14 [台積電法說會10/15登場！直播時間、Q3財報預期與5大重點整理 - TVBS新聞網](https://news.google.com/rss/articles/CBMiTkFVX3lxTE5ETk9TbTh4YWh6RFZRUUlRWk45YzluM1NQWndmSXRGa2NrSmJZWjZYckowYVB3UmFINWxreEdVVm9UaTdwVTFkSzRaTU5IZw?oc=5)
+- 10/16 [ASML 26年Q3業績會全文：已經在談2030年訂單了！（深度總結） - 鉅亨號](https://news.google.com/rss/articles/CBMiSEFVX3lxTE1lUTZvdDk1cG1SNnhveXZaYzdtYWMzY3RMRHdKY3VZbWZSNy14VWF3MnAyTUhjd1ppdUtXUjlNWFRaZUVUXzJwMg?oc=5)
 
 
 ### 瓶頸監控
@@ -207,17 +207,20 @@
 - 近兩日無相關新聞
 
 **測試／探針卡族群接棒**　（搜尋：測試 探針卡 AI伺服器 訂單 營收）
+- 10/16 [AI CPU接棒GPU？高盛點名四大半導體新機會 - 鉅亨網](https://news.google.com/rss/articles/CBMiT0FVX3lxTFBIcFNoNmYzcW1NWXFLcU5xS2JEWDhVWHhKekRQWHQtWnAyaHNiVUl6dkE0TElYeFFrRDQxX0F2WEl4WmYxM2t2TFV0cEZPU1k?oc=5)
 - 10/15 [《DJ在線》測試介面成長無虞 ASIC訂單成明年主戰場 - 台視全球資訊網](https://news.google.com/rss/articles/CBMinAFBVV95cUxNVjVZOHFIcXJRT2VvSkZxV2Z2bFF6WjZpRy1lQ2syaU5ELTFoa08zSEx0SjZSa2xYNEVpTFdMVWN6N3B2VC1aMlVPSjBSYUc2SGhZUUlIVWxyV1lVNXRoTWIwZE1oZkdfQW5pN3VzMURBaGhIbDBhTjVyN1c1c2VqbmZmMUlSRllEUkM0RmFnX3BmTHJHSkxEMjZMS1U?oc=5)
-- 10/14 [中探針(6217)做什麼的？連年虧損，股價為何一年漲16倍？ - 數位時代](https://news.google.com/rss/articles/CBMigAFBVV95cUxNQzJydER1LXBCNDFWeW9FbVR3TXBwZWQ2VzBCMkVDNVVvb21ub0djcE9BRE9XRF9kLTM2RDNUOXl6UDBfVUlXWi1vMWYwOUVueUltazVyTzlOTlpQUXlXeDZqQVFnNjhhR3JmOWVacnZIbVgwZldsVkFweFNLeXVKYw?oc=5)
-- 10/14 [9月營收33億元再創新高！「半導體測試介面廠」止跌勁揚5.47% 全年探針卡營收拼占50% - FTNN 新聞網](https://news.google.com/rss/articles/CBMiS0FVX3lxTE81MDZJbDc2MDJTaHJRcWRnaGxyX05mZXpXeVdja25nQVVJMS1EMl81YVZYZUZuX3NxVE9ZNGVDZFB4Wnc0cmdXb3JTTQ?oc=5)
-- 10/15 [AI CPU接棒GPU？高盛點名四大半導體新機會 - 蕃新聞](https://news.google.com/rss/articles/CBMiUkFVX3lxTFBoRGF3bG9ZVDdBMmRDLW5PaHNzclE1d0loSGN6UDFQRVZiekp3OEhqVlR0WXhpUXgtaHliNFE3cFlYRkNXV19kT1Z4MnV2dV82d3c?oc=5)
-- 10/14 [「AI代工廠」EPS上修給讚！台股9月全體營收衝破6.59兆 法人點名「板卡大廠」強力買進 - FTNN 新聞網](https://news.google.com/rss/articles/CBMiS0FVX3lxTE0tRlU0Z0FFRjNxUlJSNXlnOVlMM3VOLWtld0hGWFR6RmV0eUhvMlF1Y0UtZnVvay1VdkVBOEtSUWxGY25MNW9yMlZHWQ?oc=5)
+- 10/16 [前三季營收提前改寫全年新高！這「測試解決方案廠」卡位矽光子商機 今年EPS估達27.58元 - FTNN 新聞網](https://news.google.com/rss/articles/CBMiS0FVX3lxTFBTU1ZPUTc3SHp6ckxQWjFrVjZNQTlpSTE4ekhfOE1nLWQ4U2dpVmhrdlJYbXhmSEZHLWVUbkNHcXZEMmRpbFA1QWJoVQ?oc=5)
+- 10/15 [■ AI CPU接棒GPU？高盛點名四大半導體新機會 - Life 生活網](https://news.google.com/rss/articles/CBMi_AFBVV95cUxQY2J6ZEVBekpYMW1MRWRSMG1xYzF2VUxoblR6UmhEY2pkMlZteVhPNENIckFZTURFX3FBTTFoc2sxaU9JZkNIYTEtbUNId05NSFZUcHRWYnhaWVJQT1NqbUNBXzR1YkNWelEyRktFQW9BcjZtaWwzTE1QenNDZFF2VnR2c1FRaWNZTmd3VVZEMy1wV2E5cTlhazVGZE9MSHRXd0xQdTk3dWJzQWtVUVBZYmk1SDRBamRDY0Q0UWFZVzJYQjFqQUFzQkN2U19aeHV6OFpGYjhTWXRVWUU5eGlLNnppREJxX0pIdndyclRFeG9Zbnk1a2xuVjJpa3Q?oc=5)
 
 
 ### 風險監控
 
 **Google TPU／ASIC 訂單流向**　（搜尋：Google TPU 訂單 轉單 ASIC 博通 聯發科）
+- 10/16 [輝達砸 35 億美元、Alphabet 也出手，兩強為何搶著綁樁聯發科？科技專家解析 AI 晶片新戰局 - 未來商務](https://news.google.com/rss/articles/CBMiVEFVX3lxTE96N2c3bGJUTjRQMUd3QXdJN1I1elB5di1XRUN1Vko2QkdLcHdPMkhyRnhtaGtZNF9jZE1iNGlnQ1YtUDktS3NUTkNRTmZab1lCbFFwZw?oc=5)
 - 10/15 [傳字節跳動採購聯發科 AI 晶片，成第二個 ASIC 大客戶 - 鏈新聞 ABMedia](https://news.google.com/rss/articles/CBMibEFVX3lxTE01U1l2eW13NWpLLWkxbFo4aU9wYWVQRzRqM3QyZEVjQ2NjTWFDcFc5UUFxZ1FCZ0dsbGZNV19YbS1XOXpOdGZPWGxyY0loT2pQVjVSLTAyYjJKMHdqNDFnME0yRVBsTTdVM0NmQQ?oc=5)
+- 10/16 [「龍頭大廠」跌出甜蜜買點？外資重申買進，最新目標價4位數 | 下班經濟學 | 財經 - 風傳媒](https://news.google.com/rss/articles/CBMiTkFVX3lxTE5pZTdDMzQ2U0o3RG11MHptOXl2QVdXNTYyOE50ODVuY3VKeS1BMlU3Wkl2aG11dnBQV2ZCT0l6cEtDR214dlJmclVoaXlCZw?oc=5)
+- 10/15 [聯發科慘遭提款！外資6天狂砍1.8萬張、連7黑摜破季線 - 中時新聞網](https://news.google.com/rss/articles/CBMibkFVX3lxTE5VUVZ0dU4zUENyaE1IUVItQXZHTlpWOGdOQXc5OE8xUE42UmZRcldGV1NnQTJVU3hBNUhjSzZNZmV6WjVlRnBtQkdyUXpBMXR3bjdONXZsWUFlS1hfTjBoWTk1MGptQ1BNSjdzM2hn?oc=5)
+- 10/16 [英特爾傳拿下蘋果、Google、輝達訂單！14A 製程成接單主力 - 鏈新聞 ABMedia](https://news.google.com/rss/articles/CBMiXEFVX3lxTE9SYU1jdHdnQXZhNnpKU0VjY0hUX19zVmJxVTFtc2RGY3RxZzBwMzRNVlZOc0ZRdmFueVhBVno4Wi1NOEY3T0c5Q0ZmRXBfamg4RFFYWHBqc3ZTcXVU?oc=5)
 
 
 ### 瓶頸監控
@@ -236,9 +239,9 @@
 
 **美國 337 調查（台廠 AI 伺服器／電源）**　（搜尋：337調查 廣達 鴻海 台達電）
 - 10/15 [AI伺服器下一戰是「供電」！ Vicor發動337調查 台達電、廣達、鴻海遭點名 - 經濟日報](https://news.google.com/rss/articles/CBMiWkFVX3lxTE9UQ1pUUjZOUklWSG9xVnZST3FsUHhlNVBfSGVETW01QVdyZkx2UFBIT3FSWXBoaDJRXzhsdExoNktqV0tWa2otdHNGVlRiZHl3SXVBN3R1UVNMUdIBX0FVX3lxTFBpRzI4MHhfWUpKcWV2emFuZDRkT3F0akZYX255VmFJei15Q3B5eWdXYmNUakxRNy1ndlBLaGl6dVFmbFc1VUZIS1hQMzl2V05BSjlFbFNCdjRQeHlSd1o0?oc=5)
+- 10/16 [2382 廣達- 經濟部擬赴德州設立AI產業園區童子賢：可借鏡廣達Q-Bus模式 - 股市爆料同學會 - CMoney](https://news.google.com/rss/articles/CBMiWEFVX3lxTE56Mk54elc3UHFremNCcUswTE9lbjlJb3hMcFVOdUtzVUZHVmU3cTRIX3VqWnRwUVB0UGk1RDZOSFk5cVNMMjM0S3lWWXJjb3Q3ZGhBZE9iaXU?oc=5)
 - 10/15 [焦點股》台達電：陷美337調查 帶量下殺 - 自由時報](https://news.google.com/rss/articles/CBMiWEFVX3lxTFBvN3ViRWpSYnVRQUhuZGQ4M21Udk5OWmVuT29UNWIta3RIemFGdkRPcFRaZnE4cXhIOFdIc0I1VUZZb0lqVDJPcEZIUVFtanhYVWRJNmM0enE?oc=5)
-- 10/14 [337調查是什麼？鴻海、廣達、台達電遭列名，現在會影響出貨嗎？-實習大人-林序安 - CMoney投資網誌](https://news.google.com/rss/articles/CBMihwFBVV95cUxOYnNYb0xCbGNVOHhKdHdpYVl6M3VDSC11cDFQZWdhNDlEYXN3R2U3WFhwVDJzOW1taEJpMjVtRU0tT2ppSzREQzM2T1l6VHhtRWI3TWRGNlEwZzNEbUVKME05LWxUZGEzQnJ0dVJ2WnJTcjg4TloxeHhYV1VFbExhUW5Vbk1LQmc?oc=5)
+- 10/16 [台達電正式發重訊！3公司捲入美國337調查 股價今一度暴跌5% - 三立新聞](https://news.google.com/rss/articles/CBMiSEFVX3lxTE9welFmVktmQmtpU0RHZHJWazhJMXg2LXJiMkkzN0lqLVlxalZXVC1MT2ZSbUJlMHFQWVROX2ZnTmduOFpMaDNJMg?oc=5)
+- 10/17 [我在美設科學園區 「打包式」聚落 童子賢妙喻 Q bus - 經濟日報](https://news.google.com/rss/articles/CBMiX0FVX3lxTE8xS3ZYaFlYV0MwVXBCMUt2OUUwMnVpNEJld3otTFg5NGtSRzI4ajdrRFdDQXpzU1NjVjRNbldqZmdvWWFPYm01UE1RZ2x6U3c0enNFZUZiM2l3NjV3Rk5n0gFfQVVfeXFMTzFLdlhoWVhXQzBVcEIxS3Y5RTAydWk0QmV3ei1MWDk0a1JHMjhqN2tEV0NBenNTU2NWNE1uV2pmZ29ZYU9ibTVQTVFnbHpTdzR6c0VlRmIzaXc2NXdGTmc?oc=5)
 - 10/15 [影音／鴻海科技日搶先看！首推科技教育館 桌上機器人、Ｑ版AI機櫃登場 - TVBS新聞網](https://news.google.com/rss/articles/CBMiTkFVX3lxTE1TWFpHWkNOYnFYUEh0ZlVHZThxYkcxTVdIMjFzc2VmVmxTcjFaWWNEVGU4VjNtLWhYLW1qdnRteTdITHVGeTRHWXpaNHlxQQ?oc=5)
-- 10/15 [台達電正式發重訊！3公司捲入美國337調查 股價今一度暴跌5% - 三立新聞](https://news.google.com/rss/articles/CBMiSEFVX3lxTE9welFmVktmQmtpU0RHZHJWazhJMXg2LXJiMkkzN0lqLVlxalZXVC1MT2ZSbUJlMHFQWVROX2ZnTmduOFpMaDNJMg?oc=5)
-- 10/14 [討論牆 | 美國啟動337調查 鴻海、台達電、廣達回應 - LINE TODAY](https://news.google.com/rss/articles/CBMiZEFVX3lxTE9nU0lJOVdvSlpybUlhRnphM3F3ZEpvN1FqdWJFQW9jbDdXanFxMWVTUVZEbFpaVzFpdlBCemtOMkdRYW5vMnl2dy1kcnlzYjdtdnk1RERwUDJhVE4tTVRDMGVEWkI?oc=5)
 
