@@ -16,7 +16,7 @@
     ".pd-card.fold .item.pd-done{display:none!important}" +
     ".pd-card .item .note{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;cursor:pointer}" +
     ".pd-card .item.pd-open .note{display:block;-webkit-line-clamp:unset}" +
-    ".pd-card .item.pd-done:not(.pd-open) .note{display:none}" +
+    ".pd-card .item.pd-done:not(.pd-open) .note{-webkit-line-clamp:2}" +
     ".pd-empty{padding:4px 14px 10px;font-size:12.5px;color:#0E9F6E}" +
     ".pk-card{margin-top:14px}" +
     ".pk-top{display:flex;align-items:center;gap:8px;padding:12px 14px 4px;flex-wrap:wrap}" +
@@ -55,7 +55,7 @@
     if (!items.length) return;
     card.classList.add("pd-card");
     var foldKey = location.pathname + "#pdfold";
-    if (lsGet(foldKey) !== "0") card.classList.add("fold");
+    if (lsGet(foldKey) === "1") card.classList.add("fold");
     var h1 = document.createElement("div"); h1.className = "pd-h"; h1.style.order = 0;
     var empty = document.createElement("div"); empty.className = "pd-empty"; empty.style.order = 1; empty.textContent = "🎉 都準備好了！";
     var h2 = document.createElement("div"); h2.className = "pd-h done"; h2.style.order = 2;
@@ -191,12 +191,23 @@
     document.addEventListener("visibilitychange", function () { if (!document.hidden) sync.pull().then(apply); });
   }
 
+  /* 附圖按鈕移到說明外面，說明收合或項目打勾時按鈕一樣看得到 */
+  function liftPimg() {
+    [].forEach.call(document.querySelectorAll(".item .note"), function (n) {
+      var bs = n.querySelectorAll(".pimg"); if (!bs.length) return;
+      var row = document.createElement("div"); row.className = "pimg-row";
+      [].forEach.call(bs, function (b) { row.appendChild(b); });
+      // 清掉按鈕留下的多餘換行
+      n.innerHTML = n.innerHTML.replace(/(<br\s*\/?>\s*)+$/i, "");
+      n.parentNode.insertBefore(row, n.nextSibling);
+    });
+  }
   function initClamp() {
     document.addEventListener("click", function (e) {
       var n = e.target.closest && e.target.closest(".day-block .note"); if (!n || e.target.closest("button,a,.pimg")) return;
       var it = n.closest(".item"); if (it) it.classList.toggle("pd-open");
     });
   }
-  function init() { initTodo(); initPack(); initTickSync(); initClamp(); }
+  function init() { initTodo(); initPack(); initTickSync(); liftPimg(); initClamp(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
 })();
