@@ -36,7 +36,10 @@
     ".pk-i .pk-n{display:block;font-size:12px;color:#8A6A45;margin-top:1px}" +
     ".pk-i.on .pk-t{color:#B5A58C;text-decoration:line-through}.pk-i.on .pk-n{display:none}" +
     ".pk-card.left .pk-i.on{display:none}.pk-card.left .pk-g.full{display:none}" +
-    "html.trip-guest .pk-card{display:none!important}";
+    "html.trip-guest .pk-card{display:none!important}" +
+    /* 每天的行程：說明先顯示 3 行，點一下展開，畫面比較乾淨 */
+    ".day-block .item .note{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;cursor:pointer}" +
+    ".day-block .item.pd-open .note{display:block;-webkit-line-clamp:unset}";
   document.head.appendChild(css);
 
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
@@ -188,6 +191,12 @@
     document.addEventListener("visibilitychange", function () { if (!document.hidden) sync.pull().then(apply); });
   }
 
-  function init() { initTodo(); initPack(); initTickSync(); }
+  function initClamp() {
+    document.addEventListener("click", function (e) {
+      var n = e.target.closest && e.target.closest(".day-block .note"); if (!n || e.target.closest("button,a,.pimg")) return;
+      var it = n.closest(".item"); if (it) it.classList.toggle("pd-open");
+    });
+  }
+  function init() { initTodo(); initPack(); initTickSync(); initClamp(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
 })();
