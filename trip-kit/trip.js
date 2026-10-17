@@ -1,7 +1,8 @@
 /* trip-kit/trip.js — 公版共用小工具
    1) 把各頁寫死的深色標籤底色，轉成同色系淺色（文字改深咖啡），配合 みのわ 風格
    2) 頁尾預留空間，避免被「家的旅程」浮動鈕擋住
-   3) 私有圖片按鈕（.pimg）：從私有庫讀圖，只給驗證過的手機看 */
+   3) 私有圖片按鈕（.pimg）：從私有庫讀圖，只給驗證過的手機看
+   4) 圖文教學視窗：<span class="gdbtn" data-guide="xxx">📖 教學</span> 點開 <template id="guide-xxx"> 的內容 */
 (function(){
   // 全站 emoji → 線條圖示
   if(!window.__tripIcons){ var cs=document.currentScript; var sc=document.createElement('script'); sc.src=(cs&&cs.src?cs.src.replace(/trip\.js(\?.*)?$/,'icons.js?v=9'):'../trip-kit/icons.js?v=2'); document.head.appendChild(sc); }
@@ -45,6 +46,40 @@
     box.addEventListener('click',function(){ box.remove(); });
     document.body.appendChild(box);
   }
+
+  // 4) 圖文教學視窗：按鈕 data-guide="xxx" → 打開 <template id="guide-xxx">
+  (function(){
+    var st=document.createElement('style');
+    st.textContent='.gdbtn{display:inline-flex;align-items:center;gap:3px;margin-left:6px;padding:2px 9px;border-radius:999px;background:#FFF3C4;color:#8A5A00;font-size:11.5px;font-weight:700;cursor:pointer;vertical-align:middle}'+
+      '#gdBox{position:fixed;inset:0;z-index:2147483500;background:rgba(40,28,12,.55);display:flex;align-items:flex-end;justify-content:center}'+
+      '#gdBox .gd{width:100%;max-width:520px;max-height:88vh;overflow:auto;background:#FFFCF6;border-radius:22px 22px 0 0;padding:18px 16px calc(24px + env(safe-area-inset-bottom));box-shadow:0 -12px 40px -10px rgba(0,0,0,.35);-webkit-overflow-scrolling:touch}'+
+      '#gdBox .gd-h{display:flex;align-items:center;gap:8px;margin-bottom:10px}#gdBox .gd-h b{font-size:17px;color:#5D3713;flex:1}'+
+      '#gdBox .gd-x{border:none;background:#F3EBDD;color:#5D3713;width:34px;height:34px;border-radius:50%;font-size:17px;cursor:pointer}'+
+      '#gdBox .gs{background:#fff;border-radius:16px;padding:12px;margin:10px 0;box-shadow:0 6px 16px -12px rgba(93,55,19,.45)}'+
+      '#gdBox .gs h4{margin:0 0 6px;font-size:14.5px;color:#5D3713;display:flex;gap:8px;align-items:center}'+
+      '#gdBox .gs h4 i{font-style:normal;flex:none;width:22px;height:22px;border-radius:50%;background:#DEAE0B;color:#fff;font-size:12px;display:grid;place-items:center}'+
+      '#gdBox .gs p{margin:6px 0 0;font-size:13.5px;line-height:1.65;color:#3E3A39}#gdBox .gs svg{display:block;width:100%;height:auto;border-radius:10px;background:#F7F1E3}'+
+      '#gdBox .gs .say{display:inline-block;margin-top:6px;padding:6px 10px;border-radius:10px;background:#FFF3C4;font-weight:700;color:#5D3713}';
+    document.head.appendChild(st);
+    function open(id){
+      var t=document.getElementById('guide-'+id); if(!t) return;
+      var old=document.getElementById('gdBox'); if(old) old.remove();
+      var box=document.createElement('div'); box.id='gdBox';
+      var gd=document.createElement('div'); gd.className='gd';
+      gd.innerHTML='<div class="gd-h"><b></b><button class="gd-x" aria-label="關閉">✕</button></div>';
+      gd.querySelector('b').textContent=t.getAttribute('data-title')||'教學';
+      gd.appendChild(t.content.cloneNode(true));
+      box.appendChild(gd); document.body.appendChild(box);
+      document.documentElement.style.overflow='hidden';
+      function close(){ box.remove(); document.documentElement.style.overflow=''; }
+      box.addEventListener('click',function(e){ if(e.target===box||e.target.closest('.gd-x')) close(); });
+    }
+    window.tripGuide=open;
+    document.addEventListener('click',function(e){
+      var b=e.target.closest&&e.target.closest('[data-guide]'); if(!b) return;
+      e.preventDefault(); e.stopPropagation(); open(b.getAttribute('data-guide'));
+    },true);
+  })();
   document.addEventListener('click',function(e){
     var b=e.target.closest&&e.target.closest('.pimg'); if(!b) return;
     e.preventDefault(); e.stopPropagation();
