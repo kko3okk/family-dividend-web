@@ -435,6 +435,7 @@ const PAYKEY='osaka2026_pay', FXKEY='osaka2026_fx';
 const CARDS={U:['#EA580C','uniopen'],K:['#1F2937','熊本熊卡'],KP:['#E11D48','PayPay'],J:['#0F766E','吉鶴 Apple Pay'],W:['#0369A1','老婆 JCB'],CUBE:['#7C3AED','CUBE'],C:['#6B7280','現金']};
 const CPN={conv:'便利商店券',dept:'百貨店券',gu:'UNIQLO・GU券',drug:'藥妝店券',air:'機場券'};
 const CAP_NT={U:6250,K:8333,KP:2857};
+const NO_UNIOPEN=true;   // 10/17 uniopen 實體卡忘了帶：原本刷 uniopen 的地方改建議 PayPay／吉鶴
 const DAYDATE=['2026-10-17','2026-10-18','2026-10-19','2026-10-20','2026-10-21','2026-10-22','2026-10-23','2026-10-24'];
 let recs=[];
 function fx(){ try{ const v=parseFloat(localStorage.getItem(FXKEY)); if(v>1&&v<10) return v; }catch(e){} return 4.65; }
@@ -454,6 +455,7 @@ function resolve(rule){
   if(rule==='C') return {card:'C', html:''};
   if(rule==='J') return {card:'J', html:'<span class="pst">不限額度</span>'};
   if(rule==='U'){
+    if(NO_UNIOPEN) return {card:'J', html:'<span class="pst full">uniopen 沒帶 → 有 PayPay 用 PayPay（約5%），不然吉鶴 Apple Pay（4%）</span>'};
     const u=spent('U','me'), cap=capY('U');
     if(u<cap) return {card:'U', html:'<span class="pst">11%｜已刷 '+yen(u)+' / '+yen(cap)+'（還剩 '+yen(cap-u)+'）</span>'};
     return {card:'J', html:'<span class="pst full">uniopen 已刷滿 '+yen(cap)+' → 改吉鶴 Apple Pay</span>'};
@@ -506,7 +508,7 @@ function renderCaps(){
   const box=document.getElementById('capBox'); if(!box) return;
   function bar(name,v,cap,color,sub){ const p=Math.min(100,Math.round(v/cap*100)); return '<div class="cap"><div class="ct"><span><b>'+name+'</b> '+(sub||'')+'</span><span>'+yen(v)+' / '+yen(cap)+(v>=cap?' ✓':'')+'</span></div><div class="cbar"><i style="width:'+p+'%;background:'+color+'"></i></div></div>'; }
   let h='';
-  h+=bar('uniopen',spent('U','me'),capY('U'),'#EA580C','11% 加碼上限');
+  if(!NO_UNIOPEN) h+=bar('uniopen',spent('U','me'),capY('U'),'#EA580C','11% 加碼上限');
   h+=bar('熊本熊卡 刷卡',spent('K','me'),capY('K'),'#1F2937','6% 加碼上限');
   h+=bar('熊本熊 PayPay',spent('KP','me'),capY('KP'),'#E11D48','5% 上限');
   h+=bar('USJ 你（熊本熊）',usjMe(),10000,'#0369A1','JCB 20%');
