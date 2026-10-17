@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<script src="../gate.js?v=2"></script>
+<script src="../gate.js?v=3"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#FFFCF6">
@@ -436,7 +436,7 @@ details.grp[open]>summary::after{transform:rotate(180deg)}
   document.querySelectorAll('details.grp').forEach(function(d){ d.addEventListener('toggle',function(){ if(d.open){ var y=d.getBoundingClientRect().top+scrollY-(parseInt(getComputedStyle(document.documentElement).getPropertyValue('--navh'))||58)-6; if(y<scrollY) scrollTo({top:y,behavior:'smooth'}); } }); });
 })();
 </script>
-<script src="../trip-kit/trip.js?v=12"></script>
+<script src="../trip-kit/trip.js?v=13"></script>
 <script src="../trip-home.js?v=11"></script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<script src="../gate.js?v=2"></script>
+<script src="../gate.js?v=3"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#FFFCF6">
@@ -72,6 +72,7 @@ const DAYS=[
 {id:'D3',t:'D3 5/5 回台',c:'#7FB8C4',stops:[HOTEL,AIRPORT]}
 ];
 
+if(!window.L){ document.getElementById('map').innerHTML='<div style="padding:40px 20px;text-align:center;color:#8A6A45;font-size:14px;line-height:1.7">沒有網路，地圖元件還沒存在這支手機。<br>有網路時打開一次地圖頁就會存好；<br>看過的範圍之後離線也能看。</div>'; throw new Error('Leaflet 未載入（離線）'); }
 const map=L.map('map',{zoomControl:false}).setView([DAYS[0].stops[1].lat,DAYS[0].stops[1].lng],12);
 L.control.zoom({position:'bottomright'}).addTo(map);
 // 底圖：OpenStreetMap（免 API key）；載入失敗自動切換備援來源
@@ -151,7 +152,7 @@ DAYS.forEach((d,idx)=>{
   if(idx===0) setTimeout(()=>b.click(),0);
 });
 </script>
-<script src="../trip-kit/trip.js?v=12"></script>
+<script src="../trip-kit/trip.js?v=13"></script>
 <script src="../trip-home.js?v=11"></script>
 </body>
 </html>

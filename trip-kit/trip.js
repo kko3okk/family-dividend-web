@@ -1,7 +1,7 @@
 /* trip-kit/trip.js — 公版共用小工具
    1) 把各頁寫死的深色標籤底色，轉成同色系淺色（文字改深咖啡），配合 みのわ 風格
    2) 頁尾預留空間，避免被「家的旅程」浮動鈕擋住
-   3) 私有圖片按鈕（.pimg）：從私有庫讀圖，只給驗證過的手機看
+   3) 私有圖片按鈕（.pimg）：從私有庫讀圖，只給驗證過的手機看；也會存一份在手機（trip-private 快取），離線照樣能開
    4) 圖文教學視窗：<span class="gdbtn" data-guide="xxx">📖 教學</span> 點開 <template id="guide-xxx"> 的內容 */
 (function(){
   // 全站 emoji → 線條圖示
@@ -85,14 +85,42 @@
     e.preventDefault(); e.stopPropagation();
     var src=b.getAttribute('data-src'), title=b.textContent.trim();
     if(pimgCache[src]){ pimgShow(title,pimgCache[src]); return; }
-    var tok=''; try{ tok=localStorage.getItem('gh_token')||''; }catch(err){}
-    if(!tok){ pimgShow(title,null,'這支手機還沒驗證 Token'); return; }
     pimgShow(title,null,'讀取中…');
-    fetch(PIMG_API+src.split('/').map(encodeURIComponent).join('/'),{headers:{'Authorization':'Bearer '+tok,'Accept':'application/vnd.github.raw'},cache:'no-store'})
-      .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.blob(); })
-      .then(function(bl){ pimgCache[src]=URL.createObjectURL(bl); pimgShow(title,pimgCache[src]); })
-      .catch(function(err){ pimgShow(title,null,'讀取失敗（'+err.message+'），請確認有網路'); });
+    pimgLoad(src).then(function(u){ pimgShow(title,u); })
+      .catch(function(err){ pimgShow(title,null,err.message); });
   },true);
-  function init(){ run(); spacer(); pimgStyle(); if(window.__tripAuthOK===true) document.documentElement.classList.add('trip-auth'); }
+  // 私有圖片也存一份在這支手機（只限驗證過的），沒網路時照樣能出示訂房、門票 QR
+  var PCACHE='trip-private', PKEY='https://private.invalid/';
+  function ptok(){ try{ return localStorage.getItem('gh_token')||''; }catch(err){ return ''; } }
+  function pnet(src){
+    var tok=ptok(); if(!tok) return Promise.reject(new Error('這支手機還沒驗證 Token'));
+    return fetch(PIMG_API+src.split('/').map(encodeURIComponent).join('/'),{headers:{'Authorization':'Bearer '+tok,'Accept':'application/vnd.github.raw'},cache:'no-store'})
+      .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.blob(); })
+      .then(function(bl){
+        if(window.caches&&window.__tripAuthOK===true) caches.open(PCACHE).then(function(c){ c.put(PKEY+src,new Response(bl,{headers:{'Content-Type':bl.type||'image/png'}})); }).catch(function(){});
+        return bl;
+      });
+  }
+  function pcached(src){
+    if(!window.caches) return Promise.resolve(null);
+    return caches.open(PCACHE).then(function(c){ return c.match(PKEY+src); }).then(function(r){ return r?r.blob():null; }).catch(function(){ return null; });
+  }
+  function pimgLoad(src){
+    var p=navigator.onLine===false?pcached(src).then(function(b){ if(b) return b; throw new Error('沒有網路，這張還沒存在這支手機'); })
+      :pnet(src).catch(function(err){ return pcached(src).then(function(b){ if(b) return b; throw new Error('讀取失敗（'+err.message+'），請確認有網路'); }); });
+    return p.then(function(bl){ pimgCache[src]=URL.createObjectURL(bl); return pimgCache[src]; });
+  }
+  function pimgPrefetch(){
+    if(window.__tripAuthOK!==true||!window.caches||navigator.onLine===false||!ptok()) return;
+    var k='pimgWarm:'+location.pathname, last=0; try{ last=+(localStorage.getItem(k)||0); }catch(err){}
+    if(Date.now()-last<6*3600e3) return;
+    var seen={}, list=[];
+    document.querySelectorAll('.pimg[data-src]').forEach(function(b){ var s=b.getAttribute('data-src'); if(!seen[s]){ seen[s]=1; list.push(s); } });
+    if(!list.length) return;
+    Promise.all(list.map(function(s){ return pnet(s).then(function(){ return 1; },function(){ return 0; }); })).then(function(r){
+      if(r.indexOf(0)<0) try{ localStorage.setItem(k,String(Date.now())); }catch(err){}
+    });
+  }
+  function init(){ run(); spacer(); pimgStyle(); if(window.__tripAuthOK===true) document.documentElement.classList.add('trip-auth'); setTimeout(pimgPrefetch,2500); }
   if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
 })();
