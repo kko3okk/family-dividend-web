@@ -1,5 +1,5 @@
 {
- "updated": "10/17 18:55",
+ "updated": "10/17 20:45",
  "moments": [],
  "receipts": [
   {
@@ -43,6 +43,33 @@
    "card": "S",
    "who": "me",
    "notes": "西瓜卡（Apple 錢包）付款"
+  },
+  {
+   "id": "r20261017-2027-fresa",
+   "day": "D1",
+   "time": "20:27",
+   "store": "相鉄フレッサイン 大阪心斎橋",
+   "store_zh": "相鐵 FRESA INN 大阪心齋橋（入住）",
+   "items": [
+    {
+     "ja": "宿泊税 10/17",
+     "zh": "住宿稅 10/17（¥200×2人）",
+     "qty": 1,
+     "price": 400
+    },
+    {
+     "ja": "宿泊税 10/18",
+     "zh": "住宿稅 10/18（¥200×2人）",
+     "qty": 1,
+     "price": 400
+    }
+   ],
+   "tax": null,
+   "total": 800,
+   "tax_free": false,
+   "card": "K",
+   "who": "me",
+   "notes": "大阪市住宿稅，房費已預付，入住時只收稅"
   }
  ],
  "diaries": {}
