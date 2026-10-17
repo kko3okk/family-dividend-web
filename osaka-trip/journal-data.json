@@ -1,5 +1,5 @@
 {
- "updated": "10/17 21:25",
+ "updated": "10/17 21:30",
  "moments": [
   {
    "id": "m20261017-2056-yoshiji",
@@ -129,6 +129,27 @@
    "card": "K",
    "who": "me",
    "notes": "含稅價（內含 10% 消費稅 ¥436）"
+  },
+  {
+   "id": "r20261017-2126-lawson",
+   "day": "D1",
+   "time": "21:26",
+   "store": "ローソン 東心斎橋一丁目店",
+   "store_zh": "LAWSON 東心齋橋一丁目店",
+   "items": [
+    {
+     "ja": "からあげクン レッド 5個",
+     "zh": "炸雞塊君 辣味（5 個）",
+     "qty": 1,
+     "price": 288
+    }
+   ],
+   "tax": 21,
+   "total": 288,
+   "tax_free": false,
+   "card": "S",
+   "who": "wife",
+   "notes": "老婆的西瓜卡；外帶 8% 稅率"
   }
  ],
  "diaries": {}
