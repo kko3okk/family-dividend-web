@@ -1,6 +1,28 @@
 {
-  "updated": "",
-  "moments": [],
-  "receipts": [],
-  "diaries": {}
+ "updated": "10/17 18:55",
+ "moments": [],
+ "receipts": [
+  {
+   "id": "r20261017-1845-kixdrink",
+   "day": "D1",
+   "time": "18:45",
+   "store": "関西空港（大阪府田尻町）",
+   "store_zh": "關西機場 自動販賣機／商店",
+   "items": [
+    {
+     "ja": "午後の紅茶 FRUITS & ICE TEA オレンジとグレープフルーツ",
+     "zh": "午後紅茶 柳橙葡萄柚水果冰紅茶",
+     "qty": 1,
+     "price": 180
+    }
+   ],
+   "tax": null,
+   "total": 180,
+   "tax_free": false,
+   "card": "S",
+   "who": "me",
+   "notes": "西瓜卡（Apple 錢包）付款"
+  }
+ ],
+ "diaries": {}
 }

@@ -22,7 +22,7 @@
   - 寫法：步驟 6–8 步；標題是動作；容易選錯的畫「綠框＝選這個／灰框 ✕＝不要選」；時間、班次標「示意」；最後一張固定是「卡關怎麼辦」，附一句可以直接給店員看的日文（`<span class="say">`）和備案。
 - **每日天氣**：存在各趟的 `weather.json`（每天的天氣、高低溫、降雨機率、一句穿衣／備案提醒），行程頁自動顯示在每天標題下方；更新天氣只改這個檔。
 - **門禁（10/13）**：全站要先用 GitHub Token 驗證（能讀私有庫 `family-dividend-data`）才能看，由根目錄 `gate.js` 處理；分享連結（旅程頁 `?guest=1`）免驗證，只能看 行程／地圖／美食／清單（10/14 起清單也開放）。**新增任何 HTML 頁都要在 `<meta charset>` 後面同步載入 `gate.js`**（旅程頁是 `../gate.js?v=N`），改了 gate.js 要更新各頁的 `?v=`。
-- **離線版（10/17）**：根目錄 `sw.js`（由 `gate.js` 自動註冊）。網頁、JSON 先上網拿最新、4 秒拿不到就用上次存的；帶 `?v=` 的 JS／CSS 和 CDN 存過就用；地圖底圖只存看過的（OSM 不准整片下載）。旅程頁載入後會把整趟六個頁籤＋`weather/shopping/packing/journal-data` 一次存好（30 分鐘最多一次）；**新增旅程頁或 JSON 檔要加進 `gate.js` 的 `TRIP_FILES`**。私有圖片（`.pimg`）由 `trip.js` 存在手機的 `trip-private` 快取，只限驗證過的手機，Token 失效時刪掉。改快取策略時改 `sw.js` 的 `VER`／快取名稱。
+- **離線版（10/17）**：整個網站都能離線看。根目錄 `sw.js`（由 `gate.js` 自動註冊）：網頁、JSON 先上網拿最新、4 秒拿不到就用上次存的；帶 `?v=` 的 JS／CSS、圖片、CDN 存過就用；地圖底圖只存看過的（OSM 不准整片下載）。任何頁面載入後（1 小時最多一次）會把整站預存：`sw.js` 的 `SITE_FILES`（首頁、sim、旅程地圖、trips.json…）＋ `trips.json` 每一趟的 `TRIP_FILES`，並沿著 HTML／JS／CSS 裡引用的檔案一起存。**新增根目錄頁面或旅程裡的新 JSON 要加進 `sw.js` 的清單**。私有庫資料（持股、買房、健康等 `contents/` 讀取，`*-ticks.json` 除外）和私有圖片（`.pimg`，由 `trip.js` 存）放在手機的 `trip-private` 快取，只限驗證過的手機，Token 失效時刪掉。改快取策略時改 `sw.js` 的 `VER`／快取名稱。
 - 共用樣式在 `trip-kit/`（`trip.css`、`trip.js`、`icons.js`），改了要更新各頁引用的 `?v=` 版本號；首頁有改就同步更新 `APP_VERSION` 和 `version.json`。
 
 ## 家（買房計畫）分頁

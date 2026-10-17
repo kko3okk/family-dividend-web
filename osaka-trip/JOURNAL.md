@@ -43,7 +43,7 @@ Claude 依這份規則處理，把結果寫進 `osaka-trip/journal-data.json`，
 - `id`：`r` + 日期 + 時間 + 店名英文簡寫，不能重複。
 - `zh` 要說明是什麼商品，不要只音譯（例如「ロートVアクティブ」寫「樂敦眼藥水」）。
 - 看不清楚的數字填 `null`，不要猜。折扣列成負數的一行。
-- `card`：U=uniopen、K=熊本熊卡、KP=玉山Wallet PayPay、J=吉鶴 Apple Pay、W=老婆 JCB、CUBE=CUBE、C=現金。使用者沒說時：收據寫クレジット就用 U，現金用 C，PayPay 用 KP；USJ 園內用 W（老婆）或 K。
+- `card`：U=uniopen、K=熊本熊卡、KP=玉山Wallet PayPay、J=吉鶴 Apple Pay、W=老婆 JCB、CUBE=CUBE、S=西瓜卡 Suica、C=現金。使用者沒說時：收據寫クレジット就用 U，現金用 C，PayPay 用 KP；USJ 園內用 W（老婆）或 K。
 - `who`：`me` 或 `wife`，沒說就 `me`。
 - 回覆時列出：店名、品項中文、合計 ¥ 與約 NT$（匯率 4.65），以及記在哪張卡。
 

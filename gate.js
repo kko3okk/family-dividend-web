@@ -32,15 +32,12 @@
   function markOK(t) { set("gh_token", t); set("authOK", JSON.stringify({ h: hash(t), t: Date.now() })); set("familyDevice", "1"); }
   function markBad() { del("authOK"); del("familyDevice"); try { if (window.caches) caches.delete("trip-private"); } catch (e) {} }
 
-  // 離線版：註冊 sw.js，旅程頁載入後把整趟六個頁籤和資料先存起來（細節見 sw.js）
+  // 離線版：註冊 sw.js，任何一頁載入後把整個網站先存起來（細節見 sw.js）
   (function offline() {
     if (!("serviceWorker" in navigator) || location.protocol !== "https:" && location.hostname !== "localhost") return;
     var me = document.currentScript && document.currentScript.src;
     if (!me) return;
     var base = me.replace(/gate\.js.*$/, "");
-    var dir = location.href.replace(/[?#].*$/, "").replace(/[^\/]*$/, "");
-    var TRIP_FILES = ["index.html", "map.html", "food.html", "shopping.html", "card.html", "journal.html",
-      "weather.json", "shopping.json", "packing.json", "journal-data.json", "shop-ticks.json"];
     function toast(t) {
       var d = document.createElement("div");
       d.textContent = t;
@@ -56,14 +53,13 @@
         return navigator.serviceWorker.ready;
       }).then(function (reg) {
         if (!navigator.onLine || !reg.active) return;
-        var k = "offlineWarm:" + dir, last = +(get(k) || 0), first = !last;
-        if (Date.now() - last < 30 * 60e3) return;
-        var urls = inTrip ? TRIP_FILES.map(function (f) { return dir + f; }) : [base + "index.html"];
+        var k = "offlineWarmAll", last = +(get(k) || 0), first = !last;
+        if (Date.now() - last < 60 * 60e3) return;
         var ch = new MessageChannel();
         ch.port1.onmessage = function (e) {
-          if (e.data && e.data.ok) { set(k, String(Date.now())); if (first && inTrip) toast("✓ 已存好離線版，沒網路也能看"); }
+          if (e.data && e.data.ok) { set(k, String(Date.now())); if (first) toast("✓ 整個網站已存好離線版"); }
         };
-        reg.active.postMessage({ type: "warm", urls: urls }, [ch.port2]);
+        reg.active.postMessage({ type: "warmAll", base: base }, [ch.port2]);
       }).catch(function () {});
     });
   })();

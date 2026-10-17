@@ -43,7 +43,7 @@ Claude 依這份規則處理，把結果寫進這趟資料夾的 `journal-data.j
 - `id`：`r` + 日期 + 時間 + 店名英文簡寫，不能重複。
 - `zh` 要說明是什麼商品，不要只音譯（例如「ロートVアクティブ」寫「樂敦眼藥水」）。
 - 看不清楚的數字填 `null`，不要猜。折扣列成負數的一行。
-- `card`：代號對應 `index.html` 的 `CARDS`（U=uniopen、K=熊本熊卡、KP=PayPay、J=吉鶴 Apple Pay、W=老婆 JCB、CUBE=CUBE、C=現金，依這趟實際用的卡調整）。使用者沒說時：信用卡用 U，現金用 C。
+- `card`：代號對應 `index.html` 的 `CARDS`（U=uniopen、K=熊本熊卡、KP=PayPay、J=吉鶴 Apple Pay、W=老婆 JCB、CUBE=CUBE、S=西瓜卡 Suica、C=現金，依這趟實際用的卡調整）。使用者沒說時：信用卡用 U，現金用 C。
 - `who`：`me` 或 `wife`，沒說就 `me`。
 - 回覆時列出：店名、品項中文、合計 ¥ 與約 NT$（匯率 4.65），以及記在哪張卡。
 
