@@ -216,7 +216,7 @@ nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
   <div class="day-header"><span class="day-badge bo">D1</span><span class="day-title">抵達（純移動）</span><span class="day-date">5/1（六）</span></div>
   <div class="card">
     <div class="item" data-k="d1-1"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">XXX 12:00 落地 → 通關提行李<span class="tag t-move">約1小時</span></div></div></div>
-    <div class="item" data-k="d1-2"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">機場 → 飯店<span class="tag t-move">約50分</span><span class="trbtn" onclick="tr(this)">🚇 交通</span></div><div class="transit"><span class="r"><b>推薦</b>：路線、時間、票價</span><span class="r"><b>趕時間</b>：替代路線</span></div><div class="note">落地＋通關約1小時 → 搭車 → 到飯店</div></div></div>
+    <div class="item" data-k="d1-2"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">機場 → 飯店<span class="tag t-move">約50分</span><span class="trbtn" onclick="tr(this)">🚇 交通</span><span class="gdbtn" data-guide="sample">📖 購票教學</span></div><div class="transit"><span class="r"><b>推薦</b>：路線、時間、票價</span><span class="r"><b>趕時間</b>：替代路線</span></div><div class="note">落地＋通關約1小時 → 搭車 → 到飯店</div></div></div>
     <div class="item" data-k="d1-3"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">晚餐：店名<span class="tag t-food">料理類型</span><span class="trbtn" onclick="tr(this)">🚇 交通</span><span class="paybtn" onclick="pb(this)">💳 刷卡</span></div><div class="payl" data-day="D1" data-rules='[["U", ""]]'></div><div class="transit"><span class="r"><b>從飯店</b>：徒步約5分</span></div><div class="note">⭐評分｜地址｜營業時間｜推薦菜色</div></div></div>
   </div>
 </div>
@@ -465,6 +465,17 @@ refreshCode();
   }).catch(function(){});
 })();
 </script>
+<!-- 圖文教學視窗範本（規則見 CLAUDE.md「圖文教學視窗」）：每一步＝標題＋一張 SVG 示意圖＋一段說明，最後一定有「卡關怎麼辦」 -->
+<template id="guide-sample" data-title="🚄 機場 → 飯店｜購票教學（範本）">
+<div class="gs"><h4><i>1</i>出關後跟著「鉄道 Railways」走到車站</h4>
+<svg viewBox="0 0 320 110" font-family="system-ui,'PingFang TC',sans-serif"><rect width="320" height="110" fill="#F7F1E3"/><rect x="40" y="28" width="110" height="34" rx="6" fill="#1D4E89"/><text x="95" y="50" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">A 線</text><rect x="170" y="28" width="110" height="34" rx="6" fill="#0B3B8C"/><rect x="170" y="54" width="110" height="8" fill="#F28C28"/><text x="225" y="48" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">B 線（搭這個）</text><path d="M225 74 l0 18 M215 82 l10 10 l10 -10" stroke="#E11D48" stroke-width="4" fill="none" stroke-linecap="round"/><text x="95" y="90" text-anchor="middle" fill="#8A6A45" font-size="12">✕ 不是這邊</text></svg>
+<p>說明寫「在哪、看到什麼、往哪走」，重點用<b>粗體</b>。</p></div>
+<div class="gs"><h4><i>2</i>售票機／櫃台怎麼買</h4>
+<svg viewBox="0 0 320 110" font-family="system-ui,'PingFang TC',sans-serif"><rect width="320" height="110" fill="#F7F1E3"/><rect x="15" y="20" width="140" height="70" rx="10" fill="#DCFCE7" stroke="#16A34A" stroke-width="3"/><text x="85" y="58" text-anchor="middle" fill="#14532D" font-size="13" font-weight="700">✓ 選這個</text><rect x="165" y="20" width="140" height="70" rx="10" fill="#fff" stroke="#D1D5DB" stroke-width="2"/><text x="235" y="58" text-anchor="middle" fill="#9CA3AF" font-size="13" font-weight="700">✕ 不要選</text></svg>
+<p>容易選錯的地方畫成「綠框＝選這個、灰框打 ✕＝不要選」。</p></div>
+<div class="gs"><h4><i>!</i>卡關怎麼辦</h4>
+<p>・看不懂機器：給櫃台看這句：<br><span class="say">（日文一句話）</span><br>・班次滿了／沒車：備案寫在這裡。</p></div>
+</template>
 <script src="../trip-kit/shopsync.js?v=4"></script>
 <script src="../trip-kit/predep.js?v=7"></script>
 <script>
