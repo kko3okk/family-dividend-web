@@ -1,5 +1,5 @@
 {
- "updated": "10/18 16:35",
+ "updated": "10/18 16:45",
  "moments": [
   {
    "id": "m20261017-2056-yoshiji",
@@ -558,6 +558,27 @@
    "card": "C",
    "who": "me",
    "notes": "現金；外帶 8%"
+  },
+  {
+   "id": "r20261018-1641-lawson",
+   "day": "D2",
+   "time": "16:41",
+   "store": "ローソン 日本橋オタロード店",
+   "store_zh": "LAWSON 日本橋御宅之路店",
+   "items": [
+    {
+     "ja": "アサヒ おいしい水 ecoラベル 600ml",
+     "zh": "朝日 好喝的水 600ml",
+     "qty": 1,
+     "price": 127
+    }
+   ],
+   "tax": 9,
+   "total": 127,
+   "tax_free": false,
+   "card": "S",
+   "who": "me",
+   "notes": "我的西瓜卡（買飲料那張）"
   }
  ],
  "diaries": {}
