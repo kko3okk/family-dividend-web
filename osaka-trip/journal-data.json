@@ -1,5 +1,5 @@
 {
- "updated": "10/18 17:45",
+ "updated": "10/18 18:25",
  "moments": [
   {
    "id": "m20261017-2056-yoshiji",
@@ -621,6 +621,27 @@
    "card": "C",
    "who": "me",
    "notes": "失敗 😢"
+  },
+  {
+   "id": "r20261018-1819-matsukiyo",
+   "day": "D2",
+   "time": "18:19",
+   "store": "マツモトキヨシ 戎橋店",
+   "store_zh": "松本清 戎橋店",
+   "items": [
+    {
+     "ja": "参天製薬 ヒアレインS",
+     "zh": "參天 Hyalein S 玻尿酸眼藥水（乾眼用）",
+     "qty": 1,
+     "price": 968
+    }
+   ],
+   "tax": 88,
+   "total": 968,
+   "tax_free": false,
+   "card": "K",
+   "who": "me",
+   "notes": "熊本熊卡（松本清是指定店 8.5%）"
   }
  ],
  "diaries": {}
