@@ -269,7 +269,8 @@ function tr(el){
 }
 const KEY=TRIP.id+'_';
 function allCb(){ return Array.from(document.querySelectorAll('.cb')); }
-function keyOf(cb){ return KEY + allCb().indexOf(cb); }
+// 10/19 起打勾改用項目的 data-k 記（搬動、增減項目不會錯位）；沒有 data-k 才退回用順序
+function keyOf(cb){ var it=cb.closest('.item'), k=it&&it.getAttribute('data-k'); return k ? KEY+'k_'+k : KEY + allCb().indexOf(cb); }
 
 function toggle(cb) {
   cb.classList.toggle('checked');
