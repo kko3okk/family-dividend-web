@@ -1,5 +1,5 @@
 {
- "updated": "10/18 16:45",
+ "updated": "10/18 17:45",
  "moments": [
   {
    "id": "m20261017-2056-yoshiji",
@@ -579,6 +579,48 @@
    "card": "S",
    "who": "me",
    "notes": "我的西瓜卡（買飲料那張）"
+  },
+  {
+   "id": "r20261018-1740-frieren",
+   "day": "D2",
+   "time": "17:40",
+   "store": "日本橋（店名未記）",
+   "store_zh": "日本橋 動漫店",
+   "items": [
+    {
+     "ja": "SEGA ハイプレミアムフィギュア フリーレン ～鉱山で300年働くことになっちゃった～",
+     "zh": "葬送的芙莉蓮 SEGA 景品公仔「要在礦山工作 300 年了」",
+     "qty": 1,
+     "price": 1500
+    }
+   ],
+   "tax": null,
+   "total": 1500,
+   "tax_free": false,
+   "card": "C",
+   "who": "me",
+   "notes": "付款方式未說，先記現金"
+  },
+  {
+   "id": "r20261018-1741-crane",
+   "day": "D2",
+   "time": "17:41",
+   "store": "日本橋 夾娃娃機",
+   "store_zh": "日本橋 夾娃娃",
+   "items": [
+    {
+     "ja": "クレーンゲーム",
+     "zh": "夾娃娃（沒夾到）",
+     "qty": 1,
+     "price": 200
+    }
+   ],
+   "tax": null,
+   "total": 200,
+   "tax_free": false,
+   "card": "C",
+   "who": "me",
+   "notes": "失敗 😢"
   }
  ],
  "diaries": {}
