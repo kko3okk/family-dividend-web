@@ -1,5 +1,5 @@
 {
- "updated": "10/18 18:25",
+ "updated": "10/18 18:35",
  "moments": [
   {
    "id": "m20261017-2056-yoshiji",
@@ -663,6 +663,27 @@
    "card": "S",
    "who": "wife",
    "notes": "老婆的西瓜卡"
+  },
+  {
+   "id": "r20261018-1830-gacha",
+   "day": "D2",
+   "time": "18:30",
+   "store": "日本橋 扭蛋",
+   "store_zh": "日本橋 扭蛋",
+   "items": [
+    {
+     "ja": "ガチャガチャ",
+     "zh": "扭蛋（合計）",
+     "qty": 1,
+     "price": 1500
+    }
+   ],
+   "tax": null,
+   "total": 1500,
+   "tax_free": false,
+   "card": "C",
+   "who": "me",
+   "notes": "現金（扭蛋機只收硬幣）"
   }
  ],
  "diaries": {}
