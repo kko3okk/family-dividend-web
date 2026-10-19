@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-19T19:45:00+09:00",
+ "updated": "2026-10-19T20:02:00+09:00",
  "moments": [
   {
    "id": "m20261017-2056-yoshiji",
@@ -1371,6 +1371,45 @@
    "card": "S",
    "who": "wife",
    "notes": "老婆的西瓜卡（…3216），餘額 ¥12,807"
+  },
+  {
+   "id": "r20261019-2000-shakeshack",
+   "day": "D3",
+   "time": "20:00",
+   "store": "シェイクシャック ザ パーク フロント ホテル",
+   "store_zh": "Shake Shack（The Park Front Hotel）",
+   "items": [
+    {
+     "ja": "ShackBurger（チーズパティ1枚）",
+     "zh": "ShackBurger 招牌起司漢堡",
+     "qty": 2,
+     "price": 1056
+    },
+    {
+     "ja": "Chicken Bites 6ピース（BBQソース）",
+     "zh": "雞塊 6 塊（BBQ 醬）",
+     "qty": 1,
+     "price": 781
+    },
+    {
+     "ja": "(R) Cherry Pepper Cheese Fries",
+     "zh": "櫻桃辣椒起司薯條（R）",
+     "qty": 1,
+     "price": 935
+    },
+    {
+     "ja": "(R) Ginger Ale",
+     "zh": "薑汁汽水（R）",
+     "qty": 1,
+     "price": 473
+    }
+   ],
+   "tax": 391,
+   "total": 4301,
+   "tax_free": false,
+   "card": "U",
+   "who": "me",
+   "notes": "uniopen；單價為含稅換算（未稅 ¥960／710／850／430）"
   }
  ],
  "diaries": {}
