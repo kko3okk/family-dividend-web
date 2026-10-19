@@ -435,17 +435,20 @@ const CPN={conv:'便利商店券',dept:'百貨店券',gu:'UNIQLO・GU券',drug:'
 const CAP_NT={U:6250,K:8333,KP:2857};
 const NO_UNIOPEN=false;  // 10/17 uniopen 實體卡沒帶，但 Apple Pay 裡有：照常建議 uniopen（用手機感應）
 const DAYDATE=['2026-10-17','2026-10-18','2026-10-19','2026-10-20','2026-10-21','2026-10-22','2026-10-23','2026-10-24'];
-let recs=[];
+let recs=[], jrecs=[];
+/* 手帳（journal-data.json，Claude 記的帳）也算進額度：跟手機裡手動記的同卡、同人、同金額、同一天的視為同一筆，不重複算 */
+function allRecs(){ const pool={}, key=function(r){return r.c+'|'+r.w+'|'+r.y+'|'+r.d;}; recs.forEach(function(r){ const k=key(r); pool[k]=(pool[k]||0)+1; }); const out=recs.slice(); jrecs.forEach(function(j){ const k=key(j); if(pool[k]>0) pool[k]--; else out.push(j); }); return out; }
+function loadJournalRecs(){ fetch('journal-data.json?t='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok?r.json():null; }).then(function(d){ if(!d||!d.receipts) return; jrecs=d.receipts.filter(function(r){ return r.card && CARDS[r.card] && r.total>0; }).map(function(r){ return {i:'j-'+r.id,c:r.card,w:r.who==='wife'?'wife':'me',y:r.total,d:r.day,t:r.time||'',p:'',n:(r.store_zh||r.store||'').replace(/^[^\w\u3040-\u9fff]+/,'').slice(0,30),j:1}; }); renderAll(); }).catch(function(){}); }
 function fx(){ try{ const v=parseFloat(localStorage.getItem(FXKEY)); if(v>1&&v<10) return v; }catch(e){} return 4.65; }
 function setFx(v){ v=parseFloat(v); if(v>1&&v<10){ try{localStorage.setItem(FXKEY,v);}catch(e){} renderAll(); } }
 function capY(c){ return Math.round(CAP_NT[c]*fx()/100)*100; }
 function loadRecs(){ try{ recs=JSON.parse(localStorage.getItem(PAYKEY)||'[]')||[]; }catch(e){ recs=[]; } }
 function saveRecs(){ try{ localStorage.setItem(PAYKEY, JSON.stringify(recs)); }catch(e){} }
 function yen(n){ return '¥'+Math.round(n).toLocaleString('en-US'); }
-function spent(card, who, day){ return recs.filter(function(r){ return r.c===card && (!who||r.w===who) && (!day||r.d===day); }).reduce(function(a,r){return a+r.y;},0); }
+function spent(card, who, day){ return allRecs().filter(function(r){ return r.c===card && (!who||r.w===who) && (!day||r.d===day); }).reduce(function(a,r){return a+r.y;},0); }
 function usjMe(){ return spent('K','me','D4'); }
-function usjWife(){ return recs.filter(function(r){return r.d==='D4' && r.w==='wife' && (r.c==='W');}).reduce(function(a,r){return a+r.y;},0); }
-function cpnUsed(t,who){ return recs.some(function(r){ return r.p===t && r.w===who; }); }
+function usjWife(){ return allRecs().filter(function(r){return r.d==='D4' && r.w==='wife' && (r.c==='W');}).reduce(function(a,r){return a+r.y;},0); }
+function cpnUsed(t,who){ return allRecs().some(function(r){ return r.p===t && r.w===who; }); }
 function chip(c){ const x=CARDS[c]; return '<span class="pc" style="background:'+x[0]+'">'+x[1]+'</span>'; }
 function todayDay(){ const t=new Date(); const iso=t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0'); const i=DAYDATE.indexOf(iso); return i>=0?'D'+(i+1):'D1'; }
 /* 依規則算出現在建議：回傳 {card, who, cpn, html} */
@@ -514,13 +517,13 @@ function renderCaps(){
   let c='';
   Object.keys(CPN).forEach(function(t){ ['me','wife'].forEach(function(w){ c+='<span class="'+(cpnUsed(t,w)?'u':'')+'">'+(w==='me'?'你':'老婆')+'・'+CPN[t]+'</span>'; }); });
   h+='<div class="ct" style="font-size:11.5px;color:#444;margin-top:4px"><b>樂享券</b>（劃線＝已用）</div><div class="cpn">'+c+'</div>';
-  const tot=recs.reduce(function(a,r){return a+r.y;},0);
+  const AR=allRecs(), tot=AR.reduce(function(a,r){return a+r.y;},0);
   h+='<div style="font-size:11.5px;color:#666">總花費 <b>'+yen(tot)+'</b>（約 NT$'+Math.round(tot/fx()).toLocaleString('en-US')+'）</div>';
   box.innerHTML=h;
   const rb=document.getElementById('recBox');
   if(rb){
-    if(!recs.length){ rb.innerHTML='<div style="font-size:11.5px;color:#999">還沒有紀錄</div>'; }
-    else rb.innerHTML=recs.slice().reverse().map(function(r){ return '<div class="rec"><span>'+r.d+' '+chip(r.c)+(r.w==='wife'?'（老婆）':'')+(r.p?'🎟️'+CPN[r.p]+' ':'')+(r.n||'')+'</span><span><b>'+yen(r.y)+'</b><span class="x" onclick="delRec(\''+r.i+'\')">✕</span></span></div>'; }).join('');
+    if(!AR.length){ rb.innerHTML='<div style="font-size:11.5px;color:#999">還沒有紀錄</div>'; }
+    else rb.innerHTML=AR.slice().sort(function(a,b){ return a.d===b.d?0:(a.d<b.d?-1:1); }).reverse().map(function(r){ return '<div class="rec"><span>'+r.d+' '+chip(r.c)+(r.w==='wife'?'（老婆）':'')+(r.p?'🎟️'+CPN[r.p]+' ':'')+(r.j?'📸 ':'')+(r.n||'')+'</span><span><b>'+yen(r.y)+'</b>'+(r.j?'':'<span class="x" onclick="delRec(\''+r.i+'\')">✕</span>')+'</span></div>'; }).join('')+(jrecs.length?'<div style="font-size:11px;color:#999;margin-top:4px">📸＝手帳裡 Claude 記的帳（自動帶入，要改請跟 Claude 說）</div>':'');
   }
   const fi=document.getElementById('fxIn'); if(fi && document.activeElement!==fi) fi.value=fx();
 }
@@ -569,7 +572,7 @@ function mergeRecs(inc){
   const sel=document.getElementById('pfDay');
   if(sel){ for(let i=1;i<=DAYDATE.length;i++){ const o=document.createElement('option'); o.value='D'+i; o.textContent='D'+i+'（'+DAYDATE[i-1].slice(5).replace('-','/')+'）'; sel.appendChild(o); } sel.value=todayDay(); }
 })();
-loadRecs();
+loadRecs(); loadJournalRecs();
 renderAll();
 restore();
 updateProgress();
