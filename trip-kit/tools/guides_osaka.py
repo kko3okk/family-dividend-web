@@ -84,7 +84,7 @@ G.append(guide('jrusj','🚃 大阪站 ⇄ 環球城｜JR 教學',[
 
 # ── USJ 入園 ──
 G.append(guide('usjentry','🎢 USJ 入園＆任天堂世界｜教學',[
- step(1,'08:30 到入口，手機打開入場 QR',svg(110,'<rect x="40" y="20" width="110" height="74" rx="8" fill="#fff" stroke="#9AA4B2"/><rect x="65" y="30" width="60" height="50" fill="#111"/><rect x="73" y="38" width="44" height="34" fill="#fff"/><rect x="83" y="46" width="24" height="18" fill="#111"/>'+right(165,57,40)+'<rect x="215" y="25" width="80" height="62" rx="8" fill="#94A3B8"/>'+t(255,62,'入場閘門',11,'#fff')),
+ step(1,'07:40 到入口（8:00 開園），手機打開入場 QR',svg(110,'<rect x="40" y="20" width="110" height="74" rx="8" fill="#fff" stroke="#9AA4B2"/><rect x="65" y="30" width="60" height="50" fill="#111"/><rect x="73" y="38" width="44" height="34" fill="#fff"/><rect x="83" y="46" width="24" height="18" fill="#111"/>'+right(165,57,40)+'<rect x="215" y="25" width="80" height="62" rx="8" fill="#94A3B8"/>'+t(255,62,'入場閘門',11,'#fff')),
   '在 USJ App 打開<b>入場 QR</b>（網站行程頁也有「🔒 入場 QR」按鈕），<b>螢幕亮度調最亮</b>，對著閘門的讀取器掃。兩人各掃各的。'),
  step(2,'進場先換能量手環（兌換券）',svg(100,good(20,20,135,60,'能量手環','✓ 選這個')+bad(165,20,135,60,'爆米花桶','（這次不換）')),
   '用 Klook 兌換券在<b>去任天堂世界路上的商店</b>先換「<b>パワーアップバンド</b>」，再進任天堂世界。不知道哪裡換就問店員：<span class="say">パワーアップバンドに交換できますか？</span>'),
