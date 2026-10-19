@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-19T18:40:00+09:00",
+ "updated": "2026-10-19T19:00:00+09:00",
  "moments": [
   {
    "id": "m20261017-2056-yoshiji",
@@ -1329,6 +1329,27 @@
    "card": "C",
    "who": "me",
    "notes": "現金（投幣）"
+  },
+  {
+   "id": "r20261019-1850-hup-tax",
+   "day": "D3",
+   "time": "18:50",
+   "store": "ホテルユニバーサルポート フロント",
+   "store_zh": "🏨 Hotel Universal Port 住宿稅",
+   "items": [
+    {
+     "ja": "宿泊税（2泊）",
+     "zh": "大阪住宿稅（2 晚）",
+     "qty": 1,
+     "price": 800
+    }
+   ],
+   "tax": null,
+   "total": 800,
+   "tax_free": false,
+   "card": "U",
+   "who": "me",
+   "notes": "Mastercard 感應付款；卡別先記 uniopen，待確認"
   }
  ],
  "diaries": {}
