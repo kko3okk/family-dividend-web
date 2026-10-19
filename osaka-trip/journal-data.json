@@ -931,7 +931,7 @@
   {
    "id": "r20261019-1255-saizeriya",
    "day": "D3",
-   "time": "12:55",
+   "time": "13:24",
    "store": "サイゼリヤ（AEON Mall 大阪ドームシティ）",
    "store_zh": "薩莉亞 AEON 大阪巨蛋城",
    "items": [
@@ -965,7 +965,7 @@
    "tax_free": false,
    "card": "C",
    "who": "me",
-   "notes": "2 人；含稅 10%；付款方式未說，先記現金"
+   "notes": "2 人；含稅 10%；現金付 ¥1,500 找 ¥100"
   }
  ],
  "diaries": {}
