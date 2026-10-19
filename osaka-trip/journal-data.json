@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-19T13:20:00+09:00",
+ "updated": "2026-10-19T13:30:00+09:00",
  "moments": [
   {
    "id": "m20261017-2056-yoshiji",
@@ -966,6 +966,27 @@
    "card": "C",
    "who": "me",
    "notes": "2 人；含稅 10%；現金付 ¥1,500 找 ¥100"
+  },
+  {
+   "id": "r20261019-1330-chipstar",
+   "day": "D3",
+   "time": "13:30",
+   "store": "AEON Mall 大阪ドームシティ ゲームコーナー",
+   "store_zh": "🎮 AEON 大阪巨蛋城 遊樂場（Chip Star 機台）",
+   "items": [
+    {
+     "ja": "プライズゲーム チップスター（500円で6プレイ）",
+     "zh": "Chip Star 洋芋片轉盤機台（¥500 玩 6 次）",
+     "qty": 1,
+     "price": 500
+    }
+   ],
+   "tax": null,
+   "total": 500,
+   "tax_free": false,
+   "card": "C",
+   "who": "me",
+   "notes": "現金（投幣機）；有沒有拿到洋芋片待確認"
   }
  ],
  "diaries": {}
