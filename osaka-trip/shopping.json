@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-19T16:45:00+09:00",
+ "updated": "2026-10-19T21:45:00+09:00",
  "items": [
   {
    "id": "s-poke30",
@@ -377,6 +377,21 @@
     "D5-drug",
     "D7-forio",
     "D7-donki"
+   ]
+  },
+  {
+   "id": "s-nb-maryjane",
+   "name": "New Balance 運動瑪莉珍鞋（老婆）",
+   "ja": "ニューバランス メリージェーン スニーカー（Breeze SD2203／SD2202、MT2）",
+   "cat": "👟 服飾鞋包",
+   "where": "New Balance 心齋橋（心齋橋筋1-4-18，D7 順路）；沒貨去 New Balance 堀江、ABC-MART、atmos",
+   "price": "MT2 約¥16,940",
+   "qty": 1,
+   "for": "老婆",
+   "note": "瑪莉珍綁帶款運動鞋｜Breeze：SD2202 夏季網布、SD2203 秋冬麂皮｜MT2：東京設計工作室 Minimus 新款，萊姆／咖啡／橘｜直營店貨少，先試穿，有尺寸就買｜滿 ¥5,500 帶護照退稅",
+   "bought": false,
+   "at": [
+    "D7-nb"
    ]
   }
  ]
