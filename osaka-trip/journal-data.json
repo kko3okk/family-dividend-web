@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-19T15:56:00+09:00",
+ "updated": "2026-10-19T16:45:00+09:00",
  "moments": [
   {
    "id": "m20261017-2056-yoshiji",
@@ -1110,6 +1110,33 @@
    "card": "S",
    "who": "me",
    "notes": "西瓜卡 A（…3112），餘額 ¥19,123；逛累了休息"
+  },
+  {
+   "id": "r20261019-1615-3coins",
+   "day": "D3",
+   "time": "16:15",
+   "store": "3COINS+plus イオンモール大阪ドームシティ店",
+   "store_zh": "3COINS+plus AEON 大阪巨蛋城店",
+   "items": [
+    {
+     "ja": "回転式ステンレスストラップホルダー",
+     "zh": "旋轉式不鏽鋼手機背帶夾片",
+     "qty": 1,
+     "price": 550
+    },
+    {
+     "ja": "OONOTARO×3COINS バルーンセット",
+     "zh": "OONOTARO 聯名 氣球組（特價）",
+     "qty": 1,
+     "price": 110
+    }
+   ],
+   "tax": 60,
+   "total": 660,
+   "tax_free": false,
+   "card": "U",
+   "who": "me",
+   "notes": "uniopen；價格為含稅"
   }
  ],
  "diaries": {}
