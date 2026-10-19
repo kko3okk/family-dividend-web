@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-19T14:55:00+09:00",
+ "updated": "2026-10-19T15:05:00+09:00",
  "moments": [
   {
    "id": "m20261017-2056-yoshiji",
@@ -1035,6 +1035,27 @@
    "card": "C",
    "who": "me",
    "notes": "現金付 ¥450 找 ¥25；台灣網購同款約 NT$2,250"
+  },
+  {
+   "id": "r20261019-1500-gacha",
+   "day": "D3",
+   "time": "15:00",
+   "store": "AEON Mall 大阪ドームシティ ガシャポン",
+   "store_zh": "🎰 AEON 大阪巨蛋城 扭蛋",
+   "items": [
+    {
+     "ja": "ディズニーキャラクター ファッションリング Cutie Little Animals（タカラトミーアーツ）",
+     "zh": "迪士尼角色 造型戒指 Cutie Little Animals（奇奇、蒂蒂、瑪麗貓、柴郡貓、克拉莉絲、邦妮小姐，全 6 種）",
+     "qty": 2,
+     "price": 300
+    }
+   ],
+   "tax": null,
+   "total": 600,
+   "tax_free": false,
+   "card": "C",
+   "who": "me",
+   "notes": "現金（投幣扭蛋）；轉到哪兩款待補"
   }
  ],
  "diaries": {}
