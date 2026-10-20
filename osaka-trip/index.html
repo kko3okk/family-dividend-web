@@ -449,7 +449,7 @@ function saveRecs(){ try{ localStorage.setItem(PAYKEY, JSON.stringify(recs)); }c
 function yen(n){ return '¥'+Math.round(n).toLocaleString('en-US'); }
 function spent(card, who, day){ return allRecs().filter(function(r){ return r.c===card && (!who||r.w===who) && (!day||r.d===day); }).reduce(function(a,r){return a+r.y;},0); }
 function usjMe(){ return spent('K','me','D4'); }
-function usjWife(){ return allRecs().filter(function(r){return r.d==='D4' && r.w==='wife' && (r.c==='W');}).reduce(function(a,r){return a+r.y;},0); }
+function usjWife(){ return allRecs().filter(function(r){return r.d==='D4' && r.w==='wife' && (r.c==='W'||r.c==='K');}).reduce(function(a,r){return a+r.y;},0); }
 function cpnUsed(t,who){ return allRecs().some(function(r){ return r.p===t && r.w===who; }); }
 function chip(c){ const x=CARDS[c]; return '<span class="pc" style="background:'+x[0]+'">'+x[1]+'</span>'; }
 function todayDay(){ const t=new Date(); const iso=t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0'); const i=DAYDATE.indexOf(iso); return i>=0?'D'+(i+1):'D1'; }
