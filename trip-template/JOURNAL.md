@@ -36,6 +36,7 @@ Claude 依這份規則處理，把結果寫進這趟資料夾的 `journal-data.j
   "tax_free": false,
   "card": "U",
   "who": "me",
+  "cat": "shop",
   "notes": "退稅、折扣、點數等重點，沒有就留空"
 }
 ```
@@ -45,6 +46,7 @@ Claude 依這份規則處理，把結果寫進這趟資料夾的 `journal-data.j
 - 看不清楚的數字填 `null`，不要猜。折扣列成負數的一行。
 - `card`：代號對應 `index.html` 的 `CARDS`（U=uniopen、K=熊本熊卡、KP=PayPay、J=吉鶴 Apple Pay、W=老婆 JCB、CUBE=CUBE、S=西瓜卡 Suica、C=現金，依這趟實際用的卡調整）。使用者沒說時：信用卡用 U，現金用 C。
 - `who`：`me` 或 `wife`，沒說就 `me`。
+- `cat`：分類，手帳「購物收據」的篩選用。food=餐飲（餐廳、咖啡、小吃）、conv=超商超市（便利商店、超市、販賣機）、shop=購物（藥妝、服飾、雜貨、周邊）、play=遊樂扭蛋（扭蛋、夾娃娃、遊樂場、一番賞）、trans=交通、stay=住宿（含住宿稅）、sight=景點門票（神社、展望台、入場券）、other=其他。沒寫的話網頁會依店名猜。
 - 回覆時列出：店名、品項中文、合計 ¥ 與約 NT$（匯率 4.65），以及記在哪張卡。
 
 ## 「日記」：照片 → `moments`

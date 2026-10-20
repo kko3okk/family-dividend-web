@@ -335,7 +335,8 @@
    "tax_free": false,
    "card": "C",
    "who": "me",
-   "notes": "19:05 發 → 19:43 到難波，兩人並排對號座"
+   "notes": "19:05 發 → 19:43 到難波，兩人並排對號座",
+   "cat": "trans"
   },
   {
    "id": "r20261017-1845-kixdrink",
@@ -356,7 +357,8 @@
    "tax_free": false,
    "card": "S",
    "who": "me",
-   "notes": "西瓜卡（Apple 錢包）付款"
+   "notes": "西瓜卡（Apple 錢包）付款",
+   "cat": "conv"
   },
   {
    "id": "r20261017-2027-fresa",
@@ -383,7 +385,8 @@
    "tax_free": false,
    "card": "K",
    "who": "me",
-   "notes": "大阪市住宿稅，房費已預付，入住時只收稅"
+   "notes": "大阪市住宿稅，房費已預付，入住時只收稅",
+   "cat": "stay"
   },
   {
    "id": "r20261017-2110-metro",
@@ -404,7 +407,8 @@
    "tax_free": false,
    "card": "S",
    "who": "me",
-   "notes": "西瓜卡搭車；時間依錢包「2 小時前」推估"
+   "notes": "西瓜卡搭車；時間依錢包「2 小時前」推估",
+   "cat": "trans"
   },
   {
    "id": "r20261017-2115-yoshiji",
@@ -431,7 +435,8 @@
    "tax_free": false,
    "card": "K",
    "who": "me",
-   "notes": "含稅價（內含 10% 消費稅 ¥436）"
+   "notes": "含稅價（內含 10% 消費稅 ¥436）",
+   "cat": "food"
   },
   {
    "id": "r20261017-2126-lawson",
@@ -452,7 +457,8 @@
    "tax_free": false,
    "card": "S",
    "who": "wife",
-   "notes": "老婆的西瓜卡；外帶 8% 稅率"
+   "notes": "老婆的西瓜卡；外帶 8% 稅率",
+   "cat": "conv"
   },
   {
    "id": "r20261017-2213-aeon",
@@ -533,7 +539,8 @@
    "tax_free": false,
    "card": "S",
    "who": "wife",
-   "notes": "老婆的西瓜卡；價格未稅，另加 8% 消費稅 ¥200｜👎 辻利 濃香焙茶：很難喝，不要再買"
+   "notes": "老婆的西瓜卡；價格未稅，另加 8% 消費稅 ¥200｜👎 辻利 濃香焙茶：很難喝，不要再買",
+   "cat": "conv"
   },
   {
    "id": "r20261018-1200-metro",
@@ -554,7 +561,8 @@
    "tax_free": false,
    "card": "S",
    "who": "me",
-   "notes": "西瓜卡（B 卡）；時間未知，依錢包「昨天」記"
+   "notes": "西瓜卡（B 卡）；時間未知，依錢包「昨天」記",
+   "cat": "trans"
   },
   {
    "id": "r20261018-1318-nagikatsu",
@@ -587,7 +595,8 @@
    "tax_free": false,
    "card": "U",
    "who": "me",
-   "notes": "桌邊 Dinii 點餐／結帳；店名依行程推定"
+   "notes": "桌邊 Dinii 點餐／結帳；店名依行程推定",
+   "cat": "food"
   },
   {
    "id": "r20261018-1333-seven",
@@ -626,7 +635,8 @@
    "tax_free": false,
    "card": "S",
    "who": "wife",
-   "notes": "老婆的西瓜卡；標價未稅（食品 8%、卡牌 10%）｜🃏 便利商店買到 30th 兩包（每包 ¥328＋稅）"
+   "notes": "老婆的西瓜卡；標價未稅（食品 8%、卡牌 10%）｜🃏 便利商店買到 30th 兩包（每包 ¥328＋稅）",
+   "cat": "conv"
   },
   {
    "id": "r20261018-1517-yasaka",
@@ -647,7 +657,8 @@
    "tax_free": false,
    "card": "S",
    "who": "wife",
-   "notes": "老婆的西瓜卡"
+   "notes": "老婆的西瓜卡",
+   "cat": "sight"
   },
   {
    "id": "r20261018-1525-omikuji",
@@ -668,7 +679,8 @@
    "tax_free": false,
    "card": "C",
    "who": "me",
-   "notes": "現金"
+   "notes": "現金",
+   "cat": "sight"
   },
   {
    "id": "r20261018-1629-naruto",
@@ -689,7 +701,8 @@
    "tax_free": false,
    "card": "C",
    "who": "me",
-   "notes": "現金；外帶 8%"
+   "notes": "現金；外帶 8%",
+   "cat": "food"
   },
   {
    "id": "r20261018-1641-lawson",
@@ -710,7 +723,8 @@
    "tax_free": false,
    "card": "S",
    "who": "me",
-   "notes": "我的西瓜卡（買飲料那張）"
+   "notes": "我的西瓜卡（買飲料那張）",
+   "cat": "conv"
   },
   {
    "id": "r20261018-1740-frieren",
@@ -731,7 +745,8 @@
    "tax_free": false,
    "card": "C",
    "who": "me",
-   "notes": "付款方式未說，先記現金"
+   "notes": "付款方式未說，先記現金",
+   "cat": "shop"
   },
   {
    "id": "r20261018-1741-crane",
@@ -752,7 +767,8 @@
    "tax_free": false,
    "card": "C",
    "who": "me",
-   "notes": "失敗 😢"
+   "notes": "失敗 😢",
+   "cat": "play"
   },
   {
    "id": "r20261018-1819-matsukiyo",
@@ -773,7 +789,8 @@
    "tax_free": false,
    "card": "K",
    "who": "me",
-   "notes": "熊本熊卡（松本清是指定店 8.5%）"
+   "notes": "熊本熊卡（松本清是指定店 8.5%）",
+   "cat": "shop"
   },
   {
    "id": "r20261018-1819-rikuro",
@@ -794,7 +811,8 @@
    "tax_free": false,
    "card": "S",
    "who": "wife",
-   "notes": "老婆的西瓜卡"
+   "notes": "老婆的西瓜卡",
+   "cat": "food"
   },
   {
    "id": "r20261018-1830-gacha",
@@ -815,7 +833,8 @@
    "tax_free": false,
    "card": "C",
    "who": "me",
-   "notes": "現金（扭蛋機只收硬幣）"
+   "notes": "現金（扭蛋機只收硬幣）",
+   "cat": "play"
   },
   {
    "id": "r20261018-2029-rikimaru",
@@ -842,7 +861,8 @@
    "tax_free": false,
    "card": "K",
    "who": "wife",
-   "notes": "老婆的熊本熊卡（JCB）"
+   "notes": "老婆的熊本熊卡（JCB）",
+   "cat": "food"
   },
   {
    "id": "r20261018-2104-famima",
@@ -863,7 +883,8 @@
    "tax_free": false,
    "card": "S",
    "who": "wife",
-   "notes": "老婆的西瓜卡；收據模糊，品名是推測"
+   "notes": "老婆的西瓜卡；收據模糊，品名是推測",
+   "cat": "conv"
   },
   {
    "id": "r20261018-2116-seven",
@@ -914,7 +935,8 @@
    "tax_free": false,
    "card": "KP",
    "who": "wife",
-   "notes": "老婆的玉山Wallet PayPay；標價未稅 8%｜滿 ¥1,000，有用便利商店樂享券的話實付 ¥831"
+   "notes": "老婆的玉山Wallet PayPay；標價未稅 8%｜滿 ¥1,000，有用便利商店樂享券的話實付 ¥831",
+   "cat": "conv"
   },
   {
    "id": "r20261019-1128-metro",
@@ -935,7 +957,8 @@
    "tax_free": false,
    "card": "S",
    "who": "me",
-   "notes": "西瓜卡（B 卡）；時間依錢包「17 分鐘前」推估"
+   "notes": "西瓜卡（B 卡）；時間依錢包「17 分鐘前」推估",
+   "cat": "trans"
   },
   {
    "id": "r20261019-1215-kimetsu",
@@ -956,7 +979,8 @@
    "tax_free": false,
    "card": "C",
    "who": "me",
-   "notes": "現金；玩 4 次，每次 ¥100 出一張卡；時間推估"
+   "notes": "現金；玩 4 次，每次 ¥100 出一張卡；時間推估",
+   "cat": "play"
   },
   {
    "id": "r20261019-1220-crane",
@@ -983,7 +1007,8 @@
    "tax_free": false,
    "card": "C",
    "who": "me",
-   "notes": "現金（投幣機）；¥500 夾到細菌人小姐吊飾，之後又玩 2 次（12:25、12:48）各 ¥100 都沒夾到；時間推估"
+   "notes": "現金（投幣機）；¥500 夾到細菌人小姐吊飾，之後又玩 2 次（12:25、12:48）各 ¥100 都沒夾到；時間推估",
+   "cat": "play"
   },
   {
    "id": "r20261019-1255-saizeriya",
@@ -1022,7 +1047,8 @@
    "tax_free": false,
    "card": "C",
    "who": "me",
-   "notes": "2 人；含稅 10%；現金付 ¥1,500 找 ¥100"
+   "notes": "2 人；含稅 10%；現金付 ¥1,500 找 ¥100",
+   "cat": "food"
   },
   {
    "id": "r20261019-1330-chipstar",
@@ -1043,7 +1069,8 @@
    "tax_free": false,
    "card": "C",
    "who": "me",
-   "notes": "現金（投幣機）；¥500 玩 6 次 × 2 輪；有沒有拿到洋芋片待確認"
+   "notes": "現金（投幣機）；¥500 玩 6 次 × 2 輪；有沒有拿到洋芋片待確認",
+   "cat": "play"
   },
   {
    "id": "r20261019-1452-vv",
@@ -1064,7 +1091,8 @@
    "tax_free": false,
    "card": "C",
    "who": "me",
-   "notes": "現金付 ¥450 找 ¥25；台灣網購同款約 NT$2,250"
+   "notes": "現金付 ¥450 找 ¥25；台灣網購同款約 NT$2,250",
+   "cat": "shop"
   },
   {
    "id": "r20261019-1500-gacha",
@@ -1085,7 +1113,8 @@
    "tax_free": false,
    "card": "C",
    "who": "me",
-   "notes": "現金（投幣扭蛋）；轉到哪兩款待補"
+   "notes": "現金（投幣扭蛋）；轉到哪兩款待補",
+   "cat": "play"
   },
   {
    "id": "r20261019-1535-tutuanna",
@@ -1118,7 +1147,8 @@
    "tax_free": false,
    "card": "K",
    "who": "wife",
-   "notes": "老婆的熊本熊卡（收據印「クレジット」）；共 9 件；袖套原價 ¥869 打 8 折；襪子 6 雙 ¥1,298（單價為平均）"
+   "notes": "老婆的熊本熊卡（收據印「クレジット」）；共 9 件；袖套原價 ¥869 打 8 折；襪子 6 雙 ¥1,298（單價為平均）",
+   "cat": "shop"
   },
   {
    "id": "r20261019-1554-mcd",
@@ -1139,7 +1169,8 @@
    "tax_free": false,
    "card": "S",
    "who": "me",
-   "notes": "西瓜卡 A（…3112），餘額 ¥19,123；逛累了休息"
+   "notes": "西瓜卡 A（…3112），餘額 ¥19,123；逛累了休息",
+   "cat": "food"
   },
   {
    "id": "r20261019-1615-3coins",
@@ -1166,7 +1197,8 @@
    "tax_free": false,
    "card": "U",
    "who": "me",
-   "notes": "uniopen；價格為含稅"
+   "notes": "uniopen；價格為含稅",
+   "cat": "shop"
   },
   {
    "id": "r20261019-1723-lakole",
@@ -1271,7 +1303,8 @@
    "tax_free": true,
    "card": "U",
    "who": "me",
-   "notes": "uniopen；19 件；消費稅 ¥0＝有辦免稅（價格為未稅）；帽子含稅原價 ¥2,490 打 6 折；碗盤易碎記得包好"
+   "notes": "uniopen；19 件；消費稅 ¥0＝有辦免稅（價格為未稅）；帽子含稅原價 ¥2,490 打 6 折；碗盤易碎記得包好",
+   "cat": "shop"
   },
   {
    "id": "r20261019-1830-gacha",
@@ -1292,7 +1325,8 @@
    "tax_free": false,
    "card": "C",
    "who": "me",
-   "notes": "現金（投幣）；巧虎系列（全 4 種：巧虎、咪咪琳、托利皮、妮可琪）；時間推估"
+   "notes": "現金（投幣）；巧虎系列（全 4 種：巧虎、咪咪琳、托利皮、妮可琪）；時間推估",
+   "cat": "play"
   },
   {
    "id": "r20261019-1758-aeon",
@@ -1331,7 +1365,8 @@
    "tax_free": false,
    "card": "S",
    "who": "me",
-   "notes": "西瓜卡 A（…3112），餘額 ¥18,187；標價未稅 8%"
+   "notes": "西瓜卡 A（…3112），餘額 ¥18,187；標價未稅 8%",
+   "cat": "conv"
   },
   {
    "id": "r20261019-1838-gacha2",
@@ -1358,7 +1393,8 @@
    "tax_free": false,
    "card": "C",
    "who": "me",
-   "notes": "現金（投幣）"
+   "notes": "現金（投幣）",
+   "cat": "play"
   },
   {
    "id": "r20261019-1850-hup-tax",
@@ -1379,7 +1415,8 @@
    "tax_free": false,
    "card": "U",
    "who": "me",
-   "notes": "Mastercard 感應付款；卡別先記 uniopen，待確認"
+   "notes": "Mastercard 感應付款；卡別先記 uniopen，待確認",
+   "cat": "stay"
   },
   {
    "id": "r20261019-1942-tullys",
@@ -1400,7 +1437,8 @@
    "tax_free": false,
    "card": "S",
    "who": "wife",
-   "notes": "老婆的西瓜卡（…3216），餘額 ¥12,807"
+   "notes": "老婆的西瓜卡（…3216），餘額 ¥12,807",
+   "cat": "food"
   },
   {
    "id": "r20261019-2000-shakeshack",
@@ -1439,7 +1477,8 @@
    "tax_free": false,
    "card": "U",
    "who": "me",
-   "notes": "uniopen；單價為含稅換算（未稅 ¥960／710／850／430）"
+   "notes": "uniopen；單價為含稅換算（未稅 ¥960／710／850／430）",
+   "cat": "food"
   },
   {
    "id": "r20261019-2057-lawson",
@@ -1508,7 +1547,8 @@
    "tax_free": false,
    "card": "S",
    "who": "wife",
-   "notes": "老婆的西瓜卡（…3216），餘額 ¥10,560；含稅價"
+   "notes": "老婆的西瓜卡（…3216），餘額 ¥10,560；含稅價",
+   "cat": "conv"
   },
   {
    "id": "r20261019-1840-hanshin",
@@ -1529,7 +1569,8 @@
    "tax_free": false,
    "card": "S",
    "who": "me",
-   "notes": "西瓜卡（B 卡）；時間依錢包推估"
+   "notes": "西瓜卡（B 卡）；時間依錢包推估",
+   "cat": "trans"
   },
   {
    "id": "r20261019-1845-jr",
@@ -1550,7 +1591,8 @@
    "tax_free": false,
    "card": "S",
    "who": "me",
-   "notes": "西瓜卡（B 卡）；時間依錢包推估"
+   "notes": "西瓜卡（B 卡）；時間依錢包推估",
+   "cat": "trans"
   },
   {
    "id": "r20261020-0913-powerup",
@@ -1571,7 +1613,8 @@
    "tax_free": false,
    "card": "U",
    "who": "me",
-   "notes": "uniopen 補差額 ¥300；Klook 兌換券 ¥4,800 已預付，不重複計"
+   "notes": "uniopen 補差額 ¥300；Klook 兌換券 ¥4,800 已預付，不重複計",
+   "cat": "shop"
   }
  ],
  "diaries": {}

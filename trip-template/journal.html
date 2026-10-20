@@ -26,6 +26,8 @@ button{cursor:pointer}
 .jx-prog{flex:1;min-width:140px;height:12px;border-radius:999px;background:var(--card,#fff);overflow:hidden;box-shadow:inset 0 0 0 1px var(--line-c,#EFE2BD)}
 .jx-prog i{display:block;height:100%;background:var(--green,#97CC27);border-radius:999px;transition:width .3s}
 .jx-filters{display:flex;gap:6px}
+.jx-cats{flex-wrap:wrap;margin:4px 0 10px}
+.jx-cats .jx-btn small{opacity:.75;margin-left:4px;font-weight:500}
 .jx-filters .jx-btn[aria-pressed="true"]{background:var(--mustard,#DEAE0B);color:#fff}
 .jx-grp{margin-bottom:12px}
 .jx-grp h3{font-size:14px;margin:0 0 6px 4px;color:var(--brown,#5D3713)}
@@ -164,6 +166,7 @@ details summary{cursor:pointer;font-size:13px;color:var(--ink2,#8A7150)}
     <label class="jx-big alt">🖼️ 從相簿選<input id="inR2" type="file" accept="image/*" multiple class="hide"></label>
   </div>
   <div class="jx-stat" id="statR" aria-live="polite"></div>
+  <div class="jx-filters jx-cats" id="cats" role="group" aria-label="分類篩選"></div>
   <div class="jx-list" id="listR"></div>
   <p class="jx-meta" style="margin-top:14px">💡 收據存好後會自動加進「行程頁 → 💳 刷卡紀錄」，額度建議會一起更新；改金額、換卡或刪除也會同步。</p>
 </section>
@@ -186,6 +189,11 @@ const DAYS=TRIP.days.map((x,i)=>({k:'D'+(i+1),iso:x.iso,p:x.p,d:(+x.iso.slice(5,
 const TZS=(TRIP.tz>=0?'+':'-')+String(Math.abs(TRIP.tz)).padStart(2,'0')+':00';
 const CARDS=[['U','uniopen'],['K','熊本熊卡'],['KP','玉山Wallet PayPay'],['J','吉鶴 Apple Pay'],['W','老婆 JCB'],['CUBE','CUBE'],['S','西瓜卡 Suica'],['C','現金']];
 const cardName=k=>(CARDS.find(c=>c[0]===k)||['','未選'])[1];
+/* 收據分類：Claude 寫的 cat 優先，沒有就依店名猜 */
+const CATS=[['food','🍜 餐飲'],['conv','🏪 超商超市'],['shop','🛍️ 購物'],['play','🎮 遊樂扭蛋'],['trans','🚇 交通'],['stay','🏨 住宿'],['sight','⛩️ 景點門票'],['other','🧾 其他']];
+const catName=k=>(CATS.find(c=>c[0]===k)||CATS[CATS.length-1])[1];
+const CAT_RE=[['trans',/交通|地鐵|メトロ|電鉄|電車|JR|阪神|阪急|京阪|南海|バス|タクシー|計程車|公車/],['stay',/住宿|ホテル.*(フロント|税)|宿泊|入住|INN/i],['conv',/LAWSON|ローソン|セブン|7-11|ファミリーマート|全家|FamilyMart|超市|スーパー|イオン.*店$|AEON Food|販賣機|自販機/i],['play',/扭蛋|ガチャ|ガシャ|夾娃娃|クレーン|遊樂場|ゲーム|一番くじ/],['sight',/神社|寺|御朱印|求籤|おみくじ|入場|展望|門票/],['food',/餐|食堂|燒|焼|麵|ラーメン|寿司|壽司|咖啡|カフェ|コーヒー|Coffee|バーガー|漢堡|Shack|マクドナルド|麥當勞|サイゼリヤ|薩莉亞|蛋糕|鯛|たい焼|レストラン|酒場/i],['shop',/./]];
+const catOf=r=>{if(r.cat&&CATS.some(c=>c[0]===r.cat))return r.cat;const t=[r.store_zh,r.store].join(' ');for(const [k,re] of CAT_RE)if(t.trim()&&re.test(t))return k;return 'other';};
 const PAYKEY=TRIP.id+'_pay';
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -267,6 +275,7 @@ $('tabJ').onclick=()=>setPane('J');$('tabR').onclick=()=>setPane('R');
 function renderDays(){const box=$('days');box.innerHTML='';const list=pane==='R'?[{k:'ALL',d:'一覽'}].concat(DAYS):DAYS;
   list.forEach(d=>{const b=document.createElement('button');b.className='jx-day';b.setAttribute('aria-pressed',d.k===day);b.innerHTML=(d.k==='ALL'?'全部':d.k)+'<small>'+d.d+'</small>';b.onclick=()=>{day=d.k;if(d.k!=='ALL')ls.set(TRIP.id+'_jday',d.k);renderDays();renderAll();};box.appendChild(b);});
   const on=box.querySelector('[aria-pressed="true"]');if(on)box.scrollLeft=on.offsetLeft-box.clientWidth/2+on.offsetWidth/2;}
+let rcat=ls.get(PAYKEY+'_rcat')||'ALL';
 function renderAll(){renderJ();renderR();}
 
 /* ===== 刷卡紀錄同步（與行程頁共用） ===== */
@@ -372,7 +381,7 @@ async function basicReceipt(r,blob){
 }
 function cloudReceipt(r){
   let h='<div class="jx-body"><div class="jx-row" style="justify-content:space-between;align-items:flex-start;flex-wrap:nowrap"><div style="min-width:0;flex:1"><div class="jx-ttl">'+esc(r.store_zh||r.store||'收據')+'</div>'+(r.store&&r.store_zh?'<div class="jx-meta">'+esc(r.store)+'</div>':'')+'</div><div class="jx-amt">'+(r.total!=null?esc(yen(r.total)):'—')+'<br><small>≈ NT$'+Math.round((+r.total||0)/fx).toLocaleString('en-US')+'</small></div></div>';
-  h+='<div class="jx-meta"><span class="jx-pill">☁️ Claude 整理</span>'+esc(di(r.day).k+' '+di(r.day).d+' '+tTime(r.ts))+'・'+esc(cardName(r.card))+(r.who==='wife'?'（老婆刷）':'')+(r.tax_free?' <span class="jx-pill">免稅</span>':'')+'</div>';
+  h+='<div class="jx-meta"><span class="jx-pill">☁️ Claude 整理</span><span class="jx-pill">'+esc(catName(catOf(r)))+'</span>'+esc(di(r.day).k+' '+di(r.day).d+' '+tTime(r.ts))+'・'+esc(cardName(r.card))+(r.who==='wife'?'（老婆刷）':'')+(r.tax_free?' <span class="jx-pill">免稅</span>':'')+'</div>';
   if(r.items&&r.items.length)h+='<details'+(day!=='ALL'?' open':'')+'><summary>品項明細（'+r.items.length+'）</summary><div class="jx-tw"><table><thead><tr><th>品項</th><th class="n">數量</th><th class="n">金額</th></tr></thead><tbody>'+
     r.items.map(x=>'<tr><td>'+esc(x.zh||x.ja)+(x.ja&&x.zh?'<span class="jp">'+esc(x.ja)+'</span>':'')+'</td><td class="n">'+(x.qty!=null?esc(x.qty):'')+'</td><td class="n">'+(x.price!=null?esc(yen(x.price)):'')+'</td></tr>').join('')+
     (r.tax!=null?'<tr><td>消費稅</td><td></td><td class="n">'+esc(yen(r.tax))+'</td></tr>':'')+'</tbody></table></div></details>';
@@ -380,9 +389,14 @@ function cloudReceipt(r){
   return h+'<div class="jx-meta">✓ 已記入刷卡紀錄｜要修改請跟 Claude 說</div></div>';
 }
 async function renderR(){
-  const both=recs.concat(cloud); const sel=day==='ALL'?both.filter(r=>r.kind==='r'):both.filter(r=>r.kind==='r'&&r.day===day);
+  const both=recs.concat(cloud); const dsel=day==='ALL'?both.filter(r=>r.kind==='r'):both.filter(r=>r.kind==='r'&&r.day===day);
+  if(rcat!=='ALL'&&!dsel.some(r=>catOf(r)===rcat))rcat='ALL';
+  const sel=rcat==='ALL'?dsel:dsel.filter(r=>catOf(r)===rcat);
+  {const cs={};dsel.forEach(r=>{const k=catOf(r);cs[k]=(cs[k]||0)+(+r.total||0);});const cb=$('cats');cb.innerHTML='';
+   [['ALL','全部']].concat(CATS.filter(c=>c[0] in cs)).forEach(([k,n])=>{const b=document.createElement('button');b.className='jx-btn';b.setAttribute('aria-pressed',k===rcat);b.innerHTML=esc(n)+'<small>'+esc(yen(k==='ALL'?dsel.reduce((s,r)=>s+(+r.total||0),0):cs[k]))+'</small>';b.onclick=()=>{rcat=k;ls.set(PAYKEY+'_rcat',k);renderR();};cb.appendChild(b);});
+   cb.classList.toggle('hide',!dsel.length);}
   const all=both.filter(r=>r.kind==='r'); const sum=a=>a.reduce((s,r)=>s+(+r.total||0),0);
-  $('totDayK').textContent=day==='ALL'?'全部收據':di(day).k+' '+di(day).d+' 合計';
+  $('totDayK').textContent=(day==='ALL'?'全部收據':di(day).k+' '+di(day).d+' 合計')+(rcat!=='ALL'?'・'+catName(rcat):'');
   $('totDay').innerHTML=esc(yen(sum(sel)))+' <small>'+sel.length+' 張</small>';$('totDayNT').textContent='≈ NT$'+Math.round(sum(sel)/fx).toLocaleString('en-US');
   $('totAll').innerHTML=esc(yen(sum(all)))+' <small>'+all.length+' 張</small>';$('totAllNT').textContent='≈ NT$'+Math.round(sum(all)/fx).toLocaleString('en-US');
   const by={};all.forEach(r=>{if(+r.total)by[r.card]=(by[r.card]||0)+(+r.total);});
