@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-20T12:28:00+09:00",
+ "updated": "2026-10-20T13:35:00+09:00",
  "moments": [
   {
    "id": "m20261017-2056-yoshiji",
@@ -1747,6 +1747,34 @@
    "who": "wife",
    "cat": "shop",
    "notes": "老婆的熊本熊卡（JCB）；照片電子檔用卡片上的 QR 下載，期限拍攝日起 7 天（10/26 前）"
+  },
+  {
+   "id": "r20261020-1249-westcart",
+   "day": "D4",
+   "time": "12:49",
+   "store": "ユニバーサル・スタジオ・ジャパン ウエストカート",
+   "store_zh": "USJ 餐車 West Cart",
+   "items": [
+    {
+     "ja": "ターキーレッグ",
+     "zh": "烤火雞腿",
+     "qty": 1,
+     "price": 1400
+    },
+    {
+     "ja": "コカ・コーラ L",
+     "zh": "可口可樂 L",
+     "qty": 1,
+     "price": 400
+    }
+   ],
+   "tax": 133,
+   "total": 1800,
+   "tax_free": false,
+   "card": "K",
+   "who": "wife",
+   "cat": "food",
+   "notes": "老婆的熊本熊卡（JCB）"
   }
  ],
  "diaries": {}
