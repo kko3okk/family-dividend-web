@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-20T16:48:00+09:00",
+ "updated": "2026-10-20T19:45:00+09:00",
  "moments": [
   {
    "id": "m20261017-2056-yoshiji",
@@ -1860,6 +1860,34 @@
    "who": "me",
    "cat": "food",
    "notes": "你的熊本熊卡（USJ 指定店 8.5%）；手機點餐（Mobile Order）"
+  },
+  {
+   "id": "r20261020-1940-calconf",
+   "day": "D4",
+   "time": "19:40",
+   "store": "ユニバーサル・スタジオ・ジャパン カリフォルニア・コンフェクショナリー",
+   "store_zh": "USJ California Confectionery（零食伴手禮店）",
+   "items": [
+    {
+     "ja": "アソートクッキー マリオ＆ルイージ",
+     "zh": "瑪利歐＆路易吉 綜合餅乾鐵盒",
+     "qty": 1,
+     "price": 1900
+    },
+    {
+     "ja": "アソートスイーツ缶 25th",
+     "zh": "25 週年紀念 綜合甜點鐵盒",
+     "qty": 1,
+     "price": 2400
+    }
+   ],
+   "tax": 318,
+   "total": 4300,
+   "tax_free": false,
+   "card": "K",
+   "who": "wife",
+   "cat": "shop",
+   "notes": "老婆的熊本熊卡（JCB）；時間依收據（19 時台）推估"
   }
  ],
  "diaries": {}
