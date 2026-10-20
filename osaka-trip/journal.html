@@ -166,6 +166,7 @@ details summary{cursor:pointer;font-size:13px;color:var(--ink2,#8A7150)}
     <label class="jx-big alt">🖼️ 從相簿選<input id="inR2" type="file" accept="image/*" multiple class="hide"></label>
   </div>
   <div class="jx-stat" id="statR" aria-live="polite"></div>
+  <div class="jx-filters jx-cats" id="whos" role="group" aria-label="誰付的"></div>
   <div class="jx-filters jx-cats" id="cats" role="group" aria-label="分類篩選"></div>
   <div class="jx-list" id="listR"></div>
   <p class="jx-meta" style="margin-top:14px">💡 收據存好後會自動加進「行程頁 → 💳 刷卡紀錄」，額度建議會一起更新；改金額、換卡或刪除也會同步。</p>
@@ -271,7 +272,7 @@ $('tabJ').onclick=()=>setPane('J');$('tabR').onclick=()=>setPane('R');
 function renderDays(){const box=$('days');box.innerHTML='';const list=pane==='R'?[{k:'ALL',d:'一覽'}].concat(DAYS):DAYS;
   list.forEach(d=>{const b=document.createElement('button');b.className='jx-day';b.setAttribute('aria-pressed',d.k===day);b.innerHTML=(d.k==='ALL'?'全部':d.k)+'<small>'+d.d+'</small>';b.onclick=()=>{day=d.k;if(d.k!=='ALL')ls.set('osaka2026_jday',d.k);renderDays();renderAll();};box.appendChild(b);});
   const on=box.querySelector('[aria-pressed="true"]');if(on)box.scrollLeft=on.offsetLeft-box.clientWidth/2+on.offsetWidth/2;}
-let rcat=ls.get(PAYKEY+'_rcat')||'ALL';
+let rcat=ls.get(PAYKEY+'_rcat')||'ALL', rwho=ls.get(PAYKEY+'_rwho')||'ALL';
 function renderAll(){renderJ();renderR();}
 
 /* ===== 刷卡紀錄同步（與行程頁共用） ===== */
@@ -385,14 +386,19 @@ function cloudReceipt(r){
   return h+'<div class="jx-meta">✓ 已記入刷卡紀錄｜要修改請跟 Claude 說</div></div>';
 }
 async function renderR(){
-  const both=recs.concat(cloud); const dsel=day==='ALL'?both.filter(r=>r.kind==='r'):both.filter(r=>r.kind==='r'&&r.day===day);
+  const both=recs.concat(cloud); const dsel0=day==='ALL'?both.filter(r=>r.kind==='r'):both.filter(r=>r.kind==='r'&&r.day===day);
+  const whoOf=r=>r.who==='wife'?'wife':'me';
+  {const ws={ALL:0,me:0,wife:0};dsel0.forEach(r=>{ws.ALL+=(+r.total||0);ws[whoOf(r)]+=(+r.total||0);});const wb=$('whos');wb.innerHTML='';
+   [['ALL','兩人'],['me','我'],['wife','老婆']].forEach(([k,n])=>{const b=document.createElement('button');b.className='jx-btn';b.setAttribute('aria-pressed',k===rwho);b.innerHTML=esc(n)+'<small>'+esc(yen(ws[k]))+'</small>';b.onclick=()=>{rwho=k;ls.set(PAYKEY+'_rwho',k);renderR();};wb.appendChild(b);});
+   wb.classList.toggle('hide',!dsel0.length);}
+  const dsel=rwho==='ALL'?dsel0:dsel0.filter(r=>whoOf(r)===rwho);
   if(rcat!=='ALL'&&!dsel.some(r=>catOf(r)===rcat))rcat='ALL';
   const sel=rcat==='ALL'?dsel:dsel.filter(r=>catOf(r)===rcat);
   {const cs={};dsel.forEach(r=>{const k=catOf(r);cs[k]=(cs[k]||0)+(+r.total||0);});const cb=$('cats');cb.innerHTML='';
    [['ALL','全部']].concat(CATS.filter(c=>c[0] in cs)).forEach(([k,n])=>{const b=document.createElement('button');b.className='jx-btn';b.setAttribute('aria-pressed',k===rcat);b.innerHTML=esc(n)+'<small>'+esc(yen(k==='ALL'?dsel.reduce((s,r)=>s+(+r.total||0),0):cs[k]))+'</small>';b.onclick=()=>{rcat=k;ls.set(PAYKEY+'_rcat',k);renderR();};cb.appendChild(b);});
    cb.classList.toggle('hide',!dsel.length);}
   const all=both.filter(r=>r.kind==='r'); const sum=a=>a.reduce((s,r)=>s+(+r.total||0),0);
-  $('totDayK').textContent=(day==='ALL'?'全部收據':di(day).k+' '+di(day).d+' 合計')+(rcat!=='ALL'?'・'+catName(rcat):'');
+  $('totDayK').textContent=(day==='ALL'?'全部收據':di(day).k+' '+di(day).d+' 合計')+(rwho==='me'?'・我':rwho==='wife'?'・老婆':'')+(rcat!=='ALL'?'・'+catName(rcat):'');
   $('totDay').innerHTML=esc(yen(sum(sel)))+' <small>'+sel.length+' 張</small>';$('totDayNT').textContent='≈ NT$'+Math.round(sum(sel)/fx).toLocaleString('en-US');
   $('totAll').innerHTML=esc(yen(sum(all)))+' <small>'+all.length+' 張</small>';$('totAllNT').textContent='≈ NT$'+Math.round(sum(all)/fx).toLocaleString('en-US');
   const by={};all.forEach(r=>{if(+r.total)by[r.card]=(by[r.card]||0)+(+r.total);});
