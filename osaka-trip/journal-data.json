@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-20T13:35:00+09:00",
+ "updated": "2026-10-20T14:56:00+09:00",
  "moments": [
   {
    "id": "m20261017-2056-yoshiji",
@@ -1775,6 +1775,40 @@
    "who": "wife",
    "cat": "food",
    "notes": "老婆的熊本熊卡（JCB）"
+  },
+  {
+   "id": "r20261020-1454-minionmkt",
+   "day": "D4",
+   "time": "14:54",
+   "store": "ユニバーサル・スタジオ・ジャパン ミニオン・マーケットプレイス",
+   "store_zh": "USJ 小小兵樂園 Minion Marketplace",
+   "items": [
+    {
+     "ja": "トミカ MI26",
+     "zh": "TOMICA 小小兵 MI26",
+     "qty": 1,
+     "price": 1600
+    },
+    {
+     "ja": "トミカ MI ボブ 18",
+     "zh": "TOMICA 小小兵 Bob",
+     "qty": 1,
+     "price": 1500
+    },
+    {
+     "ja": "トミカ スチュアート MI19",
+     "zh": "TOMICA 小小兵 Stuart",
+     "qty": 1,
+     "price": 1500
+    }
+   ],
+   "tax": 418,
+   "total": 4600,
+   "tax_free": false,
+   "card": "K",
+   "who": "wife",
+   "cat": "shop",
+   "notes": "JCB；沒說哪張，先記老婆的熊本熊卡（湊她的 USJ ¥10,000）"
   }
  ],
  "diaries": {}
