@@ -468,19 +468,25 @@ function resolve(rule){
     if(k<cap) return {card:'K', html:'<span class="pst">8.5%｜已刷 '+yen(k)+' / '+yen(cap)+'（還剩 '+yen(cap-k)+'）</span>'};
     return {card:'J', html:'<span class="pst full">熊本熊卡加碼已滿 '+yen(cap)+' → 改吉鶴 Apple Pay</span>'};
   }
+  /* USJ 兩人都刷滿 ¥10,000 後：你的熊本熊卡（USJ 是指定店 8.5%）→ 額度用完改 uniopen → 再吉鶴 */
+  function usjAfter(){
+    const k=spent('K','me'), cap=capY('K');
+    if(k<cap) return {card:'K', html:'<span class="pst ok">兩人 USJ 都達標 ✓</span><span class="pst">USJ 是熊本熊指定店 8.5%｜已刷 '+yen(k)+' / '+yen(cap)+'（還剩 '+yen(cap-k)+'）｜uniopen 留給沒優惠的店</span>'};
+    const r=resolve('U'); r.html='<span class="pst ok">兩人 USJ 都達標 ✓・熊本熊 8.5% 已滿</span>'+r.html; return r;
+  }
   if(rule==='KU'){
     const m=usjMe();
     if(m<10000) return {card:'K', html:'<span class="pst">JCB 20%＋8.5%｜你的 USJ 進度 '+yen(m)+' / ¥10,000（還差 '+yen(10000-m)+'）</span>'};
     const w=usjWife();
     if(w<10000) return {card:'W', who:'wife', html:'<span class="pst ok">你已達標 ✓ 換幫老婆湊：'+yen(w)+' / ¥10,000</span>'};
-    const r=resolve('U'); r.html='<span class="pst ok">兩人都達標 ✓</span>'+r.html; return r;
+    return usjAfter();
   }
   if(rule==='W'){
     const w=usjWife();
     if(w<10000) return {card:'W', who:'wife', html:'<span class="pst">JCB 20%｜老婆 USJ 進度 '+yen(w)+' / ¥10,000（還差 '+yen(10000-w)+'）</span>'};
     const m=usjMe();
     if(m<10000) return {card:'K', html:'<span class="pst ok">老婆已達標 ✓ 換幫你湊：'+yen(m)+' / ¥10,000</span>'};
-    const r=resolve('U'); r.html='<span class="pst ok">兩人都達標 ✓</span>'+r.html; return r;
+    return usjAfter();
   }
   const m=rule.match(/^P:(\w+)>(\w+)$/);
   if(m){
@@ -516,6 +522,7 @@ function renderCaps(){
   h+=bar('熊本熊 PayPay',spent('KP','me'),capY('KP'),'#E11D48','5% 上限');
   h+=bar('USJ 你（熊本熊）',usjMe(),10000,'#0369A1','JCB 20%');
   h+=bar('USJ 老婆',usjWife(),10000,'#0369A1','JCB 20%');
+  { const r=resolve('KU'); h+='<div class="ct" style="font-size:12px;margin:2px 0 8px"><span>👉 <b>USJ 園內現在刷</b> '+chip(r.card)+(r.card==='W'?'（老婆的熊本熊卡或 JCB 都算）':'')+'</span></div><div style="font-size:11px;color:#666;margin:-4px 0 8px">順序：你湊滿 ¥10,000 → 老婆湊滿 ¥10,000 → 你的熊本熊卡（指定店 8.5%，到上限）→ uniopen → 吉鶴</div>'; }
   let c='';
   Object.keys(CPN).forEach(function(t){ ['me','wife'].forEach(function(w){ c+='<span class="'+(cpnUsed(t,w)?'u':'')+'">'+(w==='me'?'你':'老婆')+'・'+CPN[t]+'</span>'; }); });
   h+='<div class="ct" style="font-size:11.5px;color:#444;margin-top:4px"><b>樂享券</b>（劃線＝已用）</div><div class="cpn">'+c+'</div>';
