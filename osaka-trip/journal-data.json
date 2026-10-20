@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-20T22:18:00+09:00",
+ "updated": "2026-10-20T23:56:00+09:00",
  "moments": [
   {
    "id": "m20261017-2056-yoshiji",
@@ -1655,11 +1655,11 @@
    ],
    "tax": 145,
    "total": 1600,
-   "tax_free": false,
+   "tax_free": true,
    "card": "K",
    "who": "wife",
    "cat": "shop",
-   "notes": "老婆的熊本熊卡（JCB），算老婆的 USJ ¥10,000 進度；結帳送任天堂世界 5 週年紀念卡 2 張"
+   "notes": "老婆的熊本熊卡（JCB），算老婆的 USJ ¥10,000 進度；結帳送任天堂世界 5 週年紀念卡 2 張；20:03 已辦免稅退款"
   },
   {
    "id": "r20261020-1153-1upfactory",
@@ -1827,11 +1827,11 @@
    ],
    "tax": 418,
    "total": 4600,
-   "tax_free": false,
+   "tax_free": true,
    "card": "K",
    "who": "wife",
    "cat": "shop",
-   "notes": "JCB；沒說哪張，先記老婆的熊本熊卡（湊她的 USJ ¥10,000）"
+   "notes": "JCB；沒說哪張，先記老婆的熊本熊卡（湊她的 USJ ¥10,000）；20:03 已辦免稅退款"
   },
   {
    "id": "r20261020-1556-frieren",
@@ -1883,11 +1883,11 @@
    ],
    "tax": 318,
    "total": 4300,
-   "tax_free": false,
+   "tax_free": true,
    "card": "K",
    "who": "wife",
    "cat": "shop",
-   "notes": "老婆的熊本熊卡（JCB）；時間依收據（19 時台）推估"
+   "notes": "老婆的熊本熊卡（JCB）；時間依收據（19 時台）推估；20:03 已辦免稅退款"
   },
   {
    "id": "r20261020-2005-taxrefund",
@@ -1950,6 +1950,40 @@
    "who": "wife",
    "cat": "food",
    "notes": "老婆的西瓜卡（…3216），餘額 ¥8,660（外帶 8%）"
+  },
+  {
+   "id": "r20261020-2003-taxrefund-w",
+   "day": "D4",
+   "time": "20:03",
+   "store": "ユニバーサル・スタジオ・ジャパン 免税返金",
+   "store_zh": "USJ 免稅退款（老婆：大金剛＋小小兵 TOMICA、餅乾鐵盒）",
+   "items": [
+    {
+     "ja": "Tax Amount（10%）",
+     "zh": "退回消費稅 10%（TOMICA 3 筆）",
+     "qty": 1,
+     "price": -563
+    },
+    {
+     "ja": "Tax Amount（8%）",
+     "zh": "退回消費稅 8%（餅乾鐵盒）",
+     "qty": 1,
+     "price": -318
+    },
+    {
+     "ja": "Service Fee",
+     "zh": "退稅手續費",
+     "qty": 1,
+     "price": 317
+    }
+   ],
+   "tax": null,
+   "total": -564,
+   "tax_free": true,
+   "card": "C",
+   "who": "wife",
+   "cat": "shop",
+   "notes": "退現金 ¥564（負數＝拿回來的錢）"
   }
  ],
  "diaries": {}
