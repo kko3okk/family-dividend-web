@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-19T21:35:00+09:00",
+ "updated": "2026-10-20T09:25:00+09:00",
  "moments": [
   {
    "id": "m20261017-2056-yoshiji",
@@ -1536,6 +1536,27 @@
    "card": "S",
    "who": "me",
    "notes": "西瓜卡（B 卡）；時間依錢包推估"
+  },
+  {
+   "id": "r20261020-0913-powerup",
+   "day": "D4",
+   "time": "09:13",
+   "store": "ユニバーサル・スタジオ・ジャパン マリオ・モーターズ",
+   "store_zh": "USJ 任天堂世界 Mario Motors",
+   "items": [
+    {
+     "ja": "パワーアップバンド（¥5,900、単品値引 −¥800、Klook 引換券 ¥4,800 充当）",
+     "zh": "Power-Up 能量手環（標價 ¥5,900，折 ¥800，Klook 兌換券抵 ¥4,800）",
+     "qty": 1,
+     "price": 300
+    }
+   ],
+   "tax": null,
+   "total": 300,
+   "tax_free": false,
+   "card": "U",
+   "who": "me",
+   "notes": "uniopen 補差額 ¥300；Klook 兌換券 ¥4,800 已預付，不重複計"
   }
  ],
  "diaries": {}
