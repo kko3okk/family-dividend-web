@@ -2325,6 +2325,28 @@
    "who": "me",
    "cat": "play",
    "notes": "現金；¥200 夾到黃色小狗玩偶 🎉"
+  },
+  {
+   "id": "r20261021-1325-gigo-sesame",
+   "day": "D5",
+   "time": "13:25",
+   "store": "GiGO（道頓堀）",
+   "store_zh": "🎮 GiGO 夾娃娃（芝麻街 GiGO 限定）",
+   "items": [
+    {
+     "ja": "クレーンゲーム セサミストリート（GiGO限定景品）",
+     "zh": "夾娃娃：芝麻街玩偶（GiGO 限定）",
+     "qty": 4,
+     "price": 100
+    }
+   ],
+   "tax": null,
+   "total": 400,
+   "tax_free": false,
+   "card": "C",
+   "who": "me",
+   "cat": "play",
+   "notes": "現金；沒夾到"
   }
  ],
  "diaries": {}
