@@ -484,6 +484,20 @@
    ],
    "note": "老婆的熊本熊卡；7 個裡另外 2 個未拍",
    "pimg": "trips/osaka2026/journal/m20261021-1808-doremi.jpg"
+  },
+  {
+   "id": "m20261021-2010-jiku",
+   "day": "D5",
+   "time": "20:10",
+   "title": "塩そば 時空：老婆心中第一名的鹽味拉麵",
+   "summary": "晚餐臨時改吃東京高井戶起家的「塩そば 時空」大阪店，兩人都點特製塩そば（¥1,480）。湯頭清澈金黃，配兩種豬叉燒、低溫雞胸、雞軟骨肉丸和筍乾。老婆說這是她吃過最好吃的鹽味拉麵。",
+   "place": "塩そば 時空 大阪",
+   "ja": [
+    "特製塩そば",
+    "裏醤油そば（金土日限定）"
+   ],
+   "note": "米其林 2025／2026 推薦、Tabelog 百名店；食券機點餐",
+   "pimg": "trips/osaka2026/journal/m20261021-2010-jiku.jpg"
   }
  ],
  "receipts": [
@@ -2901,6 +2915,28 @@
    "notes": "我的 uniopen",
    "group": "d5-crossstore",
    "group_name": "萬代南夢宮 Cross Store 心齋橋 PARCO 5F"
+  },
+  {
+   "id": "r20261021-2010-jiku",
+   "day": "D5",
+   "time": "20:10",
+   "store": "塩そば 時空 大阪",
+   "store_zh": "塩そば 時空 大阪（鹽味拉麵，食券機）",
+   "items": [
+    {
+     "ja": "特製塩そば",
+     "zh": "特製鹽味拉麵（叉燒、雞胸、雞軟骨肉丸全配）",
+     "qty": 2,
+     "price": 1480
+    }
+   ],
+   "tax": null,
+   "total": 2960,
+   "tax_free": false,
+   "card": "C",
+   "who": "me",
+   "cat": "food",
+   "notes": "食券機買的，先記現金"
   }
  ],
  "diaries": {},
