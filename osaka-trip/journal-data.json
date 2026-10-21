@@ -2410,6 +2410,28 @@
    "who": "wife",
    "cat": "play",
    "notes": "老婆的西瓜卡；結果待補"
+  },
+  {
+   "id": "r20261021-1355-tamagotchi",
+   "day": "D5",
+   "time": "13:55",
+   "store": "ガシャポン（心斎橋）",
+   "store_zh": "🎰 扭蛋：塔麻可吉 搖搖吊飾",
+   "items": [
+    {
+     "ja": "たまごっち ゆらぷらチャーム（バンダイ）",
+     "zh": "塔麻可吉 搖搖吊飾扭蛋（轉到 嘴巴吉、肚子愛心框）",
+     "qty": 2,
+     "price": 400
+    }
+   ],
+   "tax": null,
+   "total": 800,
+   "tax_free": false,
+   "card": "C",
+   "who": "me",
+   "cat": "play",
+   "notes": "現金（投幣）"
   }
  ],
  "diaries": {}
