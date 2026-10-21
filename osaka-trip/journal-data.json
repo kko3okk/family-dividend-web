@@ -2846,10 +2846,10 @@
    "tax": 90,
    "total": 990,
    "tax_free": false,
-   "card": "K",
-   "who": "wife",
+   "card": "U",
+   "who": "me",
    "cat": "shop",
-   "notes": "信用卡；推定老婆的熊本熊卡",
+   "notes": "我的 uniopen（Apple Wallet 確認）",
    "group": "d5-crossstore",
    "group_name": "萬代南夢宮 Cross Store 心齋橋 PARCO 5F"
   },
