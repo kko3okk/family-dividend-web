@@ -2196,6 +2196,50 @@
    "who": "me",
    "cat": "food",
    "notes": "付款方式未說，先記現金"
+  },
+  {
+   "id": "r20261021-1310-gigo-w",
+   "day": "D5",
+   "time": "13:10",
+   "store": "GiGO（道頓堀）",
+   "store_zh": "🎮 GiGO 夾娃娃（吉伊卡哇毛毯）",
+   "items": [
+    {
+     "ja": "UFOキャッチャー TRIPLE",
+     "zh": "夾娃娃 吉伊卡哇毛毯",
+     "qty": 4,
+     "price": 100
+    }
+   ],
+   "tax": null,
+   "total": 400,
+   "tax_free": false,
+   "card": "S",
+   "who": "wife",
+   "cat": "play",
+   "notes": "老婆的西瓜卡；沒夾到"
+  },
+  {
+   "id": "r20261021-1310-gigo-m",
+   "day": "D5",
+   "time": "13:10",
+   "store": "GiGO（道頓堀）",
+   "store_zh": "🎮 GiGO 夾娃娃（吉伊卡哇毛毯）",
+   "items": [
+    {
+     "ja": "UFOキャッチャー TRIPLE",
+     "zh": "夾娃娃 吉伊卡哇毛毯",
+     "qty": 2,
+     "price": 100
+    }
+   ],
+   "tax": null,
+   "total": 200,
+   "tax_free": false,
+   "card": "S",
+   "who": "me",
+   "cat": "play",
+   "notes": "我的西瓜卡；沒夾到"
   }
  ],
  "diaries": {}
