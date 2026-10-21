@@ -2544,6 +2544,28 @@
    "who": "me",
    "cat": "conv",
    "notes": "收據印 Suica 支付（我的 A 卡 …3112），餘額 ¥15,739；標價未稅 8%"
+  },
+  {
+   "id": "r20261021-1532-fresa-tax",
+   "day": "D5",
+   "time": "15:32",
+   "store": "相鉄フレッサイン 大阪心斎橋",
+   "store_zh": "🏨 相鐵 FRESA INN 心齋橋 住宿稅（第 2 段 3 晚）",
+   "items": [
+    {
+     "ja": "宿泊税 10/21〜10/23（2名×3泊）",
+     "zh": "大阪住宿稅 10/21–10/23（2 人 × 3 晚）",
+     "qty": 1,
+     "price": 1200
+    }
+   ],
+   "tax": null,
+   "total": 1200,
+   "tax_free": false,
+   "card": "J",
+   "who": "me",
+   "cat": "stay",
+   "notes": "實體吉鶴卡"
   }
  ],
  "diaries": {}
