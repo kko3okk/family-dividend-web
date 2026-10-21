@@ -110,6 +110,7 @@
       :pnet(src).catch(function(err){ return pcached(src).then(function(b){ if(b) return b; throw new Error('讀取失敗（'+err.message+'），請確認有網路'); }); });
     return p.then(function(bl){ pimgCache[src]=URL.createObjectURL(bl); return pimgCache[src]; });
   }
+  window.tripPimg=pimgLoad;   // 給其他頁面直接把私有圖片顯示在頁面上（例如手帳照片）
   function pimgPrefetch(){
     if(window.__tripAuthOK!==true||!window.caches||navigator.onLine===false||!ptok()) return;
     var k='pimgWarm:'+location.pathname, last=0; try{ last=+(localStorage.getItem(k)||0); }catch(err){}

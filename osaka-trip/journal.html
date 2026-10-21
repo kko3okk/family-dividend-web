@@ -26,6 +26,7 @@ button{cursor:pointer}
 .jx-prog{flex:1;min-width:140px;height:12px;border-radius:999px;background:var(--card,#fff);overflow:hidden;box-shadow:inset 0 0 0 1px var(--line-c,#EFE2BD)}
 .jx-prog i{display:block;height:100%;background:var(--green,#97CC27);border-radius:999px;transition:width .3s}
 .jx-filters{display:flex;gap:6px}
+.jx-pph .pimg{margin:10px 12px 0}
 .jx-suica{background:var(--card,#fff);border-radius:18px;padding:10px 14px;margin:0 0 12px;box-shadow:0 8px 24px -18px rgba(93,55,19,.45)}
 .jx-suica summary{font-weight:700;cursor:pointer}
 .jx-sc{border-top:2px dotted var(--line-c,#EFE2BD);padding:8px 0}
@@ -317,7 +318,15 @@ function cloudMoment(m){
   if(m.summary)h+='<div>'+esc(m.summary)+'</div>';
   if(m.ja&&m.ja.length)h+='<div class="jx-ja"><b>照片裡的日文</b>'+m.ja.map(x=>'<div>'+esc(x.ja)+' → '+esc(x.zh)+'</div>').join('')+'</div>';
   if(m.note)h+='<div class="jx-meta">💬 '+esc(m.note)+'</div>';
-  return h+'</div>';
+  h+='</div>';
+  // 私有照片：存在私有庫，只有驗證過的手機看得到（.pimg 對訪客隱藏）
+  if(m.pimg)h='<div class="jx-pph" data-pimg="'+esc(m.pimg)+'"><button class="pimg" data-src="'+esc(m.pimg)+'">📷 看照片</button></div>'+h;
+  return h;
+}
+function loadPimgs(box){
+  if(window.__tripAuthOK!==true||typeof window.tripPimg!=='function') return;
+  box.querySelectorAll('.jx-pph[data-pimg]').forEach(el=>{const src=el.dataset.pimg;el.removeAttribute('data-pimg');
+    window.tripPimg(src).then(u=>{el.innerHTML='<img class="jx-ph" alt="旅遊照片" src="'+u+'">';}).catch(()=>{});});
 }
 async function renderJ(){
   const box=$('listJ'); const items=recs.concat(cloud).filter(r=>r.kind==='m'&&r.day===day).sort((a,b)=>b.ts-a.ts);
@@ -328,7 +337,7 @@ async function renderJ(){
   box.innerHTML='';
   for(const m of items){
     const c=document.createElement('article');c.className='jx-card';
-    if(m.cloud){c.innerHTML=cloudMoment(m);box.appendChild(c);continue;}
+    if(m.cloud){c.innerHTML=cloudMoment(m);box.appendChild(c);loadPimgs(c);continue;}
     let h='<img class="jx-ph" alt="'+esc(m.title||'旅遊照片')+'" src="'+esc(await photoURL(m.photo))+'"><div class="jx-body">';
     h+='<div class="jx-ttl">'+esc(m.title||(m.status==='analyzing'?'Claude 整理中…':tTime(m.ts)+' 的照片'))+'</div>';
     h+='<div class="jx-meta">'+esc(tTime(m.ts))+(m.place?' ・📍'+esc(m.place):'')+'</div>';
@@ -470,7 +479,7 @@ openDB().then(async d=>{idb=d;recs=await allRecs();renderAll();loadCloud();if(na
  .catch(()=>{$('statJ').textContent=$('statR').textContent='這個瀏覽器無法儲存照片（可能是無痕模式），請改用一般模式開啟。';loadCloud();});
 })();
 </script>
-<script src="../trip-kit/trip.js?v=13"></script>
+<script src="../trip-kit/trip.js?v=14"></script>
 <script src="../trip-home.js?v=11"></script>
 </body>
 </html>
