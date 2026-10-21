@@ -394,11 +394,12 @@ async function basicReceipt(r,blob){
 }
 function cloudReceipt(r){
   let h='<div class="jx-body"><div class="jx-row" style="justify-content:space-between;align-items:flex-start;flex-wrap:nowrap"><div style="min-width:0;flex:1"><div class="jx-ttl">'+esc(r.store_zh||r.store||'收據')+'</div>'+(r.store&&r.store_zh?'<div class="jx-meta">'+esc(r.store)+'</div>':'')+'</div><div class="jx-amt">'+(r.total!=null?esc(yen(r.total)):'—')+'<br><small>≈ NT$'+Math.round((+r.total||0)/fx).toLocaleString('en-US')+'</small></div></div>';
-  h+='<div class="jx-meta"><span class="jx-pill">☁️ Claude 整理</span><span class="jx-pill">'+esc(catName(catOf(r)))+'</span>'+esc(di(r.day).k+' '+di(r.day).d+' '+tTime(r.ts))+'・'+esc(cardName(r.card))+(r.who==='wife'?'（老婆刷）':'')+(r.tax_free?' <span class="jx-pill">免稅</span>':'')+'</div>';
+  h+='<div class="jx-meta"><span class="jx-pill">☁️ Claude 整理</span><span class="jx-pill">'+esc(catName(catOf(r)))+'</span>'+esc(di(r.day).k+' '+di(r.day).d+' '+(r.parts?tTime(r.parts[0].ts)+'–'+tTime(r.parts[r.parts.length-1].ts)+'・分 '+r.parts.length+' 次付款':tTime(r.ts)+'・'+cardName(r.card)+(r.who==='wife'?'（老婆刷）':'')))+(r.tax_free?' <span class="jx-pill">免稅</span>':'')+'</div>';
+  if(r.parts)h+='<div class="jx-tw"><table><tbody>'+r.parts.map(p=>'<tr><td>'+esc(tTime(p.ts))+'</td><td>'+esc(cardName(p.card))+(p.who==='wife'?'（老婆）':'（我）')+'</td><td class="n">'+esc(yen(p.total))+'</td></tr>').join('')+'</tbody></table></div>';
   if(r.items&&r.items.length)h+='<details'+(day!=='ALL'?' open':'')+'><summary>品項明細（'+r.items.length+'）</summary><div class="jx-tw"><table><thead><tr><th>品項</th><th class="n">數量</th><th class="n">金額</th></tr></thead><tbody>'+
     r.items.map(x=>'<tr><td>'+esc(x.zh||x.ja)+(x.ja&&x.zh?'<span class="jp">'+esc(x.ja)+'</span>':'')+'</td><td class="n">'+(x.qty!=null?esc(x.qty):'')+'</td><td class="n">'+(x.price!=null?esc(yen(x.price)):'')+'</td></tr>').join('')+
     (r.tax!=null?'<tr><td>消費稅</td><td></td><td class="n">'+esc(yen(r.tax))+'</td></tr>':'')+'</tbody></table></div></details>';
-  if(r.notes)h+='<div class="jx-meta">💡 '+esc(r.notes)+'</div>';
+  if(r.notes&&!r.parts)h+='<div class="jx-meta">💡 '+esc(r.notes)+'</div>';
   return h+'<div class="jx-meta">✓ 已記入刷卡紀錄｜要修改請跟 Claude 說</div></div>';
 }
 /* 西瓜卡餘額稽核：從最後一次確認的餘額（收據或錢包截圖）往下扣之後記的帳 */
@@ -446,7 +447,13 @@ async function renderR(){
   const box=$('listR'); const items=sel.sort((a,b)=>b.ts-a.ts);
   if(!items.length){box.innerHTML='<div class="jx-empty">'+(day==='ALL'?'還沒有收據。':esc(di(day).k+' '+di(day).d)+' 還沒有收據。')+'<br>按「📷 拍收據」會自動抓合計金額，並加進刷卡紀錄；想要逐項翻譯，把收據傳給 Claude 說「記帳」。</div>';return;}
   box.innerHTML='';
-  for(const r of items){
+  /* 同一家店分好幾次付款：收據各自一筆（卡別、誰刷、西瓜卡稽核照算），列表合併成一張（JSON 的 group 相同） */
+  const view=[],grp={};
+  for(const r of items){if(r.cloud&&r.group){if(grp[r.group]){grp[r.group].push(r);continue;}grp[r.group]=[r];}view.push(r);}
+  for(let i=0;i<view.length;i++){const r=view[i],ps=r.cloud&&r.group&&grp[r.group];if(!ps||ps.length<2)continue;ps.sort((a,b)=>a.ts-b.ts);
+    const it={};ps.forEach(p=>(p.items||[]).forEach(x=>{const k=(x.ja||x.zh)+'|'+x.price;if(it[k])it[k].qty=(+it[k].qty||0)+(+x.qty||0);else it[k]=Object.assign({},x);}));
+    view[i]=Object.assign({},r,{parts:ps,total:ps.reduce((s,p)=>s+(+p.total||0),0),tax:ps.every(p=>p.tax!=null)?ps.reduce((s,p)=>s+(+p.tax||0),0):null,items:Object.values(it),store_zh:r.group_name||r.store_zh});}
+  for(const r of view){
     const c=document.createElement('article');c.className='jx-card';
     if(r.cloud){c.innerHTML=cloudReceipt(r);box.appendChild(c);continue;}
     let h='<div class="jx-body">';

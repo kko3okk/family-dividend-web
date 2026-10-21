@@ -2761,7 +2761,7 @@
    "day": "D5",
    "time": "18:08",
    "store": "BANDAI NAMCO Cross Store 心斎橋PARCO 5F",
-   "store_zh": "萬代南夢宮 Cross Store 心齋橋 PARCO 5F（食玩）",
+   "store_zh": "萬代南夢宮 Cross Store 心齋橋 PARCO 5F",
    "items": [
     {
      "ja": "あつまれアンパンマン P88",
@@ -2800,14 +2800,16 @@
    "card": "K",
    "who": "wife",
    "cat": "shop",
-   "notes": "老婆的熊本熊卡；共 14 點，含稅價"
+   "notes": "老婆的熊本熊卡；共 14 點，含稅價",
+   "group": "d5-crossstore",
+   "group_name": "萬代南夢宮 Cross Store 心齋橋 PARCO 5F"
   },
   {
    "id": "r20261021-1823-bandaicross2",
    "day": "D5",
    "time": "18:23",
    "store": "BANDAI NAMCO Cross Store 心斎橋PARCO 5F",
-   "store_zh": "萬代南夢宮 Cross Store 心齋橋 PARCO 5F（加買）",
+   "store_zh": "萬代南夢宮 Cross Store 心齋橋 PARCO 5F",
    "items": [
     {
      "ja": "葬送のフリーレン カードソフトクッキー",
@@ -2823,14 +2825,16 @@
    "suica": "W",
    "who": "wife",
    "cat": "shop",
-   "notes": "收據顯示用老婆的西瓜卡付款，餘額 ¥555"
+   "notes": "收據顯示用老婆的西瓜卡付款，餘額 ¥555",
+   "group": "d5-crossstore",
+   "group_name": "萬代南夢宮 Cross Store 心齋橋 PARCO 5F"
   },
   {
    "id": "r20261021-1832-bandaicross3",
    "day": "D5",
    "time": "18:32",
    "store": "BANDAI NAMCO Cross Store 心斎橋PARCO 5F",
-   "store_zh": "萬代南夢宮 Cross Store 心齋橋 PARCO 5F（再加買）",
+   "store_zh": "萬代南夢宮 Cross Store 心齋橋 PARCO 5F",
    "items": [
     {
      "ja": "葬送のフリーレン カードソフトクッキー",
@@ -2845,14 +2849,16 @@
    "card": "K",
    "who": "wife",
    "cat": "shop",
-   "notes": "信用卡；推定老婆的熊本熊卡"
+   "notes": "信用卡；推定老婆的熊本熊卡",
+   "group": "d5-crossstore",
+   "group_name": "萬代南夢宮 Cross Store 心齋橋 PARCO 5F"
   },
   {
    "id": "r20261021-1836-bandaicross4",
    "day": "D5",
    "time": "18:36",
    "store": "BANDAI NAMCO Cross Store 心斎橋PARCO 5F",
-   "store_zh": "萬代南夢宮 Cross Store 心齋橋 PARCO 5F（再加買）",
+   "store_zh": "萬代南夢宮 Cross Store 心齋橋 PARCO 5F",
    "items": [
     {
      "ja": "葬送のフリーレン カードソフトクッキー",
@@ -2868,14 +2874,16 @@
    "suica": "W2",
    "who": "wife",
    "cat": "shop",
-   "notes": "老婆的另一張西瓜卡，付完已經沒錢了"
+   "notes": "老婆的另一張西瓜卡，付完已經沒錢了",
+   "group": "d5-crossstore",
+   "group_name": "萬代南夢宮 Cross Store 心齋橋 PARCO 5F"
   },
   {
    "id": "r20261021-1837-bandaicross5",
    "day": "D5",
    "time": "18:37",
    "store": "BANDAI NAMCO Cross Store 心斎橋PARCO 5F",
-   "store_zh": "萬代南夢宮 Cross Store 心齋橋 PARCO 5F（再加買）",
+   "store_zh": "萬代南夢宮 Cross Store 心齋橋 PARCO 5F",
    "items": [
     {
      "ja": "葬送のフリーレン カードソフトクッキー",
@@ -2890,7 +2898,9 @@
    "card": "U",
    "who": "me",
    "cat": "shop",
-   "notes": "我的 uniopen"
+   "notes": "我的 uniopen",
+   "group": "d5-crossstore",
+   "group_name": "萬代南夢宮 Cross Store 心齋橋 PARCO 5F"
   }
  ],
  "diaries": {},

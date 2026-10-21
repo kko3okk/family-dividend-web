@@ -47,6 +47,7 @@ Claude 依這份規則處理，把結果寫進 `osaka-trip/journal-data.json`，
 - `card`：U=uniopen、K=熊本熊卡、KP=玉山Wallet PayPay、J=吉鶴 Apple Pay、W=老婆 JCB、CUBE=CUBE、S=西瓜卡 Suica、C=現金。使用者沒說時：收據寫クレジット就用 U，現金用 C，PayPay 用 KP；USJ 園內用 W（老婆）或 K。
 - `who`：`me` 或 `wife`，沒說就 `me`。
 - `cat`：分類，手帳「購物收據」的篩選用。food=餐飲（餐廳、咖啡、小吃）、conv=超商超市（便利商店、超市、販賣機）、shop=購物（藥妝、服飾、雜貨、周邊）、play=遊樂扭蛋（扭蛋、夾娃娃、遊樂場、一番賞）、trans=交通、stay=住宿（含住宿稅）、sight=景點門票（神社、展望台、入場券）、other=其他。沒寫的話網頁會依店名猜。
+- `group`／`group_name`：同一家店分好幾次付款（不同卡、不同人刷）時，每次付款各記一筆收據，再給它們相同的 `group`（例如 `d5-crossstore`）和合併後的店名 `group_name`。手帳列表會合併成一張，列出每次付款；刷卡紀錄、西瓜卡稽核、我／老婆篩選仍照每一筆算。
 - `suica`：西瓜卡（`card` 是 S）才寫，標是哪一張：A＝我的消費用（…3112）、B＝我的搭車用、W＝老婆的（…3216）。新的一趟依實際卡片調整 `journal-data.json` 的 `suica.cards`。
 - 照片：使用者要「附上圖片」時，把照片壓到長邊 1600px 放進**私有庫** `family-dividend-data/trips/<趟>/journal/<moment id>.jpg`（用 git push，不要放公開庫），在那筆 `moments` 加 `"pimg": "trips/<趟>/journal/<id>.jpg"`。手帳只有驗證過的手機會顯示照片，訪客看不到。
 - 收據或錢包截圖上看得到西瓜卡**餘額**時，在 `suica.anchors` 加一筆 `{"c":"A","day":"D5","time":"15:26","bal":15739,"src":"7-11 收據"}`（時間＝那筆消費之後）。手帳「購物收據」上方的「🚃 西瓜卡餘額稽核」會用最後一筆餘額往下扣，對不上就是漏記。
