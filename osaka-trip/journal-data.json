@@ -2388,6 +2388,28 @@
    "who": "me",
    "cat": "play",
    "notes": "現金；¥200 一次夾到 🎉"
+  },
+  {
+   "id": "r20261021-1338-gigo-meiji",
+   "day": "D5",
+   "time": "13:38",
+   "store": "GiGO（道頓堀）",
+   "store_zh": "🎮 GiGO 夾娃娃（明治 香菇山／竹筍村 草莓巧克力）",
+   "items": [
+    {
+     "ja": "クレーンゲーム きのこの山・たけのこの里 いちご＆ショコラ",
+     "zh": "夾零食：香菇山／竹筍村 草莓巧克力",
+     "qty": 1,
+     "price": 100
+    }
+   ],
+   "tax": null,
+   "total": 100,
+   "tax_free": false,
+   "card": "S",
+   "who": "wife",
+   "cat": "play",
+   "notes": "老婆的西瓜卡；結果待補"
   }
  ],
  "diaries": {}
