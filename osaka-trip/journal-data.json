@@ -2593,6 +2593,34 @@
    "who": "me",
    "cat": "stay",
    "notes": "實體吉鶴卡"
+  },
+  {
+   "id": "r20261021-1637-naganomarket",
+   "day": "D5",
+   "time": "16:37",
+   "store": "ナガノマーケット SHINSAIBASHI店（心斎橋PARCO 5F）",
+   "store_zh": "Nagano Market 心齋橋 PARCO 5F（吉伊卡哇作者 Nagano 的店）",
+   "items": [
+    {
+     "ja": "マレーグマを被ったうさぎマスコット",
+     "zh": "兔兔 戴馬來熊頭套 玩偶吊飾",
+     "qty": 1,
+     "price": 1760
+    },
+    {
+     "ja": "マスコット くまをかぶったうさぎ",
+     "zh": "兔兔 戴熊頭套 玩偶吊飾",
+     "qty": 1,
+     "price": 1650
+    }
+   ],
+   "tax": 310,
+   "total": 3410,
+   "tax_free": false,
+   "card": "U",
+   "who": "me",
+   "cat": "shop",
+   "notes": "uniopen；含稅價"
   }
  ],
  "diaries": {},
