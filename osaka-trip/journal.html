@@ -26,6 +26,12 @@ button{cursor:pointer}
 .jx-prog{flex:1;min-width:140px;height:12px;border-radius:999px;background:var(--card,#fff);overflow:hidden;box-shadow:inset 0 0 0 1px var(--line-c,#EFE2BD)}
 .jx-prog i{display:block;height:100%;background:var(--green,#97CC27);border-radius:999px;transition:width .3s}
 .jx-filters{display:flex;gap:6px}
+.jx-suica{background:var(--card,#fff);border-radius:18px;padding:10px 14px;margin:0 0 12px;box-shadow:0 8px 24px -18px rgba(93,55,19,.45)}
+.jx-suica summary{font-weight:700;cursor:pointer}
+.jx-sc{border-top:2px dotted var(--line-c,#EFE2BD);padding:8px 0}
+.jx-sc:first-of-type{border-top:none}
+.jx-sc .big{font-size:20px;font-weight:800}
+.jx-sc ul{margin:4px 0 0 18px;padding:0;font-size:12px;color:var(--ink2,#8A7150)}
 .jx-cats{flex-wrap:wrap;margin:4px 0 10px}
 .jx-cats .jx-btn small{opacity:.75;margin-left:4px;font-weight:500}
 .jx-filters .jx-btn[aria-pressed="true"]{background:var(--mustard,#DEAE0B);color:#fff}
@@ -160,6 +166,7 @@ details summary{cursor:pointer;font-size:13px;color:var(--ink2,#8A7150)}
     <div class="jx-tot"><div class="k">全程合計</div><div class="v" id="totAll">¥0</div><div class="k" id="totAllNT">≈ NT$0</div></div>
     <div class="jx-bycard" id="byCard"></div>
   </div>
+  <details class="jx-suica hide" id="suicaBox"></details>
   <div class="jx-fx"><label for="fx">匯率 1 NT$ =</label><input id="fx" class="jx-in" type="number" step="0.01" inputmode="decimal"><span>¥</span></div>
   <div class="jx-acts">
     <label class="jx-big">📷 拍收據<input id="inR" type="file" accept="image/*" capture="environment" class="hide"></label>
@@ -222,12 +229,12 @@ const di=k=>DAYS.find(d=>d.k===k)||DAYS[0];
 /* ===== AI 設定 ===== */
 $('aiBtn').onclick=()=>$('aiPanel').classList.toggle('hide');
 /* ===== ☁️ Claude 整理的紀錄（journal-data.json，由 Claude Code 寫入） ===== */
-let cloud=[];
+let cloud=[], suicaCfg=null;
 function cts(o){const d=di(o.day);const t=/^\d{1,2}:\d{2}$/.test(o.time||'')?o.time.padStart(5,'0'):'12:00';return Date.parse(d.iso+'T'+t+':00+09:00')||Date.now();}
 async function loadCloud(){
   try{
     const r=await fetch('journal-data.json?t='+Date.now(),{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status);
-    const j=await r.json(); cloud=[];
+    const j=await r.json(); cloud=[]; suicaCfg=j.suica||null;
     (j.moments||[]).forEach(m=>cloud.push(Object.assign({},m,{kind:'m',cloud:true,id:'c'+m.id,ts:cts(m)})));
     (j.receipts||[]).forEach(m=>cloud.push(Object.assign({},m,{kind:'r',cloud:true,id:'c'+m.id,ts:cts(m),card:m.card||'U',who:m.who||'me'})));
     Object.entries(j.diaries||{}).forEach(([k,t])=>cloud.push({kind:'d',cloud:true,id:'cd'+k,day:k,text:String(t)}));
@@ -385,7 +392,31 @@ function cloudReceipt(r){
   if(r.notes)h+='<div class="jx-meta">💡 '+esc(r.notes)+'</div>';
   return h+'<div class="jx-meta">✓ 已記入刷卡紀錄｜要修改請跟 Claude 說</div></div>';
 }
+/* 西瓜卡餘額稽核：從最後一次確認的餘額（收據或錢包截圖）往下扣之後記的帳 */
+function renderSuica(){
+  const box=$('suicaBox'); if(!box) return;
+  if(!suicaCfg||!(suicaCfg.cards||[]).length){box.classList.add('hide');return;}
+  box.classList.remove('hide');
+  const rs=cloud.filter(r=>r.kind==='r'&&r.card==='S');
+  const fmtT=o=>di(o.day).k+' '+di(o.day).d+' '+(o.time||'');
+  let h='<summary>🚃 西瓜卡餘額稽核</summary><div class="jx-meta" style="margin:4px 0 6px">從最後一次確認的餘額往下扣之後記的帳，跟手機錢包對對看：對不上＝有漏記或多記（例如沒記到的車資）</div>';
+  suicaCfg.cards.forEach(c=>{
+    const an=(suicaCfg.anchors||[]).filter(a=>a.c===c.k).sort((a,b)=>cts(a)-cts(b)); const last=an[an.length-1];
+    const mine=rs.filter(r=>r.suica===c.k).sort((a,b)=>a.ts-b.ts);
+    h+='<div class="jx-sc"><div class="jx-ttl">'+esc(c.n)+'</div>';
+    if(!last){h+='<div class="jx-meta">還沒有確認過餘額</div></div>';return;}
+    const t=cts(last), after=mine.filter(r=>r.ts>t), sp=after.reduce((s,r)=>s+(+r.total||0),0), exp=last.bal-sp;
+    h+='<div><span class="big">'+esc(yen(exp))+'</span> <span class="jx-meta">帳上應剩</span></div>';
+    h+='<div class="jx-meta">最後確認 '+esc(yen(last.bal))+'（'+esc(fmtT(last))+'・'+esc(last.src||'')+'）'+(after.length?'，之後記了 '+after.length+' 筆 −'+esc(yen(sp)):'，之後沒有新紀錄')+'</div>';
+    if(after.length) h+='<ul>'+after.map(r=>'<li>'+esc(fmtT(r))+' '+esc(r.store_zh||r.store||'')+' −'+esc(yen(r.total))+'</li>').join('')+'</ul>';
+    h+='</div>';
+  });
+  const un=rs.filter(r=>!r.suica);
+  if(un.length) h+='<div class="jx-meta">⚠️ 有 '+un.length+' 筆西瓜卡收據還沒標是哪張卡，跟 Claude 說一聲</div>';
+  box.innerHTML=h;
+}
 async function renderR(){
+  renderSuica();
   const both=recs.concat(cloud); const dsel0=day==='ALL'?both.filter(r=>r.kind==='r'):both.filter(r=>r.kind==='r'&&r.day===day);
   const whoOf=r=>r.who==='wife'?'wife':'me';
   {const ws={ALL:0,me:0,wife:0};dsel0.forEach(r=>{ws.ALL+=(+r.total||0);ws[whoOf(r)]+=(+r.total||0);});const wb=$('whos');wb.innerHTML='';
