@@ -2824,6 +2824,28 @@
    "who": "wife",
    "cat": "shop",
    "notes": "收據顯示用老婆的西瓜卡付款，餘額 ¥555"
+  },
+  {
+   "id": "r20261021-1832-bandaicross3",
+   "day": "D5",
+   "time": "18:32",
+   "store": "BANDAI NAMCO Cross Store 心斎橋PARCO 5F",
+   "store_zh": "萬代南夢宮 Cross Store 心齋橋 PARCO 5F（再加買）",
+   "items": [
+    {
+     "ja": "葬送のフリーレン カードソフトクッキー",
+     "zh": "芙莉蓮 卡片＋軟餅乾",
+     "qty": 5,
+     "price": 198
+    }
+   ],
+   "tax": 90,
+   "total": 990,
+   "tax_free": false,
+   "card": "K",
+   "who": "wife",
+   "cat": "shop",
+   "notes": "信用卡；推定老婆的熊本熊卡"
   }
  ],
  "diaries": {},
