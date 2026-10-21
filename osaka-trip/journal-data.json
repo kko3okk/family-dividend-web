@@ -2432,6 +2432,28 @@
    "who": "me",
    "cat": "play",
    "notes": "現金（投幣）"
+  },
+  {
+   "id": "r20261021-1414-mojojojo",
+   "day": "D5",
+   "time": "14:14",
+   "store": "C-pla（心斎橋）ガチャ",
+   "store_zh": "🎰 扭蛋：mojojojo Figure Mascot Vol.4",
+   "items": [
+    {
+     "ja": "mojojojo Figure Mascot Vol.4（Strawberry）",
+     "zh": "mojojojo 植絨吊飾 第 4 彈（轉到 Strawberry 粉紅款）",
+     "qty": 1,
+     "price": 500
+    }
+   ],
+   "tax": null,
+   "total": 500,
+   "tax_free": false,
+   "card": "C",
+   "who": "me",
+   "cat": "play",
+   "notes": "現金（投幣）"
   }
  ],
  "diaries": {}
