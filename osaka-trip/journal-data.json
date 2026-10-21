@@ -2621,6 +2621,28 @@
    "who": "me",
    "cat": "shop",
    "notes": "uniopen；含稅價"
+  },
+  {
+   "id": "r20261021-1655-dollymix",
+   "day": "D5",
+   "time": "16:55",
+   "store": "ガチャ（心斎橋PARCO）",
+   "store_zh": "🎰 扭蛋：美樂蒂＆酷洛米 DOLLY MIX 水藍天使",
+   "items": [
+    {
+     "ja": "マイメロディ＆クロミ DOLLYMIX みずいろ天使（タカラトミーアーツ）",
+     "zh": "美樂蒂＆酷洛米 DOLLY MIX 水藍天使 公仔（轉到 美樂蒂）",
+     "qty": 1,
+     "price": 400
+    }
+   ],
+   "tax": null,
+   "total": 400,
+   "tax_free": false,
+   "card": "C",
+   "who": "me",
+   "cat": "play",
+   "notes": "現金（投幣）；付款方式未說，先記現金"
   }
  ],
  "diaries": {},
