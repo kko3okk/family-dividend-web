@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-21T11:22:00+09:00",
+ "updated": "2026-10-21T11:37:00+09:00",
  "moments": [
   {
    "id": "m20261017-2056-yoshiji",
@@ -2028,6 +2028,28 @@
    "who": "me",
    "cat": "food",
    "notes": "西瓜卡 A（…3112），園內買飲料；時間未知"
+  },
+  {
+   "id": "r20261021-1107-gotaxi",
+   "day": "D5",
+   "time": "11:07",
+   "store": "GO タクシー",
+   "store_zh": "🚕 計程車 GO：Hotel Universal Port → 相鐵 FRESA INN 心齋橋",
+   "items": [
+    {
+     "ja": "タクシー運賃（メーター、手数料込み）",
+     "zh": "計程車資（跳錶，含 App 手續費）",
+     "qty": 1,
+     "price": 7580
+    }
+   ],
+   "tax": null,
+   "total": 7580,
+   "tax_free": false,
+   "card": "K",
+   "who": "me",
+   "cat": "trans",
+   "notes": "GO Pay（Apple Pay，熊本熊卡）"
   }
  ],
  "diaries": {}
