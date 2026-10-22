@@ -3531,6 +3531,28 @@
    "who": "me",
    "cat": "shop",
    "notes": "我的熊本熊卡（JCB）；免稅＋Joshin 優惠券 8%（未稅 ¥300/包 → ¥276/包），原價小計 ¥12,900，折 ¥1,032"
+  },
+  {
+   "id": "r20261022-1922-kuji-esther",
+   "day": "D6",
+   "time": "19:22",
+   "store": "フリューくじ Esther Bunny Cake Dreams",
+   "store_zh": "一番賞：Esther Bunny 蛋糕夢想",
+   "items": [
+    {
+     "ja": "フリューくじ ESTHER BUNNY Cake Dreams（G賞 シールセット #4・#2）",
+     "zh": "一番賞 G 賞 貼紙組（#4 杯子蛋糕、#2 雙兔）",
+     "qty": 2,
+     "price": 790
+    }
+   ],
+   "tax": null,
+   "total": 1580,
+   "tax_free": false,
+   "card": "C",
+   "who": "wife",
+   "cat": "play",
+   "notes": "付款方式未確認，先記現金"
   }
  ],
  "diaries": {},
