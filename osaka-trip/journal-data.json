@@ -3345,17 +3345,23 @@
    "day": "D6",
    "time": "15:55",
    "store": "ガチャ（みのおキューズモール）",
-   "store_zh": "扭蛋：DINOTAENG 短尾矮袋鼠手指玩偶",
+   "store_zh": "扭蛋：DINOTAENG QUOKKA & BOBO 手指玩偶 ×2",
    "items": [
     {
      "ja": "DINOTAENG フィンガーパペットぬいぐるみ（クオッカ＆マーシュ）",
      "zh": "QUOKKA & BOBO 手指玩偶（短尾矮袋鼠＆棉花糖）",
      "qty": 1,
      "price": 500
+    },
+    {
+     "ja": "DINOTAENG フィンガーパペットぬいぐるみ（ボボ）",
+     "zh": "QUOKKA & BOBO 手指玩偶（白色 BOBO）",
+     "qty": 1,
+     "price": 500
     }
    ],
    "tax": null,
-   "total": 500,
+   "total": 1000,
    "tax_free": false,
    "card": "C",
    "who": "me",
