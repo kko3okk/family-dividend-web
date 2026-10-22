@@ -3549,10 +3549,11 @@
    "tax": null,
    "total": 1580,
    "tax_free": false,
-   "card": "C",
+   "card": "S",
    "who": "wife",
    "cat": "play",
-   "notes": "付款方式未確認，先記現金"
+   "notes": "老婆的第三張西瓜卡",
+   "suica": "W3"
   }
  ],
  "diaries": {},
