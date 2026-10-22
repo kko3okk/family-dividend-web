@@ -3503,6 +3503,34 @@
    "who": "me",
    "cat": "play",
    "notes": "現金；夾到紅、黃、藍 3 隻全套"
+  },
+  {
+   "id": "r20261022-1751-joshin",
+   "day": "D6",
+   "time": "17:51",
+   "store": "Joshin みのおキューズモール店",
+   "store_zh": "上新電機 Joshin 箕面 Q's Mall 店（Lorcana 卡牌）",
+   "items": [
+    {
+     "ja": "ロルカナ ブースター 未知なる彼方へ（Wilds Unknown）",
+     "zh": "Lorcana 補充包「未知なる彼方へ」（玩具總動員）",
+     "qty": 11,
+     "price": 276
+    },
+    {
+     "ja": "ロルカナ ブースター ハイペリア・シティ",
+     "zh": "Lorcana 補充包「Hyperia City」（2 盒×16 包）",
+     "qty": 32,
+     "price": 276
+    }
+   ],
+   "tax": 0,
+   "total": 11868,
+   "tax_free": true,
+   "card": "K",
+   "who": "me",
+   "cat": "shop",
+   "notes": "我的熊本熊卡（JCB）；免稅＋Joshin 優惠券 8%（未稅 ¥300/包 → ¥276/包），原價小計 ¥12,900，折 ¥1,032"
   }
  ],
  "diaries": {},
