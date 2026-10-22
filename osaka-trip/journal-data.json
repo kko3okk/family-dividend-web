@@ -3179,6 +3179,28 @@
    "who": "me",
    "cat": "sight",
    "notes": "uniopen；非課稅"
+  },
+  {
+   "id": "r20261022-1314-katsuoji-candle",
+   "day": "D6",
+   "time": "13:14",
+   "store": "勝尾寺 献灯所",
+   "store_zh": "勝尾寺 蠟燭＋線香（香油錢）",
+   "items": [
+    {
+     "ja": "ローソク1本＋線香1束",
+     "zh": "蠟燭 1 支＋線香 1 束",
+     "qty": 2,
+     "price": 100
+    }
+   ],
+   "tax": 0,
+   "total": 200,
+   "tax_free": false,
+   "card": "C",
+   "who": "me",
+   "cat": "sight",
+   "notes": "現金，投入奉納箱"
   }
  ],
  "diaries": {},
