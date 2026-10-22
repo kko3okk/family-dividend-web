@@ -3137,6 +3137,46 @@
    "who": "me",
    "cat": "sight",
    "notes": "現金；非課稅"
+  },
+  {
+   "id": "r20261022-1239-katsuoji-daruma",
+   "day": "D6",
+   "time": "12:39",
+   "store": "勝尾寺 授与所",
+   "store_zh": "勝尾寺 授與所（達摩、御守）",
+   "items": [
+    {
+     "ja": "みくじダルマ御守",
+     "zh": "達摩籤御守",
+     "qty": 1,
+     "price": 1000
+    },
+    {
+     "ja": "目出しダルマ守金",
+     "zh": "目出達摩守（金）",
+     "qty": 1,
+     "price": 1500
+    },
+    {
+     "ja": "勝ちダルマ10号",
+     "zh": "勝利達摩 10 號",
+     "qty": 2,
+     "price": 3000
+    },
+    {
+     "ja": "だるまみくじ",
+     "zh": "達摩籤",
+     "qty": 4,
+     "price": 500
+    }
+   ],
+   "tax": 0,
+   "total": 10500,
+   "tax_free": false,
+   "card": "U",
+   "who": "me",
+   "cat": "sight",
+   "notes": "uniopen；非課稅"
   }
  ],
  "diaries": {},
