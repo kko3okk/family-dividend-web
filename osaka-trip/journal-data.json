@@ -3339,6 +3339,28 @@
    "who": "me",
    "cat": "food",
    "notes": "西瓜卡（推定我的 A 卡）"
+  },
+  {
+   "id": "r20261022-1555-gacha-quokka",
+   "day": "D6",
+   "time": "15:55",
+   "store": "ガチャ（みのおキューズモール）",
+   "store_zh": "扭蛋：DINOTAENG 短尾矮袋鼠手指玩偶",
+   "items": [
+    {
+     "ja": "DINOTAENG フィンガーパペットぬいぐるみ（クオッカ＆マーシュ）",
+     "zh": "QUOKKA & BOBO 手指玩偶（短尾矮袋鼠＆棉花糖）",
+     "qty": 1,
+     "price": 500
+    }
+   ],
+   "tax": null,
+   "total": 500,
+   "tax_free": false,
+   "card": "C",
+   "who": "me",
+   "cat": "play",
+   "notes": "現金"
   }
  ],
  "diaries": {},
