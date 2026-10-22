@@ -3577,6 +3577,40 @@
    "who": "wife",
    "cat": "play",
    "notes": "老婆的第三張西瓜卡；內含 10% 稅"
+  },
+  {
+   "id": "r20261022-2020-ajinoya",
+   "day": "D6",
+   "time": "20:20",
+   "store": "味乃家 本店",
+   "store_zh": "味乃家 本店（大阪燒）",
+   "items": [
+    {
+     "ja": "味乃家ミックス",
+     "zh": "味乃家綜合大阪燒",
+     "qty": 1,
+     "price": 1780
+    },
+    {
+     "ja": "ミックス焼きそば",
+     "zh": "綜合炒麵",
+     "qty": 1,
+     "price": 1980
+    },
+    {
+     "ja": "ジンジャーエール",
+     "zh": "薑汁汽水",
+     "qty": 1,
+     "price": 500
+    }
+   ],
+   "tax": 387,
+   "total": 4260,
+   "tax_free": false,
+   "card": "KP",
+   "who": "wife",
+   "cat": "food",
+   "notes": "老婆的 PayPay；可以用 PayPay（不是只收現金）"
   }
  ],
  "diaries": {},
