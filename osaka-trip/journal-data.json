@@ -3201,6 +3201,28 @@
    "who": "me",
    "cat": "sight",
    "notes": "現金，投入奉納箱"
+  },
+  {
+   "id": "r20261022-1413-hananochaya",
+   "day": "D6",
+   "time": "14:13",
+   "store": "勝尾寺 花の茶屋",
+   "store_zh": "勝尾寺 花之茶屋（伴手禮）",
+   "items": [
+    {
+     "ja": "勝ちグミ",
+     "zh": "勝利軟糖",
+     "qty": 10,
+     "price": 128
+    }
+   ],
+   "tax": 103,
+   "total": 1383,
+   "tax_free": false,
+   "card": "K",
+   "who": "wife",
+   "cat": "shop",
+   "notes": "老婆的熊本熊卡；食品 8% 外稅"
   }
  ],
  "diaries": {},
