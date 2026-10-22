@@ -542,6 +542,19 @@
    ],
    "note": "下山改 14:00 左右，午餐壽喜燒趕不上 L.O.",
    "pimg": "trips/osaka2026/journal/m20261022-1218-daruma.jpg"
+  },
+  {
+   "id": "m20261022-1728-pikmin",
+   "day": "D6",
+   "time": "17:28",
+   "title": "皮克敏三色全收",
+   "summary": "在箕面 Q's Mall 的夾娃娃機夾皮克敏「拔起來」布偶吊飾，一次 ¥200，總共花了 ¥2,800，黃、藍、紅三色全套到手。",
+   "place": "みのおキューズモール SOYU GAME FIELD",
+   "ja": [
+    "ピクミン 引っこ抜きぬいぐるみマスコット"
+   ],
+   "note": "共 14 次 ¥2,800（現金）",
+   "pimg": "trips/osaka2026/journal/m20261022-1728-pikmin.jpg"
   }
  ],
  "receipts": [
@@ -3479,17 +3492,17 @@
     {
      "ja": "クレーンゲーム ピクミン 引っこ抜きぬいぐるみマスコット",
      "zh": "夾娃娃 皮克敏（1 次 ¥200）",
-     "qty": 4,
+     "qty": 14,
      "price": 200
     }
    ],
    "tax": null,
-   "total": 800,
+   "total": 2800,
    "tax_free": false,
    "card": "C",
    "who": "me",
    "cat": "play",
-   "notes": "現金"
+   "notes": "現金；夾到紅、黃、藍 3 隻全套"
   }
  ],
  "diaries": {},
