@@ -3018,6 +3018,29 @@
    "who": "me",
    "cat": "conv",
    "notes": "PayPay（玉山 JCB）付款；用了「日本便利商店樂享券」折 ¥200（TWD 42），實際扣款 TWD 192（匯率 0.2089）；宵夜"
+  },
+  {
+   "id": "r20261022-1012-metro-minoh",
+   "day": "D6",
+   "time": "10:12",
+   "store": "Osaka Metro 御堂筋線・北大阪急行 心斎橋→箕面萱野",
+   "store_zh": "地鐵 心齋橋 → 箕面萱野（往勝尾寺）",
+   "items": [
+    {
+     "ja": "心斎橋→箕面萱野",
+     "zh": "御堂筋線直通北大阪急行",
+     "qty": 1,
+     "price": 530
+    }
+   ],
+   "tax": null,
+   "total": 530,
+   "tax_free": false,
+   "card": "S",
+   "suica": "B",
+   "who": "me",
+   "cat": "trans",
+   "notes": "我的西瓜卡 B（搭車用）"
   }
  ],
  "diaries": {},
@@ -3100,6 +3123,13 @@
     "time": "18:36",
     "bal": 0,
     "src": "使用者說已經沒錢了"
+   },
+   {
+    "c": "B",
+    "day": "D6",
+    "time": "10:25",
+    "bal": 18500,
+    "src": "錢包截圖"
    }
   ]
  }
