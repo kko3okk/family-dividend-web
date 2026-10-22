@@ -3468,6 +3468,28 @@
    "who": "wife",
    "cat": "shop",
    "notes": "老婆的第三張西瓜卡；16 點，外稅（零食 8%、其他 10%）"
+  },
+  {
+   "id": "r20261022-1718-crane-pikmin",
+   "day": "D6",
+   "time": "17:18",
+   "store": "SOYU GAME FIELD（みのおキューズモール）",
+   "store_zh": "夾娃娃：皮克敏 拔起來布偶吊飾",
+   "items": [
+    {
+     "ja": "クレーンゲーム ピクミン 引っこ抜きぬいぐるみマスコット",
+     "zh": "夾娃娃 皮克敏（1 次 ¥200）",
+     "qty": 3,
+     "price": 200
+    }
+   ],
+   "tax": null,
+   "total": 600,
+   "tax_free": false,
+   "card": "C",
+   "who": "me",
+   "cat": "play",
+   "notes": "現金"
   }
  ],
  "diaries": {},
