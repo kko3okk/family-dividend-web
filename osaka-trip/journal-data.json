@@ -3041,6 +3041,51 @@
    "who": "me",
    "cat": "trans",
    "notes": "我的西瓜卡 B（搭車用）"
+  },
+  {
+   "id": "r20261022-1100-bus-katsuoji",
+   "day": "D6",
+   "time": "11:00",
+   "store": "阪急バス 30系統 箕面萱野→勝尾寺",
+   "store_zh": "阪急巴士 箕面萱野 → 勝尾寺",
+   "items": [
+    {
+     "ja": "箕面萱野→勝尾寺",
+     "zh": "阪急巴士 30 系統",
+     "qty": 1,
+     "price": 800
+    }
+   ],
+   "tax": null,
+   "total": 800,
+   "tax_free": false,
+   "card": "S",
+   "suica": "B",
+   "who": "me",
+   "cat": "trans",
+   "notes": "我的西瓜卡 B"
+  },
+  {
+   "id": "r20261022-1103-katsuoji",
+   "day": "D6",
+   "time": "11:03",
+   "store": "勝尾寺",
+   "store_zh": "勝尾寺 拝観料",
+   "items": [
+    {
+     "ja": "大人（高校生以上）",
+     "zh": "門票（大人）",
+     "qty": 2,
+     "price": 500
+    }
+   ],
+   "tax": 0,
+   "total": 1000,
+   "tax_free": false,
+   "card": "U",
+   "who": "me",
+   "cat": "sight",
+   "notes": "uniopen；非課稅"
   }
  ],
  "diaries": {},
@@ -3129,6 +3174,13 @@
     "day": "D6",
     "time": "10:25",
     "bal": 18500,
+    "src": "錢包截圖"
+   },
+   {
+    "c": "B",
+    "day": "D6",
+    "time": "11:44",
+    "bal": 17700,
     "src": "錢包截圖"
    }
   ]
