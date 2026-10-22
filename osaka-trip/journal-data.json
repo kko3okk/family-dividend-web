@@ -3223,6 +3223,35 @@
    "who": "wife",
    "cat": "shop",
    "notes": "老婆的熊本熊卡；食品 8% 外稅"
+  },
+  {
+   "id": "r20261022-1448-sunnyside",
+   "day": "D6",
+   "time": "14:48",
+   "store": "Sunny Side みのおキューズモール店",
+   "store_zh": "Sunny Side 麵包店（箕面 Q's Mall）",
+   "items": [
+    {
+     "ja": "メロンパン",
+     "zh": "菠蘿麵包",
+     "qty": 1,
+     "price": 210
+    },
+    {
+     "ja": "塩パン",
+     "zh": "鹽可頌麵包",
+     "qty": 1,
+     "price": 200
+    }
+   ],
+   "tax": 32,
+   "total": 442,
+   "tax_free": false,
+   "card": "S",
+   "suica": "W3",
+   "who": "wife",
+   "cat": "food",
+   "notes": "老婆的第三張西瓜卡；食品 8% 外稅"
   }
  ],
  "diaries": {},
@@ -3246,6 +3275,11 @@
    {
     "k": "W2",
     "n": "老婆的另一張西瓜卡",
+    "who": "wife"
+   },
+   {
+    "k": "W3",
+    "n": "老婆的第三張西瓜卡",
     "who": "wife"
    }
   ],
@@ -3319,6 +3353,13 @@
     "time": "11:44",
     "bal": 17700,
     "src": "錢包截圖"
+   },
+   {
+    "c": "W3",
+    "day": "D6",
+    "time": "14:48",
+    "bal": 19558,
+    "src": "Sunny Side 收據"
    }
   ]
  }
