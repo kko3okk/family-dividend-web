@@ -3536,8 +3536,8 @@
    "id": "r20261022-1922-kuji-esther",
    "day": "D6",
    "time": "19:22",
-   "store": "フリューくじ Esther Bunny Cake Dreams",
-   "store_zh": "一番賞：Esther Bunny 蛋糕夢想",
+   "store": "BOOKOFF PLUS なんば戎橋店",
+   "store_zh": "BOOKOFF PLUS 難波戎橋店 一番賞：Esther Bunny 蛋糕夢想（第 1 次 2 抽）",
    "items": [
     {
      "ja": "フリューくじ ESTHER BUNNY Cake Dreams（G賞 シールセット #4・#2）",
@@ -3554,6 +3554,29 @@
    "cat": "play",
    "notes": "老婆的第三張西瓜卡",
    "suica": "W3"
+  },
+  {
+   "id": "r20261022-1923-kuji-esther2",
+   "day": "D6",
+   "time": "19:23",
+   "store": "BOOKOFF PLUS なんば戎橋店",
+   "store_zh": "BOOKOFF PLUS 難波戎橋店 一番賞：Esther Bunny 蛋糕夢想（再抽 4 次）",
+   "items": [
+    {
+     "ja": "フリューくじ エスターバニー Cake Dreams",
+     "zh": "一番賞 Esther Bunny 蛋糕夢想",
+     "qty": 4,
+     "price": 790
+    }
+   ],
+   "tax": 287,
+   "total": 3160,
+   "tax_free": false,
+   "card": "S",
+   "suica": "W3",
+   "who": "wife",
+   "cat": "play",
+   "notes": "老婆的第三張西瓜卡；內含 10% 稅"
   }
  ],
  "diaries": {},
