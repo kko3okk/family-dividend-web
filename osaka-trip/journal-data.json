@@ -3611,6 +3611,28 @@
    "who": "wife",
    "cat": "food",
    "notes": "老婆的 PayPay；可以用 PayPay（不是只收現金）"
+  },
+  {
+   "id": "r20261022-2034-shinsaibashisand",
+   "day": "D6",
+   "time": "20:34",
+   "store": "1971 心斎橋 サンド",
+   "store_zh": "心齋橋 Sand（炸豬排三明治）",
+   "items": [
+    {
+     "ja": "ポーク塩カツサンド",
+     "zh": "鹽味炸豬排三明治",
+     "qty": 1,
+     "price": 1300
+    }
+   ],
+   "tax": 96,
+   "total": 1300,
+   "tax_free": false,
+   "card": "K",
+   "who": "wife",
+   "cat": "food",
+   "notes": "老婆的熊本熊卡；外帶 8%"
   }
  ],
  "diaries": {},
