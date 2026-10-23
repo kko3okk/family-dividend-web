@@ -4492,6 +4492,28 @@
    "who": "wife",
    "cat": "food",
    "notes": "老婆的西瓜卡（推定第三張 …1058）；食券每張印兩聯，判斷為 2 張票"
+  },
+  {
+   "id": "r20261023-2150-biccamera",
+   "day": "D7",
+   "time": "21:50",
+   "store": "ビックカメラ なんば店",
+   "store_zh": "BIC CAMERA 難波店（Lorcana 卡牌）",
+   "items": [
+    {
+     "ja": "ロルカナ ブースター（32パック）",
+     "zh": "Lorcana 補充包 32 包（2 盒，未知なる彼方へ／Hyperia City）",
+     "qty": 32,
+     "price": 279
+    }
+   ],
+   "tax": 0,
+   "total": 8928,
+   "tax_free": true,
+   "card": "K",
+   "who": "wife",
+   "cat": "shop",
+   "notes": "老婆的熊本熊卡（JCB）；免稅 ¥300×32＝¥9,600，觀光客優惠券 7% −¥672；33 點（含購物袋？）"
   }
  ],
  "diaries": {},
