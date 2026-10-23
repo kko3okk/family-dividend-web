@@ -3823,6 +3823,29 @@
    "who": "me",
    "cat": "play",
    "notes": "現金；開到哪款待確認"
+  },
+  {
+   "id": "r20261023-1043-water",
+   "day": "D7",
+   "time": "10:43",
+   "store": "自動販売機",
+   "store_zh": "飲料（水）",
+   "items": [
+    {
+     "ja": "水",
+     "zh": "瓶裝水",
+     "qty": 1,
+     "price": 140
+    }
+   ],
+   "tax": null,
+   "total": 140,
+   "tax_free": false,
+   "card": "S",
+   "suica": "A",
+   "who": "me",
+   "cat": "food",
+   "notes": "西瓜卡（推定我的 A 卡）"
   }
  ],
  "diaries": {},
