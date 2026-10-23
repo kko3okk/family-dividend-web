@@ -3936,6 +3936,75 @@
    "who": "wife",
    "cat": "shop",
    "notes": "老婆的第三張西瓜卡（…1058）；免稅 ¥5,530（省 ¥553）"
+  },
+  {
+   "id": "r20261022-1420-bus-down",
+   "day": "D6",
+   "time": "14:20",
+   "store": "阪急バス 勝尾寺→箕面萱野",
+   "store_zh": "阪急巴士 勝尾寺 → 箕面萱野（下山）",
+   "items": [
+    {
+     "ja": "阪急バス 勝尾寺→箕面萱野",
+     "zh": "阪急巴士 勝尾寺 → 箕面萱野（下山）",
+     "qty": 1,
+     "price": 800
+    }
+   ],
+   "tax": null,
+   "total": 800,
+   "tax_free": false,
+   "card": "S",
+   "suica": "B",
+   "who": "me",
+   "cat": "trans",
+   "notes": "我的西瓜卡 B（錢包紀錄補記，時間約略）"
+  },
+  {
+   "id": "r20261022-1830-metro-back",
+   "day": "D6",
+   "time": "18:30",
+   "store": "北大阪急行・御堂筋線 箕面萱野→なんば",
+   "store_zh": "地鐵 箕面萱野 → 難波",
+   "items": [
+    {
+     "ja": "北大阪急行・御堂筋線 箕面萱野→なんば",
+     "zh": "地鐵 箕面萱野 → 難波",
+     "qty": 1,
+     "price": 530
+    }
+   ],
+   "tax": null,
+   "total": 530,
+   "tax_free": false,
+   "card": "S",
+   "suica": "B",
+   "who": "me",
+   "cat": "trans",
+   "notes": "我的西瓜卡 B（錢包紀錄補記，時間約略）"
+  },
+  {
+   "id": "r20261023-1000-metro-umeda",
+   "day": "D7",
+   "time": "10:00",
+   "store": "御堂筋線 心斎橋→梅田",
+   "store_zh": "地鐵 心齋橋 → 梅田",
+   "items": [
+    {
+     "ja": "御堂筋線 心斎橋→梅田",
+     "zh": "地鐵 心齋橋 → 梅田",
+     "qty": 1,
+     "price": 240
+    }
+   ],
+   "tax": null,
+   "total": 240,
+   "tax_free": false,
+   "card": "S",
+   "suica": "B",
+   "who": "me",
+   "cat": "trans",
+   "notes": "我的西瓜卡 B（錢包紀錄補記，時間約略）"
   }
  ],
  "diaries": {},
@@ -4065,6 +4134,13 @@
     "time": "14:01",
     "bal": 9417,
     "src": "KoKuMiN 收據"
+   },
+   {
+    "c": "B",
+    "day": "D7",
+    "time": "14:07",
+    "bal": 16130,
+    "src": "錢包截圖（處理中那筆未扣）"
    }
   ]
  }
