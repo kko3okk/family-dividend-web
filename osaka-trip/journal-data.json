@@ -580,6 +580,21 @@
    ],
    "note": "午餐 ¥1,200／人，追加和牛 60g ¥700",
    "pimg": "trips/osaka2026/journal/m20261023-1312-shabuzen.jpg"
+  },
+  {
+   "id": "m20261023-2237-mariokart",
+   "day": "D7",
+   "time": "22:37",
+   "title": "最後一晚：瑪利歐賽車對決",
+   "summary": "大阪最後一晚在遊樂場玩了兩場《瑪利歐賽車 Arcade GP DX》（南夢宮賽道），機台會拍照把臉放進角色裡。這場一人戴瑪利歐帽拿下第 1 名、喊「勝ち～！」，另一人扮碧姬公主拿第 2 名，一臉不甘心。",
+   "place": "心齋橋・難波 遊樂場",
+   "ja": [
+    "マリオカート アーケードグランプリDX",
+    "ナムコサーキット",
+    "勝ち～！"
+   ],
+   "note": "¥600 兩場（現金）",
+   "pimg": "trips/osaka2026/journal/m20261023-2237-mariokart.jpg"
   }
  ],
  "receipts": [
@@ -4536,6 +4551,28 @@
    "who": "me",
    "cat": "play",
    "notes": "現金；¥200＋¥700"
+  },
+  {
+   "id": "r20261023-2237-mariokart",
+   "day": "D7",
+   "time": "22:37",
+   "store": "マリオカート アーケードグランプリDX",
+   "store_zh": "瑪利歐賽車 Arcade GP DX（遊戲機台）",
+   "items": [
+    {
+     "ja": "マリオカート アーケードグランプリDX",
+     "zh": "瑪利歐賽車機台",
+     "qty": 2,
+     "price": 300
+    }
+   ],
+   "tax": null,
+   "total": 600,
+   "tax_free": false,
+   "card": "C",
+   "who": "me",
+   "cat": "play",
+   "notes": "現金；玩兩場"
   }
  ],
  "diaries": {},
