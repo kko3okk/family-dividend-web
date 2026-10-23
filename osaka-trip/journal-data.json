@@ -4259,6 +4259,35 @@
    "who": "wife",
    "cat": "shop",
    "notes": "老婆的西瓜卡（推定第三張 …1058）；28 點，零食 8%"
+  },
+  {
+   "id": "r20261023-1753-crossstore",
+   "day": "D7",
+   "time": "17:53",
+   "store": "BANDAI NAMCO Cross Store 心斎橋PARCO 5F",
+   "store_zh": "萬代南夢宮 Cross Store 心齋橋 PARCO 5F",
+   "items": [
+    {
+     "ja": "一番くじ ドラゴンボール SPIRIT OF THE SAIYANS",
+     "zh": "一番賞 七龍珠 SPIRIT OF THE SAIYANS",
+     "qty": 2,
+     "price": 790
+    },
+    {
+     "ja": "葬送のフリーレン カードソフトクッキー",
+     "zh": "芙莉蓮 卡片＋軟餅乾",
+     "qty": 2,
+     "price": 198
+    }
+   ],
+   "tax": 179,
+   "total": 1976,
+   "tax_free": false,
+   "card": "S",
+   "suica": "A",
+   "who": "me",
+   "cat": "shop",
+   "notes": "電子マネー（推定我的西瓜卡 A，待確認）"
   }
  ],
  "diaries": {},
