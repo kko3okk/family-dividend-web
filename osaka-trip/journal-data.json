@@ -4434,6 +4434,29 @@
    "who": "me",
    "cat": "shop",
    "notes": "我的熊本熊卡（JCB）；全品 6% 折扣 −¥1,227＋免稅 −¥2,693；共 20 點"
+  },
+  {
+   "id": "r20261023-1925-cremia",
+   "day": "D7",
+   "time": "19:25",
+   "store": "CREMIA（心斎橋）",
+   "store_zh": "CREMIA 霜淇淋（抹茶＋牛奶）",
+   "items": [
+    {
+     "ja": "クレミア ソフトクリーム",
+     "zh": "CREMIA 霜淇淋（抹茶綜合）",
+     "qty": 1,
+     "price": 690
+    }
+   ],
+   "tax": null,
+   "total": 690,
+   "tax_free": false,
+   "card": "S",
+   "suica": "W3",
+   "who": "wife",
+   "cat": "food",
+   "notes": "老婆的西瓜卡（推定第三張 …1058）"
   }
  ],
  "diaries": {},
