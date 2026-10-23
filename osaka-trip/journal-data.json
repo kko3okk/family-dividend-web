@@ -4439,24 +4439,30 @@
    "id": "r20261023-1925-cremia",
    "day": "D7",
    "time": "19:25",
-   "store": "CREMIA（心斎橋）",
-   "store_zh": "CREMIA 霜淇淋（抹茶＋牛奶）",
+   "store": "EXCELSIOR CAFFÉ（心斎橋）",
+   "store_zh": "EXCELSIOR CAFFÉ（CREMIA 抹茶霜淇淋＋拿鐵）",
    "items": [
     {
-     "ja": "クレミア ソフトクリーム",
-     "zh": "CREMIA 霜淇淋（抹茶綜合）",
+     "ja": "CREMIA the Matcha 抹茶クレミアミックス",
+     "zh": "CREMIA 抹茶綜合霜淇淋",
      "qty": 1,
      "price": 690
+    },
+    {
+     "ja": "カフェラテ R",
+     "zh": "拿鐵（R）",
+     "qty": 1,
+     "price": 500
     }
    ],
    "tax": null,
-   "total": 690,
+   "total": 1190,
    "tax_free": false,
    "card": "S",
    "suica": "W3",
    "who": "wife",
    "cat": "food",
-   "notes": "老婆的西瓜卡（推定第三張 …1058）"
+   "notes": "老婆的西瓜卡（推定第三張 …1058）；拿鐵付款方式未說，先一起記"
   }
  ],
  "diaries": {},
