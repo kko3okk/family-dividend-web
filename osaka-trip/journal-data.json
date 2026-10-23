@@ -4541,16 +4541,16 @@
      "ja": "クレーンゲーム",
      "zh": "夾娃娃",
      "qty": 1,
-     "price": 900
+     "price": 1300
     }
    ],
    "tax": null,
-   "total": 900,
+   "total": 1300,
    "tax_free": false,
    "card": "C",
    "who": "me",
    "cat": "play",
-   "notes": "現金；¥200＋¥700"
+   "notes": "現金；¥200＋¥700＋¥400"
   },
   {
    "id": "r20261023-2237-mariokart",
