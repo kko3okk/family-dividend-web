@@ -4288,6 +4288,52 @@
    "who": "me",
    "cat": "shop",
    "notes": "電子マネー（推定我的西瓜卡 A，待確認）"
+  },
+  {
+   "id": "r20261023-1812-anibirth",
+   "day": "D7",
+   "time": "18:12",
+   "store": "AniBirth 心斎橋PARCO店",
+   "store_zh": "AniBirth 心齋橋 PARCO 6F（小魔女 DoReMi 飾品）",
+   "items": [
+    {
+     "ja": "おジャ魔女どれみ Magical Jewelry コロンタップ イヤリング",
+     "zh": "DoReMi 魔法飾品 Colon Tap 耳環",
+     "qty": 1,
+     "price": 3300
+    },
+    {
+     "ja": "おジャ魔女どれみ Magical Jewelry リズムタップ イヤリング",
+     "zh": "DoReMi 魔法飾品 Rhythm Tap 耳環",
+     "qty": 1,
+     "price": 3300
+    },
+    {
+     "ja": "おジャ魔女どれみ Magical Jewelry 見習いタップ ネックレス",
+     "zh": "DoReMi 魔法飾品 見習 Tap 項鍊",
+     "qty": 1,
+     "price": 3080
+    },
+    {
+     "ja": "おジャ魔女どれみ Magical Jewelry パララタップ リング",
+     "zh": "DoReMi 魔法飾品 Parara Tap 戒指",
+     "qty": 1,
+     "price": 2530
+    },
+    {
+     "ja": "おジャ魔女どれみ Magical Jewelry コロンタップ リング",
+     "zh": "DoReMi 魔法飾品 Colon Tap 戒指",
+     "qty": 1,
+     "price": 2530
+    }
+   ],
+   "tax": 0,
+   "total": 13400,
+   "tax_free": true,
+   "card": "K",
+   "who": "wife",
+   "cat": "shop",
+   "notes": "老婆的熊本熊卡；免稅（含稅 ¥14,740，免稅省 ¥1,340）"
   }
  ],
  "diaries": {},
