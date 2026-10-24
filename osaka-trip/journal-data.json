@@ -5049,10 +5049,11 @@
   },
   {
    "id": "pp-usj2",
-   "name": "USJ 1 日券（學生優惠＋能量手環兌換）",
-   "cat": "sight",
+   "name": "USJ 能量手環兌換券（學生優惠方案）",
+   "cat": "play",
    "amount": 470,
-   "cur": "TWD"
+   "cur": "TWD",
+   "note": "買來換能量手環用"
   },
   {
    "id": "pp-lounge",
