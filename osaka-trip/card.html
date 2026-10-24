@@ -132,9 +132,12 @@ details.grp[open]>summary::after{transform:rotate(180deg)}
     var bar=segs?segs.map(function(s){return '<i style="width:'+(s[0]/max*100)+'%;background:'+s[1]+'"></i>';}).join(''):'';
     return '<div class="ss-row"><span class="lb">'+esc(lb)+'</span><span class="bar">'+bar+'</span><span class="v">'+y(v)+(extra?'<small>'+extra+'</small>':'')+'</span></div>';
   }
-  fetch('journal-data.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.json();}).then(function(j){
+  var hint=function(t){document.getElementById('ssHint').textContent=t;}, done=false;
+  function load(tries){
+  var ctl=window.AbortController?new AbortController():null, to=setTimeout(function(){ if(ctl) ctl.abort(); },8000);
+  fetch('journal-data.json?t='+Date.now(),{cache:'no-store',signal:ctl?ctl.signal:undefined}).then(function(r){clearTimeout(to); if(!r.ok) throw new Error('HTTP '+r.status); return r.json();}).then(function(j){ try{
     var R=(j.receipts||[]).filter(function(r){return +r.total>0;});
-    if(!R.length){document.getElementById('ssHint').textContent='手帳還沒有收據';return;}
+    if(!R.length){hint('手帳還沒有收據');done=true;return;}
     var tot=0,tf=0,who={},pay={},cat={},day={},cross={};
     R.forEach(function(r){
       var t=+r.total,w=r.who==='wife'?'wife':'me',p=r.card||'U',c=CAT.some(function(x){return x[0]===r.cat;})?r.cat:'other';
@@ -178,7 +181,11 @@ details.grp[open]>summary::after{transform:rotate(180deg)}
     document.getElementById('ssHint').textContent=y(tot)+'・'+R.length+' 筆';
     var now=new Date(Date.now()+9*3600e3).toISOString().slice(0,10);
     if(end && now>=end) box.open=true;
-  }).catch(function(){document.getElementById('ssHint').textContent='讀不到手帳資料';});
+    done=true;
+  }catch(e){ hint('計算出錯：'+e.message); } }).catch(function(e){ clearTimeout(to); if(tries<2){ hint('重試中…'); load(tries+1); } else hint('讀不到手帳資料（'+(e&&e.name==='AbortError'?'逾時':(e&&e.message||'網路'))+'），點這裡重試'); });
+  }
+  load(0);
+  box.querySelector('summary').addEventListener('click',function(){ if(!done && /重試|出錯/.test(document.getElementById('ssHint').textContent)){ hint('讀取中…'); load(0); } });
 })();
 </script>
 <!--SPEND:END-->
