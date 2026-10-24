@@ -119,3 +119,4 @@ Claude 依這份規則處理，把結果寫進這趟資料夾的 `journal-data.j
 - 打勾由網頁同步（私有庫 `trips/<趟>/pack-ticks.json`），不要手改。
 
 - **消費總結**：刷卡頁最上面的「🧾 旅程消費總結」直接讀 `journal-data.json` 的收據，依「誰付的／用什麼付／消費類型／每天」統計；`card.html` 的 `#spendSum` 要把 `data-end` 設成回程日（YYYY-MM-DD），當天起自動展開；`data-fx` 是粗估匯率。
+- **出發前預付**：`journal-data.json` 的 `prepaid` 陣列（id／name／cat／amount／cur＝TWD 或 JPY／note，可選 who／card），刷卡頁消費總結會列出並算「整趟合計（台幣）」。只寫金額和品名，**不要寫訂單編號、姓名、電話、車牌**。

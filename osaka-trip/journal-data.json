@@ -5010,5 +5010,79 @@
     "src": "錢包截圖（最終）"
    }
   ]
- }
+ },
+ "prepaid": [
+  {
+   "id": "pp-flight",
+   "name": "來回機票（華航 CI152／CI153，2 人）",
+   "cat": "trans",
+   "amount": 28058,
+   "cur": "TWD"
+  },
+  {
+   "id": "pp-fresa1",
+   "name": "相鐵 FRESA INN 心齋橋 10/17–19（2 晚）",
+   "cat": "stay",
+   "amount": 6682,
+   "cur": "TWD"
+  },
+  {
+   "id": "pp-hup",
+   "name": "Hotel Universal Port 10/19–21（2 晚，Agoda）",
+   "cat": "stay",
+   "amount": 45271,
+   "cur": "JPY"
+  },
+  {
+   "id": "pp-fresa2",
+   "name": "相鐵 FRESA INN 心齋橋 10/21–24（3 晚）",
+   "cat": "stay",
+   "amount": 7405,
+   "cur": "TWD"
+  },
+  {
+   "id": "pp-usj",
+   "name": "USJ 官網：生日 1 日券＋快速通關 4＋驚魂夜特別觀賞區（2 人）",
+   "cat": "sight",
+   "amount": 64600,
+   "cur": "JPY"
+  },
+  {
+   "id": "pp-usj2",
+   "name": "USJ 1 日券（學生優惠＋能量手環兌換）",
+   "cat": "sight",
+   "amount": 470,
+   "cur": "TWD"
+  },
+  {
+   "id": "pp-lounge",
+   "name": "桃園機場 T2 東方宇逸貴賓室",
+   "cat": "other",
+   "amount": 419,
+   "cur": "TWD"
+  },
+  {
+   "id": "pp-tpe-out",
+   "name": "去程 桃園機場接送",
+   "cat": "trans",
+   "amount": 0,
+   "cur": "TWD",
+   "note": "銀行免費權益"
+  },
+  {
+   "id": "pp-kix",
+   "name": "回程 飯店 → 關西機場 送機",
+   "cat": "trans",
+   "amount": 2125,
+   "cur": "TWD"
+  },
+  {
+   "id": "pp-tpe-in",
+   "name": "回程 桃園機場接機",
+   "cat": "trans",
+   "amount": 200,
+   "cur": "TWD",
+   "note": "LINE Pay"
+  }
+ ]
 }

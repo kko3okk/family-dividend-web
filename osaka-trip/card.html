@@ -160,7 +160,20 @@ details.grp[open]>summary::after{transform:rotate(180deg)}
     h+='<h4>📋 誰 × 用什麼付</h4><div style="overflow-x:auto"><table><tr><th>付款方式</th><th>我</th><th>老婆</th><th>合計</th></tr>';
     P.forEach(function(k){ h+='<tr><td>'+esc(CN[k]||k)+'</td><td>'+(pay[k].me?y(pay[k].me):'—')+'</td><td>'+(pay[k].wife?y(pay[k].wife):'—')+'</td><td><b>'+y(sum(pay[k]))+'</b></td></tr>'; });
     h+='<tr><td><b>合計</b></td><td><b>'+y(who.me||0)+'</b></td><td><b>'+y(who.wife||0)+'</b></td><td><b>'+y(tot)+'</b></td></tr></table></div>';
-    h+='<div class="note">只算手帳裡的收據（Claude 整理的 ＋ 手帳上拍的），不含出發前預付的機票、住宿、USJ 門票、送機車。台幣是用 '+fx+' 粗估，實際以信用卡帳單為準。</div>';
+    var PP=(j.prepaid||[]);
+    if(PP.length){
+      var ntd=function(p){return p.cur==='JPY'?p.amount*fx:p.amount;}, ppt=0, ppc={};
+      PP.forEach(function(p){ppt+=ntd(p);ppc[p.cat]=(ppc[p.cat]||0)+ntd(p);});
+      var trip=tot*fx, all=trip+ppt;
+      h+='<h4>✈️ 出發前預付</h4><div style="overflow-x:auto"><table><tr><th>項目</th><th>金額</th><th>≈台幣</th></tr>';
+      PP.forEach(function(p){ h+='<tr><td>'+esc(p.name)+(p.note?'<br><small style="color:#8A7150">'+esc(p.note)+'</small>':'')+(p.who||p.card?'<br><small style="color:#8A7150">'+esc([p.who?WHO[p.who]:'',p.card?(CN[p.card]||p.card):''].filter(Boolean).join('・'))+'</small>':'')+'</td><td>'+(p.cur==='JPY'?y(p.amount):'NT$'+Math.round(p.amount).toLocaleString('en-US'))+'</td><td>NT$'+Math.round(ntd(p)).toLocaleString('en-US')+'</td></tr>'; });
+      h+='<tr><td><b>預付合計</b></td><td></td><td><b>NT$'+Math.round(ppt).toLocaleString('en-US')+'</b></td></tr></table></div>';
+      h+='<h4>💰 整趟合計（台幣）</h4>';
+      h+=row('出發前預付',ppt,all,[[ppt,'#A16207']],'NT$'+Math.round(ppt).toLocaleString('en-US')).replace(/¥[\d,]+<small>/,'<small>');
+      h+=row('旅途中消費',trip,all,[[trip,'#16A34A']],'NT$'+Math.round(trip).toLocaleString('en-US')).replace(/¥[\d,]+<small>/,'<small>');
+      h+='<div class="ss-tot" style="margin-top:8px"><div><b>NT$'+Math.round(all).toLocaleString('en-US')+'</b><span>整趟合計（2 人）</span></div><div><b>NT$'+Math.round(all/2).toLocaleString('en-US')+'</b><span>平均每人</span></div></div>';
+    }
+    h+='<div class="note">上面「誰付的／用什麼付／類型／每天」只算手帳裡的收據；出發前預付的機票、住宿、USJ 門票、接送另外列在「出發前預付」。日圓換台幣用 '+fx+' 粗估，實際以信用卡帳單為準。</div>';
     document.getElementById('ssBody').innerHTML=h;
     document.getElementById('ssHint').textContent=y(tot)+'・'+R.length+' 筆';
     var now=new Date(Date.now()+9*3600e3).toISOString().slice(0,10);
