@@ -94,6 +94,82 @@ details.grp[open]>summary::after{transform:rotate(180deg)}
   <a href="card.html" class="on">💳 刷卡</a><a href="journal.html">📸 手帳</a>
 </nav>
 <h1>刷卡攻略</h1>
+<!--SPEND:BEGIN 旅程消費總結（讀 journal-data.json；旅程結束後自動展開） -->
+<style>
+.ss{margin:12px 0 18px;background:#fff;border-radius:14px;box-shadow:0 1px 4px rgba(93,55,19,.12);overflow:hidden}
+.ss>summary{list-style:none;cursor:pointer;padding:12px 14px;font-weight:700;color:#5D3713;display:flex;justify-content:space-between;align-items:center}
+.ss>summary::-webkit-details-marker{display:none}
+.ss>summary small{font-weight:400;color:#8A7150;font-size:12px}
+.ssb{padding:0 14px 14px}
+.ss-tot{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 10px}
+.ss-tot div{flex:1 1 30%;min-width:96px;background:#FBF3DA;border-radius:10px;padding:8px 10px}
+.ss-tot b{display:block;font-size:18px;color:#3E2A12}.ss-tot span{font-size:11.5px;color:#8A7150}
+.ss h4{margin:14px 0 6px;font-size:13.5px;color:#5D3713}
+.ss-row{display:grid;grid-template-columns:7.5em 1fr auto;gap:8px;align-items:center;font-size:13px;margin:5px 0}
+.ss-row .lb{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ss-row .bar{height:10px;background:#F3EAD3;border-radius:6px;overflow:hidden;display:flex}
+.ss-row .bar i{display:block;height:100%}
+.ss-row .v{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ss-row .v small{color:#8A7150;margin-left:4px}
+.ss-leg{font-size:11.5px;color:#8A7150;margin:2px 0 4px}.ss-leg i{display:inline-block;width:9px;height:9px;border-radius:2px;margin:0 3px 0 8px;vertical-align:-1px}
+.ss table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:4px}
+.ss th,.ss td{padding:5px 4px;border-bottom:1px solid #F3EAD3;text-align:right;font-variant-numeric:tabular-nums}
+.ss th:first-child,.ss td:first-child{text-align:left}
+.ss .note{font-size:11.5px;color:#8A7150;margin-top:10px;line-height:1.6}
+</style>
+<details class="ss" id="spendSum" data-end="2026-10-24" data-fx="0.209"><summary><span>🧾 旅程消費總結</span><small id="ssHint">讀取中…</small></summary><div class="ssb" id="ssBody"></div></details>
+<script>
+(function(){
+  var box=document.getElementById('spendSum'); if(!box) return;
+  var CN={K:'熊本熊卡',U:'uniopen',KP:'PayPay',J:'吉鶴 Apple Pay',W:'老婆 JCB',CUBE:'CUBE',S:'西瓜卡 Suica',C:'現金'};
+  var CC={K:'#1F2937',U:'#EA580C',KP:'#E11D48',J:'#0F766E',W:'#7C3AED',CUBE:'#0369A1',S:'#16A34A',C:'#6B7280'};
+  var CAT=[['shop','🛍️ 購物'],['food','🍜 餐飲'],['play','🎮 遊樂扭蛋'],['conv','🏪 超商超市'],['trans','🚇 交通'],['sight','⛩️ 景點門票'],['stay','🏨 住宿'],['other','🧾 其他']];
+  var WHO={me:'我',wife:'老婆'}, WC={me:'#2563EB',wife:'#DB2777'};
+  var fx=+box.dataset.fx||0.209, end=box.dataset.end;
+  var y=function(n){return '¥'+Math.round(n).toLocaleString('en-US');}, nt=function(n){return 'NT$'+Math.round(n*fx).toLocaleString('en-US');};
+  var esc=function(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
+  function row(lb,v,max,segs,extra){
+    var bar=segs?segs.map(function(s){return '<i style="width:'+(s[0]/max*100)+'%;background:'+s[1]+'"></i>';}).join(''):'';
+    return '<div class="ss-row"><span class="lb">'+esc(lb)+'</span><span class="bar">'+bar+'</span><span class="v">'+y(v)+(extra?'<small>'+extra+'</small>':'')+'</span></div>';
+  }
+  fetch('journal-data.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.json();}).then(function(j){
+    var R=(j.receipts||[]).filter(function(r){return +r.total>0;});
+    if(!R.length){document.getElementById('ssHint').textContent='手帳還沒有收據';return;}
+    var tot=0,tf=0,who={},pay={},cat={},day={},cross={};
+    R.forEach(function(r){
+      var t=+r.total,w=r.who==='wife'?'wife':'me',p=r.card||'U',c=CAT.some(function(x){return x[0]===r.cat;})?r.cat:'other';
+      tot+=t; if(r.tax_free) tf+=t;
+      who[w]=(who[w]||0)+t; pay[p]=pay[p]||{me:0,wife:0}; pay[p][w]+=t;
+      cat[c]=cat[c]||{me:0,wife:0}; cat[c][w]+=t; day[r.day]=day[r.day]||{me:0,wife:0}; day[r.day][w]+=t;
+      cross[w]=cross[w]||{}; cross[w][p]=(cross[w][p]||0)+t;
+    });
+    var sum=function(o){return o.me+o.wife;};
+    var h='<div class="ss-tot"><div><b>'+y(tot)+'</b><span>≈ '+nt(tot)+'（匯率 '+fx+'）</span></div><div><b>'+R.length+' 筆</b><span>手帳收據</span></div><div><b>'+y(tf)+'</b><span>免稅購物</span></div></div>';
+    h+='<h4>💰 誰付的</h4>';
+    ['me','wife'].forEach(function(w){ if(who[w]) h+=row(WHO[w],who[w],tot,[[who[w],WC[w]]],Math.round(who[w]/tot*100)+'%'); });
+    var leg='<div class="ss-leg"><i style="background:'+WC.me+'"></i>我<i style="background:'+WC.wife+'"></i>老婆</div>';
+    var P=Object.keys(pay).sort(function(a,b){return sum(pay[b])-sum(pay[a]);}), pm=sum(pay[P[0]]);
+    h+='<h4>💳 用什麼付</h4>'+leg;
+    P.forEach(function(k){ h+=row(CN[k]||k,sum(pay[k]),pm,[[pay[k].me,WC.me],[pay[k].wife,WC.wife]],Math.round(sum(pay[k])/tot*100)+'%'); });
+    var C=CAT.filter(function(c){return cat[c[0]];}).sort(function(a,b){return sum(cat[b[0]])-sum(cat[a[0]]);}), cm=sum(cat[C[0][0]]);
+    h+='<h4>🏷️ 消費類型</h4>'+leg;
+    C.forEach(function(c){ h+=row(c[1],sum(cat[c[0]]),cm,[[cat[c[0]].me,WC.me],[cat[c[0]].wife,WC.wife]],Math.round(sum(cat[c[0]])/tot*100)+'%'); });
+    var D=Object.keys(day).sort(), dm=Math.max.apply(null,D.map(function(k){return sum(day[k]);}));
+    h+='<h4>📅 每天</h4>'+leg;
+    D.forEach(function(k){ h+=row(k,sum(day[k]),dm,[[day[k].me,WC.me],[day[k].wife,WC.wife]]); });
+    h+='<h4>📋 誰 × 用什麼付</h4><div style="overflow-x:auto"><table><tr><th>付款方式</th><th>我</th><th>老婆</th><th>合計</th></tr>';
+    P.forEach(function(k){ h+='<tr><td>'+esc(CN[k]||k)+'</td><td>'+(pay[k].me?y(pay[k].me):'—')+'</td><td>'+(pay[k].wife?y(pay[k].wife):'—')+'</td><td><b>'+y(sum(pay[k]))+'</b></td></tr>'; });
+    h+='<tr><td><b>合計</b></td><td><b>'+y(who.me||0)+'</b></td><td><b>'+y(who.wife||0)+'</b></td><td><b>'+y(tot)+'</b></td></tr></table></div>';
+    h+='<div class="note">只算手帳裡的收據（Claude 整理的 ＋ 手帳上拍的），不含出發前預付的機票、住宿、USJ 門票、送機車。台幣是用 '+fx+' 粗估，實際以信用卡帳單為準。</div>';
+    document.getElementById('ssBody').innerHTML=h;
+    document.getElementById('ssHint').textContent=y(tot)+'・'+R.length+' 筆';
+    var now=new Date(Date.now()+9*3600e3).toISOString().slice(0,10);
+    if(end && now>=end) box.open=true;
+  }).catch(function(){document.getElementById('ssHint').textContent='讀不到手帳資料';});
+})();
+</script>
+<!--SPEND:END-->
+
 <div style="margin:10px 0;padding:10px 12px;border-radius:12px;background:#FEF3C7;color:#78350F;font-size:13.5px;line-height:1.6"><b>📱 10/17：uniopen 實體卡沒帶，用 Apple Pay 刷。</b>結帳說「<b>Apple Pay で</b>」或「<b>タッチ決済で</b>」，手機靠近刷卡機（看到 Visa／Mastercard 感應標誌的店才能用）｜<b>不能感應、只收實體卡</b>的店 → 店家收 PayPay 就用玉山 Wallet PayPay（約 5%），不然吉鶴 Apple Pay（4%）｜✅ 中信條款確認：Apple Pay 在實體店感應<b>算海外實體消費</b>，有 11%｜⚠️ 網路付款、掃碼付、餐廳 App 線上結帳不算，要請店員來結帳或到櫃台感應</div>
 <div class="sub">大阪・USJ・京都｜10/17–10/24, 2026｜先看上面兩區就夠：記 4 張卡、每天刷哪張；其他細節收在最下面</div>
 

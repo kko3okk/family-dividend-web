@@ -117,3 +117,5 @@ Claude 依這份規則處理，把結果寫進這趟資料夾的 `journal-data.j
 
 - 使用者說「行李清單加○○」→ 在 `packing.json` 的 `items` 加一筆（`id` 英文小寫不重複、`name`、`cat` 沿用現有類別、`note` 一句提醒、`qty` 數量可省略），推上 GitHub。
 - 打勾由網頁同步（私有庫 `trips/<趟>/pack-ticks.json`），不要手改。
+
+- **消費總結**：刷卡頁最上面的「🧾 旅程消費總結」直接讀 `journal-data.json` 的收據，依「誰付的／用什麼付／消費類型／每天」統計；`card.html` 的 `#spendSum` 要把 `data-end` 設成回程日（YYYY-MM-DD），當天起自動展開；`data-fx` 是粗估匯率。
