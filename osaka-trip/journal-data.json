@@ -4780,6 +4780,28 @@
    "who": "wife",
    "cat": "shop",
    "notes": "老婆的熊本熊卡（JCB）；出境後免稅"
+  },
+  {
+   "id": "r20261024-1340-kixdf-cpb",
+   "day": "D8",
+   "time": "13:40",
+   "store": "KIX DUTY FREE",
+   "store_zh": "關西機場免稅店（資生堂 Clé de Peau Beauté）",
+   "items": [
+    {
+     "ja": "CPB ヴォワールコレクチュール n（サンプル付）",
+     "zh": "肌膚之鑰 光采妝前乳（Voile Correcteur n）",
+     "qty": 1,
+     "price": 7500
+    }
+   ],
+   "tax": 0,
+   "total": 7500,
+   "tax_free": true,
+   "card": "K",
+   "who": "wife",
+   "cat": "shop",
+   "notes": "老婆的熊本熊卡；出境後免稅"
   }
  ],
  "diaries": {},
