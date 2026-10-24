@@ -135,7 +135,9 @@ details.grp[open]>summary::after{transform:rotate(180deg)}
   var hint=function(t){document.getElementById('ssHint').textContent=t;}, done=false;
   function load(tries){
   var ctl=window.AbortController?new AbortController():null, to=setTimeout(function(){ if(ctl) ctl.abort(); },8000);
-  fetch('journal-data.json?t='+Date.now(),{cache:'no-store',signal:ctl?ctl.signal:undefined}).then(function(r){clearTimeout(to); if(!r.ok) throw new Error('HTTP '+r.status); return r.json();}).then(function(j){ try{
+  var opt={cache:'no-store',signal:ctl?ctl.signal:undefined};
+  /* 先讀算好的小檔 spend-summary.json（build-spend-summary.py 產生），沒有才讀整份手帳現算 */
+  fetch('spend-summary.json?t='+Date.now(),opt).then(function(r){ if(r.ok) return r.json(); return fetch('journal-data.json?t='+Date.now(),opt).then(function(r2){ if(!r2.ok) throw new Error('HTTP '+r2.status); return r2.json(); }); }).then(function(j){ clearTimeout(to); try{
     var R=(j.receipts||[]).filter(function(r){return +r.total>0;});
     if(!R.length){hint('手帳還沒有收據');done=true;return;}
     var tot=0,tf=0,who={},pay={},cat={},day={},cross={};
@@ -147,7 +149,8 @@ details.grp[open]>summary::after{transform:rotate(180deg)}
       cross[w]=cross[w]||{}; cross[w][p]=(cross[w][p]||0)+t;
     });
     var sum=function(o){return o.me+o.wife;};
-    var h='<div class="ss-tot"><div><b>'+y(tot)+'</b><span>≈ '+nt(tot)+'（匯率 '+fx+'）</span></div><div><b>'+R.length+' 筆</b><span>手帳收據</span></div><div><b>'+y(tf)+'</b><span>免稅購物</span></div></div>';
+    var N=j.count||R.length;
+    var h='<div class="ss-tot"><div><b>'+y(tot)+'</b><span>≈ '+nt(tot)+'（匯率 '+fx+'）</span></div><div><b>'+N+' 筆</b><span>手帳收據</span></div><div><b>'+y(tf)+'</b><span>免稅購物</span></div></div>';
     h+='<h4>💰 誰付的</h4>';
     ['me','wife'].forEach(function(w){ if(who[w]) h+=row(WHO[w],who[w],tot,[[who[w],WC[w]]],Math.round(who[w]/tot*100)+'%'); });
     var leg='<div class="ss-leg"><i style="background:'+WC.me+'"></i>我<i style="background:'+WC.wife+'"></i>老婆</div>';
@@ -178,7 +181,7 @@ details.grp[open]>summary::after{transform:rotate(180deg)}
     }
     h+='<div class="note">上面「誰付的／用什麼付／類型／每天」只算手帳裡的收據；出發前預付的機票、住宿、USJ 門票、接送另外列在「出發前預付」。日圓換台幣用 '+fx+' 粗估，實際以信用卡帳單為準。</div>';
     document.getElementById('ssBody').innerHTML=h;
-    document.getElementById('ssHint').textContent=y(tot)+'・'+R.length+' 筆';
+    document.getElementById('ssHint').textContent=y(tot)+'・'+N+' 筆';
     var now=new Date(Date.now()+9*3600e3).toISOString().slice(0,10);
     if(end && now>=end) box.open=true;
     done=true;
