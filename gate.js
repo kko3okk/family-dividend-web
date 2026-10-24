@@ -32,36 +32,13 @@
   function markOK(t) { set("gh_token", t); set("authOK", JSON.stringify({ h: hash(t), t: Date.now() })); set("familyDevice", "1"); }
   function markBad() { del("authOK"); del("familyDevice"); try { if (window.caches) caches.delete("trip-private"); } catch (e) {} }
 
-  // 離線版：註冊 sw.js，任何一頁載入後把整個網站先存起來（細節見 sw.js）
-  (function offline() {
-    if (!("serviceWorker" in navigator) || location.protocol !== "https:" && location.hostname !== "localhost") return;
-    var me = document.currentScript && document.currentScript.src;
-    if (!me) return;
-    var base = me.replace(/gate\.js.*$/, "");
-    function toast(t) {
-      var d = document.createElement("div");
-      d.textContent = t;
-      d.style.cssText = "position:fixed;left:50%;top:14px;transform:translateX(-50%);z-index:2147483000;padding:8px 16px;border-radius:999px;" +
-        "background:rgba(60,42,18,.88);color:#fff;font:600 13px/1.3 -apple-system,'PingFang TC',sans-serif;box-shadow:0 6px 18px -8px rgba(0,0,0,.5);pointer-events:none;transition:opacity .4s";
-      document.body.appendChild(d);
-      setTimeout(function () { d.style.opacity = "0"; }, 2600);
-      setTimeout(function () { d.remove(); }, 3100);
-    }
-    window.addEventListener("load", function () {
-      if (!navigator.onLine) { toast("沒有網路：顯示上次存的內容"); }
-      navigator.serviceWorker.register(base + "sw.js", { scope: base }).then(function () {
-        return navigator.serviceWorker.ready;
-      }).then(function (reg) {
-        if (!navigator.onLine || !reg.active) return;
-        var k = "offlineWarmAll", last = +(get(k) || 0), first = !last;
-        if (Date.now() - last < 60 * 60e3) return;
-        var ch = new MessageChannel();
-        ch.port1.onmessage = function (e) {
-          if (e.data && e.data.ok) { set(k, String(Date.now())); if (first) toast("✓ 整個網站已存好離線版"); }
-        };
-        reg.active.postMessage({ type: "warmAll", base: base }, [ch.port2]);
-      }).catch(function () {});
-    });
+  // 離線版已移除（2026-10-24）：把舊的 Service Worker 和快取清掉
+  (function noOffline() {
+    try {
+      if ("serviceWorker" in navigator && navigator.serviceWorker.getRegistrations)
+        navigator.serviceWorker.getRegistrations().then(function (rs) { rs.forEach(function (r) { r.unregister(); }); }).catch(function () {});
+      if (window.caches) caches.keys().then(function (ks) { ks.forEach(function (k) { caches.delete(k); }); }).catch(function () {});
+    } catch (e) {}
   })();
 
   window.__tripAuthOK = verified;

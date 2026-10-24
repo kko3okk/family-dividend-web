@@ -1,7 +1,7 @@
 /* trip-kit/trip.js — 公版共用小工具
    1) 把各頁寫死的深色標籤底色，轉成同色系淺色（文字改深咖啡），配合 みのわ 風格
    2) 頁尾預留空間，避免被「家的旅程」浮動鈕擋住
-   3) 私有圖片按鈕（.pimg）：從私有庫讀圖，只給驗證過的手機看；也會存一份在手機（trip-private 快取），離線照樣能開
+   3) 私有圖片按鈕（.pimg）：從私有庫讀圖，只給驗證過的手機看；需要時才讀（離線版已移除）
    4) 圖文教學視窗：<span class="gdbtn" data-guide="xxx">📖 教學</span> 點開 <template id="guide-xxx"> 的內容 */
 (function(){
   // 全站 emoji → 線條圖示
@@ -97,7 +97,6 @@
     return fetch(PIMG_API+src.split('/').map(encodeURIComponent).join('/'),{headers:{'Authorization':'Bearer '+tok,'Accept':'application/vnd.github.raw'},cache:'no-store'})
       .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.blob(); })
       .then(function(bl){
-        if(window.caches&&window.__tripAuthOK===true) caches.open(PCACHE).then(function(c){ c.put(PKEY+src,new Response(bl,{headers:{'Content-Type':bl.type||'image/png'}})); }).catch(function(){});
         return bl;
       });
   }
@@ -122,6 +121,6 @@
       if(r.indexOf(0)<0) try{ localStorage.setItem(k,String(Date.now())); }catch(err){}
     });
   }
-  function init(){ run(); spacer(); pimgStyle(); if(window.__tripAuthOK===true) document.documentElement.classList.add('trip-auth'); setTimeout(pimgPrefetch,2500); }
+  function init(){ run(); spacer(); pimgStyle(); if(window.__tripAuthOK===true) document.documentElement.classList.add('trip-auth'); }
   if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
 })();

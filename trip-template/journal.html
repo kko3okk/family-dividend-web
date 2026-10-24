@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<script src="../gate.js?v=4"></script>
+<script src="../gate.js?v=5"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#FDF7E1">
@@ -329,8 +329,13 @@ function cloudMoment(m){
 }
 function loadPimgs(box){
   if(window.__tripAuthOK!==true||typeof window.tripPimg!=='function') return;
-  box.querySelectorAll('.jx-pph[data-pimg]').forEach(el=>{const src=el.dataset.pimg;el.removeAttribute('data-pimg');
-    window.tripPimg(src).then(u=>{el.innerHTML='<img class="jx-ph" alt="旅遊照片" src="'+u+'">';}).catch(()=>{});});
+  /* 照片捲到附近才讀，不一次全部下載 */
+  const go=el=>{const src=el.dataset.pimg;if(!src)return;el.removeAttribute('data-pimg');
+    window.tripPimg(src).then(u=>{el.innerHTML='<img class="jx-ph" alt="旅遊照片" src="'+u+'">';}).catch(()=>{});};
+  const els=box.querySelectorAll('.jx-pph[data-pimg]');
+  if(!('IntersectionObserver' in window)){els.forEach(go);return;}
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){io.unobserve(e.target);go(e.target);}}),{rootMargin:'300px'});
+  els.forEach(el=>io.observe(el));
 }
 async function renderJ(){
   const box=$('listJ'); const items=recs.concat(cloud).filter(r=>r.kind==='m'&&r.day===day).sort((a,b)=>b.ts-a.ts);
@@ -490,7 +495,7 @@ openDB().then(async d=>{idb=d;recs=await allRecs();renderAll();loadCloud();if(na
  .catch(()=>{$('statJ').textContent=$('statR').textContent='這個瀏覽器無法儲存照片（可能是無痕模式），請改用一般模式開啟。';loadCloud();});
 })();
 </script>
-<script src="../trip-kit/trip.js?v=14"></script>
+<script src="../trip-kit/trip.js?v=15"></script>
 <script src="../trip-home.js?v=11"></script>
 </body>
 </html>
