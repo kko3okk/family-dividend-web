@@ -4707,6 +4707,34 @@
    "who": "wife",
    "cat": "shop",
    "notes": "老婆的熊本熊卡；機場出境後免稅，16 點；搭 CI153"
+  },
+  {
+   "id": "r20261024-1243-washoku",
+   "day": "D8",
+   "time": "12:43",
+   "store": "和 Washoku 関西空港店（Washoku Food Court）",
+   "store_zh": "關西機場 和食美食街（親子丼＋天丼）",
+   "items": [
+    {
+     "ja": "親子丼",
+     "zh": "親子丼",
+     "qty": 1,
+     "price": 1750
+    },
+    {
+     "ja": "天丼",
+     "zh": "天丼",
+     "qty": 1,
+     "price": 2190
+    }
+   ],
+   "tax": 358,
+   "total": 3940,
+   "tax_free": false,
+   "card": "S",
+   "who": "me",
+   "cat": "food",
+   "notes": "電子マネー（施設端末）付款；哪張西瓜卡待確認"
   }
  ],
  "diaries": {},
