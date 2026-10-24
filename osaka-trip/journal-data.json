@@ -4736,6 +4736,28 @@
    "cat": "food",
    "notes": "我的第三張西瓜卡（…6766）",
    "suica": "S3"
+  },
+  {
+   "id": "r20261024-1248-water",
+   "day": "D8",
+   "time": "12:48",
+   "store": "自動販売機（関西空港）",
+   "store_zh": "機場 自動販賣機",
+   "items": [
+    {
+     "ja": "サントリー天然水 550ml",
+     "zh": "三得利天然水 550ml",
+     "qty": 1,
+     "price": 190
+    }
+   ],
+   "tax": null,
+   "total": 190,
+   "tax_free": false,
+   "card": "C",
+   "who": "me",
+   "cat": "food",
+   "notes": "現金"
   }
  ],
  "diaries": {},
