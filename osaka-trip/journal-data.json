@@ -4825,6 +4825,28 @@
    "who": "me",
    "cat": "trans",
    "notes": "我的西瓜卡 B（錢包紀錄補記，時間約略）"
+  },
+  {
+   "id": "r20261024-1347-kix-fries",
+   "day": "D8",
+   "time": "13:47",
+   "store": "KIX TENANTS（関西空港）",
+   "store_zh": "關西機場 薯條",
+   "items": [
+    {
+     "ja": "ポテト",
+     "zh": "薯條",
+     "qty": 1,
+     "price": 700
+    }
+   ],
+   "tax": null,
+   "total": 700,
+   "tax_free": false,
+   "card": "ANA",
+   "who": "me",
+   "cat": "food",
+   "notes": "ANA Pay（ANA 信用卡）"
   }
  ],
  "diaries": {},

@@ -196,7 +196,7 @@ const TRIP={
 };
 const DAYS=TRIP.days.map((x,i)=>({k:'D'+(i+1),iso:x.iso,p:x.p,d:(+x.iso.slice(5,7))+'/'+(+x.iso.slice(8,10))}));
 const TZS=(TRIP.tz>=0?'+':'-')+String(Math.abs(TRIP.tz)).padStart(2,'0')+':00';
-const CARDS=[['U','uniopen'],['K','熊本熊卡'],['KP','玉山Wallet PayPay'],['J','吉鶴 Apple Pay'],['W','老婆 JCB'],['CUBE','CUBE'],['S','西瓜卡 Suica'],['C','現金']];
+const CARDS=[['U','uniopen'],['K','熊本熊卡'],['KP','玉山Wallet PayPay'],['J','吉鶴 Apple Pay'],['W','老婆 JCB'],['CUBE','CUBE'],['S','西瓜卡 Suica'],['ANA','ANA Pay'],['C','現金']];
 const cardName=k=>(CARDS.find(c=>c[0]===k)||['','未選'])[1];
 /* 收據分類：Claude 寫的 cat 優先，沒有就依店名猜 */
 const CATS=[['food','🍜 餐飲'],['conv','🏪 超商超市'],['shop','🛍️ 購物'],['play','🎮 遊樂扭蛋'],['trans','🚇 交通'],['stay','🏨 住宿'],['sight','⛩️ 景點門票'],['other','🧾 其他']];
