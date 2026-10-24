@@ -4758,6 +4758,28 @@
    "who": "me",
    "cat": "food",
    "notes": "現金"
+  },
+  {
+   "id": "r20261024-1324-kixtok",
+   "day": "D8",
+   "time": "13:24",
+   "store": "TASTE OF KANSAI 関西旅日記",
+   "store_zh": "關西機場 免稅店 TASTE OF KANSAI",
+   "items": [
+    {
+     "ja": "イカ唐揚げせんべい（ラー油）",
+     "zh": "炸魷魚仙貝（辣油）",
+     "qty": 3,
+     "price": 860
+    }
+   ],
+   "tax": 0,
+   "total": 2580,
+   "tax_free": true,
+   "card": "K",
+   "who": "wife",
+   "cat": "shop",
+   "notes": "老婆的熊本熊卡（JCB）；出境後免稅"
   }
  ],
  "diaries": {},
