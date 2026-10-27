@@ -4,5 +4,5 @@ gm 80
 gm 120
 gm 160
 <stdin>:57: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
-PE 1546 PB 1975
+PE 1551 PB 1981
 wrote research/DATA.md 2 names pass Rule12
