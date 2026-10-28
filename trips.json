@@ -2,6 +2,39 @@
   "updated": "2026-10-28",
   "trips": [
     {
+      "id": "taipei2027-pikmin",
+      "title": "台北・皮克敏散步之旅",
+      "place": "台灣 台北",
+      "start": "2027-01-30",
+      "end": "2027-01-31",
+      "people": 2,
+      "path": "taipei2027-trip/",
+      "pages": [
+        {
+          "label": "行程",
+          "href": "index.html",
+          "icon": "list"
+        },
+        {
+          "label": "地圖",
+          "href": "map.html",
+          "icon": "map"
+        }
+      ],
+      "hotels": [
+        "Tango Inn 台北開封"
+      ],
+      "highlights": [
+        "Pikmin Bloom Journey 台北場",
+        "約 7 公里散步路線"
+      ],
+      "days": [
+        "北上 → 皮克敏散步之旅 → 入住",
+        "退房 → 活動第二天 → 回家"
+      ],
+      "color": "#9BC86A"
+    },
+    {
       "id": "tokyo2027-03",
       "title": "東京・PokéPark・賞櫻",
       "place": "日本 東京",

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<script src="../gate.js?v=5"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#FFFCF6">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@400;500;600;700&family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+<title>旅遊地圖｜台北皮克敏 2027</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;background:#f5f4f0;color:#1a1a1a}
+header{padding:4px 16px 6px}
+h1{font-size:16px;font-weight:600}
+.sub{font-size:12px;color:#999;margin-top:2px}
+.bar{display:flex;gap:6px;overflow-x:auto;padding:10px 16px;-webkit-overflow-scrolling:touch}
+.bar::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;font-size:12px;font-weight:600;padding:6px 12px;border-radius:20px;cursor:pointer;
+      border:1.5px solid transparent;background:#fff;color:#666;white-space:nowrap;transition:.15s}
+.chip.on{color:#fff}
+
+nav.pages{display:flex;gap:6px;margin:14px 0 4px}
+nav.pages a{flex:1;text-align:center;font-size:12.5px;white-space:nowrap;font-weight:600;padding:9px 0;border-radius:10px;
+      background:#fff;color:#666;text-decoration:none;border:0.5px solid rgba(0,0,0,.09)}
+nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.legend{padding:0 16px 8px;font-size:11px;color:#999}
+#map{height:calc(100vh - 152px);width:100%}
+.leaflet-popup-content-wrapper{border-radius:12px}
+.leaflet-popup-content{margin:11px 13px;font-size:13px;line-height:1.55;min-width:190px}
+.pp-seq{display:inline-block;font-size:10px;font-weight:700;color:#fff;padding:2px 8px;border-radius:10px;margin-bottom:5px}
+.pp-n{font-size:14px;font-weight:600;margin-bottom:3px}
+.pp-m{font-size:11px;color:#888;line-height:1.5}
+.pp-note{font-size:11px;color:#555;margin-top:5px}
+.pp-a{display:inline-block;margin-top:8px;font-size:11px;font-weight:600;color:#1a6fd4;text-decoration:none}
+.num{width:24px;height:24px;border-radius:50%;border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);
+     display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700}
+.num.bed{border-radius:6px;width:26px;height:26px;font-size:14px}
+.arrow{font-size:14px;line-height:1;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 3px #fff}
+</style>
+<link rel="stylesheet" href="../trip-kit/trip.css?v=2">
+</head>
+<body>
+
+<nav class="pages" style="padding:0 16px"><a href="index.html">📋 行程</a><a href="map.html" class="on">🗺️ 地圖</a><a href="food.html">🍜 美食</a><a href="shopping.html">🛒 清單</a><a href="card.html">💳 刷卡</a><a href="journal.html">📸 手帳</a></nav>
+<header>
+  <h1>旅遊地圖</h1>
+  <div class="sub">【目的地】｜5/1–5/5, 2027</div>
+</header>
+<div class="bar" id="bar"></div>
+<div class="legend">數字＝當天順序　➤＝移動方向　🏨＝住宿　✈️＝機場</div>
+<div id="map"></div>
+
+<script>
+/* ═══ 地點資料（新旅程改這裡）═══
+   每個點：n 名稱、lat/lng 座標（Google 地圖長按可複製）、m 一行資訊、note 備註
+   bed:1＝住宿圖示、air:1＝機場圖示、rail:1＝車站圖示；DAYS 每天一組，c 是當天路線顏色 */
+const HOTEL={n:'Tango Inn 台北開封',lat:25.0459,lng:121.5136,bed:1,m:'1/30–1/31｜16:00 入住、11:00 退房',note:'開封街一段 33 號｜台北車站步行約 5–6 分'};
+const STATION={n:'台北車站',lat:25.0478,lng:121.5170,rail:1,m:'高鐵／台鐵',note:'北上、回家都在這裡上下車'};
+
+const DAYS=[
+{id:'D1',t:'D1 1/30 皮克敏散步之旅',c:'#DEAE0B',stops:[STATION,HOTEL]},
+{id:'D2',t:'D2 1/31 活動第二天・回家',c:'#7FB8C4',stops:[HOTEL,STATION]}
+];
+
+if(!window.L){ document.getElementById('map').innerHTML='<div style="padding:40px 20px;text-align:center;color:#8A6A45;font-size:14px;line-height:1.7">沒有網路，地圖元件還沒存在這支手機。<br>有網路時打開一次地圖頁就會存好；<br>看過的範圍之後離線也能看。</div>'; throw new Error('Leaflet 未載入（離線）'); }
+const map=L.map('map',{zoomControl:false}).setView([DAYS[0].stops[1].lat,DAYS[0].stops[1].lng],12);
+L.control.zoom({position:'bottomright'}).addTo(map);
+// 底圖：OpenStreetMap（免 API key）；載入失敗自動切換備援來源
+const TILES=[
+  {url:'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+   opt:{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}},
+  {url:'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
+   opt:{maxZoom:19,subdomains:'abc',attribution:'&copy; OpenStreetMap France &copy; OpenStreetMap'}}
+];
+let tileIdx=0, tileErr=0, base=L.tileLayer(TILES[0].url,TILES[0].opt).addTo(map);
+function onTileErr(){
+  tileErr++;
+  if(tileErr>=4 && tileIdx<TILES.length-1){
+    map.removeLayer(base); tileIdx++; tileErr=0;
+    base=L.tileLayer(TILES[tileIdx].url,TILES[tileIdx].opt).addTo(map);
+    base.on('tileerror',onTileErr);
+  }
+}
+base.on('tileerror',onTileErr);
+const layer=L.layerGroup().addTo(map);
+
+function bearing(a,b){
+  const R=x=>x*Math.PI/180, D=x=>x*180/Math.PI;
+  const dL=R(b[1]-a[1]);
+  const y=Math.sin(dL)*Math.cos(R(b[0]));
+  const x=Math.cos(R(a[0]))*Math.sin(R(b[0]))-Math.sin(R(a[0]))*Math.cos(R(b[0]))*Math.cos(dL);
+  return (D(Math.atan2(y,x))+360)%360;
+}
+
+function draw(day){
+  layer.clearLayers();
+  const c=day.c;
+  const seq=[]; let last=null;
+  day.stops.forEach(s=>{ const k=s.lat+','+s.lng; if(k!==last){seq.push(s); last=k;} });
+  const pts=seq.map(s=>[s.lat,s.lng]);
+
+  if(pts.length>1){
+    L.polyline(pts,{color:c,weight:3,opacity:.5,dashArray:'7,7'}).addTo(layer);
+    for(let i=0;i<pts.length-1;i++){
+      const mid=[(pts[i][0]+pts[i+1][0])/2,(pts[i][1]+pts[i+1][1])/2];
+      const deg=bearing(pts[i],pts[i+1])-90;
+      L.marker(mid,{interactive:false,icon:L.divIcon({className:'',
+        html:'<div class="arrow" style="color:'+c+';transform:rotate('+deg+'deg)">\u27A4</div>',
+        iconSize:[14,14],iconAnchor:[7,7]})}).addTo(layer);
+    }
+  }
+
+  let n=0;
+  seq.forEach(s=>{
+    const special=s.bed||s.air||s.rail;
+    if(!special) n++;
+    const label=s.bed?'\uD83C\uDFE8':(s.air?'\u2708\uFE0F':(s.rail?'\uD83D\uDE84':n));
+    const icon=L.divIcon({className:'',
+      html:'<div class="num'+(special?' bed':'')+'" style="background:'+c+'">'+label+'</div>',
+      iconSize:[24,24],iconAnchor:[12,12],popupAnchor:[0,-14]});
+    const g='https://www.google.com/maps/search/?api=1&query='+s.lat+','+s.lng;
+    const seqTxt=s.bed?'住宿':(s.air?'機場':(s.rail?'車站':'第 '+n+' 站'));
+    L.marker([s.lat,s.lng],{icon,zIndexOffset:special?1000:0}).bindPopup(
+      '<div><span class="pp-seq" style="background:'+c+'">'+day.t+' \u00B7 '+seqTxt+'</span>'+
+      '<div class="pp-n">'+s.n+'</div><div class="pp-m">'+(s.m||'')+'</div>'+
+      (s.note?'<div class="pp-note">'+s.note+'</div>':'')+
+      '<a class="pp-a" href="'+g+'" target="_blank" rel="noopener">在 Google Maps 開啟 \u2197</a></div>').addTo(layer);
+  });
+  map.fitBounds(L.latLngBounds(pts),{padding:[50,50],maxZoom:16});
+}
+
+const bar=document.getElementById('bar');
+DAYS.forEach((d,idx)=>{
+  const b=document.createElement('button');
+  b.className='chip'; b.textContent=d.t; b.style.borderColor=d.c;
+  b.onclick=()=>{
+    document.querySelectorAll('.chip').forEach(x=>{x.classList.remove('on');x.style.background='#FFFFFF';x.style.color='#3E3A39';});
+    b.classList.add('on'); b.style.background=d.c+'59'; b.style.color='#3E3A39';
+    draw(d);
+  };
+  bar.appendChild(b);
+  if(idx===0) setTimeout(()=>b.click(),0);
+});
+</script>
+<script src="../trip-kit/trip.js?v=15"></script>
+<script src="../trip-home.js?v=11"></script>
+</body>
+</html>

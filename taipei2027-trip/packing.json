@@ -1,0 +1,15 @@
+{
+ "updated": "2026-10-28",
+ "items": [
+  {"id": "phone", "name": "手機＋充電線", "cat": "📱 手機・電子", "note": "兩支都要裝好 Pikmin Bloom、更新到最新版", "qty": "2支"},
+  {"id": "powerbank", "name": "行動電源（充飽）", "cat": "📱 手機・電子", "note": "一路開 GPS 走 7 公里很耗電", "qty": "2個"},
+  {"id": "phonebag", "name": "防水手機袋", "cat": "📱 手機・電子", "note": "下雨也能隔著袋子繼續玩"},
+  {"id": "easycard", "name": "悠遊卡／交通票", "cat": "🛂 證件・錢包", "note": "高鐵或台鐵車票、捷運"},
+  {"id": "id", "name": "身分證", "cat": "🛂 證件・錢包", "note": "飯店入住用"},
+  {"id": "jacket", "name": "防風防水外套", "cat": "👕 衣物", "note": "1 月底台北冷又常下雨"},
+  {"id": "shoes", "name": "穿慣的好走鞋", "cat": "👕 衣物", "note": "別穿新鞋走 7 公里"},
+  {"id": "clothes", "name": "換洗衣物（1 晚）", "cat": "👕 衣物", "note": ""},
+  {"id": "umbrella", "name": "折疊傘／輕便雨衣", "cat": "☔ 雨具", "note": "雨衣比較方便邊走邊滑手機"},
+  {"id": "backpack", "name": "小後背包", "cat": "🎒 包包", "note": "雙手空出來，也裝得下活動紀念品", "qty": "1個"}
+ ]
+}
