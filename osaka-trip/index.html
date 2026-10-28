@@ -201,6 +201,15 @@ nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
 </div>
 
 <div class="daytabs" id="dayTabs"></div>
+<!-- 旅遊心得（旅程結束後） -->
+<div id="review" style="margin-bottom:20px">
+  <div class="section-title">📝 旅遊心得（下次規劃注意）</div>
+  <div class="card">
+    <div class="item"><div class="content"><div class="label">① 航班時間：下午去、下午回，前後少了兩天<span class="tag t-warn">下次改</span></div><div class="note">去程 14:20 起飛，到飯店已經晚上；回程 14:00 起飛，一早就得去機場｜第一天、最後一天幾乎不能玩，8 天實際只玩 6 天<br>👉 <b>下次：早去晚回，回程盡量排「週日晚上」的班次</b></div></div></div>
+    <div class="item"><div class="content"><div class="label">② 逛街時間不夠<span class="tag t-warn">下次改</span></div><div class="note">老婆都沒逛到買衣服的地方，連 Hands 也沒時間好好逛｜中途換飯店（心齋橋 → USJ → 心齋橋）：買了東西再搬行李很累，前後又吃掉幾天購物時間<br>👉 <b>下次：盡量全程住同一間；真的要中途換飯店，要先扣掉搬行李那幾天，另外留完整的購物日（含買衣服）</b></div></div></div>
+  </div>
+</div>
+
 <!-- 出發前 -->
 <div class="section">
   <div class="section-title">✈️ 出發前準備</div>
@@ -732,10 +741,11 @@ refreshCode();
 (function(){
   var bar=document.getElementById('dayTabs'); if(!bar) return;
   var pre=document.querySelector('.section'), days=[].slice.call(document.querySelectorAll('.day-block'));
-  var tabs=[{k:'pre',t:'出發前',d:'清單',els:[pre]}];
+  var rv=document.getElementById('review'); /* 旅遊心得：跟「出發前」「全部」一起顯示 */
+  var tabs=[{k:'pre',t:'出發前',d:'清單',els:rv?[rv,pre]:[pre]}];
   days.forEach(function(b){var badge=b.querySelector('.day-badge').textContent, date=(b.querySelector('.day-date').textContent.match(/\d+\/\d+/)||[''])[0];tabs.push({k:badge,t:badge,d:date,els:[b]});});
-  tabs.push({k:'all',t:'全部',d:'一覽',els:[pre].concat(days)});
-  var all=[pre].concat(days);
+  tabs.push({k:'all',t:'全部',d:'一覽',els:(rv?[rv,pre]:[pre]).concat(days)});
+  var all=(rv?[rv,pre]:[pre]).concat(days);
   function show(k,anim){
     var tab=tabs.filter(function(x){return x.k===k;})[0]||tabs[0];
     all.forEach(function(e){e.style.display=tab.els.indexOf(e)>=0?'':'none';e.classList.remove('bounce');});

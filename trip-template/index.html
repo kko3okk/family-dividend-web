@@ -211,6 +211,14 @@ nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
   <div id="packList" data-trip=""></div>
 </div>
 
+<!-- 旅遊心得（旅程結束後再打開這段，寫「下次規劃注意」；格式同大阪 osaka-trip 的 #review）
+<div id="review" style="margin-bottom:20px">
+  <div class="section-title">📝 旅遊心得（下次規劃注意）</div>
+  <div class="card">
+    <div class="item"><div class="content"><div class="label">① 標題<span class="tag t-warn">下次改</span></div><div class="note">發生什麼事<br>👉 <b>下次怎麼做</b></div></div></div>
+  </div>
+</div>
+-->
 <!-- D1 -->
 <div class="day-block">
   <div class="day-header"><span class="day-badge bo">D1</span><span class="day-title">抵達（純移動）</span><span class="day-date">5/1（六）</span></div>
@@ -542,10 +550,11 @@ refreshCode();
 (function(){
   var bar=document.getElementById('dayTabs'); if(!bar) return;
   var pre=document.querySelector('.section'), days=[].slice.call(document.querySelectorAll('.day-block'));
-  var tabs=[{k:'pre',t:'出發前',d:'清單',els:[pre]}];
+  var rv=document.getElementById('review'); /* 旅遊心得：跟「出發前」「全部」一起顯示 */
+  var tabs=[{k:'pre',t:'出發前',d:'清單',els:rv?[rv,pre]:[pre]}];
   days.forEach(function(b){var badge=b.querySelector('.day-badge').textContent, date=(b.querySelector('.day-date').textContent.match(/\d+\/\d+/)||[''])[0];tabs.push({k:badge,t:badge,d:date,els:[b]});});
-  tabs.push({k:'all',t:'全部',d:'一覽',els:[pre].concat(days)});
-  var all=[pre].concat(days);
+  tabs.push({k:'all',t:'全部',d:'一覽',els:(rv?[rv,pre]:[pre]).concat(days)});
+  var all=(rv?[rv,pre]:[pre]).concat(days);
   function show(k,anim){
     var tab=tabs.filter(function(x){return x.k===k;})[0]||tabs[0];
     all.forEach(function(e){e.style.display=tab.els.indexOf(e)>=0?'':'none';e.classList.remove('bounce');});

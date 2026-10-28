@@ -202,8 +202,8 @@ nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
 <div class="section">
   <div class="section-title">✈️ 出發前準備</div>
   <div class="card">
-    <div class="item" data-k="flight"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">✈️ 訂機票（JAL 優先，早去晚回）<span class="tag t-warn">監控中</span></div><div class="note">去程 3/27（六）越早越好、回程 4/3（六）越晚越好｜每週一、四早上自動回報票價<br>💡 台灣 4/3–4/6 是兒童節＋清明連假：回程延到 4/5、4/6 不用多請假，比較價差再決定<br>💳 機票含稅全額刷<b>滙豐旅人無限卡</b>（兩人都要，才有旅平險與延誤險）</div></div></div>
-    <div class="item" data-k="hotel"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">🏨 訂住宿（太陽城王子大飯店 或 京王 Presso Inn 池袋）<span class="tag t-warn">監控中</span></div><div class="note">3/27–4/3 共 7 晚（若延後回程改到 4/5）｜櫻花季＋日本春假房價高、房間少，<b>看到可免費取消的先訂卡位</b>｜Agoda 先把幣別換成日幣再訂</div></div></div>
+    <div class="item" data-k="flight"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">✈️ 訂機票（JAL 優先，早去晚回）<span class="tag t-warn">監控中</span></div><div class="note">去程 3/27（六）越早越好、回程 4/3（六）越晚越好｜每週一、四早上自動回報票價<br>💡 台灣 4/3–4/6 是兒童節＋清明連假：回程延到 4/5、4/6 不用多請假，比較價差再決定<br>📝 <b>大阪心得</b>：下午去、下午回會少掉兩天，<b>回程盡量排週日晚上</b>（4/4 週日晚班也可以考慮）<br>💳 機票含稅全額刷<b>滙豐旅人無限卡</b>（兩人都要，才有旅平險與延誤險）</div></div></div>
+    <div class="item" data-k="hotel"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">🏨 訂住宿（太陽城王子大飯店 或 京王 Presso Inn 池袋）<span class="tag t-warn">監控中</span></div><div class="note">3/27–4/3 共 7 晚（若延後回程改到 4/5）｜櫻花季＋日本春假房價高、房間少，<b>看到可免費取消的先訂卡位</b>｜Agoda 先把幣別換成日幣再訂<br>📝 <b>大阪心得</b>：中途換飯店搬行李很累、又吃掉購物時間，<b>全程住同一間</b>；行程要留完整的購物日（含老婆買衣服）</div></div></div>
     <div class="item" data-k="pokepark"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">🎟️ PokéPark KANTO 門票（D3 3/29）<span class="tag t-warn">約 12 月開賣</span></div><div class="note">海外旅客走<b>英文官方售票網站</b>（ticket-en.pokepark-kanto.co.jp），不用抽籤、不用日本手機｜大約入園日前 3 個月開賣（3/29 → 約 12 月底，以官網公告為準）｜票種：Trainer's Pass（森林指定時段進一次）／上位票（森林可重複進、優先通道）／Town Pass（只有城鎮區）｜票是指定日、不能轉讓，<b>兩張要同一天</b></div></div></div>
     <div class="item" data-k="ppapp"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">📱 下載 PokéPark 官方 App<span class="tag t-warn">出發前</span></div><div class="note">部分表演和寶可夢商店要用 App 抽號碼牌，入園後 10:45 起開放登記</div></div></div>
     <div class="item" data-k="sakura"><div class="cb" onclick="toggle(this)"></div><div class="content"><div class="label">🌸 2 月看櫻花開花預測，微調賞櫻日<span class="tag t-warn">2 月</span></div><div class="note">東京染井吉野滿開通常在 3 月底～4 月初；行程把賞櫻放在 D4（千鳥淵）、D5（目黑川）、D7（上野），預測出來後再對調日子</div></div></div>
@@ -619,10 +619,11 @@ refreshCode();
 (function(){
   var bar=document.getElementById('dayTabs'); if(!bar) return;
   var pre=document.querySelector('.section'), days=[].slice.call(document.querySelectorAll('.day-block'));
-  var tabs=[{k:'pre',t:'出發前',d:'清單',els:[pre]}];
+  var rv=document.getElementById('review'); /* 旅遊心得：跟「出發前」「全部」一起顯示 */
+  var tabs=[{k:'pre',t:'出發前',d:'清單',els:rv?[rv,pre]:[pre]}];
   days.forEach(function(b){var badge=b.querySelector('.day-badge').textContent, date=(b.querySelector('.day-date').textContent.match(/\d+\/\d+/)||[''])[0];tabs.push({k:badge,t:badge,d:date,els:[b]});});
-  tabs.push({k:'all',t:'全部',d:'一覽',els:[pre].concat(days)});
-  var all=[pre].concat(days);
+  tabs.push({k:'all',t:'全部',d:'一覽',els:(rv?[rv,pre]:[pre]).concat(days)});
+  var all=(rv?[rv,pre]:[pre]).concat(days);
   function show(k,anim){
     var tab=tabs.filter(function(x){return x.k===k;})[0]||tabs[0];
     all.forEach(function(e){e.style.display=tab.els.indexOf(e)>=0?'':'none';e.classList.remove('bounce');});
