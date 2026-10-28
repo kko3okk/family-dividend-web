@@ -1,6 +1,57 @@
 {
-  "updated": "2026-10-11",
+  "updated": "2026-10-28",
   "trips": [
+    {
+      "id": "tokyo2027-03",
+      "title": "東京・PokéPark・賞櫻",
+      "place": "日本 東京",
+      "start": "2027-03-27",
+      "end": "2027-04-03",
+      "people": 2,
+      "path": "tokyo2027-trip/",
+      "pages": [
+        {
+          "label": "行程",
+          "href": "index.html",
+          "icon": "list"
+        },
+        {
+          "label": "地圖",
+          "href": "map.html",
+          "icon": "map"
+        },
+        {
+          "label": "美食",
+          "href": "food.html",
+          "icon": "food"
+        },
+        {
+          "label": "刷卡",
+          "href": "card.html",
+          "icon": "card"
+        }
+      ],
+      "hotels": [
+        "太陽城王子大飯店（候選）"
+      ],
+      "highlights": [
+        "PokéPark KANTO",
+        "千鳥淵・目黑川・上野賞櫻",
+        "橫濱",
+        "秋葉原・池袋採買"
+      ],
+      "days": [
+        "抵達・池袋",
+        "六義園・巢鴨（輕鬆日）",
+        "PokéPark KANTO",
+        "千鳥淵賞櫻・神田明神・秋葉原",
+        "中目黑 目黑川・都廳夜景",
+        "橫濱一日",
+        "上野公園・池袋最後採買",
+        "回台"
+      ],
+      "color": "#F2A2B8"
+    },
     {
       "id": "osaka-2026",
       "title": "大阪・USJ・京都",

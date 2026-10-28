@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<script src="../gate.js?v=5"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#FFFCF6">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@400;500;600;700&family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+<title>旅遊地圖｜東京・池袋 2027</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;background:#f5f4f0;color:#1a1a1a}
+header{padding:4px 16px 6px}
+h1{font-size:16px;font-weight:600}
+.sub{font-size:12px;color:#999;margin-top:2px}
+.bar{display:flex;gap:6px;overflow-x:auto;padding:10px 16px;-webkit-overflow-scrolling:touch}
+.bar::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;font-size:12px;font-weight:600;padding:6px 12px;border-radius:20px;cursor:pointer;
+      border:1.5px solid transparent;background:#fff;color:#666;white-space:nowrap;transition:.15s}
+.chip.on{color:#fff}
+
+nav.pages{display:flex;gap:6px;margin:14px 0 4px}
+nav.pages a{flex:1;text-align:center;font-size:12.5px;white-space:nowrap;font-weight:600;padding:9px 0;border-radius:10px;
+      background:#fff;color:#666;text-decoration:none;border:0.5px solid rgba(0,0,0,.09)}
+nav.pages a.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.legend{padding:0 16px 8px;font-size:11px;color:#999}
+#map{height:calc(100vh - 152px);width:100%}
+.leaflet-popup-content-wrapper{border-radius:12px}
+.leaflet-popup-content{margin:11px 13px;font-size:13px;line-height:1.55;min-width:190px}
+.pp-seq{display:inline-block;font-size:10px;font-weight:700;color:#fff;padding:2px 8px;border-radius:10px;margin-bottom:5px}
+.pp-n{font-size:14px;font-weight:600;margin-bottom:3px}
+.pp-m{font-size:11px;color:#888;line-height:1.5}
+.pp-note{font-size:11px;color:#555;margin-top:5px}
+.pp-a{display:inline-block;margin-top:8px;font-size:11px;font-weight:600;color:#1a6fd4;text-decoration:none}
+.num{width:24px;height:24px;border-radius:50%;border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);
+     display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700}
+.num.bed{border-radius:6px;width:26px;height:26px;font-size:14px}
+.arrow{font-size:14px;line-height:1;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 3px #fff}
+</style>
+<link rel="stylesheet" href="../trip-kit/trip.css?v=2">
+</head>
+<body>
+
+<nav class="pages" style="padding:0 16px"><a href="index.html">📋 行程</a><a href="map.html" class="on">🗺️ 地圖</a><a href="food.html">🍜 美食</a><a href="shopping.html">🛒 清單</a><a href="card.html">💳 刷卡</a><a href="journal.html">📸 手帳</a></nav>
+<header>
+  <h1>旅遊地圖</h1>
+  <div class="sub">東京・池袋｜3/27–4/3, 2027</div>
+</header>
+<div class="bar" id="bar"></div>
+<div class="legend">數字＝當天順序　➤＝移動方向　🏨＝住宿　✈️＝機場</div>
+<div id="map"></div>
+
+<script>
+/* ═══ 地點資料（新旅程改這裡）═══
+   每個點：n 名稱、lat/lng 座標（Google 地圖長按可複製）、m 一行資訊、note 備註
+   bed:1＝住宿圖示、air:1＝機場圖示、rail:1＝車站圖示；DAYS 每天一組，c 是當天路線顏色 */
+const HOTEL={n:'太陽城王子大飯店（候選）',lat:35.7296,lng:139.7196,bed:1,m:'3/27–4/3（7晚）',note:'池袋東口步行約 8 分；備案：京王 Presso Inn 池袋'};
+const AIRPORT={n:'成田機場 T2（或羽田）',lat:35.7720,lng:140.3929,air:1,m:'航班待訂：去程早班／回程晚班',note:'利木津巴士直達太陽城王子'};
+
+const DAYS=[
+{id:'D1',t:'D1 3/27 抵達',c:'#DEAE0B',stops:[AIRPORT,
+ HOTEL]},
+{id:'D2',t:'D2 3/28 六義園',c:'#E07A9B',stops:[HOTEL,
+ {n:"六義園",lat:35.7330,lng:139.7466,m:"9:00–17:00",note:"駒込站步行 7 分"},
+ {n:"巢鴨地藏通＋高岩寺",lat:35.7365,lng:139.7350,m:"御朱印",note:""},
+ HOTEL]},
+{id:'D3',t:'D3 3/29 PokéPark KANTO',c:'#E6A400',stops:[HOTEL,
+ {n:"京王讀賣樂園站（纜車）",lat:35.6338,lng:139.5174,m:"Sky Shuttle 約 10 分",note:""},
+ {n:"PokéPark KANTO",lat:35.6255,lng:139.5173,m:"讀賣樂園內",note:"要指定日門票"},
+ HOTEL]},
+{id:'D4',t:'D4 3/30 千鳥淵賞櫻',c:'#C084FC',stops:[HOTEL,
+ {n:"千鳥淵綠道",lat:35.6905,lng:139.7465,m:"櫻花隧道",note:"九段下站步行 5 分"},
+ {n:"靖國神社",lat:35.6941,lng:139.7436,m:"御朱印",note:""},
+ {n:"神田明神",lat:35.7020,lng:139.7679,m:"御朱印",note:""},
+ {n:"秋葉原",lat:35.6984,lng:139.7731,m:"扭蛋・卡牌",note:""},
+ HOTEL]},
+{id:'D5',t:'D5 3/31 中目黑 目黑川',c:'#F472B6',stops:[HOTEL,
+ {n:"目黑川（中目黑）",lat:35.6440,lng:139.6990,m:"櫻花",note:"副都心線直通"},
+ {n:"東京都廳展望室",lat:35.6896,lng:139.6922,m:"免費夜景",note:""},
+ HOTEL]},
+{id:'D6',t:'D6 4/1 橫濱一日',c:'#60A5FA',stops:[HOTEL,
+ {n:"杯麵博物館",lat:35.4555,lng:139.6388,m:"週二公休",note:""},
+ {n:"紅磚倉庫",lat:35.4527,lng:139.6428,m:"",note:""},
+ {n:"橫濱中華街",lat:35.4425,lng:139.6458,m:"午餐",note:""},
+ {n:"港未來夜景",lat:35.4555,lng:139.6370,m:"大摩天輪",note:""},
+ HOTEL]},
+{id:'D7',t:'D7 4/2 上野公園',c:'#97CC27',stops:[HOTEL,
+ {n:"上野恩賜公園",lat:35.7146,lng:139.7732,m:"櫻花大道",note:"上野東照宮御朱印"},
+ {n:"阿美橫丁",lat:35.7102,lng:139.7745,m:"",note:""},
+ {n:"Pokémon Center Mega Tokyo",lat:35.7295,lng:139.7190,m:"太陽城 ALPA 2F",note:""},
+ HOTEL]},
+{id:'D8',t:'D8 4/3 回台',c:'#7FB8C4',stops:[HOTEL,
+ AIRPORT]}
+];
+
+if(!window.L){ document.getElementById('map').innerHTML='<div style="padding:40px 20px;text-align:center;color:#8A6A45;font-size:14px;line-height:1.7">沒有網路，地圖元件還沒存在這支手機。<br>有網路時打開一次地圖頁就會存好；<br>看過的範圍之後離線也能看。</div>'; throw new Error('Leaflet 未載入（離線）'); }
+const map=L.map('map',{zoomControl:false}).setView([DAYS[0].stops[1].lat,DAYS[0].stops[1].lng],12);
+L.control.zoom({position:'bottomright'}).addTo(map);
+// 底圖：OpenStreetMap（免 API key）；載入失敗自動切換備援來源
+const TILES=[
+  {url:'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+   opt:{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}},
+  {url:'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
+   opt:{maxZoom:19,subdomains:'abc',attribution:'&copy; OpenStreetMap France &copy; OpenStreetMap'}}
+];
+let tileIdx=0, tileErr=0, base=L.tileLayer(TILES[0].url,TILES[0].opt).addTo(map);
+function onTileErr(){
+  tileErr++;
+  if(tileErr>=4 && tileIdx<TILES.length-1){
+    map.removeLayer(base); tileIdx++; tileErr=0;
+    base=L.tileLayer(TILES[tileIdx].url,TILES[tileIdx].opt).addTo(map);
+    base.on('tileerror',onTileErr);
+  }
+}
+base.on('tileerror',onTileErr);
+const layer=L.layerGroup().addTo(map);
+
+function bearing(a,b){
+  const R=x=>x*Math.PI/180, D=x=>x*180/Math.PI;
+  const dL=R(b[1]-a[1]);
+  const y=Math.sin(dL)*Math.cos(R(b[0]));
+  const x=Math.cos(R(a[0]))*Math.sin(R(b[0]))-Math.sin(R(a[0]))*Math.cos(R(b[0]))*Math.cos(dL);
+  return (D(Math.atan2(y,x))+360)%360;
+}
+
+function draw(day){
+  layer.clearLayers();
+  const c=day.c;
+  const seq=[]; let last=null;
+  day.stops.forEach(s=>{ const k=s.lat+','+s.lng; if(k!==last){seq.push(s); last=k;} });
+  const pts=seq.map(s=>[s.lat,s.lng]);
+
+  if(pts.length>1){
+    L.polyline(pts,{color:c,weight:3,opacity:.5,dashArray:'7,7'}).addTo(layer);
+    for(let i=0;i<pts.length-1;i++){
+      const mid=[(pts[i][0]+pts[i+1][0])/2,(pts[i][1]+pts[i+1][1])/2];
+      const deg=bearing(pts[i],pts[i+1])-90;
+      L.marker(mid,{interactive:false,icon:L.divIcon({className:'',
+        html:'<div class="arrow" style="color:'+c+';transform:rotate('+deg+'deg)">\u27A4</div>',
+        iconSize:[14,14],iconAnchor:[7,7]})}).addTo(layer);
+    }
+  }
+
+  let n=0;
+  seq.forEach(s=>{
+    const special=s.bed||s.air||s.rail;
+    if(!special) n++;
+    const label=s.bed?'\uD83C\uDFE8':(s.air?'\u2708\uFE0F':(s.rail?'\uD83D\uDE84':n));
+    const icon=L.divIcon({className:'',
+      html:'<div class="num'+(special?' bed':'')+'" style="background:'+c+'">'+label+'</div>',
+      iconSize:[24,24],iconAnchor:[12,12],popupAnchor:[0,-14]});
+    const g='https://www.google.com/maps/search/?api=1&query='+s.lat+','+s.lng;
+    const seqTxt=s.bed?'住宿':(s.air?'機場':(s.rail?'車站':'第 '+n+' 站'));
+    L.marker([s.lat,s.lng],{icon,zIndexOffset:special?1000:0}).bindPopup(
+      '<div><span class="pp-seq" style="background:'+c+'">'+day.t+' \u00B7 '+seqTxt+'</span>'+
+      '<div class="pp-n">'+s.n+'</div><div class="pp-m">'+(s.m||'')+'</div>'+
+      (s.note?'<div class="pp-note">'+s.note+'</div>':'')+
+      '<a class="pp-a" href="'+g+'" target="_blank" rel="noopener">在 Google Maps 開啟 \u2197</a></div>').addTo(layer);
+  });
+  map.fitBounds(L.latLngBounds(pts),{padding:[50,50],maxZoom:16});
+}
+
+const bar=document.getElementById('bar');
+DAYS.forEach((d,idx)=>{
+  const b=document.createElement('button');
+  b.className='chip'; b.textContent=d.t; b.style.borderColor=d.c;
+  b.onclick=()=>{
+    document.querySelectorAll('.chip').forEach(x=>{x.classList.remove('on');x.style.background='#FFFFFF';x.style.color='#3E3A39';});
+    b.classList.add('on'); b.style.background=d.c+'59'; b.style.color='#3E3A39';
+    draw(d);
+  };
+  bar.appendChild(b);
+  if(idx===0) setTimeout(()=>b.click(),0);
+});
+</script>
+<script src="../trip-kit/trip.js?v=15"></script>
+<script src="../trip-home.js?v=11"></script>
+</body>
+</html>
