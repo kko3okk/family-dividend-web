@@ -1801,7 +1801,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.24-2040";
+const APP_VERSION="2026.10.29-1800";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -2482,7 +2482,13 @@ function renderPool(){
     :`<div class="prule">規則（G，10/13 起）：${POOL.rule}。</div>`;
   box.innerHTML=`<h3 data-en="${short?"SWING":"ACTIVE"}">${short?"短線池":"主動池"}<span class="tick" style="margin-left:auto;font-weight:600">報價 ${LIVE?LIVE.updated.slice(5,16).replace("T"," "):"收盤 "+(POOL.price_date||"—")}${marketOpen()?"":" · 非交易時段"}</span><button type="button" id="pxBtn" class="pxbtn" onclick="refreshPrices(true)">更新報價</button></h3>
     <div class="pstats">${stats}</div>${short?"":eqChart(ps,P.cash||0,(POOL.short&&POOL.short.positions||[]).reduce((a,p)=>a+(p.cost_total||0),0))+poolPie(ps,P.cash||0)}${ps.map(p=>posCard(p,short)).join("")||'<div class="note">目前沒有持股</div>'}${ctab}${rule}`;
-  if(!short){drawEq();const r9=POOL.rule9;if(r9){const md=d=>d?d.slice(5).replace("-","/"):"—";
+  if(!short){drawEq();
+    /* 2026-10-29 指定用途（蜜月基金）：主動池獲利出場 40% 轉股息池後，其餘優先撥入，直到目標 */
+    (POOL.earmarks||[]).forEach(e=>{const pct=Math.min(100,e.saved/e.target*100),left=Math.max(0,e.target-e.saved);
+      const days=Math.round((new Date(e.deadline)-new Date())/864e5);
+      box.insertAdjacentHTML("beforeend",`<h4 style="margin:16px 0 6px">${e.name}</h4><div class="prule">目標 <b>${fmt(e.target)}</b>　已撥 <b>${fmt(e.saved)}</b>${left?`　還差 ${fmt(left)}`:"　已達標"}　·　期限 ${e.deadline.slice(5).replace("-","/")}（${days>0?"還有 "+days+" 天":"已到期"}）</div>
+        <div class="pbar"><i style="width:${pct}%"></i></div><div class="prule">${e.rule}${e.fallback?"<br>備案："+e.fallback:""}</div>${(e.log||[]).length?`<details><summary>撥款紀錄（${e.log.length}）</summary>${e.log.map(l=>`<div class="leg"><span class="k">${l.date.slice(5).replace("-","/")}</span><span>${l.note||""}</span><span>${fmt(l.amount)}</span></div>`).join("")}</details>`:""}`);});
+    const r9=POOL.rule9;if(r9){const md=d=>d?d.slice(5).replace("-","/"):"—";
     const cats=(r9.categories||[]).map(c=>`<span class="chip">${c.name}</span>`).join("");
     const tg=(r9.triggers||[]).slice().reverse().slice(0,10).map(t=>`<div class="leg"><span class="k">${md(t.date)}</span><span>${(r9.categories.find(c=>c.key===t.category)||{}).name||t.category} → ${t.leader}<small>${t.evidence?"　"+t.evidence.slice(0,80)+(t.evidence.length>80?"…":""):""}</small></div>`).join("");
     const pos=(r9.positions||[]).map(x=>`<div class="leg"><span class="k">持有</span><span>${x.name} ${x.code}　${md(x.opened)} @${x.cost}　現價 ${x.px}${x.nearest?`　最近出場線 ${x.nearest.line}（${x.nearest.name}）`:""}</span><span class="${x.ret>=0?"up":"dn"}">${x.ret>=0?"+":""}${x.ret}%</span></div>`).join("");
