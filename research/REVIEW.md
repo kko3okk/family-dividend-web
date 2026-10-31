@@ -1,8 +1,10 @@
+我已經讀完覆蓋率、新聞和追蹤名單，也查過週日的 InP 與 800V 近況。現在整理最終報告。
+
 # 每日自動查證（Claude）
 
 ## 一、覆蓋率缺口查證
 
-今天「一、優先審查」前 15 檔和 10/30 的報告完全相同（3135、2923、4934、2425、2305、7631、1316、6691、2406、7750、6209、4989、2460、2432、4916）。沒有新標的，結論全部沿用，這次沒有重新搜尋。**沒有「建議納入」**。15 檔都是上市股。
+「一、優先審查」前 15 檔和 10/31 的報告完全相同：3135、2923、4934、2425、2305、7631、1316、6691、2406、7750、6209、4989、2460、2432、4916。沒有新標的，所以這次沒有重新搜尋，結論全部沿用。**沒有「建議納入」**。15 檔都是上市股。
 
 | 代號名稱 | 實際主要產品 | AI 關聯證據 | 建議歸組 | 建議 | 來源 |
 |---|---|---|---|---|---|
@@ -24,49 +26,76 @@
 
 ## 二、新聞判讀
 
-只依 NEWS.md 標題判斷，涵蓋 10/29–10/31。
+只依 NEWS.md 標題判斷。標題日期是 10/30–10/31，內容和昨天大致相同，今天沒有新增的實質消息。
 
 | 類別 | 追蹤項目 | 實質變化 | 判讀 |
 |---|---|---|---|
-| 800V | NVIDIA 800V 夥伴名單 | 待確認 | 只有 10/29 經濟日報的輝達供應鏈名單整理包。標題沒有說是否新增台廠。 |
-| 800V | 台達電 800V 出貨 | 有（偏負面） | 10/30 標題：台達電營收創高但毛利率下滑，法說後跳空跌停、一個月市值蒸發 36%。10/29 法說標題：AI 占營收近五成、SOFC 明年量產、缺電最快 Q4 漲價。800V 櫃的出貨量與客戶，標題沒有。 |
-| 800V | 光寶科驗證 | 有 | 10/30 法說標題：800V Power Rack 明年 Q1 出貨，2027 資本支出高於 197 億元。是否通過 NVIDIA 驗證，標題沒寫，待確認。 |
-| 800V | 800V 採用時程 | 有（小幅） | 光寶科 Q1 出貨的時程是新的具體時點。業界整體時程有無變動，標題看不出來。 |
-| 800V | 漢磊 SiC、Kyber、GaN 代工 | 無 | 近兩日無相關新聞。 |
-| CPU 擴散 | AMD Venice／Helios | 無 | 無新聞。不過 10/29 有標題：日月光打入 AMD Venice，拚 2027 面板級封裝量產。 |
-| CPU 擴散 | EFB 封裝 | 無 | 無新聞。 |
-| CPU 擴散 | ABF 載板 | 有（多空並陳） | 10/29 標題：三雄漲停變跌 5%，高盛稱有一檔市占流失，外資賣壓重。10/30 景碩站回千元。報價與擴產細節待確認。 |
-| 第9條 | DRAM 大廠漲價 | 有（偏強） | 標題：SK 海力士 ADR 大漲 13%、營益率達 80%，看缺貨到 2030 年；NOR 快閃記憶體大漲。DDR5 16Gb 現貨 10/30 持平於 61.333 美元，有 1 則稱小漲 0.27%。是否有 2 家以上大廠公開宣布調價，標題沒寫，待確認。 |
-| 第9條 | MLCC | 有（延續） | 10/29 標題：國巨、華新科漲價效應可能延續到 2027 年。大廠公開調價待確認。 |
-| 第9條 | 功率元件與 SiC | 無 | 近兩日無相關新聞。10/30 只有安森美盤中大跌 5.12% 的行情標題，不是漲價消息。 |
-| 第9條 | 成熟製程代工漲價 | 有（利多落空） | 聯電稱成熟製程明年漲 10%，法說後股價跌停（CMoney 標題）。力積電啟動 10 億元買回庫藏股。 |
-| 第9條 | SCFI | 有 | SCFI 連四週上漲，達觸發條件。美線有見頂訊號，歐線微漲，標題提到罷工效應。 |
-| 第9條 | 台積電全面漲價、矽晶圓分級漲價 | 無 | 近兩日無相關新聞。 |
-| 瓶頸 | InP／光通訊 | 有 | 標題：磷化銦短缺；傳 Marvell 洽購 Lumentum（市值約 830 億美元），輝達綁定雷射產能。收購是否成立，標題寫「傳」，待確認。InP 基板報價與擴產、CW 雷射國產替代，近兩日無實質新聞。 |
-| 瓶頸 | 1.6T 導入 | 有（小幅） | 標題：華通擴充 mSAP 產能；瑞儀超穎透鏡 2027 放量，CPO 瞄準 6.4T 以上。 |
-| 瓶頸 | CoWoS 產能 | 有 | 標題：台積電砸 388 億拿下友達中科兩廠，先進封裝擴產加速；AMD 加碼台灣，產能看到 5 年。 |
-| 瓶頸 | T-glass、玻璃基板 | 無實質 | 只有概念股整理與台玻、外資調節的標題，沒有良率或量產時程的新資訊。 |
-| 瓶頸 | 測試／探針卡 | 有 | 標題：精測看旺 2027、產能擴至三倍，毛利率可能回落；致茂 CPO 訂單看到明年。 |
+| 800V | NVIDIA 800V 夥伴名單 | 待確認 | 只有經濟日報的輝達供應鏈名單整理包，標題沒說是否新增台廠。 |
+| 800V | 台達電 800V 出貨 | 有（偏負面） | 標題：營收創高但毛利率下滑，法說後跳空跌停，一個月市值蒸發 36%，專家稱第四季靠交貨與調價修復。800V 櫃的出貨量，標題沒有。 |
+| 800V | 光寶科驗證 | 有 | 法說標題：800V Power Rack 明年 Q1 出貨，2027 資本支出高於 197 億元。是否通過 NVIDIA 驗證，待確認。 |
+| 800V | 800V 採用時程 | 有（小幅） | 光寶科的 Q1 出貨是具體時點。10/31 另有鴻海亞灣超算的標題，說電力是 AIDC 關鍵。業界整體時程有無變動，標題看不出來。 |
+| 800V | 漢磊 SiC、Kyber、GaN 代工 | 無 | 無相關新聞。 |
+| CPU 擴散 | AMD Venice／Helios、EFB 封裝 | 無 | 無新聞。 |
+| CPU 擴散 | ABF 載板 | 有（偏正面） | 標題：結構性供需失衡將擴大，法人調升三雄目標價。另有 Ibiden 展望不如預期而跌停、英特爾財測差的標題。 |
+| 第9條 | DRAM 大廠漲價 | 有（偏強） | 標題：PC DRAM 第四季合約價最高漲 18%，三星、SK 海力士供應恐減 40%，客戶有長約仍搶貨。DDR5 16Gb 現貨持平於 61.333 美元，1 則稱小漲 0.27%。是否有 2 家以上大廠公開調價，待確認。 |
+| 第9條 | MLCC | 有（延續） | 標題：三星電機長約延伸至基板，國巨、華新科漲價效應可能延續到 2027 年。 |
+| 第9條 | 功率元件與 SiC | 無 | 無相關新聞。 |
+| 第9條 | 成熟製程代工漲價 | 有（利多落空） | 標題：聯電稱成熟製程明年漲 10% 卻跌停。10/31 有力晶改選董監事的經營權爭議標題。 |
+| 第9條 | SCFI | 有 | SCFI 連四週上漲（漲幅縮小，ETtoday 稱本週漲 0.16%）。美線有見頂訊號，歐線微漲，要看罷工效應。 |
+| 第9條 | 台積電全面漲價、矽晶圓分級漲價 | 無 | 無相關新聞。 |
+| 瓶頸 | InP／光通訊 | 有 | 標題：傳 Marvell 洽購 Lumentum（市值約 830 億美元），AI 光連接供應可能更集中。基板報價與擴產、CW 雷射國產替代，近兩日無新聞。 |
+| 瓶頸 | 1.6T 導入 | 有（小幅） | 標題：華通擴充 mSAP 產能，連三年資本支出各約 200 億元。「光進銅退」12 檔光通訊概念股走強。 |
+| 瓶頸 | CoWoS 產能 | 有 | 標題：台積電擴產紅利，法人點名 8 檔供應鏈；Intel 產能受限，台積 CoWoS 優勢大。10/31 台積電跌破半年線。崇越單季大賺一個股本。 |
+| 瓶頸 | T-glass、玻璃基板 | 無實質 | 只有 ABF、PCB 族群、台玻外資調節的標題，沒有良率或量產時程。10/30 的 Panasonic 二度喊漲是 PCB 材料漲價，不是 T-glass。 |
+| 瓶頸 | 測試／探針卡 | 有（小幅） | 標題：傳三星探針台採與台積相同的供應商，台廠旺矽入列。 |
 | 瓶頸 | 美國光模組禁令與轉單 | 無 | 唯一標題是英特爾財測遜、以色列廠爆炸，與禁令無直接關係。 |
-| 瓶頸 | PCB 高階板材認證、DDR4 現貨 | 無 | PCB 高階板材近兩日無新聞；DDR4 現貨無單獨標題，只有 DDR5 現貨持平。 |
-| 風險 | AI 資本支出風向 | 有 | 三星今年資本支出估 84.4 兆韓元，看明年 AI 記憶體需求遠超供給，屬正面。10/31 TradingKey 標題：蘋果反超輝達，AI 投資報酬疑慮衝擊科技股。 |
-| 風險 | AI 融資與信用風險 | 有（偏負面） | 10/29–10/30 標題：AI 債券發行量破紀錄，華爾街信貸市場開始擔憂吃不消。 |
-| 風險 | 長鑫價格戰、Google TPU／ASIC 轉單 | 無 | 近兩日無相關新聞。 |
-| 研究追蹤 | SpaceX 對台下單 | 有 | 標題：Anthropic 成為 SpaceX 最大單一客戶；昇達科前三季 EPS 11.81 元；星鏈 V3 升級帶動穩懋等漲停；華通連三年資本支出估逾 200 億元。 |
-| 研究追蹤 | 南寶、宏致、Bloom Energy | 無 | 南寶無新聞。宏致只有概念股名單，無實質。Bloom 項下只有台達電法說的標題（缺電、10/29 稱最快第四季漲價）。 |
+| 瓶頸 | PCB 高階板材認證、CPU 伺服器與 DDR5 需求、DDR4 現貨 | 無 | 無單獨新聞，只有 DDR5 現貨持平。 |
+| 風險 | AI 資本支出風向 | 有（偏負面） | 標題只有光寶科法說摘要，加上蘋果反超輝達、AI 投資報酬疑慮。 |
+| 風險 | AI 融資與信用風險 | 有（偏負面） | 標題：CoreWeave 債券殖利率逼近 15%，巴克萊稱華爾街仍陷「否認階段」；黑石稱 Anthropic 在 IPO 後可能只拿到「垃圾」評級；Anthropic 成長放緩。 |
+| 風險 | 長鑫價格戰、Google TPU／ASIC 轉單 | 無 | 無相關新聞。 |
+| 研究追蹤 | SpaceX 對台下單 | 有 | 標題：星鏈 V3 帶動穩懋、大眾控、敬鵬漲停；昇達科前三季 EPS 11.81 元；華通明年 AI 與衛星營收占比過半；Anthropic 成為 SpaceX 最大單一客戶。 |
+| 研究追蹤 | 南寶、Bloom Energy、宏致 | 無 | 南寶、Bloom 無新聞。宏致只有概念股名單與討論區貼文。 |
 
 ## 三、今天最值得注意
 
-1. **台達電法說後跳空跌停，10/30 台積電 ADR、博通各跌約 5%。** 標題顯示台達電營收創高但毛利率下滑，一個月市值蒸發 36%。800V 與 AI 電源鏈的基本面標題仍偏正面（光寶科 800V Power Rack 明年 Q1 出貨、台達電 SOFC 明年量產），但股價反應是利多不漲。持有的電源鏈標的要看毛利率與漲價能否兌現。
-2. **「漲價」利多遇到股價下跌。** 聯電喊成熟製程明年漲 10% 卻跌停，ABF 三雄 10/29 漲停變跌 5%，外資賣壓重。同時 AI 融資壓力（債券發行創紀錄、信貸市場擔憂）和「AI 投資報酬疑慮」的標題升溫。這是持有主題轉弱的早期警訊，需要和價量資料交叉確認。
-3. **光通訊 InP 瓶頸再升級。** 傳 Marvell 洽購 Lumentum，加上「磷化銦短缺」標題，雷射產能被集中綁定。SCFI 也連四週上漲，達到第9條觸發條件之一，美線則有見頂訊號。
+1. **台達電法說後跳空跌停，台積電跌破半年線。** 800V 與 AI 電源鏈的基本面標題仍偏正面（光寶科 Q1 出貨、台達電第四季調價），但股價反應是利多不漲。要看毛利率與漲價能否兌現。
+2. **AI 融資與信用風險升溫。** CoreWeave 債券殖利率逼近 15%，同時有「AI 投資報酬疑慮」的標題。聯電喊漲價卻跌停，是漲價題材遇到股價下跌的另一個例子。這是持有主題轉弱的早期警訊，需要和價量資料交叉確認。
+3. **記憶體漲價仍強、InP 供給持續集中。** PC DRAM 第四季合約價最高漲 18%，三星、SK 海力士供應恐減 40%（第9條偏強）。另有傳聞稱 Marvell 洽購 Lumentum。SCFI 連四週上漲，達到第9條觸發條件之一，但美線有見頂訊號。
+
+## 四、800V 與 InP 質化清單（僅星期日）
+
+網路搜尋結果多停留在 2025–2026 年中，找不到近 7 天的新消息。標「本週查無」的項目，以及只靠 NEWS.md 標題判讀的項目，都不代表沒有變化。
+
+| 項目 | 判讀 | 理由 | 來源 |
+|---|---|---|---|
+| NVIDIA 800V 夥伴名單新增台廠 | 待確認 | 本週查無官方更新。搜到的名單仍是 2025 年 10 月 OCP 版本（約 20 家夥伴）。NEWS.md 只有供應鏈名單整理包，標題未說有新增。 | [uanalyze](https://uanalyze.com.tw/articles/7876243556) |
+| 漢磊 8 吋 SiC 驗證 | 本週查無 | NEWS.md 近兩日也無新聞。 | — |
+| 台達電 800V 液冷電源櫃出貨量 | 待確認 | 標題顯示法說後跳空跌停、毛利率下滑，但沒有 800V 出貨數字。 | NEWS.md（太報、口袋證券標題） |
+| 光寶科 Vera Rubin 800V Power Rack 驗證 | 有變化（小幅） | 法說標題：Power Rack 明年 Q1 出貨。是否通過 NVIDIA 驗證，標題沒寫。 | [鉅亨網](https://news.google.com/rss/articles/CBMiT0FVX3lxTE8ydk5rY0FNSms5aFBlbHc0bFctOXFrbW4weHBRWE1RNmxCWVhUWGdDc0hDMzVpMy0tTXZ0ZjRNcmFZUkgxeHBRZU9FQW1CQ0E?oc=5) |
+| 800V HVDC 採用時程是否延後 | 無變化 | 本週查無延後的報導。公開資料仍是 2026 Q3 選配、2027 年中後擴大。 | [DCD](https://www.datacenterdynamics.com/en/news/nvidia-prepares-data-center-industry-for-1mw-racks-and-800-volt-dc-power-architectures/) |
+| Kyber 機櫃 2027H2 或 2028 | 本週查無 | 無新聞。 | — |
+| 世界先進／力積電 GaN 進度 | 本週查無 | 無新聞。 | — |
+| InP 基板報價 | 待確認 | 本週查無。最新可查的是 4 月報導的基板價格大漲五倍、年內難紓解，6 月 JX 金屬宣布擴產並擬漲價。 | [technews](https://technews.tw/2026/06/17/jx-metals-expands-inp-substrate-production-tenfold-customer-demand-plans-price-hike/) |
+| 中國 InP 出口許可 | 待確認 | 本週查無。5 月下旬起核准新一批出口，但放寬有限。 | [technews](https://technews.tw/2026/06/12/china-indium-phosphide-exports/) |
+| 住友／JX／AXT 擴產提前或延後 | 本週查無 | NEWS.md 近兩日無新聞。最近的是 JX 6 月宣布擴產至最高 10 倍。 | [technews](https://technews.tw/2026/06/17/jx-metals-expands-inp-substrate-production-tenfold-customer-demand-plans-price-hike/) |
+| Lumentum／Coherent 雷射缺口說法 | 無變化 | 缺口說法未改。搜尋到的報導稱 EML 等雷射晶片需求領先供給約 30–50%，分析師預期失衡持續到 2027 年後。 | [ledinside](https://ledinside.com/node/36281) |
+| 傳 Marvell 洽購 Lumentum（相關動向） | 待確認 | NEWS.md 有 CMoney、unwire 兩則「傳」的標題。我另外搜尋，找不到主流來源證實，視為未證實傳聞。 | [unwire](https://news.google.com/rss/articles/CBMidkFVX3lxTE5DbkVHVndMMl9xM2U1VmtUVWdBQ2l1Qkx4SmtpZFFNLTIwcjZ5ejFCNE0yM18yTy1hTkZhMXVXN1cxNnB3bXdYSWVoWVhxSXBkUWlXV2pYeFNmcTFHV0JVN1BLRE9CUWlIUkQ1eGt1R3M3WlFIclE?oc=5) |
+| CW 雷射國產替代（源杰） | 本週查無 | 無新聞。 | — |
+| 矽光接收端、高功率 CW 雷射台廠認證 | 本週查無 | 無新聞。 | — |
+| 聯亞私募應募人與基板來源 | 本週查無 | 無新聞。10/30 財訊有標題：法人看上友達、聯亞。 | [財訊](https://news.google.com/rss/articles/CBMie0FVX3lxTFBfcW56R1NXT2dxSXc2eE43NHI4QTR5UTNxb1BGT3lZSnMyV3J5SFBJZERUODRnLWdnVmdzRnQwMUtCTHpFX1o4dWFhUFJuV1BuQmhlY1NEYkFEWGpSeE1uOGlWTnV0WkE1QXE1MkhNZjFRZ3hJYVg0ajBQVQ?oc=5) |
+| 美國 FCC 光模組限制 | 本週查無 | 無新聞。 | — |
+| AI 電源被動元件、被動元件 Q4 漲價 | 有變化（延續） | 標題：三星電機長約延伸至基板，國巨、華新科漲價效應可能延續到 2027 年。是否有大廠公開調價，待確認。 | [永豐金證券](https://news.google.com/rss/articles/CBMi3ANBVV95cUxPb1B3SVdkSkFwaGx5cmlGUjQ2OEFYVnNPYXZDNHZqSHZoVjUxTGhwRHJQOGZDNkxSb3BmNzZfd2R5SDRWeWV4aE5qS3lDQ3hleDlXdWM2aTRWTnktV1g4bFRnNTVqWTVEeUx5RVYwU2pudE1VRXA0anJjNEdsMVh2V1JvbFQ3OXZLbTQyWlBZVEI2aG16bTRpSTk3Umh3RVFhd3ItYkRfUGxtdTN5elpjRnZoeUtmT215Rl9HbmpmTVVSNUdGQW1zSzJneHVFRUhJSTVadW0zSTdMTWxNNm1mR2pUcGlVaVRHTVdvUW55Y25WNzZoSkxyeGVxakJlZzVsMk9ibDBWS2JqZ1gxazJhOVJacktoRGxBV3p4UDBWQ0hVLW1rY2dEM3pOcFRsMXhTTk1iSjQteUVrZWlrMTVFTlRLWnN0WHBLd2hYMFBXWjh4T2pCMElXaTRWbmRvTWZtNGtiM3ItajVYUi1qeTB6Yl9hMGpvUlE5WXV1dnNGNm9XeDdXZ2ZxSE9VVEh5Q2ZxSVp0Y2l0dldmY0x4ZlFoYWNPZXpTTU9hT2MzT016ejBrWGlqZVVWbmxrTmMyZ1RhbmNkTk9hSjhHeXE1OWR6aHIwdEUxYWNCRE5lNQ?oc=5) |
+| 天二科技擴產或漲價 | 本週查無 | 無新聞。 | — |
+| Marvell 半客製 BMC、Scale-up 光連結營收 | 本週查無 | 無新聞。 | — |
+| 3.2T 材料路線（TFLN／電漿子） | 本週查無 | 無新聞。 | — |
+| CPO 光纖陣列新進者（大立光） | 本週查無 | 無新聞。 | — |
 
 ## 五、追蹤名單調整
 
-- **新增：** 無。今天新出現的主題（Marvell 與 Lumentum、台達電毛利率、AI 信用風險）已分別被「InP 雷射缺貨」「光通訊交期與 DSP 價格」「AI 融資與信用風險（CoreWeave）」等現有項目涵蓋，不需要重複追蹤。
-- **刪除：** 無。「800V電源鏈」與「第9條觸發」兩類不可刪。其餘近兩日無新聞的項目（長鑫、Google TPU、PCB 高階板材等）仍屬重要的風險或瓶頸監控，先保留。
+- **新增：** 無。今天新出現的主題（Marvell／Lumentum 傳聞、台達電毛利率、CoreWeave 債券殖利率與 Anthropic 評級）已被「InP 雷射缺貨」「光通訊交期與 DSP 價格」「AI 融資與信用風險（CoreWeave）」等現有項目涵蓋，不需重複追蹤。
+- **刪除：** 無。「800V電源鏈」與「第9條觸發」兩類不可刪。近兩日無新聞的項目（長鑫、Google TPU、玻璃基板等）仍屬重要的風險或瓶頸監控，先保留。
 
 ```topics-json
 {"add":[],"remove":[]}
 ```
-_產生時間：2026-10-31 07:51_
+_產生時間：2026-11-01 07:27_
