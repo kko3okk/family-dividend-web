@@ -44,3 +44,9 @@
 ## 自動排程說明頁
 
 網站「設定 → 自動排程」列出所有定期執行的工作（GitHub Actions 兩個庫＋Claude 排程任務）。新增、刪除或改時間時，同步更新 `index.html` 的 `data-v="sched"` 區塊（每列的 `data-k`）與入口上的項目數，以及私有庫 `scripts/sched_status.py` 的 `ITEMS`（紅綠燈依此判定，每小時由 sched-status 工作流程更新 `holdings/sched_status.json`）。
+
+## 健康 → 猛健樂分頁
+
+- 健康頁上方分成「壺鈴運動｜猛健樂」兩個子頁；猛健樂畫面在 `mj.js`，資料在**私有庫** `family-dividend-data/mounjaro.json`（劑量、體重、筆的規格只放私有庫，這裡不要寫）。
+- 內容：下一針倒數與建議部位、筆的 4 劑／開封 30 天追蹤、施打紀錄與體重線、新版 KwikPen 開封施打教學（自己畫的 SVG，不放網路照片）。
+- 劑量跟筆的規格不一致時畫面會提醒：筆是固定劑量，不要加「算喀嚓聲分劑量」之類的功能。

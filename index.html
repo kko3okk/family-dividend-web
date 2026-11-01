@@ -271,6 +271,65 @@
   .txnav .mini:disabled{opacity:.3;cursor:default}
   .txlab{flex:1;text-align:center;font-weight:800;font-size:14px}
   .txlab .c{font-family:var(--mono);font-size:11px;color:var(--mut2);font-weight:400;margin-left:6px}
+
+  /* ═══ 2026-11-01 健康 → 猛健樂 ═══ */
+  .mjseg{display:flex;gap:3px;margin:12px auto 4px;width:calc(100% - 32px);max-width:520px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:3px}
+  .mjseg button{flex:1;border:none;background:none;font:inherit;font-size:13px;font-weight:800;color:var(--mut);padding:8px 6px;border-radius:9px;cursor:pointer;letter-spacing:.04em}
+  .mjseg button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 0 var(--line),0 1px 3px rgba(59,51,87,.12)}
+  body.hsub-mj #healthApp,body:not(.hsub-mj) #mjApp{display:none!important}
+  #mjApp .card{scroll-margin-top:calc(var(--navh,100px) + 10px)}
+  .mj-hero{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .mj-big{font-size:26px;font-weight:900;letter-spacing:.04em;margin:2px 0}
+  .mj-hero.due .mj-big{color:var(--green)}
+  .mj-hero.late .mj-big{color:#B4532A}
+  .mj-dose{flex:none;width:76px;height:76px;border-radius:50%;border:3px solid var(--pcol,var(--chang));display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1}
+  .mj-dose b{font-family:var(--mono);font-size:21px;font-weight:800}
+  .mj-dose small{font-size:9.5px;color:var(--mut)}
+  .mj-sv{font-size:15px!important}
+  .mj-acts{display:flex;gap:10px;align-items:center;margin-top:14px}
+  .mj-acts .btn{letter-spacing:.12em}
+  .mj-oth{margin-top:10px}
+  .mj-warn{margin-top:12px;background:#FCEBDD;border:1.5px solid #E7A57D;color:#6B3414;border-radius:12px;padding:10px 12px;font-size:12.5px;line-height:1.7}
+  .mj-warn b{display:block;font-size:13px;margin-bottom:2px}
+  .mj-warn.soft{margin:0 0 10px;background:var(--card2);border-color:var(--line);color:var(--ink)}
+  .mj-pen-row{display:flex;align-items:center;gap:10px;width:100%;text-align:left;font:inherit;color:inherit;background:var(--card2);border:1.5px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:8px;cursor:pointer;flex-wrap:wrap}
+  .mj-pen-row.done{opacity:.55}
+  .mj-pmg{font-family:var(--mono);font-weight:800;font-size:16px;min-width:64px}
+  .mj-pinfo{flex:1;min-width:120px;font-size:12px;color:var(--mut)}
+  .mj-dots{display:flex;gap:5px;margin-top:5px}
+  .mj-dots i{width:12px;height:12px;border-radius:50%;border:2px solid var(--pcol,var(--chang))}
+  .mj-dots i.on{background:var(--pcol,var(--chang))}
+  .mj-tag{font-size:11px;font-weight:800;padding:3px 8px;border-radius:999px;background:var(--card);color:var(--mut);border:1px solid var(--line)}
+  .mj-tag.ok{color:#2F7A3B;background:var(--green-soft);border-color:transparent}
+  .mj-tag.bad{color:#fff;background:#C8643A;border-color:transparent}
+  .mj-wide{width:100%;margin:2px 0 10px}
+  .mj-log{display:flex;align-items:center;gap:11px;width:100%;text-align:left;font:inherit;color:inherit;background:none;border:none;border-bottom:1.5px dashed var(--line);padding:10px 2px;cursor:pointer}
+  .mj-log:last-child{border-bottom:none}
+  .mj-no{flex:none;width:26px;height:26px;border-radius:50%;background:var(--pcol,var(--chang));color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--mono)}
+  .mj-lm{flex:1;min-width:0;display:flex;flex-direction:column}
+  .mj-lm b{font-size:14px}
+  .mj-lm small{font-size:11.5px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mj-ld{font-family:var(--mono);font-weight:800;font-size:14px}
+  .mj-kg{background:var(--card2);border-radius:14px;padding:10px 12px 6px;margin-bottom:8px}
+  .mj-kgh{display:flex;align-items:baseline;gap:8px;font-size:11px;color:var(--mut)}
+  .mj-kgh b{font-family:var(--mono);font-size:17px;color:var(--ink)}
+  .mj-kgh em{font-style:normal;margin-left:auto;font-weight:800}
+  .mj-kgh em.dn{color:#2F7A3B}.mj-kgh em.up{color:#B4532A}
+  .mj-kg svg{width:100%;height:70px;display:block}
+  .mj-step{border-bottom:1.5px dashed var(--line);padding:9px 0}
+  .mj-step:last-of-type{border-bottom:none}
+  .mj-step summary{list-style:none;cursor:pointer;font-weight:800;font-size:14px;display:flex;align-items:center;gap:9px}
+  .mj-step summary::-webkit-details-marker{display:none}
+  .mj-step summary i{flex:none;font-style:normal;width:22px;height:22px;border-radius:50%;background:var(--pcol,var(--chang));color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;font-family:var(--mono)}
+  .mj-step p{font-size:13px;line-height:1.75;color:var(--ink);margin:6px 0 2px}
+  .mj-pen{display:block;width:100%;max-width:300px;height:auto;margin:8px auto 0}
+  .mj-sel,.mj-txt{width:100%;font:inherit;font-size:15px;padding:11px 10px;border:1.5px solid var(--line);border-radius:10px;background:#FFFDF6;color:var(--ink)}
+  .mj-fx{grid-template-columns:repeat(4,1fr)}
+  .mj-fx .chip .n{font-size:12px}
+  @media(min-width:960px){
+    #mjApp{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+    #mjApp>.card{margin:0}
+  }
 </style>
 <link rel="stylesheet" href="dividend-journey-map/src/journey-map.css">
 <style>
@@ -1385,6 +1444,9 @@
 </nav>
 
 <!-- ═══ 健康管理 ═══ -->
+<div class="mjseg hl" id="hSeg" role="tablist" aria-label="健康分頁">
+  <button data-s="kb" class="on" role="tab">壺鈴運動</button><button data-s="mj" role="tab">猛健樂</button>
+</div>
 <section class="hl" id="healthApp">
   <div class="card hb-card" id="secHBody"><h3 data-en="BODY MAP">身體地圖</h3>
     <div id="hBody"></div>
@@ -1421,6 +1483,14 @@
     <div class="note h-src">來源：bingbing.fitness 影片 — 6 公斤壺鈴，影片原版每天每個動作 80 下；我們先從 20 下開始，在家就能練、不用跑不用跳。</div>
     <div id="hMoves"></div>
   </div>
+</section>
+
+<!-- ═══ 健康 → 猛健樂施打紀錄（資料：私有庫 mounjaro.json；畫面在 mj.js）═══ -->
+<section class="hl" id="mjApp">
+  <div class="card" id="secMJNext"><h3 data-en="MOUNJARO">下一針</h3><div id="mjNextBox"></div></div>
+  <div class="card" id="secMJPen"><h3 data-en="PENS">筆</h3><div id="mjPenBox"></div></div>
+  <div class="card" id="secMJLog"><h3 data-en="LOG">施打紀錄</h3><div id="mjLogBox"></div></div>
+  <div class="card" id="secMJGuide"><h3 data-en="HOW TO">新版筆開封與施打教學</h3><div id="mjGuideBox"></div></div>
 </section>
 
 <!-- ═══ 家：買房計畫（資料：私有庫 home.json；畫面在 home.js）═══ -->
@@ -1780,6 +1850,50 @@
   <button class="go" id="hPlanSave">儲存</button>
 </dialog>
 
+<dialog id="mjLogDlg">
+  <div class="dlg-x" onclick="mjLogDlg.close()">✕</div>
+  <h2 id="mjLogTitle">記一針</h2>
+  <div class="sub">每週同一天打；晚 4 天內可以補打</div>
+  <label>日期</label>
+  <div class="datewrap"><input id="mjLogDate" type="date"></div>
+  <label>劑量（mg）</label>
+  <div class="chips" id="mjLogDose"></div>
+  <label>用哪支筆</label>
+  <select id="mjLogPen" class="mj-sel"></select>
+  <div id="mjLogHint"></div>
+  <label>部位</label>
+  <div class="chips" id="mjLogSite"></div>
+  <label>體重（公斤，可不填）</label>
+  <input id="mjLogKg" type="number" inputmode="decimal" min="20" max="250" step="0.1">
+  <label>這週的感覺（可複選）</label>
+  <div class="chips mj-fx" id="mjLogFx"></div>
+  <label>備註</label>
+  <input id="mjLogNote" type="text" class="mj-txt" maxlength="80">
+  <button class="go" id="mjLogSave">儲存</button>
+  <button class="mini h-clear" id="mjLogDel">刪除這一針</button>
+</dialog>
+
+<dialog id="mjPenDlg">
+  <div class="dlg-x" onclick="mjPenDlg.close()">✕</div>
+  <h2 id="mjPenTitle">開封新筆</h2>
+  <div class="sub">一支 4 劑，開封後 30 天內用完</div>
+  <label>筆的規格（看筆身標示）</label>
+  <div class="chips" id="mjPenMg"></div>
+  <label>開封日（第一次使用）</label>
+  <div class="datewrap"><input id="mjPenDate" type="date"></div>
+  <button class="go" id="mjPenSave">儲存</button>
+  <button class="mini h-clear" id="mjPenDone">這支用完／丟掉了</button>
+  <button class="mini h-clear" id="mjPenDel">刪除登記</button>
+</dialog>
+
+<dialog id="mjPlanDlg">
+  <div class="dlg-x" onclick="mjPlanDlg.close()">✕</div>
+  <h2>調整劑量</h2>
+  <div class="sub" id="mjPlanSub">–</div>
+  <div class="chips" id="mjPlanDose"></div>
+  <button class="go" id="mjPlanSave">儲存</button>
+</dialog>
+
 <script type="module">
   const V = "2026.10.11-1020";   // 由 deploy.sh 注入，確保模組不吃到舊快取
   const M  = await import(`./dividend-journey-map/src/renderMap.js?v=${V}`);
@@ -1801,7 +1915,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.10.29-1805";
+const APP_VERSION="2026.11.01-2230";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -3196,6 +3310,7 @@ addEventListener("resize",()=>{ clearTimeout(_rz); _rz=setTimeout(()=>{ if(DATA)
 <script src="travel.js?v=2026.10.14-2135"></script>
 <script src="home.js?v=2026.10.12-2110"></script>
 <script src="health.js?v=2026.10.12-1740"></script>
+<script src="mj.js?v=2026.11.01-2230"></script>
 <script src="trip-kit/icons.js?v=9"></script>
 <script src="settings.js?v=2026.10.14-2135"></script>
 </body>
