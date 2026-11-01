@@ -38,6 +38,12 @@ const mg = n => (Math.round(n * 10) / 10) + " mg";
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 const say = h => { try { toast(h); } catch(e){} };
 const site = id => SITES.find(s => s.id === id);
+/* 診所對照表（麗波永康國際診所「猛健樂劑量對照表」）：轉到底的一整劑當 60 格，按比例換算。
+   只有 5／10／15 mg 筆、且劑量不超過筆的規格時才顯示。非原廠用法，畫面一律附「請醫師確認」。 */
+const CLICK_FULL = 60, CLICK_PENS = [5, 10, 15];
+const clicks = (penMg, dose) => (CLICK_PENS.includes(Number(penMg)) && dose > 0 && dose < penMg)
+  ? Math.round(dose / penMg * CLICK_FULL) : null;
+const perPen = (penMg, dose) => Math.min(Math.floor(penMg * 4 / dose), Math.floor(PEN_DAYS / EVERY) + 1);
 
 /* ── 資料 ── */
 function blankP(){ return { plan:{ dose:2.5 }, pens:{}, logs:{} }; }
@@ -56,9 +62,10 @@ const logs = p => Object.entries(P(p).logs).map(([id, v]) => ({ id, ...v })).sor
 const pens = p => Object.entries(P(p).pens).map(([id, v]) => ({ id, ...v })).sort((a, b) => b.opened.localeCompare(a.opened));
 const used = (p, id) => Object.values(P(p).logs).filter(l => l.pen === id).length;
 function penInfo(p, pen){
-  const n = used(p, pen.id), left = Math.max(0, PEN_DOSES - n);
+  const d = P(p).plan.dose, cap = clicks(pen.mg, d) != null ? perPen(pen.mg, d) : PEN_DOSES;
+  const n = used(p, pen.id), left = Math.max(0, cap - n);
   const exp = addDays(pen.opened, PEN_DAYS), daysLeft = diff(today(), exp);
-  return { n, left, exp, daysLeft, over: !pen.done && (left === 0 || daysLeft < 0) };
+  return { n, cap, left, exp, daysLeft, over: !pen.done && (left === 0 || daysLeft < 0) };
 }
 const activePen = p => pens(p).find(x => !x.done) || null;
 function nextSite(p){
@@ -174,7 +181,7 @@ function renderNext(){
   const oTxt = oL ? `${NAMES[o]} 下次 ${md(addDays(oL.date, EVERY))}` : `${NAMES[o]} 還沒開始`;
   let warn = "";
   if (pen && Number(pen.mg) !== Number(pl.dose))
-    warn = `<div class="mj-warn"><b>筆的規格跟這次劑量不一樣</b>現在這支是 ${mg(pen.mg)} 筆，計畫劑量是 ${mg(pl.dose)}。猛健樂筆是固定劑量：每次轉到底就是筆上標示的整劑，筆身刻度不能拿來算劑量。請先跟醫師或藥師確認，或換成 ${mg(pl.dose)} 的筆。</div>`;
+    warn = clickBox(pen.mg, pl.dose);
   $("mjNextBox").innerHTML = `
     <div class="mj-hero ${cls}">
       <div><div class="h-eyebrow">NEXT SHOT</div><div class="mj-big">${big}</div><div class="h-sub">${small}</div></div>
@@ -197,14 +204,24 @@ function renderNext(){
   setSync(state === "idle" ? (token() ? (loaded ? "ok" : "syncing") : "local") : state, msg);
 }
 
+function clickBox(penMg, dose, small){
+  const c = clicks(penMg, dose);
+  if (c == null) return `<div class="mj-warn"><b>筆的規格跟劑量不一樣</b>這支是 ${mg(penMg)} 筆，劑量是 ${mg(dose)}。轉到底就是 ${mg(penMg)}，對照表也沒有這個組合，請先問醫師或藥師。</div>`;
+  return `<div class="mj-clk${small ? " sm" : ""}">
+    <div class="mj-clk-n"><small>${mg(penMg)} 筆打 ${mg(dose)}</small><b>${c}</b><small>格</small></div>
+    <div class="mj-clk-t">轉劑量鈕時數「喀」聲：${c} 聲（一整劑＝${CLICK_FULL} 聲）。排氣的 2 聲另外算，排完氣再從 0 開始數。<br>
+    這支筆開封 30 天內約打得到 ${perPen(penMg, dose)} 針，剩下的要丟。<br>
+    <em>依診所劑量對照表換算，不是原廠用法，請以開藥醫師指示為準。</em></div></div>`;
+}
+
 function renderPens(){
   const p = who(), list = pens(p);
   const row = pen => {
     const i = penInfo(p, pen);
-    const dots = Array.from({ length: PEN_DOSES }, (_, k) => `<i class="${k < i.n ? "on" : ""}"></i>`).join("");
+    const dots = Array.from({ length: i.cap }, (_, k) => `<i class="${k < i.n ? "on" : ""}"></i>`).join("");
     const st = pen.done ? `<span class="mj-tag">已用完</span>`
-      : i.over ? `<span class="mj-tag bad">${i.left === 0 ? "4 劑打完了" : "開封超過 30 天"}，該丟了</span>`
-      : `<span class="mj-tag ok">剩 ${i.left} 劑 · ${i.daysLeft} 天內用完</span>`;
+      : i.over ? `<span class="mj-tag bad">${i.left === 0 ? `${i.cap} 針打完了` : "開封超過 30 天"}，該丟了</span>`
+      : `<span class="mj-tag ok">剩 ${i.left} 針 · ${i.daysLeft} 天內用完</span>`;
     return `<button class="mj-pen-row${pen.done ? " done" : ""}" data-pen="${pen.id}">
       <div class="mj-pmg">${mg(pen.mg)}</div>
       <div class="mj-pinfo"><div>${md(pen.opened)} 開封 · ${md(i.exp)} 到期</div><div class="mj-dots">${dots}</div></div>
@@ -245,13 +262,18 @@ const GUIDE = [
   ["擦紅色內膜", penSVG("0"), "用酒精棉片擦筆前端的紅色橡膠內膜。"],
   ["裝上新針頭", penSVG("0", { needle:1 }), "撕掉針頭的貼紙，對準筆前端直直推進去、轉緊。拔下外針帽（留著，等一下要用）、再拔掉內針帽丟掉。<b>每次都換新針頭，筆不能跟別人共用。</b>"],
   ["排氣（每次都要）", penSVG("—", { needle:1 }), "慢慢轉劑量鈕，聽到 <b>2 聲喀</b>、劑量窗出現延長線就是排氣位置。針頭朝上、輕敲筆身讓氣泡往上，按住劑量鈕到底、慢慢數 5，針尖應該冒出藥液。沒看到就照說明書重做，<b>不要打進身體</b>。"],
-  ["選部位、轉到「1」", penSVG("1", { needle:1 }), "肚子（離肚臍 5 公分以上）或大腿自己打，上臂後側請別人打；每週換位置。擦酒精、等乾，把劑量鈕轉到停、劑量窗出現 <b>1</b>＝一整劑。"],
+  ["選部位、轉劑量", penSVG("1", { needle:1 }), "肚子（離肚臍 5 公分以上）或大腿自己打，上臂後側請別人打；每週換位置。擦酒精、等乾。<b>打整劑</b>：劑量鈕轉到停、劑量窗出現 1。<b>打部分劑量</b>：從 0 開始慢慢轉、數「喀」聲到上面算好的格數就停，不要轉過頭。"],
   ["打進去、數 5", penSVG("1", { needle:1, push:1 }), "針插進皮膚，按住劑量鈕到底，<b>慢慢數到 5</b> 再拔出。劑量窗要回到 <b>0</b> 才算打完；沒看到 0 就把針插回去打完，<b>不要重新轉劑量</b>。"],
   ["收尾、記一針", penSVG("0"), "有流血用棉花輕壓、不要揉。套回外針帽、轉下針頭丟進硬瓶子（例如空寶特瓶），蓋回筆蓋、室溫保存，不要連針頭一起放。最後回這頁按「記一針」。"]
 ];
+function guideClicks(){
+  const rows = ["chang","wife"].map(p => { const pen = activePen(p), d = P(p).plan.dose;
+    return pen && clicks(pen.mg, d) != null ? clickBox(pen.mg, d, 1).replace("<small>" + mg(pen.mg), `<small>${NAMES[p]}・` + mg(pen.mg)) : ""; }).join("");
+  return rows || `<div class="mj-warn soft"><b>轉到「1」＝一整劑</b>筆上標示幾 mg，轉到底就是幾 mg。要打比筆的規格小的劑量，先登記筆，這裡會依診所對照表算出要轉幾格。</div>`;
+}
 function renderGuide(){
   $("mjGuideBox").innerHTML = `
-    <div class="mj-warn soft"><b>固定劑量筆</b>每支筆只能打筆上標示的那個劑量：轉到「1」就是一整劑。說明書寫明筆身刻度不能當劑量用，所以 ${mg(10)} 的筆沒辦法正規地打出 ${mg(2.5)}。要從 ${mg(2.5)} 開始，請用 ${mg(2.5)} 的筆，或先問開藥的醫師／藥師。</div>
+    ${guideClicks()}
     ${GUIDE.map((g, i) => `<details class="mj-step"${i === 0 ? " open" : ""}><summary><i>${i + 1}</i>${g[0]}</summary>${g[1]}<p>${g[2]}</p></details>`).join("")}
     <div class="note">整理自原廠 KwikPen 使用說明；新版筆外觀略有不同（例如推桿），操作步驟一樣。實際以盒內的使用說明書和醫師、藥師指示為準。</div>`;
 }
@@ -261,7 +283,7 @@ function render(){
   const p = who();
   document.body.style.setProperty("--pcol", PCOL[p]);
   renderNext(); renderPens(); renderLogs();
-  if (!$("mjGuideBox").innerHTML) renderGuide();
+  renderGuide();
 }
 
 /* ── 對話框：記一針 ── */
@@ -290,7 +312,7 @@ function doseHint(){
   const p = who(), dose = Number(($("mjLogDose").querySelector(".on") || {}).dataset?.v);
   const pen = P(p).pens[$("mjLogPen").value];
   $("mjLogHint").innerHTML = pen && Number(pen.mg) !== dose
-    ? `<div class="mj-warn">選的劑量（${mg(dose)}）跟這支筆（${mg(pen.mg)}）不一樣。固定劑量筆轉到底就是 ${mg(pen.mg)}，請確認實際打的是多少。</div>` : "";
+    ? clickBox(pen.mg, dose, 1) : "";
 }
 function saveLog(){
   const p = who(), date = $("mjLogDate").value;
@@ -307,7 +329,7 @@ function saveLog(){
   mark(`log|${p}|${id}`);
   // 筆打滿 4 劑自動標成用完
   const pen = P(p).pens[P(p).logs[id].pen];
-  if (pen && !pen.done && used(p, P(p).logs[id].pen) >= PEN_DOSES) { pen.done = true; mark(`pen|${p}|${P(p).logs[id].pen}`); }
+  if (pen && !pen.done && used(p, P(p).logs[id].pen) >= penInfo(p, { id: P(p).logs[id].pen, ...pen }).cap) { pen.done = true; mark(`pen|${p}|${P(p).logs[id].pen}`); }
   $("mjLogDlg").close(); render(); say(editLog ? "已更新" : "記好了，下週見");
 }
 

@@ -316,6 +316,14 @@
   .mj-kgh em{font-style:normal;margin-left:auto;font-weight:800}
   .mj-kgh em.dn{color:#2F7A3B}.mj-kgh em.up{color:#B4532A}
   .mj-kg svg{width:100%;height:70px;display:block}
+  .mj-clk{display:flex;gap:12px;align-items:center;margin-top:12px;background:var(--card2);border:1.5px solid var(--pcol,var(--chang));border-radius:14px;padding:10px 12px}
+  .mj-clk.sm{margin:8px 0 2px}
+  .mj-clk-n{flex:none;min-width:78px;display:flex;flex-direction:column;align-items:center;line-height:1.15}
+  .mj-clk-n b{font-family:var(--mono);font-size:30px;font-weight:900;color:var(--pcol,var(--chang))}
+  .mj-clk-n small{font-size:10px;color:var(--mut);text-align:center}
+  .mj-clk-t{font-size:12px;line-height:1.7;color:var(--ink)}
+  .mj-clk-t em{font-style:normal;color:var(--mut);font-size:11px}
+  .mj-guide-c .mj-clk{margin:0 0 8px}
   .mj-step{border-bottom:1.5px dashed var(--line);padding:9px 0}
   .mj-step:last-of-type{border-bottom:none}
   .mj-step summary{list-style:none;cursor:pointer;font-weight:800;font-size:14px;display:flex;align-items:center;gap:9px}
@@ -1915,7 +1923,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.11.01-2230";
+const APP_VERSION="2026.11.01-2245";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -3310,7 +3318,7 @@ addEventListener("resize",()=>{ clearTimeout(_rz); _rz=setTimeout(()=>{ if(DATA)
 <script src="travel.js?v=2026.10.14-2135"></script>
 <script src="home.js?v=2026.10.12-2110"></script>
 <script src="health.js?v=2026.10.12-1740"></script>
-<script src="mj.js?v=2026.11.01-2230"></script>
+<script src="mj.js?v=2026.11.01-2245"></script>
 <script src="trip-kit/icons.js?v=9"></script>
 <script src="settings.js?v=2026.10.14-2135"></script>
 </body>
