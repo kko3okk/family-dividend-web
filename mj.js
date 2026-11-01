@@ -43,7 +43,7 @@ const site = id => SITES.find(s => s.id === id);
 const CLICK_FULL = 60, CLICK_PENS = [5, 10, 15];
 const clicks = (penMg, dose) => (CLICK_PENS.includes(Number(penMg)) && dose > 0 && dose < penMg)
   ? Math.round(dose / penMg * CLICK_FULL) : null;
-const perPen = (penMg, dose) => Math.min(Math.floor(penMg * 4 / dose), Math.floor(PEN_DAYS / EVERY) + 1);
+const perPen = (penMg, dose) => Math.floor(penMg * 4 / dose + 1e-9);
 
 /* ── 資料 ── */
 function blankP(){ return { plan:{ dose:2.5 }, pens:{}, logs:{} }; }
@@ -58,14 +58,23 @@ function norm(d){
   return d;
 }
 const P = p => D.people[p];
+const doseOn = (p, date) => { const pl = P(p).plan, nx = pl.next;
+  return nx && nx.dose && nx.from && date >= nx.from ? nx.dose : pl.dose; };
+const nextDate = p => { const l = logs(p)[0]; return l ? addDays(l.date, EVERY) : today(); };
+const curDose = p => doseOn(p, nextDate(p));
 const logs = p => Object.entries(P(p).logs).map(([id, v]) => ({ id, ...v })).sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id));
 const pens = p => Object.entries(P(p).pens).map(([id, v]) => ({ id, ...v })).sort((a, b) => b.opened.localeCompare(a.opened));
 const used = (p, id) => Object.values(P(p).logs).filter(l => l.pen === id).length;
 function penInfo(p, pen){
-  const d = P(p).plan.dose, cap = clicks(pen.mg, d) != null ? perPen(pen.mg, d) : PEN_DOSES;
-  const n = used(p, pen.id), left = Math.max(0, cap - n);
+  const d = curDose(p), L = Object.values(P(p).logs).filter(l => l.pen === pen.id);
+  const n = L.length, usedMg = L.reduce((a, l) => a + Number(l.dose || 0), 0);
+  const left = d > Number(pen.mg) ? 0 : Math.max(0, Math.floor((pen.mg * PEN_DOSES - usedMg) / d + 1e-9));
+  const cap = n + left;
   const exp = addDays(pen.opened, PEN_DAYS), daysLeft = diff(today(), exp);
-  return { n, cap, left, exp, daysLeft, over: !pen.done && (left === 0 || daysLeft < 0) };
+  // 照每週一針，最後一針落在哪天；超過開封 30 天的針數
+  const lastShot = addDays(nextDate(p), (left - 1) * EVERY);
+  const late = left > 0 && lastShot > exp ? Math.min(left, Math.ceil(diff(exp, lastShot) / EVERY)) : 0;
+  return { n, cap, left, exp, daysLeft, late, empty: !pen.done && left === 0, old: !pen.done && daysLeft < 0 };
 }
 const activePen = p => pens(p).find(x => !x.done) || null;
 function nextSite(p){
@@ -169,7 +178,7 @@ function penSVG(label, opt){
 }
 
 function renderNext(){
-  const p = who(), L = logs(p), pl = P(p).plan, pen = activePen(p);
+  const p = who(), L = logs(p), pl = { ...P(p).plan, dose: curDose(p) }, nx = P(p).plan.next, pen = activePen(p);
   const last = L[0], nxt = last ? addDays(last.date, EVERY) : null, d = nxt ? diff(today(), nxt) : null;
   let big, small, cls = "";
   if (!last) { big = "還沒開始"; small = `第一針從 ${mg(pl.dose)} 開始，打完按「記一針」`; }
@@ -177,6 +186,7 @@ function renderNext(){
   else if (d === 0) { big = "今天"; small = `今天該打了 · 上次 ${md(last.date)}`; cls = "due"; }
   else { big = `晚了 ${-d} 天`; small = `原本 ${md(nxt)} 該打 · 晚 4 天內可以補打，超過就跳過這週，照原本的星期幾打下一針`; cls = "late"; }
   const s = nextSite(p);
+  if (nx && nx.dose && nx.from && nx.from > nextDate(p)) small += `<br>${md(nx.from)} 起改打 ${mg(nx.dose)}`;
   const o = other(p), oL = logs(o)[0];
   const oTxt = oL ? `${NAMES[o]} 下次 ${md(addDays(oL.date, EVERY))}` : `${NAMES[o]} 還沒開始`;
   let warn = "";
@@ -210,7 +220,7 @@ function clickBox(penMg, dose, small){
   return `<div class="mj-clk${small ? " sm" : ""}">
     <div class="mj-clk-n"><small>${mg(penMg)} 筆打 ${mg(dose)}</small><b>${c}</b><small>格</small></div>
     <div class="mj-clk-t">轉劑量鈕時數「喀」聲：${c} 聲（一整劑＝${CLICK_FULL} 聲）。排氣的 2 聲另外算，排完氣再從 0 開始數。<br>
-    這支筆開封 30 天內約打得到 ${perPen(penMg, dose)} 針，剩下的要丟。<br>
+    一整支（${mg(penMg * PEN_DOSES)}）每次打 ${mg(dose)} 可打 ${perPen(penMg, dose)} 次；原廠建議開封 30 天後丟棄（每週一針約 5 針），打超過的部分請先問醫師。<br>
     <em>依診所劑量對照表換算，不是原廠用法，請以開藥醫師指示為準。</em></div></div>`;
 }
 
@@ -220,16 +230,18 @@ function renderPens(){
     const i = penInfo(p, pen);
     const dots = Array.from({ length: i.cap }, (_, k) => `<i class="${k < i.n ? "on" : ""}"></i>`).join("");
     const st = pen.done ? `<span class="mj-tag">已用完</span>`
-      : i.over ? `<span class="mj-tag bad">${i.left === 0 ? `${i.cap} 針打完了` : "開封超過 30 天"}，該丟了</span>`
-      : `<span class="mj-tag ok">剩 ${i.left} 針 · ${i.daysLeft} 天內用完</span>`;
+      : i.empty ? `<span class="mj-tag bad">藥打完了，該丟了</span>`
+      : i.old ? `<span class="mj-tag warn">剩 ${i.left} 針 · 已過開封 30 天</span>`
+      : `<span class="mj-tag ok">剩 ${i.left} 針（${mg(curDose(p))}）</span>`;
+    const lt = !pen.done && i.late ? `<div class="mj-late">照每週一針，最後 ${i.late} 針會超過開封 30 天（${md(i.exp)}）；原廠建議到期就丟，要繼續用請先問醫師。</div>` : "";
     return `<button class="mj-pen-row${pen.done ? " done" : ""}" data-pen="${pen.id}">
       <div class="mj-pmg">${mg(pen.mg)}</div>
       <div class="mj-pinfo"><div>${md(pen.opened)} 開封 · ${md(i.exp)} 到期</div><div class="mj-dots">${dots}</div></div>
-      ${st}</button>`;
+      ${st}${lt}</button>`;
   };
   $("mjPenBox").innerHTML = (list.length ? list.slice(0, 4).map(row).join("") : `<div class="t-empty">還沒有登記筆。開封第一支時按下面的按鈕。</div>`)
     + `<button class="mini mj-wide" id="mjNewPen">＋ 開封一支新筆</button>
-       <div class="note">一支筆 4 劑、每週 1 劑；開封後放室溫（30°C 以下）、蓋好筆蓋，<b>30 天內</b>用完或打完 4 劑就丟。還沒開封的放冰箱 2–8°C，不要冷凍。</div>`;
+       <div class="note">一支筆裝 4 個整劑，打比較小的劑量就能打比較多次（依剩下的總量自動算）；開封後放室溫（30°C 以下）、蓋好筆蓋，原廠建議<b>開封 30 天</b>後丟棄。還沒開封的放冰箱 2–8°C，不要冷凍。</div>`;
   $("mjNewPen").onclick = () => openPen(null);
   $("mjPenBox").querySelectorAll("[data-pen]").forEach(b => b.onclick = () => openPen(b.dataset.pen));
 }
@@ -267,7 +279,7 @@ const GUIDE = [
   ["收尾、記一針", penSVG("0"), "有流血用棉花輕壓、不要揉。套回外針帽、轉下針頭丟進硬瓶子（例如空寶特瓶），蓋回筆蓋、室溫保存，不要連針頭一起放。最後回這頁按「記一針」。"]
 ];
 function guideClicks(){
-  const rows = ["chang","wife"].map(p => { const pen = activePen(p), d = P(p).plan.dose;
+  const rows = ["chang","wife"].map(p => { const pen = activePen(p), d = curDose(p);
     return pen && clicks(pen.mg, d) != null ? clickBox(pen.mg, d, 1).replace("<small>" + mg(pen.mg), `<small>${NAMES[p]}・` + mg(pen.mg)) : ""; }).join("");
   return rows || `<div class="mj-warn soft"><b>轉到「1」＝一整劑</b>筆上標示幾 mg，轉到底就是幾 mg。要打比筆的規格小的劑量，先登記筆，這裡會依診所對照表算出要轉幾格。</div>`;
 }
@@ -293,7 +305,7 @@ function openLog(id){
   $("mjLogTitle").textContent = l ? "修改這一針" : "記一針";
   $("mjLogDate").value = l ? l.date : today();
   $("mjLogDose").innerHTML = DOSES.map(d => `<div class="chip" data-v="${d}"><div class="n">${d}</div><div class="c">mg</div></div>`).join("");
-  chipSel($("mjLogDose"), l ? l.dose : P(p).plan.dose);
+  chipSel($("mjLogDose"), l ? l.dose : curDose(p));
   const ps = pens(p).filter(x => !x.done || (l && x.id === l.pen));
   const ap = activePen(p);
   $("mjLogPen").innerHTML = ps.map(x => `<option value="${x.id}">${mg(x.mg)} 筆（${md(x.opened)} 開封）</option>`).join("") + `<option value="">沒有登記的筆</option>`;
@@ -338,7 +350,7 @@ function openPen(id){
   const p = who(), pen = id ? P(p).pens[id] : null; editPen = id;
   $("mjPenTitle").textContent = pen ? "這支筆" : "開封新筆";
   $("mjPenMg").innerHTML = DOSES.map(d => `<div class="chip" data-v="${d}"><div class="n">${d}</div><div class="c">mg</div></div>`).join("");
-  chipSel($("mjPenMg"), pen ? pen.mg : P(p).plan.dose);
+  chipSel($("mjPenMg"), pen ? pen.mg : curDose(p));
   $("mjPenDate").value = pen ? pen.opened : today();
   $("mjPenDone").style.display = pen ? "" : "none";
   $("mjPenDone").textContent = pen && pen.done ? "改回使用中" : "這支用完／丟掉了";
@@ -353,10 +365,14 @@ function savePen(){
   mark(`pen|${p}|${id}`); $("mjPenDlg").close(); render(); say("筆已登記");
 }
 function openPlan(){
-  const p = who();
-  $("mjPlanSub").textContent = `${NAMES[p]} 目前每週的劑量 · 加量請照醫師指示（通常至少間隔 4 週）`;
-  $("mjPlanDose").innerHTML = DOSES.map(d => `<div class="chip" data-v="${d}"><div class="n">${d}</div><div class="c">mg</div></div>`).join("");
-  chipSel($("mjPlanDose"), P(p).plan.dose);
+  const p = who(), pl = P(p).plan, nx = pl.next || {};
+  const chips = DOSES.map(d => `<div class="chip" data-v="${d}"><div class="n">${d}</div><div class="c">mg</div></div>`).join("");
+  $("mjPlanSub").textContent = `${NAMES[p]} 每週的劑量 · 加量請照醫師指示`;
+  $("mjPlanDose").innerHTML = chips; chipSel($("mjPlanDose"), curDose(p));
+  $("mjPlanNext").innerHTML = `<div class="chip" data-v="0"><div class="n">不改</div></div>` + chips;
+  const pending = nx.dose && nx.from && nx.from > nextDate(p);
+  chipSel($("mjPlanNext"), pending ? nx.dose : 0);
+  $("mjPlanFrom").value = pending ? nx.from : addDays(nextDate(p), EVERY);
   $("mjPlanDlg").showModal();
 }
 
@@ -375,7 +391,7 @@ const pick = (box, multi) => $(box).addEventListener("click", e => {
   if (multi) c.classList.toggle("on"); else chipSel($(box), c.dataset.v);
   if (box === "mjLogDose") doseHint();
 });
-pick("mjLogDose"); pick("mjLogSite"); pick("mjLogFx", true); pick("mjPenMg"); pick("mjPlanDose");
+pick("mjLogDose"); pick("mjLogSite"); pick("mjLogFx", true); pick("mjPenMg"); pick("mjPlanDose"); pick("mjPlanNext");
 $("mjLogPen").addEventListener("change", doseHint);
 $("mjLogSave").onclick = saveLog;
 $("mjLogDel").onclick = () => {
@@ -393,7 +409,10 @@ $("mjPenDel").onclick = () => {
 };
 $("mjPlanSave").onclick = () => {
   const p = who(), v = Number(($("mjPlanDose").querySelector(".on") || {}).dataset?.v); if (!v) return;
-  P(p).plan.dose = v; mark("plan|" + p); $("mjPlanDlg").close(); render(); say("劑量已更新");
+  const nv = Number(($("mjPlanNext").querySelector(".on") || {}).dataset?.v), from = $("mjPlanFrom").value;
+  P(p).plan.dose = v;
+  if (nv && from && nv !== v) P(p).plan.next = { dose: nv, from }; else delete P(p).plan.next;
+  mark("plan|" + p); $("mjPlanDlg").close(); render(); say("劑量已更新");
 };
 ["mjLogDlg", "mjPenDlg", "mjPlanDlg"].forEach(id => {
   const dlg = $(id);
