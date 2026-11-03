@@ -17,14 +17,14 @@
 - **頁籤固定六個、這個順序**：📋 行程｜🗺️ 地圖｜🍜 美食｜🛒 清單（`shopping.html`）｜💳 刷卡｜📸 手帳（`journal.html`）。購物清單是獨立頁籤，不放進手帳。
 - **購物清單**：Claude 維護 `shopping.json`，使用者在網站上打勾。依「東西本身是什麼」分類（不是依店家），類別需要時新開，名稱保持一致；規則細節在各趟的 `JOURNAL.md`。
 - **圖示**：全站不直接顯示 emoji，由 `trip-kit/icons.js` 自動換成 Tabler 線條圖示（MIT），風格對齊家的旅程首頁。資料和 HTML 裡照常寫 emoji 即可；→ ↗ ✓ ★ ① 這類一般符號保留。新的 emoji 要配圖示：改 `trip-kit/tools/build-icons.py` 的對照表再重新產生 `icons.js`（不要手改 icons.js）。**11/3 起 `icons.js` 放每頁 `<head>`（gate.js 的下一行）同步載入**，邊解析邊換、繪製前就換好，不會先看到 emoji 再跳成圖示；`trip.js` 裡的載入只是漏放時的備援。
-- **範本同步**：旅程頁的結構或功能有改，`trip-template/` 也要一起改；新的一趟一律從範本複製。
+- **範本同步**：旅程頁的結構或功能有改，`trip-template/` 也要一起改；新的一趟一律從範本複製。**新增旅程的預設步驟（11/3 Chang 定案）**：複製範本 → 改 CLAUDE.md 上面那段的資料夾 → 在 Notion「旅程」新增一筆 → **在 `heroes.py` 加目的地場景並跑一次（手帖首圖，見下）**，不用使用者另外要求。
 - **出發前分頁**：行程頁「出發前」的待辦自動分成「還要做／已完成」（`trip-kit/predep.js`，用 CSS order，不搬 DOM）；行程頁（出發前＋每天）每個打勾項目都有 `data-k`，驗證過的手機自動同步到私有庫 `trips/<趟>/plan-ticks.json`（**新增項目要給不重複的 `data-k`**，例如 `d3-12`；舊的「跨裝置同步」代碼已移除；同步狀態和「立即同步」**只放左下浮動列分享旁邊的雲朵按鈕**（`shopsync.js` 自動加，綠＝同步、黃＝上傳中、紅＝失敗，點了會說原因），頁面裡不要再放同步按鈕或狀態文字）；下面是**攜帶物品清單**，資料在各趟的 `packing.json`（id／name／cat／note／qty），打勾用 ShopSync 同步到私有庫 `trips/<趟>/pack-ticks.json`，訪客看不到。要加帶的東西只改 `packing.json`；**行程頁的打勾（本機）從 10/19 起用 `data-k` 記（`keyOf()`），項目可以自由搬移、增減，不用再寫搬移；只要每個 `.cb` 項目都有不重複的 `data-k`**。
 - **圖文教學視窗（10/17 定案的範本，以大阪 D1「拉比特購票教學」為準）**：交通、購票、操作機器這類「現場一步一步照做」的事，做成按鈕＋底部滑出視窗，不要塞在說明文字裡。
   - 按鈕放在該項目的 label：`<span class="gdbtn" data-guide="ID">📖 ○○教學</span>`；內容寫在頁面底部 `<template id="guide-ID" data-title="🚄 起點 → 終點｜○○教學">`（`trip-kit/trip.js` 會自動處理開關）。範本在 `trip-template/index.html` 的 `guide-sample`。
   - 每一步一張卡：`<div class="gs"><h4><i>N</i>一句話動作</h4><svg>示意圖</svg><p>說明</p></div>`。示意圖用**自己畫的 SVG**（招牌、機器螢幕、票面、列車外觀、路線），顏色照現場實物；**不放網路照片**（版權）。
   - 大阪這趟的教學由 `trip-kit/tools/guides_osaka.py` 產生（SVG 小工具函式在裡面），改內容改這支再重跑，會整段替換 `<!--GUIDES:BEGIN/END-->`；新的一趟可以複製這支改。
   - 寫法：步驟 6–8 步；標題是動作；容易選錯的畫「綠框＝選這個／灰框 ✕＝不要選」；時間、班次標「示意」；最後一張固定是「卡關怎麼辦」，附一句可以直接給店員看的日文（`<span class="say">`）和備案。
-- **手帖首圖（11/3）**：行程頁最上面的 `.hero` 插圖每一趟要照目的地畫（例：大阪＝大阪城＋摩天輪、札幌＝時計台＋電視塔＋雪山櫻花、台北＝北門＋101＋花徑），場景寫在 `trip-kit/tools/heroes.py` 的 `SCENES`，跑 `python3 trip-kit/tools/heroes.py <趟資料夾>` 會整段換掉那頁的 hero SVG。畫法：挑 2–3 個當地地標＋一個會動的小東西，自己畫 SVG（不放網路照片、不畫有版權的角色），顏色限 heroes.py 的 PALETTE、動畫沿用 trip.css 的 sv-* class。大阪 2026/10 的是手寫在頁面裡，不歸這支管。
+- **手帖首圖（11/3）**：行程頁最上面的 `.hero` 插圖**每一趟預設**照目的地畫（例：大阪＝大阪城＋摩天輪、札幌＝時計台＋電視塔＋雪山櫻花、台北＝北門＋101＋花徑），場景寫在 `trip-kit/tools/heroes.py` 的 `SCENES`，跑 `python3 trip-kit/tools/heroes.py <趟資料夾>` 會整段換掉那頁的 hero SVG。畫法：挑 2–3 個當地地標＋一個會動的小東西，自己畫 SVG（不放網路照片、不畫有版權的角色），顏色限 heroes.py 的 PALETTE、動畫沿用 trip.css 的 sv-* class。大阪 2026/10 的是手寫在頁面裡，不歸這支管。
 - **每日天氣**：存在各趟的 `weather.json`（每天的天氣、高低溫、降雨機率、一句穿衣／備案提醒），行程頁自動顯示在每天標題下方；更新天氣只改這個檔。
 - **門禁（10/13）**：全站要先用 GitHub Token 驗證（能讀私有庫 `family-dividend-data`）才能看，由根目錄 `gate.js` 處理；分享連結（旅程頁 `?guest=1`）免驗證，只能看 行程／地圖／美食／清單（10/14 起清單也開放）。**新增任何 HTML 頁都要在 `<meta charset>` 後面同步載入 `gate.js`，下一行接著載 `trip-kit/icons.js`**（旅程頁是 `../gate.js?v=N`、`../trip-kit/icons.js?v=N`），改了 gate.js 或 icons.js 要更新各頁的 `?v=`。
 - **開頁不卡（11/3）**：開頁當下用不到的網路工作——GitHub API 讀寫（清單、行程、行李的打勾 pull）、行程頁抓 `journal-data.json`、`shopping.json` 對應——一律排在 `load` 之後、閒下來才做：共用程式用 `trip.js` 的 `tripIdle(fn)`，行內程式用 `window.addEventListener('load', …)` 包 `requestIdleCallback`。頁面第一眼要看的內容（行程本身、天氣、清單頁的清單）照常馬上載。gate.js 清舊 Service Worker 也改成每支裝置只做一次。
