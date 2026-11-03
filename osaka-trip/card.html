@@ -85,7 +85,7 @@ details.grp[open]>summary::after{transform:rotate(180deg)}
 .gh3{display:block;font-size:14.5px;font-weight:700;color:#5D3713;margin:22px 2px 10px;padding:0 0 7px;border-bottom:2px dotted #E8D6A2;line-height:1.5;background:none}
 .grpb>.gh3:first-child{margin-top:8px}
 </style>
-<link rel="stylesheet" href="../trip-kit/trip.css?v=2">
+<link rel="stylesheet" href="../trip-kit/trip.css?v=3">
 </head>
 <body>
 <nav>
@@ -557,7 +557,7 @@ details.grp[open]>summary::after{transform:rotate(180deg)}
   document.querySelectorAll('details.grp').forEach(function(d){ d.addEventListener('toggle',function(){ if(d.open){ var y=d.getBoundingClientRect().top+scrollY-(parseInt(getComputedStyle(document.documentElement).getPropertyValue('--navh'))||58)-6; if(y<scrollY) scrollTo({top:y,behavior:'smooth'}); } }); });
 })();
 </script>
-<script src="../trip-kit/trip.js?v=17"></script>
+<script src="../trip-kit/trip.js?v=18"></script>
 <script src="../trip-home.js?v=11"></script>
 </body>
 </html>

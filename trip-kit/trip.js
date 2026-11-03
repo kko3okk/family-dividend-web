@@ -128,6 +128,14 @@
       if(r.indexOf(0)<0) try{ localStorage.setItem(k,String(Date.now())); }catch(err){}
     });
   }
-  function init(){ run(); spacer(); pimgStyle(); if(window.__tripAuthOK===true) document.documentElement.classList.add('trip-auth'); }
+  // 桌面版：把每天的 day-block 包進 .day-cols，寬螢幕排兩欄（CSS 只在 ≥1024px 啟用，手機版不受影響）
+  function dayCols(){
+    if(document.querySelector('.day-cols')) return;
+    var dbs=[].slice.call(document.querySelectorAll('body > .day-block'));
+    if(dbs.length<2) return;
+    var w=document.createElement('div'); w.className='day-cols';
+    dbs[0].parentNode.insertBefore(w,dbs[0]); dbs.forEach(function(d){ w.appendChild(d); });
+  }
+  function init(){ dayCols(); run(); spacer(); pimgStyle(); if(window.__tripAuthOK===true) document.documentElement.classList.add('trip-auth'); }
   if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
 })();

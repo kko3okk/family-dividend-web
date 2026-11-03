@@ -27,6 +27,7 @@
 - **手帖首圖（11/3）**：行程頁最上面的 `.hero` 插圖**每一趟預設**照目的地畫（例：大阪＝大阪城＋摩天輪、札幌＝時計台＋電視塔＋雪山櫻花、台北＝北門＋101＋花徑），場景寫在 `trip-kit/tools/heroes.py` 的 `SCENES`，跑 `python3 trip-kit/tools/heroes.py <趟資料夾>` 會整段換掉那頁的 hero SVG。畫法：挑 2–3 個當地地標＋一個會動的小東西，自己畫 SVG（不放網路照片、不畫有版權的角色），顏色限 heroes.py 的 PALETTE、動畫沿用 trip.css 的 sv-* class。大阪 2026/10 的是手寫在頁面裡，不歸這支管。
 - **每日天氣**：存在各趟的 `weather.json`（每天的天氣、高低溫、降雨機率、一句穿衣／備案提醒），行程頁自動顯示在每天標題下方；更新天氣只改這個檔。
 - **門禁（10/13）**：全站要先用 GitHub Token 驗證（能讀私有庫 `family-dividend-data`）才能看，由根目錄 `gate.js` 處理；分享連結（旅程頁 `?guest=1`）免驗證，只能看 行程／地圖／美食／清單（10/14 起清單也開放）。**新增任何 HTML 頁都要在 `<meta charset>` 後面同步載入 `gate.js`，下一行接著載 `trip-kit/icons.js`**（旅程頁是 `../gate.js?v=N`、`../trip-kit/icons.js?v=N`），改了 gate.js 或 icons.js 要更新各頁的 `?v=`。
+- **桌面版（11/3）**：手帖六頁同一份 HTML 自動適應：`trip-kit/trip.css` 最後的 `@media (min-width:1024px)` 區塊＋`trip.js` 的 `dayCols()`（把 day-block 包進 `.day-cols`）。寬螢幕時：行程頁內容拉寬到 1150px、首圖左圖右字、出發前「待辦｜攜帶清單」並排、每天的行程排兩欄（前半趟在左）；其他手帖頁拉寬到 920px；≤1023px 完全是原本的手機版。新頁照範本複製就自動適用；改桌面版只改這兩個檔，不要在各頁寫死桌面樣式。
 - **開頁不卡（11/3）**：開頁當下用不到的網路工作——GitHub API 讀寫（清單、行程、行李的打勾 pull）、行程頁抓 `journal-data.json`、`shopping.json` 對應——一律排在 `load` 之後、閒下來才做：共用程式用 `trip.js` 的 `tripIdle(fn)`，行內程式用 `window.addEventListener('load', …)` 包 `requestIdleCallback`。頁面第一眼要看的內容（行程本身、天氣、清單頁的清單）照常馬上載。gate.js 清舊 Service Worker 也改成每支裝置只做一次。
 - **離線版已移除（10/24）**：讓網站變重、操作卡，所以拿掉了。根目錄 `sw.js` 現在只會清掉手機上舊的 Service Worker 和快取，`gate.js` 也會主動解除註冊；私有圖片改成要看時才讀，手帳照片捲到附近才載入。**不要再加回預存整站或預抓圖片的功能。**
 - 共用樣式在 `trip-kit/`（`trip.css`、`trip.js`、`icons.js`），改了要更新各頁引用的 `?v=` 版本號；首頁有改就同步更新 `APP_VERSION` 和 `version.json`。

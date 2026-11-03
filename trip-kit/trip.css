@@ -187,3 +187,22 @@ details summary{cursor:pointer}
   nav.pages, body>nav{gap:4px!important}
   nav.pages a, body>nav a{font-size:12px!important;letter-spacing:.02em}
 }
+
+/* ═══ 桌面版（2026-11-03）：≥1024px 才啟用，手機版完全不動 ═══ */
+@media (min-width:1024px){
+  body{max-width:920px!important}
+  body:has(.day-cols){max-width:1150px!important}
+  /* 手帖首圖：插圖在左、標題與倒數在右 */
+  .hero{display:grid;grid-template-columns:440px 1fr;align-items:center;column-gap:34px;text-align:left;padding:16px 34px 16px 16px}
+  .hero svg{grid-row:1/4;max-width:440px}
+  .hero h1{margin-top:0;font-size:25px}
+  .hero .subtitle{margin-bottom:10px!important}
+  .hero .countdown{justify-self:start}
+  /* 出發前：待辦在左、攜帶物品清單在右 */
+  .section:has(#packList){display:grid;grid-template-columns:1fr 1fr;gap:0 22px;align-items:start}
+  .section:has(#packList) .section-title{grid-column:1/-1}
+  .section #packList{margin-top:0}
+  /* 每天的行程排兩欄：前半趟在左、後半趟在右（trip.js 會把 day-block 包進 .day-cols） */
+  .day-cols{columns:2;column-gap:22px}
+  .day-cols .day-block{break-inside:avoid}
+}
