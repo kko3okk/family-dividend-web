@@ -1,6 +1,17 @@
 {
-  "updated": "",
-  "moments": [],
-  "receipts": [],
-  "diaries": {}
+ "updated": "2026-11-03",
+ "moments": [],
+ "receipts": [],
+ "diaries": {},
+ "prepaid": [
+  {
+   "id": "pp-flight-out",
+   "name": "去程機票稅金燃油費（長榮 BR116，哩程票 2 人，每人 3,052）",
+   "cat": "trans",
+   "amount": 6104,
+   "cur": "TWD",
+   "who": "me",
+   "note": "機票本身用哩程兌換"
+  }
+ ]
 }
