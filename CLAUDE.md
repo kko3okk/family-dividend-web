@@ -7,13 +7,13 @@
 
 使用者傳照片並說「記帳」「日記」「整理今天的日記」、要加或勾購物清單，或要修改、刪除手帳紀錄時，找出進行中的那一趟（下一趟是台北皮克敏 2027/1/30–1/31，`taipei2027-trip/`；再來是札幌 2027/4/16–4/23，`sapporo2027-trip/`（原本的東京 3/27–4/3 已取消，`tokyo2027-trip/` 保留不列在首頁）；大阪 2026/10 那趟在 `osaka-trip/`），先讀那個資料夾的 `JOURNAL.md`，照規則更新同資料夾的 `journal-data.json`／`shopping.json` 並推上 GitHub。新的一趟從 `trip-template/` 複製，記得把這段改成新的資料夾。
 
-**消費紀錄以 Notion 為準（11/3 起）**：勾了「同步到網站」的趟次（目前台北皮克敏、札幌），「記帳」改寫 Notion 的「消費紀錄」資料庫（《資金與時程總覽》→《旅遊》底下），GitHub Actions `notion-sync` 每 15 分鐘寫回 `journal-data.json` 的 `receipts`／`prepaid`；不要直接改這兩塊，會被蓋掉。規則和欄位對照在各趟 `JOURNAL.md`。**行程和購物清單照舊直接改網站檔案**（Notion 的「行程」「購物清單」資料庫目前不同步，札幌、台北的行程在那裡只是 11/3 的備份）。新的一趟要同步消費：在 Notion「旅程」新增一筆，填「網站資料夾」並勾「同步到網站」。
+**消費紀錄 Notion、網站兩邊都寫（11/3 起）**：台北皮克敏、札幌，以及之後的每一趟，「記帳」時 Claude 同時寫網站的 `journal-data.json`（`receipts`／`prepaid`）和 Notion《資金與時程總覽》→《旅遊》底下的「消費紀錄」資料庫，兩邊用同一個 id（Notion 的「來源ID」）；改帳、刪帳也兩邊一起改。沒有自動同步、不用任何金鑰。使用者說「同步消費」時，從 Notion 讀這趟的消費紀錄，把有差異的寫回 `journal-data.json`。規則和欄位對照在各趟 `JOURNAL.md`。行程和購物清單只改網站檔案（Notion 的「行程」「購物清單」資料庫只是備份）。新的一趟：在 Notion「旅程」新增一筆並填「網站資料夾」。
 
 **規劃草稿放 Notion（11/2 起試行）**：還沒定案的行程（日期比較、候補方案、訂票待辦）改寫在 Notion 頁面《旅遊規劃草稿》（《資金與時程總覽》→《旅遊》底下），不要為此改 HTML；定案後才寫進旅程頁。現場要用的東西（行程、地圖、美食、購物清單、手帳、攜帶物品）維持在網站。
 
 ## 旅遊網站的固定規則（Chang 10/12 定案，之後調整都照這個）
 
-- **AI 只走訂閱制**：不要用 Claude API、不要放 API 金鑰或架需要金鑰的後端。**例外（11/3 Chang 放寬）**：Notion 同步用的 `NOTION_TOKEN` 可以放在 GitHub repo 的 Secrets，給 `.github/workflows/notion-sync.yml` 用；只能放 Secrets，不能寫進任何檔案、網頁或 JS。照片翻譯、收據、日記、購物清單，一律由使用者在 Claude App 傳給 Claude Code 處理，結果寫回 repo 的 JSON 檔再推上 GitHub。
+- **AI 只走訂閱制**：不要用 Claude API、不要放 API 金鑰或架需要金鑰的後端。照片翻譯、收據、日記、購物清單，一律由使用者在 Claude App 傳給 Claude Code 處理，結果寫回 repo 的 JSON 檔再推上 GitHub。
 - **頁籤固定六個、這個順序**：📋 行程｜🗺️ 地圖｜🍜 美食｜🛒 清單（`shopping.html`）｜💳 刷卡｜📸 手帳（`journal.html`）。購物清單是獨立頁籤，不放進手帳。
 - **購物清單**：Claude 維護 `shopping.json`，使用者在網站上打勾。依「東西本身是什麼」分類（不是依店家），類別需要時新開，名稱保持一致；規則細節在各趟的 `JOURNAL.md`。
 - **圖示**：全站不直接顯示 emoji，由 `trip-kit/icons.js` 自動換成 Tabler 線條圖示（MIT），風格對齊家的旅程首頁。資料和 HTML 裡照常寫 emoji 即可；→ ↗ ✓ ★ ① 這類一般符號保留。新的 emoji 要配圖示：改 `trip-kit/tools/build-icons.py` 的對照表再重新產生 `icons.js`（不要手改 icons.js）。

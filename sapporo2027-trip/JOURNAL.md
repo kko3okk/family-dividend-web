@@ -5,15 +5,13 @@ Claude 依這份規則處理，把結果寫進這趟資料夾的 `journal-data.j
 
 一律用繁體中文回覆。
 
-## 消費紀錄以 Notion 為準（2026-11-03 起，勾了「同步到網站」的趟次）
+## 記帳：網站和 Notion 兩邊都寫（2026-11-03 起）
 
-收據和出發前預付以 Notion《資金與時程總覽》→《旅遊》底下的「消費紀錄」資料庫為準（「旅程」欄位關聯到這一趟）。GitHub Actions `notion-sync` 每 15 分鐘把它寫回 `journal-data.json` 的 `receipts`、`prepaid`（`trip-kit/tools/notion_sync.py`）。
-- **不要直接改 `receipts`、`prepaid`**，下次同步會被蓋掉。`moments`、`diaries`、`suica` 稽核照舊直接改 `journal-data.json`。
-- **行程（`index.html`）、購物清單（`shopping.json`）照舊直接改檔案**，不經過 Notion。
-- **「記帳」→ 在 Notion「消費紀錄」新增一筆**，欄位對照下面的 JSON：`store_zh`→店家、`total`→日圓（台幣計價填「台幣」）、`card`→付款方式（U=uniopen、K=熊本熊卡、KP=玉山 PayPay、J=吉鶴 Apple Pay、W=老婆 JCB、S=Suica、C=現金…）、`who`→誰付（Chang／老婆）、`cat`→分類（餐飲、超商超市、購物、遊樂扭蛋、交通、住宿、景點門票、其他）、`tax_free`→免稅、`suica`→西瓜卡、`notes`→備註、日期＋時間→日期（當地時間照寫，加 `+08:00`）、`id`→來源ID（照下面的命名規則）。品項寫在**頁面內容**，一行一項：`- 中文品名 ×數量 ¥價格`（數量 1 可省略，折扣寫負數）。出發前預付的勾「預付」。
-- 收據上有購物清單的東西時，`shopping.json` 的 `bought` 照舊直接改。
-- 記完要立刻看到：GitHub → Actions → notion-sync → Run workflow，不然最多等 15 分鐘。
-- 已結束的大阪 2026/10 沒有勾同步，那趟的檔案照舊直接改。
+每一筆收據、出發前預付，都要**同時**寫進這趟的 `journal-data.json`（照下面的規則）和 Notion《資金與時程總覽》→《旅遊》底下的「消費紀錄」資料庫（「旅程」欄位關聯到這一趟）。沒有自動同步，兩邊都由 Claude 寫。
+- Notion 欄位對照：`id`→來源ID（兩邊一定要一樣）、`store_zh`→店家、`total`→日圓（台幣計價填「台幣」）、`card`→付款方式（U=uniopen、K=熊本熊卡、KP=玉山 PayPay、J=吉鶴 Apple Pay、W=老婆 JCB、S=Suica、C=現金…）、`who`→誰付（Chang／老婆）、`cat`→分類（food 餐飲、conv 超商超市、shop 購物、play 遊樂扭蛋、trans 交通、stay 住宿、sight 景點門票、other 其他）、`tax_free`→免稅、`suica`→西瓜卡、`notes`→備註、日期＋時間→日期（當地時間照寫，加 `+08:00`）。品項寫在頁面內容，一行一項：`- 中文品名 ×數量 ¥價格`。預付的勾「預付」。
+- 改帳、刪帳：兩邊一起改（用來源ID 找 Notion 那一筆）。
+- 使用者說「同步消費」：從 Notion 讀這趟的消費紀錄，跟 `journal-data.json` 比對，Notion 上有改的寫回網站（日文品名保留網站原本的）。
+- 已結束的大阪 2026/10 也已經整趟匯進 Notion（11/3），之後改大阪的帳一樣兩邊改。
 
 ## 隱私（repo 是公開的）
 
