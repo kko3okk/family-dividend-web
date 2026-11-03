@@ -32,13 +32,19 @@
   function markOK(t) { set("gh_token", t); set("authOK", JSON.stringify({ h: hash(t), t: Date.now() })); set("familyDevice", "1"); }
   function markBad() { del("authOK"); del("familyDevice"); try { if (window.caches) caches.delete("trip-private"); } catch (e) {} }
 
-  // 離線版已移除（2026-10-24）：把舊的 Service Worker 和快取清掉
+  // 離線版已移除（2026-10-24）：把舊的 Service Worker 和快取清掉。
+  // 11/3 起每支裝置只做一次、而且等開頁安頓後才做，不佔用開頁時間。
   (function noOffline() {
-    try {
-      if ("serviceWorker" in navigator && navigator.serviceWorker.getRegistrations)
-        navigator.serviceWorker.getRegistrations().then(function (rs) { rs.forEach(function (r) { r.unregister(); }); }).catch(function () {});
-      if (window.caches) caches.keys().then(function (ks) { ks.forEach(function (k) { caches.delete(k); }); }).catch(function () {});
-    } catch (e) {}
+    if (get("swGone") === "1") return;
+    setTimeout(function () {
+      try {
+        var jobs = [];
+        if ("serviceWorker" in navigator && navigator.serviceWorker.getRegistrations)
+          jobs.push(navigator.serviceWorker.getRegistrations().then(function (rs) { return Promise.all(rs.map(function (r) { return r.unregister(); })); }));
+        if (window.caches) jobs.push(caches.keys().then(function (ks) { return Promise.all(ks.map(function (k) { return caches.delete(k); })); }));
+        Promise.all(jobs).then(function () { set("swGone", "1"); }).catch(function () {});
+      } catch (e) {}
+    }, 2000);
   })();
 
   window.__tripAuthOK = verified;

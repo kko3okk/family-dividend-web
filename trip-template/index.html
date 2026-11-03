@@ -2,7 +2,8 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<script src="../gate.js?v=5"></script>
+<script src="../gate.js?v=6"></script>
+<script src="../trip-kit/icons.js?v=11"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#FFFCF6">
@@ -460,7 +461,9 @@ function mergeRecs(inc){
   const sel=document.getElementById('pfDay');
   if(sel){ for(let i=1;i<=DAYDATE.length;i++){ const o=document.createElement('option'); o.value='D'+i; o.textContent='D'+i+'（'+DAYDATE[i-1].slice(5).replace('-','/')+'）'; sel.appendChild(o); } sel.value=todayDay(); }
 })();
-loadRecs(); loadJournalRecs();
+loadRecs();
+/* 手帳的帳（journal-data.json）等頁面畫完、閒下來再抓，抓到會自動重算刷卡額度（開頁不卡） */
+window.addEventListener('load',function(){ (window.requestIdleCallback||function(cb){setTimeout(cb,300);})(loadJournalRecs); },{once:true});
 renderAll();
 restore();
 updateProgress();
@@ -495,7 +498,7 @@ refreshCode();
 <p>・看不懂機器：給櫃台看這句：<br><span class="say">（日文一句話）</span><br>・班次滿了／沒車：備案寫在這裡。</p></div>
 </template>
 <script src="../trip-kit/shopsync.js?v=4"></script>
-<script src="../trip-kit/predep.js?v=7"></script>
+<script src="../trip-kit/predep.js?v=8"></script>
 <script>
 /* 🛒 購物清單 → 行程：shopping.json 每項的 at（例 ["D5-drug"]）對應行程項目的 data-shop，
    在那一項下面列出「這裡要買」，已買的劃掉；點了開清單頁。分享出去的訪客也看得到。 */
@@ -523,13 +526,16 @@ refreshCode();
       el.querySelector('.content').appendChild(d);
     });
   }
-  fetch('shopping.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():{items:[]};}).then(function(j){
-    shopJ=j; paint(); if(sync) sync.pull().then(function(ch){ if(ch) paint(); });
-    document.addEventListener('tripsync',paint);
-  }).catch(function(){});
+  /* 清單對應和打勾同步等頁面畫完、閒下來再抓（開頁不卡） */
+  window.addEventListener('load',function(){ (window.requestIdleCallback||function(cb){setTimeout(cb,300);})(function(){
+    fetch('shopping.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():{items:[]};}).then(function(j){
+      shopJ=j; paint(); if(sync) sync.pull().then(function(ch){ if(ch) paint(); });
+      document.addEventListener('tripsync',paint);
+    }).catch(function(){});
+  }); },{once:true});
 })();
 </script>
-<script src="../trip-kit/trip.js?v=16"></script>
+<script src="../trip-kit/trip.js?v=17"></script>
 <script>
 /* ── 出發倒數 ── */
 (function(){

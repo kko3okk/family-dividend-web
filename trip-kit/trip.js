@@ -4,8 +4,15 @@
    3) 私有圖片按鈕（.pimg）：從私有庫讀圖，只給驗證過的手機看；需要時才讀（離線版已移除）
    4) 圖文教學視窗：<span class="gdbtn" data-guide="xxx">📖 教學</span> 點開 <template id="guide-xxx"> 的內容 */
 (function(){
-  // 全站 emoji → 線條圖示
-  if(!window.__tripIcons){ var cs=document.currentScript; var sc=document.createElement('script'); sc.src=(cs&&cs.src?cs.src.replace(/trip\.js(\?.*)?$/,'icons.js?v=10'):'../trip-kit/icons.js?v=2'); document.head.appendChild(sc); }
+  // 全站 emoji → 線條圖示：正常情況 icons.js 已經在 <head> 載好（gate.js 之後），這裡只是漏放時的備援
+  if(!window.__tripIcons){ var cs=document.currentScript; var sc=document.createElement('script'); sc.src=(cs&&cs.src?cs.src.replace(/trip\.js(\?.*)?$/,'icons.js?v=11'):'../trip-kit/icons.js?v=11'); document.head.appendChild(sc); }
+  // tripIdle(fn)：把「開頁後才需要的同步、抓資料」排到頁面載完、閒下來才做，開頁不卡。
+  // 規則（11/3）：開頁流程裡的 GitHub API 讀寫、清單同步 pull，一律包 tripIdle。
+  window.tripIdle=function(f){
+    function go(){ (window.requestIdleCallback||function(cb){setTimeout(cb,300);})(function(){ try{ f(); }catch(e){} }); }
+    if(document.readyState==='complete') go();
+    else window.addEventListener('load',function(){ setTimeout(go,200); },{once:true});
+  };
   var PAPER=[253,247,225];
   function parse(c){var m=c&&c.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);return m?[+m[1],+m[2],+m[3]]:null;}
   function soften(el,k){

@@ -45,17 +45,18 @@
   st.textContent = '.ti{display:inline-block;width:1.08em;height:1.08em;vertical-align:-.17em;line-height:1;flex:0 0 auto}.ti svg{width:100%;height:100%;display:block}';
   (document.head || document.documentElement).appendChild(st);
 
-  var pending = [], timer = null;
-  function flush(){ timer = null; var l = pending; pending = []; l.forEach(walk); }
-  function start(){
-    walk(document.body);
-    new MutationObserver(function(ms){
-      ms.forEach(function(m){
-        if (m.type === 'characterData') pending.push(m.target);
-        else for (var i = 0; i < m.addedNodes.length; i++) pending.push(m.addedNodes[i]);
-      });
-      if (!timer) timer = setTimeout(flush, 0);
-    }).observe(document.body, { childList:true, subtree:true, characterData:true });
+  // 換圖示要趕在瀏覽器畫出來之前（2026-11-03）：
+  // - 這支放在每頁 <head>、gate.js 之後「同步」載入，從頭就監看整份文件，邊解析邊換
+  // - MutationObserver 的回呼跑在繪製之前，所以不會先看到 emoji 再跳成圖示
+  // - 舊頁面放在頁尾載入也沒關係：載入當下會把已經畫出來的整頁補換一次
+  function onMut(ms){
+    for (var j = 0; j < ms.length; j++){
+      var m = ms[j];
+      if (m.type === 'characterData') fix(m.target);
+      else for (var i = 0; i < m.addedNodes.length; i++) walk(m.addedNodes[i]);
+    }
   }
-  if (document.body) start(); else document.addEventListener('DOMContentLoaded', start);
+  new MutationObserver(onMut).observe(document.documentElement, { childList:true, subtree:true, characterData:true });
+  walk(document.body);
+  document.addEventListener('DOMContentLoaded', function(){ walk(document.body); });
 })();

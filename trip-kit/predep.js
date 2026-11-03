@@ -208,6 +208,11 @@
       var it = n.closest(".item"); if (it) it.classList.toggle("pd-open");
     });
   }
-  function init() { initTodo(); initPack(); initTickSync(); liftPimg(); initClamp(); }
+  function init() {
+    initTodo(); liftPimg(); initClamp();
+    // 攜帶清單（抓 packing.json）和打勾同步的遠端讀取，等頁面畫完、閒下來再做（開頁不卡）
+    var idle = window.tripIdle || function (f) { setTimeout(f, 400); };
+    idle(initPack); idle(initTickSync);
+  }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
 })();
