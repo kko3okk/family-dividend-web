@@ -1677,7 +1677,7 @@
       <div class="sp-gl" data-en="DATA">資料</div>
       <div class="sp-group">
         <button class="sp-row nav" data-go="sync"><i class="sp-ic g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17.5a4.5 4.5 0 0 1-.6-9 5.5 5.5 0 0 1 10.6 1.4 3.8 3.8 0 0 1-.5 7.6Z"/><path d="M12 11v5M9.8 13.8 12 16l2.2-2.2"/></svg></i><span class="sp-l">雲端同步<small>GitHub Token、資料狀態</small></span><span class="sp-v" id="spSyncV">–</span></button>
-        <button class="sp-row nav" data-go="sched"><i class="sp-ic b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 2"/></svg></i><span class="sp-l">自動排程<small>每天幾點自動做什麼、有沒有正常執行</small></span><span class="sp-v" id="spSchedV">16 項</span></button>
+        <button class="sp-row nav" data-go="sched"><i class="sp-ic b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 2"/></svg></i><span class="sp-l">自動排程<small>每天幾點自動做什麼、有沒有正常執行</small></span><span class="sp-v" id="spSchedV">17 項</span></button>
       </div>
 
       <div class="sp-gl" data-en="PREFERENCE">偏好</div>
@@ -1737,6 +1737,7 @@
       </div>
       <div class="sp-gl">其他</div>
       <div class="sp-group">
+        <div class="sp-row" data-k="notion"><span class="sp-t">每 15 分</span><span class="sp-l">Notion 旅遊同步<small>把 Notion 的行程、消費紀錄、購物清單寫進勾了「同步到網站」那幾趟的旅程頁</small></span><i class="sl" aria-hidden="true"></i></div>
         <div class="sp-row" data-k="house"><span class="sp-t">09:00</span><span class="sp-l">微丘森鄰物件監控（Claude）<small>每天搜尋符合條件的三房物件，有新物件才推播</small></span><i class="sl" aria-hidden="true"></i></div>
       </div>
     </div>
@@ -1930,7 +1931,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.11.02-1730";
+const APP_VERSION="2026.11.03-1500";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];

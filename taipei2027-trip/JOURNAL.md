@@ -5,6 +5,21 @@ Claude 依這份規則處理，把結果寫進這趟資料夾的 `journal-data.j
 
 一律用繁體中文回覆。
 
+## 資料來源是 Notion（2026-11-03 起，勾了「同步到網站」的趟次）
+
+收據、購物清單、行程**以 Notion 為準**：《資金與時程總覽》底下的「消費紀錄」「購物清單」「行程」三個資料庫，用「旅程」欄位關聯到這一趟。GitHub Actions `notion-sync` 每 15 分鐘把 Notion 寫回網站（`trip-kit/tools/notion_sync.py`）：
+- 消費紀錄 → `journal-data.json` 的 `receipts`、`prepaid`
+- 購物清單 → `shopping.json` 的 `items`
+- 行程 → `index.html` 裡 `<!--PREDEP:BEGIN/END-->`（出發前）和 `<!--DAYS:BEGIN/END-->`（每天）之間
+
+所以：
+- **不要直接改**上面這幾塊，下次同步會被 Notion 的內容蓋掉。`moments`、`diaries`、`suica` 稽核、標記以外的 HTML 照舊直接改檔案。
+- **「記帳」→ 在 Notion「消費紀錄」新增一筆**，欄位對照下面的 JSON：`store_zh`→店家、`total`→日圓（台幣計價填「台幣」）、`card`→付款方式（U=uniopen、K=熊本熊卡、KP=玉山 PayPay、J=吉鶴 Apple Pay、W=老婆 JCB、S=Suica、C=現金…）、`who`→誰付（Chang／老婆）、`cat`→分類（餐飲、超商超市、購物、遊樂扭蛋、交通、住宿、景點門票、其他）、`tax_free`→免稅、`suica`→西瓜卡、`notes`→備註、日期＋時間→日期（當地時間照寫，加 `+08:00`）、`id`→來源ID（照下面的命名規則）。品項寫在**頁面內容**，一行一項：`- 中文品名 ×數量 ¥價格`（數量 1 可省略，折扣寫負數）。出發前預付的勾「預付」。
+- **購物清單 → Notion「購物清單」**：`id`→來源ID（`s-` 開頭）、`name`→品名、`ja`→日文、`cat`→分類、`where`→哪裡買、`price`→價格、`qty`→數量、`for`→送誰、`note`→備註、`bought`→已買、`at`→行程對應（空白分隔）、`img`／`url`→圖片／官網。
+- **改行程 → Notion「行程」**：一項一筆，`第幾天`（出發前／D1…）、`排序`（10、20…）、`鍵`（`data-k`，不能重複，新項目可留空）。標籤寫「美食:拉麵｜提醒:出發前」，交通、備案一行一段（第一行「按鈕:文字」可改按鈕名），教學寫「guide-id 📖 按鈕文字」，填了刷卡規則才會出現「💳 刷卡」，購物對應就是 `data-shop`。狀態「取消」不顯示、「候補」會加灰色標籤。每天的標題在「旅程」的「每日標題」（`D1|bo|標題|4/16（五）`）。格式細節在 `trip-kit/tools/itin.py` 開頭。
+- 改完要立刻看到：到 GitHub → Actions → notion-sync → Run workflow，不然最多等 15 分鐘。
+- 已結束的大阪 2026/10 沒有勾同步，那趟的檔案照舊直接改。
+
 ## 隱私（repo 是公開的）
 
 - **照片本身絕對不要 commit**，只寫整理後的文字。

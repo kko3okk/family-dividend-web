@@ -1,0 +1,34 @@
+name: notion-sync
+# Notion（行程／消費紀錄／購物清單）→ 旅遊網站。只同步「旅程」資料庫勾了「同步到網站」的那幾趟。
+# 金鑰 NOTION_TOKEN 只放在 repo 的 Settings → Secrets，不要寫進任何檔案。
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+permissions: {contents: write}
+concurrency: {group: notion-sync, cancel-in-progress: false}
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - name: Notion → 網站檔案
+        id: s
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        run: |
+          if [ -z "$NOTION_TOKEN" ]; then echo "還沒設定 NOTION_TOKEN，跳過"; echo "changed=0" >> "$GITHUB_OUTPUT"; exit 0; fi
+          python3 trip-kit/tools/notion_sync.py
+      - name: commit & push
+        if: steps.s.outputs.changed != '0'
+        run: |
+          git config user.name "notion-sync"
+          git config user.email "notion-sync@users.noreply.github.com"
+          git add -A -- '*-trip/index.html' '*-trip/journal-data.json' '*-trip/shopping.json'
+          git diff --cached --quiet && exit 0
+          git commit -m "Notion 同步：行程／消費／購物清單"
+          for i in 1 2 3; do git pull --rebase -q && git push -q && exit 0; sleep 5; done
+          exit 1
