@@ -7,7 +7,7 @@ Claude 依這份規則處理，把結果寫進這趟資料夾的 `journal-data.j
 
 ## 消費紀錄以 Notion 為準（2026-11-03 起，勾了「同步到網站」的趟次）
 
-收據和出發前預付以 Notion《資金與時程總覽》底下的「消費紀錄」資料庫為準（「旅程」欄位關聯到這一趟）。GitHub Actions `notion-sync` 每 15 分鐘把它寫回 `journal-data.json` 的 `receipts`、`prepaid`（`trip-kit/tools/notion_sync.py`）。
+收據和出發前預付以 Notion《資金與時程總覽》→《旅遊》底下的「消費紀錄」資料庫為準（「旅程」欄位關聯到這一趟）。GitHub Actions `notion-sync` 每 15 分鐘把它寫回 `journal-data.json` 的 `receipts`、`prepaid`（`trip-kit/tools/notion_sync.py`）。
 - **不要直接改 `receipts`、`prepaid`**，下次同步會被蓋掉。`moments`、`diaries`、`suica` 稽核照舊直接改 `journal-data.json`。
 - **行程（`index.html`）、購物清單（`shopping.json`）照舊直接改檔案**，不經過 Notion。
 - **「記帳」→ 在 Notion「消費紀錄」新增一筆**，欄位對照下面的 JSON：`store_zh`→店家、`total`→日圓（台幣計價填「台幣」）、`card`→付款方式（U=uniopen、K=熊本熊卡、KP=玉山 PayPay、J=吉鶴 Apple Pay、W=老婆 JCB、S=Suica、C=現金…）、`who`→誰付（Chang／老婆）、`cat`→分類（餐飲、超商超市、購物、遊樂扭蛋、交通、住宿、景點門票、其他）、`tax_free`→免稅、`suica`→西瓜卡、`notes`→備註、日期＋時間→日期（當地時間照寫，加 `+08:00`）、`id`→來源ID（照下面的命名規則）。品項寫在**頁面內容**，一行一項：`- 中文品名 ×數量 ¥價格`（數量 1 可省略，折扣寫負數）。出發前預付的勾「預付」。
