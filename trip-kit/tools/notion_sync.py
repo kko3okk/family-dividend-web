@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Notion → 旅遊網站 同步（GitHub Actions 每 15 分鐘跑一次，也可手動觸發）。
 
-Notion 是資料來源，這支只把資料寫成網站讀的檔案：
-- 行程（行程資料庫）→ <趟>/index.html 的 <!--PREDEP:…--> 和 <!--DAYS:…--> 兩段
-- 消費紀錄 → <趟>/journal-data.json 的 receipts、prepaid（moments、diaries 等不動）
-- 購物清單 → <趟>/shopping.json 的 items
+目前只同步「消費紀錄」→ <趟>/journal-data.json 的 receipts、prepaid（moments、diaries 等不動）。
+行程、購物清單 11/3 決定留在網站直接改；下面的 sync_itin、sync_shop 留著備用，
+要開的話把 SYNC 加上 'itin'／'shop'，並在 index.html 加回 <!--PREDEP/DAYS:BEGIN/END--> 標記。
 只處理「旅程」資料庫裡勾了「同步到網站」、有填「網站資料夾」的那幾趟。
 
 需要環境變數 NOTION_TOKEN（Notion 內部整合的金鑰，只放在 GitHub Secrets）。
@@ -32,6 +31,7 @@ DS = {  # Notion data source（collection）ID
 API = 'https://api.notion.com/v1'
 VER = '2025-09-03'
 DRY = '--dry' in sys.argv
+SYNC = {'spend'}  # 可加 'itin'、'shop'
 
 CARD = {'uniopen': 'U', '熊本熊卡': 'K', '玉山 PayPay': 'KP', '吉鶴 Apple Pay': 'J', '老婆 JCB': 'W',
         'CUBE': 'CUBE', 'Suica': 'S', '現金': 'C', 'ANA Pay': 'ANA', 'HSBC 旅人': 'HSBC', 'LINE Pay': 'LINE', '其他': 'O'}
@@ -361,9 +361,12 @@ def main():
             print('⚠ %s：網站資料夾「%s」不存在，跳過' % (t.get('旅程'), folder))
             continue
         print('▶ %s → %s' % (t.get('旅程'), folder))
-        sync_itin(t, folder)
-        sync_spend(t, folder)
-        sync_shop(t, folder)
+        if 'itin' in SYNC:
+            sync_itin(t, folder)
+        if 'spend' in SYNC:
+            sync_spend(t, folder)
+        if 'shop' in SYNC:
+            sync_shop(t, folder)
     print('完成，%d 個檔案有變更%s' % (len(changed), '（試跑，沒寫入）' if DRY else ''))
     out = os.environ.get('GITHUB_OUTPUT')
     if out:

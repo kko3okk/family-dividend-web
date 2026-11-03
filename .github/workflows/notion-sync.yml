@@ -1,5 +1,5 @@
 name: notion-sync
-# Notion（行程／消費紀錄／購物清單）→ 旅遊網站。只同步「旅程」資料庫勾了「同步到網站」的那幾趟。
+# Notion「消費紀錄」→ 旅遊網站手帳（journal-data.json）。只同步「旅程」資料庫勾了「同步到網站」的那幾趟。
 # 金鑰 NOTION_TOKEN 只放在 repo 的 Settings → Secrets，不要寫進任何檔案。
 on:
   schedule:
@@ -27,8 +27,8 @@ jobs:
         run: |
           git config user.name "notion-sync"
           git config user.email "notion-sync@users.noreply.github.com"
-          git add -A -- '*-trip/index.html' '*-trip/journal-data.json' '*-trip/shopping.json'
+          git add -A -- '*-trip/journal-data.json'
           git diff --cached --quiet && exit 0
-          git commit -m "Notion 同步：行程／消費／購物清單"
+          git commit -m "Notion 同步：消費紀錄"
           for i in 1 2 3; do git pull --rebase -q && git push -q && exit 0; sleep 5; done
           exit 1
