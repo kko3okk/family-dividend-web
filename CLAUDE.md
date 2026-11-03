@@ -24,6 +24,7 @@
   - 每一步一張卡：`<div class="gs"><h4><i>N</i>一句話動作</h4><svg>示意圖</svg><p>說明</p></div>`。示意圖用**自己畫的 SVG**（招牌、機器螢幕、票面、列車外觀、路線），顏色照現場實物；**不放網路照片**（版權）。
   - 大阪這趟的教學由 `trip-kit/tools/guides_osaka.py` 產生（SVG 小工具函式在裡面），改內容改這支再重跑，會整段替換 `<!--GUIDES:BEGIN/END-->`；新的一趟可以複製這支改。
   - 寫法：步驟 6–8 步；標題是動作；容易選錯的畫「綠框＝選這個／灰框 ✕＝不要選」；時間、班次標「示意」；最後一張固定是「卡關怎麼辦」，附一句可以直接給店員看的日文（`<span class="say">`）和備案。
+- **手帖首圖（11/3）**：行程頁最上面的 `.hero` 插圖每一趟要照目的地畫（例：大阪＝大阪城＋摩天輪、札幌＝時計台＋電視塔＋雪山櫻花、台北＝北門＋101＋花徑），場景寫在 `trip-kit/tools/heroes.py` 的 `SCENES`，跑 `python3 trip-kit/tools/heroes.py <趟資料夾>` 會整段換掉那頁的 hero SVG。畫法：挑 2–3 個當地地標＋一個會動的小東西，自己畫 SVG（不放網路照片、不畫有版權的角色），顏色限 heroes.py 的 PALETTE、動畫沿用 trip.css 的 sv-* class。大阪 2026/10 的是手寫在頁面裡，不歸這支管。
 - **每日天氣**：存在各趟的 `weather.json`（每天的天氣、高低溫、降雨機率、一句穿衣／備案提醒），行程頁自動顯示在每天標題下方；更新天氣只改這個檔。
 - **門禁（10/13）**：全站要先用 GitHub Token 驗證（能讀私有庫 `family-dividend-data`）才能看，由根目錄 `gate.js` 處理；分享連結（旅程頁 `?guest=1`）免驗證，只能看 行程／地圖／美食／清單（10/14 起清單也開放）。**新增任何 HTML 頁都要在 `<meta charset>` 後面同步載入 `gate.js`，下一行接著載 `trip-kit/icons.js`**（旅程頁是 `../gate.js?v=N`、`../trip-kit/icons.js?v=N`），改了 gate.js 或 icons.js 要更新各頁的 `?v=`。
 - **開頁不卡（11/3）**：開頁當下用不到的網路工作——GitHub API 讀寫（清單、行程、行李的打勾 pull）、行程頁抓 `journal-data.json`、`shopping.json` 對應——一律排在 `load` 之後、閒下來才做：共用程式用 `trip.js` 的 `tripIdle(fn)`，行內程式用 `window.addEventListener('load', …)` 包 `requestIdleCallback`。頁面第一眼要看的內容（行程本身、天氣、清單頁的清單）照常馬上載。gate.js 清舊 Service Worker 也改成每支裝置只做一次。
