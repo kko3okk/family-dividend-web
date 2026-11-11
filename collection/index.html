@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<script src="../gate.js?v=7"></script>
+<script src="../trip-kit/icons.js?v=11"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#FDF7E1">
+<link rel="icon" href="../icon-192.png?v=2">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@400;500;600;700;800&family=Fredoka:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../cards.css?v=2026.11.11-1345">
+<title>卡牌收藏帳本｜家的旅程</title>
+<!-- 收藏帳本分享頁（11/11）：?guest=1 免 Token。畫面和首頁「收藏」分頁同一支 cards.js、同一份 data/cards.json。 -->
+<style>
+  :root{
+    --paper:#FDF7E1; --card:#FFFFFF; --card2:#FBF3DA; --line:#EFE2BD;
+    --ink:#4E3418; --brown:#5D3713; --mut:#8A7150; --mut2:#AD9670;
+    --chang:#DEAE0B; --chang-soft:#FBEFC4;
+    --wife:#E07A9B; --wife-soft:#FBE3EA;
+    --green:#97CC27; --green-soft:#EEF6D6; --green-ink:#5E8C14;
+    --font-round:"Chiron GoRound TC","jf-openhuninn-2.1","PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+    --mono:"Fredoka","Chiron GoRound TC",ui-rounded,sans-serif;
+    --dot:2px dotted #E8D6A2;
+    --soft:0 12px 32px -20px rgba(93,55,19,.45);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--font-round);letter-spacing:.04em;-webkit-text-size-adjust:100%}
+  button{font-family:inherit}
+  .top{max-width:1180px;margin:0 auto;padding:22px 18px 6px;display:flex;align-items:center;gap:12px}
+  .top img{width:44px;height:44px;border-radius:14px;box-shadow:0 8px 18px -10px rgba(93,55,19,.6)}
+  .top b{display:block;font-size:20px;color:var(--brown);letter-spacing:.14em}
+  .top small{font-size:12px;color:var(--mut);letter-spacing:.08em}
+  main{max-width:1180px;margin:0 auto;padding:12px 16px 40px}
+  .card{background:var(--card);border-radius:28px;padding:22px 20px 20px;box-shadow:var(--soft);margin-bottom:18px}
+  .card h3{display:flex;align-items:center;flex-wrap:wrap;row-gap:2px;gap:8px;font-size:18px;font-weight:700;color:var(--brown);letter-spacing:.14em;margin-bottom:14px}
+  .card h3::before{content:attr(data-en);flex:0 0 100%;order:-1;font-family:"Fredoka",sans-serif;font-size:11px;font-weight:600;letter-spacing:.28em;
+    color:color-mix(in srgb,var(--chang) 80%,#5D3713)}
+  .note{font-size:10.5px;color:var(--mut);line-height:1.8;margin-top:10px}
+  .t-empty{font-size:13px;color:var(--mut);line-height:1.8;padding:4px 2px}
+  .h-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+  .h-stats div{background:var(--card2);border-radius:20px;padding:12px 14px;line-height:1.35}
+  .h-stats div div{padding:0;background:none;border-radius:0}
+  .h-stats .k{font-size:10px;color:var(--mut);letter-spacing:.1em;margin-bottom:6px}
+  .h-stats .v{font-family:var(--mono);font-size:17px;font-weight:800;font-variant-numeric:tabular-nums}
+  .h-stats .v small{font-size:11px;color:var(--mut);font-weight:400}
+  .k-why{margin-top:14px;background:var(--chang-soft);border-radius:16px;padding:10px 14px;font-size:13px;line-height:1.7;color:var(--ink)}
+  .k-todo{display:grid;gap:8px}
+  .k-td{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.55;color:var(--ink)}
+  .k-w{flex:none;font-style:normal;font-size:10.5px;font-weight:800;border-radius:999px;padding:2px 9px;margin-top:2px;letter-spacing:.06em}
+  .k-w.chang{background:var(--chang-soft);color:var(--brown)}
+  .k-w.wife{background:var(--wife-soft);color:#A8456A}
+  .k-w.both{background:var(--green-soft);color:#3C7F47}
+  footer{text-align:center;font-size:11.5px;color:var(--mut2);letter-spacing:.2em;padding:0 0 30px}
+  @media(max-width:420px){ .h-stats div{padding:10px} .card{padding:20px 16px 18px;border-radius:24px} }
+</style>
+</head>
+<body class="mode-tcg">
+<header class="top">
+  <img src="../icon-192.png?v=2" alt="">
+  <div><b>卡牌收藏帳本</b><small>弟弟在美國代買的卡盒｜家的旅程</small></div>
+</header>
+<main>
+<section class="cg" id="cardsApp">
+  <div class="card" id="secCgOver"><h3 data-en="COLLECTION">收藏總覽</h3><div id="cgOverBox"><div class="t-empty">載入中…</div></div></div>
+  <div class="card" id="secCgShelf"><h3 data-en="SHELF">藏品牆</h3><div id="cgShelfBox"></div></div>
+  <div class="card" id="secCgLog"><h3 data-en="RECEIPTS">購買紀錄</h3><div id="cgLogBox"></div></div>
+  <div class="card" id="secCgTodo"><h3 data-en="TO CHECK">還要查的</h3><div id="cgTodoBox"></div></div>
+</section>
+</main>
+<footer>家的旅程</footer>
+<script>window.CARDS_BASE = "../"; window.CARDS_GUEST = true;</script>
+<script src="../cards.js?v=2026.11.11-1345"></script>
+</body>
+</html>

@@ -63,6 +63,7 @@
 
 ## 收藏（卡牌收藏帳本）分頁（11/11）
 
-- 弟弟在美國代買的寶可夢／NBA／Lorcana 卡盒紀錄。頂部分頁「收藏」（`mode-tcg`，區塊 class `cg`），畫面在 `cards.js`，資料在**私有庫** `family-dividend-data/cards.json`（金額、收據、店家只放私有庫，這裡不要寫）。
-- 新增收據＝在 `cards.json` 的 `receipts` 最前面加一張（id／date／store／ref／items）；品項欄位 name／cat（pokemon／nba／lorcana／misc）／kind（圖）／paid／tax／msrp／market／market_src／note／qty。「原價／貴／超過上限」由 `cards.js` 依 `rule`（ETB $80、其他原價 +25%，只套寶可夢）自動算，不用手填。
+- 弟弟在美國代買的寶可夢／NBA／Lorcana 卡盒紀錄。頂部分頁「收藏」（`mode-tcg`，區塊 class `cg`），畫面在 `cards.js`、樣式在 `cards.css`（首頁和分享頁共用）。
+- **可分享（11/11 Chang 選的）**：資料放這個公開 repo 的 `data/cards.json`（不是私有庫），分享頁 `collection/?guest=1` 免 Token 就能看（`gate.js` 只放行這一頁）；首頁「收藏總覽」右上的「分享」按鈕會產生這個連結。所以 `cards.json` 只寫品名、金額、店名，不寫姓名、卡號、會員號、地址。
+- 新增收據＝在 `data/cards.json` 的 `receipts` 最前面加一張（id／date／store／ref／items）；品項欄位 name／cat（pokemon／nba／lorcana／misc）／kind（圖）／paid／tax／msrp／market／market_src／note／qty。「原價／貴／超過上限」由 `cards.js` 依 `rule`（ETB $80、其他原價 +25%，只套寶可夢）自動算，不用手填。只改資料不用動版本號。
 - 商品圖是 `cards.js` 的 `ART` 自己畫的 SVG（依 kind），不放網路照片、不畫角色或商標；新的商品類型才要加一張。

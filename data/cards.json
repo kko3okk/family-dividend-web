@@ -1,0 +1,107 @@
+{
+  "updated": "2026-11-11",
+  "buyer": "弟弟",
+  "currency": "USD",
+  "rule": { "etb_cap": 80, "markup": 1.25, "text": "寶可夢上限：ETB $80，其他原價 +25%（只套用寶可夢）" },
+  "receipts": [
+    {
+      "id": "bn-4551", "date": null, "store": "Barnes & Noble Shady Ave", "ref": "交易 #4551",
+      "items": [
+        { "name": "Lorcana Hyperia City（Chapter 14）Illumineer's Trove", "cat": "lorcana", "kind": "trove",
+          "paid": 49.99, "tax": 3.50, "msrp": 49.99, "market": 173.08, "market_src": "TCGIndex，日期未標",
+          "note": "原價 $49.99 出處 ICv2；收據的 T 是 Trove" },
+        { "name": "袋子費", "cat": "misc", "paid": 0.10, "tax": 0 }
+      ]
+    },
+    {
+      "id": "bn-3378", "date": null, "store": "Barnes & Noble Shady Ave", "ref": "交易 #3378",
+      "items": [
+        { "name": "30th Anniversary EX Box 1（2026）", "cat": "pokemon", "kind": "exbox",
+          "paid": 29.99, "tax": 2.10, "msrp": 21.99, "market": 95.43,
+          "market_src": "Sylveon $95.43、Greninja $108.18（Out of Games，日期未標）；不確定哪個，先用較低的",
+          "note": "收據只寫 EX Box 1，是 Sylveon 還是 Greninja 不確定；稅是整張 $3.36 按金額分的" },
+        { "name": "First Partner Illustration Collection", "cat": "pokemon", "kind": "collection",
+          "paid": 17.99, "tax": 1.26, "msrp": null, "market": null,
+          "market_src": "查了，但不確定是哪一系列，價格對不起來，先不填", "note": "原價還沒查" }
+      ]
+    },
+    {
+      "id": "bn-1110", "date": "2026-11-10", "store": "Barnes & Noble Shady Ave",
+      "items": [
+        { "name": "Pokémon 30th Anniversary Display Box（品名截斷）", "cat": "pokemon", "kind": "display",
+          "paid": 49.99, "tax": 3.50, "msrp": null, "market": null, "market_src": "還不知道是哪個商品，查不到",
+          "note": "收據品名被截斷，UPC 0196214158368，還沒查到是哪個商品" },
+        { "name": "Mega Evolution Delta Reign Elite Trainer Box", "cat": "pokemon", "kind": "etb",
+          "paid": 59.99, "tax": 4.20, "msrp": 49.99, "market": 133.04,
+          "market_src": "一般 ETB 市價（Out of Games，日期未標；9/30 預購期 $133.50），發售後可能會降",
+          "note": "收據寫 S6 ETB；B&N 可能是自家版本，原價用一般 ETB 的 $49.99 計算" },
+        { "name": "30th Ultra-Premium Collection Day 版（Espeon ex）", "cat": "pokemon", "kind": "upc",
+          "paid": 249.99, "tax": 17.50, "msrp": 179.99, "market": 373.85, "market_src": "Day 版市價（11/7 查的）",
+          "note": "已確認是 Day 版" },
+        { "name": "2026-27 Topps NBA Flagship Blaster", "cat": "nba", "kind": "blaster",
+          "paid": 29.99, "tax": 2.10, "msrp": null, "market": null, "market_src": "剛發售，還沒有二手成交資料",
+          "note": "Topps 沒公布官方原價；卡店預售標 $49.94（Diamond Cards Online），付的比卡店便宜" },
+        { "name": "袋子費", "cat": "misc", "paid": 0.10, "tax": 0 }
+      ]
+    },
+    {
+      "id": "bn-1109", "date": "2026-11-09", "store": "Barnes & Noble Shady Ave",
+      "items": [
+        { "name": "2026-27 Topps NBA Flagship Blaster", "cat": "nba", "kind": "blaster",
+          "paid": 24.99, "tax": 1.75, "msrp": null, "market": null, "market_src": "剛發售，還沒有二手成交資料",
+          "note": "標價 $29.99，會員折 $5.00" },
+        { "name": "袋子費", "cat": "misc", "paid": 0.10, "tax": 0 }
+      ]
+    },
+    {
+      "id": "wm-1014", "date": "2026-10-14", "store": "Walmart", "ref": "抽籤",
+      "items": [
+        { "name": "30th Celebration Pokémon ex Box Bundle（Sylveon ex＋Greninja ex）", "cat": "pokemon", "kind": "bundle", "qty": 2,
+          "paid": 69.94, "tax": 4.90, "msrp": 43.98, "market": 203.61,
+          "market_src": "Sylveon $95.43 ＋ Greninja $108.18（Out of Games，日期未標）",
+          "note": "Walmart 抽籤中的；總額 $74.84，稅用總額減 $69.94 算；日期用 10/14 抽籤日（推論，實際扣款日不確定）；原價 2 × $21.99" }
+      ]
+    },
+    {
+      "id": "bn-1007", "date": "2026-10-07", "store": "Barnes & Noble Shady Ave",
+      "items": [
+        { "name": "30th Celebration Elite Trainer Box", "cat": "pokemon", "kind": "etb",
+          "paid": 66.10, "tax": 4.63, "msrp": 49.99, "market": 178.28, "market_src": "TCGplayer 市價（Pokemon Wizard，日期未標）",
+          "note": "上午 10:15；標價 $69.99，會員折 $3.89；稅是整張收據 $5.95 按金額分的" },
+        { "name": "30th Poster Collection", "cat": "pokemon", "kind": "poster",
+          "paid": 18.88, "tax": 1.32, "msrp": 14.99, "market": 38.91,
+          "market_src": "用最低值：The Hobby Bin 10/3 $38.91；其他來源 $61–$88，沒標日期",
+          "note": "上午 10:15；標價 $19.99，會員折 $1.11；原價 $14.99 已由 Pokémon Center 官網確認（11/11）" },
+        { "name": "袋子費", "cat": "misc", "paid": 0.10, "tax": 0, "note": "上午那張" },
+        { "name": "30th Poster Collection", "cat": "pokemon", "kind": "poster",
+          "paid": 19.99, "tax": 1.40, "msrp": 14.99, "market": 38.91,
+          "market_src": "用最低值：The Hobby Bin 10/3 $38.91；其他來源 $61–$88，沒標日期",
+          "note": "下午 4:56 第二張收據；原價 $14.99 已由 Pokémon Center 官網確認（11/11）" },
+        { "name": "袋子費", "cat": "misc", "paid": 0.10, "tax": 0, "note": "下午那張" }
+      ]
+    },
+    {
+      "id": "bn-1006", "date": "2026-10-06", "store": "Barnes & Noble Shady Ave",
+      "items": [
+        { "name": "30th Celebration Elite Trainer Box", "cat": "pokemon", "kind": "etb",
+          "paid": 69.99, "tax": 4.90, "msrp": 49.99, "market": 178.28,
+          "market_src": "TCGplayer 市價（Pokemon Wizard，日期未標）；其他來源 $191–196",
+          "note": "收據交易 #1951 沒拍到日期，依 10/6 說的；這次順便辦了 B&N 會員" },
+        { "name": "袋子費", "cat": "misc", "paid": 0.10, "tax": 0 }
+      ]
+    },
+    {
+      "id": "tg-1002", "date": "2026-10-02", "store": "Target East Liberty",
+      "items": [
+        { "name": "30th Poster Collection", "cat": "pokemon", "kind": "poster",
+          "paid": 19.99, "tax": 1.40, "msrp": 14.99, "market": 38.91,
+          "market_src": "用最低值：The Hobby Bin 10/3 $38.91；其他來源 $61–$88，沒標日期",
+          "note": "上午 9:21；原價 $14.99 已由 Pokémon Center 官網確認（11/11）" },
+        { "name": "30th Mini Tin（款式隨機）", "cat": "pokemon", "kind": "tin", "qty": 2,
+          "paid": 25.98, "tax": 1.82, "msrp": 19.98, "market": 50.78,
+          "market_src": "每個看款式 $25–$98；用最低值 Misprint 10/23 $25.39 ×2",
+          "note": "每個 $12.99；原價每個 $9.99 已由 Pokémon Center 官網確認（11/11），上限每個 $12.49" }
+      ]
+    }
+  ]
+}

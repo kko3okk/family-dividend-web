@@ -1,13 +1,13 @@
-/* ═══ 收藏：卡牌收藏帳本（資料：私有庫 family-dividend-data/cards.json）═══
-   金額、收據、店家都在私有庫；這支只負責畫面。沒有 Token 的裝置看不到內容。
+/* ═══ 收藏：卡牌收藏帳本（資料：公開庫 data/cards.json）═══
+   11/11 Chang 選擇開放分享：資料放這個公開 repo，分享頁 collection/?guest=1 免 Token 就能看。
+   首頁「收藏」分頁和分享頁共用這支；分享頁在載入前設 window.CARDS_BASE = "../"。
    商品圖是自己畫的 SVG 示意（依 kind：etb／exbox／upc／bundle／poster／tin／display／collection／blaster／trove），
    不放網路照片、不畫有版權的角色或商標。新增品項只改 cards.json；新的 kind 才要在 ART 加一張圖。 */
 (function(){
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const OWNER = "kko3okk", REPO = "family-dividend-data", FILE = "cards.json";
-const tk = () => { try { return localStorage.getItem("gh_token") || ""; } catch(e){ return ""; } };
-const dec = s => new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\n/g, "")), c => c.charCodeAt(0)));
+const BASE = window.CARDS_BASE || "";
+const GUEST = !!window.CARDS_GUEST;
 const ct = n => Math.round((n || 0) * 100);                       // 一律用「分」算，避免浮點誤差
 const usd = c => "$" + (c / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const usd0 = c => "$" + Math.round(c / 100).toLocaleString("en-US");
@@ -18,11 +18,9 @@ let C = null, loading = null, filt = "all";
 
 async function load(){
   if (C) return C;
-  if (!tk()) throw new Error("NOTOKEN");
-  if (!loading) loading = fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}?t=` + Date.now(),
-      { headers: { "Accept": "application/vnd.github+json", "Authorization": "Bearer " + tk() } })
+  if (!loading) loading = fetch(BASE + "data/cards.json?t=" + Date.now(), { cache: "no-store" })
     .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
-    .then(j => (C = JSON.parse(dec(j.content))))
+    .then(j => (C = j))
     .catch(e => { loading = null; throw e; });
   return loading;
 }
@@ -176,7 +174,7 @@ function renderTodo(all){
   $("cgTodoBox").innerHTML = (a.length || nd.length) ? `<div class="k-todo">
     ${a.map(x => `<div class="k-td"><em class="k-w ${x.cat === "nba" ? "chang" : "wife"}">${x.msrp == null && x.market == null ? "原價＋行情" : x.msrp == null ? "原價" : "行情"}</em><span><b>${esc(x.name)}</b>${x.market_src ? `<br><small>${esc(x.market_src)}</small>` : ""}</span></div>`).join("")}
     ${nd.map(r => `<div class="k-td"><em class="k-w both">日期</em><span>${esc(r.store)}${r.ref ? `（${esc(r.ref)}）` : ""}收據沒拍到日期</span></div>`).join("")}
-  </div><div class="note">查到後跟 Claude 說一聲，會更新私有庫的 cards.json。</div>` : `<div class="t-empty">都查齊了 ✓</div>`;
+  </div>${GUEST ? "" : `<div class="note">查到後跟 Claude 說一聲，會更新 data/cards.json。</div>`}` : `<div class="t-empty">都查齊了 ✓</div>`;
 }
 
 function empty(msg){
@@ -187,11 +185,25 @@ async function render(){
     const c = await load(), all = flat(c);
     renderOver(c, all); renderShelf(c, all); renderLog(c); renderTodo(all);
   } catch (e) {
-    empty(e.message === "NOTOKEN" ? "收藏帳本只給家人看。到「設定 → 雲端同步」貼上 Token 就會出現。"
-      : `收藏資料讀取失敗（${esc(e.message)}），稍後再試。`);
+    empty(`收藏資料讀取失敗（${esc(e.message)}），稍後再試。`);
   }
 }
+/* 分享：產生訪客連結（collection/?guest=1），手機用系統分享，電腦複製到剪貼簿 */
+async function share(btn){
+  const url = new URL(BASE + "collection/?guest=1", location.href).href;
+  const label = btn.lastChild, old = label.textContent;
+  try {
+    if (navigator.share) { await navigator.share({ title: "卡牌收藏帳本", url }); return; }
+    await navigator.clipboard.writeText(url); label.textContent = "已複製連結";
+  } catch (err) {
+    if (err && err.name === "AbortError") return;
+    label.textContent = "複製失敗"; console.log(url);
+  }
+  setTimeout(() => { label.textContent = old; }, 1800);
+}
 document.addEventListener("click", e => {
+  const sh = e.target.closest("#cgShare");
+  if (sh){ share(sh); return; }
   const f = e.target.closest("#cgShelfBox .cg-chips button[data-f]");
   if (f && C){ filt = f.dataset.f; renderShelf(C, flat(C)); return; }
   const t = e.target.closest("#cgShelfBox .cg-tile");

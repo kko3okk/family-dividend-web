@@ -1,0 +1,86 @@
+/* ═══ 收藏（卡牌收藏帳本）樣式：首頁「收藏」分頁和分享頁 collection/ 共用 ═══ */
+body:not(.mode-tcg) .cg{display:none!important}
+body.mode-tcg .fin,body.mode-tcg .hl,body.mode-tcg .tv,body.mode-tcg .hm{display:none!important}
+body.mode-tcg #traveler{display:none}
+#cardsApp .card{scroll-margin-top:calc(var(--navh,100px) + 10px)}
+@media(min-width:960px){
+  #cardsApp{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+  #cardsApp>.card{margin:0}
+  #secCgOver{order:1}#secCgTodo{order:2}#secCgShelf{order:3;grid-column:1/-1}#secCgLog{order:4;grid-column:1/-1}
+}
+.cg-red{color:#C0392B!important}
+.cg-hero{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--chang-soft),var(--card2));border-radius:22px;padding:14px 8px 14px 18px}
+.cg-hv{flex:1;min-width:0}
+.cg-hv small{display:block;font-size:11.5px;color:var(--mut);letter-spacing:.08em}
+.cg-hv b{display:block;font:600 34px/1.15 var(--mono);color:var(--brown);margin:4px 0 2px;font-variant-numeric:tabular-nums}
+.cg-hv span{font-size:12.5px;color:var(--mut);line-height:1.6}
+.cg-hv em{font-style:normal;font-weight:800;color:var(--green-ink,#5E8C14)}
+.cg-hero .cg-art{flex:none;width:104px;height:auto}
+.cg-stats .v small{font-size:11px}
+.cg-bar{display:flex;height:10px;border-radius:999px;overflow:hidden;margin:16px 0 8px;background:var(--card2)}
+.cg-bar i{display:block;height:100%}
+.cg-cats{display:grid;gap:4px}
+.cg-cats div{display:flex;align-items:center;gap:8px;font-size:13px;padding:3px 2px}
+.cg-cats b{width:10px;height:10px;border-radius:50%;flex:none}
+.cg-cats span{flex:1;color:var(--ink);font-weight:700}
+.cg-cats em{font-style:normal;font-size:11.5px;color:var(--mut2)}
+.cg-cats strong{font-family:var(--mono);color:var(--brown);min-width:84px;text-align:right;font-variant-numeric:tabular-nums}
+.cg-rule b{color:#C0392B}
+.cg-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.cg-chips button{border:none;font:inherit;font-size:12.5px;font-weight:700;color:var(--mut);background:var(--card2);border-radius:999px;padding:6px 12px;cursor:pointer;letter-spacing:.06em}
+.cg-chips button small{margin-left:5px;font-family:var(--mono);color:var(--mut2)}
+.cg-chips button.on{background:var(--chang);color:#fff}
+.cg-chips button.on small{color:#fff;opacity:.8}
+.cg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.cg-tile{position:relative;display:flex;flex-direction:column;gap:3px;text-align:left;border:none;font:inherit;color:inherit;cursor:pointer;
+  background:var(--card2);border-radius:20px;padding:10px 12px 12px;-webkit-tap-highlight-color:transparent;transition:transform .15s}
+.cg-tile:active{transform:scale(.97)}
+.cg-pic{position:relative;border-radius:16px;margin:-2px -4px 6px;background:color-mix(in srgb,var(--cc) 16%,var(--card))}
+.cg-pic .cg-art{display:block;width:100%;height:auto}
+.cg-q{position:absolute;right:8px;top:8px;font:800 11px/1 var(--mono);font-style:normal;background:var(--card);color:var(--brown);border-radius:999px;padding:4px 7px}
+.cg-tn{font-size:13px;font-weight:700;color:var(--brown);line-height:1.4;min-height:2.8em;margin-bottom:2px}
+.cg-tp{display:flex;justify-content:space-between;align-items:baseline;font-size:11px;color:var(--mut)}
+.cg-tp b{font-family:var(--mono);font-size:14px;color:var(--ink);font-variant-numeric:tabular-nums}
+.cg-tp b.g{color:var(--green-ink,#5E8C14)}.cg-tp b.q{color:var(--mut2)}
+.cg-v{align-self:flex-start;margin-top:6px;font-style:normal;font-size:10.5px;font-weight:800;border-radius:999px;padding:3px 9px;letter-spacing:.04em;white-space:nowrap}
+.cg-v.ok{background:var(--green-soft);color:#3C7F47}
+.cg-v.warn{background:#FDEBC8;color:#A86A00}
+.cg-v.over{background:#FBE0DC;color:#B2382C}
+.cg-v.unk{background:var(--card);color:var(--mut);box-shadow:inset 0 0 0 1px var(--line)}
+.cg-v.misc{background:var(--card);color:var(--mut2)}
+.cg-more{display:none;margin-top:8px;padding-top:8px;border-top:var(--dot);font-size:11.5px;line-height:1.6;color:var(--ink)}
+.cg-tile.open .cg-more{display:block}
+.cg-share{margin-left:auto;align-self:center;border:none;font:inherit;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--brown);background:var(--chang-soft);border-radius:999px;padding:6px 12px;cursor:pointer}
+.cg-share svg{width:14px;height:14px;vertical-align:-2px;margin-right:4px}
+.cg-more div{display:flex;gap:6px}
+.cg-more span{color:var(--mut);min-width:28px}
+.cg-more small{color:var(--mut2)}
+.cg-more p{margin:6px 0 0;color:var(--mut);font-size:11px}
+.cg-rcpts{display:grid;gap:0}
+.cg-r{border-bottom:var(--dot)}
+.cg-r summary{display:flex;align-items:center;gap:12px;padding:11px 2px;cursor:pointer;list-style:none}
+.cg-r summary::-webkit-details-marker{display:none}
+.cg-r .go{color:var(--mut2);font-size:20px;transition:transform .2s}
+.cg-r[open] .go{transform:rotate(90deg)}
+.cg-d{flex:none;width:52px;text-align:center;background:var(--chang-soft);border-radius:14px;padding:5px 0}
+.cg-d b{display:block;font:600 16px/1.2 var(--mono);color:var(--brown)}
+.cg-d small{font-size:10px;color:var(--mut)}
+.cg-d.q{background:var(--card2)}.cg-d.q b{font-size:13px;color:var(--mut)}
+.cg-rs{flex:1;min-width:0}
+.cg-rs b{display:block;font-size:13.5px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cg-rs span{font-size:11.5px;color:var(--mut)}
+.cg-rt{font:600 16px var(--mono);color:var(--brown);font-variant-numeric:tabular-nums}
+.cg-ri{padding:0 0 12px 8px}
+.cg-row{display:flex;gap:10px;align-items:flex-start;padding:9px 10px;background:var(--card2);border-radius:14px;margin-top:6px}
+.cg-row>i{flex:none;width:8px;height:8px;border-radius:50%;margin-top:7px}
+.cg-row.misc{background:none;padding:4px 10px}
+.cg-row.misc .cg-rn b{font-weight:400;color:var(--mut)}
+.cg-rn{flex:1;min-width:0}
+.cg-rn b{display:block;font-size:13px;color:var(--ink);line-height:1.45}
+.cg-rn small{display:block;font-size:11px;color:var(--mut);line-height:1.6;margin-top:2px}
+.cg-ra{flex:none;display:flex;flex-direction:column;align-items:flex-end;text-align:right}
+.cg-ra b{font:600 14px var(--mono);color:var(--brown)}
+.cg-ra small{font-size:10.5px;color:var(--mut2);font-family:var(--mono)}
+.cg-ra .cg-v{align-self:flex-end;margin-top:4px}
+#cgTodoBox .k-td small{color:var(--mut);font-size:11.5px}
+@media(max-width:420px){ .cg-grid{grid-template-columns:1fr 1fr;gap:8px} .cg-tile{padding:8px 10px 10px} .cg-hv b{font-size:30px} .cg-hero .cg-art{width:84px} }
