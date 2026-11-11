@@ -1,16 +1,17 @@
-/* ═══ 收藏：卡牌收藏帳本（資料：獨立的公開庫 kko3okk/card-ledger 的 cards.json）═══
-   11/11 Chang：資料拆到 card-ledger，弟弟是那個 repo 的協作者，可以自己用 Claude 記帳；這裡只負責畫面。
-   讀不到 card-ledger 時退回本 repo 的 data/cards.json（舊備份）。分享頁 collection/?guest=1 免 Token 就能看。
-   首頁「收藏」分頁和分享頁共用這支；分享頁在載入前設 window.CARDS_BASE = "../"。
-   商品圖是自己畫的 SVG 示意（依 kind：etb／exbox／upc／bundle／poster／tin／display／collection／blaster／trove），
-   不放網路照片、不畫有版權的角色或商標。新增品項只改 cards.json；新的 kind 才要在 ART 加一張圖。 */
+/* ═══ 卡牌收藏帳本：畫面程式 ═══
+   同一支檔案有兩份：card-ledger 獨立網站自己一份、家的旅程（family-dividend-web）的「收藏」分頁一份。
+   家的旅程「只讀資料、不載入 card-ledger 的程式」——兩邊網域不同，避免外部程式碰到家的旅程存的 Token。
+   設定（載入前設在 window）：
+     CARDS_SRC   要讀的 cards.json 網址陣列，依序嘗試（預設 ["cards.json"]）
+     CARDS_SHARE 「分享」按鈕給出的網址（預設＝目前這頁）
+   商品圖是 ART 自己畫的 SVG（依 kind），不放網路照片、不畫角色或商標。 */
 (function(){
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const BASE = window.CARDS_BASE || "";
-const GUEST = !!window.CARDS_GUEST;
-const LEDGER = "https://raw.githubusercontent.com/kko3okk/card-ledger/main/cards.json";
-const ct = n => Math.round((n || 0) * 100);                       // 一律用「分」算，避免浮點誤差
+const SRC = window.CARDS_SRC || ["cards.json"];
+const SHARE = window.CARDS_SHARE || location.href.split(/[?#]/)[0];
+const num = v => (typeof v === "number" && isFinite(v)) ? v : 0;
+const ct = n => Math.round((+n || 0) * 100);                       // 一律用「分」算，避免浮點誤差
 const usd = c => "$" + (c / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const usd0 = c => "$" + Math.round(c / 100).toLocaleString("en-US");
 const CAT = { pokemon: "寶可夢", nba: "NBA 卡", lorcana: "Lorcana", misc: "雜支" };
@@ -21,8 +22,7 @@ let C = null, loading = null, filt = "all";
 async function load(){
   if (C) return C;
   const get = u => fetch(u, { cache: "no-store" }).then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); });
-  if (!loading) loading = get(LEDGER + "?t=" + Date.now())
-    .catch(() => get(BASE + "data/cards.json?t=" + Date.now()))
+  if (!loading) loading = SRC.reduce((p, u) => p.catch(() => get(u + (u.includes("?") ? "&" : "?") + "t=" + Date.now())), Promise.reject())
     .then(j => (C = j))
     .catch(e => { loading = null; throw e; });
   return loading;
@@ -32,9 +32,9 @@ async function load(){
 function verdict(it, rule){
   if (it.cat === "misc") return { c: "misc", t: "雜支" };
   if (it.msrp == null) return { c: "unk", t: "原價未知" };
-  const p = ct(it.paid), m = ct(it.msrp), q = it.qty || 1;
+  const p = ct(it.paid), m = ct(it.msrp), q = num(it.qty) || 1;
   if (p <= m) return { c: "ok", t: "原價" };
-  if (it.cat === "pokemon"){
+  if (it.cat === "pokemon" && rule){
     const cap = it.kind === "etb" ? ct(rule.etb_cap) * q : Math.round(m * rule.markup);
     if (p > cap) return { c: "over", t: "超過上限 +" + usd(p - cap), cap };
     return { c: "warn", t: "貴 " + usd(p - m), cap };
@@ -107,7 +107,7 @@ function renderOver(c, all){
   const paidK = known.reduce((s, x) => s + ct(x.paid), 0), msrpK = known.reduce((s, x) => s + ct(x.msrp), 0);
   const withM = goods.filter(x => x.market != null);
   const mkt = withM.reduce((s, x) => s + ct(x.market), 0), paidM = withM.reduce((s, x) => s + ct(x.paid), 0);
-  const cats = ["pokemon", "nba", "lorcana"].map(k => { const a = goods.filter(x => x.cat === k); return { k, n: a.reduce((s, x) => s + (x.qty || 1), 0), lines: a.length, c: sum(a) }; }).filter(x => x.lines);
+  const cats = ["pokemon", "nba", "lorcana"].map(k => { const a = goods.filter(x => x.cat === k); return { k, n: a.reduce((s, x) => s + (num(x.qty) || 1), 0), lines: a.length, c: sum(a) }; }).filter(x => x.lines);
   const tot = cats.reduce((s, x) => s + x.c, 0) || 1;
   const nOver = goods.filter(x => x.v.c === "over").length, nUnk = goods.filter(x => x.msrp == null || x.market == null).length;
   $("cgOverBox").innerHTML = `
@@ -137,7 +137,7 @@ function renderShelf(c, all){
     <div class="cg-grid">${list.map(x => {
       const up = x.market != null ? ct(x.market) - ct(x.paid) : null;
       return `<button class="cg-tile" data-k="${esc(x.r.id)}-${x.i}">
-        <div class="cg-pic" style="--cc:${CATC[x.cat]}">${art(x)}${x.qty > 1 ? `<i class="cg-q">×${x.qty}</i>` : ""}</div>
+        <div class="cg-pic" style="--cc:${CATC[x.cat]}">${art(x)}${num(x.qty) > 1 ? `<i class="cg-q">×${num(x.qty)}</i>` : ""}</div>
         <div class="cg-tn">${esc(x.name)}</div>
         <div class="cg-tp"><span>實付</span><b>${usd(ct(x.paid))}</b></div>
         <div class="cg-tp"><span>黃牛價</span><b class="${up == null ? "q" : up >= 0 ? "g" : "cg-red"}">${x.market != null ? usd(ct(x.market)) : "?"}</b></div>
@@ -145,7 +145,7 @@ function renderShelf(c, all){
         <div class="cg-more">
           <div><span>原價</span>${x.msrp != null ? usd(ct(x.msrp)) : "?"}${x.v.cap ? `<small>（上限 ${usd(x.v.cap)}）</small>` : ""}</div>
           <div><span>稅</span>${usd(ct(x.tax))}</div>
-          <div><span>買的</span>${x.r.date ? esc(x.r.date.slice(5).replace("-", "/")) : "日期待補"}・${esc(x.r.store.replace(" Shady Ave", "").replace(" East Liberty", ""))}</div>
+          <div><span>買的</span>${x.r.date ? esc(String(x.r.date).slice(5).replace("-", "/")) : "日期待補"}・${esc(String(x.r.store || "").replace(" Shady Ave", "").replace(" East Liberty", ""))}</div>
           ${x.market_src ? `<p>黃牛價：${esc(x.market_src)}</p>` : ""}${x.note ? `<p>${esc(x.note)}</p>` : ""}
         </div>
       </button>`; }).join("")}</div>
@@ -156,14 +156,14 @@ function renderShelf(c, all){
 function renderLog(c){
   $("cgLogBox").innerHTML = `<div class="cg-rcpts">${c.receipts.map(r => {
     const t = r.items.reduce((s, x) => s + ct(x.paid) + ct(x.tax), 0);
-    const d = r.date ? r.date.slice(5).replace("-", "/") : "待補";
+    const d = r.date ? esc(String(r.date).slice(5).replace("-", "/")) : "待補";
     return `<details class="cg-r">
-      <summary><div class="cg-d ${r.date ? "" : "q"}"><b>${d}</b><small>${r.date ? r.date.slice(0, 4) : "日期"}</small></div>
+      <summary><div class="cg-d ${r.date ? "" : "q"}"><b>${d}</b><small>${r.date ? esc(String(r.date).slice(0, 4)) : "日期"}</small></div>
         <div class="cg-rs"><b>${esc(r.store)}</b><span>${r.ref ? esc(r.ref) + "・" : ""}${r.items.filter(x => x.cat !== "misc").length} 項</span></div>
         <div class="cg-rt">${usd(t)}</div><div class="go">›</div></summary>
       <div class="cg-ri">${r.items.map(x => `
         <div class="cg-row ${x.cat === "misc" ? "misc" : ""}"><i style="background:${CATC[x.cat]}"></i>
-          <div class="cg-rn"><b>${esc(x.name)}${x.qty > 1 ? ` ×${x.qty}` : ""}</b>${x.note ? `<small>${esc(x.note)}</small>` : ""}</div>
+          <div class="cg-rn"><b>${esc(x.name)}${num(x.qty) > 1 ? ` ×${num(x.qty)}` : ""}</b>${x.note ? `<small>${esc(x.note)}</small>` : ""}</div>
           <div class="cg-ra"><b>${usd(ct(x.paid))}</b><small>稅 ${usd(ct(x.tax))}</small>${x.cat !== "misc" ? `<em class="cg-v ${verdict(x, c.rule).c}">${esc(verdict(x, c.rule).t)}</em>` : ""}</div>
         </div>`).join("")}</div>
     </details>`; }).join("")}</div>
@@ -177,7 +177,7 @@ function renderTodo(all){
   $("cgTodoBox").innerHTML = (a.length || nd.length) ? `<div class="k-todo">
     ${a.map(x => `<div class="k-td"><em class="k-w ${x.cat === "nba" ? "chang" : "wife"}">${x.msrp == null && x.market == null ? "原價＋行情" : x.msrp == null ? "原價" : "行情"}</em><span><b>${esc(x.name)}</b>${x.market_src ? `<br><small>${esc(x.market_src)}</small>` : ""}</span></div>`).join("")}
     ${nd.map(r => `<div class="k-td"><em class="k-w both">日期</em><span>${esc(r.store)}${r.ref ? `（${esc(r.ref)}）` : ""}收據沒拍到日期</span></div>`).join("")}
-  </div>${GUEST ? "" : `<div class="note">查到後跟 Claude 說一聲，會更新 card-ledger 的 cards.json。</div>`}` : `<div class="t-empty">都查齊了 ✓</div>`;
+  </div><div class="note">查到後跟 Claude 說一聲，會更新 cards.json。</div>` : `<div class="t-empty">都查齊了 ✓</div>`;
 }
 
 function empty(msg){
@@ -193,7 +193,7 @@ async function render(){
 }
 /* 分享：產生訪客連結（collection/?guest=1），手機用系統分享，電腦複製到剪貼簿 */
 async function share(btn){
-  const url = new URL(BASE + "collection/?guest=1", location.href).href;
+  const url = SHARE;
   const label = btn.lastChild, old = label.textContent;
   try {
     if (navigator.share) { await navigator.share({ title: "卡牌收藏帳本", url }); return; }

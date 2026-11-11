@@ -63,7 +63,8 @@
 
 ## 收藏（卡牌收藏帳本）分頁（11/11）
 
-- 弟弟在美國代買的寶可夢／NBA／Lorcana 卡盒紀錄。頂部分頁「收藏」（`mode-tcg`，區塊 class `cg`），畫面在 `cards.js`、樣式在 `cards.css`（首頁和分享頁共用）。
-- **資料在獨立的公開 repo `kko3okk/card-ledger` 的 `cards.json`**（11/11 拆出去，弟弟是那個 repo 的協作者，可以自己用 Claude 記帳）。`cards.js` 從 raw.githubusercontent.com 讀；讀不到才退回本 repo 的 `data/cards.json`（舊備份，不再更新）。**記帳、補原價行情都改 card-ledger**，欄位和規則寫在那個 repo 的 `CLAUDE.md`，`check.py` 檢查格式。
-- 分享頁 `collection/?guest=1` 免 Token 就能看（`gate.js` 只放行這一頁）；首頁「收藏總覽」右上的「分享」按鈕會產生這個連結。資料是公開的，只寫品名、金額、店名。
-- 「原價／貴／超過上限」由 `cards.js` 依 `rule`（ETB $80、其他原價 +25%，只套寶可夢）自動算。商品圖是 `cards.js` 的 `ART` 自己畫的 SVG（依 kind），不放網路照片、不畫角色或商標；新的 kind 要在 `ART` 加一張，也要更新 card-ledger 的 `CLAUDE.md` 和 `check.py`。
+- 弟弟在美國代買的寶可夢／NBA／Lorcana 卡盒紀錄。頂部分頁「收藏」（`mode-tcg`，區塊 class `cg`），畫面在 `cards.js`、樣式在 `cards.css`（首頁和 `collection/` 分享頁共用）。
+- **帳本本體是獨立 repo `card-ledger`**（自己的 GitHub Pages 網站＋`cards.json`），Chang 選擇把它轉到弟弟的 GitHub 帳號、Chang 當協作者。記帳、補原價行情、改帳本版面都在那個 repo 做，規則在它的 `CLAUDE.md`。
+- **安全規則（11/11）**：家的旅程**只讀 card-ledger 的 `cards.json`，絕不載入那邊的 js/css**。GitHub Pages 同帳號的網站共用網域，外部程式可以讀到這裡 localStorage 的 GitHub Token；轉到弟弟帳號後網域不同才安全。`cards.js` 輸出外部資料一律經 `esc()`／`num()`。
+- 資料網址寫在 `index.html`、`collection/index.html` 的 `window.CARDS_SRC`（依序嘗試，最後退回本 repo 的 `data/cards.json` 舊備份）；`CARDS_SHARE` 是「分享」按鈕的網址。repo 轉移後要把兩處的網址改成弟弟帳號的。
+- 「原價／貴／超過上限」由 `cards.js` 依 `rule` 自動算。card-ledger 的 `cards.js` 是同一支程式的另一份；這邊的要改就自己改，不從那邊複製（先看過內容）。
