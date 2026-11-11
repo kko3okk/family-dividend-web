@@ -2,7 +2,6 @@
    - 驗證方式：用這支手機存的 Token 讀私有庫 family-dividend-data，讀得到就算家人。
      驗證過會記在這支手機（只記 Token 的雜湊），之後離線也能開；Token 換了會重新驗證。
    - 分享連結：旅程頁加 ?guest=1 打開的人是訪客，只能看那一趟的 行程／地圖／美食／清單。
-     收藏帳本 collection/?guest=1 也免驗證（只有那一頁）。
    - 這是「前門的鎖」：網站檔案本身仍在公開的 GitHub 上，真正敏感的資料只放私有庫。
    每頁 <head> 一開始同步載入：<script src="../gate.js?v=1"></script> */
 (function () {
@@ -68,12 +67,6 @@
   if (inTrip && (/[?&]guest=1/.test(location.search) || sget("tripGuest") === "1")) {
     sset("tripGuest", "1");
     if (GUEST_PAGES.indexOf(page) === -1) { document.documentElement.style.display = "none"; location.replace("index.html"); }
-    return;
-  }
-
-  // 收藏帳本分享頁（11/11）：collection/?guest=1 免驗證，只能看這一頁
-  if (/\/collection\//.test(path) && (/[?&]guest=1/.test(location.search) || sget("colGuest") === "1")) {
-    sset("colGuest", "1");
     return;
   }
 

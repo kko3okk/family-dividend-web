@@ -3,7 +3,6 @@
    家的旅程「只讀資料、不載入 card-ledger 的程式」——兩邊網域不同，避免外部程式碰到家的旅程存的 Token。
    設定（載入前設在 window）：
      CARDS_SRC   要讀的 cards.json 網址陣列，依序嘗試（預設 ["cards.json"]）
-     CARDS_SHARE 「分享」按鈕給出的網址（預設＝目前這頁）
    商品圖是 ART 自己畫的 SVG（依 kind），不放網路照片、不畫角色或商標。
    幣別（11/11）：收據原始金額是美元；預設換成台幣顯示（可切 NT$／US$，記在 localStorage cg_cur）。
    預算（11/11）：cards.json 的 funds（匯給弟弟的錢，amount／cur／date／note）加總當預算，總覽顯示「還剩多少」進度條；
@@ -13,7 +12,6 @@
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const SRC = window.CARDS_SRC || ["cards.json"];
-const SHARE = window.CARDS_SHARE || location.href.split(/[?#]/)[0];
 const num = v => (typeof v === "number" && isFinite(v)) ? v : 0;
 const ct = n => Math.round((+n || 0) * 100);                       // 一律用「分」算，避免浮點誤差
 const usd = c => "$" + (c / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -236,22 +234,7 @@ function loadFx(){
   }).catch(() => {}).finally(() => { fxBusy = false; });
   (window.requestIdleCallback || (f => setTimeout(f, 300)))(go);
 }
-/* 分享：產生訪客連結（collection/?guest=1），手機用系統分享，電腦複製到剪貼簿 */
-async function share(btn){
-  const url = SHARE;
-  const label = btn.lastChild, old = label.textContent;
-  try {
-    if (navigator.share) { await navigator.share({ title: "卡牌收藏帳本", url }); return; }
-    await navigator.clipboard.writeText(url); label.textContent = "已複製連結";
-  } catch (err) {
-    if (err && err.name === "AbortError") return;
-    label.textContent = "複製失敗"; console.log(url);
-  }
-  setTimeout(() => { label.textContent = old; }, 1800);
-}
 document.addEventListener("click", e => {
-  const sh = e.target.closest("#cgShare");
-  if (sh){ share(sh); return; }
   const cu = e.target.closest("#cgOverBox .cg-cur button[data-cur]");
   if (cu && C){ CUR = cu.dataset.cur; ls.set("cg_cur", CUR); const all = flat(C); renderOver(C, all); renderShelf(C, all); renderLog(C); return; }
   const f = e.target.closest("#cgShelfBox .cg-chips button[data-f]");

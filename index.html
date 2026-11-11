@@ -3,7 +3,7 @@
 <head>
 
 <meta charset="UTF-8">
-<script src="gate.js?v=7"></script>
+<script src="gate.js?v=8"></script>
 <script src="trip-kit/icons.js?v=11"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="manifest" href="manifest.json">
@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@400;500;600;700;800&family=Fredoka:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="cards.css?v=2026.11.11-2050">
+<link rel="stylesheet" href="cards.css?v=2026.11.12-0440">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="家的旅程">
@@ -1519,7 +1519,7 @@
 
 <!-- ═══ 收藏：卡牌收藏帳本（資料：私有庫 cards.json；畫面在 cards.js）═══ -->
 <section class="cg" id="cardsApp">
-  <div class="card" id="secCgOver"><h3 data-en="COLLECTION">收藏總覽<button class="cg-share" id="cgShare" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>分享</button></h3><div id="cgOverBox"><div class="t-empty">載入中…</div></div></div>
+  <div class="card" id="secCgOver"><h3 data-en="COLLECTION">收藏總覽</h3><div id="cgOverBox"><div class="t-empty">載入中…</div></div></div>
   <div class="card" id="secCgShelf"><h3 data-en="SHELF">藏品牆</h3><div id="cgShelfBox"></div></div>
   <div class="card" id="secCgLog"><h3 data-en="RECEIPTS">購買紀錄</h3><div id="cgLogBox"></div></div>
   <div class="card" id="secCgTodo"><h3 data-en="TO CHECK">還要查的</h3><div id="cgTodoBox"></div></div>
@@ -1943,7 +1943,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.11.11-2050";
+const APP_VERSION="2026.11.12-0440";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -3339,9 +3339,9 @@ addEventListener("resize",()=>{ clearTimeout(_rz); _rz=setTimeout(()=>{ if(DATA)
 <script src="home.js?v=2026.10.12-2110"></script>
 <script src="health.js?v=2026.11.11-1330"></script>
 <script src="mj.js?v=2026.11.01-2300"></script>
-<!-- 收藏帳本：資料讀 card-ledger 的 cards.json（只讀資料，不載入那邊的程式）；讀不到退回 data/cards.json -->
-<script>window.CARDS_SRC=["https://raw.githubusercontent.com/kko3okk/card-ledger/main/cards.json","data/cards.json"];window.CARDS_SHARE=new URL("collection/?guest=1",location.href).href;</script>
-<script src="cards.js?v=2026.11.11-2050"></script>
+<!-- 收藏帳本：資料讀 hic003cih/card-ledger 的 cards.json（只讀資料，不載入那邊的程式）；讀不到退回 data/cards.json -->
+<script>window.CARDS_SRC=["https://raw.githubusercontent.com/hic003cih/card-ledger/main/cards.json","data/cards.json"];</script>
+<script src="cards.js?v=2026.11.12-0440"></script>
 <script src="settings.js?v=2026.11.11-1330"></script>
 </body>
 </html>
