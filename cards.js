@@ -1,5 +1,6 @@
-/* ═══ 收藏：卡牌收藏帳本（資料：公開庫 data/cards.json）═══
-   11/11 Chang 選擇開放分享：資料放這個公開 repo，分享頁 collection/?guest=1 免 Token 就能看。
+/* ═══ 收藏：卡牌收藏帳本（資料：獨立的公開庫 kko3okk/card-ledger 的 cards.json）═══
+   11/11 Chang：資料拆到 card-ledger，弟弟是那個 repo 的協作者，可以自己用 Claude 記帳；這裡只負責畫面。
+   讀不到 card-ledger 時退回本 repo 的 data/cards.json（舊備份）。分享頁 collection/?guest=1 免 Token 就能看。
    首頁「收藏」分頁和分享頁共用這支；分享頁在載入前設 window.CARDS_BASE = "../"。
    商品圖是自己畫的 SVG 示意（依 kind：etb／exbox／upc／bundle／poster／tin／display／collection／blaster／trove），
    不放網路照片、不畫有版權的角色或商標。新增品項只改 cards.json；新的 kind 才要在 ART 加一張圖。 */
@@ -8,6 +9,7 @@ const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const BASE = window.CARDS_BASE || "";
 const GUEST = !!window.CARDS_GUEST;
+const LEDGER = "https://raw.githubusercontent.com/kko3okk/card-ledger/main/cards.json";
 const ct = n => Math.round((n || 0) * 100);                       // 一律用「分」算，避免浮點誤差
 const usd = c => "$" + (c / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const usd0 = c => "$" + Math.round(c / 100).toLocaleString("en-US");
@@ -18,8 +20,9 @@ let C = null, loading = null, filt = "all";
 
 async function load(){
   if (C) return C;
-  if (!loading) loading = fetch(BASE + "data/cards.json?t=" + Date.now(), { cache: "no-store" })
-    .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+  const get = u => fetch(u, { cache: "no-store" }).then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); });
+  if (!loading) loading = get(LEDGER + "?t=" + Date.now())
+    .catch(() => get(BASE + "data/cards.json?t=" + Date.now()))
     .then(j => (C = j))
     .catch(e => { loading = null; throw e; });
   return loading;
@@ -174,7 +177,7 @@ function renderTodo(all){
   $("cgTodoBox").innerHTML = (a.length || nd.length) ? `<div class="k-todo">
     ${a.map(x => `<div class="k-td"><em class="k-w ${x.cat === "nba" ? "chang" : "wife"}">${x.msrp == null && x.market == null ? "原價＋行情" : x.msrp == null ? "原價" : "行情"}</em><span><b>${esc(x.name)}</b>${x.market_src ? `<br><small>${esc(x.market_src)}</small>` : ""}</span></div>`).join("")}
     ${nd.map(r => `<div class="k-td"><em class="k-w both">日期</em><span>${esc(r.store)}${r.ref ? `（${esc(r.ref)}）` : ""}收據沒拍到日期</span></div>`).join("")}
-  </div>${GUEST ? "" : `<div class="note">查到後跟 Claude 說一聲，會更新 data/cards.json。</div>`}` : `<div class="t-empty">都查齊了 ✓</div>`;
+  </div>${GUEST ? "" : `<div class="note">查到後跟 Claude 說一聲，會更新 card-ledger 的 cards.json。</div>`}` : `<div class="t-empty">都查齊了 ✓</div>`;
 }
 
 function empty(msg){
