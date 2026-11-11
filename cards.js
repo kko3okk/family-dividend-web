@@ -6,6 +6,8 @@
      CARDS_SHARE 「分享」按鈕給出的網址（預設＝目前這頁）
    商品圖是 ART 自己畫的 SVG（依 kind），不放網路照片、不畫角色或商標。
    幣別（11/11）：收據原始金額是美元；預設換成台幣顯示（可切 NT$／US$，記在 localStorage cg_cur）。
+   預算（11/11）：cards.json 的 funds（匯給弟弟的錢，amount／cur／date／note）加總當預算，總覽顯示「還剩多少」進度條；
+   美元花費用目前匯率換成台幣比較（只是參考，實際看弟弟換匯的匯率）。
    匯率從 open.er-api.com 讀（免金鑰，快取 12 小時在 cg_fx），讀不到用 FX_DEF。判斷「貴／超過上限」一律用美元算。 */
 (function(){
 const $ = id => document.getElementById(id);
@@ -121,11 +123,22 @@ function renderOver(c, all){
   const tot = cats.reduce((s, x) => s + x.c, 0) || 1;
   const nOver = goods.filter(x => x.v.c === "over").length, nUnk = goods.filter(x => x.msrp == null || x.market == null).length;
   const m0 = c => CUR === "TWD" ? twd(c) : "$" + Math.round(c / 100).toLocaleString("en-US");
+  // 預算：funds 全換成「分（美元）」比較，顯示時再依幣別轉
+  const funds = Array.isArray(c.funds) ? c.funds : [];
+  const budget = funds.reduce((s, f) => s + (String(f.cur).toUpperCase() === "USD" ? ct(f.amount) : Math.round(ct(f.amount) / FX.r)), 0);
+  const left = budget - total, pct = budget ? Math.min(100, Math.max(0, total / budget * 100)) : 0;
+  const lvl = left < 0 ? "over" : left < budget * .15 ? "low" : "ok";
+  const budgetHTML = budget ? `
+    <div class="cg-bud ${lvl}">
+      <div class="cg-bt"><span>${left < 0 ? "已超出預算" : "預算還剩"}</span><b>${money(Math.abs(left))}</b><small>${alt(Math.abs(left))}</small></div>
+      <div class="cg-bbar"><i style="width:${pct}%"></i></div>
+      <div class="cg-bl"><span>已花 ${money(total)}（${Math.round(total / budget * 100)}%）</span><span>匯了 ${funds.map(f => String(f.cur).toUpperCase() === "USD" ? usd(ct(f.amount)) : "NT$" + num(+f.amount).toLocaleString("en-US")).join("＋")}</span></div>
+    </div>` : "";
   $("cgOverBox").innerHTML = `
     <div class="cg-fx">
       <div class="cg-cur">${["TWD", "USD"].map(k => `<button data-cur="${k}" class="${CUR === k ? "on" : ""}">${k === "TWD" ? "NT$ 台幣" : "US$ 美元"}</button>`).join("")}</div>
       <span>1 USD ≈ ${FX.r.toFixed(2)} TWD<small>${FX.live ? "" : "備用・"}${esc(FX.d)}</small></span>
-    </div>
+    </div>${budgetHTML}
     <div class="cg-hero">
       <div class="cg-hv"><small>黃牛價合計（有查到的 ${withM.length} 項）</small><b>${m0(mkt)}</b>
         <span>這些品項實付 ${m0(paidM)}（稅前）→ 帳面約 <em>${(mkt / paidM).toFixed(1)} 倍</em></span></div>
