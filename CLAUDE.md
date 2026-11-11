@@ -66,5 +66,5 @@
 - 弟弟在美國代買的寶可夢／NBA／Lorcana 卡盒紀錄。頂部分頁「收藏」（`mode-tcg`，區塊 class `cg`），畫面在 `cards.js`、樣式在 `cards.css`。只給家人看（跟首頁一樣要 Token）；**11/12 Chang 說不需要分享功能**，分享按鈕、`collection/` 訪客頁和 gate.js 的放行都已移除，不要加回。
 - **帳本本體是弟弟的 repo `hic003cih/card-ledger`**（11/12 轉過去；自己的 GitHub Pages 網站＋`cards.json`）。記帳、補原價行情、預算（`funds`）、改帳本版面都在那個 repo 做，規則在它的 `CLAUDE.md`。
 - **安全規則**：家的旅程**只讀 card-ledger 的 `cards.json`，絕不載入那邊的 js/css**（外部程式在這個網域會讀得到 localStorage 的 GitHub Token）。`cards.js` 輸出外部資料一律經 `esc()`／`num()`。
-- 資料網址寫在 `index.html` 的 `window.CARDS_SRC`（依序嘗試：弟弟 repo 的 raw → 本 repo 的 `data/cards.json` 舊備份，不再更新）。那個 repo 必須是公開的，raw 才讀得到。
+- 資料來源寫在 `index.html` 的 `window.CARDS_SRC`，依序嘗試：① `{gh:"hic003cih/card-ledger/cards.json"}` 用這支手機的 gh_token 走 GitHub API（弟弟把 repo 設成私人、Chang 是協作者；Token 要能讀協作者的 repo 才會成功）→ ② 弟弟 repo 的 raw（公開時才有效）→ ③ 本 repo 的 `data/cards.json` 舊備份（11/11，不再更新）。購買紀錄下方會顯示這次讀的是哪一份。
 - 金額預設換成台幣顯示（可切 NT$／US$），匯率讀 open.er-api.com、讀不到用備用值；「原價／貴／超過上限」一律用美元依 `rule` 算。預算進度條讀 `funds`。

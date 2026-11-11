@@ -2,7 +2,9 @@
    同一支檔案有兩份：card-ledger 獨立網站自己一份、家的旅程（family-dividend-web）的「收藏」分頁一份。
    家的旅程「只讀資料、不載入 card-ledger 的程式」——兩邊網域不同，避免外部程式碰到家的旅程存的 Token。
    設定（載入前設在 window）：
-     CARDS_SRC   要讀的 cards.json 網址陣列，依序嘗試（預設 ["cards.json"]）
+     CARDS_SRC   要讀的 cards.json 來源陣列，依序嘗試（預設 ["cards.json"]）。
+                 字串＝一般網址；{ gh: "owner/repo/path" }＝用這支手機的 GitHub Token（localStorage gh_token）走 API 讀私人 repo。
+                 每個來源可加 label（顯示在購買紀錄下方，讓人知道現在讀的是哪一份）。
    商品圖是 ART 自己畫的 SVG（依 kind），不放網路照片、不畫角色或商標。
    幣別（11/11）：收據原始金額是美元；預設換成台幣顯示（可切 NT$／US$，記在 localStorage cg_cur）。
    預算（11/11）：cards.json 的 funds（匯給弟弟的錢，amount／cur／date／note）加總當預算，總覽顯示「還剩多少」進度條；
@@ -27,12 +29,25 @@ const vt = v => v.c === "over" ? "超過上限 +" + money(v.d) : v.c === "warn" 
 const CAT = { pokemon: "寶可夢", nba: "NBA 卡", lorcana: "Lorcana", misc: "雜支" };
 const CATC = { pokemon: "#E8A33A", nba: "#4A80B8", lorcana: "#8A6CC9", misc: "#BFAF8E" };
 
-let C = null, loading = null, filt = "all";
+let C = null, loading = null, filt = "all", SRC_USED = "";
 
 async function load(){
   if (C) return C;
-  const get = u => fetch(u, { cache: "no-store" }).then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); });
-  if (!loading) loading = SRC.reduce((p, u) => p.catch(() => get(u + (u.includes("?") ? "&" : "?") + "t=" + Date.now())), Promise.reject())
+  const json = r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); };
+  const dec = b => JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(b.replace(/\n/g, "")), c => c.charCodeAt(0))));
+  const get = src => {
+    if (src && src.gh) {                                         // 私人 repo：用這支手機的 Token 走 GitHub API
+      const tk = ls.get("gh_token"); if (!tk) return Promise.reject(new Error("NOTOKEN"));
+      const [o, r, ...f] = String(src.gh).split("/");
+      return fetch(`https://api.github.com/repos/${o}/${r}/contents/${f.join("/")}?t=${Date.now()}`,
+        { headers: { "Accept": "application/vnd.github+json", "Authorization": "Bearer " + tk }, cache: "no-store" })
+        .then(json).then(j => dec(j.content));
+    }
+    const u = String(src && src.url || src);
+    return fetch(u + (u.includes("?") ? "&" : "?") + "t=" + Date.now(), { cache: "no-store" }).then(json);
+  };
+  const tryAll = SRC.reduce((p, src) => p.catch(() => get(src).then(j => { SRC_USED = (src && src.label) || ""; return j; })), Promise.reject());
+  if (!loading) loading = tryAll
     .then(j => (C = j))
     .catch(e => { loading = null; throw e; });
   return loading;
@@ -194,7 +209,7 @@ function renderLog(c){
           <div class="cg-ra"><b>${money(ct(x.paid))}</b>${CUR === "TWD" ? `<small>US${usd(ct(x.paid))}</small>` : ""}<small>稅 ${money(ct(x.tax))}</small>${x.cat !== "misc" ? `<em class="cg-v ${verdict(x, c.rule).c}">${esc(vt(verdict(x, c.rule)))}</em>` : ""}</div>
         </div>`).join("")}</div>
     </details>`; }).join("")}</div>
-    <div class="note">收據原始金額是美元${CUR === "TWD" ? `，台幣是用 1 USD ≈ ${FX.r.toFixed(2)} TWD 換算的參考值（不是實際刷卡金額）` : ""}。「比原價貴」用稅前價計算，稅另列。黃牛價是 TCGplayer 等二手市場的成交參考價，會變動。資料更新 ${esc(c.updated)}。</div>`;
+    <div class="note">收據原始金額是美元${CUR === "TWD" ? `，台幣是用 1 USD ≈ ${FX.r.toFixed(2)} TWD 換算的參考值（不是實際刷卡金額）` : ""}。「比原價貴」用稅前價計算，稅另列。黃牛價是 TCGplayer 等二手市場的成交參考價，會變動。資料更新 ${esc(c.updated)}。${SRC_USED ? `<br>資料來源：${esc(SRC_USED)}` : ""}</div>`;
 }
 
 /* ── 待查 ── */
