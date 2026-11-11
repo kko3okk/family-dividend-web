@@ -60,3 +60,9 @@
 - 內容：下一針倒數與建議部位、筆的 4 劑／開封 30 天追蹤、施打紀錄與體重線、新版 KwikPen 開封施打教學（自己畫的 SVG，不放網路照片）。
 - 劑量比筆的規格小時（11/1 Chang 要求），依診所劑量對照表顯示要轉幾格：一整劑＝60 格按比例換算，只算 5／10／15 mg 筆（`mj.js` 的 `clicks()`），並附「非原廠用法，請以醫師指示為準」和開封 30 天能打幾針。對照表沒有的組合只顯示提醒。
 - 筆能打幾針依剩餘總量算（規格×4 − 已打的 mg，÷ 下一針劑量），不再固定 4 劑；超過開封 30 天的針數只提醒、不擋。劑量可排程：`plan.next = {dose, from}`，到日期自動換（`doseOn()`／`curDose()`）。
+
+## 收藏（卡牌收藏帳本）分頁（11/11）
+
+- 弟弟在美國代買的寶可夢／NBA／Lorcana 卡盒紀錄。頂部分頁「收藏」（`mode-tcg`，區塊 class `cg`），畫面在 `cards.js`，資料在**私有庫** `family-dividend-data/cards.json`（金額、收據、店家只放私有庫，這裡不要寫）。
+- 新增收據＝在 `cards.json` 的 `receipts` 最前面加一張（id／date／store／ref／items）；品項欄位 name／cat（pokemon／nba／lorcana／misc）／kind（圖）／paid／tax／msrp／market／market_src／note／qty。「原價／貴／超過上限」由 `cards.js` 依 `rule`（ETB $80、其他原價 +25%，只套寶可夢）自動算，不用手填。
+- 商品圖是 `cards.js` 的 `ART` 自己畫的 SVG（依 kind），不放網路照片、不畫角色或商標；新的商品類型才要加一張。

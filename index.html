@@ -1238,6 +1238,91 @@
   .k-dh{margin:16px 2px 8px;font-size:12px;font-weight:800;color:var(--mut);letter-spacing:.14em}
   @media(max-width:560px){ .k-pr{width:56px;font-size:17px} }
 
+  /* ═══ 2026-11-11 收藏（卡牌收藏帳本）分頁：資料在私有庫 cards.json，畫面在 cards.js ═══ */
+  body:not(.mode-tcg) .cg{display:none!important}
+  body.mode-tcg .fin,body.mode-tcg .hl,body.mode-tcg .tv,body.mode-tcg .hm{display:none!important}
+  body.mode-tcg #traveler{display:none}
+  #cardsApp .card{scroll-margin-top:calc(var(--navh,100px) + 10px)}
+  @media(min-width:960px){
+    #cardsApp{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+    #cardsApp>.card{margin:0}
+    #secCgOver{order:1}#secCgTodo{order:2}#secCgShelf{order:3;grid-column:1/-1}#secCgLog{order:4;grid-column:1/-1}
+  }
+  .cg-red{color:#C0392B!important}
+  .cg-hero{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--chang-soft),var(--card2));border-radius:22px;padding:14px 8px 14px 18px}
+  .cg-hv{flex:1;min-width:0}
+  .cg-hv small{display:block;font-size:11.5px;color:var(--mut);letter-spacing:.08em}
+  .cg-hv b{display:block;font:600 34px/1.15 var(--mono);color:var(--brown);margin:4px 0 2px;font-variant-numeric:tabular-nums}
+  .cg-hv span{font-size:12.5px;color:var(--mut);line-height:1.6}
+  .cg-hv em{font-style:normal;font-weight:800;color:var(--green-ink,#5E8C14)}
+  .cg-hero .cg-art{flex:none;width:104px;height:auto}
+  .cg-stats .v small{font-size:11px}
+  .cg-bar{display:flex;height:10px;border-radius:999px;overflow:hidden;margin:16px 0 8px;background:var(--card2)}
+  .cg-bar i{display:block;height:100%}
+  .cg-cats{display:grid;gap:4px}
+  .cg-cats div{display:flex;align-items:center;gap:8px;font-size:13px;padding:3px 2px}
+  .cg-cats b{width:10px;height:10px;border-radius:50%;flex:none}
+  .cg-cats span{flex:1;color:var(--ink);font-weight:700}
+  .cg-cats em{font-style:normal;font-size:11.5px;color:var(--mut2)}
+  .cg-cats strong{font-family:var(--mono);color:var(--brown);min-width:84px;text-align:right;font-variant-numeric:tabular-nums}
+  .cg-rule b{color:#C0392B}
+  .cg-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+  .cg-chips button{border:none;font:inherit;font-size:12.5px;font-weight:700;color:var(--mut);background:var(--card2);border-radius:999px;padding:6px 12px;cursor:pointer;letter-spacing:.06em}
+  .cg-chips button small{margin-left:5px;font-family:var(--mono);color:var(--mut2)}
+  .cg-chips button.on{background:var(--chang);color:#fff}
+  .cg-chips button.on small{color:#fff;opacity:.8}
+  .cg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+  .cg-tile{position:relative;display:flex;flex-direction:column;gap:3px;text-align:left;border:none;font:inherit;color:inherit;cursor:pointer;
+    background:var(--card2);border-radius:20px;padding:10px 12px 12px;-webkit-tap-highlight-color:transparent;transition:transform .15s}
+  .cg-tile:active{transform:scale(.97)}
+  .cg-pic{position:relative;border-radius:16px;margin:-2px -4px 6px;background:color-mix(in srgb,var(--cc) 16%,var(--card))}
+  .cg-pic .cg-art{display:block;width:100%;height:auto}
+  .cg-q{position:absolute;right:8px;top:8px;font:800 11px/1 var(--mono);font-style:normal;background:var(--card);color:var(--brown);border-radius:999px;padding:4px 7px}
+  .cg-tn{font-size:13px;font-weight:700;color:var(--brown);line-height:1.4;min-height:2.8em;margin-bottom:2px}
+  .cg-tp{display:flex;justify-content:space-between;align-items:baseline;font-size:11px;color:var(--mut)}
+  .cg-tp b{font-family:var(--mono);font-size:14px;color:var(--ink);font-variant-numeric:tabular-nums}
+  .cg-tp b.g{color:var(--green-ink,#5E8C14)}.cg-tp b.q{color:var(--mut2)}
+  .cg-v{align-self:flex-start;margin-top:6px;font-style:normal;font-size:10.5px;font-weight:800;border-radius:999px;padding:3px 9px;letter-spacing:.04em;white-space:nowrap}
+  .cg-v.ok{background:var(--green-soft);color:#3C7F47}
+  .cg-v.warn{background:#FDEBC8;color:#A86A00}
+  .cg-v.over{background:#FBE0DC;color:#B2382C}
+  .cg-v.unk{background:var(--card);color:var(--mut);box-shadow:inset 0 0 0 1px var(--line)}
+  .cg-v.misc{background:var(--card);color:var(--mut2)}
+  .cg-more{display:none;margin-top:8px;padding-top:8px;border-top:var(--dot);font-size:11.5px;line-height:1.6;color:var(--ink)}
+  .cg-tile.open .cg-more{display:block}
+  .cg-more div{display:flex;gap:6px}
+  .cg-more span{color:var(--mut);min-width:28px}
+  .cg-more small{color:var(--mut2)}
+  .cg-more p{margin:6px 0 0;color:var(--mut);font-size:11px}
+  .cg-rcpts{display:grid;gap:0}
+  .cg-r{border-bottom:var(--dot)}
+  .cg-r summary{display:flex;align-items:center;gap:12px;padding:11px 2px;cursor:pointer;list-style:none}
+  .cg-r summary::-webkit-details-marker{display:none}
+  .cg-r .go{color:var(--mut2);font-size:20px;transition:transform .2s}
+  .cg-r[open] .go{transform:rotate(90deg)}
+  .cg-d{flex:none;width:52px;text-align:center;background:var(--chang-soft);border-radius:14px;padding:5px 0}
+  .cg-d b{display:block;font:600 16px/1.2 var(--mono);color:var(--brown)}
+  .cg-d small{font-size:10px;color:var(--mut)}
+  .cg-d.q{background:var(--card2)}.cg-d.q b{font-size:13px;color:var(--mut)}
+  .cg-rs{flex:1;min-width:0}
+  .cg-rs b{display:block;font-size:13.5px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cg-rs span{font-size:11.5px;color:var(--mut)}
+  .cg-rt{font:600 16px var(--mono);color:var(--brown);font-variant-numeric:tabular-nums}
+  .cg-ri{padding:0 0 12px 8px}
+  .cg-row{display:flex;gap:10px;align-items:flex-start;padding:9px 10px;background:var(--card2);border-radius:14px;margin-top:6px}
+  .cg-row>i{flex:none;width:8px;height:8px;border-radius:50%;margin-top:7px}
+  .cg-row.misc{background:none;padding:4px 10px}
+  .cg-row.misc .cg-rn b{font-weight:400;color:var(--mut)}
+  .cg-rn{flex:1;min-width:0}
+  .cg-rn b{display:block;font-size:13px;color:var(--ink);line-height:1.45}
+  .cg-rn small{display:block;font-size:11px;color:var(--mut);line-height:1.6;margin-top:2px}
+  .cg-ra{flex:none;display:flex;flex-direction:column;align-items:flex-end;text-align:right}
+  .cg-ra b{font:600 14px var(--mono);color:var(--brown)}
+  .cg-ra small{font-size:10.5px;color:var(--mut2);font-family:var(--mono)}
+  .cg-ra .cg-v{align-self:flex-end;margin-top:4px}
+  #cgTodoBox .k-td small{color:var(--mut);font-size:11.5px}
+  @media(max-width:420px){ .cg-grid{grid-template-columns:1fr 1fr;gap:8px} .cg-tile{padding:8px 10px 10px} .cg-hv b{font-size:30px} .cg-hero .cg-art{width:84px} }
+
   /* ═══ 2026-10-11 手機版導覽重新設計：頂部只留標題＋旅人＋音效，分頁移到底部 ═══ */
   .gtitle,.tabbar,.fab{display:none}
   @media(max-width:760px){
@@ -1249,7 +1334,7 @@
     .gnav .traveler div{padding:6px 12px!important;font-size:12px!important}
     .gicon{width:34px!important;height:34px!important}
 
-    .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;z-index:60;left:12px;right:12px;
+    .tabbar{display:grid;grid-template-columns:repeat(6,1fr);position:fixed;z-index:60;left:12px;right:12px;
       bottom:max(12px,env(safe-area-inset-bottom));height:64px;padding:6px;border-radius:26px;
       background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
       box-shadow:0 14px 34px -14px rgba(93,55,19,.5)}
@@ -1265,7 +1350,7 @@
       box-shadow:0 12px 24px -10px rgba(93,55,19,.6);-webkit-tap-highlight-color:transparent}
     .fab svg{width:24px;height:24px}
     .fab:active{transform:scale(.94)}
-    body.mode-health .fab,body.mode-travel .fab,body.mode-home .fab{display:none!important}
+    body.mode-health .fab,body.mode-travel .fab,body.mode-home .fab,body.mode-tcg .fab{display:none!important}
 
     body{padding-bottom:calc(110px + env(safe-area-inset-bottom))!important}
     #sndMsg,.toast{bottom:calc(max(12px,env(safe-area-inset-bottom)) + 84px)!important}
@@ -1417,11 +1502,12 @@
 
 <div id="ptr">↓</div>
 <div id="sndMsg"></div>
-<!-- 手機：底部分頁列（家／財務／健康／旅遊／設定）＋記一筆浮鈕 -->
+<!-- 手機：底部分頁列（家／財務／健康／收藏／旅遊／設定）＋記一筆浮鈕 -->
 <nav class="tabbar" id="tabbar" aria-label="分頁">
   <button data-go="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 11 12 4.5l7.5 6.5"/><path d="M6.5 9.5V19h11V9.5"/><path d="M10 19v-5h4v5"/></svg><span>家</span></button>
   <button data-go="fin" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20v-8"/><path d="M12 12c0-3.3-2.4-5.5-6-5.5 0 3.6 2.4 5.5 6 5.5Z"/><path d="M12 14c0-3 2.2-5 5.5-5 0 3-2.2 5-5.5 5Z"/></svg><span>財務</span></button>
   <button data-go="health"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19.5s-7-4.3-7-9.4A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.1c0 5.1-7 9.4-7 9.4Z"/></svg><span>健康</span></button>
+  <button data-go="tcg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="6" width="10" height="14" rx="2" transform="rotate(-8 9.5 13)"/><rect x="9.5" y="4" width="10" height="14" rx="2"/><path d="M14.5 8.2v2.6M13.2 9.5h2.6"/></svg><span>收藏</span></button>
   <button data-go="travel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7.5" width="16" height="12" rx="3"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5M9 11v5M15 11v5"/></svg><span>旅遊</span></button>
   <button data-go="set"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h9M18 7h1M5 17h1M10 17h9"/><circle cx="16" cy="7" r="2.2"/><circle cx="8" cy="17" r="2.2"/></svg><span>設定</span></button>
 </nav>
@@ -1432,13 +1518,14 @@
   <div class="gin">
     <a class="gbrand" href="#secMap">家的旅程</a><div class="gtitle" id="gTitle">財務</div>
     <div class="domain" id="domain" role="tablist">
-      <button data-d="home" role="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 11 12 4.5l7.5 6.5"/><path d="M6.5 9.5V19h11V9.5"/><path d="M10 19v-5h4v5"/></svg><span>家</span></button><button data-d="fin" class="on" role="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20v-8"/><path d="M12 12c0-3.3-2.4-5.5-6-5.5 0 3.6 2.4 5.5 6 5.5Z"/><path d="M12 14c0-3 2.2-5 5.5-5 0 3-2.2 5-5.5 5Z"/></svg><span>財務</span></button><button data-d="health" role="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19.5s-7-4.3-7-9.4A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.1c0 5.1-7 9.4-7 9.4Z"/></svg><span>健康</span></button><button data-d="travel" role="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7.5" width="16" height="12" rx="3"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5M9 11v5M15 11v5"/></svg><span>旅遊</span></button>
+      <button data-d="home" role="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 11 12 4.5l7.5 6.5"/><path d="M6.5 9.5V19h11V9.5"/><path d="M10 19v-5h4v5"/></svg><span>家</span></button><button data-d="fin" class="on" role="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20v-8"/><path d="M12 12c0-3.3-2.4-5.5-6-5.5 0 3.6 2.4 5.5 6 5.5Z"/><path d="M12 14c0-3 2.2-5 5.5-5 0 3-2.2 5-5.5 5Z"/></svg><span>財務</span></button><button data-d="health" role="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19.5s-7-4.3-7-9.4A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.1c0 5.1-7 9.4-7 9.4Z"/></svg><span>健康</span></button><button data-d="tcg" role="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="6" width="10" height="14" rx="2" transform="rotate(-8 9.5 13)"/><rect x="9.5" y="4" width="10" height="14" rx="2"/><path d="M14.5 8.2v2.6M13.2 9.5h2.6"/></svg><span>收藏</span></button><button data-d="travel" role="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7.5" width="16" height="12" rx="3"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5M9 11v5M15 11v5"/></svg><span>旅遊</span></button>
     </div>
     <div class="glinks" id="glinks">
       <a class="fin" href="#secMap">旅程</a><a class="fin" href="#secTodo">待辦<i class="gdot" id="dotTodo"></i></a><a class="fin" href="#secAdv">指引</a><a class="fin" href="#secHold">持股</a><a class="fin" href="#yrCard" id="lnkYr">年度</a>
       <a class="fin" href="#secEx">除權息</a><a class="fin" href="#secPay">入帳<i class="gdot" id="dotPay"></i></a><a class="fin" href="#secTx">交易</a>
       <a class="hl" href="#secHBody">身體地圖</a><a class="hl" href="#secHToday">今日清單</a><a class="hl" href="#secHCal">日曆回顧</a><a class="hl" href="#secHMoves">動作說明</a>
       <a class="hm" href="#secKPlan">目標</a><a class="hm" href="#secKMoney">預算</a><a class="hm" href="#secKUnit">戶別</a><a class="hm" href="#secKMarket">市場</a><a class="hm" href="#secKTime">時程</a><a class="hm" href="#secKTodo">待辦</a>
+      <a class="cg" href="#secCgOver">總覽</a><a class="cg" href="#secCgShelf">藏品</a><a class="cg" href="#secCgLog">收據</a><a class="cg" href="#secCgTodo">待查</a>
       <a class="tv" href="#secTCal">日曆</a><a class="tv" href="#secTNext">下一趟</a><a class="tv" href="#secTLog">旅遊紀錄</a>
     </div>
     <div class="gtools">
@@ -1512,6 +1599,14 @@
   <div class="card" id="secKMarket"><h3 data-en="MARKET">目前市場</h3><div id="kMarketBox"></div></div>
   <div class="card" id="secKTime"><h3 data-en="TIMELINE">時程</h3><div id="kTimeBox"></div></div>
   <div class="card" id="secKTodo"><h3 data-en="TO DO">待辦與要一起決定的事</h3><div id="kTodoBox"></div></div>
+</section>
+
+<!-- ═══ 收藏：卡牌收藏帳本（資料：私有庫 cards.json；畫面在 cards.js）═══ -->
+<section class="cg" id="cardsApp">
+  <div class="card" id="secCgOver"><h3 data-en="COLLECTION">收藏總覽</h3><div id="cgOverBox"><div class="t-empty">載入中…</div></div></div>
+  <div class="card" id="secCgShelf"><h3 data-en="SHELF">藏品牆</h3><div id="cgShelfBox"></div></div>
+  <div class="card" id="secCgLog"><h3 data-en="RECEIPTS">購買紀錄</h3><div id="cgLogBox"></div></div>
+  <div class="card" id="secCgTodo"><h3 data-en="TO CHECK">還要查的</h3><div id="cgTodoBox"></div></div>
 </section>
 
 <!-- ═══ 旅遊（資料：trips.json；行程細節在各趟資料夾）═══ -->
@@ -1774,6 +1869,7 @@
         <button class="sp-row pick" data-t="home"><span class="sp-l">家</span><i class="sp-ck"></i></button>
         <button class="sp-row pick" data-t="fin"><span class="sp-l">財務</span><i class="sp-ck"></i></button>
         <button class="sp-row pick" data-t="health"><span class="sp-l">健康</span><i class="sp-ck"></i></button>
+        <button class="sp-row pick" data-t="tcg"><span class="sp-l">收藏</span><i class="sp-ck"></i></button>
         <button class="sp-row pick" data-t="travel"><span class="sp-l">旅遊</span><i class="sp-ck"></i></button>
       </div>
       <div class="sp-note">只影響這支手機。從分享連結打開時，仍然會直接跳到連結指定的地方。</div>
@@ -1931,7 +2027,7 @@ function setSndIcon(state){const b=document.getElementById("sndBtn");if(!b)retur
   b.innerHTML=SND_ICON[state==="off"?"off":"on"];b.classList.toggle("dim",state==="pending");b.classList.toggle("on",state==="on");}
 setSndIcon("off");
 const TODO_ICON={"💰": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"7\" rx=\"6.5\" ry=\"2.8\"/><path d=\"M5.5 7v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V7\"/><path d=\"M5.5 12v5c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-5\"/></svg>", "📅": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"5.5\" width=\"16\" height=\"14.5\" rx=\"4\"/><path d=\"M8 3.5v4M16 3.5v4M4 10.5h16\"/></svg>", "📝": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4h7l4 4v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\"/><path d=\"M14 4v4h4M8.5 12.5h7M8.5 16h4.5\"/></svg>", "🛒": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5.5 8.5h13l-1.2 10a2 2 0 0 1-2 1.8H8.7a2 2 0 0 1-2-1.8Z\"/><path d=\"M9 8.5V7a3 3 0 0 1 6 0v1.5\"/></svg>"};
-const APP_VERSION="2026.11.06-0935";
+const APP_VERSION="2026.11.11-1330";
 const OWNER="kko3okk", REPO="family-dividend-data", FILE="data.json";
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const MILES=[{name:"旅遊站",amt:150000,icon:"🎈"},{name:"房貸站",amt:610000,icon:"🏡"},{name:"退休站",amt:1000000,icon:"🏯"}];
@@ -2814,8 +2910,8 @@ function updateMini(pD,next){
 // 手機底部分頁列：切換分頁沿用原本的分頁按鈕（健康模組監聽它），標題與選中狀態跟著 body 狀態走
 (function(){
   var bar=document.getElementById("tabbar"); if(!bar) return;
-  var NAME={home:"家",fin:"財務",health:"健康",travel:"旅遊"};
-  function cur(){ var c=document.body.classList; return c.contains("mode-health")?"health":c.contains("mode-travel")?"travel":c.contains("mode-home")?"home":"fin"; }
+  var NAME={home:"家",fin:"財務",health:"健康",tcg:"收藏",travel:"旅遊"};
+  function cur(){ var c=document.body.classList; return c.contains("mode-health")?"health":c.contains("mode-travel")?"travel":c.contains("mode-home")?"home":c.contains("mode-tcg")?"tcg":"fin"; }
   function sync(){ var m=document.body.classList.contains("set-open")?"set":cur(); bar.querySelectorAll("button[data-go]").forEach(function(b){ b.classList.toggle("on",b.dataset.go===m); });
     var t=document.getElementById("gTitle"); if(t&&NAME[m]) t.textContent=NAME[m]; }
   bar.addEventListener("click",function(e){
@@ -3325,8 +3421,9 @@ addEventListener("resize",()=>{ clearTimeout(_rz); _rz=setTimeout(()=>{ if(DATA)
 </script>
 <script src="travel.js?v=2026.10.14-2135"></script>
 <script src="home.js?v=2026.10.12-2110"></script>
-<script src="health.js?v=2026.10.12-1740"></script>
+<script src="health.js?v=2026.11.11-1330"></script>
 <script src="mj.js?v=2026.11.01-2300"></script>
-<script src="settings.js?v=2026.10.14-2135"></script>
+<script src="cards.js?v=2026.11.11-1330"></script>
+<script src="settings.js?v=2026.11.11-1330"></script>
 </body>
 </html>
