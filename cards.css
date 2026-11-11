@@ -84,3 +84,17 @@ body.mode-tcg #traveler{display:none}
 .cg-ra .cg-v{align-self:flex-end;margin-top:4px}
 #cgTodoBox .k-td small{color:var(--mut);font-size:11.5px}
 @media(max-width:420px){ .cg-grid{grid-template-columns:1fr 1fr;gap:8px} .cg-tile{padding:8px 10px 10px} .cg-hv b{font-size:30px} .cg-hero .cg-art{width:84px} }
+.cg-fx{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:-4px 0 12px}
+.cg-cur{display:inline-flex;background:var(--card2);border-radius:999px;padding:3px}
+.cg-cur button{border:none;background:none;font:inherit;font-size:12px;font-weight:700;color:var(--mut);border-radius:999px;padding:5px 11px;cursor:pointer;letter-spacing:.04em}
+.cg-cur button.on{background:var(--card);color:var(--brown);box-shadow:0 2px 8px -3px rgba(93,55,19,.35)}
+.cg-fx span{font:600 12px var(--mono);color:var(--mut)}
+.cg-fx small{margin-left:6px;font-size:10.5px;color:var(--mut2)}
+.cg-alt{font:500 10.5px var(--mono);color:var(--mut2);margin-top:2px}
+.cg-rt{text-align:right}
+.cg-rt small{display:block;font:500 10.5px var(--mono);color:var(--mut2)}
+.cg-rt{flex:none}
+.cg-r summary{min-width:0}
+.cg-ra small{white-space:nowrap}
+@media(max-width:420px){.cg-rt{font-size:14.5px}.cg-ri{padding-left:0}.cg-row{gap:8px;padding:8px}}
+.cg-rcpts{grid-template-columns:minmax(0,1fr)}.cg-r{min-width:0}
