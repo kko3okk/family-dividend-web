@@ -18,13 +18,20 @@
     "yoy": 212.8,
     "cum": 125.1,
     "ai_note": true
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 165.3,
+    "cum": 129.5,
+    "ai_note": true
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 63.6,
-  "px_last": 44.85,
-  "px_last_date": "2026-11-10",
-  "ret_since": -29.5
+  "px_last": 46.35,
+  "px_last_date": "2026-11-11",
+  "ret_since": -27.1
  },
  "3624": {
   "name": "光頡",
@@ -45,13 +52,20 @@
     "yoy": 67.4,
     "cum": 34.8,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 73.1,
+    "cum": 38.5,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 134.0,
-  "px_last": 101.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -24.6
+  "px_last": 108.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -19.4
  },
  "6861": {
   "name": "睿生光電",
@@ -76,9 +90,9 @@
   ],
   "weeks": 2,
   "px_first": 273.0,
-  "px_last": 190.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -30.2
+  "px_last": 179.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -34.4
  },
  "7717": {
   "name": "萊德光電-KY",
@@ -103,9 +117,9 @@
   ],
   "weeks": 2,
   "px_first": 608.0,
-  "px_last": 355.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -41.5
+  "px_last": 391.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -35.7
  },
  "6525": {
   "name": "捷敏-KY",
@@ -113,8 +127,8 @@
   "status": "排除",
   "reason": "功率封測但營收以消費性/PC/工業為主，AI 未單列；產能在上海/合肥",
   "history": [],
-  "px_last": 102.5,
-  "px_last_date": "2026-11-10"
+  "px_last": 105.0,
+  "px_last_date": "2026-11-11"
  },
  "2342": {
   "name": "茂矽",
@@ -122,8 +136,8 @@
   "status": "觀察",
   "reason": "高壓矽基 MOSFET/IGBT 代工（單一來源）；營收未動",
   "history": [],
-  "px_last": 34.75,
-  "px_last_date": "2026-11-10"
+  "px_last": 35.2,
+  "px_last_date": "2026-11-11"
  },
  "7744": {
   "name": "崴寶",
@@ -144,13 +158,20 @@
     "yoy": 122.5,
     "cum": 93.7,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 177.0,
+    "cum": 101.3,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 534.0,
-  "px_last": 426.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -20.2
+  "px_last": 442.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -17.2
  },
  "1316": {
   "name": "上曜",
@@ -170,13 +191,20 @@
     "yoy": 74.7,
     "cum": 115.0,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 57.8,
+    "cum": 107.8,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 10.6,
-  "px_last": 9.36,
-  "px_last_date": "2026-11-10",
-  "ret_since": -11.7
+  "px_last": 9.26,
+  "px_last_date": "2026-11-11",
+  "ret_since": -12.6
  },
  "1340": {
   "name": "勝悅-KY",
@@ -200,9 +228,9 @@
   ],
   "weeks": 2,
   "px_first": 5.25,
-  "px_last": 4.76,
-  "px_last_date": "2026-11-10",
-  "ret_since": -9.3
+  "px_last": 4.78,
+  "px_last_date": "2026-11-11",
+  "ret_since": -9.0
  },
  "1342": {
   "name": "八貫",
@@ -219,9 +247,9 @@
   ],
   "weeks": 1,
   "px_first": 101.0,
-  "px_last": 94.9,
-  "px_last_date": "2026-11-10",
-  "ret_since": -6.0
+  "px_last": 93.9,
+  "px_last_date": "2026-11-11",
+  "ret_since": -7.0
  },
  "1416": {
   "name": "廣豐",
@@ -241,13 +269,20 @@
     "yoy": 70.5,
     "cum": 47.6,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 45.5,
+    "cum": 47.3,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 11.5,
-  "px_last": 17.95,
-  "px_last_date": "2026-11-10",
-  "ret_since": 56.1
+  "px_last": 18.35,
+  "px_last_date": "2026-11-11",
+  "ret_since": 59.6
  },
  "1617": {
   "name": "榮星",
@@ -264,9 +299,9 @@
   ],
   "weeks": 1,
   "px_first": 20.15,
-  "px_last": 19.25,
-  "px_last_date": "2026-11-10",
-  "ret_since": -4.5
+  "px_last": 19.55,
+  "px_last_date": "2026-11-11",
+  "ret_since": -3.0
  },
  "1714": {
   "name": "和桐",
@@ -286,13 +321,20 @@
     "yoy": 57.4,
     "cum": 60.1,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 42.4,
+    "cum": 58.0,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 15.8,
-  "px_last": 16.05,
-  "px_last_date": "2026-11-10",
-  "ret_since": 1.6
+  "px_last": 15.8,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
  },
  "1785": {
   "name": "光洋科",
@@ -312,13 +354,20 @@
     "yoy": 49.9,
     "cum": 61.8,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 52.8,
+    "cum": 60.8,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 96.5,
-  "px_last": 79.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -18.1
+  "px_last": 85.6,
+  "px_last_date": "2026-11-11",
+  "ret_since": -11.3
  },
  "1799": {
   "name": "易威",
@@ -338,13 +387,20 @@
     "yoy": 80.6,
     "cum": 78.6,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 128.2,
+    "cum": 81.8,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 28.8,
-  "px_last": 24.9,
-  "px_last_date": "2026-11-10",
-  "ret_since": -13.5
+  "px_last": 25.1,
+  "px_last_date": "2026-11-11",
+  "ret_since": -12.8
  },
  "2025": {
   "name": "千興",
@@ -364,13 +420,20 @@
     "yoy": 163.0,
     "cum": 139.0,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 129.6,
+    "cum": 138.2,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 12.65,
-  "px_last": 11.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -13.0
+  "px_last": 10.85,
+  "px_last_date": "2026-11-11",
+  "ret_since": -14.2
  },
  "2027": {
   "name": "大成鋼",
@@ -390,13 +453,20 @@
     "yoy": 41.1,
     "cum": 35.0,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 44.8,
+    "cum": 36.0,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 46.6,
-  "px_last": 48.15,
-  "px_last_date": "2026-11-10",
-  "ret_since": 3.3
+  "px_last": 48.7,
+  "px_last_date": "2026-11-11",
+  "ret_since": 4.5
  },
  "2073": {
   "name": "雄順",
@@ -414,7 +484,7 @@
   "weeks": 1,
   "px_first": 25.9,
   "px_last": 25.85,
-  "px_last_date": "2026-11-10",
+  "px_last_date": "2026-11-11",
   "ret_since": -0.2
  },
  "2101": {
@@ -439,9 +509,9 @@
   ],
   "weeks": 2,
   "px_first": 30.05,
-  "px_last": 27.55,
-  "px_last_date": "2026-11-10",
-  "ret_since": -8.3
+  "px_last": 27.65,
+  "px_last_date": "2026-11-11",
+  "ret_since": -8.0
  },
  "2237": {
   "name": "華德動能-創",
@@ -457,8 +527,8 @@
    }
   ],
   "weeks": 1,
-  "px_last": 20.25,
-  "px_last_date": "2026-11-10"
+  "px_last": 20.7,
+  "px_last_date": "2026-11-11"
  },
  "2241": {
   "name": "艾姆勒",
@@ -475,9 +545,9 @@
   ],
   "weeks": 1,
   "px_first": 43.65,
-  "px_last": 36.9,
-  "px_last_date": "2026-11-10",
-  "ret_since": -15.5
+  "px_last": 38.3,
+  "px_last_date": "2026-11-11",
+  "ret_since": -12.3
  },
  "2248": {
   "name": "華勝-KY",
@@ -494,9 +564,9 @@
   ],
   "weeks": 1,
   "px_first": 61.9,
-  "px_last": 57.6,
-  "px_last_date": "2026-11-10",
-  "ret_since": -6.9
+  "px_last": 57.9,
+  "px_last_date": "2026-11-11",
+  "ret_since": -6.5
  },
  "2302": {
   "name": "麗正",
@@ -516,13 +586,20 @@
     "yoy": 39.9,
     "cum": 38.2,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 52.4,
+    "cum": 39.7,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 45.75,
-  "px_last": 38.4,
-  "px_last_date": "2026-11-10",
-  "ret_since": -16.1
+  "px_last": 40.35,
+  "px_last_date": "2026-11-11",
+  "ret_since": -11.8
  },
  "2316": {
   "name": "楠梓電",
@@ -539,9 +616,9 @@
   ],
   "weeks": 1,
   "px_first": 159.0,
-  "px_last": 109.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -31.4
+  "px_last": 115.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -27.7
  },
  "2347": {
   "name": "聯強",
@@ -561,13 +638,20 @@
     "yoy": 158.7,
     "cum": 98.0,
     "ai_note": true
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 59.5,
+    "cum": 93.5,
+    "ai_note": true
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 94.5,
-  "px_last": 81.1,
-  "px_last_date": "2026-11-10",
-  "ret_since": -14.2
+  "px_last": 79.1,
+  "px_last_date": "2026-11-11",
+  "ret_since": -16.3
  },
  "2357": {
   "name": "華碩",
@@ -584,9 +668,9 @@
   ],
   "weeks": 1,
   "px_first": 958.0,
-  "px_last": 860.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -10.2
+  "px_last": 884.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -7.7
  },
  "2369": {
   "name": "菱生",
@@ -603,9 +687,9 @@
   ],
   "weeks": 1,
   "px_first": 31.65,
-  "px_last": 25.35,
-  "px_last_date": "2026-11-10",
-  "ret_since": -19.9
+  "px_last": 25.85,
+  "px_last_date": "2026-11-11",
+  "ret_since": -18.3
  },
  "2374": {
   "name": "佳能",
@@ -622,9 +706,9 @@
   ],
   "weeks": 1,
   "px_first": 66.1,
-  "px_last": 56.4,
-  "px_last_date": "2026-11-10",
-  "ret_since": -14.7
+  "px_last": 52.4,
+  "px_last_date": "2026-11-11",
+  "ret_since": -20.7
  },
  "2388": {
   "name": "威盛",
@@ -641,9 +725,9 @@
   ],
   "weeks": 1,
   "px_first": 70.8,
-  "px_last": 56.2,
-  "px_last_date": "2026-11-10",
-  "ret_since": -20.6
+  "px_last": 56.7,
+  "px_last_date": "2026-11-11",
+  "ret_since": -19.9
  },
  "2395": {
   "name": "研華",
@@ -663,13 +747,20 @@
     "yoy": 73.1,
     "cum": 49.1,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 88.4,
+    "cum": 53.1,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 701.0,
-  "px_last": 583.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -16.8
+  "px_last": 593.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -15.4
  },
  "2397": {
   "name": "友通",
@@ -693,9 +784,9 @@
   ],
   "weeks": 2,
   "px_first": 62.1,
-  "px_last": 54.1,
-  "px_last_date": "2026-11-10",
-  "ret_since": -12.9
+  "px_last": 55.6,
+  "px_last_date": "2026-11-11",
+  "ret_since": -10.5
  },
  "2406": {
   "name": "國碩",
@@ -715,13 +806,20 @@
     "yoy": 62.3,
     "cum": 107.9,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 51.4,
+    "cum": 100.6,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 29.9,
-  "px_last": 30.1,
-  "px_last_date": "2026-11-10",
-  "ret_since": 0.7
+  "px_last": 28.95,
+  "px_last_date": "2026-11-11",
+  "ret_since": -3.2
  },
  "2425": {
   "name": "承啟",
@@ -745,9 +843,9 @@
   ],
   "weeks": 2,
   "px_first": 37.1,
-  "px_last": 28.25,
-  "px_last_date": "2026-11-10",
-  "ret_since": -23.9
+  "px_last": 27.85,
+  "px_last_date": "2026-11-11",
+  "ret_since": -24.9
  },
  "2432": {
   "name": "倚天酷碁-創",
@@ -767,13 +865,20 @@
     "yoy": 98.9,
     "cum": 66.3,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 104.5,
+    "cum": 70.0,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 27.25,
-  "px_last": 27.55,
-  "px_last_date": "2026-11-10",
-  "ret_since": 1.1
+  "px_last": 27.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.9
  },
  "2436": {
   "name": "偉詮電",
@@ -797,9 +902,9 @@
   ],
   "weeks": 2,
   "px_first": 69.6,
-  "px_last": 53.8,
-  "px_last_date": "2026-11-10",
-  "ret_since": -22.7
+  "px_last": 54.1,
+  "px_last_date": "2026-11-11",
+  "ret_since": -22.3
  },
  "2460": {
   "name": "建通",
@@ -819,13 +924,20 @@
     "yoy": 97.5,
     "cum": 68.8,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 95.2,
+    "cum": 71.5,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 30.8,
-  "px_last": 26.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -14.0
+  "px_last": 27.65,
+  "px_last_date": "2026-11-11",
+  "ret_since": -10.2
  },
  "2476": {
   "name": "鉅祥",
@@ -845,13 +957,20 @@
     "yoy": 53.8,
     "cum": 41.5,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 62.5,
+    "cum": 43.7,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 122.0,
-  "px_last": 96.4,
-  "px_last_date": "2026-11-10",
-  "ret_since": -21.0
+  "px_last": 95.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -21.7
  },
  "2495": {
   "name": "普安",
@@ -868,9 +987,9 @@
   ],
   "weeks": 1,
   "px_first": 38.85,
-  "px_last": 29.2,
-  "px_last_date": "2026-11-10",
-  "ret_since": -24.8
+  "px_last": 28.75,
+  "px_last_date": "2026-11-11",
+  "ret_since": -26.0
  },
  "2543": {
   "name": "皇昌",
@@ -890,13 +1009,20 @@
     "yoy": 32.7,
     "cum": 55.4,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 33.3,
+    "cum": 52.6,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 38.3,
-  "px_last": 29.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -23.0
+  "px_last": 28.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -25.6
  },
  "2646": {
   "name": "星宇航空",
@@ -916,13 +1042,20 @@
     "yoy": 68.9,
     "cum": 37.1,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 59.5,
+    "cum": 39.4,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 20.35,
-  "px_last": 19.6,
-  "px_last_date": "2026-11-10",
-  "ret_since": -3.7
+  "px_last": 20.05,
+  "px_last_date": "2026-11-11",
+  "ret_since": -1.5
  },
  "2724": {
   "name": "藝舍-KY",
@@ -947,7 +1080,7 @@
   "weeks": 2,
   "px_first": 12.3,
   "px_last": 11.9,
-  "px_last_date": "2026-11-10",
+  "px_last_date": "2026-11-11",
   "ret_since": -3.3
  },
  "2734": {
@@ -968,13 +1101,20 @@
     "yoy": 58.9,
     "cum": 35.5,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 43.1,
+    "cum": 36.3,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 14.5,
-  "px_last": 13.35,
-  "px_last_date": "2026-11-10",
-  "ret_since": -7.9
+  "px_last": 13.45,
+  "px_last_date": "2026-11-11",
+  "ret_since": -7.2
  },
  "2923": {
   "name": "鼎固-KY",
@@ -998,9 +1138,9 @@
   ],
   "weeks": 2,
   "px_first": 25.7,
-  "px_last": 28.3,
-  "px_last_date": "2026-11-10",
-  "ret_since": 10.1
+  "px_last": 25.9,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.8
  },
  "3004": {
   "name": "豐達科",
@@ -1020,13 +1160,20 @@
     "yoy": 56.8,
     "cum": 42.4,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 51.1,
+    "cum": 43.3,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 118.0,
-  "px_last": 119.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": 0.8
+  "px_last": 122.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": 3.8
  },
  "3022": {
   "name": "威強電",
@@ -1050,9 +1197,9 @@
   ],
   "weeks": 2,
   "px_first": 90.7,
-  "px_last": 72.1,
-  "px_last_date": "2026-11-10",
-  "ret_since": -20.5
+  "px_last": 73.2,
+  "px_last_date": "2026-11-11",
+  "ret_since": -19.3
  },
  "3028": {
   "name": "增你強",
@@ -1076,9 +1223,9 @@
   ],
   "weeks": 2,
   "px_first": 61.7,
-  "px_last": 55.1,
-  "px_last_date": "2026-11-10",
-  "ret_since": -10.7
+  "px_last": 54.1,
+  "px_last_date": "2026-11-11",
+  "ret_since": -12.3
  },
  "3033": {
   "name": "威健",
@@ -1098,13 +1245,20 @@
     "yoy": 79.9,
     "cum": 41.4,
     "ai_note": true
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 48.8,
+    "cum": 42.1,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 41.6,
-  "px_last": 38.6,
-  "px_last_date": "2026-11-10",
-  "ret_since": -7.2
+  "px_last": 37.7,
+  "px_last_date": "2026-11-11",
+  "ret_since": -9.4
  },
  "3036": {
   "name": "文曄",
@@ -1124,13 +1278,20 @@
     "yoy": 60.0,
     "cum": 101.3,
     "ai_note": true
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 112.9,
+    "cum": 102.8,
+    "ai_note": true
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 206.0,
-  "px_last": 181.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -11.9
+  "px_last": 190.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -7.8
  },
  "3041": {
   "name": "揚智",
@@ -1154,9 +1315,9 @@
   ],
   "weeks": 2,
   "px_first": 23.6,
-  "px_last": 20.9,
-  "px_last_date": "2026-11-10",
-  "ret_since": -11.4
+  "px_last": 21.1,
+  "px_last_date": "2026-11-11",
+  "ret_since": -10.6
  },
  "3048": {
   "name": "益登",
@@ -1180,9 +1341,9 @@
   ],
   "weeks": 2,
   "px_first": 50.4,
-  "px_last": 44.25,
-  "px_last_date": "2026-11-10",
-  "ret_since": -12.2
+  "px_last": 42.8,
+  "px_last_date": "2026-11-11",
+  "ret_since": -15.1
  },
  "3054": {
   "name": "立萬利",
@@ -1206,9 +1367,9 @@
   ],
   "weeks": 2,
   "px_first": 58.5,
-  "px_last": 55.8,
-  "px_last_date": "2026-11-10",
-  "ret_since": -4.6
+  "px_last": 57.2,
+  "px_last_date": "2026-11-11",
+  "ret_since": -2.2
  },
  "3088": {
   "name": "艾訊",
@@ -1228,13 +1389,20 @@
     "yoy": 37.0,
     "cum": 47.9,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 74.8,
+    "cum": 50.7,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 127.0,
-  "px_last": 104.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -17.7
+  "px_last": 109.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -14.2
  },
  "3090": {
   "name": "日電貿",
@@ -1254,13 +1422,20 @@
     "yoy": 31.3,
     "cum": 30.2,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 48.2,
+    "cum": 32.0,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 165.0,
-  "px_last": 133.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -19.1
+  "px_last": 136.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -17.6
  },
  "3135": {
   "name": "凌航",
@@ -1280,13 +1455,20 @@
     "yoy": 132.5,
     "cum": 228.6,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 237.3,
+    "cum": 229.6,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 159.0,
-  "px_last": 121.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -23.6
+  "px_last": 117.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -26.1
  },
  "3147": {
   "name": "大綜",
@@ -1306,13 +1488,20 @@
     "yoy": 287.9,
     "cum": 125.2,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 43.3,
+    "cum": 111.9,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 234.5,
-  "px_last": 319.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": 36.2
+  "px_last": 351.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": 49.7
  },
  "3162": {
   "name": "精確",
@@ -1332,13 +1521,20 @@
     "yoy": 73.4,
     "cum": 38.4,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 63.1,
+    "cum": 41.2,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 74.7,
-  "px_last": 72.6,
-  "px_last_date": "2026-11-10",
-  "ret_since": -2.8
+  "px_last": 71.9,
+  "px_last_date": "2026-11-11",
+  "ret_since": -3.7
  },
  "3229": {
   "name": "晟鈦",
@@ -1358,13 +1554,20 @@
     "yoy": 48.7,
     "cum": 61.2,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 34.7,
+    "cum": 58.2,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 57.4,
-  "px_last": 39.35,
-  "px_last_date": "2026-11-10",
-  "ret_since": -31.4
+  "px_last": 39.8,
+  "px_last_date": "2026-11-11",
+  "ret_since": -30.7
  },
  "3276": {
   "name": "宇環",
@@ -1384,13 +1587,20 @@
     "yoy": 89.8,
     "cum": 42.3,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 51.2,
+    "cum": 43.3,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 13.85,
-  "px_last": 13.7,
-  "px_last_date": "2026-11-10",
-  "ret_since": -1.1
+  "px_last": 13.3,
+  "px_last_date": "2026-11-11",
+  "ret_since": -4.0
  },
  "3290": {
   "name": "東浦",
@@ -1410,13 +1620,20 @@
     "yoy": 76.6,
     "cum": 83.2,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 57.3,
+    "cum": 79.9,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 45.75,
-  "px_last": 45.95,
-  "px_last_date": "2026-11-10",
-  "ret_since": 0.4
+  "px_last": 45.85,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.2
  },
  "3305": {
   "name": "昇貿",
@@ -1436,13 +1653,20 @@
     "yoy": 46.3,
     "cum": 59.5,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 53.1,
+    "cum": 58.9,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 102.0,
-  "px_last": 99.7,
-  "px_last_date": "2026-11-10",
-  "ret_since": -2.3
+  "px_last": 105.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": 2.9
  },
  "3357": {
   "name": "臺慶科",
@@ -1462,13 +1686,20 @@
     "yoy": 47.8,
     "cum": 34.1,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 43.3,
+    "cum": 35.1,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 206.0,
-  "px_last": 170.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -17.2
+  "px_last": 171.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -16.7
  },
  "3360": {
   "name": "尚立",
@@ -1485,9 +1716,9 @@
   ],
   "weeks": 1,
   "px_first": 15.05,
-  "px_last": 13.1,
-  "px_last_date": "2026-11-10",
-  "ret_since": -13.0
+  "px_last": 13.05,
+  "px_last_date": "2026-11-11",
+  "ret_since": -13.3
  },
  "3491": {
   "name": "昇達科",
@@ -1511,9 +1742,9 @@
   ],
   "weeks": 2,
   "px_first": 1565.0,
-  "px_last": 1190.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -24.0
+  "px_last": 1305.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -16.6
  },
  "3528": {
   "name": "安馳",
@@ -1537,9 +1768,9 @@
   ],
   "weeks": 2,
   "px_first": 84.5,
-  "px_last": 70.9,
-  "px_last_date": "2026-11-10",
-  "ret_since": -16.1
+  "px_last": 73.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -13.6
  },
  "3555": {
   "name": "博士旺",
@@ -1556,9 +1787,9 @@
   ],
   "weeks": 1,
   "px_first": 171.5,
-  "px_last": 121.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -29.4
+  "px_last": 126.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -26.5
  },
  "3556": {
   "name": "禾瑞亞",
@@ -1578,13 +1809,20 @@
     "yoy": 39.2,
     "cum": 31.6,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 35.2,
+    "cum": 32.0,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 56.6,
-  "px_last": 58.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": 3.4
+  "px_last": 57.3,
+  "px_last_date": "2026-11-11",
+  "ret_since": 1.2
  },
  "3577": {
   "name": "泓格",
@@ -1601,9 +1839,9 @@
   ],
   "weeks": 1,
   "px_first": 114.0,
-  "px_last": 85.9,
-  "px_last_date": "2026-11-10",
-  "ret_since": -24.6
+  "px_last": 83.9,
+  "px_last_date": "2026-11-11",
+  "ret_since": -26.4
  },
  "3594": {
   "name": "磐儀",
@@ -1623,13 +1861,20 @@
     "yoy": 71.1,
     "cum": 47.5,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 59.7,
+    "cum": 49.0,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 46.6,
-  "px_last": 40.6,
-  "px_last_date": "2026-11-10",
-  "ret_since": -12.9
+  "px_last": 40.55,
+  "px_last_date": "2026-11-11",
+  "ret_since": -13.0
  },
  "3689": {
   "name": "湧德",
@@ -1649,13 +1894,20 @@
     "yoy": 62.1,
     "cum": 45.4,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 63.7,
+    "cum": 47.1,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 109.5,
-  "px_last": 97.1,
-  "px_last_date": "2026-11-10",
-  "ret_since": -11.3
+  "px_last": 97.6,
+  "px_last_date": "2026-11-11",
+  "ret_since": -10.9
  },
  "3691": {
   "name": "碩禾",
@@ -1675,13 +1927,20 @@
     "yoy": 64.2,
     "cum": 112.3,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 59.2,
+    "cum": 105.5,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 121.5,
-  "px_last": 148.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": 22.2
+  "px_last": 146.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": 20.2
  },
  "3702": {
   "name": "大聯大",
@@ -1701,13 +1960,20 @@
     "yoy": 146.5,
     "cum": 72.5,
     "ai_note": true
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 79.0,
+    "cum": 73.1,
+    "ai_note": true
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 114.0,
-  "px_last": 90.4,
-  "px_last_date": "2026-11-10",
-  "ret_since": -20.7
+  "px_last": 92.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -18.9
  },
  "3709": {
   "name": "鑫聯大投控",
@@ -1727,13 +1993,20 @@
     "yoy": 118.7,
     "cum": 53.7,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 138.8,
+    "cum": 62.6,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 63.3,
-  "px_last": 57.7,
-  "px_last_date": "2026-11-10",
-  "ret_since": -8.8
+  "px_last": 62.9,
+  "px_last_date": "2026-11-11",
+  "ret_since": -0.6
  },
  "3713": {
   "name": "新晶投控",
@@ -1750,9 +2023,9 @@
   ],
   "weeks": 1,
   "px_first": 14.1,
-  "px_last": 13.9,
-  "px_last_date": "2026-11-10",
-  "ret_since": -1.4
+  "px_last": 14.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -0.7
  },
  "3715": {
   "name": "定穎投控",
@@ -1772,13 +2045,20 @@
     "yoy": 84.7,
     "cum": 51.3,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 121.5,
+    "cum": 58.9,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 125.5,
-  "px_last": 108.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -13.5
+  "px_last": 119.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -5.2
  },
  "4154": {
   "name": "樂威科-KY",
@@ -1802,9 +2082,9 @@
   ],
   "weeks": 2,
   "px_first": 11.85,
-  "px_last": 11.55,
-  "px_last_date": "2026-11-10",
-  "ret_since": -2.5
+  "px_last": 10.95,
+  "px_last_date": "2026-11-11",
+  "ret_since": -7.6
  },
  "4442": {
   "name": "竣邦-KY",
@@ -1828,9 +2108,9 @@
   ],
   "weeks": 2,
   "px_first": 54.1,
-  "px_last": 53.2,
-  "px_last_date": "2026-11-10",
-  "ret_since": -1.7
+  "px_last": 50.7,
+  "px_last_date": "2026-11-11",
+  "ret_since": -6.3
  },
  "4502": {
   "name": "健信",
@@ -1850,12 +2130,19 @@
     "yoy": 72.0,
     "cum": 40.1,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 67.1,
+    "cum": 43.1,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 15.7,
   "px_last": 15.85,
-  "px_last_date": "2026-11-10",
+  "px_last_date": "2026-11-11",
   "ret_since": 1.0
  },
  "4534": {
@@ -1876,12 +2163,19 @@
     "yoy": 44.7,
     "cum": 34.9,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 36.3,
+    "cum": 35.0,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 31.5,
   "px_last": 25.45,
-  "px_last_date": "2026-11-10",
+  "px_last_date": "2026-11-11",
   "ret_since": -19.2
  },
  "4576": {
@@ -1902,13 +2196,20 @@
     "yoy": 74.7,
     "cum": 58.1,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 68.7,
+    "cum": 59.3,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 223.5,
-  "px_last": 178.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -20.1
+  "px_last": 184.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -17.7
  },
  "4760": {
   "name": "勤凱科技",
@@ -1928,13 +2229,20 @@
     "yoy": 76.3,
     "cum": 66.9,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 64.0,
+    "cum": 66.6,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 265.0,
-  "px_last": 244.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -7.9
+  "px_last": 260.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -1.9
  },
  "4806": {
   "name": "桂田文創",
@@ -1954,12 +2262,19 @@
     "yoy": 114.4,
     "cum": 161.8,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 102.8,
+    "cum": 156.8,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 10.4,
   "px_last": 10.8,
-  "px_last_date": "2026-11-10",
+  "px_last_date": "2026-11-11",
   "ret_since": 3.8
  },
  "4807": {
@@ -1984,9 +2299,9 @@
   ],
   "weeks": 2,
   "px_first": 29.85,
-  "px_last": 29.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -2.8
+  "px_last": 29.9,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.2
  },
  "4905": {
   "name": "台聯電",
@@ -2010,9 +2325,9 @@
   ],
   "weeks": 2,
   "px_first": 78.1,
-  "px_last": 78.3,
-  "px_last_date": "2026-11-10",
-  "ret_since": 0.3
+  "px_last": 80.4,
+  "px_last_date": "2026-11-11",
+  "ret_since": 2.9
  },
  "4912": {
   "name": "聯德控股-KY",
@@ -2036,9 +2351,9 @@
   ],
   "weeks": 2,
   "px_first": 98.4,
-  "px_last": 84.2,
-  "px_last_date": "2026-11-10",
-  "ret_since": -14.4
+  "px_last": 85.8,
+  "px_last_date": "2026-11-11",
+  "ret_since": -12.8
  },
  "4916": {
   "name": "事欣科",
@@ -2058,13 +2373,20 @@
     "yoy": 70.3,
     "cum": 63.0,
     "ai_note": true
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 112.4,
+    "cum": 68.8,
+    "ai_note": true
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 104.5,
-  "px_last": 91.3,
-  "px_last_date": "2026-11-10",
-  "ret_since": -12.6
+  "px_last": 97.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -6.7
  },
  "4931": {
   "name": "新盛力",
@@ -2084,13 +2406,20 @@
     "yoy": 176.3,
     "cum": 96.5,
     "ai_note": true
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 106.7,
+    "cum": 97.9,
+    "ai_note": true
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 238.5,
-  "px_last": 175.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -26.6
+  "px_last": 185.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -22.2
  },
  "4934": {
   "name": "太極",
@@ -2110,13 +2439,20 @@
     "yoy": 34.5,
     "cum": 136.1,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 251.5,
+    "cum": 146.1,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 14.45,
-  "px_last": 13.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -10.0
+  "px_last": 12.8,
+  "px_last_date": "2026-11-11",
+  "ret_since": -11.4
  },
  "4943": {
   "name": "康控-KY",
@@ -2133,9 +2469,9 @@
   ],
   "weeks": 1,
   "px_first": 7.0,
-  "px_last": 6.13,
-  "px_last_date": "2026-11-10",
-  "ret_since": -12.4
+  "px_last": 6.19,
+  "px_last_date": "2026-11-11",
+  "ret_since": -11.6
  },
  "4949": {
   "name": "有成精密",
@@ -2155,13 +2491,20 @@
     "yoy": 93.3,
     "cum": 57.9,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 68.4,
+    "cum": 59.0,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 73.6,
-  "px_last": 72.3,
-  "px_last_date": "2026-11-10",
-  "ret_since": -1.8
+  "px_last": 72.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -2.2
  },
  "4973": {
   "name": "廣穎電通",
@@ -2181,13 +2524,20 @@
     "yoy": 277.7,
     "cum": 151.6,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 176.1,
+    "cum": 154.2,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 135.0,
-  "px_last": 122.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -9.6
+  "px_last": 117.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -13.3
  },
  "4989": {
   "name": "榮科",
@@ -2207,13 +2557,20 @@
     "yoy": 56.6,
     "cum": 70.9,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 78.7,
+    "cum": 71.9,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 59.9,
-  "px_last": 54.9,
-  "px_last_date": "2026-11-10",
-  "ret_since": -8.3
+  "px_last": 58.9,
+  "px_last_date": "2026-11-11",
+  "ret_since": -1.7
  },
  "5220": {
   "name": "萬達光電",
@@ -2233,13 +2590,20 @@
     "yoy": 94.0,
     "cum": 43.9,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 49.9,
+    "cum": 44.4,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 19.8,
-  "px_last": 19.7,
-  "px_last_date": "2026-11-10",
-  "ret_since": -0.5
+  "px_last": 20.05,
+  "px_last_date": "2026-11-11",
+  "ret_since": 1.3
  },
  "5228": {
   "name": "鈺鎧",
@@ -2259,13 +2623,20 @@
     "yoy": 109.8,
     "cum": 61.7,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 49.2,
+    "cum": 60.2,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 39.65,
-  "px_last": 46.05,
-  "px_last_date": "2026-11-10",
-  "ret_since": 16.1
+  "px_last": 44.75,
+  "px_last_date": "2026-11-11",
+  "ret_since": 12.9
  },
  "5263": {
   "name": "智崴",
@@ -2285,13 +2656,20 @@
     "yoy": 124.2,
     "cum": 85.7,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 105.6,
+    "cum": 88.4,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 90.8,
-  "px_last": 80.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -11.9
+  "px_last": 81.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -10.2
  },
  "5288": {
   "name": "豐祥-KY",
@@ -2315,9 +2693,9 @@
   ],
   "weeks": 2,
   "px_first": 189.0,
-  "px_last": 167.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -11.6
+  "px_last": 170.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -9.8
  },
  "5291": {
   "name": "邑昇",
@@ -2337,13 +2715,20 @@
     "yoy": 45.5,
     "cum": 45.7,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 46.8,
+    "cum": 45.8,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 57.5,
-  "px_last": 46.8,
-  "px_last_date": "2026-11-10",
-  "ret_since": -18.6
+  "px_last": 48.6,
+  "px_last_date": "2026-11-11",
+  "ret_since": -15.5
  },
  "5314": {
   "name": "世紀*",
@@ -2363,12 +2748,19 @@
     "yoy": 45.7,
     "cum": 133.1,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 50.7,
+    "cum": 121.0,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 26.0,
   "px_last": 21.3,
-  "px_last_date": "2026-11-10",
+  "px_last_date": "2026-11-11",
   "ret_since": -18.1
  },
  "5355": {
@@ -2389,13 +2781,20 @@
     "yoy": 135.1,
     "cum": 46.1,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 31.0,
+    "cum": 44.5,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 6.8,
-  "px_last": 13.9,
-  "px_last_date": "2026-11-10",
-  "ret_since": 104.4
+  "px_last": 13.4,
+  "px_last_date": "2026-11-11",
+  "ret_since": 97.1
  },
  "5498": {
   "name": "凱崴",
@@ -2415,13 +2814,20 @@
     "yoy": 78.7,
     "cum": 71.8,
     "ai_note": true
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 96.3,
+    "cum": 74.5,
+    "ai_note": true
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 50.2,
-  "px_last": 43.75,
-  "px_last_date": "2026-11-10",
-  "ret_since": -12.8
+  "px_last": 46.65,
+  "px_last_date": "2026-11-11",
+  "ret_since": -7.1
  },
  "5516": {
   "name": "雙喜",
@@ -2434,13 +2840,20 @@
     "yoy": 42.5,
     "cum": 41.2,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 214.1,
+    "cum": 69.2,
+    "ai_note": false
    }
   ],
-  "weeks": 1,
+  "weeks": 2,
   "px_first": 11.95,
-  "px_last": 12.7,
-  "px_last_date": "2026-11-10",
-  "ret_since": 6.3
+  "px_last": 12.8,
+  "px_last_date": "2026-11-11",
+  "ret_since": 7.1
  },
  "5607": {
   "name": "遠雄港",
@@ -2460,13 +2873,20 @@
     "yoy": 35.5,
     "cum": 36.1,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 36.1,
+    "cum": 36.1,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 52.2,
-  "px_last": 47.7,
-  "px_last_date": "2026-11-10",
-  "ret_since": -8.6
+  "px_last": 50.1,
+  "px_last_date": "2026-11-11",
+  "ret_since": -4.0
  },
  "6028": {
   "name": "公勝保經",
@@ -2483,9 +2903,9 @@
   ],
   "weeks": 1,
   "px_first": 99.2,
-  "px_last": 108.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": 9.4
+  "px_last": 113.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": 13.9
  },
  "6108": {
   "name": "競國",
@@ -2505,13 +2925,20 @@
     "yoy": 33.1,
     "cum": 31.4,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 86.7,
+    "cum": 37.7,
+    "ai_note": true
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 24.0,
-  "px_last": 29.55,
-  "px_last_date": "2026-11-10",
-  "ret_since": 23.1
+  "px_last": 32.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": 35.4
  },
  "6113": {
   "name": "亞矽",
@@ -2531,13 +2958,20 @@
     "yoy": 103.1,
     "cum": 75.8,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 82.6,
+    "cum": 74.7,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 22.3,
-  "px_last": 20.1,
-  "px_last_date": "2026-11-10",
-  "ret_since": -9.9
+  "px_last": 19.95,
+  "px_last_date": "2026-11-11",
+  "ret_since": -10.5
  },
  "6141": {
   "name": "柏承",
@@ -2557,13 +2991,20 @@
     "yoy": 74.2,
     "cum": 36.9,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 83.8,
+    "cum": 41.6,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 51.8,
-  "px_last": 40.8,
-  "px_last_date": "2026-11-10",
-  "ret_since": -21.2
+  "px_last": 41.65,
+  "px_last_date": "2026-11-11",
+  "ret_since": -19.6
  },
  "6152": {
   "name": "百一",
@@ -2587,9 +3028,9 @@
   ],
   "weeks": 2,
   "px_first": 15.05,
-  "px_last": 16.95,
-  "px_last_date": "2026-11-10",
-  "ret_since": 12.6
+  "px_last": 17.55,
+  "px_last_date": "2026-11-11",
+  "ret_since": 16.6
  },
  "6166": {
   "name": "凌華",
@@ -2609,13 +3050,20 @@
     "yoy": 50.5,
     "cum": 42.6,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 57.1,
+    "cum": 44.1,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 126.5,
-  "px_last": 92.6,
-  "px_last_date": "2026-11-10",
-  "ret_since": -26.8
+  "px_last": 90.9,
+  "px_last_date": "2026-11-11",
+  "ret_since": -28.1
  },
  "6179": {
   "name": "亞通",
@@ -2635,13 +3083,20 @@
     "yoy": 139.5,
     "cum": 132.5,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 152.2,
+    "cum": 134.7,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 35.1,
-  "px_last": 34.85,
-  "px_last_date": "2026-11-10",
-  "ret_since": -0.7
+  "px_last": 35.25,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.4
  },
  "6185": {
   "name": "幃翔",
@@ -2661,13 +3116,20 @@
     "yoy": 62.1,
     "cum": 38.1,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 107.5,
+    "cum": 43.6,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 12.6,
-  "px_last": 11.6,
-  "px_last_date": "2026-11-10",
-  "ret_since": -7.9
+  "px_last": 11.45,
+  "px_last_date": "2026-11-11",
+  "ret_since": -9.1
  },
  "6199": {
   "name": "天品",
@@ -2687,13 +3149,20 @@
     "yoy": 146.6,
     "cum": 431.2,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 143.5,
+    "cum": 369.0,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 122.0,
-  "px_last": 165.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": 35.2
+  "px_last": 167.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": 37.3
  },
  "6206": {
   "name": "飛捷",
@@ -2710,9 +3179,9 @@
   ],
   "weeks": 1,
   "px_first": 139.0,
-  "px_last": 117.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -15.8
+  "px_last": 114.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -18.0
  },
  "6209": {
   "name": "今國光",
@@ -2732,13 +3201,20 @@
     "yoy": 81.6,
     "cum": 71.4,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 48.9,
+    "cum": 68.2,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 78.0,
-  "px_last": 71.8,
-  "px_last_date": "2026-11-10",
-  "ret_since": -7.9
+  "px_last": 74.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -4.5
  },
  "6214": {
   "name": "精誠",
@@ -2755,9 +3231,9 @@
   ],
   "weeks": 1,
   "px_first": 190.0,
-  "px_last": 179.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -5.8
+  "px_last": 184.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -2.9
  },
  "6225": {
   "name": "天瀚",
@@ -2774,9 +3250,9 @@
   ],
   "weeks": 1,
   "px_first": 46.2,
-  "px_last": 81.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": 76.4
+  "px_last": 81.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": 75.3
  },
  "6227": {
   "name": "茂綸",
@@ -2796,13 +3272,20 @@
     "yoy": 99.5,
     "cum": 55.6,
     "ai_note": true
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 107.2,
+    "cum": 60.8,
+    "ai_note": true
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 134.5,
-  "px_last": 104.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -22.3
+  "px_last": 108.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -19.3
  },
  "6234": {
   "name": "高僑",
@@ -2826,9 +3309,9 @@
   ],
   "weeks": 2,
   "px_first": 38.2,
-  "px_last": 44.8,
-  "px_last_date": "2026-11-10",
-  "ret_since": 17.3
+  "px_last": 49.25,
+  "px_last_date": "2026-11-11",
+  "ret_since": 28.9
  },
  "6259": {
   "name": "百徽",
@@ -2848,13 +3331,20 @@
     "yoy": 119.4,
     "cum": 63.8,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 126.1,
+    "cum": 68.8,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 29.05,
-  "px_last": 24.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -17.4
+  "px_last": 25.05,
+  "px_last_date": "2026-11-11",
+  "ret_since": -13.8
  },
  "6264": {
   "name": "富裔",
@@ -2871,9 +3361,9 @@
   ],
   "weeks": 1,
   "px_first": 6.01,
-  "px_last": 6.03,
-  "px_last_date": "2026-11-10",
-  "ret_since": 0.3
+  "px_last": 6.01,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
  },
  "6291": {
   "name": "沛亨",
@@ -2890,9 +3380,9 @@
   ],
   "weeks": 1,
   "px_first": 493.0,
-  "px_last": 300.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -39.1
+  "px_last": 305.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -38.1
  },
  "6415": {
   "name": "矽力*-KY",
@@ -2916,9 +3406,9 @@
   ],
   "weeks": 2,
   "px_first": 426.0,
-  "px_last": 427.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": 0.4
+  "px_last": 440.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": 3.4
  },
  "6425": {
   "name": "易發",
@@ -2938,13 +3428,20 @@
     "yoy": 66.1,
     "cum": 57.8,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 253.5,
+    "cum": 82.2,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 72.8,
-  "px_last": 64.7,
-  "px_last_date": "2026-11-10",
-  "ret_since": -11.1
+  "px_last": 70.7,
+  "px_last_date": "2026-11-11",
+  "ret_since": -2.9
  },
  "6465": {
   "name": "威潤",
@@ -2968,9 +3465,9 @@
   ],
   "weeks": 2,
   "px_first": 41.7,
-  "px_last": 34.4,
-  "px_last_date": "2026-11-10",
-  "ret_since": -17.5
+  "px_last": 37.8,
+  "px_last_date": "2026-11-11",
+  "ret_since": -9.4
  },
  "6494": {
   "name": "九齊",
@@ -2987,9 +3484,9 @@
   ],
   "weeks": 1,
   "px_first": 51.4,
-  "px_last": 44.25,
-  "px_last_date": "2026-11-10",
-  "ret_since": -13.9
+  "px_last": 43.2,
+  "px_last_date": "2026-11-11",
+  "ret_since": -16.0
  },
  "6588": {
   "name": "東典光電",
@@ -3009,13 +3506,20 @@
     "yoy": 94.9,
     "cum": 130.7,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 62.3,
+    "cum": 122.7,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 112.5,
-  "px_last": 75.1,
-  "px_last_date": "2026-11-10",
-  "ret_since": -33.2
+  "px_last": 77.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -31.6
  },
  "6613": {
   "name": "朋億*",
@@ -3035,13 +3539,20 @@
     "yoy": 139.3,
     "cum": 71.7,
     "ai_note": true
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 89.4,
+    "cum": 73.5,
+    "ai_note": true
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 269.0,
-  "px_last": 222.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -17.5
+  "px_last": 220.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -18.0
  },
  "6629": {
   "name": "泰金-KY",
@@ -3058,9 +3569,9 @@
   ],
   "weeks": 1,
   "px_first": 104.0,
-  "px_last": 99.8,
-  "px_last_date": "2026-11-10",
-  "ret_since": -4.0
+  "px_last": 101.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -2.4
  },
  "6691": {
   "name": "洋基工程",
@@ -3080,13 +3591,20 @@
     "yoy": 114.3,
     "cum": 113.0,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 136.3,
+    "cum": 115.7,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 646.0,
-  "px_last": 554.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -14.2
+  "px_last": 568.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -12.1
  },
  "6716": {
   "name": "應廣",
@@ -3103,9 +3621,9 @@
   ],
   "weeks": 1,
   "px_first": 117.5,
-  "px_last": 74.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -37.0
+  "px_last": 76.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -34.9
  },
  "6741": {
   "name": "91APP*-KY",
@@ -3129,9 +3647,9 @@
   ],
   "weeks": 2,
   "px_first": 55.7,
-  "px_last": 43.65,
-  "px_last_date": "2026-11-10",
-  "ret_since": -21.6
+  "px_last": 41.55,
+  "px_last_date": "2026-11-11",
+  "ret_since": -25.4
  },
  "6834": {
   "name": "天二科技",
@@ -3151,13 +3669,20 @@
     "yoy": 132.4,
     "cum": 61.2,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 179.6,
+    "cum": 71.3,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 113.5,
-  "px_last": 96.3,
-  "px_last_date": "2026-11-10",
-  "ret_since": -15.2
+  "px_last": 98.9,
+  "px_last_date": "2026-11-11",
+  "ret_since": -12.9
  },
  "6863": {
   "name": "永道-KY",
@@ -3182,7 +3707,7 @@
   "weeks": 2,
   "px_first": 98.0,
   "px_last": 89.8,
-  "px_last_date": "2026-11-10",
+  "px_last_date": "2026-11-11",
   "ret_since": -8.4
  },
  "6870": {
@@ -3200,9 +3725,9 @@
   ],
   "weeks": 1,
   "px_first": 328.5,
-  "px_last": 408.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": 24.4
+  "px_last": 449.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": 36.7
  },
  "6874": {
   "name": "倍力",
@@ -3226,9 +3751,9 @@
   ],
   "weeks": 2,
   "px_first": 69.4,
-  "px_last": 68.8,
-  "px_last_date": "2026-11-10",
-  "ret_since": -0.9
+  "px_last": 68.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -2.0
  },
  "6884": {
   "name": "海柏特",
@@ -3248,13 +3773,20 @@
     "yoy": 105.1,
     "cum": 46.2,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 67.8,
+    "cum": 48.6,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 31.9,
-  "px_last": 31.35,
-  "px_last_date": "2026-11-10",
-  "ret_since": -1.7
+  "px_last": 31.3,
+  "px_last_date": "2026-11-11",
+  "ret_since": -1.9
  },
  "6885": {
   "name": "全福生技",
@@ -3274,13 +3806,20 @@
     "yoy": 209.5,
     "cum": 243.0,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 74.9,
+    "cum": 205.1,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 30.25,
-  "px_last": 27.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -9.1
+  "px_last": 26.85,
+  "px_last_date": "2026-11-11",
+  "ret_since": -11.2
  },
  "6903": {
   "name": "巨漢",
@@ -3300,13 +3839,20 @@
     "yoy": 109.0,
     "cum": 206.9,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 67.7,
+    "cum": 181.5,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 308.5,
-  "px_last": 269.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -12.6
+  "px_last": 275.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -10.9
  },
  "6907": {
   "name": "雅特力-KY",
@@ -3330,9 +3876,9 @@
   ],
   "weeks": 2,
   "px_first": 184.5,
-  "px_last": 122.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -33.6
+  "px_last": 122.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -33.9
  },
  "6922": {
   "name": "宸曜",
@@ -3352,13 +3898,20 @@
     "yoy": 79.4,
     "cum": 49.5,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 62.3,
+    "cum": 50.9,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 204.5,
-  "px_last": 175.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -14.2
+  "px_last": 177.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -13.4
  },
  "6933": {
   "name": "AMAX-KY",
@@ -3375,9 +3928,9 @@
   ],
   "weeks": 1,
   "px_first": 350.0,
-  "px_last": 336.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -3.9
+  "px_last": 357.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": 2.1
  },
  "6947": {
   "name": "台鎔科技",
@@ -3393,8 +3946,8 @@
    }
   ],
   "weeks": 1,
-  "px_last": 64.7,
-  "px_last_date": "2026-11-10"
+  "px_last": 63.4,
+  "px_last_date": "2026-11-11"
  },
  "7631": {
   "name": "聚賢研發-創",
@@ -3414,13 +3967,20 @@
     "yoy": 139.7,
     "cum": 120.6,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 61.3,
+    "cum": 112.0,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 138.0,
-  "px_last": 113.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -17.8
+  "px_last": 115.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -16.3
  },
  "7721": {
   "name": "微程式",
@@ -3440,13 +4000,20 @@
     "yoy": 40.5,
     "cum": 38.5,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 53.1,
+    "cum": 39.8,
+    "ai_note": true
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 62.0,
-  "px_last": 49.1,
-  "px_last_date": "2026-11-10",
-  "ret_since": -20.8
+  "px_last": 51.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -17.7
  },
  "7749": {
   "name": "意騰-KY",
@@ -3463,9 +4030,9 @@
   ],
   "weeks": 1,
   "px_first": 402.0,
-  "px_last": 256.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -36.2
+  "px_last": 262.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -34.7
  },
  "7750": {
   "name": "新代",
@@ -3485,12 +4052,19 @@
     "yoy": 125.1,
     "cum": 103.9,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 134.9,
+    "cum": 106.8,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 1950.0,
   "px_last": 1510.0,
-  "px_last_date": "2026-11-10",
+  "px_last_date": "2026-11-11",
   "ret_since": -22.6
  },
  "7767": {
@@ -3515,9 +4089,9 @@
   ],
   "weeks": 2,
   "px_first": 46.65,
-  "px_last": 47.9,
-  "px_last_date": "2026-11-10",
-  "ret_since": 2.7
+  "px_last": 48.3,
+  "px_last_date": "2026-11-11",
+  "ret_since": 3.5
  },
  "7780": {
   "name": "大研生醫*",
@@ -3537,13 +4111,20 @@
     "yoy": 32.6,
     "cum": 35.9,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 66.9,
+    "cum": 38.9,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 16.2,
-  "px_last": 14.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -10.5
+  "px_last": 14.95,
+  "px_last_date": "2026-11-11",
+  "ret_since": -7.7
  },
  "7794": {
   "name": "宏碁智新",
@@ -3560,9 +4141,9 @@
   ],
   "weeks": 1,
   "px_first": 30.2,
-  "px_last": 27.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -10.6
+  "px_last": 26.95,
+  "px_last_date": "2026-11-11",
+  "ret_since": -10.8
  },
  "7810": {
   "name": "捷創科技",
@@ -3582,13 +4163,20 @@
     "yoy": 95.0,
     "cum": 81.1,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 60.8,
+    "cum": 79.1,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 234.5,
-  "px_last": 197.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -15.8
+  "px_last": 197.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -16.0
  },
  "7828": {
   "name": "創新服務",
@@ -3608,13 +4196,20 @@
     "yoy": 102.3,
     "cum": 196.5,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 224.6,
+    "cum": 202.5,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 1970.0,
-  "px_last": 1155.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -41.4
+  "px_last": 1270.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -35.5
  },
  "7842": {
   "name": "天能綠電",
@@ -3634,13 +4229,20 @@
     "yoy": 78.2,
     "cum": 62.2,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 52.9,
+    "cum": 61.1,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 96.2,
-  "px_last": 91.1,
-  "px_last_date": "2026-11-10",
-  "ret_since": -5.3
+  "px_last": 97.7,
+  "px_last_date": "2026-11-11",
+  "ret_since": 1.6
  },
  "8027": {
   "name": "鈦昇",
@@ -3660,13 +4262,20 @@
     "yoy": 30.9,
     "cum": 44.8,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 109.2,
+    "cum": 51.3,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 176.5,
-  "px_last": 138.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -21.5
+  "px_last": 144.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -18.4
  },
  "8032": {
   "name": "光菱",
@@ -3683,9 +4292,9 @@
   ],
   "weeks": 1,
   "px_first": 36.0,
-  "px_last": 31.6,
-  "px_last_date": "2026-11-10",
-  "ret_since": -12.2
+  "px_last": 31.35,
+  "px_last_date": "2026-11-11",
+  "ret_since": -12.9
  },
  "8040": {
   "name": "九暘",
@@ -3705,13 +4314,20 @@
     "yoy": 48.3,
     "cum": 36.4,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 56.0,
+    "cum": 38.3,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 91.1,
-  "px_last": 68.4,
-  "px_last_date": "2026-11-10",
-  "ret_since": -24.9
+  "px_last": 68.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -24.8
  },
  "8042": {
   "name": "金山電",
@@ -3728,9 +4344,9 @@
   ],
   "weeks": 1,
   "px_first": 111.5,
-  "px_last": 134.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": 20.6
+  "px_last": 127.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": 13.9
  },
  "8043": {
   "name": "蜜望實",
@@ -3747,9 +4363,9 @@
   ],
   "weeks": 1,
   "px_first": 131.5,
-  "px_last": 90.8,
-  "px_last_date": "2026-11-10",
-  "ret_since": -31.0
+  "px_last": 94.9,
+  "px_last_date": "2026-11-11",
+  "ret_since": -27.8
  },
  "8054": {
   "name": "安國",
@@ -3766,9 +4382,9 @@
   ],
   "weeks": 1,
   "px_first": 84.5,
-  "px_last": 65.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -23.1
+  "px_last": 64.4,
+  "px_last_date": "2026-11-11",
+  "ret_since": -23.8
  },
  "8068": {
   "name": "全達",
@@ -3788,13 +4404,20 @@
     "yoy": 197.3,
     "cum": 91.8,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 257.6,
+    "cum": 108.1,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 18.5,
-  "px_last": 14.9,
-  "px_last_date": "2026-11-10",
-  "ret_since": -19.5
+  "px_last": 15.65,
+  "px_last_date": "2026-11-11",
+  "ret_since": -15.4
  },
  "8076": {
   "name": "伍豐",
@@ -3811,9 +4434,9 @@
   ],
   "weeks": 1,
   "px_first": 21.5,
-  "px_last": 18.25,
-  "px_last_date": "2026-11-10",
-  "ret_since": -15.1
+  "px_last": 17.9,
+  "px_last_date": "2026-11-11",
+  "ret_since": -16.7
  },
  "8088": {
   "name": "品安",
@@ -3837,9 +4460,9 @@
   ],
   "weeks": 2,
   "px_first": 42.2,
-  "px_last": 39.25,
-  "px_last_date": "2026-11-10",
-  "ret_since": -7.0
+  "px_last": 37.75,
+  "px_last_date": "2026-11-11",
+  "ret_since": -10.5
  },
  "8093": {
   "name": "保銳",
@@ -3856,9 +4479,9 @@
   ],
   "weeks": 1,
   "px_first": 23.85,
-  "px_last": 25.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": 6.9
+  "px_last": 25.85,
+  "px_last_date": "2026-11-11",
+  "ret_since": 8.4
  },
  "8096": {
   "name": "擎亞",
@@ -3875,9 +4498,9 @@
   ],
   "weeks": 1,
   "px_first": 83.9,
-  "px_last": 66.3,
-  "px_last_date": "2026-11-10",
-  "ret_since": -21.0
+  "px_last": 69.7,
+  "px_last_date": "2026-11-11",
+  "ret_since": -16.9
  },
  "8103": {
   "name": "瀚荃",
@@ -3894,9 +4517,9 @@
   ],
   "weeks": 1,
   "px_first": 123.5,
-  "px_last": 81.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -34.0
+  "px_last": 85.8,
+  "px_last_date": "2026-11-11",
+  "ret_since": -30.5
  },
  "8109": {
   "name": "博大",
@@ -3916,13 +4539,20 @@
     "yoy": 40.7,
     "cum": 31.9,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 37.5,
+    "cum": 32.5,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 132.0,
-  "px_last": 123.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -6.8
+  "px_last": 122.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -7.2
  },
  "8112": {
   "name": "至上",
@@ -3942,13 +4572,20 @@
     "yoy": 233.5,
     "cum": 184.5,
     "ai_note": true
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 204.3,
+    "cum": 186.5,
+    "ai_note": true
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 82.6,
-  "px_last": 75.8,
-  "px_last_date": "2026-11-10",
-  "ret_since": -8.2
+  "px_last": 77.1,
+  "px_last_date": "2026-11-11",
+  "ret_since": -6.7
  },
  "8155": {
   "name": "博智",
@@ -3972,9 +4609,9 @@
   ],
   "weeks": 2,
   "px_first": 347.0,
-  "px_last": 237.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -31.6
+  "px_last": 253.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -27.1
  },
  "8374": {
   "name": "羅昇",
@@ -3991,9 +4628,9 @@
   ],
   "weeks": 1,
   "px_first": 76.1,
-  "px_last": 61.9,
-  "px_last_date": "2026-11-10",
-  "ret_since": -18.7
+  "px_last": 62.3,
+  "px_last_date": "2026-11-11",
+  "ret_since": -18.1
  },
  "8383": {
   "name": "千附",
@@ -4013,13 +4650,20 @@
     "yoy": 83.6,
     "cum": 63.0,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 86.1,
+    "cum": 65.4,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 66.1,
-  "px_last": 61.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -7.0
+  "px_last": 63.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -4.7
  },
  "8390": {
   "name": "金益鼎",
@@ -4043,9 +4687,9 @@
   ],
   "weeks": 2,
   "px_first": 90.4,
-  "px_last": 80.4,
-  "px_last_date": "2026-11-10",
-  "ret_since": -11.1
+  "px_last": 81.9,
+  "px_last_date": "2026-11-11",
+  "ret_since": -9.4
  },
  "8438": {
   "name": "昶昕",
@@ -4065,12 +4709,19 @@
     "yoy": 34.4,
     "cum": 39.9,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 43.7,
+    "cum": 40.3,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 78.0,
   "px_last": 57.3,
-  "px_last_date": "2026-11-10",
+  "px_last_date": "2026-11-11",
   "ret_since": -26.5
  },
  "8499": {
@@ -4089,7 +4740,7 @@
   "weeks": 1,
   "px_first": 253.0,
   "px_last": 206.0,
-  "px_last_date": "2026-11-10",
+  "px_last_date": "2026-11-11",
   "ret_since": -18.6
  },
  "9958": {
@@ -4110,13 +4761,20 @@
     "yoy": 83.3,
     "cum": 45.6,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 41.9,
+    "cum": 45.2,
+    "ai_note": false
    }
   ],
-  "weeks": 2,
+  "weeks": 3,
   "px_first": 91.9,
-  "px_last": 75.3,
-  "px_last_date": "2026-11-10",
-  "ret_since": -18.1
+  "px_last": 76.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -17.3
  },
  "1312": {
   "name": "國喬",
@@ -4133,9 +4791,9 @@
   ],
   "px_first": 15.15,
   "weeks": 1,
-  "px_last": 12.95,
-  "px_last_date": "2026-11-10",
-  "ret_since": -14.5
+  "px_last": 12.65,
+  "px_last_date": "2026-11-11",
+  "ret_since": -16.5
  },
  "1595": {
   "name": "川寶",
@@ -4152,9 +4810,9 @@
   ],
   "px_first": 73.4,
   "weeks": 1,
-  "px_last": 63.8,
-  "px_last_date": "2026-11-10",
-  "ret_since": -13.1
+  "px_last": 63.6,
+  "px_last_date": "2026-11-11",
+  "ret_since": -13.4
  },
  "2221": {
   "name": "大甲",
@@ -4167,13 +4825,20 @@
     "yoy": 44.5,
     "cum": 31.1,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 95.4,
+    "cum": 36.9,
+    "ai_note": false
    }
   ],
   "px_first": 192.0,
-  "weeks": 1,
-  "px_last": 138.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -27.9
+  "weeks": 2,
+  "px_last": 152.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -20.8
  },
  "2486": {
   "name": "一詮",
@@ -4186,13 +4851,20 @@
     "yoy": 56.8,
     "cum": 33.0,
     "ai_note": true
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 67.9,
+    "cum": 36.5,
+    "ai_note": true
    }
   ],
   "px_first": 238.5,
-  "weeks": 1,
-  "px_last": 159.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -33.1
+  "weeks": 2,
+  "px_last": 167.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -29.8
  },
  "2855": {
   "name": "統一證",
@@ -4209,9 +4881,9 @@
   ],
   "px_first": 58.6,
   "weeks": 1,
-  "px_last": 50.1,
-  "px_last_date": "2026-11-10",
-  "ret_since": -14.5
+  "px_last": 50.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -14.7
  },
  "3354": {
   "name": "律勝",
@@ -4228,9 +4900,9 @@
   ],
   "px_first": 32.0,
   "weeks": 1,
-  "px_last": 39.15,
-  "px_last_date": "2026-11-10",
-  "ret_since": 22.3
+  "px_last": 41.9,
+  "px_last_date": "2026-11-11",
+  "ret_since": 30.9
  },
  "3466": {
   "name": "德晉",
@@ -4248,7 +4920,7 @@
   "px_first": 28.6,
   "weeks": 1,
   "px_last": 29.8,
-  "px_last_date": "2026-11-10",
+  "px_last_date": "2026-11-11",
   "ret_since": 4.2
  },
  "3546": {
@@ -4262,13 +4934,20 @@
     "yoy": 109.1,
     "cum": 56.1,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 83.5,
+    "cum": 58.9,
+    "ai_note": false
    }
   ],
   "px_first": 73.5,
-  "weeks": 1,
-  "px_last": 73.4,
-  "px_last_date": "2026-11-10",
-  "ret_since": -0.1
+  "weeks": 2,
+  "px_last": 73.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
  },
  "3550": {
   "name": "聯穎",
@@ -4281,13 +4960,20 @@
     "yoy": 38.7,
     "cum": 30.6,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 33.8,
+    "cum": 30.9,
+    "ai_note": false
    }
   ],
   "px_first": 23.9,
-  "weeks": 1,
-  "px_last": 18.55,
-  "px_last_date": "2026-11-10",
-  "ret_since": -22.4
+  "weeks": 2,
+  "px_last": 18.45,
+  "px_last_date": "2026-11-11",
+  "ret_since": -22.8
  },
  "4142": {
   "name": "國光生",
@@ -4304,9 +4990,9 @@
   ],
   "px_first": 19.2,
   "weeks": 1,
-  "px_last": 16.7,
-  "px_last_date": "2026-11-10",
-  "ret_since": -13.0
+  "px_last": 16.8,
+  "px_last_date": "2026-11-11",
+  "ret_since": -12.5
  },
  "4510": {
   "name": "高鋒",
@@ -4323,9 +5009,9 @@
   ],
   "px_first": 41.65,
   "weeks": 1,
-  "px_last": 38.1,
-  "px_last_date": "2026-11-10",
-  "ret_since": -8.5
+  "px_last": 37.8,
+  "px_last_date": "2026-11-11",
+  "ret_since": -9.2
  },
  "5340": {
   "name": "建榮",
@@ -4338,13 +5024,20 @@
     "yoy": 46.7,
     "cum": 30.0,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 53.8,
+    "cum": 32.6,
+    "ai_note": false
    }
   ],
   "px_first": 94.4,
-  "weeks": 1,
-  "px_last": 89.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -5.7
+  "weeks": 2,
+  "px_last": 88.4,
+  "px_last_date": "2026-11-11",
+  "ret_since": -6.4
  },
  "6016": {
   "name": "康和證",
@@ -4361,9 +5054,9 @@
   ],
   "px_first": 23.95,
   "weeks": 1,
-  "px_last": 19.45,
-  "px_last_date": "2026-11-10",
-  "ret_since": -18.8
+  "px_last": 19.4,
+  "px_last_date": "2026-11-11",
+  "ret_since": -19.0
  },
  "6156": {
   "name": "松上",
@@ -4376,13 +5069,20 @@
     "yoy": 84.3,
     "cum": 30.3,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 94.1,
+    "cum": 35.1,
+    "ai_note": false
    }
   ],
   "px_first": 23.8,
-  "weeks": 1,
-  "px_last": 21.35,
-  "px_last_date": "2026-11-10",
-  "ret_since": -10.3
+  "weeks": 2,
+  "px_last": 21.25,
+  "px_last_date": "2026-11-11",
+  "ret_since": -10.7
  },
  "6190": {
   "name": "萬泰科",
@@ -4395,13 +5095,20 @@
     "yoy": 58.4,
     "cum": 32.7,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 59.9,
+    "cum": 35.3,
+    "ai_note": false
    }
   ],
   "px_first": 76.5,
-  "weeks": 1,
-  "px_last": 55.4,
-  "px_last_date": "2026-11-10",
-  "ret_since": -27.6
+  "weeks": 2,
+  "px_last": 56.6,
+  "px_last_date": "2026-11-11",
+  "ret_since": -26.0
  },
  "6414": {
   "name": "樺漢",
@@ -4414,13 +5121,20 @@
     "yoy": 45.3,
     "cum": 31.3,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 39.3,
+    "cum": 32.1,
+    "ai_note": false
    }
   ],
   "px_first": 399.0,
-  "weeks": 1,
-  "px_last": 335.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -16.0
+  "weeks": 2,
+  "px_last": 334.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -16.3
  },
  "6548": {
   "name": "長科*",
@@ -4433,13 +5147,20 @@
     "yoy": 42.9,
     "cum": 30.0,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 50.8,
+    "cum": 32.2,
+    "ai_note": true
    }
   ],
   "px_first": 77.3,
-  "weeks": 1,
-  "px_last": 63.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -17.9
+  "weeks": 2,
+  "px_last": 64.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -16.6
  },
  "6574": {
   "name": "霈方",
@@ -4452,13 +5173,20 @@
     "yoy": 81.3,
     "cum": 43.5,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 57.7,
+    "cum": 45.1,
+    "ai_note": false
    }
   ],
   "px_first": 123.0,
-  "weeks": 1,
-  "px_last": 101.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -17.5
+  "weeks": 2,
+  "px_last": 108.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -11.8
  },
  "6756": {
   "name": "威鋒電子",
@@ -4471,13 +5199,20 @@
     "yoy": 66.2,
     "cum": 33.6,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 81.9,
+    "cum": 38.4,
+    "ai_note": false
    }
   ],
   "px_first": 97.6,
-  "weeks": 1,
-  "px_last": 106.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": 9.1
+  "weeks": 2,
+  "px_last": 117.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": 19.9
  },
  "6776": {
   "name": "展碁國際",
@@ -4490,13 +5225,20 @@
     "yoy": 35.9,
     "cum": 36.4,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 30.6,
+    "cum": 35.7,
+    "ai_note": false
    }
   ],
   "px_first": 53.0,
-  "weeks": 1,
-  "px_last": 51.6,
-  "px_last_date": "2026-11-10",
-  "ret_since": -2.6
+  "weeks": 2,
+  "px_last": 51.4,
+  "px_last_date": "2026-11-11",
+  "ret_since": -3.0
  },
  "6811": {
   "name": "宏碁資訊",
@@ -4509,13 +5251,20 @@
     "yoy": 97.4,
     "cum": 33.4,
     "ai_note": true
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 75.8,
+    "cum": 37.1,
+    "ai_note": true
    }
   ],
   "px_first": 281.0,
-  "weeks": 1,
-  "px_last": 235.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -16.4
+  "weeks": 2,
+  "px_last": 240.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -14.6
  },
  "6829": {
   "name": "千附精密",
@@ -4528,13 +5277,20 @@
     "yoy": 44.1,
     "cum": 42.5,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 55.5,
+    "cum": 43.8,
+    "ai_note": false
    }
   ],
   "px_first": 210.0,
-  "weeks": 1,
-  "px_last": 171.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -18.6
+  "weeks": 2,
+  "px_last": 179.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -14.5
  },
  "6894": {
   "name": "衛司特",
@@ -4547,13 +5303,20 @@
     "yoy": 85.8,
     "cum": 69.0,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 74.2,
+    "cum": 69.5,
+    "ai_note": false
    }
   ],
   "px_first": 362.0,
-  "weeks": 1,
-  "px_last": 345.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -4.6
+  "weeks": 2,
+  "px_last": 347.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -4.1
  },
  "6944": {
   "name": "兆聯實業",
@@ -4566,13 +5329,20 @@
     "yoy": 35.1,
     "cum": 40.2,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 68.7,
+    "cum": 43.5,
+    "ai_note": false
    }
   ],
   "px_first": 860.0,
-  "weeks": 1,
-  "px_last": 608.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -29.3
+  "weeks": 2,
+  "px_last": 629.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -26.9
  },
  "8147": {
   "name": "正淩",
@@ -4585,13 +5355,20 @@
     "yoy": 45.9,
     "cum": 31.2,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 85.7,
+    "cum": 35.5,
+    "ai_note": true
    }
   ],
   "px_first": 139.0,
-  "weeks": 1,
-  "px_last": 104.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -24.8
+  "weeks": 2,
+  "px_last": 105.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -24.1
  },
  "4991": {
   "name": "環宇-KY",
@@ -4608,9 +5385,9 @@
   ],
   "px_first": 510.0,
   "weeks": 1,
-  "px_last": 320.0,
-  "px_last_date": "2026-11-10",
-  "ret_since": -37.3
+  "px_last": 352.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -31.0
  },
  "6598": {
   "name": "ABC-KY",
@@ -4627,9 +5404,9 @@
   ],
   "px_first": 28.3,
   "weeks": 1,
-  "px_last": 25.95,
-  "px_last_date": "2026-11-10",
-  "ret_since": -8.3
+  "px_last": 26.15,
+  "px_last_date": "2026-11-11",
+  "ret_since": -7.6
  },
  "6924": {
   "name": "榮惠-KY創",
@@ -4646,9 +5423,9 @@
   ],
   "px_first": 146.5,
   "weeks": 1,
-  "px_last": 130.5,
-  "px_last_date": "2026-11-10",
-  "ret_since": -10.9
+  "px_last": 134.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": -8.2
  },
  "4950": {
   "name": "金耘國際",
@@ -4661,12 +5438,19 @@
     "yoy": 60.3,
     "cum": 32.5,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 57.6,
+    "cum": 34.9,
+    "ai_note": false
    }
   ],
   "px_first": 15.55,
-  "weeks": 1,
+  "weeks": 2,
   "px_last": 16.05,
-  "px_last_date": "2026-11-10",
+  "px_last_date": "2026-11-11",
   "ret_since": 3.2
  },
  "8050": {
@@ -4680,13 +5464,20 @@
     "yoy": 167.1,
     "cum": 32.6,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 125.0,
+    "cum": 39.9,
+    "ai_note": false
    }
   ],
   "px_first": 66.7,
-  "weeks": 1,
-  "px_last": 49.95,
-  "px_last_date": "2026-11-10",
-  "ret_since": -25.1
+  "weeks": 2,
+  "px_last": 51.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": -23.5
  },
  "8084": {
   "name": "巨虹",
@@ -4699,13 +5490,20 @@
     "yoy": 252.3,
     "cum": 33.5,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 236.3,
+    "cum": 50.2,
+    "ai_note": false
    }
   ],
   "px_first": 15.8,
-  "weeks": 1,
-  "px_last": 7.99,
-  "px_last_date": "2026-11-10",
-  "ret_since": -49.4
+  "weeks": 2,
+  "px_last": 8.24,
+  "px_last_date": "2026-11-11",
+  "ret_since": -47.8
  },
  "8489": {
   "name": "三貝德",
@@ -4722,9 +5520,9 @@
   ],
   "px_first": 22.0,
   "weeks": 1,
-  "px_last": 20.85,
-  "px_last_date": "2026-11-10",
-  "ret_since": -5.2
+  "px_last": 21.05,
+  "px_last_date": "2026-11-11",
+  "ret_since": -4.3
  },
  "3432": {
   "name": "台端",
@@ -4737,13 +5535,20 @@
     "yoy": 103.4,
     "cum": 126.3,
     "ai_note": false
+   },
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 87.2,
+    "cum": 120.9,
+    "ai_note": false
    }
   ],
   "px_first": 14.45,
-  "weeks": 1,
-  "px_last": 13.35,
-  "px_last_date": "2026-11-10",
-  "ret_since": -7.6
+  "weeks": 2,
+  "px_last": 13.55,
+  "px_last_date": "2026-11-11",
+  "ret_since": -6.2
  },
  "6005": {
   "name": "群益證",
@@ -4760,8 +5565,612 @@
   ],
   "px_first": 32.95,
   "weeks": 1,
-  "px_last": 27.55,
-  "px_last_date": "2026-11-10",
-  "ret_since": -16.4
+  "px_last": 27.2,
+  "px_last_date": "2026-11-11",
+  "ret_since": -17.5
+ },
+ "1303": {
+  "name": "南亞",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 64.6,
+    "cum": 30.5,
+    "ai_note": false
+   }
+  ],
+  "px_first": 289.0,
+  "weeks": 1,
+  "px_last": 289.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "1727": {
+  "name": "中華化",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 70.0,
+    "cum": 31.9,
+    "ai_note": false
+   }
+  ],
+  "px_first": 84.5,
+  "weeks": 1,
+  "px_last": 84.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "2511": {
+  "name": "太子",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 78.2,
+    "cum": 31.7,
+    "ai_note": false
+   }
+  ],
+  "px_first": 7.94,
+  "weeks": 1,
+  "px_last": 7.94,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "2636": {
+  "name": "台驊控股",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 125.5,
+    "cum": 34.0,
+    "ai_note": false
+   }
+  ],
+  "px_first": 69.3,
+  "weeks": 1,
+  "px_last": 69.3,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "2945": {
+  "name": "三商家購",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 36.4,
+    "cum": 30.2,
+    "ai_note": false
+   }
+  ],
+  "px_first": 38.55,
+  "weeks": 1,
+  "px_last": 38.55,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "3002": {
+  "name": "歐格",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 85.6,
+    "cum": 31.5,
+    "ai_note": false
+   }
+  ],
+  "px_first": 17.0,
+  "weeks": 1,
+  "px_last": 17.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "3030": {
+  "name": "德律",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 71.9,
+    "cum": 33.0,
+    "ai_note": true
+   }
+  ],
+  "px_first": 225.5,
+  "weeks": 1,
+  "px_last": 225.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "3085": {
+  "name": "新零售",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 31.4,
+    "cum": 35.8,
+    "ai_note": false
+   }
+  ],
+  "px_first": 14.9,
+  "weeks": 1,
+  "px_last": 14.9,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "3205": {
+  "name": "佰研",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 125.2,
+    "cum": 47.1,
+    "ai_note": false
+   }
+  ],
+  "px_first": 44.75,
+  "weeks": 1,
+  "px_last": 44.75,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "3209": {
+  "name": "全科",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 169.4,
+    "cum": 62.4,
+    "ai_note": false
+   }
+  ],
+  "px_first": 46.8,
+  "weeks": 1,
+  "px_last": 46.8,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "3219": {
+  "name": "倚強科",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 195.3,
+    "cum": 50.5,
+    "ai_note": false
+   }
+  ],
+  "px_first": 109.0,
+  "weeks": 1,
+  "px_last": 109.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "3285": {
+  "name": "微端",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 211.5,
+    "cum": 86.6,
+    "ai_note": false
+   }
+  ],
+  "px_first": 44.2,
+  "weeks": 1,
+  "px_last": 44.2,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "3467": {
+  "name": "台灣精材",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 54.2,
+    "cum": 30.6,
+    "ai_note": true
+   }
+  ],
+  "px_first": 64.2,
+  "weeks": 1,
+  "px_last": 64.2,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "3564": {
+  "name": "其陽",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 37.4,
+    "cum": 30.7,
+    "ai_note": false
+   }
+  ],
+  "px_first": 52.6,
+  "weeks": 1,
+  "px_last": 52.6,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "3708": {
+  "name": "上緯投控",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 42.2,
+    "cum": 36.7,
+    "ai_note": false
+   }
+  ],
+  "px_first": 94.2,
+  "weeks": 1,
+  "px_last": 94.2,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "4561": {
+  "name": "健椿",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 68.0,
+    "cum": 32.1,
+    "ai_note": false
+   }
+  ],
+  "px_first": 39.35,
+  "weeks": 1,
+  "px_last": 39.35,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "4577": {
+  "name": "達航科技",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 41.9,
+    "cum": 47.9,
+    "ai_note": false
+   }
+  ],
+  "px_first": 125.0,
+  "weeks": 1,
+  "px_last": 125.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "5443": {
+  "name": "均豪",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 126.0,
+    "cum": 33.7,
+    "ai_note": false
+   }
+  ],
+  "px_first": 88.8,
+  "weeks": 1,
+  "px_last": 88.8,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "5460": {
+  "name": "同協",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 81.9,
+    "cum": 34.1,
+    "ai_note": false
+   }
+  ],
+  "px_first": 16.15,
+  "weeks": 1,
+  "px_last": 16.15,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "5536": {
+  "name": "聖暉*",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 59.6,
+    "cum": 31.6,
+    "ai_note": true
+   }
+  ],
+  "px_first": 723.0,
+  "weeks": 1,
+  "px_last": 723.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "6163": {
+  "name": "華電網",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 289.7,
+    "cum": 55.9,
+    "ai_note": false
+   }
+  ],
+  "px_first": 37.55,
+  "weeks": 1,
+  "px_last": 37.55,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "6173": {
+  "name": "信昌電",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 71.5,
+    "cum": 33.2,
+    "ai_note": true
+   }
+  ],
+  "px_first": 208.0,
+  "weeks": 1,
+  "px_last": 208.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "6175": {
+  "name": "立敦",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 71.0,
+    "cum": 30.0,
+    "ai_note": false
+   }
+  ],
+  "px_first": 59.8,
+  "weeks": 1,
+  "px_last": 59.8,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "6547": {
+  "name": "高端疫苗",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 43.2,
+    "cum": 51.5,
+    "ai_note": false
+   }
+  ],
+  "px_first": 51.5,
+  "weeks": 1,
+  "px_last": 51.5,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "6645": {
+  "name": "金萬林-創",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 40.3,
+    "cum": 33.9,
+    "ai_note": false
+   }
+  ],
+  "px_first": 12.8,
+  "weeks": 1,
+  "px_last": 12.8,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "6654": {
+  "name": "天正國際",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 249.5,
+    "cum": 161.5,
+    "ai_note": false
+   }
+  ],
+  "px_first": 174.0,
+  "weeks": 1,
+  "px_last": 174.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "7711": {
+  "name": "永擎",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 57.3,
+    "cum": 57.2,
+    "ai_note": false
+   }
+  ],
+  "px_first": 528.0,
+  "weeks": 1,
+  "px_last": 528.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "7712": {
+  "name": "博盛半導體",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 81.8,
+    "cum": 33.5,
+    "ai_note": false
+   }
+  ],
+  "px_first": 134.0,
+  "weeks": 1,
+  "px_last": 134.0,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "7856": {
+  "name": "漢測",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 61.9,
+    "cum": 118.1,
+    "ai_note": false
+   }
+  ],
+  "weeks": 1
+ },
+ "8024": {
+  "name": "佑華",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 176.0,
+    "cum": 39.2,
+    "ai_note": false
+   }
+  ],
+  "px_first": 10.75,
+  "weeks": 1,
+  "px_last": 10.75,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "8131": {
+  "name": "福懋科",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 30.2,
+    "cum": 36.4,
+    "ai_note": false
+   }
+  ],
+  "px_first": 53.9,
+  "weeks": 1,
+  "px_last": 53.9,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
+ },
+ "8487": {
+  "name": "愛爾達-創",
+  "first_seen": "2026-11-11",
+  "status": "待審",
+  "history": [
+   {
+    "date": "2026-11-11",
+    "ym": "11510",
+    "yoy": 136.5,
+    "cum": 75.5,
+    "ai_note": false
+   }
+  ],
+  "px_first": 63.6,
+  "weeks": 1,
+  "px_last": 63.6,
+  "px_last_date": "2026-11-11",
+  "ret_since": 0.0
  }
 }
