@@ -192,14 +192,6 @@
   "by": "claude"
  },
  {
-  "cat": "研究追蹤",
-  "item": "Bloom Energy 出貨與 GW 目標",
-  "q": "Bloom Energy SOFC 資料中心",
-  "question": "Bloom Energy 出貨、GW 目標（2026 1.5GW→2027 3.5GW+）或第二供應商有無變化？",
-  "added": "≤2026-09-25",
-  "by": "chang"
- },
- {
   "cat": "太空",
   "item": "SpaceX 對台下單",
   "q": "SpaceX 台廠 昇達科 華通",
@@ -332,5 +324,14 @@
   "added": "2026-11-14",
   "by": "claude-review",
   "reason": "11/13–14 多則標題稱黃仁勳請辭、輝達崩跌並有 GPU 清查，會影響 AI 需求與 CoWoS 能見度，現有名單沒有追蹤"
+ },
+ {
+  "cat": "CPU擴散",
+  "item": "Intel EMIB 外部客戶與台廠外溢",
+  "q": "Intel EMIB 微軟 Google 先進封裝 台積電 外溢",
+  "question": "Intel EMIB 是否有微軟以外的新客戶？Google 等客戶回頭找台積，或轉向 EMIB，對台廠封測與 CoWoS 外溢訂單有何影響？",
+  "added": "2026-11-23",
+  "by": "claude-review",
+  "reason": "11/23 微軟 Azure 自研晶片導入 EMIB 並簽多年期協議，現有項目只零星涵蓋。"
  }
 ]
