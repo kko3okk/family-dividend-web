@@ -10,7 +10,8 @@ const FILE = "mounjaro.json";
 const API  = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
 const LS_DATA = "mj_cache", LS_DIRTY = "mj_dirty", LS_SUB = "hsub";
 const NAMES = { chang:"CHANG", wife:"老婆" };
-const DOSES = [2.5, 5, 7.5, 10, 12.5, 15];
+const DOSES = [1.25, 2.5, 5, 7.5, 10, 12.5, 15];   // 可選的劑量
+const PEN_MGS = [2.5, 5, 7.5, 10, 12.5, 15];        // 筆的規格
 const PEN_DOSES = 4, PEN_DAYS = 30, EVERY = 7;
 const SITES = [
   { id:"abL", name:"腹部 左", short:"腹左" }, { id:"abR", name:"腹部 右", short:"腹右" },
@@ -34,7 +35,7 @@ const diff = (a, b) => Math.round((parse(b) - parse(a)) / 86400000);
 const WD = "日一二三四五六";
 const md = s => { const d = parse(s); return `${d.getMonth()+1}/${d.getDate()}（${WD[d.getDay()]}）`; };
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const mg = n => (Math.round(n * 10) / 10) + " mg";
+const mg = n => (Math.round(n * 100) / 100) + " mg";
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 const say = h => { try { toast(h); } catch(e){} };
 const site = id => SITES.find(s => s.id === id);
@@ -349,7 +350,7 @@ function saveLog(){
 function openPen(id){
   const p = who(), pen = id ? P(p).pens[id] : null; editPen = id;
   $("mjPenTitle").textContent = pen ? "這支筆" : "開封新筆";
-  $("mjPenMg").innerHTML = DOSES.map(d => `<div class="chip" data-v="${d}"><div class="n">${d}</div><div class="c">mg</div></div>`).join("");
+  $("mjPenMg").innerHTML = PEN_MGS.map(d => `<div class="chip" data-v="${d}"><div class="n">${d}</div><div class="c">mg</div></div>`).join("");
   chipSel($("mjPenMg"), pen ? pen.mg : curDose(p));
   $("mjPenDate").value = pen ? pen.opened : today();
   $("mjPenDone").style.display = pen ? "" : "none";
